@@ -1,0 +1,490 @@
+# Utica, Ohio seed 92e8bf7f65cc start 2025-01-20 built in 45s people 1775 orgs 126
+player person_f33cac6322db4384 Blair Rosa born 2007-01-22
+
+## year 1: 2025-01-20 -> 2026-01-20  132s  heap 1494MB  people 1852 alive 1847 orgs 208
+records this year: 12082; kinds: person.acted=8728, cause.shared=627, news.read=505, speech.retold=477, case.made=279, cause.volunteered=265, vote-recorded=228, campaign-message=172, speech.heard=149, cause-group.ad-ran=98, legislative-vote=94, drive.strengthened=88, committee-hearing=57, bill-held-in-committee=44, drive.formed=42, public-comment=37, law-took-effect=35, budget-line-changed=32, cause-group.joined=29, candidate-filed=23, seat-vacated=9, person.moved-away=8, initiative.organizing-started=7, cause-group.founded=6, chamber-organized=5, housing.completed=5, election-result=5, official-appointed=4, budget-adopted=4, interview-published=4, debate=4, took-office=4, association.requested=3, organization.closed=2, business.closed=2, law.effect-landed=1
+news items: 556 (federal 39: law-took-effect=8, legislative-vote=16, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1 
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=64.85 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-01-21 law-took-effect {"lawId":"law:US-OH:state:minimum-wage:general:2025-01-21:law:US-OH:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting","series":"minimum-wage","level":"state","jurisdiction":"US-OH","tier":"general","value":"1500","unit":"minor/hour
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:209071:council","seatId":"seat:gus2025:209071:council:2","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:209071:council","seatId":"seat:gus2025:209071:council:3","cause":"moved away","rule":"appointment"}
+  2025-02-04 chamber-organized {"council-president":"person_24ed8d4630853b25"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:191153:board:2025-02-04:person_2653256c3e966db1:0","number":"2025-001","chamber":"office:gus2025:191153:board","yes":"1","no":"2"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:191153:board:2025-02-04:person_2653256c3e966db1:1","for":"1","against":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:191153:board:2025-02-04:person_2653256c3e966db1:1","number":"2025-002","chamber":"office:gus2025:191153:board","yes":"1","no":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:191153:board:2025-02-04:person_2653256c3e966db1:2","number":"2025-003","chamber":"office:gus2025:191153:board","yes":"1","no":"2"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:191153:board:2025-02-04:person_2653256c3e966db1:3","for":"1","against":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:191153:board:2025-02-04:person_2653256c3e966db1:3","number":"2025-004","chamber":"office:gus2025:191153:board","yes":"1","no":"2"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:191153:board:2025-02-04:person_2653256c3e966db1:4","for":"1","against":"3"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:191153:board:2025-02-04:person_2653256c3e966db1:4","number":"2025-005","chamber":"office:gus2025:191153:board","yes":"1","no":"2"}
+  2025-02-04 chamber-organized {"mayor-pro-tem":"person_03009c0003a5b440"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:209071:council:2025-02-04:person_2653246c3e966bfe:11","for":"0","against":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-19 official-appointed {"post":"public-works","appointedBy":"person_0c1baf47e1ba35b5"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:191153:board:2025-02-19:person_2653256c3e966db1:17","for":"1","against":"5"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:191153:board:2025-02-19:person_2653256c3e966db1:17","number":"2025-009","chamber":"office:gus2025:191153:board","yes":"1","no":"2"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:191153:board:2025-02-19:person_2653256c3e966db1:18","for":"1","against":"5"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:191153:board:2025-02-19:person_2653256c3e966db1:18","number":"2025-010","chamber":"office:gus2025:191153:board","yes":"1","no":"2"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:191153:board:2025-02-19:person_2653256c3e966db1:19","for":"1","against":"5"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:191153:board:2025-02-19:person_2653256c3e966db1:19","number":"2025-011","chamber":"office:gus2025:191153:board","yes":"1","no":"2"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:209071:council:2025-02-19:person_2653246c3e966bfe:20","for":"0","against":"6"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:209071:council:2025-02-19:person_2c15ec348f966751:21","for":"1","against":"0"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:209071:council:2025-02-19:person_2653246c3e966bfe:22","for":"0","against":"6"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:209071:council:2025-02-19:person_2653246c3e966bfe:23","for":"0","against":"6"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:209071:council:2025-02-19:person_2653246c3e966bfe:24","for":"0","against":"6"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-03-06 law-took-effect {"lawId":"law:place:3979114:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-03-06:2025-001","series":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","level":"city
+  2025-03-06 law-took-effect {"lawId":"law:place:3979114:city:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-003","series":"us-policy-positions:education.universal-preschool","level":"city","jurisdiction":"place:3979114","tier":"general","value":"1","unit":"","c
+  2025-04-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_03009c0003a5b440:cause:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","spentMinor":"82008","balanceBeforeMinor":"109344","reached":"38"}
+  2025-04-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_24ed8d4630853b25:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police","spentMinor":"27876","balanceBeforeMinor":"37169","reached":"38"}
+  2025-04-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_2b36cd18f3f07aa3:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police","spentMinor":"7666","balanceBeforeMinor":"10222","reached":"38"}
+  2025-04-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_b012a1bf6505a6b1:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police","spentMinor":"49822","balanceBeforeMinor":"66430","reached":"38"}
+  2025-04-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_f046ef310d4e80d9:cause:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","spentMinor":"28944","balanceBeforeMinor":"38592","reached":"38"}
+  2025-06-01 organization.closed {"organization:organization_91a67e6329700c74:status":"closed","organization:organization_91a67e6329700c74:closure-source":"owner-closed:2025-06-01:organization_91a67e6329700c74"}
+  2025-06-01 business.closed {"organization:organization_91a67e6329700c74:closing-reason":"losses-kept"}
+  2025-06-07 candidate-filed {"filingId":"filing:contest:seat:gus2025:209071:council:0:2025-11-04:person_03009c0003a5b440","contestId":"contest:seat:gus2025:209071:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-06-07 candidate-filed {"filingId":"filing:contest:seat:gus2025:209071:council:0:2025-11-04:person_12691d3eb1ea43b8","contestId":"contest:seat:gus2025:209071:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-06-07 candidate-filed {"filingId":"filing:contest:seat:gus2025:209071:council:0:2025-11-04:person_2653246c3e966bfe","contestId":"contest:seat:gus2025:209071:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-06-07 candidate-filed {"filingId":"filing:contest:seat:gus2025:209071:council:2:2025-11-04:person_24ed8d4630853b25","contestId":"contest:seat:gus2025:209071:council:2:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-06-07 candidate-filed {"filingId":"filing:contest:seat:gus2025:209071:council:2:2025-11-04:person_2b36cd18f3f07aa3","contestId":"contest:seat:gus2025:209071:council:2:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-06-07 candidate-filed {"filingId":"filing:contest:seat:gus2025:209071:council:4:2025-11-04:person_2653256c3e966db1","contestId":"contest:seat:gus2025:209071:council:4:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-06-07 candidate-filed {"filingId":"filing:contest:seat:gus2025:209071:council:4:2025-11-04:person_f046ef310d4e80d9","contestId":"contest:seat:gus2025:209071:council:4:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.raise-handgun-purchase-age","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:25","number":"2025-001","chamber":"office:US-OH:legislature-lower","yes":"67","no":"32"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.raise-handgun-purchase-age","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:25","number":"2025-001","chamber":"office:US-OH:legislature-upper","yes":"24","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:26","number":"2025-002","chamber":"office:US-OH:legislature-lower","yes":"91","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"10","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:26","number":"2025-002","chamber":"office:US-OH:legislature-upper","yes":"32","no":"1"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:27","number":"2025-003","chamber":"office:US-OH:legislature-lower","yes":"80","no":"19"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"10","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:27","number":"2025-003","chamber":"office:US-OH:legislature-upper","yes":"29","no":"4"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:28","number":"2025-004","chamber":"office:US-OH:legislature-lower","yes":"65","no":"34"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:28","number":"2025-004","chamber":"office:US-OH:legislature-upper","yes":"24","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:environment-energy.clean-electricity-standard","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:29","number":"2025-005","chamber":"office:US-OH:legislature-lower","yes":"65","no":"34"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:environment-energy.clean-electricity-standard","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:29","number":"2025-005","chamber":"office:US-OH:legislature-upper","yes":"24","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:30","number":"2025-006","chamber":"office:US-OH:legislature-lower","yes":"65","no":"34"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:30","number":"2025-006","chamber":"office:US-OH:legislature-upper","yes":"23","no":"10"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:labor-workforce.right-to-work","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:31","number":"2025-007","chamber":"office:US-OH:legislature-lower","yes":"67","no":"32"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:labor-workforce.right-to-work","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:31","number":"2025-007","chamber":"office:US-OH:legislature-upper","yes":"24","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:labor-workforce.public-sector-collective-bargaining","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:32","number":"2025-008","chamber":"office:US-OH:legislature-lower","yes":"65","no":"34"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:labor-workforce.public-sector-collective-bargaining","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:32","number":"2025-008","chamber":"office:US-OH:legislature-upper","yes":"24","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:33","number":"2025-009","chamber":"office:US-OH:legislature-lower","yes":"66","no":"33"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:33","number":"2025-009","chamber":"office:US-OH:legislature-upper","yes":"23","no":"10"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:transportation-infrastructure.public-broadband","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:34","number":"2025-010","chamber":"office:US-OH:legislature-lower","yes":"64","no":"35"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:transportation-infrastructure.public-broadband","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:34","number":"2025-010","chamber":"office:US-OH:legislature-upper","yes":"24","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:35","number":"2025-011","chamber":"office:US-OH:legislature-lower","yes":"66","no":"33"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:35","number":"2025-011","chamber":"office:US-OH:legislature-upper","yes":"24","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:36","number":"2025-012","chamber":"office:US-OH:legislature-lower","yes":"79","no":"20"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"10","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:36","number":"2025-012","chamber":"office:US-OH:legislature-upper","yes":"28","no":"5"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.restore-voting-after-sentence","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:37","number":"2025-013","chamber":"office:US-OH:legislature-lower","yes":"61","no":"38"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.restore-voting-after-sentence","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:37","number":"2025-013","chamber":"office:US-OH:legislature-upper","yes":"13","no":"20"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:38","number":"2025-014","chamber":"office:US-OH:legislature-lower","yes":"52","no":"47"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:009:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"3","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:39","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:fiscal.exempt-groceries-from-sales-tax","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:39","number":"2025-015","chamber":"office:US-OH:legislature-lower","yes":"49","no":"50"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:40","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:health-human-services.expand-medicaid-eligibility","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:41","number":"2025-017","chamber":"office:US-OH:legislature-lower","yes":"53","no":"46"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-OH:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:health-human-services.expand-medicaid-eligibility","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:41","number":"2025-017","chamber":"office:US-OH:legislature-upper","yes":"11","no":"22"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:upper:012:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-OH:lower:050:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:fiscal.adopt-income-tax","position":"-1"}
+deaths: 0
+election-ish kinds: official-appointed=4, election-result=5
+  E 2025-02-19 official-appointed {"post":"finance-director","appointedBy":"person_0c1baf47e1ba35b5"}
+  E 2025-02-19 official-appointed {"post":"public-works","appointedBy":"person_0c1baf47e1ba35b5"}
+  E 2025-10-17 official-appointed {"post":"city-administrator","appointedBy":"person_0c1baf47e1ba35b5"}
+  E 2025-10-17 official-appointed {"post":"city-attorney","appointedBy":"person_0c1baf47e1ba35b5"}
+  E 2025-10-30 election-result {"contestId":"contest:seat:US-OH:treasurer:2025-10-30:special","office":"Treasurer","winnerId":"official:term:seat:US-OH:treasurer:2025-08-01","totals":"{\"official:term:seat:US-OH:treasurer:2025-08-01\":1231174,\"official:term:seat:US-OH:l
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:209071:council:0:2025-11-04","office":"Council member","winnerId":"person_2653246c3e966bfe","totals":"{\"person_03009c0003a5b440\":2,\"person_12691d3eb1ea43b8\":413,\"person_2653246c3e966bfe\":1269,\"perso
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:209071:council:2:2025-11-04","office":"Council member","winnerId":"person_24ed8d4630853b25","totals":"{\"person_24ed8d4630853b25\":1566,\"person_2b36cd18f3f07aa3\":465}","views:speaker":"person_24ed8d46308
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:209071:council:4:2025-11-04","office":"Council member","winnerId":"person_f046ef310d4e80d9","totals":"{\"person_2653256c3e966db1\":17,\"person_f046ef310d4e80d9\":2014}","views:speaker":"person_f046ef310d4e
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:209071:mayor:0:2025-11-04","office":"Mayor","winnerId":"","totals":"{}"}
+player: alive=true job=none cash=$0 home=household_c39e5132958a7fe0
+
+### trace bill-vote:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:office:gus2025:191153:board (legislative-vote 2026-01-15)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+bill-vote:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:office:gus2025:191153:board [core.log legislative-vote]
+   facts billId=bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130 number=2026-004 chamber=office:gus2025:191153:board yes=1 no=2
+  <- person_2c15eb348f96659e [core.people person] via core.observe.perceived
+     value {"key":"yes","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chamber | learned:core.observe.perceived={"key":"yes","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"yes","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"yes","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace vote-recorded:vote:2026-004:person_2653256c3e966db1 (vote-recorded 2026-01-15)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+vote-recorded:vote:2026-004:person_2653256c3e966db1 [core.log vote-recorded]
+   facts measureId=2026-004 question=us-policy-positions:labor-workforce.raise-minimum-wage position=1
+  <- person_2653256c3e966db1 [core.people person] via core.observe.perceived
+     value {"key":"question","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"question","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:person_82211d65db6a7278:retold:person_2653246c3e966bfe (speech.retold 2026-01-15)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:person_82211d65db6a7278:retold:person_2653246c3e966bfe [core.log speech.retold]
+   facts views:speaker=person_2653246c3e966bfe
+  <- person_2653246c3e966bfe [core.people person] via core.observe.perceived
+     value {"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:person_82211d65db6a7278:retold:person_2653246c3e966bfe:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.placeId | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:person_82211d65db6a7278:retold:person_2653246c3e966bfe:exper | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:person_82211d65db6a7278:retold:person_2653246c3e966bfe:exper | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:person_82211d65db6a7278:retold:person_2653246c3e966bfe:exper | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:130:person_82211d65db6a7278:retold:person_2653246c3e966bfe:exper
+
+### trace speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a963:reporter:0 (speech.heard 2026-01-15)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a963:reporter:0 [core.log speech.heard]
+   facts views:speaker=person:press:outlet:newspaper:2:jurisdiction_60c0625da562a963:reporter:0
+  <- person_2c15eb348f96659e [core.people person] via core.observe.perceived
+     value {"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a963:reporter:0:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.placeId | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a96 | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a96 | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a96 | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a96 | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a96 | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:gus2025:191153:board:2026-01-15:person_2653256c3e966db1:129:person:press:outlet:newspaper:2:jurisdiction_60c0625da562a96 | learned:core.observe.perceived={
+
+### trace campaign-message:filing:contest:seat:gus2025:191153:assessor:0:2026-11-03:person_12691d3eb1ea43b8:2026-01-09 (campaign-message 2026-01-09)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+campaign-message:filing:contest:seat:gus2025:191153:assessor:0:2026-11-03:person_12691d3eb1ea43b8:2026-01-09 [core.log campaign-message]
+   facts campaignId=filing:contest:seat:gus2025:191153:assessor:0:2026-11-03:person_12691d3eb1ea43b8 candidateId=person_12691d3eb1ea43b8 views:speaker=person_12691d3eb1ea43b8
+  <- person_0285a48f2a0d0d5a [core.people person] via core.observe.perceived
+     value {"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.witnessIds.8 | record:core.log.witnessIds.9 | record:core.log.witnessIds.10 | record:core.log.witnessIds.11 | record:core.log.witnessIds.12 | record:core.log.witnessIds.13 | record:core.log.witnessIds.14 | record:core.log.witnessIds.15 | record:core.log.witnessIds.16 | record:core.log.witnessIds.17 | record:core.log.witnessIds.18 | record:core.log.witnessIds.19 | record:core.log.witnessIds.20 | record:core.log.witnessIds.21 | record:core.log.witnessIds.22 | record:core.log.witnessIds.23 | record:core.log.witnessIds.24 | record:core.log.witnessIds.25 | record:core.log.witnessIds.26 | record:core.log.witnessIds.27 | record:core.log.witnessIds.28 | record:core.log.witnessIds.29 | record:core.log.witnessIds.30 | record:core.log.witnessIds.31 | record:core.log.witnessIds.32 | record:core.log.witnessIds.33 | record:core.log.witnessIds.34 | record:core.log.witnessIds.35 | record:core.log.witnessIds.36 | record:core.log.witnessIds.37 | record:core.log.witnessIds.38 | record:core.log.witnessIds.39 | record:core.log.witnessIds.40 | record:core.log.witnessIds.41 | record:core.log.placeId | record:core.log.facts.campaignId | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09"
+
+### trace budget-line-changed:budget:place:3979114:2026:parks:adopted (budget-line-changed 2026-01-01)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+budget-line-changed:budget:place:3979114:2026:parks:adopted [core.log budget-line-changed]
+   facts governmentId=place:3979114 level=city line=parks deltaMinor=54180 measureId=budget:place:3979114:2026
+  <- place:3979114 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:place:3979114 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_60c0625da562a963 [regional.places places] via core.organizations.placeId
+        <- region:39:metro:18140 [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId | record:core.log.facts.measureId
+
+### trace budget-adopted:budget:place:3979114:2026 (budget-adopted 2026-01-01)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+budget-adopted:budget:place:3979114:2026 [core.log budget-adopted]
+   facts governmentId=place:3979114 fiscalYear=2026 adoptedBy=the council vote 4-1 (amended: welfareAndMedicaid, naturalResources, police, localAid, housing, higherEducation, healthAndHospitals, otherPrograms, schools, administration dropped), 2026-001
+  <- place:3979114 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:place:3979114 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_60c0625da562a963 [regional.places places] via core.organizations.placeId
+        <- region:39:metro:18140 [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId
+
+### trace law-took-effect:law:county:39089:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+law-took-effect:law:county:39089:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:39089:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:39089 tier=general value=1.222 unit=percent-of-home-value change=replaced replacesLawId=law:county:39089:county:property-tax:general:2026-01-01:from-start
+  <- law:county:39089:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:39089 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:39089 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_60c0625da562a963 [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-OH:us-house:2025-12-15:official:seat:US-NM:us-house:03:122:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+committee:bill:office:US-OH:us-house:2025-12-15:official:seat:US-NM:us-house:03:122:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-OH:us-house:2025-12-15:official:seat:US-NM:us-house:03:122 committee=general chair=official:term:seat:US-OH:us-house:08:2025-01-20 yes=0 no=0
+  <- bill:office:US-OH:us-house:2025-12-15:official:seat:US-NM:us-house:03:122 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-OH:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace event:law.effect-landed:2025-12-15:retirement-claim:person_6ed023ee4c69b1d1 (law.effect-landed 2025-12-15)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+event:law.effect-landed:2025-12-15:retirement-claim:person_6ed023ee4c69b1d1 [core.log law.effect-landed]
+   facts obligationId=retirement-claim:person_6ed023ee4c69b1d1 fromMinor=131889 toMinor=93129
+  <- person_6ed023ee4c69b1d1 [core.people person] via core.observe.perceived
+     value {"key":"event:event:law.effect-landed:2025-12-15:retirement-claim:person_6ed023ee4c69b1d1:experienced","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.obligationId | learned:core.observe.perceived={"key":"event:event:law.effect-landed:2025-12-15:retirement-claim:person_6ed023ee4c69b1d1:experienced","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace election-result:contest:seat:gus2025:209071:mayor:0:2025-11-04 (election-result 2025-11-04)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+election-result:contest:seat:gus2025:209071:mayor:0:2025-11-04 [core.log election-result]
+   facts contestId=contest:seat:gus2025:209071:mayor:0:2025-11-04 office=Mayor winnerId= totals={}
+  <- contest:seat:gus2025:209071:mayor:0:2025-11-04 [candidacy.weighed weighed] via core.log.facts.contestId
+    <- person_0285a38f2a0d0ba7 [core.people person] via candidacy.weighed.askedIds.0
+      <- person_0285a38f2a0d0ba7:budget-line:welfareAndMedicaid [views.stances stances] via views.stances
+        <- person_0285a38f2a0d0ba7 [core.people person] via views.stances.personId
+
+  children: record:core.log.placeId | record:core.log.facts.contestId
+
+### trace appointed:appointment:town:city-attorney:2025-10-17 (official-appointed 2025-10-17)
+trace report · seed 92e8bf7f65cc · place 3979114 · date 2026-01-20
+appointed:appointment:town:city-attorney:2025-10-17 [core.log official-appointed]
+   facts post=city-attorney appointedBy=person_0c1baf47e1ba35b5
+  <- person_1a4ba66dca1cd40c [core.people person] via core.observe.perceived
+     value {"key":"event:appointed:appointment:town:city-attorney:2025-10-17:experienced","learnedAt":"2025-10-17","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.appointedBy | learned:core.observe.perceived={"key":"event:appointed:appointment:town:city-attorney:2025-10-17:experienced","learnedAt":"2025-10-17","access":"perceived"}
+
+## core2-offices-v1.offices: 12 of 21
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-OH:us-senate","level":"federal","jurisdiction":"US-OH","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-OH:us-house","level":"federal","jurisdiction":"US-OH","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":15,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-OH:governor","level":"state","jurisdiction":"US-OH","governmentName":"US-OH","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"Ohio Const. art. III sec. 15; R.C. ch. 161 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":"{\"method\":\"successor\",\"successor\":\"lieutenant governor\",\"citation\":\"Ohio Const. art. III sec. 15; R.C. ch. 161\",\"source\":\"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_…"}
+  {"id":"office:US-OH:lieutenant-governor","level":"state","jurisdiction":"US-OH","governmentName":"US-OH","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor, confirmed by both houses\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://b…"}
+  {"id":"office:US-OH:attorney-general","level":"state","jurisdiction":"US-OH","governmentName":"US-OH","kind":"attorney-general","title":"Attorney General","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-OH:secretary-of-state","level":"state","jurisdiction":"US-OH","governmentName":"US-OH","kind":"secretary-of-state","title":"Secretary of State","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-OH:treasurer","level":"state","jurisdiction":"US-OH","governmentName":"US-OH","kind":"treasurer","title":"Treasurer","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-OH:auditor","level":"state","jurisdiction":"US-OH","governmentName":"US-OH","kind":"auditor","title":"State Auditor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-OH:legislature-upper","level":"state","jurisdiction":"US-OH","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":33,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"members of the chamber belonging to the predecessor's party (caucus vote)\",\"citation\":\"Ohio Const. art. II sec. 11\",\"source\":\"https://ballotpedia.org/How_vacanci…"}
+  {"id":"office:US-OH:legislature-lower","level":"state","jurisdiction":"US-OH","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":99,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"members of the chamber belonging to the predecessor's party (caucus vote)\",\"citation\":\"Ohio Const. art. II sec. 11\",\"source\":\"https://ballotpedia.org/How_vacanci…"}
+
+## core2-offices-v1.seats: 10 of 172
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-OH:us-senate:0","officeId":"office:US-OH:us-senate","index":0,"coversTown":true,"party":"Republican","electionYear":2030}
+  {"id":"seat:US-OH:us-senate:1","officeId":"office:US-OH:us-senate","index":1,"coversTown":true,"party":"Republican","electionYear":2026}
+  {"id":"seat:US-OH:governor","officeId":"office:US-OH:governor","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-OH:lieutenant-governor","officeId":"office:US-OH:lieutenant-governor","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-OH:attorney-general","officeId":"office:US-OH:attorney-general","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-OH:secretary-of-state","officeId":"office:US-OH:secretary-of-state","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-OH:auditor","officeId":"office:US-OH:auditor","index":0,"coversTown":true,"party":"Republican"}
+
+## core2-offices-v1.terms: 17 of 374
+  {"id":"term:seat:US-OH:attorney-general:2025-01-20:past:1","seatId":"seat:US-OH:attorney-general","officeId":"office:US-OH:attorney-general","identity":{"givenName":"Erica","familyName":"Wheeler","gender":"female","birthDate":"1976-07-25","homeState":"US-OH"},"party":"Republican","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-OH:secretary-of-state:2025-01-20:past:1","seatId":"seat:US-OH:secretary-of-state","officeId":"office:US-OH:secretary-of-state","identity":{"givenName":"Scott","familyName":"Pittman","gender":"male","birthDate":"1961-03-05","homeState":"US-OH"},"party":"Republican","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-OH:treasurer:2025-01-20:past:5","seatId":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","identity":{"givenName":"Tim","familyName":"Carey","gender":"male","birthDate":"1961-03-08","homeState":"US-OH"},"party":"Republican","startDate":"2003-01-01","endDate":"2007-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2002-11-05","share":0.56}}
+  {"id":"term:seat:US-OH:treasurer:2025-01-20:past:4","seatId":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","identity":{"givenName":"Tim","familyName":"Carey","gender":"male","birthDate":"1961-03-08","homeState":"US-OH"},"party":"Republican","startDate":"2007-01-01","endDate":"2011-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2006-11-07","share":0.56}}
+  {"id":"term:seat:US-OH:treasurer:2025-01-20:past:3","seatId":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","identity":{"givenName":"Tim","familyName":"Carey","gender":"male","birthDate":"1961-03-08","homeState":"US-OH"},"party":"Republican","startDate":"2011-01-01","endDate":"2015-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2010-11-02","share":0.56}}
+  {"id":"term:seat:US-OH:treasurer:2025-01-20:past:2","seatId":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","identity":{"givenName":"Tim","familyName":"Carey","gender":"male","birthDate":"1961-03-08","homeState":"US-OH"},"party":"Republican","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.56}}
+  {"id":"term:seat:US-OH:treasurer:2025-01-20:past:1","seatId":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","identity":{"givenName":"Tim","familyName":"Carey","gender":"male","birthDate":"1961-03-08","homeState":"US-OH"},"party":"Republican","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Richard","familyName":"Meyer","gender":"male","birthDate":"1977-09-28","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Diane","familyName":"Bolton","gender":"female","birthDate":"1968-12-16","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-OH:governor:2025-01-20","seatId":"seat:US-OH:governor","officeId":"office:US-OH:governor","personId":"official:term:seat:US-OH:governor:2025-01-20","identity":{"givenName":"Kimberly","familyName":"Murphy","gender":"female","birthDate":"1964-04-24","homeState":"US-OH"},"party":"Republican","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-OH:lieutenant-governor:2025-01-20","seatId":"seat:US-OH:lieutenant-governor","officeId":"office:US-OH:lieutenant-governor","personId":"official:term:seat:US-OH:lieutenant-governor:2025-01-20","identity":{"givenName":"Diana","familyName":"Duncan","gender":"female","birthDate":"1978-07-21","homeState":"US-OH"},"party":"Republican","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-OH:attorney-general:2025-01-20","seatId":"seat:US-OH:attorney-general","officeId":"office:US-OH:attorney-general","personId":"official:term:seat:US-OH:attorney-general:2025-01-20","identity":{"givenName":"Erica","familyName":"Wheeler","gender":"female","birthDate":"1976-07-25","homeState":"US-OH"},"party":"Republican","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-OH:secretary-of-state:2025-01-20","seatId":"seat:US-OH:secretary-of-state","officeId":"office:US-OH:secretary-of-state","personId":"official:term:seat:US-OH:secretary-of-state:2025-01-20","identity":{"givenName":"Scott","familyName":"Pittman","gender":"male","birthDate":"1961-03-05","homeState":"US-OH"},"party":"Republican","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-OH:auditor:2025-01-20","seatId":"seat:US-OH:auditor","officeId":"office:US-OH:auditor","personId":"official:term:seat:US-OH:auditor:2025-01-20","identity":{"givenName":"Erin","familyName":"Bates","gender":"female","birthDate":"1980-05-22","homeState":"US-OH"},"party":"Republican","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-OH:treasurer:2025-01-20","seatId":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","personId":"official:term:seat:US-OH:treasurer:2025-01-20","identity":{"givenName":"Tim","familyName":"Carey","gender":"male","birthDate":"1961-03-08","homeState":"US-OH"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-08-01","endEstimated":false,"reached":"in office at the opening","status":"ended","serviceStart":"2003-01-01","elected":{"date":"2022-11-08","share":0.56},"endedBy":"death"}
+  {"id":"term:seat:US-OH:treasurer:2025-08-01","seatId":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","identity":{"givenName":"Jennifer","familyName":"Shannon","gender":"female","birthDate":"1974-06-01","homeState":"US-OH"},"party":"Republican","startDate":"2025-08-01","endDate":"2025-10-30","endEstimated":false,"reached":"appointed by governor until a special election","status":"ended","endedBy":"term ended"}
+  {"id":"term:seat:US-OH:treasurer:2025-10-30:elected","seatId":"seat:US-OH:treasurer","officeId":"office:US-OH:treasurer","identity":{"givenName":"Jennifer","familyName":"Shannon","gender":"female","birthDate":"1974-06-01","homeState":"US-OH"},"party":"Republican","startDate":"2025-10-30","endDate":"2027-01-01","endEstimated":false,"reached":"elected in a special election 2025-10-30","status":"serving"}
+
+## core2-offices-v1.terms: 263 of 374
+  {"id":"term:seat:US-OH:lower:001:0:2025-01-20:past:1","seatId":"seat:US-OH:lower:001:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Zachary","familyName":"Lopez","gender":"male","birthDate":"1994-02-25","homeState":"US-OH"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2023-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-OH:lower:003:0:2025-01-20:past:2","seatId":"seat:US-OH:lower:003:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Sharon","familyName":"Pierce","gender":"female","birthDate":"1947-06-05","homeState":"US-OH"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-OH:lower:003:0:2025-01-20:past:1","seatId":"seat:US-OH:lower:003:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Sharon","familyName":"Pierce","gender":"female","birthDate":"1947-06-05","homeState":"US-OH"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-OH:lower:004:0:2025-01-20:past:2","seatId":"seat:US-OH:lower:004:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Zachary","familyName":"Rich","gender":"male","birthDate":"1996-08-13","homeState":"US-OH"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-OH:lower:004:0:2025-01-20:past:1","seatId":"seat:US-OH:lower:004:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Zachary","familyName":"Rich","gender":"male","birthDate":"1996-08-13","homeState":"US-OH"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-OH:lower:007:0:2025-01-20:past:2","seatId":"seat:US-OH:lower:007:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Rachel","familyName":"Rasmussen","gender":"female","birthDate":"1978-03-18","homeState":"US-OH"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-OH:lower:007:0:2025-01-20:past:1","seatId":"seat:US-OH:lower:007:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Rachel","familyName":"Rasmussen","gender":"female","birthDate":"1978-03-18","homeState":"US-OH"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-OH:lower:008:0:2025-01-20:past:2","seatId":"seat:US-OH:lower:008:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Nicholas","familyName":"Cobb","gender":"male","birthDate":"1987-11-20","homeState":"US-OH"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-OH:lower:008:0:2025-01-20:past:1","seatId":"seat:US-OH:lower:008:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Nicholas","familyName":"Cobb","gender":"male","birthDate":"1987-11-20","homeState":"US-OH"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-OH:lower:009:0:2025-01-20:past:1","seatId":"seat:US-OH:lower:009:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Carolyn","familyName":"Adams","gender":"female","birthDate":"1945-03-27","homeState":"US-OH"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2023-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-OH:lower:010:0:2025-01-20:past:1","seatId":"seat:US-OH:lower:010:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Natalie","familyName":"Fisher","gender":"female","birthDate":"1989-12-11","homeState":"US-OH"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2023-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-OH:lower:011:0:2025-01-20:past:2","seatId":"seat:US-OH:lower:011:0","officeId":"office:US-OH:legislature-lower","identity":{"givenName":"Linda","familyName":"McPherson","gender":"female","birthDate":"1953-01-12","homeState":"US-OH"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+
+## core2-elections-v1.contests: 1 of 32
+  {"id":"contest:seat:US-OH:treasurer:2025-10-30:special","officeId":"office:US-OH:treasurer","seatId":"seat:US-OH:treasurer","title":"Treasurer","level":"state","family":"statewideExecutive","incumbentTermId":"term:seat:US-OH:treasurer:2025-10-30:elected","electionDate":"2025-10-30","filingOpens":"2025-08-01","filingDeadline":"2025-09-15","basis":"estimated","sources":["vacancy vacancy:seat:US-OH:treasurer:2025-08-01","ESTIMATED: days from a vacancy to the special election where the state's law is not read (data/elections/parameters.json specialElectionDaysEstimate)"],"special":{"vacancyId":"vacancy:seat:US-OH:treasurer:2025-08-01","termEnd":"2027-01-01"}}
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (131 bills)
+  office:US-OH:legislature-lower 2025-06-30: 53
+  office:US-OH:legislature-lower 2025-07-01: 1
+  office:US-OH:us-house 2025-10-01: 1
+  office:US-OH:us-house 2025-12-15: 24
+  office:gus2025:191153:board 2025-02-04: 8
+  office:gus2025:191153:board 2025-02-19: 3
+  office:gus2025:191153:board 2025-07-04: 3
+  office:gus2025:191153:board 2025-08-18: 4
+  office:gus2025:191153:board 2025-09-02: 3
+  office:gus2025:191153:board 2025-12-01: 1
+  office:gus2025:191153:board 2026-01-01: 1
+  office:gus2025:191153:board 2026-01-15: 3
+  office:gus2025:209071:council 2025-02-04: 9
+  office:gus2025:209071:council 2025-02-19: 5
+  office:gus2025:209071:council 2025-07-19: 2
+  office:gus2025:209071:council 2025-08-18: 3
+  office:gus2025:209071:council 2025-09-02: 5
+  office:gus2025:209071:council 2025-10-17: 1
+  office:gus2025:209071:council 2026-01-01: 1
+## bills by body and status
+  office:US-OH:legislature-lower enacted: 15
+  office:US-OH:legislature-lower failed: 39
+  office:US-OH:us-house enacted: 5
+  office:US-OH:us-house failed: 20
+  office:gus2025:191153:board enacted: 1
+  office:gus2025:191153:board failed: 25
+  office:gus2025:209071:council enacted: 3
+  office:gus2025:209071:council failed: 23
+## sample federal bill
+  {"id":"bill:office:US-OH:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:99","number":"2025-001","bodyOfficeId":"office:US-OH:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":6895008789},{"kind":"budget-line","line":"transportation","value":20376361075},{"kind":"budget-line","line":"otherPrograms","value":-85299504610}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-OH:legislature-lower:2025-06-30:official:term:seat:US-OH:lower:045:0:2025-01-20:25","number":"2025-001","bodyOfficeId":"office:US-OH:legislature-lower","sponsorId":"official:term:seat:US-OH:lower:045:0:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:justice-public-safety.raise-handgun-purchase-age","value":-1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted"}
+
+## federal and state log kinds: case.made=238, vote-recorded=62, committee-hearing=57, legislative-vote=51, bill-held-in-committee=44, law-took-effect=34, budget-line-changed=29, campaign-message=16, seat-vacated=6, chamber-organized=5, budget-adopted=2, candidate-filed=2, inauguration=1, president.address=1, debate=1, election-result=1, took-office=1
+
+## election-result (1)
+  2025-10-30 {"contestId":"contest:seat:US-OH:treasurer:2025-10-30:special","office":"Treasurer","winnerId":"official:term:seat:US-OH:treasurer:2025-08-01","totals":"{\"official:term:seat:US-OH:treasurer:2025-08-01\":1231174,\"official:term:seat:US-OH:lower:009:0:2025-01-20\":803384}","views:speaker":"official:term:seat:US-OH:treasurer:2025-08-01"}
+
+## took-office (1)
+  2025-10-30 {"office":"Treasurer","seatId":"seat:US-OH:treasurer","winnerId":"official:term:seat:US-OH:treasurer:2025-08-01"}
+
+## seat-vacated (6)
+  2025-08-01 {"officeId":"office:US-OH:treasurer","seatId":"seat:US-OH:treasurer","cause":"death","rule":"appointment-then-special"}
+  2025-09-01 {"officeId":"office:US-OH:legislature-lower","seatId":"seat:US-OH:lower:003:0","cause":"moved away","rule":"appointment"}
+  2025-09-01 {"officeId":"office:US-OH:legislature-lower","seatId":"seat:US-OH:lower:026:0","cause":"moved away","rule":"appointment"}
+  2025-11-01 {"officeId":"office:US-OH:legislature-upper","seatId":"seat:US-OH:upper:016:0","cause":"moved away","rule":"appointment"}
+  2025-12-01 {"officeId":"office:US-OH:legislature-lower","seatId":"seat:US-OH:lower:099:0","cause":"moved away","rule":"appointment"}
+  2026-01-01 {"officeId":"office:US-OH:legislature-lower","seatId":"seat:US-OH:lower:020:0","cause":"moved away","rule":"appointment"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-OH","fiscalYear":"2025","adoptedBy":"the legislature vote 65-34, 24-9, 2025-054"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 256-177, 68-32 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (5)
+  2025-01-20 {"speaker":"official:seat:US-TX:us-house:26","majority-leader":"official:seat:US-WY:us-house:00","minority-leader":"official:seat:US-MA:us-house:03","majority-whip":"official:seat:US-TX:us-house:38","minority-whip":"official:seat:US-TX:us-house:09"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-OK:us-senate:1","majority-leader":"official:seat:US-NE:us-senate:1","minority-leader":"official:seat:US-HI:us-senate:1","majority-whip":"official:seat:US-AL:us-senate:0","minority-whip":"official:seat:US-CO:us-senate:0"}
+  2025-01-20 {"speaker":"official:term:seat:US-OH:lower:044:0:2025-01-20","majority-leader":"official:term:seat:US-OH:lower:045:0:2025-01-20","minority-leader":"official:term:seat:US-OH:lower:019:0:2025-01-20","majority-whip":"official:term:seat:US-OH:lower:055:0:2025-01-20","minority-whip":"official:term:seat:US-OH:lower:033:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-OH:upper:014:0:2025-01-20","majority-leader":"official:term:seat:US-OH:upper:024:0:2025-01-20","minority-leader":"official:term:seat:US-OH:upper:028:0:2025-01-20","majority-whip":"official:term:seat:US-OH:upper:022:0:2025-01-20","minority-whip":"official:term:seat:US-OH:upper:006:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-OH:us-house:08:2025-01-20"}
+
+## candidate-filed (2)
+  2025-09-15 {"filingId":"filing:contest:seat:US-OH:treasurer:2025-10-30:special:official:term:seat:US-OH:treasurer:2025-08-01","contestId":"contest:seat:US-OH:treasurer:2025-10-30:special","office":"Treasurer","electionDate":"2025-10-30","filedWith":"Ohio Secretary of State"}
+  2025-09-15 {"filingId":"filing:contest:seat:US-OH:treasurer:2025-10-30:special:official:term:seat:US-OH:lower:009:0:2025-01-20","contestId":"contest:seat:US-OH:treasurer:2025-10-30:special","office":"Treasurer","electionDate":"2025-10-30","filedWith":"Ohio Secretary of State"}
+
+## debate (1)
+  2025-10-20 {"debateId":"debate:contest:seat:US-OH:treasurer:2025-10-30:special","contestId":"contest:seat:US-OH:treasurer:2025-10-30:special","outletId":"outlet:radio:0:jurisdiction_60c0625da562a963","candidates":"2"}
+
+done 3.0 min
