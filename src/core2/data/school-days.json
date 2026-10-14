@@ -19,7 +19,6 @@
     }
   ],
   "actionId": "attend-school",
-  "stopgapId": "SG-CORE-school-days",
   "placeTargetPrefix": "schools-of:",
   "holidays": [
     {

@@ -543,7 +543,6 @@ export function prepareWorkChoice(
   beforeActorReads.verify();
   reads.verify();
   api.stopgap("SG-P8-attendance-choice");
-  api.stopgap("SG-P8-work-pay-terms");
   const context = hasDailyWorkRefresh(api, actor)
     ? refresh(actor)
     : refresh(actor, [attendance.need, absenceAction.need]);
@@ -821,7 +820,6 @@ export function runScheduledWork(
     const planned = plannedWorkMinutesOnDate(api, row);
     if (planned <= p("zero")) continue;
     api.stopgap("SG-P8-attendance-choice");
-    api.stopgap("SG-P8-work-pay-terms");
     const context = hasDailyWorkRefresh(api, actor)
       ? refresh(actor)
       : refresh(actor, [data.attendanceAction.need, data.absenceAction.need]);

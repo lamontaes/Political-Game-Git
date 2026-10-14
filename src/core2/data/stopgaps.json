@@ -374,7 +374,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Closed at the game's depth: joining a group, organizing a meeting, approaching an office and looking up an institution stay simple acts, and the full procedures belong to the government engines (elections, legislature, interest groups); the acts weren't deleted because drives, scenes and the play screens offer them. Dials tagged TUNABLE."
   },
   {
     "id": "SG-P8-opening-vintage",
@@ -519,7 +520,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Recorded compensation contract/cadence/laws, equivalent partition and amount/remainder conservation; separate revenue/consumption contracts.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Every opening work commitment is enrolled in its employer's payroll calendar (checked in a drawn place, Summit, Arizona: 31 of 31), so pay accrues and is paid on paydays; per-shift same-day cash is unused in play. Pay rates are labeled OEWS estimates. Markers removed."
   },
   {
     "id": "SG-P8-work-time-reserve",
@@ -543,7 +545,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Owner-approved bounded retention plus reader/callback/reload assertions; preserve consequential evidence and full focus history.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the row: keeping a few weeks of quiet work rollups is a memory bound checked by the speed guard, not a stand-in; the parameter is tagged TUNABLE as an engineering limit."
   },
   {
     "id": "SG-P8-business-books-priors",
@@ -878,7 +881,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Generate source-qualified classmates, coworkers, neighbors and congregation acquaintances for everyone, with dated pair-keyed shared moments and realistic network spreads. Preserve genuine supplied shared history.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: no shared moments are made for a pair; people have only the past their records give them when filled in."
   },
   {
     "id": "SG-P8-opening-customer-generation",
@@ -914,7 +918,8 @@
     "addedBy": "SOL-1258/opening_customer_routes",
     "addedAt": "2026-10-09",
     "replacement": "The later national-external-economy, regional travel and outside-customer modules provide genuine dated visit/order/price/payment terms and product-qualified buyers/sellers. Keep outside opening cash zero and signed net flow separate; source additional territory geography without invented series.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: the opening no longer invents a synthetic outside family with a CEX lodging budget and SCF income prior; the outside market's sourced industry shares already cover visitors' lodging spending."
   },
   {
     "id": "SG-P8-public-payroll-due-flow",
@@ -1303,7 +1308,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Outside demand from the national and regional economy engines (OPUS-WORLD): exports, government programs and visitors as their own dated buyers.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Outside buyers spend each industry's sourced share of receipts, scaled each month by the macro and regional engines' prices, output and regional demand (macro.ts scaleOutsideSales); individual outside customers aren't needed (owner, Oct 14). Marker removed."
   },
   {
     "id": "SG-CORE-owner-distributions",
@@ -1378,7 +1384,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Residents' own views (PEOPLE's views engine) set each group's lean, refined by GOV's elections; each counted person's own citizenship once the counts record it.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Counted adults hold no views until filled in (two-level population, owner, Oct 11), so each group starts from its county's 2024 presidential margin as a labeled estimate; campaigns and the views of people filled in move it from there."
   },
   {
     "id": "SG-GOV-REACH-A-leave-claims",
@@ -1946,7 +1953,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
     "replacement": "A friendship-ending rate among classmates and coworkers by years known, temperament weights checked against a study of conflict and personality, and favors from dated recorded needs.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: falling-outs are no longer generated in anyone's past at the opening."
   },
   {
     "id": "SG-P15-free-block-plan",
@@ -1970,7 +1978,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
     "replacement": "A probability-sample source on help received at a move, closeness at the time from a measured friendship model, out-of-town birthplaces from ACS place of birth, and favors at job losses and illness.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: favors are no longer generated in anyone's past at the opening."
   },
   {
     "id": "SG-P15-encounters",
@@ -1982,7 +1991,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
     "replacement": "Encounters at meetings with attendance, new coworkers when jobs change, neighbors once addresses exist, and first-tie hours checked against a study of how acquaintances form.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A town hall's host meets each resident who stands up to ask a question, recorded from the hall with the sourced civicHours as their first time together; new coworkers were already met through the jobs engine's meetAtWork."
   },
   {
     "id": "SG-P15-kin-light-past",
@@ -1994,7 +2004,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
     "replacement": "Generate a relative's deep past when the game first simulates them (promotion from husk tier), from the same deep-past rules residents use.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Relatives living elsewhere are never simulated in town, so, like anyone not yet filled in, they keep only the family and move facts the records hold (two-level population)."
   },
   {
     "id": "SG-P15-views-first-version",
@@ -2006,7 +2017,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving stances (M1-10, M2-09).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The views module forms opening views from state, age, education, faith and household, and stances read from that lean; marker removed, dials stay TUNABLE."
   },
   {
     "id": "SG-M1-births-circumstances",
@@ -2107,7 +2119,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "An association engine with formation steps, registration law per place and membership rules.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: residents no longer found cause groups; volunteering at known associations stays."
   },
   {
     "id": "SG-P10-testify-unbuilt",
@@ -2119,7 +2132,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "The legislature/committee module's hearing calendar offering testimony slots.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Removed the never-offered act row: the meetings module offers testimony at hearings itself."
   },
   {
     "id": "SG-P10-candidacy-unbuilt",
@@ -2131,7 +2145,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "The elections module's filing and campaign acts.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Removed the never-offered act row: the candidacy module offers filing itself."
   },
   {
     "id": "SG-P10-lobbying-unbuilt",
@@ -2143,7 +2158,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "The legislature module's member-contact and bill-sponsor acts.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Removed the never-offered act row: the interest-groups module does the lobbying itself."
   },
   {
     "id": "SG-P10-health-minimal-port",
@@ -2155,7 +2171,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "A full core2 health engine ported per the P11 plan.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "modules/health.ts is the core's health engine; the stand-in marker is removed."
   },
   {
     "id": "SG-P10-event-severity",
@@ -2193,7 +2210,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "An English-engine naming bank for associations reading topic and place.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Residents no longer found cause groups, so no group carries a structured key as its name."
   },
   {
     "id": "SG-P15-news-habits",
@@ -2716,7 +2734,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the pin: when a named job ends, the finance writer hands the agreement to the business's current staff."
   },
   {
     "id": "SG-FIXER-moves-income-household",
@@ -2728,7 +2747,8 @@
     "addedBy": "FIXER-MOVES",
     "addedAt": "2026-10-13",
     "replacement": "A core call (OPUS-CORE) that lets a recorded income award follow its person to a new household when they move, with its own dated record; then these people can move like anyone else.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the guard: the award's household is checked only when the contract is admitted and payment goes to the person; a half-year world run moves people with no payment errors."
   },
   {
     "id": "SG-PLAY-skip-own-choice-attribution",
@@ -2849,7 +2869,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kin moves in the past are dated on or before the opening day (opening-kin.ts recordMove), so the opening economy no longer fails its income check and the bench's finance-only fallback is deleted."
   },
   {
     "id": "SG-PLAY-world-settings-copy",
@@ -2934,7 +2955,8 @@
     "addedBy": "PW-8 (Opus builder)",
     "addedAt": "2026-10-13",
     "replacement": "Partnerships carry their own recorded start date from the opening's partnership model (OPUS-PEOPLE, opening-partnership).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Birth timing reads the couple's dated partner record from the opening's partnership model; the estimate and its parameter are gone."
   },
   {
     "id": "SG-PW8-counted-arrivals",
@@ -3018,7 +3040,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
     "replacement": "When a named worker leaves, the agreement names another qualified worker at the supplier or ends (the finance engine's public supplier rules).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the pin: a counted worker named in a public supplier agreement dies or moves like anyone else, and the agreement falls to the supplier's current product staff (finance-cash.ts productJobRelations)."
   },
   {
     "id": "SG-CORE-school-days",
@@ -3030,7 +3053,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
     "replacement": "PEOPLE's schools engine: each child's enrolled school (opening-schools), its district calendar and hours, classes with classmates and teachers, and attendance that state law and family circumstances shape.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "School-age people attend the town's public school district on the NCES-based school calendar, as their own choice against the compulsory pull; classes, grades, homework and illness days are not built, since the game doesn't need them (owner, Oct 14)."
   },
   {
     "id": "SG-GOV-electorate-approval",

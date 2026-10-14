@@ -1066,7 +1066,6 @@
       "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
       "calibrationRange": null,
       "calibrated": false,
-      "openStopgapId": "SG-P8-work-result-retention",
       "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Retained causal records can be inspected through the joint outcome suite, but a biography does not identify an implementation retention horizon; owner view/callback/resource constraints need their own evaluator."
     },
     {
@@ -1243,14 +1242,6 @@
     },
     {
       "parameter": "openingCustomerAgreementLeadDays",
-      "checkRange": {
-        "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
-    },
-    {
-      "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
       "checkRange": {
         "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
       },
@@ -1500,32 +1491,6 @@
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
-      "parameter": "fallingOutConflictWeight",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.35,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 shared past (src/core2/opening-falling-outs.ts): falling-outs between people who shared a class or workgroup.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "fallingOutReliabilityWeight",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.35,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 shared past (src/core2/opening-falling-outs.ts): falling-outs between people who shared a class or workgroup.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
       "parameter": "unmodeledLeisureValuePerHour",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 0.46,
@@ -1537,19 +1502,6 @@
       "calibrationRange": null,
       "calibrated": false,
       "limitation": "Calibrated to the ATUS share of people who socialize on a given day; the target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "favorSharedHoursPerYear",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 50,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 shared past (src/core2/opening-favors.ts): closeness at a move from years shared before it.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
       "parameter": "openingPayrollPrivatePhaseSpanFraction",
@@ -7609,11 +7561,6 @@
     },
     {
       "parameter": "openingCustomerAgreementLeadDays",
-      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
-      "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
-    },
-    {
-      "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
       "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
       "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
     },

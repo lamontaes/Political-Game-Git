@@ -1,14 +1,12 @@
 {
   "version": "p10-drives-v1",
   "stopgapId": "SG-P10-response-model",
-  "causeGroupKind": "cause-group",
   "donationJournalSourceKind": "drive-donation",
   "volunteerAffordances": ["known-group"],
   "eventKinds": {
     "formed": "drive.formed",
     "shared": "cause.shared",
     "confronted": "grievance.confronted",
-    "founded": "cause-group.founded",
     "joined": "cause-group.joined",
     "donated": "cause.donated",
     "volunteered": "cause.volunteered",
@@ -479,32 +477,6 @@
       }
     },
     {
-      "id": "found-cause-group",
-      "actKinds": ["commit", "take-risk", "cooperate", "speak-out"],
-      "goalKinds": ["change-condition"],
-      "need": "safety",
-      "effortParameter": "civicHours",
-      "effectParameter": "one",
-      "targetKind": "drive-topic",
-      "effect": "found-cause-group",
-      "prerequisites": [
-        {
-          "operation": "has-drive"
-        },
-        {
-          "operation": "has-organized-topic"
-        },
-        {
-          "operation": "no-known-group-on-topic"
-        }
-      ],
-      "stopgapId": "SG-P10-cause-group-founding",
-      "emotion": {
-        "moodMultiplierParameter": "one",
-        "stressMultiplierParameter": "one"
-      }
-    },
-    {
       "id": "join-cause-group",
       "actKinds": ["cooperate", "commit", "engage"],
       "goalKinds": ["change-condition", "serve"],
@@ -609,45 +581,10 @@
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "zero"
       }
-    },
-    {
-      "id": "testify-at-hearing",
-      "actKinds": ["speak-out", "engage", "follow-rules"],
-      "goalKinds": ["change-condition"],
-      "need": "safety",
-      "effortParameter": "civicHours",
-      "effectParameter": "one",
-      "targetKind": "unbuilt-system",
-      "effect": "unbuilt-system",
-      "stopgapId": "SG-P10-testify-unbuilt"
-    },
-    {
-      "id": "run-for-office",
-      "actKinds": ["take-risk", "commit", "speak-out"],
-      "goalKinds": ["change-condition", "climb"],
-      "need": "safety",
-      "effortParameter": "civicHours",
-      "effectParameter": "one",
-      "targetKind": "unbuilt-system",
-      "effect": "unbuilt-system",
-      "stopgapId": "SG-P10-candidacy-unbuilt"
-    },
-    {
-      "id": "lobby-legislator",
-      "actKinds": ["engage", "speak-out", "cooperate"],
-      "goalKinds": ["change-condition"],
-      "need": "safety",
-      "effortParameter": "civicHours",
-      "effectParameter": "one",
-      "targetKind": "unbuilt-system",
-      "effect": "unbuilt-system",
-      "stopgapId": "SG-P10-lobbying-unbuilt"
     }
   ],
   "gaps": [
-    "Producers for work.job-lost, housing.eviction, crime.victimized, injustice.witnessed, speech.heard and law.effect-landed do not exist in core2 yet; their formation rules are data rows waiting on those engines.",
-    "Testifying, running for office and lobbying have no core2 hearing, election or legislature; the rows are registered stopgaps and are never offered.",
-    "Cause groups carry a structured key, not a name; the English engine names them later."
+    "Producers for work.job-lost, housing.eviction, crime.victimized, injustice.witnessed, speech.heard and law.effect-landed do not exist in core2 yet; their formation rules are data rows waiting on those engines."
   ],
   "institutionFact": {
     "prefix": "organization:",

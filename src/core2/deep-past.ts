@@ -1,6 +1,4 @@
 import { OPENING_KIN } from "./opening-kin";
-import { addOpeningFallingOuts } from "./opening-falling-outs";
-import { addOpeningFavors } from "./opening-favors";
 import {
   buildOpeningPeerContacts,
   DEFAULT_OPENING_PEER_DATA,
@@ -176,7 +174,6 @@ export function buildDeepPast(
   const data = options.data ?? DEFAULT_DEEP_PAST_DATA;
   const p = (key: string) => parameter(key, options.parameters ?? PARAMETERS);
   const marker = stopgap(data.stopgapId);
-  stopgap("SG-P8-shared-past-history");
   const opening = makeIsoDate(input.startedAt);
   const boundary = makeIsoDate(data.throughExclusive);
   const cutoff = opening < boundary ? opening : boundary;
@@ -336,13 +333,10 @@ export function buildDeepPast(
   };
 
   const people = input.people.map((person): PersonInput => {
-    // Relatives living elsewhere never act, so their own schooling and era
-    // history is left until the game simulates them; they keep their family
-    // and move facts (SG-P15-kin-light-past).
-    if (person.tier === OPENING_KIN.kinTier) {
-      stopgap("SG-P15-kin-light-past");
-      return person;
-    }
+    // Relatives living elsewhere are not simulated in town: like everyone
+    // the player has not met, they keep only the facts the records hold
+    // (their family and moves), and no personal history is made for them.
+    if (person.tier === OPENING_KIN.kinTier) return person;
     const birth = makeIsoDate(person.birthDate);
     if (birth > opening)
       throw new Error(`Deep past cannot precede birth: ${person.id}`);
@@ -699,10 +693,6 @@ export function buildDeepPast(
         ? { contextValues: jobContext }
         : {}),
     }).input;
-  // P15 part 3: pairs who shared a class or workgroup may have fallen out.
-  withPast = addOpeningFallingOuts(withPast);
-  // P15 part 3: at a recorded move, people the mover knew may have helped.
-  withPast = addOpeningFavors(withPast);
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];
   } = { ...withPast, priorFactsSource: reports };

@@ -229,7 +229,6 @@ function summarize(core: CoreState, input: CoreInput) {
       actsByAction,
       actsByBasis,
       actsByKindAndAction,
-      groupsFounded: drives.groups.length,
       decisionsRetained: drives.decisions.length,
       decisionsFormingDrive: drives.decisions.filter((row) => row.driveId)
         .length,

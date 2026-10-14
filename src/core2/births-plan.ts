@@ -1,9 +1,4 @@
-import {
-  addDays,
-  ageOnDate,
-  daysBetween,
-  makeIsoDate,
-} from "../simulation/dates";
+import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import {
   bedroomsForHousehold,
   hudRentRowFor,
@@ -49,31 +44,6 @@ function conditionsOf(api: CoreAPI, personId: string): number {
   return index.get(personId)?.length ?? 0;
 }
 
-/** When the couple got together: their partner fact, else an estimate from their records. */
-export function partnershipStart(
-  api: CoreAPI,
-  couple: BirthCouple,
-  births: readonly string[],
-): string {
-  if (couple.startedAt < api.state.startedAt) return couple.startedAt;
-  const p = (key: string) => renewalParameter(api, key);
-  const mother = api.state.people.get(couple.motherId)!;
-  // SG-PW8-partnership-start: no partner fact was recorded, so the start is
-  // estimated: one spacing interval before their first child, else the age
-  // women first live with a partner (NSFG), never the opening day.
-  api.stopgap("SG-PW8-partnership-start");
-  const estimate = births.length
-    ? addDays(
-        makeIsoDate(births[0]!),
-        -Math.round(p("renewalTimingPeakYears") * p("daysPerMeanYear")),
-      )
-    : addDays(
-        makeIsoDate(mother.birthDate),
-        Math.round(p("renewalUnionAgeYears") * p("daysPerMeanYear")),
-      );
-  return estimate < couple.startedAt ? estimate : couple.startedAt;
-}
-
 /**
  * What each partner weighs, from the couple's records. Natality data is
  * deliberately absent here: real rates only check the town's totals. Every
@@ -99,9 +69,9 @@ export function birthCircumstances(
   const since = Math.max(
     p("zero"),
     daysBetween(
-      makeIsoDate(
-        births.at(-p("one")) ?? partnershipStart(api, couple, births),
-      ),
+      // Since their last child, else since they got together (their dated
+      // partner record from the opening's partnership model).
+      makeIsoDate(births.at(-p("one")) ?? couple.startedAt),
       makeIsoDate(asOf),
     ) /
       p("daysPerMeanYear") /

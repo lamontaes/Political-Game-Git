@@ -62,6 +62,7 @@ import {
 } from "../campaign-views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { meetAtMeeting } from "../encounters";
 
 export const MEETINGS_MODULE_ID = "core2-meetings-v1";
 
@@ -442,6 +443,14 @@ export function holdTownHall(
     a.position === null ? [] : [{ question: a.question, position: a.position }],
   );
   const id = `town-hall:${input.hostId}:${api.state.date}`;
+  // The host meets each resident who stood up to ask a question.
+  meetAtMeeting(
+    api,
+    input.hostId,
+    taken.map((t) => t.askedBy),
+    lawChain(api).townPlaceId,
+    id,
+  );
   let causes: readonly CauseRow[] = [];
   if (input.filingId && api.state.modules.has(CAMPAIGNS_MODULE_ID))
     causes = makeStatements(api, {
