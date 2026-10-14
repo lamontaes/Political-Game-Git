@@ -97,3 +97,44 @@ Needs from other sessions:
 - Other GOV builder: a budget bill with no executive carries `departmentRequests` lines (`legislature.ts:439`).
 
 Questions for the owner: none.
+
+## Elections
+
+Builder: Claude (Opus), branch `gov/elections-that-matter`, PR #4171, started October 14, 2026. Source: the elections stress audit (`docs/reports/stress-audit-elections-2026-10-14/README.md`, PR #4168), the CTO's player-path findings and the owner's rulings of October 14.
+
+What the owner can play now (once PR #4171 merges):
+
+- **Campaigns raise and spend.** Every candidate's campaign asks the people it can reach for money; each gives by their own reasons and cash, within the legal limit. It buys ads, mail, events and polls from the town's businesses. In Amory, Mississippi, the mayor's campaign raised $3,236 and spent $2,536 before the June 3, 2025 election.
+- **Candidates answer from their party and record.** Two nominees of different parties never answer alike. An officeholder answers toward how they voted.
+- **Every voter decides by one set of reasons**, and how likely each is to vote slides with what's at stake, the campaigns' contacts, their own habit and what voting costs them.
+- **Your campaign day** is a handful of choices: knock on doors, hold an event, give an interview, raise money, rest.
+- **Your speech** is composed one part at a time from four offered parts, drawn from your positions and record.
+- **Debates move their audience** the way a speech does.
+- **Election day:** your ballot is yours alone; you mark it at your precinct's polling place, which has poll workers from your neighbors.
+- **Filing:** under a party takes membership (join it first), with deadlines, cycles, special elections, ties and felony disenfranchisement from each state's data. Mississippi's, Illinois's and Missouri's towns now hold their elections.
+
+Checklist:
+
+- [x] Campaigns that spend and reach (audit defects 1, 31 to 34, 36)
+- [x] Candidates who read their party (2, 6, 7); answers read the voting record
+- [x] One vote model, turnout as a sliding propensity (3, 4, 5, 12 to 17, 24, 35)
+- [x] Filing, calendars and law from data (18 to 23, 25 to 30); one data-driven party side
+- [x] Player-path findings: the player's ballot is the player's; party filing takes membership; county races hold the state's primary
+- [x] Owner rulings: campaign day choices; speech composition; debates move views; polling places with poll workers for the director's scene
+- [x] Silent-engines defect: Mississippi towns vote in 2021, 2025, 2029; Illinois and Missouri spring elections; a 56-place calendar guard
+- [x] Speed: Robbins 118.6 seconds against the base's 113.5 and 117.4 (noise about 4); Shuqualak 154.9 against 159.0
+- [ ] Next: the bench controls for campaign day, speech parts, joining a party (OPUS-PLAY); the English adapter for speech parts (OPUS-PEOPLE)
+
+Sub-agents (3-2-1 rule):
+
+- Sonnet (high): filing, calendars and law from data. Finished.
+- Opus (high): campaigns that spend, candidates who read their party. Finished.
+- Sonnet (high): campaign-day choices. Finished after a usage-limit pause.
+- Sonnet (high): speech composition. Finished after a usage-limit pause.
+
+Needs from other sessions:
+
+- OPUS-CORE: `electorate.ts` reads the one turnout rule (hook in this branch); `electorate-places.ts` `readHousePlace` still decides a party's side by pattern; the counted population runs about five times the town (audit defect 37).
+- OPUS-PEOPLE: the director's polling-place visit now carries `pollingPlaceId` and `pollWorkerIds` (hook in this branch); staging the poll workers resolves SG-PEOPLE-poll-workers. The English adapter for speech parts (move key and fact ids to words).
+- GOV wiring: `candidacy.ts` `platformFromViews` should call `candidatePlatform`. Who runs leaves many town seats with one or no candidate (audit defects 9 to 11).
+- OPUS-PLAY: controls for `campaignDayChoices`, the speech parts, `joinParty`; the bench reads `doorsKnockedCount`.

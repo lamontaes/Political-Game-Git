@@ -1,0 +1,38 @@
+{
+  "about": "Numbers the elections calendar and law code use, each tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Read by src/core2/elections-calendar.ts and src/core2/election-ties.ts.",
+  "parameters": {
+    "votersPerVotingLocation": {
+      "value": 2148,
+      "tag": "SOURCED",
+      "source": "Active registered voters per voting location in the November 2022 general election: 203,660,564 active registered voters over 94,793 voting locations (U.S. Election Assistance Commission, 2022 Election Administration and Voting Survey Data Brief, United States). Sizes how many precincts' polling places a town has.",
+      "spread": [1500, 3000]
+    },
+    "pollWorkersPerVotingLocation": {
+      "value": 6.8,
+      "tag": "SOURCED",
+      "source": "Poll workers per voting location in the November 2022 general election: 645,219 poll workers over 94,793 voting locations (U.S. Election Assistance Commission, 2022 Election Administration and Voting Survey Data Brief, United States).",
+      "spread": [4, 10]
+    },
+    "specialElectionDaysEstimate": {
+      "value": 90,
+      "tag": "ESTIMATED",
+      "source": "Days from a vacancy to the special election where the state's law row is not read (special-election-law.json). The earlier engine used three months everywhere; state laws run from about 60 days (a governor's call with a short notice) to the next general election (NCSL, Filling Legislative Vacancies; Ballotpedia, How vacancies are filled in state legislatures).",
+      "spread": [60, 150],
+      "stopgapId": "SG-GOV-special-election-timing"
+    },
+    "restoredFractionOfDisenfranchised": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "The Sentencing Project, Locked Out 2022 and 2024: about half of those disenfranchised have finished their sentences, the share a law restoring the vote after a sentence returns (0.5 of 1.7% of the voting-age population, nationally).",
+      "spread": [0.4, 0.6],
+      "stopgapId": "SG-GOV-REACH-A-convictions"
+    },
+    "tieSmallRaceVotes": {
+      "value": 1000,
+      "tag": "ESTIMATED",
+      "source": "Not read from a statute: the tie rows in data/research/elections/tie-rules-2026.json say 'new election for large races; lot for small' and name no line. The stand-in is the order of a small-town race (total votes cast).",
+      "spread": [500, 5000],
+      "stopgapId": "SG-GOV-tie-race-size"
+    }
+  }
+}

@@ -17,6 +17,7 @@ import {
   type Stance,
 } from "./campaign-views";
 import { electorateParameter } from "./electorate-inputs";
+import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { residentsRuntime } from "./modules/residents";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
@@ -324,10 +325,12 @@ function orderPlacement(
       all = 0;
     for (const voter of voters) {
       const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
-      if (voter.readiness + Math.abs(lean) <= 0) continue;
-      all += 1;
-      if (lean > 0) r += 1;
-      else if (lean === 0) r += 0.5;
+      // The one turnout rule (`turnout.ts`): with two typical candidates the
+      // gap between them in this voter's eyes is twice their lean.
+      const share = turnoutShare(voter.readiness, 2 * Math.abs(lean));
+      all += share;
+      if (lean > 0) r += share;
+      else if (lean === 0) r += share / 2;
     }
     return all ? r / all : right;
   };
@@ -409,14 +412,17 @@ export function countPlaces(
           local: place.local ?? false,
           incumbentLean: voter.incumbentLean,
         });
-        let interest = 0;
-        for (const a of Object.values(appeal))
-          interest = Math.max(interest, Math.abs(a.total));
-        if (voter.readiness + (place.readinessShift ?? 0) + interest <= 0)
-          continue;
-        placeCast += weight;
+        // The one turnout rule (`turnout.ts`): each sample voter stands for
+        // the place's people like them, who turn out at their propensity.
+        const share =
+          weight *
+          turnoutShare(
+            voter.readiness + (place.readinessShift ?? 0),
+            interestOf(appeal),
+          );
+        placeCast += share;
         const choice = countedChoice(appeal);
-        if (choice) votes[choice] = (votes[choice] ?? 0) + weight;
+        if (choice) votes[choice] = (votes[choice] ?? 0) + share;
       }
     for (const id of Object.keys(votes)) {
       votes[id] = Math.round(votes[id]!);
