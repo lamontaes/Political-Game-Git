@@ -59,6 +59,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE (the address isn't a news story):** with the press module installed, the news module leaves stories to the press (`src/core2/modules/news.ts:434`), and the press never files the President's address. So `opening-story.test.ts` "is a public record the news carries" fails on `main` and on #4287. Either the press files the address as a national story, or the test reads where the press carries it (Oct 14).
 - **OPUS-CORE (a played year stops on an obligation):** a two-level bench world in Waterford, California (the first place drawn for `dialogue:coverage --seed batch-10-r2`) throws "Only a current standing obligation can end." partway through its year. The batch drew another place; the world itself still can't finish its year (Oct 14).
 - **OPUS-GOV (a local law with no title):** in Westerly, Rhode Island (seed `batch-10-r2`), bill 2027-3 passed with no title and no provisions on record. The words can't name a law with no title, so the batch leaves it out (Oct 14).
 - **OPUS-PLAY (the State of the Union's picture):** the opening's President stage shows the White House exterior even for the State of the Union, which is given in the House chamber (`src/bench/data/opening-pictures.json`, `stages.president`). Opening on the House floor for that kind of address would match what the Speaker's salutation says (Oct 14).
@@ -104,7 +105,7 @@ Newest first: one line per event (what changed, the measured result, what's next
   - a relative's race result is read from the record;
   - the chair never also speaks as a member;
   - grief lines need a death record;
-  - a town floor never hears Congress's words (Speaker, recommit, ranking member, debate time, a nomination);
+  - a town floor never hears Congress's words: no Speaker or recommit, and no member speaks to a town chair until a local body's own words are mined;
   - hearings wait until a question is mined;
   - local laws only, never named by their number;
   - a how-is question gets answers to it, and household members are called by first name;
