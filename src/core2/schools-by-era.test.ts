@@ -42,9 +42,11 @@ describe(`schools by era in ${input.placeMetadata?.placeName} (seed ${seed})`, (
       ).toBe(true);
   });
 
+  // A well-formed school id that no directory lists (other keys are errors).
+  const UNLISTED_SCHOOL = "000000000000";
   it("checks the rule itself: later schools don't count for earlier years", () => {
-    expect(schoolOpenBy("no-such-school", 1970)).toBe(false);
-    expect(schoolOpenBy("no-such-school", 2030)).toBe(true);
+    expect(schoolOpenBy(UNLISTED_SCHOOL, 1970)).toBe(false);
+    expect(schoolOpenBy(UNLISTED_SCHOOL, 2030)).toBe(true);
   });
 });
 

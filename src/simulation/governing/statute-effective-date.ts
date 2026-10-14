@@ -1,5 +1,5 @@
 import startingLaw from "../../../data/research/laws/starting-law-2026/index";
-import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import stateSessionCalendar from "../../../data/research/laws/state-session-calendars.json" with { type: "json" };
 import {
   addDays,
   daysBetween,

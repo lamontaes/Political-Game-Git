@@ -391,11 +391,16 @@ describe("a session already over when the world opens", () => {
     openLawEffects(core);
     openWorldLegislating(core);
     const calendar = coreAPI(core).moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
-    for (const date of sessionAgendaDates(state).filter((d) => d <= opened)) {
-      const next = `${Number(date.slice(0, 4)) + 1}${date.slice(4)}`;
+    // Each slot comes back on the table's next row for it (the next year the
+    // body meets), not a copied date.
+    const slots = sessionAgendaDates(state).filter((d) => d <= opened);
+    for (const [slot, date] of slots.entries()) {
+      const next = [2027, 2028]
+        .map((y) => sessionAgendaDates(state, y)[slot])
+        .find((d) => d !== undefined)!;
       expect(
         calendar.get(`session-end:${state}:${next}`)?.date,
-        `seed ${seed}, ${state} place ${key}`,
+        `seed ${seed}, ${state} place ${key} slot ${date}`,
       ).toBe(next);
     }
   });

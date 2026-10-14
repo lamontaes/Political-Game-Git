@@ -785,6 +785,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
     amend(state, "highways", -1);
     amend(state, "highways", 1);
     expect(line(state, "highways")).toBe(highways - moved);
+    // The reach was just re-read, so count the town as it stands now too.
+    startOfDay = null;
     const road = openPeople("budget-line:highways");
     for (const row of road) expect(row.terms.townDeltaMinor).toBeLessThan(0);
     expect(reached("budget-line:highways"), where).toBe(residentsAged(16));
