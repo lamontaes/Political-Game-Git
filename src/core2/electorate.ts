@@ -39,7 +39,9 @@ const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
 /** Every counted resident still counted (not filled in), with their record's facts. */
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
   const hit = cache.get(core);
-  if (hit && hit.date === core.date) return hit.rows;
+  // Kept for the day, until someone is filled in or the people change.
+  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.filledIn.size ?? 0}`;
+  if (hit && hit.date === key) return hit.rows;
   const rt = residentsRuntime(core);
   const rows: CountedVoter[] = [];
   if (rt)
@@ -64,7 +66,7 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
       }
     }
   rows.sort((a, b) => a.id.localeCompare(b.id));
-  cache.set(core, { date: core.date, rows });
+  cache.set(core, { date: key, rows });
   return rows;
 }
 

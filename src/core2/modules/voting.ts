@@ -822,7 +822,6 @@ export function holdPrimary(
     ] ?? 0;
   const extraCost = campaignParameter("primaryTurnoutCost");
   const votes: Record<string, number> = {};
-  let townVoted = 0;
   // Named voters: what reached them, as on election day.
   const countNamed = (
     field: readonly FilingRow[],
@@ -832,7 +831,6 @@ export function holdPrimary(
       const { appeal } = appealFor(api, voter, contest, field);
       const t = turnout(api, voter, appeal, undefined, extraCost);
       if (!t.votes) continue;
-      townVoted += 1;
       const ranked = Object.entries(appeal).sort(
         (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
       );
@@ -869,7 +867,6 @@ export function holdPrimary(
       });
       const t = turnout(api, voter, appeal, voter.weeklyMinutes, extraCost);
       if (!t.votes) continue;
-      townVoted += 1;
       const choice = countedChoice(appeal);
       if (choice) votes[choice] = (votes[choice] ?? 0) + 1;
     }
