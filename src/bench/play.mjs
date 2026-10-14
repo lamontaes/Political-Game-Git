@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, Image, window, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, Image, window, localStorage, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -26,8 +26,27 @@ async function displayVersion() {
 const post = (path) => api(path, "POST");
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
-const clock = (at) =>
-  `${new Date(`${at.date}T12:00:00`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}, ${String(Math.floor(at.minuteOfDay / 60)).padStart(2, "0")}:${String(at.minuteOfDay % 60).padStart(2, "0")}`;
+/** The player card's date, and the time under it: the only place either appears. */
+function setClock(at) {
+  const day = new Date(`${at.date}T12:00:00`).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  const time = new Date(
+    2000,
+    0,
+    1,
+    Math.floor(at.minuteOfDay / 60),
+    at.minuteOfDay % 60,
+  ).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  $("card-clock").replaceChildren(day, el("br"), time);
+}
+/** A figure cropped to head and shoulders (Kit 12's bust). */
+function setBust(id, url) {
+  $(id).style.backgroundImage = url ? `url("${url}")` : "";
+}
 function el(tag, props = {}, ...children) {
   const node = document.createElement(tag);
   Object.assign(node, props);
@@ -57,7 +76,8 @@ function shadowsOf(people) {
     });
 }
 
-function drawPeople(people) {
+/** The people in a picture; anyone but you can be clicked for their dossier. */
+function drawPeople(people, onClick) {
   $("people").replaceChildren(
     ...shadowsOf(people),
     ...people.map((person) => {
@@ -68,13 +88,17 @@ function drawPeople(people) {
       img.style.height = `${(f.heightPercent / visible) * 100}%`;
       // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
-      const box = el("div", { className: "figure", title: person.name }, img);
+      const box = el("div", { className: "figure" }, img);
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
         width: `${f.widthPercent}%`,
         height: `${visible}%`,
       });
+      if (onClick && person.personId !== me?.id) {
+        box.classList.add("talkable");
+        box.addEventListener("click", () => onClick(person));
+      }
       return box;
     }),
   );
@@ -113,38 +137,20 @@ async function playOpening() {
 }
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape" || !$("front").hidden) return;
+  if (event.key !== "Escape") return;
   if (openTab === "options") closeSheet();
-  else openSheet("options");
+  else if ($("front").hidden) openSheet("options");
 });
 
 async function renderScene() {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   $("backdrop").src = scene.backdrop.url;
-  $("people").replaceChildren(
-    ...shadowsOf(scene.people),
-    ...scene.people.map((person) => {
-      const f = person.figure;
-      const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
-      const visible = Math.max(bottom - f.topPercent, 0.1);
-      const img = el("img", { src: person.figureUrl, alt: person.name });
-      img.style.height = `${(f.heightPercent / visible) * 100}%`;
-      // A whole figure turns to face the room.
-      if (f.mirrored) img.style.transform = "scaleX(-1)";
-      const box = el("div", { className: "figure", title: person.name }, img);
-      Object.assign(box.style, {
-        left: `${f.leftPercent}%`,
-        top: `${f.topPercent}%`,
-        width: `${f.widthPercent}%`,
-        height: `${visible}%`,
-        cursor: person.personId === me.id ? "default" : "pointer",
-      });
-      if (person.personId !== me.id)
-        box.addEventListener("click", () => showPerson(person));
-      return box;
-    }),
-  );
+  drawPeople(scene.people, showPerson);
   me.scene = scene;
+  setBust(
+    "card-bust",
+    scene.people.find((p) => p.personId === me.id)?.figureUrl,
+  );
 }
 
 async function renderCard() {
@@ -152,27 +158,81 @@ async function renderCard() {
   me.card = card;
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
-  $("card-place").textContent = `${me.placeName} · ${card.age}`;
-  $("card-clock").textContent = clock(
-    packet?.at ?? { date: me.date, minuteOfDay: 0 },
-  );
+  $("card-place").textContent = me.placeName;
+  setClock(packet?.at ?? { date: me.date, minuteOfDay: 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
 let guideQuery = "";
-let guideTerms = new Set();
+// Each civic term and its one-line definition.
+let guideTerms = new Map();
 api("/api/guide?q=").then((rows) => {
-  guideTerms = new Set(rows.map((row) => row.term.toLowerCase()));
+  guideTerms = new Map(rows.map((row) => [row.term.toLowerCase(), row]));
+});
+// Terms the player marked as learned lose their underline (kept in the Guide).
+const LEARNED_KEY = "ocd-learned-terms";
+const learned = new Set(
+  (() => {
+    try {
+      return JSON.parse(localStorage.getItem(LEARNED_KEY) ?? "[]");
+    } catch {
+      return [];
+    }
+  })(),
+);
+let tipTerm;
+function showTip(node, key) {
+  const term = guideTerms.get(key);
+  tipTerm = { node, key };
+  $("tip-term").textContent = term.term;
+  $("tip-short").textContent = term.short;
+  show("tip", true);
+  const box = node.getBoundingClientRect();
+  const tip = $("tip");
+  tip.style.left = `${Math.min(box.left, window.innerWidth - tip.offsetWidth - 16)}px`;
+  tip.style.top =
+    box.bottom + tip.offsetHeight + 12 < window.innerHeight
+      ? `${box.bottom + 6}px`
+      : `${box.top - tip.offsetHeight - 6}px`;
+}
+function hideTipSoon() {
+  setTimeout(() => {
+    if (!$("tip").matches(":hover") && !tipTerm?.node.matches(":hover"))
+      show("tip", false);
+  }, 250);
+}
+$("tip").addEventListener("mouseleave", hideTipSoon);
+$("tip-learned").addEventListener("click", () => {
+  if (!tipTerm) return;
+  learned.add(tipTerm.key);
+  try {
+    localStorage.setItem(LEARNED_KEY, JSON.stringify([...learned]));
+  } catch {
+    // Without storage the underline returns next session.
+  }
+  for (const node of document.querySelectorAll(".term"))
+    if (node.textContent.trim().toLowerCase() === tipTerm.key)
+      node.classList.remove("term");
+  show("tip", false);
 });
 /**
  * A label shown on screen, underlined when the whole label is a Guide term
- * (never a search through prose): clicking it opens the Guide there.
+ * (never a search through prose): hover shows its definition, and clicking
+ * it opens the Guide there.
  */
 function termLabel(text) {
-  if (!guideTerms.has(String(text).trim().toLowerCase()))
-    return el("b", { textContent: text });
-  const b = el("b", { className: "term", textContent: text });
+  const key = String(text).trim().toLowerCase();
+  if (!guideTerms.has(key)) return el("b", { textContent: text });
+  const b = el("b", {
+    className: learned.has(key) ? "" : "term",
+    textContent: text,
+  });
+  b.addEventListener("mouseenter", () => {
+    if (b.classList.contains("term")) showTip(b, key);
+  });
+  b.addEventListener("mouseleave", hideTipSoon);
   b.addEventListener("click", () => {
+    show("tip", false);
     guideQuery = text;
     openSheet("guide");
   });
@@ -205,6 +265,7 @@ function renderPacket(value) {
         const target = me.names?.[offer.targetId] ?? "";
         const b = el("button", {
           type: "button",
+          className: "reply",
           // The mined name ("Call Sarah Sykes."), else the control name and target.
           textContent:
             me.names?.[offer.offerId] ??
@@ -219,7 +280,7 @@ function renderPacket(value) {
         return b;
       }),
     );
-  if (packet) $("card-clock").textContent = clock(packet.at);
+  if (packet) setClock(packet.at);
   $("card-why").textContent = endedBy(packet);
 }
 
@@ -234,8 +295,16 @@ function endedBy(value) {
   return value.stop.modules.length ? (words.moment ?? "") : "";
 }
 
+/** The newest line of the journal, bottom right. */
+async function renderJournalNote() {
+  const chapters = await api(
+    `/api/journal?id=${encodeURIComponent(me.id)}`,
+  ).catch(() => []);
+  const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
+  $("journal-line").textContent = line;
+}
 async function refresh() {
-  await Promise.all([renderScene(), renderCard()]);
+  await Promise.all([renderScene(), renderCard(), renderJournalNote()]);
   // When your character dies, carry on as someone connected to them.
   if (me.card && me.card.alive === false) {
     await openSheet("handoff");
@@ -313,7 +382,7 @@ $("skip").addEventListener("click", async () => {
       const result = await post(`/api/advance?mode=skip&days=${SKIP_LEG_DAYS}`);
       me.names = { ...me.names, ...result.names };
       renderPacket(result.packet);
-      $("card-clock").textContent = clock(result.packet.at);
+      setClock(result.packet.at);
       if (result.packet.kind !== "complete") break;
       // Election day needs you: a skip ends when new results are in.
       const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
@@ -347,55 +416,120 @@ $("continue").addEventListener("click", () => {
   );
 });
 
-// ---- Conversation (lower third, scales in its upper right) ----
+// ---- Conversation (lower third: portraits top left, scales upper right) ----
+// The scales toggled on: the lie takes the place of the true answer it contradicts.
+let lying = false;
+/** Who you are talking to: their bust, name and what you know of their work. */
+async function setWho(personId, name) {
+  $("talk-name").textContent = name ?? "";
+  $("talk-role").textContent = "";
+  const staged = [...(me.scene?.people ?? []), ...(filing?.people ?? [])].find(
+    (p) => p.personId === personId,
+  );
+  setBust("talk-bust", staged?.figureUrl);
+  show("talk-who", Boolean(name));
+  if (!personId) return;
+  const c = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
+  ).catch(() => undefined);
+  if (!c || $("talk-name").textContent !== (name ?? "")) return;
+  if (!staged?.figureUrl) setBust("talk-bust", c.figureUrl);
+  $("talk-role").textContent = [c.work?.title, c.work?.employer, c.relation]
+    .filter(Boolean)
+    .join(" · ");
+}
+/** The newest lines: yours, dim, then what was said back to you. */
+function spokenLines(lines, speakerOf) {
+  const lastMine = lines.findLastIndex((line) => line.speakerId === me.id);
+  const theirs = lines.slice(lastMine + 1).slice(-3);
+  return [
+    ...(lastMine >= 0
+      ? [
+          el("li", {
+            className: `said${lines[lastMine].act === "lie" ? " lying" : ""}`,
+            textContent: lines[lastMine].text,
+          }),
+        ]
+      : []),
+    ...theirs.map((line) =>
+      el("li", { className: "speech", textContent: speakerOf(line) }),
+    ),
+  ];
+}
+/** Numbered replies; a key press of the number says it. */
+function replies(choices, onPick) {
+  return choices.map((choice) => {
+    const b = el("button", {
+      type: "button",
+      className: `reply${choice.lie ? " lying" : ""}`,
+      textContent: choice.text,
+    });
+    b.addEventListener("click", () => onPick(choice));
+    return b;
+  });
+}
+document.addEventListener("keydown", (event) => {
+  const n = Number(event.key);
+  if (
+    !Number.isInteger(n) ||
+    n < 1 ||
+    $("game").classList.contains("sheet-open")
+  )
+    return;
+  const panel = !$("talk").hidden ? "talk-choices" : "choice-list";
+  if (!$(panel).offsetParent) return;
+  $(panel).children[n - 1]?.click();
+});
+function setScales({ available, on }) {
+  $("talk-lie").disabled = !available;
+  $("talk-lie").classList.toggle("on", Boolean(available && on));
+}
 function renderTalk(value) {
+  if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
   show("choices", !value && packet?.kind === "choice");
   if (!value) return;
-  $("talk-lines").replaceChildren(
-    ...value.lines.slice(-6).map((line) =>
-      el(
-        "li",
-        {
-          title: line.sourceRecordIds.join(", "),
-          // A lie the player told glows soft red.
-          className: line.act === "lie" ? "lie" : "",
-        },
-        el("b", { textContent: line.speaker }),
-        line.text,
-      ),
-    ),
-  );
-  // A lower third: the first six choices the engine offers.
-  $("talk-choices").replaceChildren(
-    ...value.choices.slice(0, 6).map((choice) => {
-      const b = el("button", { type: "button", textContent: choice.text });
-      b.addEventListener("click", () => sayLine(choice.key));
-      return b;
-    }),
-  );
-  // The scales dim when there is nothing false to say, and tip once you lie.
-  $("talk-lie").disabled = !value.lie;
-  $("talk-lie").title = value.lie?.text ?? "";
-  $("talk-lie").firstElementChild.src = value.lines.some(
-    (line) => line.act === "lie",
+  const other = value.lines.find((line) => line.speakerId === value.otherId);
+  if (
+    other?.speaker !== $("talk-name").textContent ||
+    !$("talk-name").textContent
   )
-    ? "/ui/kit12/scales-tipped.svg"
-    : "/ui/kit12/scales-level.svg";
+    setWho(value.otherId, other?.speaker ?? me.names?.[value.otherId]);
+  $("talk-lines").replaceChildren(
+    ...spokenLines(value.lines, (line) => line.text),
+  );
+  // Lying, the false line stands where the true answer it contradicts was.
+  const choices = value.choices.slice(0, 6);
+  if (lying && value.lie) {
+    const at = Math.max(
+      choices.findIndex((choice) => choice.answers === value.lie.answers),
+      0,
+    );
+    choices.splice(at, 1, value.lie);
+  }
+  $("talk-choices").replaceChildren(
+    ...replies(choices, (choice) => sayLine(choice.key)),
+  );
+  // Dim when there is nothing false to say; tipped and red while lying.
+  setScales({ available: Boolean(value.lie), on: lying });
 }
 async function sayLine(key) {
+  lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
 async function talkTo(otherId) {
+  lying = false;
+  $("talk-name").textContent = "";
   renderTalk(
     await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
   );
 }
-$("talk-lie").addEventListener(
-  "click",
-  () => talk?.lie && sayLine(talk.lie.key),
-);
+$("talk-lie").addEventListener("click", () => {
+  if (!talk?.lie) return;
+  lying = !lying;
+  renderTalk(talk);
+});
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
@@ -423,51 +557,38 @@ function renderFiling(value) {
   const clerkName = value.visit.clerkId
     ? value.names[value.visit.clerkId]
     : value.filedWith;
-  $("talk-lines").replaceChildren(
-    ...value.visit.lines.slice(-6).map((line) =>
-      el(
-        "li",
-        { title: line.sourceRecordIds.join(", ") },
-        el("b", {
-          textContent:
-            line.speaker === "clerk" ? clerkName : (me.card?.name ?? ""),
-        }),
-        line.text,
-      ),
-    ),
-  );
+  if ($("talk-name").textContent !== clerkName)
+    setWho(value.visit.clerkId, clerkName);
+  const lines = value.visit.lines.map((line) => ({
+    ...line,
+    speakerId: line.speaker === "clerk" ? "clerk" : me.id,
+  }));
+  $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
   renderFilingOverlay(value);
   $("talk-choices").replaceChildren(
-    ...value.visit.choices.slice(0, 6).map((choice) => {
-      const b = el("button", { type: "button", textContent: choice.text });
-      b.addEventListener("click", async () => {
-        // Filing carries the platform and party chosen on the overlay.
-        const params = new URLSearchParams({ key: choice.key });
-        if (choice.action.kind === "file") {
-          for (const select of $("filing-platform").querySelectorAll("select"))
-            if (select.value)
-              params.append("stance", `${select.name}=${select.value}`);
-          params.set("party", $("filing-party").value);
-        }
-        renderFiling(await post(`/api/filing/choose?${params}`));
-      });
-      return b;
+    ...replies(value.visit.choices.slice(0, 6), async (choice) => {
+      // Filing carries the platform and party chosen on the overlay.
+      const params = new URLSearchParams({ key: choice.key });
+      if (choice.action.kind === "file") {
+        for (const select of $("filing-platform").querySelectorAll("select"))
+          if (select.value)
+            params.append("stance", `${select.name}=${select.value}`);
+        params.set("party", $("filing-party").value);
+      }
+      renderFiling(await post(`/api/filing/choose?${params}`));
     }),
   );
   // The filing's record once it is made: its status.
   if (value.result)
     $("talk-lines").append(
-      el(
-        "li",
-        {},
-        el("b", { textContent: value.filedWith }),
-        value.result.filing
+      el("li", {
+        className: "speech",
+        textContent: value.result.filing
           ? value.result.status
           : `${value.result.status} · ${(value.result.unmet ?? []).map((u) => u.rule).join(", ")}`,
-      ),
+      }),
     );
-  $("talk-lie").disabled = true;
-  $("talk-lie").firstElementChild.src = "/ui/kit12/scales-level.svg";
+  setScales({ available: false });
 }
 /** The named office's rules from its records, with the platform and party to file under. */
 function renderFilingOverlay(value) {
@@ -484,7 +605,6 @@ function renderFilingOverlay(value) {
         check.rule,
         `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}`,
       );
-      line.title = check.source ?? "";
       if (!check.met) line.classList.add("unmet");
       return line;
     }),
@@ -631,31 +751,21 @@ async function showStory(momentId) {
   drawPeople(story.people);
   show("choices", false);
   show("talk", true);
+  show("talk-who", false);
+  $("talk-name").textContent = "";
   $("talk-lines").replaceChildren(
     ...story.narration.map((line) =>
-      el(
-        "li",
-        { className: "narration", title: line.sourceRecordIds.join(", ") },
-        line.text,
-      ),
+      el("li", { className: "speech narration", textContent: line.text }),
     ),
   );
   $("talk-choices").replaceChildren(
     ...(story.talkToId
-      ? [
-          (() => {
-            const b = el("button", {
-              type: "button",
-              textContent: `Talk · ${story.names[story.talkToId] ?? ""}`,
-            });
-            b.addEventListener("click", () => talkTo(story.talkToId));
-            return b;
-          })(),
-        ]
+      ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
+          talkTo(story.talkToId),
+        )
       : []),
   );
-  $("talk-lie").disabled = true;
-  $("talk-lie").firstElementChild.src = "/ui/kit12/scales-level.svg";
+  setScales({ available: false });
 }
 function storyStop(value) {
   return value?.kind === "stop"
@@ -673,13 +783,16 @@ async function showPerson(person) {
   );
   $("person-figure").src = c.figureUrl ?? person.figureUrl;
   $("person-name").textContent = c.name;
+  $("person-role").textContent = [
+    c.work?.title,
+    c.work?.employer,
+    c.relation,
+    c.age ?? null,
+  ]
+    .filter((part) => part !== null && part !== undefined && part !== "")
+    .join(" · ");
   $("person-facts").replaceChildren(
-    ...[
-      c.relation && row("", c.relation),
-      c.age !== null && row("", String(c.age)),
-      c.work && row(c.work.title ?? "", c.work.employer ?? ""),
-      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
-    ].filter(Boolean),
+    ...[c.tie && row(c.tie.kind, c.tie.lastContactDate ?? "")].filter(Boolean),
   );
   $("person-talk").onclick = () => {
     show("person", false);
@@ -698,13 +811,7 @@ async function visit(organizationId) {
   );
   me.names = { ...me.names, ...v.names };
   $("backdrop").src = v.backdrop.url;
-  drawPeople(v.people);
-  for (const [i, box] of [...$("people").children].entries()) {
-    const id = v.people[i].personId;
-    if (id === me.id) continue;
-    box.style.cursor = "pointer";
-    box.addEventListener("click", () => showPerson(v.people[i]));
-  }
+  drawPeople(v.people, showPerson);
   $("card-place").textContent = v.name;
 }
 
@@ -893,23 +1000,29 @@ async function seatRows() {
 // ---- Menus ----
 const sheets = {
   async people() {
-    const family = el("button", { type: "button", textContent: "Family" });
-    family.addEventListener("click", () => openSheet("family"));
     return [
-      family,
       ...(me.scene?.people ?? [])
         .filter((p) => p.personId !== me.id)
         .map((p) => {
-          const b = el("button", { type: "button", textContent: p.name });
+          const b = el("button", { type: "button", textContent: "Talk" });
           b.addEventListener("click", () => talkTo(p.personId));
-          return b;
+          return el("div", { className: "row" }, termLabel(p.name), b);
         }),
-      ...me.card.ties.map((t) =>
-        row(
+      ...me.card.ties.map((t) => {
+        const line = row(
           t.name,
-          `${t.relation ?? t.kind} · ${t.lastContactDate}${t.latestChange ? ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}` : ""}`,
-        ),
-      ),
+          `${t.relation ?? t.kind} · ${t.lastContactDate}`,
+        );
+        // How the tie last moved, in the engine's numbers: a developer view.
+        if (t.latestChange)
+          line.append(
+            el("span", {
+              className: "dev-only",
+              textContent: ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}`,
+            }),
+          );
+        return line;
+      }),
     ];
   },
   async who() {
@@ -918,8 +1031,13 @@ const sheets = {
     const step = progress.steps.find(
       (row) => row.step === progress.furthestReachedStep,
     );
+    // The engine's raw measures, for the bench only.
+    const dev = (line) => {
+      line.classList.add("dev-only");
+      return line;
+    };
     return [
-      row("Golden path", step ? `${step.step}. ${step.label}` : "—"),
+      dev(row("Golden path", step ? `${step.step}. ${step.label}` : "—")),
       row("Born", c.birthDate),
       row(
         "Home",
@@ -927,11 +1045,8 @@ const sheets = {
           .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
           .join(", "),
       ),
-      ...(c.schools ?? []).map((school) =>
-        row(school.date.slice(0, 4), school.name),
-      ),
-      row("Mood", c.affect?.mood?.toFixed(2)),
-      row("Stress", c.affect?.stress?.toFixed(2)),
+      dev(row("Mood", c.affect?.mood?.toFixed(2))),
+      dev(row("Stress", c.affect?.stress?.toFixed(2))),
       ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
       ...c.lawEffects
         .filter((e) => !e.endedOn)
@@ -1222,7 +1337,7 @@ const sheets = {
         for (const [kind, names] of kinds)
           cell.append(
             el("span", {
-              className: "item",
+              className: "entry",
               textContent:
                 names.length > 2
                   ? `${kind} (${names.length})`
@@ -1247,6 +1362,10 @@ const sheets = {
     ];
   },
   async news() {
+    const isRecordId = (v) =>
+      typeof v === "string" &&
+      !me.names?.[v] &&
+      /^[a-z]+_[0-9a-f]{8,}$/.test(v);
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
     const economy = e.nation
@@ -1284,7 +1403,8 @@ const sheets = {
         row(
           `${r.date} · ${r.kind}`,
           Object.entries(r.facts)
-            .filter(([k]) => !/Id$/.test(k))
+            // Bare record ids are the bench's, not the reader's.
+            .filter(([k, v]) => !/Id$/.test(k) && !isRecordId(v))
             .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
             .join(" · "),
         ),
@@ -1298,7 +1418,7 @@ const sheets = {
         "div",
         { className: "row narrative" },
         termLabel(policyLabel(law.series)),
-        ` ${law.value === null ? "—" : amount(law.value, law.unit)}${law.estimate ? " (est.)" : ""}`,
+        ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
         el(
           "div",
           {},
@@ -1358,7 +1478,7 @@ const sheets = {
       value: guideQuery,
       placeholder: "Search",
     });
-    const list = el("div");
+    const list = el("div", { className: "flow" });
     const fill = async () => {
       guideQuery = search.value;
       const rows = await api(
@@ -1443,29 +1563,7 @@ const sheets = {
       return b;
     });
     const seat = await seatRows();
-    const results = (() => {
-      const b = el("button", { type: "button", textContent: "Election night" });
-      b.disabled = seenResults === 0;
-      b.addEventListener("click", () => openSheet("results"));
-      return b;
-    })();
-    const lawHere = el("button", { type: "button", textContent: "Law here" });
-    lawHere.addEventListener("click", () => openSheet("law"));
-    const changes = el("button", {
-      type: "button",
-      textContent: "What changed",
-    });
-    changes.addEventListener("click", () => openSheet("changes"));
-    const map = el("button", { type: "button", textContent: "Map" });
-    map.addEventListener("click", () => openSheet("map"));
-    const budgets = el("button", { type: "button", textContent: "Budgets" });
-    budgets.addEventListener("click", () => openSheet("budgets"));
     return [
-      results,
-      lawHere,
-      changes,
-      budgets,
-      map,
       ...campaigns,
       ...offices,
       ...filings,
@@ -1482,9 +1580,13 @@ const sheets = {
               ? `${s.holder.givenName} ${s.holder.familyName}${s.holder.party ? ` (${s.holder.party})` : ""} `
               : "",
           );
-          // Play anyone: a resident officeholder can be taken over.
+          // Play anyone: a resident officeholder can be taken over (bench only).
           if (s.holder?.personId && s.holder.personId !== me.id) {
-            const b = el("button", { type: "button", textContent: "Play" });
+            const b = el("button", {
+              type: "button",
+              className: "dev-only",
+              textContent: "Play",
+            });
             b.addEventListener("click", () => playAs(s.holder.personId));
             line.append(b);
           }
@@ -1513,34 +1615,55 @@ const titles = {
   map: "Map",
   news: "News",
 };
+// Screens shown as tabs across the top of one menu screen.
+const groups = {
+  politics: ["politics", "results", "law", "changes", "budgets", "map"],
+  people: ["people", "family"],
+};
+const groupOf = (tab) =>
+  Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
   openTab = tab;
+  const group = groupOf(tab);
   for (const b of document.querySelectorAll("[data-tab]"))
-    b.classList.toggle("active", b.dataset.tab === tab);
-  $("sheet-title").textContent = titles[tab];
-  $("sheet").classList.toggle(
-    "wide",
-    tab === "calendar" ||
-      tab === "results" ||
-      tab === "budgets" ||
-      tab === "family" ||
-      tab === "map",
+    b.classList.toggle("active", b.dataset.tab === group);
+  $("sheet-title").textContent = titles[group];
+  // Election night only once there are results to show.
+  $("sheet-tabs").replaceChildren(
+    ...(groups[group] ?? [])
+      .filter((name) => name !== "results" || seenResults > 0)
+      .map((name) => {
+        const b = el("button", {
+          type: "button",
+          className: `tab${name === tab ? " on" : ""}`,
+          textContent: titles[name],
+        });
+        b.addEventListener("click", () => openSheet(name));
+        return b;
+      }),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
   $("sheet-body").replaceChildren(...body);
+  $("sheet-body").scrollTop = 0;
   show("sheet", true);
+  show("menu", Boolean(me));
+  $("game").classList.add("sheet-open");
 }
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
-    openTab === b.dataset.tab ? closeSheet() : openSheet(b.dataset.tab),
+    groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
+      ? closeSheet()
+      : openSheet(b.dataset.tab),
   );
 function closeSheet() {
   openTab = undefined;
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.remove("active");
   show("sheet", false);
+  show("menu", false);
+  $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);
 
@@ -1591,6 +1714,11 @@ function worldSettings() {
 displayVersion().then((text) => {
   $("version").textContent = text;
 });
+$("front-options").addEventListener("click", () => openSheet("options"));
+// The bench's developer controls sit behind one faint ring, off by default.
+$("dev-toggle").addEventListener("click", () =>
+  document.body.classList.toggle("dev"),
+);
 $("new-life").addEventListener("click", async () => {
   $("new-life").disabled = true;
   show("front-status", true);
@@ -1667,7 +1795,8 @@ $("new-life").addEventListener("click", async () => {
     seenChanges = await changeCount();
     show("front", false);
     await playOpening();
-    for (const id of ["tabs", "stack", "card"]) show(id, true);
+    for (const id of ["rings", "card", "journal-note"]) show(id, true);
+    $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();
   } catch (error) {
