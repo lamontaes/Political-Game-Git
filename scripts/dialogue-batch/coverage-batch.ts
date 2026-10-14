@@ -38,10 +38,10 @@ import { composeJournal } from "../../src/director/journal";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
 import type { EnglishBank } from "./bank-compose";
-import { composeAddress } from "../../src/presentation/english-composition";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
-import { REGISTER_CARDS } from "../../src/presentation/speech-registers";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { composeAddress } from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
+import { REGISTER_CARDS } from "../../src/english/speech-registers";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 import {
   addressMoves,
@@ -49,7 +49,7 @@ import {
 } from "../english-corpus/address-bank";
 import lexicon from "./verb-lexicon.json" with { type: "json" };
 import { grammatical, lineProblem, type Rejection } from "./repetition-guard";
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   minedParts,
   slotValues,
@@ -60,7 +60,6 @@ import {
 import { headCommit, playLives } from "./play-lives";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
-import meetingJson from "../../data/english/parts/meeting.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
 import noticesJson from "../../data/english/parts/notices.json" with { type: "json" };
 
@@ -75,6 +74,10 @@ const id = option("id", "batch-8");
 const seed = option("seed", id);
 const days = Number(option("days", "365"));
 const cachePath = option("cache", "");
+
+/** Why no member speaks to a town body's chair (said on every page, cached or not). */
+const MEMBER_FLOOR_GAP =
+  "A town body member's words to the chair: the meeting bank holds Congress's floor procedure, which a town council never hears, so no member speaks to the chair until a local body's own words are mined.";
 
 /** One engine line before its alternatives are found. JSON-safe, so it can be cached. */
 export interface Raw {
@@ -514,12 +517,7 @@ function readWorld(place: Place): {
   }
 
   // Minutes and hearing exchanges and the chair, from a real roll call.
-  // LOCAL_FLOOR_ONLY also refuses what the record contradicts or doesn't
-  // hold: an absence from a vote the member cast (owner, batch 9: "I could
-  // not make today's vote"), a closed session no meeting record shows.
   const minutesBank = minutesJson as unknown as EnglishBank;
-  const LOCAL_FLOOR_ONLY =
-    /\b(Senator|Senate|Congress\w*|House|Speaker|recommit|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution|engross\w*|third time|yeas and nays|previous question|ranking member|chairman|heavy heart|honor the life|sense of loss|in memory|condolences?|passed away|unable to be present|not present|absent|could not make|missed|executive session)\b/i;
   const chairOf = (officeId: string) => {
     const head = holders(officeId)[0];
     const row = head ? personOf(head) : undefined;
@@ -631,43 +629,14 @@ function readWorld(place: Place): {
         sourceRecordIds: [bill.id, chair.id],
       });
     });
-
-    // A member to the chair on the floor: never the chair, who holds one seat
-    // (batch 10: the chair was also "a member" addressing "Madam Chair").
-    // Words a town body's floor never hears (Congress's procedure, a grief
-    // that no death or retirement record stands behind) are left out.
-    const speakerId = rolls.find(
-      (v) => v.vote === "yes" && v.memberId !== chair.id,
-    )?.memberId;
-    if (chair.address && speakerId) {
-      for (const move of ["opener", "procedural", "closer"]) {
-        const made = composeFromBank(
-          meetingJson as unknown as EnglishBank,
-          move,
-          { chair: chair.address, body },
-          `${bill.id}:${move}`,
-          LOCAL_FLOOR_ONLY,
-        );
-        if (made)
-          raws.push({
-            ...base,
-            category: "meeting",
-            speaker: `${nameOf(speakerId)} (member)`,
-            context: `A member of the ${body} speaks to the chair during ${bill.number} ("${title}").`,
-            prior: "",
-            text: made.text,
-            parts: [made.partKey],
-            // Its alternatives pass the same floor test as the line.
-            forbid: LOCAL_FLOOR_ONLY.source,
-            composer: "composeFromBank over data/english/parts/meeting.json",
-            sourceRecordIds: [bill.id, speakerId],
-          });
-      }
-      // A hearing needs the question each answer follows, and the hearing
-      // bank holds no chair's or member's question yet (batch 10: a witness
-      // thanked a question nobody asked); hearings wait for one.
-    }
   }
+  // A member's own words to a town body's chair aren't mined: the meeting
+  // bank is Congress's floor procedure ("I move to take the words down",
+  // "the reading of the names be waived", batch 10), which a town floor never
+  // hears; the register follows the body's kind (CTO, batch 10).
+  // A hearing needs the question each answer follows, and the hearing bank
+  // holds no chair's or member's question yet (batch 10: a witness thanked a
+  // question nobody asked); hearings wait for one.
 
   /* ---- people in contests: campaign, public comment, victory, concession ---- */
   const filings = (
@@ -854,7 +823,7 @@ function readWorld(place: Place): {
         text: move.text,
         parts: move.parts.map((part) => part.variantKey),
         moment: `address|${subject}/${role}`,
-        composer: `composeAddress (src/presentation/english-composition.ts), register ${turn.register}, words from data/english/parts/address.json`,
+        composer: `composeAddress (src/english/english-composition.ts), register ${turn.register}, words from data/english/parts/address.json`,
         sourceRecordIds: [turn.personId],
       });
     });
@@ -1270,6 +1239,7 @@ function main() {
   // The world's scenes, each with the lines that passed, in the order said.
   const grouped = new Map<string, Raw[]>();
   for (const raw of cached.raws) {
+    if (raw.composer?.includes("meeting.json")) continue;
     const key = sceneOf(raw);
     grouped.set(key, [...(grouped.get(key) ?? []), raw]);
   }
@@ -1407,6 +1377,7 @@ function main() {
   const gaps = [
     ...new Set([
       ...cached.gaps.filter((g) => !g.includes("oppose the question's policy")),
+      MEMBER_FLOOR_GAP,
       ...(taken.interview
         ? []
         : [

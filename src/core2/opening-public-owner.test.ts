@@ -6,7 +6,7 @@ import {
 } from "./reference/government-units";
 import { createStableId } from "./kernel/ids";
 import { corePlaceByKey } from "./place-lookup";
-import { governmentUnitRecordedName } from "../simulation/nationwide-world/government-unit-names";
+import { governmentUnitRecordedName } from "./gov-rules/government-unit-names";
 import {
   DEFAULT_OPENING_PUBLIC_OWNER_DATA,
   openingHistoricalCountyOwnerFacts,

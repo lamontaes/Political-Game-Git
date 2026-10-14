@@ -4,7 +4,7 @@ import {
 } from "./law-structured-terms";
 import { LAW_AMOUNT_UNITS } from "./law-consequence-types";
 import { eventById } from "./event-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   measureActions,
   measureAmendments,

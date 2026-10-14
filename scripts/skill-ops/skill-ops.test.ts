@@ -62,7 +62,6 @@ const contracts: readonly SkillContract[] = [
       ".agents/workflows/pg-visual-review.md",
       ".agents/rules/visual-acceptance.md",
       "scripts/dev-identified.mjs",
-      "playwright.config.ts",
     ],
   },
   {
@@ -112,7 +111,7 @@ const contracts: readonly SkillContract[] = [
       "src/simulation/executive-authority-rule-packs.ts",
       "src/simulation/civil-personnel-contract.ts",
       "src/simulation/municipal-government.ts",
-      "src/simulation/government-units.ts",
+      "src/core2/reference/government-units.ts",
     ],
   },
   {

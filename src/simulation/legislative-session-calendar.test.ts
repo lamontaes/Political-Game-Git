@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import stateSessionCalendar from "../../data/research/laws/state-session-calendars.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import {
   nextSessionCalendarDate,
@@ -17,7 +17,7 @@ import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./nationwide-world/state-executiv
 import { lifePlaceByKey, stateJurisdictionForKey } from "./life-places";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { createWorld } from "./world";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 describe("one legislative session timetable", () => {
   it("schedules the DC body's existing fourteen-day row once without inventing a vote", () => {

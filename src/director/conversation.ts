@@ -28,10 +28,10 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
-import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
-import { stableHash } from "../simulation/ids";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { stableHash } from "../core2/kernel/ids";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
@@ -406,7 +406,7 @@ export function subjectsBetween(
       kind: "their-tenure",
       facts: {},
     });
-  const place = lifePlaceByJurisdictionId(speaker.placeId as never);
+  const place = corePlaceByJurisdictionId(speaker.placeId as never);
   if (place)
     out.push({
       id: `home:${speakerId}`,
@@ -607,7 +607,7 @@ function replyFacts(
   const listener = core.people.get(listenerId)!;
   switch (subject.kind) {
     case "home": {
-      const place = lifePlaceByJurisdictionId(listener.placeId as never);
+      const place = corePlaceByJurisdictionId(listener.placeId as never);
       return place
         ? {
             facts: {
@@ -729,7 +729,7 @@ function playerFacts(
     };
     facts["my-since"] = facts.since;
   }
-  const place = lifePlaceByJurisdictionId(player.placeId as never);
+  const place = corePlaceByJurisdictionId(player.placeId as never);
   if (place)
     facts["my-place"] = {
       text: spoken(place),
@@ -1278,7 +1278,7 @@ function lieClaims(
       .map((id) => core.people.get(id))
       .find((row) => row?.alive && row.placeId !== player.placeId);
     const place = away
-      ? lifePlaceByJurisdictionId(away.placeId as never)
+      ? corePlaceByJurisdictionId(away.placeId as never)
       : null;
     if (away && place)
       claims.push({

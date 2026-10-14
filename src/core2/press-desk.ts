@@ -13,7 +13,7 @@
  * change it favors, and its readers are moved by their standing with the
  * reporter who wrote it.
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./campaign-views";
 import { closenessBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";

@@ -47,18 +47,17 @@ import {
   termStartAfter,
 } from "./elections-calendar";
 import {
-  lifePlaceByKey,
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "./place-lookup";
 import type { CoreState } from "./types";
 
 const START = "2026-10-12";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`terms:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -68,7 +67,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function randomPlace(salt: string) {
   const state = pick(states, `${salt}:state`);
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -96,7 +95,7 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
       process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace("calendar").key;
     const core = world(placeKey);
     const api = coreAPI(core);
-    const place = lifePlaceByKey(placeKey)!;
+    const place = corePlaceByKey(placeKey)!;
     const contests = contestsOf(api);
     const checked: string[] = [];
     for (const { office, seat, holder } of townSeats(api)) {

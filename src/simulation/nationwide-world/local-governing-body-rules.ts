@@ -1,5 +1,8 @@
-import { allGovernmentUnits, governmentUnit } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+import {
+  allGovernmentUnits,
+  governmentUnit,
+} from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { primaryReading } from "../municipal-government";
 import type {
   MunicipalCompositionValue,

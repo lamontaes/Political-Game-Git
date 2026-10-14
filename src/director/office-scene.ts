@@ -19,7 +19,7 @@
  * its slots, chosen by part key in `data/office-scene.json`; a moment with no
  * mined sentence is left unsaid.
  */
-import type { EnglishSurface } from "../presentation/grounded-english";
+import type { EnglishSurface } from "../english/grounded-english";
 import addressJson from "../../data/english/parts/address.json" with { type: "json" };
 import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
 import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
@@ -41,8 +41,8 @@ import { VIEWS_SPEAKER_KEY } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
-import { heldByGrades } from "../presentation/english-grades";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { heldByGrades } from "../english/english-grades";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
 import { renderLine, type Fact, type RenderedLine } from "./render";
 import { spoken } from "./words";
@@ -253,8 +253,8 @@ export function composeOfficeScene(
 
   const body = bodyOf(api, bill.bodyOfficeId);
   const town =
-    (body ? lifePlaceByJurisdictionId(body.jurisdiction as never) : null) ??
-    lifePlaceByJurisdictionId(player.placeId as never);
+    (body ? corePlaceByJurisdictionId(body.jurisdiction as never) : null) ??
+    corePlaceByJurisdictionId(player.placeId as never);
   const facts: Record<string, Fact> = {
     name: {
       text: `${target.givenName} ${target.familyName}`,

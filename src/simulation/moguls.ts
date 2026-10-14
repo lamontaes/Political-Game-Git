@@ -37,7 +37,7 @@ import {
 } from "./campaign-queries";
 import { assessContribution } from "./campaign-compliance-rules";
 import { campaignCompliancePackFor } from "./campaign-compliance";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import {
   evaluateDecision,
   isSelectedDecision,

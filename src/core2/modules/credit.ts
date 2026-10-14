@@ -9,9 +9,9 @@
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
-import { countyPopulationSharesForPlace } from "../../simulation/government-units";
-import { lifePlaceByKey } from "../../simulation/life-places";
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { countyPopulationSharesForPlace } from "../reference/government-units";
+import { corePlaceByKey } from "../place-lookup";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import territoryData from "../data/credit/territories.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
@@ -89,7 +89,7 @@ export interface TownBank {
 /** The town's community bank: the town's population share of its county's FDIC deposits, holding its own equity as cash. */
 export function townBankFor(input: CoreInput): TownBank | undefined {
   const key = input.placeMetadata?.placeKey;
-  const place = key ? lifePlaceByKey(key) : null;
+  const place = key ? corePlaceByKey(key) : null;
   const geoid = place?.sourceGeoid ?? "";
   const county =
     geoid.length === "SSPPPPP".length

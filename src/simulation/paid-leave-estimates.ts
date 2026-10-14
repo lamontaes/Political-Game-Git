@@ -5,7 +5,7 @@ import {
 import premiumRows from "../../data/research/money/state-paid-leave-premiums-2026.json" with { type: "json" };
 import benefitRows from "../../data/research/money/state-paid-leave-benefits-2026.json" with { type: "json" };
 import householdIncome from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
-import { censusRegionOf } from "./world-setup/census-regions";
+import { censusRegionOf } from "../core2/reference/census-regions";
 
 type EstimateKind = "employee-premium" | "low-wage-benefit";
 interface Reference {

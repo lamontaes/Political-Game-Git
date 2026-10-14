@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { spreadOf } from "../sample-spread";
 import { readMonthFlows } from "./month";
 import {
@@ -7,7 +7,7 @@ import {
   governmentUnitsForPlace,
   governmentUnitsForState,
   type GovernmentUnitIdentity,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import { currentLifeCutoff } from "../life-queries";
 import { lifePlaceByKey, lifePlaceByJurisdictionId } from "../life-places";
 import {

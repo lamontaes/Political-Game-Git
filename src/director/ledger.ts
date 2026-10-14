@@ -9,7 +9,7 @@
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
 import { closenessBetween } from "../core2/closeness";
 import { P, parameterValues } from "../core2/parameters";

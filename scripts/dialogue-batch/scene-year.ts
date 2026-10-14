@@ -21,7 +21,7 @@ import { advanceCore } from "../../src/core2/life";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { openConversation } from "../../src/director/conversation";
 import { composeScene } from "../../src/director/scene";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 import { OPENING_DATE } from "./play-lives";
 

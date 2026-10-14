@@ -451,7 +451,6 @@ function termLabel(text) {
   return b;
 }
 
-// Control names for the choice buttons, loaded once.
 let controls = {};
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
 const amount = (value, unit) =>
@@ -465,31 +464,9 @@ api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
   packet = value ?? packet;
-  const open = packet && packet.kind !== "complete";
+  const open = packet?.kind === "stop";
   $("day").disabled = busy || open;
   show("continue", packet?.kind === "stop");
-  show("choices", packet?.kind === "choice" && !talk);
-  if (packet?.kind === "choice")
-    $("choice-list").replaceChildren(
-      ...packet.offers.map((offer) => {
-        const target = me.names?.[offer.targetId] ?? "";
-        const b = el("button", {
-          type: "button",
-          className: "reply",
-          // The mined name ("Call Sarah Sykes."), else the control name and target.
-          textContent:
-            me.names?.[offer.offerId] ??
-            `${controls.actions?.[offer.actionId] ?? offer.actionId}${target ? ` · ${target}` : ""}`,
-          title: `${offer.durationMinutes} min`,
-        });
-        b.addEventListener("click", () =>
-          act(
-            `/api/resume?${new URLSearchParams({ kind: "choice", pauseId: packet.pauseId, offerId: offer.offerId })}`,
-          ),
-        );
-        return b;
-      }),
-    );
   if (packet) setClock(packet.at);
   $("card-why").textContent = endedBy(packet);
 }
@@ -497,7 +474,6 @@ function renderPacket(value) {
 /** What stopped the clock, from the stop's own records. */
 function endedBy(value) {
   const words = controls.endedBy ?? {};
-  if (value?.kind === "choice") return words.choice ?? "";
   if (value?.kind !== "stop") return "";
   const work = value.stop.work?.reasons?.[0];
   if (work)
@@ -886,9 +862,8 @@ document.addEventListener("keydown", (event) => {
     $("game").classList.contains("sheet-open")
   )
     return;
-  const panel = !$("talk").hidden ? "talk-choices" : "choice-list";
-  if (!$(panel).offsetParent) return;
-  $(panel).children[n - 1]?.click();
+  if (!$("talk-choices").offsetParent) return;
+  $("talk-choices").children[n - 1]?.click();
 });
 function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
@@ -898,7 +873,6 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
-  show("choices", !value && packet?.kind === "choice");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -923,6 +897,8 @@ async function sayLine(key) {
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
 async function talkTo(otherId, momentId) {
+  // The menu hides the conversation, so a conversation closes it first.
+  closeSheet();
   lying = false;
   $("talk-name").textContent = "";
   // From a scene, the talk is about the scene's moment.
@@ -966,7 +942,6 @@ function renderFiling(value) {
   if (!value) return;
   $("backdrop").src = value.backdrop.url;
   drawPeople(value.people);
-  show("choices", false);
   show("talk", true);
   const clerkName = value.visit.clerkId
     ? value.names[value.visit.clerkId]
@@ -1163,7 +1138,6 @@ async function showStory(momentId) {
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
   drawPeople(story.people);
-  show("choices", false);
   show("talk", true);
   show("talk-who", false);
   $("talk-name").textContent = "";

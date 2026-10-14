@@ -5,7 +5,7 @@
  * demand reach every business as dated conditions; a decision reprices
  * prime-linked credit lines on its effective date.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";

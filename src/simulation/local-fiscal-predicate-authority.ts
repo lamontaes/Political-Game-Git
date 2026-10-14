@@ -2,7 +2,7 @@
 import type { LocalFiscalAuthorityGranted } from "./local-fiscal-authority";
 import type { LocalFiscalGameAuthority } from "./local-ordinance-game-profile";
 import { makeCurrencyCode } from "./resources";
-import type { CurrencyCode, EntityId } from "./types";
+import type { CurrencyCode, EntityId } from "../core2/kernel/brands";
 
 export interface LocalFiscalPredicateAuthority {
   readonly kind: "game-profile";

@@ -43,11 +43,7 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import type { OfficeInput } from "./offices-local";
 import type { CoreAPI } from "./types";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { resolveMunicipalElectionTiming } from "./gov-rules/municipal-ballot-rules";
 
 const START = "2026-01-05";
@@ -84,7 +80,7 @@ function worldIn(placeKey: string) {
 
 function placeInState(stateKey: string): string {
   return [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: stateKey,
       scope: "locality",
     }),
@@ -185,7 +181,7 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
       return years;
     };
     const states = [
-      ...new Set([...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey)),
+      ...new Set([...corePlaceStateIdentities()].map((s) => s.jurisdictionKey)),
     ].sort();
     expect(states.length).toBe(56);
     for (const stateKey of [drawn.state, ...states]) {

@@ -73,6 +73,12 @@
       "goalKind": "serve",
       "halfLifeParameter": "driveCallingHalfLifeDays",
       "shareable": true
+    },
+    {
+      "id": "keep-home",
+      "goalKind": "secure-home",
+      "halfLifeParameter": "driveKeepHomeHalfLifeDays",
+      "shareable": false
     }
   ],
   "responses": [
@@ -175,6 +181,23 @@
       "effect": "drive-response",
       "emotion": {
         "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "secure-home",
+      "driveKind": "keep-home",
+      "requires": [],
+      "fitParameter": "responseSecureHomeFit",
+      "actKinds": ["change", "take-risk", "self-interest", "commit"],
+      "goalKinds": ["respond:secure-home"],
+      "need": "safety",
+      "effortParameter": "zero",
+      "effectParameter": "zero",
+      "targetKind": "event-response",
+      "effect": "drive-response",
+      "emotion": {
+        "moodMultiplierParameter": "zero",
         "stressMultiplierParameter": "one"
       }
     }
@@ -411,7 +434,13 @@
       "eventKind": "housing.eviction",
       "roles": ["subject", "household", "family"],
       "channels": ["injustice", "threat"],
-      "responses": ["take-up-cause", "hold-grudge", "guard-family", "carry-on"],
+      "responses": [
+        "secure-home",
+        "take-up-cause",
+        "hold-grudge",
+        "guard-family",
+        "carry-on"
+      ],
       "impulseParameter": "driveEvictionImpulse"
     },
     {
@@ -469,6 +498,14 @@
       "roles": ["subject"],
       "channels": ["injustice", "threat"],
       "responses": ["hold-grudge", "carry-on"]
+    },
+    {
+      "id": "home-lost",
+      "eventKind": "housing.status-changed",
+      "roles": ["subject", "household", "family"],
+      "channels": ["threat", "loss"],
+      "responses": ["secure-home", "guard-family", "carry-on"],
+      "impulseParameter": "driveHomeLostImpulse"
     }
   ],
   "actions": [

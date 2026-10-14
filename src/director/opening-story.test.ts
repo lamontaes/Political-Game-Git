@@ -6,8 +6,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "../core2/state";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { PRESIDENT_FACT } from "../core2/officials-president";
-import { OPENING_SPEECH_BANK } from "../presentation/english-opening-speech";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { subjectsBetween } from "./conversation";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
 
@@ -74,7 +74,7 @@ describe("the opening story", () => {
 
   it("names a place only from a campaign visit to the player's own state", () => {
     const president = core.people.get(story.president.id)!;
-    const ownState = lifePlaceByJurisdictionId(
+    const ownState = corePlaceByJurisdictionId(
       core.people.get(playerId)!.placeId as never,
     )?.stateJurisdictionKey;
     const visits = new Map(

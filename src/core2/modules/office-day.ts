@@ -66,7 +66,7 @@ import {
 } from "../office-day-calendar";
 import type { ModuleStopTokenV1 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
-import { makeIsoDate } from "../../simulation/dates";
+import { makeIsoDate } from "../kernel/dates";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 

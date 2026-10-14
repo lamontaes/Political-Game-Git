@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { recordEventKnowledge } from "../records";
 import type {
@@ -17,7 +17,7 @@ import {
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordOfficialContinuity } from "./continuity";
 import { CONDITION_PACK_KEY, packCondition } from "./condition-pack";
-import { MULTIPLIER_ONE } from "./hazard";
+import { MULTIPLIER_ONE } from "../../core2/health-hazard";
 import { crisisMortalityWindowAt, scheduleStrainOnset } from "./mortality";
 import { publicOfficesHeldBy } from "./offices";
 import {

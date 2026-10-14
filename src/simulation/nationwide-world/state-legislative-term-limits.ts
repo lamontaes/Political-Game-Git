@@ -17,9 +17,9 @@
  * Whether a member who MAY stand WANTS to is their own decision
  * (`careers/another-term`); this module only says when the law forbids it.
  */
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { lawInForce } from "../governing/law-in-force";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { stateJurisdictionForKey } from "../life-places";
 import { workStatusHistory } from "../life-queries";

@@ -5,7 +5,7 @@ import {
 } from "../character-history";
 import { scheduleSeatFilling } from "../governing/office-continuity";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import {
   electionContestResult,
   resolveElectionContest,
@@ -15,7 +15,7 @@ import { congressSeatElectorate } from "../statewide-electorate";
 import { stateJurisdictionForKey } from "../life-places";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { senateSelectionRuleAt } from "../governing/senate-selection";

@@ -12,7 +12,7 @@ import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 import { coreAPI } from "../../src/core2/state";
 import { BenchPlayer } from "../../src/bench/player";
