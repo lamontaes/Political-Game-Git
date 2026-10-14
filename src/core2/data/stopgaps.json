@@ -2868,7 +2868,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kin moves in the past are dated on or before the opening day (opening-kin.ts recordMove), so the opening economy no longer fails its income check and the bench's finance-only fallback is deleted."
   },
   {
     "id": "SG-PLAY-world-settings-copy",
