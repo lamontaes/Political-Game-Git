@@ -1,5 +1,4 @@
-import { coreAPI, fillInPerson } from "../core2/state";
-import { residentsRuntime } from "../core2/modules/residents";
+import { coreAPI } from "../core2/state";
 import {
   askForDonation,
   askForEndorsement,
@@ -12,7 +11,7 @@ import {
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
-import { campaignParameter, PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import type { FilingRow } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
 import { retellingsOf } from "../core2/modules/speech";
@@ -59,31 +58,6 @@ export function campaignView(core: CoreState, personId: string) {
   };
 }
 
-// Stopgap SG-PLAY-doors-fill-in: the doors a round can reach are filled in
-// from the counts before it starts (people are filled in when met); the
-// campaign engine should fill in the households it actually reaches.
-function fillDoors(core: CoreState, filingId: string, hours: number) {
-  const runtime = residentsRuntime(core);
-  if (!runtime) return;
-  const api = coreAPI(core);
-  const campaign = campaignFor(api, filingId);
-  const town = core.people.get(campaign.candidateId)?.placeId;
-  const reach = Math.ceil(
-    hours * campaignParameter("doorsPerCanvasserHour") * 2,
-  );
-  const waiting = [...core.households.values()].filter(
-    (row) => row.placeId === town && !campaign.doorsKnocked.includes(row.id),
-  ).length;
-  const counted = [...runtime.households.values()]
-    .filter((row) => row.household.placeId === town)
-    .map((row) => row.household)
-    .sort((a, b) => a.id.localeCompare(b.id))
-    .slice(0, Math.max(reach - waiting, 0));
-  for (const home of counted)
-    if (home.memberIds[0] && !core.people.has(home.memberIds[0]))
-      fillInPerson(core, home.memberIds[0]);
-}
-
 const summary = (causes: readonly CauseRow[]) => ({
   reached: causes.length,
   warmer: causes.filter((row) => row.warmthAfter > row.warmthBefore).length,
@@ -113,7 +87,6 @@ export function campaignAct(
   switch (input.kind) {
     case "doors": {
       const hours = input.hours ?? 1;
-      fillDoors(core, input.filingId, hours);
       return summary(
         knockDoors(api, {
           filingId: input.filingId,
