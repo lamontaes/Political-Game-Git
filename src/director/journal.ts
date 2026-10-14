@@ -1,33 +1,15 @@
-/**
- * "My life" on the new core: a first-person memoir in chapters, written by
- * the English engine from the story director's moments and the person's own
- * records (owner, Sept 22 and Oct 1; Oct 14: "a dramatized story, not a list
- * of facts").
- *
- * A school or a job is a setting, never an entry and never a chapter: it is
- * kept only as where the person knew someone who matters later. Each
- * entry is a scene: the event, framed by the person's age when they were
- * young ("When I was 7, my father died."), a hard time after a loss, and a
- * look-back when the moment's hindsight (its impact grown by how much the
- * people in it matter now) reaches the interrupt line. Running, winning and
- * losing are entries. The journal is composed when it is read, so it is
- * revised as life goes on: a schoolmate or co-worker who later holds office
- * is remembered in the latest chapter ("I knew {name} from {school}. {name}
- * became mayor."). Every slot is a recorded fact;
- * a feeling is never invented.
- */
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   renderGroundedEnglish,
   type AuthoredEnglishBank,
   type GroundedEnglishPacket,
   type GroundedEnglishKnowledge,
-} from "../presentation/grounded-english";
+} from "../english/grounded-english";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { properName } from "./words";
 import { journalDataFromBank } from "./mined/journal-bank";
@@ -235,7 +217,7 @@ export function composeJournal(
       : null;
   };
   const placeName = (placeId: string | undefined) => {
-    const place = placeId ? lifePlaceByJurisdictionId(placeId as never) : null;
+    const place = placeId ? corePlaceByJurisdictionId(placeId as never) : null;
     return place
       ? { text: place.displayName, sourceRecordIds: [placeId!] }
       : null;

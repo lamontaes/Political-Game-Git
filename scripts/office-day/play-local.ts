@@ -40,7 +40,7 @@ import {
   takeUpItem,
   upcomingMeeting,
 } from "../../src/core2/modules/office-day";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 
 const role = process.argv[2] === "mayor" ? "mayor" : "council";
 const key = process.argv[3] ?? `${role}-${Date.now()}`;

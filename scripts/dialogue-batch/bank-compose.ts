@@ -8,7 +8,7 @@ import {
   heldByGrades,
   PART_GRADES,
   type PartGradeLedger,
-} from "../../src/presentation/english-grades";
+} from "../../src/english/english-grades";
 
 export interface EnglishPart {
   readonly key: string;

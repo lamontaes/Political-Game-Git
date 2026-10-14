@@ -9,7 +9,7 @@
  * English engine; this returns record data and ids only.
  */
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {

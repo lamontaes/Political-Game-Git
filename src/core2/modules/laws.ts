@@ -8,7 +8,7 @@
  * record; for a minimum wage, every job in the town paying under the new floor
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { lawHistory } from "../past-module";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";

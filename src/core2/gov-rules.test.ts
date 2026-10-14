@@ -10,19 +10,18 @@
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-
 import {
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-  type LifePlace,
-} from "../simulation/life-places";
+  searchCorePlaces,
+  corePlaceStateIdentities,
+  type CorePlace,
+} from "./place-lookup";
 import {
   allGovernmentUnits,
   municipioUnit,
   type GovernmentUnitIdentity,
-} from "../simulation/government-units";
-import { makeIsoDate } from "../simulation/dates";
-import { SeededRng } from "../simulation/rng";
+} from "./reference/government-units";
+import { makeIsoDate } from "./kernel/dates";
+import { SeededRng } from "./kernel/rng";
 import * as oldBallot from "../simulation/municipal-ballot-rules";
 import * as oldElectionRules from "../simulation/municipal-election-rules";
 import * as oldTownCalendar from "../simulation/nationwide-world/town-election-calendar";
@@ -56,7 +55,7 @@ import * as names from "./gov-rules/names-data";
 import * as age from "./gov-rules/invented-person-age";
 import municipalGovernmentsJson from "./gov-rules/municipal-governments.json" with { type: "json" };
 
-const STATES = lifePlaceStateIdentities();
+const STATES = corePlaceStateIdentities();
 const DATES = [
   "2024-01-01",
   "2026-10-12",
@@ -66,7 +65,7 @@ const DATES = [
 ].map(makeIsoDate);
 
 /** Evenly spaced picks from a list sorted by key: first, last and between. */
-function sample(places: readonly LifePlace[], count: number): LifePlace[] {
+function sample(places: readonly CorePlace[], count: number): CorePlace[] {
   const sorted = [...places].sort((a, b) => a.key.localeCompare(b.key));
   if (sorted.length <= count) return sorted;
   return Array.from(
@@ -79,8 +78,8 @@ function sample(places: readonly LifePlace[], count: number): LifePlace[] {
 function placesIn(
   stateKey: string,
   scope: "locality" | "county",
-): readonly LifePlace[] {
-  return lifePlaceSearch("", Number.MAX_SAFE_INTEGER, {
+): readonly CorePlace[] {
+  return searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
     stateJurisdictionKey: stateKey,
     scope,
   });

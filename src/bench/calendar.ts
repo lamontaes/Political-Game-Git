@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import type { ContestRow } from "../core2/modules/elections";

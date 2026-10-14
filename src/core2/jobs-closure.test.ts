@@ -3,11 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
 import { openLaws } from "./modules/laws";
 import { unemploymentTerms } from "./jobs-benefits";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { advanceCore, createLifeCore } from "./life";
 import { JOBS_MODULE } from "./modules/jobs";
 import { macroCoreData } from "./modules/macro";
@@ -21,13 +17,13 @@ const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`jobs-benefits:${Date.now()}`).digest("hex");
 function drawPlace(): { key: string; state: string } {
-  const states = [...lifePlaceStateIdentities()]
+  const states = [...corePlaceStateIdentities()]
     .map((s) => s.jurisdictionKey)
     .sort();
   const hash = createHash("sha256").update(`${seed}:benefits`).digest("hex");
   const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),

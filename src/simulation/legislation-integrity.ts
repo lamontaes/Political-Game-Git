@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { eventById } from "./event-index";
 import { historyIndex } from "./history-index";
 import { recordedSessionAdjournment } from "./governing/session-adjournments";

@@ -7,7 +7,7 @@ import {
   dateAtAge,
   daysBetween,
   makeIsoDate,
-} from "../../simulation/dates";
+} from "../kernel/dates";
 import {
   CONDITION_PACK,
   conditionHazard,
@@ -19,12 +19,12 @@ import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
-} from "../../simulation/crisis/hazard";
-import { SSA_2023_MAX_AGE } from "../../simulation/crisis/mortality-table";
-import { survivalThresholdFromDraws } from "../../simulation/crisis/fixed-point";
-import { stableHash } from "../../simulation/ids";
+} from "../health-hazard";
+import { SSA_2023_MAX_AGE } from "../health-mortality-table";
+import { survivalThresholdFromDraws } from "../kernel/fixed-point";
+import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
-import type { EntityId } from "../../simulation/types";
+import type { EntityId } from "../kernel/brands";
 import type {
   CoreAPI,
   CoreEventInput,

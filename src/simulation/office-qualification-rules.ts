@@ -38,7 +38,11 @@
  * nothing.
  */
 
-import { addDays, ageOnDate, completedMonthsBetween } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  completedMonthsBetween,
+} from "../core2/kernel/dates";
 import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
 import { OFFICE_QUALIFICATIONS_META } from "./office-qualifications.generated";
 import { researchRuleTable } from "./research-rule-tables";

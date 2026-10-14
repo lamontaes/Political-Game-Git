@@ -15,7 +15,7 @@
  * the law of the state, a recorded lot where the law says lot.
  */
 import ties from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import { campaignParameter, platformAgreement } from "./campaign-views";
 import { partySide } from "./appointments";
 import { electionsParameter } from "./elections-calendar";

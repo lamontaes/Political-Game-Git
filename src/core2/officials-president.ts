@@ -8,7 +8,7 @@
  * the real 2024 map.
  */
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
-import { stateNameForUsps } from "../simulation/state-reference";
+import { coreStateName } from "./place-lookup";
 import { OFFICIALS_DATA, uniform } from "./officials-roster";
 import { partySide } from "./appointments";
 import type { CoreState, PersonInput, Source } from "./types";
@@ -110,7 +110,7 @@ export function presidentRecord(input: {
       ),
       facts: {
         stateKey: homeKey,
-        stateName: stateNameForUsps(home.usps) ?? home.usps,
+        stateName: coreStateName(home.usps) ?? home.usps,
       },
     },
   ];
@@ -172,7 +172,7 @@ export function presidentRecord(input: {
       },
       facts: {
         stateKey,
-        stateName: stateNameForUsps(stateKey.slice(3)) ?? stateKey,
+        stateName: coreStateName(stateKey.slice(3)) ?? stateKey,
         democraticTwoPartyShare: String(share),
         contested: String(
           contested.some((row) => `US-${row.usps}` === stateKey),

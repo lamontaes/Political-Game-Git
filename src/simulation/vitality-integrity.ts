@@ -5,10 +5,15 @@ import {
   FATAL_ILLNESS_EPISODE_PREFIX,
 } from "./crisis/death-causes";
 import { crisisEntityAvailableAt, crisisRecordIndex } from "./crisis/records";
-import { ageOnDate, dateAtAge, makeIsoDate, yearOf } from "./dates";
+import {
+  ageOnDate,
+  dateAtAge,
+  makeIsoDate,
+  yearOf,
+} from "../core2/kernel/dates";
 import { eventById } from "./event-index";
 import { indexOverArrays } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { assertExactQuantity } from "./quantity";
 import type {
   EntityId,
