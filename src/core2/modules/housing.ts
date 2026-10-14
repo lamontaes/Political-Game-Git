@@ -15,6 +15,7 @@ import housingParameters from "../data/housing/parameters.json" with { type: "js
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { transferCash } from "../world-transfer";
+import { countedHousingInArrears } from "../counted-money";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { regionalLevel, regionalRegistered } from "./regional";
@@ -916,6 +917,8 @@ function amortize(api: CoreAPI): void {
     // A full household's bill in arrears paid no principal this month (counted households pay from the pool).
     const bill = c.finance.contracts.get(row.id);
     if (bill && !bill.endedAt && bill.arrearsMinor > 0) continue;
+    // A counted household's group short on housing paid no principal either.
+    if (!bill && countedHousingInArrears(c, row.householdId)) continue;
     const interest = Math.round((row.balanceMinor * row.rate) / months);
     // Interest accrues in full; the balance falls only by what was paid past it (an unpaid part adds to it).
     const paidMinor = c.finance.contracts.has(row.id)

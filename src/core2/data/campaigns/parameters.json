@@ -289,18 +289,6 @@
       "source": "Days a year Congress's floor sits to take up bills. Checked against the House calendar's statistical summary: 184 legislative days in 2023, counting pro forma days with no votes (House Calendars, March 1, 2024, 118th Congress, https://www.govinfo.gov/content/pkg/CCAL-118hcal-2024-03-01/html/CCAL-118hcal-2024-03-01-pt19.htm), and the 118th Congress's 274 public laws in two years (Clerk of the House, final calendar of the 118th Congress).",
       "spread": [90, 185]
     },
-    "fullYearSessionAgendaMonth": {
-      "value": 6,
-      "tag": "TUNABLE",
-      "source": "The month at whose end a legislature that sits all year (NCSL 'full-year') brings its leader's priority bills to the floor: the end of the state fiscal year most share (June 30 in 46 states, NASBO), when full-time legislatures pass their headline measures alongside the budget.",
-      "spread": [4, 12]
-    },
-    "congressAgendaDayOfYear": {
-      "value": 349,
-      "tag": "TUNABLE",
-      "source": "The day of the year (349 = December 15) Congress brings its majority leader's priority policy bills to the floor: the final scheduled voting weeks of the House calendar, when year-end packages pass (House majority leader's 2025 and 2026 calendars).",
-      "spread": [300, 355]
-    },
     "senateClotureShare": {
       "value": 0.6,
       "tag": "SOURCED",
@@ -1060,6 +1048,60 @@
       "tag": "ESTIMATED",
       "source": "How much a person of 80 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
       "spread": [0.077, 0.095]
+    },
+    "boundEmployerCostShare": {
+      "value": 0.01,
+      "tag": "ESTIMATED",
+      "source": "What one new rule binding an employer's line of business costs it a year, as a share of its payroll: U.S. firms' total federal regulatory compliance runs about 8 to 12 percent of payroll across all rules (Crain and Crain, NAM, 2014: about $9,991 per employee a year), and one rule is a small part of that. Stands for each law's own cost until law-reach moves the money (SG-GOV-bound-employer-cost-estimate).",
+      "spread": [0.002, 0.03]
+    },
+    "sessionFilingShare": {
+      "value": 0.33,
+      "tag": "TUNABLE",
+      "source": "The share of a session over which its members introduce their bills, the floor leader's first choices first: most legislatures set a bill introduction deadline in the session's first weeks to first third (NCSL, Bill and Resolution Introduction Deadlines, 2023).",
+      "spread": [0.15, 0.5]
+    },
+    "sessionCommitteeDays": {
+      "value": 21,
+      "tag": "TUNABLE",
+      "source": "Days from a bill's introduction until the floor can take it up: referral, a committee hearing and the committee's report, at most legislatures' pace of two to four weeks (NCSL, Committee Procedures; a hearing must be noticed days ahead in most chambers).",
+      "spread": [7, 45]
+    },
+    "recallTermOpeningDays": {
+      "value": 180,
+      "tag": "ESTIMATED",
+      "source": "Days into a term before a recall petition may be filed against the officeholder: state recall statutes commonly bar a petition in a term's first 90 days to 6 months, and once a recall fails, for the rest of the term (NCSL, Recall of Local Officials; e.g., Cal. Elec. Code 11007 at 90 days, Mich. Comp. Laws 168.951a at 6 months). One national bar stands until each state's statute is read (SG-GOV-recall-bars-national).",
+      "spread": [90, 365]
+    },
+    "budgetCompromiseRounds": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many times the leaders halve the change a failing budget's opponents object to most before dropping it: appropriations are settled by splitting differences line by line (topline deals, then conference) far more often than by striking a line outright (CRS, The Appropriations Process: A Brief Overview, R47106). Three halvings leave an eighth of the change.",
+      "spread": [1, 5]
+    },
+    "budgetFullStanceShare": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The change to a budget line, as a share of the line, at which a member's stance on it is as strong as on a yes-or-no question; a smaller change draws a proportionally smaller stance. Members fight over a few percent of a line far less than over a tenth of it: annual appropriations changes are mostly within a few percent of the prior year (CBO, budget function histories), and the large ones are the fought-over ones.",
+      "spread": [0.05, 0.25]
+    },
+    "chairVoteRelationshipWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a party member's closeness to a colleague (the closeness scale, 0 to 1) counts in whom they back for chair. Set equal to agreement so a close friend and a like-minded stranger weigh alike; checked against the spread, which keeps either from deciding alone.",
+      "spread": [0.5, 2]
+    },
+    "chairVoteAgreementWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much nearness of views (1 minus half the lean gap, 0 to 1) counts in whom a party member backs for chair; the same scale as closeness so neither swamps the other.",
+      "spread": [0.5, 2]
+    },
+    "chairVotePullWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a colleague's pull to lead (sociability plus dutifulness, about -2 to 2, the rule an opening chair is read by) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
+      "spread": [0.25, 1]
     }
   }
 }

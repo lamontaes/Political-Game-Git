@@ -20,11 +20,12 @@ import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { residentsRuntime } from "./modules/residents";
+import { isDemoted } from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
-import type { CoreState, PersonInput } from "./types";
+import type { CoreState } from "./types";
 
 export interface CountedVoter {
   readonly id: string;
@@ -41,31 +42,37 @@ const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
   const hit = cache.get(core);
   // Kept for the day, until someone is filled in or the people change.
-  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.filledIn.size ?? 0}`;
+  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   if (hit && hit.date === key) return hit.rows;
   const rt = residentsRuntime(core);
   const rows: CountedVoter[] = [];
-  if (rt)
-    for (const record of rt.households.values()) {
-      if (rt.filledIn.has(record.household.id)) continue;
+  if (rt) {
+    // Read straight from the counted groups' columns: traits in place, no
+    // record per person (one model, two tiers).
+    const store = rt.store;
+    for (const h of store.liveHouseholds()) {
       const minutes = new Map<string, number>();
-      for (const c of record.workCommitments)
+      for (const c of h.workCommitments)
         if (c.endsAt === undefined || c.endsAt > core.date)
           minutes.set(
             c.personId,
             (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
           );
-      for (const person of record.people as readonly PersonInput[]) {
-        if (core.people.has(person.id)) continue;
+      for (const m of store.countedMembers(h)) {
+        const id = store.ids[m]!;
+        // A full person returned to the counts votes as counted.
+        const full = core.people.get(id);
+        if (full && !isDemoted(full)) continue;
         rows.push({
-          id: person.id,
-          birthDate: person.birthDate,
-          placeId: person.placeId,
-          traits: person.traits,
-          weeklyMinutes: minutes.get(person.id) ?? 0,
+          id,
+          birthDate: store.born[m]!,
+          placeId: store.text(store.placeIx[m]!)!,
+          traits: store.packedTraits(m),
+          weeklyMinutes: minutes.get(id) ?? 0,
         });
       }
     }
+  }
   rows.sort((a, b) => a.id.localeCompare(b.id));
   cache.set(core, { date: key, rows });
   return rows;
@@ -200,6 +207,12 @@ export interface CountedFieldEntry {
   readonly recognition: number;
   readonly platform: readonly Stance[];
   /**
+   * A reported scandal as the town received it: the penalty in appeal units
+   * times the share of the town's named adults the story reached (0 where
+   * none was reported). A named voter reads their own knowledge instead.
+   */
+  readonly scandal?: number;
+  /**
    * What the candidate's place on each form of the printed ballot brings,
    * appeal units (the first-listed edge); one form unless the law rotates
    * names (`ballot-order.ts`).
@@ -220,6 +233,8 @@ export interface CountedAppeal {
   readonly incumbent: number;
   /** The candidate's place on the printed ballot. */
   readonly ballot: number;
+  /** A reported scandal, as far as the news reached the town and the voter trusts it. */
+  readonly scandal: number;
 }
 
 /**
@@ -236,6 +251,8 @@ export function countedAppeal(
     readonly inTown: boolean;
     readonly local: boolean;
     readonly incumbentLean: number;
+    /** How much the voter trusts the press against the average reader (1); news-weighted parts scale by it. */
+    readonly trust?: number;
     /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
     readonly ballotForm?: number;
   },
@@ -254,13 +271,18 @@ export function countedAppeal(
     const ballot = cues.length
       ? cues[(where.ballotForm ?? 0) % cues.length]!
       : 0;
+    // A local outlet's story reaches only the town's own people.
+    const scandal = where.inTown
+      ? -(entry.scandal ?? 0) * (where.trust ?? 1)
+      : 0;
     appeal[entry.id] = {
-      total: party + standing + recognition + incumbent + ballot,
+      total: party + standing + recognition + incumbent + ballot + scandal,
       party,
       standing,
       recognition,
       incumbent,
       ballot,
+      scandal,
     };
   }
   return appeal;
@@ -268,8 +290,9 @@ export function countedAppeal(
 
 /**
  * The candidate a voter backs: the one they rank first, where something
- * separates them from the next; a lone candidate only where the voter is
- * for them. With nothing to separate the candidates, the race is left blank.
+ * separates them from the next; a lone candidate unless the voter is against
+ * them (the named voters' rule in voting.ts). With nothing to separate the
+ * candidates, the race is left blank.
  */
 export function countedChoice(
   appeal: Readonly<Record<string, { readonly total: number }>>,
@@ -278,7 +301,7 @@ export function countedChoice(
     (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
   );
   if (ranked.length === 1)
-    return ranked[0]![1].total > 0 ? ranked[0]![0] : null;
+    return ranked[0]![1].total >= 0 ? ranked[0]![0] : null;
   return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
     ? ranked[0]![0]
     : null;

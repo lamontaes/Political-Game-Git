@@ -290,6 +290,16 @@ export function stepRegionMonth(
     hundred /
     p("macroMonthsPerYear");
   const month = shiftMonth(previous.month, one, p);
+  const nationalPayGrowth =
+    nationalNow.hourlyEarnings / nationalBefore.hourlyEarnings;
+  const hourlyEarnings =
+    previous.hourlyEarnings *
+    nationalPayGrowth *
+    (one +
+      (p("macroWageGrowthPerUnemployment") *
+        (gapNow - previous.openingGapPct)) /
+        hundred /
+        p("macroMonthsPerYear"));
   return {
     ...previous,
     id: `${region.id}:${month}`,
@@ -299,14 +309,12 @@ export function stepRegionMonth(
     population: previous.population * (one + migration),
     jobsThousands:
       previous.jobsThousands * Math.exp((growth + mixGrowth) / hundred),
-    hourlyEarnings:
-      previous.hourlyEarnings *
-      (nationalNow.hourlyEarnings / nationalBefore.hourlyEarnings) *
-      (one +
-        (p("macroWageGrowthPerUnemployment") *
-          (gapNow - previous.openingGapPct)) /
-          hundred /
-          p("macroMonthsPerYear")),
+    hourlyEarnings,
+    // The price level against the nation's (nation = 100) follows the region's pay against the nation's: dearer places are the ones whose pay runs ahead.
+    priceLevelPct:
+      previous.priceLevelPct *
+      (hourlyEarnings / previous.hourlyEarnings / nationalPayGrowth) **
+        p("regionalPriceLevelPayElasticity"),
   };
 }
 

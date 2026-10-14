@@ -5,7 +5,7 @@ import { drawPlace } from "../../tests/golden-path/place";
 import unionData from "./data/business/union-membership.json" with { type: "json" };
 import type { UnionMonth } from "./jobs-unions";
 import { advanceCore, createLifeCore } from "./life";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import { enactLaw, lawChain, openLaws } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import {
@@ -33,7 +33,7 @@ describe(`unions (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
     });
     advanceCore(core, opening.startedAt);
     openLaws(core);
-    openLawEffects(core);
+    openLawReach(core);
     const api = coreAPI(core);
     const usps = opening.placeMetadata?.housingState ?? "";
     const state = (

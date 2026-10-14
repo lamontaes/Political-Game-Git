@@ -1848,7 +1848,12 @@
     "lookingAround": "looking-around",
     "startedLooking": "started-looking",
     "leftJob": "left-job",
-    "letGo": "let-go"
+    "letGo": "let-go",
+    "otherOffer": "other-offer",
+    "traitDrawn": "trait-drawn",
+    "died": "died",
+    "movedAway": "moved-away",
+    "replacement": "replaces-leaver"
   },
   "tenureByAge": {
     "source": "BLS, Employee Tenure in 2022 (USDL-22-1894), Table 1: median years with current employer, wage and salary workers, January 2022.",

@@ -22,6 +22,9 @@ export interface Variant {
 export interface RenderedLine {
   text: string;
   sourceRecordIds: readonly string[];
+  /** The bank variant the stable pick chose, and the facts it copied. */
+  variantKey?: string;
+  factKeys?: readonly string[];
 }
 
 export function renderLine(input: {
@@ -78,5 +81,7 @@ export function renderLine(input: {
   return {
     text: result.text.charAt(P.zero).toUpperCase() + result.text.slice(P.one),
     sourceRecordIds: result.sourceRecordIds as unknown as string[],
+    variantKey: result.variantKey,
+    factKeys: result.usedFactKeys,
   };
 }

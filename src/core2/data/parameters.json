@@ -4576,6 +4576,17 @@
       "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
     }
   },
+  "experiencedKeyRetentionDays": {
+    "value": 90,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 12 (running memory stays small): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal and a drive's update; the event's own facts stay.",
+    "spread": {
+      "low": 30,
+      "high": 365,
+      "unit": "days",
+      "citation": "A month to a year; checked against the 450-day play digest (unchanged) and the yearly heap in scripts/core2-year/years-profile.ts."
+    }
+  },
   "openingTeacherAnnualWageUsd": {
     "value": 63970,
     "tag": "SOURCED",

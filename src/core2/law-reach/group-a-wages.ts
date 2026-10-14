@@ -15,7 +15,7 @@ import {
   LAWS_MODULE_ID,
   raiseOne,
 } from "../modules/laws";
-import type { PolicyHandler } from "../modules/law-effects";
+import type { PolicyHandler } from "./host";
 import {
   ensureReachA,
   mechanicRow,

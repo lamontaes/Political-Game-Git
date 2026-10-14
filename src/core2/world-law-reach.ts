@@ -34,7 +34,7 @@ import {
   inForceHere,
   registerPolicyHandler,
   type PolicyHandler,
-} from "./modules/law-effects";
+} from "./law-reach/host";
 import {
   addPerUnitCharge,
   adjustPrice,

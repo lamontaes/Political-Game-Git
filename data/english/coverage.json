@@ -71,12 +71,10 @@
   },
   "graded": {
     "unknown": {
-      "journal": 9,
-      "meeting": 3,
-      "hearing": 6,
-      "conversation": 1,
-      "choice": 3,
-      "notices-and-screens": 3
+      "journal": 14,
+      "legislation": 2,
+      "notices": 2,
+      "minutes": 4
     }
   }
 }

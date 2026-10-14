@@ -280,5 +280,14 @@
       "unit": "years",
       "citation": "CFPB (2021): draw periods of about 10 years, repayment periods of 10 to 20 years."
     }
+  },
+  "creditIncomeRecordDays": {
+    "value": 14,
+    "tag": "TUNABLE",
+    "citation": "How many days of a job's work record a lender needs before it counts the pay actually earned from hours worked rather than the job's wage rate: two weeks, the most common pay period (BLS, 'Length of pay periods in the Current Employment Statistics survey', 2023: biweekly is the most common).",
+    "spread": {
+      "low": 7,
+      "high": 31
+    }
   }
 }

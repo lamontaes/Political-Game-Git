@@ -512,5 +512,16 @@
     "value": 0.233,
     "tag": "SOURCED",
     "citation": "Federal outlays were 23.3% of GDP in fiscal 2025 (CBO, Monthly Budget Review: Summary for Fiscal Year 2025, November 2025, https://www.cbo.gov/publication/61307)."
+  },
+  "macroTownGrowthMinMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The fewest months of the town's paid income compared with the same months a year earlier before the national step hears the town's growth; a quarter averages out the count of paydays in a month.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "One month reads paydays as growth; six leaves the town out of the national step for most of its first year and a half."
+    }
   }
 }

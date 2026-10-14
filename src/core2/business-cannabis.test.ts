@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
 import { advanceCore, createLifeCore } from "./life";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import { enactLaw, lawChain, openLaws } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import {
@@ -31,7 +31,7 @@ describe(`a legal cannabis market (${drawn.name}, ${drawn.state}, seed ${drawn.s
     });
     advanceCore(core, opening.startedAt);
     openLaws(core);
-    openLawEffects(core);
+    openLawReach(core);
     const api = coreAPI(core);
     const town = lawChain(api).townPlaceId;
     const retailers = [...core.finance.businesses].filter(

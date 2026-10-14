@@ -26,10 +26,18 @@ import moveRows from "../data/moves/parameters.json" with { type: "json" };
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { drawCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { stateOfPlaceKey } from "../places";
-import type { ResidentHouseholdRecord } from "../residents";
 import { endCountedJob, endFlowPart } from "../residents-economy";
 import { RENEWAL_MODULE_ID } from "./renewal";
-import { ownMap, residentsRuntime } from "./residents";
+import { COUNTED_MOVES_MODULE_ID } from "./counted-moves";
+import {
+  addCountedPerson,
+  ownMap,
+  departCountedHousehold,
+  removeCountedPerson as removeCounted,
+  replaceCountedMembers,
+  residentPerson,
+  residentsRuntime,
+} from "./residents";
 import type {
   CoreAPI,
   CoreModule,
@@ -129,64 +137,22 @@ function liveJobsByPerson(core: CoreState): Map<PersonId, string[]> {
   return out;
 }
 
-/** A counted person's work and retirement income end. */
-function endPersonsTies(
-  month: Month,
-  placeId: PlaceId,
-  record: ResidentHouseholdRecord,
-  person: PersonInput,
-): void {
-  const { core, ending } = month;
+/** A counted person's work and retirement claim end; the residents engine drops the rest. */
+function endPersonsTies(month: Month, person: PersonInput): void {
+  const { core } = month;
   const rt = residentsRuntime(core)!;
   for (const jobId of month.jobsOf.get(person.id) ?? [])
     endCountedJob(core, jobId);
   month.jobsOf.delete(person.id);
-  for (const contract of record.contracts)
-    if (contract.recipientIncome?.personId === person.id)
-      ending.add(contract.id);
   const claim = `retirement-claim:${person.id}`;
   if (rt.flows.has(claim)) endFlowPart(core, claim, claim);
-  rt.householdOfPerson.delete(person.id);
-}
-
-/** An emptied home: its purchases and mortgage end; its cash stays in town. */
-function closeHousehold(
-  month: Month,
-  householdId: string,
-  record: ResidentHouseholdRecord,
-  cashMinor: number,
-): void {
-  const rt = residentsRuntime(month.core)!;
-  rt.households.delete(householdId);
-  for (const contract of record.contracts) month.ending.add(contract.id);
-  month.ending.add(`household:${householdId}`);
-  month.ending.add(`${MORTGAGE_PREFIX}${householdId}`);
-  const place = record.household.placeId;
-  rt.openingCashByPlace.set(
-    place,
-    (rt.openingCashByPlace.get(place) ?? 0) - cashMinor,
-  );
 }
 
 function removeCountedPerson(month: Month, personId: PersonId): void {
-  const rt = residentsRuntime(month.core)!;
-  const householdId = rt.householdOfPerson.get(personId)!;
-  const record = rt.households.get(householdId)!;
-  const person = record.people.find((row) => row.id === personId)!;
-  endPersonsTies(month, record.household.placeId, record, person);
-  if (record.people.length === 1) {
-    closeHousehold(month, householdId, record, person.liquidMinor);
-    return;
-  }
-  rt.households.set(householdId, {
-    ...record,
-    household: {
-      ...record.household,
-      memberIds: record.household.memberIds.filter((id) => id !== personId),
-    },
-    people: record.people.filter((row) => row.id !== personId),
-    jobs: record.jobs.filter((job) => job.personId !== personId),
-  });
+  const person = residentPerson(month.core, personId);
+  if (!person) return;
+  endPersonsTies(month, person);
+  removeCounted(month.core, personId);
 }
 
 /** End each ended contract's part of every merged flow, in one pass, copying a flow's parts only once ever. */
@@ -261,22 +227,7 @@ function addNewborn(
     looks: { gender },
     pastFacts: [],
   };
-  rt.householdOfPerson.set(id, householdId);
-  rt.households.set(householdId, {
-    ...record,
-    household: {
-      ...record.household,
-      memberIds: [...record.household.memberIds, id],
-    },
-    people: [
-      ...record.people.map((row) =>
-        row.id === motherId
-          ? { ...row, familyIds: [...row.familyIds, id] }
-          : row,
-      ),
-      baby,
-    ],
-  });
+  addCountedPerson(core, householdId, baby);
   return baby;
 }
 
@@ -386,12 +337,10 @@ function moveHousehold(
   const core = api.state;
   const rt = residentsRuntime(core)!;
   const record = rt.households.get(householdId)!;
-  const place = record.household.placeId;
-  for (const person of record.people)
-    endPersonsTies(month, place, record, person);
-  const cash = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+  for (const person of record.people) endPersonsTies(month, person);
   if (!arrive) {
-    closeHousehold(month, householdId, record, cash);
+    // Its cash stays in town with the counted residents.
+    departCountedHousehold(core, householdId);
     return [];
   }
   api.stopgap(data.movesStopgapId);
@@ -451,19 +400,7 @@ function moveHousehold(
       pastFacts: [],
     };
   });
-  for (const person of newcomers)
-    rt.householdOfPerson.set(person.id, householdId);
-  rt.households.set(householdId, {
-    ...record,
-    household: {
-      ...record.household,
-      memberIds: newcomers.map((row) => row.id),
-    },
-    people: newcomers,
-    jobs: [],
-    workCommitments: [],
-    contracts: record.contracts.filter((row) => !row.recipientIncome),
-  });
+  replaceCountedMembers(core, householdId, newcomers);
   return newcomers;
 }
 
@@ -526,14 +463,18 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
       }),
     };
     const arrive = arrivalRate(state) / 12;
+    const movesFromCauses = core.modules.has(COUNTED_MOVES_MODULE_ID);
     for (const person of record.people) {
       const age = ageOn(person.birthDate, date);
       row.deaths += (yearlyDeathRate(person, date, age) * mortality) / 12;
       row.births += birthRate(person, date, age) / 12;
       if (age >= 18) {
         const rate = leaveRate(state, person, date, age);
-        row.leavers += rate / 12;
-        row.arrivals += arrive;
+        // Where counted moves run, people move from causes there instead.
+        if (!movesFromCauses) {
+          row.leavers += rate / 12;
+          row.arrivals += arrive;
+        }
         if (rate > topRate) topRate = rate;
       } else if (age >= 5) kids = true;
       const gender = person.looks?.gender;

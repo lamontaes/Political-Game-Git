@@ -319,14 +319,14 @@
     }
   },
   "jobsSwitchCost": {
-    "value": 0.4,
+    "value": -1,
     "tag": "TUNABLE",
-    "citation": "What moving from one job to another costs the worker (new commute, lost tenure and standing): job-to-job moves come with raises (Topel and Ward 1992, QJE 107(2): early-career job changes carry about a third of wage growth); checked against JOLTS quits.",
+    "citation": "Changing employers costs something (lost tenure, search, relocation of routine): job-to-job movers gain on the order of 5 to 10 percent in pay (Topel and Ward 1992, QJE; Fallick and Fleischman 2004). With the accept baseline of 0.5 and an apply pay weight of 8, a worker needs about a 6 percent raise, or a trait pull, to move.",
     "spread": {
-      "low": 0.25,
-      "high": 2,
-      "unit": "logit",
-      "citation": "What moving from one job to another costs the worker (new commute, lost tenure and standing): job-to-job moves come with raises (Topel and Ward 1992, QJE 107(2): early-career job changes carry about a third of wage growth); checked against JOLTS quits."
+      "low": -2,
+      "high": -0.25,
+      "unit": "score for an employed worker taking another job",
+      "citation": "Changing employers costs something (lost tenure, search, relocation of routine): job-to-job movers gain on the order of 5 to 10 percent in pay (Topel and Ward 1992, QJE; Fallick and Fleischman 2004). With the accept baseline of 0.5 and an apply pay weight of 8, a worker needs about a 6 percent raise, or a trait pull, to move."
     }
   },
   "jobsElsewherePrimeAge": {
@@ -386,6 +386,88 @@
       "high": 0.5,
       "unit": "elasticity",
       "citation": "Petrongolo and Pissarides 2001, Journal of Economic Literature: vacancy elasticities of 0.3 to 0.5 in aggregate matching functions."
+    }
+  },
+  "jobsQuitBaseline": {
+    "value": -4.65,
+    "tag": "TUNABLE",
+    "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker.",
+    "spread": {
+      "low": -5.2,
+      "high": -4.2,
+      "unit": "logit of a month's pull to quit",
+      "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker."
+    }
+  },
+  "jobsTypicalTenureYears": {
+    "value": 3.9,
+    "tag": "SOURCED",
+    "citation": "BLS Employee Tenure in 2024, median tenure of wage and salary workers (about 3.9 years)."
+  },
+  "jobsQuitTenureWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "Short-tenure workers quit far more often than long-tenure ones (BLS Employee Tenure; Farber 1994, JOLE): each log step of tenure below the typical raises the pull; checked against JOLTS quits by industry.",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "logit per log-year of tenure below the typical",
+      "citation": "Short-tenure workers quit far more often than long-tenure ones (BLS Employee Tenure; Farber 1994, JOLE): each log step of tenure below the typical raises the pull; checked against JOLTS quits by industry."
+    }
+  },
+  "jobsUnemploymentQuitWeight": {
+    "value": 0.13,
+    "tag": "TUNABLE",
+    "citation": "Quits fall when unemployment rises: JOLTS total private quits fell from about 2.2% (2007) to 1.2% (2009) while unemployment rose about 4.7 points (BLS JOLTS, LNS14000000).",
+    "spread": {
+      "low": 0.06,
+      "high": 0.2,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Quits fall when unemployment rises: JOLTS total private quits fell from about 2.2% (2007) to 1.2% (2009) while unemployment rose about 4.7 points (BLS JOLTS, LNS14000000)."
+    }
+  },
+  "jobsUnemploymentLookWeight": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "On-the-job search falls when jobs are scarce (Faberman, Mueller, Sahin and Topa 2022); checked against JOLTS quits and hires through the cycle.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.2,
+      "unit": "score per point of unemployment above the natural rate",
+      "citation": "On-the-job search falls when jobs are scarce (Faberman, Mueller, Sahin and Topa 2022); checked against JOLTS quits and hires through the cycle."
+    }
+  },
+  "jobsUnemploymentEntryWeight": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Discouraged-worker effect: fewer enter the labor force when the local unemployment rate is high (BLS CPS participation through the 2007-2010 recession).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.12,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Discouraged-worker effect: fewer enter the labor force when the local unemployment rate is high (BLS CPS participation through the 2007-2010 recession)."
+    }
+  },
+  "jobsUnemploymentStopLookingWeight": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Long unemployment spells end in leaving the labor force more often when unemployment is high (BLS CPS gross flows U to N through the 2007-2010 recession).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.12,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Long unemployment spells end in leaving the labor force more often when unemployment is high (BLS CPS gross flows U to N through the 2007-2010 recession)."
+    }
+  },
+  "jobsWithdrawActedPerMonth": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "An employer that has all the staff it wants lets its open postings lapse over a couple of months rather than at once; vacancies stay open about a month on average (BLS JOLTS vacancy duration, DHI).",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "open positions withdrawn per position of surplus, per month",
+      "citation": "An employer that has all the staff it wants lets its open postings lapse over a couple of months rather than at once; vacancies stay open about a month on average (BLS JOLTS vacancy duration, DHI)."
     }
   }
 }

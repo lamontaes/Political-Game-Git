@@ -1,10 +1,7 @@
 // "What changed": each law that took effect while you played, and who in town
-// it reached, from the law-effects records. Read-only.
+// it reached, from the law-reach records. Read-only.
 import { coreAPI } from "../core2/state";
-import {
-  LAW_EFFECTS_MODULE_ID,
-  type AppliedEffect,
-} from "../core2/modules/law-effects";
+import { reachedBy } from "../core2/law-reach/host";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import type { LawRowInput } from "../core2/laws-starting";
 import type { CoreState } from "../core2/types";
@@ -42,31 +39,25 @@ export function lawChanges(core: CoreState, personId: string) {
 }
 
 function lawsTook(core: CoreState, personId: string) {
-  const applied = core.modules.has(LAW_EFFECTS_MODULE_ID)
-    ? coreAPI(core).moduleState(LAW_EFFECTS_MODULE_ID).table("applied")
-    : undefined;
+  const api = coreAPI(core);
   return [...(core.logByKind.get("law-took-effect") ?? [])]
     .map((id) => core.durableLog.get(id)!)
     .filter(Boolean)
     .reverse()
     .map((row) => {
       const facts = (row as { facts?: Record<string, string> }).facts ?? {};
-      const reached = applied
-        ? (
-            applied.query("byQuestion", [
-              facts.series ?? null,
-              null,
-            ]) as unknown as AppliedEffect[]
-          ).filter((effect) => effect.lawId === facts.lawId)
-        : [];
-      const names = reached.slice(0, NAMED).map((effect) => {
-        const person = core.people.get(effect.personId);
+      const reached =
+        facts.series && facts.lawId
+          ? reachedBy(api, facts.series, facts.lawId)
+          : [];
+      const names = reached.slice(0, NAMED).map((row) => {
+        const person = core.people.get(row.personId);
         return {
-          personId: effect.personId,
+          personId: row.personId,
           name: person
             ? `${person.givenName} ${person.familyName}`
-            : effect.personId,
-          what: effect.what,
+            : row.personId,
+          what: row.what,
         };
       });
       // An amount (a wage, a tax rate) shows what it was before.

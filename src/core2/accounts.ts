@@ -226,6 +226,99 @@ export function transfer(
   return receipt;
 }
 
+/**
+ * One balanced journal entry over several accounts (one payer and many
+ * payees, or many payers and one payee): signed lines that sum to zero, at
+ * most one of them an outside account. A local account paying out must hold
+ * what its line takes; the caller sizes lines to what each can pay.
+ */
+export function transferSplit(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    id: string;
+    lines: readonly { accountId: string; deltaMinor: number }[];
+    reasonKey: string;
+    source: Source;
+  },
+): void {
+  const rt = runtime(core),
+    date = makeIsoDate(core.date);
+  if (!input.id.trim() || rt.transferIds.has(input.id))
+    throw new Error(`Transfer id is empty or reused: ${input.id}`);
+  if (!input.reasonKey.trim()) throw new Error("A transfer needs a reason.");
+  if (input.source.asOf > date)
+    throw new Error("A transfer cannot cite a later source.");
+  const merged = new Map<string, number>();
+  for (const line of input.lines) {
+    if (!Number.isSafeInteger(line.deltaMinor))
+      throw new Error("A transfer line is a whole amount.");
+    if (line.deltaMinor)
+      merged.set(
+        line.accountId,
+        (merged.get(line.accountId) ?? 0) + line.deltaMinor,
+      );
+  }
+  let sum = 0,
+    outsideAccount: string | undefined;
+  for (const [accountId, delta] of merged) {
+    sum += delta;
+    if (isOutside(core, accountId)) {
+      if (outsideAccount)
+        throw new Error("A split transfer has at most one outside account.");
+      outsideAccount = accountId;
+    } else if (delta < 0 && balanceOf(core, accountId) < -delta)
+      throw new Error(`Insufficient funds in ${accountId} for ${input.id}.`);
+  }
+  if (sum !== 0) throw new Error(`A split transfer must balance: ${input.id}`);
+  const postings: CashJournalPosting[] = [...merged]
+    .filter(([, delta]) => delta !== 0)
+    .map(([accountId, deltaMinor], index) => ({
+      id: `${input.id}:${index}`,
+      accountId,
+      deltaMinor,
+    }));
+  if (postings.length < 2) return;
+  rt.transferIds.add(input.id);
+  const due = { kind: DUE_KIND, id: input.id };
+  rt.pending.set(input.id, {
+    resolved: {
+      kind: SOURCE_KIND,
+      id: input.id,
+      date,
+      source: input.source,
+      expectedPostings: postings,
+      requiredRelatedRefs: outsideAccount ? [due] : [],
+      relatedRecords: outsideAccount
+        ? [{ ...due, date, source: input.source }]
+        : [],
+      ...(outsideAccount
+        ? {
+            externalFlowAuthorizations: [
+              { accountId: outsideAccount, obligation: due },
+            ],
+          }
+        : {}),
+    },
+    marker: {},
+    retainFull: false,
+  });
+  try {
+    api.postJournal({
+      id: `journal:${date}:${core.cashJournal.nextSequence}`,
+      date,
+      expectedSequence: core.cashJournal.nextSequence,
+      sourceRef: { kind: SOURCE_KIND, id: input.id },
+      postings,
+    });
+  } catch (error) {
+    rt.transferIds.delete(input.id);
+    throw error;
+  } finally {
+    rt.pending.delete(input.id);
+  }
+}
+
 function nextDue(at: IsoDate, cadence: AccountCadence, anchorDay: number) {
   if (cadence.kind === "days")
     return makeIsoDate(addDays(makeIsoDate(at), cadence.every));

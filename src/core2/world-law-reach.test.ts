@@ -6,7 +6,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { amendBudget, governments, openBudgets } from "./modules/budgets";
 import { baseLine, budgetToday } from "./law-reach/group-a-money";
 import { HOUSING_MODULE_ID } from "./modules/housing";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import { enactLaw, lawChain, openLaws } from "./modules/laws";
 import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
 import {
@@ -72,7 +72,7 @@ describe(`laws reach the economy (${drawn.name}, ${drawn.state}, seed ${drawn.se
     advanceCore(core, opening.startedAt);
     openLaws(core);
     openBudgets(core);
-    openLawEffects(core);
+    openLawReach(core);
     api = coreAPI(core);
     town = lawChain(api).townPlaceId;
   }, 600_000);

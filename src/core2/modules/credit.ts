@@ -26,7 +26,7 @@ import type {
   CoreState,
   Source,
 } from "../types";
-import { linkCreditLineToPrime } from "./macro";
+import { linkCreditLineToPrime, quotedLineRate } from "./macro";
 import { chooseAct } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
@@ -439,6 +439,37 @@ export function lendMortgage(
   return lent;
 }
 
+/**
+ * What the bank reads of a borrower's record: sales against wages paid so far.
+ * Before any wages are paid, the books' own plan stands in: expected yearly
+ * demand against planned payroll. The record sets the line's risk spread.
+ */
+function lineTerms(
+  api: CoreAPI,
+  books: {
+    wagesPaidMinor: number;
+    salesReceivedMinor: number;
+    annualDemandMinor: number;
+    annualPayrollMinor: number;
+  },
+): { salesToWages: number; record: number; spreadPct: number } {
+  const p = (key: string) => api.parameter(key);
+  const salesToWages =
+    books.wagesPaidMinor > 0
+      ? books.salesReceivedMinor / books.wagesPaidMinor
+      : books.annualPayrollMinor > 0
+        ? books.annualDemandMinor / books.annualPayrollMinor
+        : p("zero");
+  const record = Math.tanh(salesToWages);
+  return {
+    salesToWages,
+    record,
+    spreadPct:
+      p("creditPrimeSpreadPct") +
+      p("creditRiskSpreadPct") * (p("one") - record),
+  };
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -477,13 +508,6 @@ function review(api: CoreAPI): void {
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
-  const rate =
-    ((
-      api.moduleState("macro").table("state").get("macro:state") as
-        { policyRatePct: number } | undefined
-    )?.policyRatePct ?? p("zero")) /
-      p("macroHundred") +
-    p("creditPrimeSpreadPct") / p("macroHundred");
   const wanted: { id: string; requested: number }[] = [];
   const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
@@ -504,6 +528,8 @@ function review(api: CoreAPI): void {
       continue;
     }
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
+    // The owner weighs the rate the bank will charge this borrower, risk spread and all.
+    const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
     const reasons = {
       baseline: p("creditBorrowBaseline"),
       need: p("creditBorrowNeedWeight") * Math.min(p("one"), requested / cover),
@@ -538,17 +564,10 @@ function review(api: CoreAPI): void {
   )) {
     const books = c.finance.businesses.get(id)!;
     const cash = c.organizations.get(id)!.liquidMinor;
-    const salesToWages =
-      books.wagesPaidMinor > 0
-        ? books.salesReceivedMinor / books.wagesPaidMinor
-        : p("one");
-    const record = Math.tanh(salesToWages);
+    const { salesToWages, record, spreadPct } = lineTerms(api, books);
     const limitMinor = Math.floor(
       Math.min(requested * appetite * record, room),
     );
-    const spreadPct =
-      p("creditPrimeSpreadPct") +
-      p("creditRiskSpreadPct") * (p("one") - record);
     store(api)
       .table("applications")
       .put({
@@ -833,12 +852,37 @@ export function monthlyIncome(
   let daily = 0;
   for (const job of c.jobs.values())
     if (job.endsAt === undefined && members.has(job.personId))
-      // A lender counts pay that arrives: the job's wage times the share of its due pay actually paid.
-      daily += job.wageDailyMinor * paidShare(c, job.personId, job.id);
+      // A lender counts pay that arrives: what the job actually earned from
+      // the hours worked, times the share of its due pay actually paid.
+      daily += earnedDaily(api, job) * paidShare(c, job.personId, job.id);
   return (
     (daily * api.parameter("jobsDaysPerYear")) /
     api.parameter("macroMonthsPerYear")
   );
+}
+
+/**
+ * What a job earns a day from the hours actually worked (business audit
+ * row 20): its work ledger's earnings over the days it has run in play. A
+ * job with less than creditIncomeRecordDays of record reads its wage rate.
+ */
+function earnedDaily(
+  api: CoreAPI,
+  job: { id: string; personId: string; wageDailyMinor: number },
+): number {
+  const c = core(api);
+  for (const id of c.work.commitmentsByPerson.get(job.personId) ?? []) {
+    const commitment = c.work.commitments.get(id);
+    if (!commitment || commitment.jobId !== job.id) continue;
+    const ledger = c.work.payrollLedgerByCommitment.get(id);
+    if (!ledger) break;
+    const since =
+      commitment.startsAt > c.startedAt ? commitment.startsAt : c.startedAt;
+    const days = daysBetween(makeIsoDate(since), makeIsoDate(c.date));
+    if (days < api.parameter("creditIncomeRecordDays")) break;
+    return ledger.earnedMinor / days;
+  }
+  return job.wageDailyMinor;
 }
 
 /** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */

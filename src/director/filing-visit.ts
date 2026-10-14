@@ -7,20 +7,19 @@
  * passed in as plain data; the filing itself is GOV's `fileCandidacy`.
  */
 import type { CoreState, PersonId } from "../core2/types";
-import visitJson from "./data/filing-visit.json" with { type: "json" };
 import { renderLine, type Fact, type Variant } from "./render";
-import { markWordsStopgap } from "./stopgaps";
+import { filingWordsFromBank } from "./mined/filing-bank";
 
-interface VisitWords {
+export interface VisitWords {
   version: string;
-  stopgapId: string;
   greet: Variant[];
   pick: Variant[];
   terms: Variant[];
   rules: Readonly<Record<string, Variant[]>>;
   accept: Variant[];
 }
-export const FILING_VISIT_WORDS = visitJson as VisitWords;
+/** The default words are the mined clerk bank's. */
+export const FILING_VISIT_WORDS: VisitWords = filingWordsFromBank();
 
 export interface FilingContest {
   id: string;
@@ -79,16 +78,16 @@ function say(
   part: string,
   variants: readonly Variant[] | undefined,
   facts: Record<string, Fact>,
+  version: string,
   stage?: string,
 ) {
-  markWordsStopgap(FILING_VISIT_WORDS.stopgapId);
   return renderLine({
     seed: core.seed,
     surface: "dialogue",
     holderId:
       speaker === "clerk" ? (visit.clerkId ?? visit.playerId) : visit.playerId,
     bankKey: `filing-visit:${part}`,
-    version: FILING_VISIT_WORDS.version,
+    version,
     variants,
     facts,
     momentKey: `${visit.playerId}:${core.date}:${visit.lines.length}:${part}`,
@@ -102,6 +101,7 @@ export function openFilingVisit(
   playerId: PersonId,
   contests: readonly FilingContest[],
   clerkId?: PersonId,
+  words: VisitWords = FILING_VISIT_WORDS,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -115,14 +115,21 @@ export function openFilingVisit(
     visit,
     "clerk",
     "greet",
-    FILING_VISIT_WORDS.greet,
+    words.greet,
     {},
+    words.version,
   );
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
   for (const contest of contests) {
-    const line = say(core, visit, "player", "pick", FILING_VISIT_WORDS.pick, {
-      office: { text: contest.title, sourceRecordIds: [contest.id] },
-    });
+    const line = say(
+      core,
+      visit,
+      "player",
+      "pick",
+      words.pick,
+      { office: { text: contest.title, sourceRecordIds: [contest.id] } },
+      words.version,
+    );
     if (line)
       visit.choices.push({
         key: `pick:${contest.id}`,
@@ -141,6 +148,7 @@ export function pickContest(
   contestId: string,
   terms: FilingTerms,
   checks: readonly FilingCheck[],
+  words: VisitWords = FILING_VISIT_WORDS,
 ): FilingVisit {
   const choice = visit.choices.find(
     (row) => row.action.kind === "pick" && row.action.contestId === contestId,
@@ -157,14 +165,16 @@ export function pickContest(
   const facts: Record<string, Fact> = {
     office: { text: contest.title, sourceRecordIds: ids },
     deadline: { text: longDate(contest.filingDeadline), sourceRecordIds: ids },
+    "filing-office": { text: terms.filedWith, sourceRecordIds: ids },
   };
   const stated = say(
     core,
     visit,
     "clerk",
     "terms",
-    FILING_VISIT_WORDS.terms,
+    words.terms,
     facts,
+    words.version,
     "none",
   );
   if (stated) visit.lines.push({ speaker: "clerk", ...stated });
@@ -182,18 +192,27 @@ export function pickContest(
       visit,
       "clerk",
       `rule:${check.rule}`,
-      FILING_VISIT_WORDS.rules[check.rule],
+      words.rules[check.rule],
       {
         ...facts,
         required: { text: required, sourceRecordIds: ids },
         actual: { text: actual, sourceRecordIds: [visit.playerId] },
       },
+      words.version,
     );
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
   visit.choices = [];
   const offer = (key: string, variants: Variant[], action: FilingAction) => {
-    const line = say(core, visit, "player", key, variants, facts);
+    const line = say(
+      core,
+      visit,
+      "player",
+      key,
+      variants,
+      facts,
+      words.version,
+    );
     if (line)
       visit.choices.push({
         key,
@@ -203,9 +222,9 @@ export function pickContest(
       });
   };
   if (unmet.length) {
-    offer("accept", FILING_VISIT_WORDS.accept, { kind: "done" });
+    offer("accept", words.accept, { kind: "done" });
     return visit;
   }
-  offer("file", FILING_VISIT_WORDS.accept, { kind: "file", contestId });
+  offer("file", words.accept, { kind: "file", contestId });
   return visit;
 }

@@ -1,5 +1,5 @@
-import { makeIsoDate } from "./kernel/dates";
 import { bookkeeping } from "./bookkeeping";
+import { makeIsoDate } from "./kernel/dates";
 import type { Source } from "./types";
 
 export type ModuleValue =
