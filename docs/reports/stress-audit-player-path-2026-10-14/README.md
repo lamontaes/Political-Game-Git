@@ -20,15 +20,15 @@ The town is Aliceville, Alabama. The character is Jared Harrington, born January
 
 **4. Campaign.** On the same day he knocked doors for two hours: 7 people reached, all 7 warmer. He asked 35 people to volunteer, and 1 said yes. Two people gave a total of $2.09. 17 of 35 people endorsed him. A speech for limiting groundwater withdrawal reached 115 people, 25 warmer and 90 cooler. The 50-person poll he ordered reached 0 people, and the screen showed "poll: 0" with no reason.
 
-**5. Win or lose.** He lived to November 3, 2026, on the Calendar control. Commissioner district 1 went to incumbent Michael Garner, with 3,391 votes. Jared had 261. His father, Stephen Harrington, had filed for the same seat against his son and got 11. The race record shows Jared's own ballot cast for his father; he was never asked to vote. 26 races were decided that night. The results sheet lists 8 of them, and Jared's race was 12th, so his own result was not on it. The election-night scene showed his family at a party venue. No journal line or conversation said he lost.
+**5. Win or lose.** He lived to November 3, 2026, on the Calendar control. Commissioner district 1 went to incumbent Michael Garner, with 3,391 votes. Jared had 261. His father, Stephen Harrington, had filed for the same seat against his son and got 11. No ballot screen ever appeared; Jared was never asked to vote. 26 races were decided that night. The results sheet lists 8 of them, and Jared's race was 12th, so his own result was not on it. The election-night scene showed his family at a party venue. No journal line or conversation said he lost.
 
 **6. Propose.** With Jared out of office, "Play anyone" switched to Lucas Wise, an Aliceville council member, on November 19, 2026. A minimum-wage ordinance, 2026-036, came back blocked: "state law preempts local minimum wages," citing Alabama's 2016 law. A handgun-age ordinance, 2026-037, was also blocked. An ordinance banning discrimination in housing and work, 2026-038, was drafted.
 
 **7. Negotiate.** He asked each of the four colleagues where they stood. Each answer is a decision score, where above zero leans yes; all four were between 0.32 and 1.05. Each score is split into views, constituents and his tie to them. He offered Nicole Jensen a favor, and the screen said "declined."
 
-**8. Pass or fail.** The vote came 14 days later, on December 3, 2026. It passed 5 to 0. Jared's father, now on the council, voted yes. No control let Lucas Wise cast his own vote. No scene or journal line marked the vote; it showed as a status change and as news rows.
+**8. Pass or fail.** The vote came 14 days later, on December 3, 2026. It passed 5 to 0. One of the yes votes was Jared's father, who already held an Aliceville council seat when the game opened, and ran for county commissioner while keeping it. No control let Lucas Wise cast his own vote. No scene or journal line marked the vote; it showed as a status change and as news rows.
 
-**9. The town visibly changes.** The ordinance took effect on January 2, 2027. The "What changed" sheet opened by itself and listed it as reaching 10 residents. It named four of them, each with the line "may not be refused housing or work for a protected trait." Nothing in the scene changed.
+**9. The town visibly changes.** The ordinance took effect on January 2, 2027. The "What changed" sheet opened by itself and listed it as reaching 10 residents, in a town of about 2,100 people by the repository's population data. It named four of them, each with the line "may not be refused housing or work for a protected trait." Nothing in the scene changed.
 
 **10. People bring it up.** Back as Jared, he talked to eight people: his five household members, including his father, and three others. Every conversation opened with a question about where he lives. Nobody mentioned the ordinance. Five rows on the news sheet name it.
 
@@ -85,7 +85,8 @@ A Sonnet agent checked each defect against the code. "Measured" means this run s
 - **Step 10 at all.** There is no route from a law into conversation.
 - **Step 11 in play.** The run stopped on January 3, 2027.
 - **Alabama's town election years.** The data puts Aliceville's council elections in 2028, every four years in years divisible by four. It calls its own source "secondary synthesis only." The seats' estimated end date is January 1, 2029. Whether Alabama towns voted in August 2025 needs a check against the statute.
-- **Lies.** No lie was offered, because his sister already knew the truth. The filing form accepts any party on its list, whatever the player's ties.
+- **Two officials in one household.** Jared's mother held the circuit clerk's seat in January 2025 and won it again on November 3, 2026. His father has held a council seat since the opening. Whether that is plausible for a town this size was not checked.
+- **Lies.** No lie was offered, because his sister already knew the truth. The filing form accepts any party on its list, whatever the player's ties. Read in code at `src/core2/modules/elections.ts`, `fileCandidacy`.
 
 ## Owner decisions needed
 
@@ -110,7 +111,7 @@ All 27 defects are open; this audit changed no game code. They fall to the sessi
 
 - **Run.** The bench server on the main branch as of October 14, 2026, in Aliceville, Alabama, seed `audit-1791951990654`, drawn from the clock across all 56 places. A Shiloh, Georgia world (seed audit-1791951901523) supplied defect 12.
 - **Play.** Every request went to the bench's API, as the play page sends it. Time moved only by Day and Calendar; every stop was answered and the first offered choice taken. The full log is in `requests.tsv` beside this file. 199 refused calendar requests in it came from the script retrying a stale date.
-- **Checking.** Ten Haiku agents traced one step each. One Sonnet agent checked every claim against the code and corrected three. I checked three claims myself; all three held.
+- **Checking.** Ten Haiku agents traced one step each. One Sonnet agent checked every claim against the code and corrected three. I checked three claims myself against the code: the panel ignores the player (defect 1), single-seat offices get no seat controls (defect 4), and the calendar refusal (defect 27).
 
 | Model | Role | Agents | Tokens | Time |
 | ----- | ---- | ------ | ------ | ---- |
