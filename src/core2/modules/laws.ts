@@ -15,6 +15,7 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { residentsRuntime } from "./residents";
+import { rerateCountedJobs } from "../residents-economy";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import {
   holdPublicPay,
@@ -594,6 +595,9 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
   const floor = lawInForce(api, "minimum-wage").value;
   const rt = residentsRuntime(core);
   if (floor === null || !rt) return;
+  // Each employer's wage flow is recomputed once; a counted job no wage flow
+  // pays (its worker filled in, its flow ended) has no pay here to raise.
+  const raised = new Map<string, number>();
   for (const job of rt.jobs.values()) {
     if (job.endsAt !== undefined || (job.hourlyMinor ?? floor) >= floor)
       continue;
@@ -603,8 +607,9 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
       (core.visiblePlaceIds.size && !core.visiblePlaceIds.has(employer.placeId))
     )
       continue;
-    api.rerateJob(job.id, floor, { ...source, asOf: core.date });
+    raised.set(job.id, floor);
   }
+  rerateCountedJobs(core, raised);
 }
 
 /**
