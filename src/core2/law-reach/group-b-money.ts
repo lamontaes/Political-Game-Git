@@ -422,26 +422,74 @@ export function moveBudget(
 }
 
 /** Debt interest lines: the state and local name, and the federal one. */
-const INTEREST_LINES = new Set(["interest", "netInterest"]);
 
 /** Cuts every line but debt interest in proportion until spending fits revenue. */
-export function balancePlan(budget: BudgetRow): Record<string, number> {
+export interface BalanceRule {
+  /** Lines the law never cuts (debt service; at the federal level, the benefits sequestration exempts). */
+  readonly exempt: readonly string[];
+  /** Lines cut at most this share of themselves (Medicare under sequestration). */
+  readonly caps: Readonly<Record<string, number>>;
+  /** Fiscal years over which the gap is closed in equal steps (1: at once). */
+  readonly phaseYears: number;
+}
+
+/** A budget's gap: spending over revenue (zero or less when it balances). */
+export function budgetGap(budget: BudgetRow): number {
   const spending = Object.values(budget.spendingMinor).reduce(
     (a, b) => a + b,
     0,
   );
   const revenue = Object.values(budget.revenueMinor).reduce((a, b) => a + b, 0);
-  if (spending <= revenue) return {};
-  const interest = Object.entries(budget.spendingMinor)
-    .filter(([line]) => INTEREST_LINES.has(line))
-    .reduce((a, [, minor]) => a + minor, 0);
-  const cuttable = spending - interest;
-  if (cuttable <= 0) return {};
-  const ratio = Math.min(1, (spending - revenue) / cuttable);
+  return spending - revenue;
+}
+
+/**
+ * The cuts that balance a budget: its gap spread as one share across the
+ * lines the law lets it cut, a capped line cut no deeper than its cap (the
+ * rest falls on the others). Exempt lines, and the revenue, are untouched.
+ * Where the law phases the balance in, the deficit allowed falls in equal
+ * steps from the gap the law first met (`firstGap`) to none in its last
+ * year, and a year cuts only what exceeds its step (`yearsApplied` years
+ * already done of `phaseYears`).
+ */
+export function balancePlan(
+  budget: BudgetRow,
+  rule: BalanceRule,
+  yearsApplied = 0,
+  firstGap = budgetGap(budget),
+): Record<string, number> {
+  const lines = Object.entries(budget.spendingMinor).sort();
+  const spending = lines.reduce((a, [, minor]) => a + minor, 0);
+  const revenue = Object.values(budget.revenueMinor).reduce((a, b) => a + b, 0);
+  const allowed =
+    firstGap *
+    Math.max(0, 1 - (yearsApplied + 1) / Math.max(1, rule.phaseYears));
+  let gap = spending - revenue - allowed;
+  if (gap <= 0) return {};
   const out: Record<string, number> = {};
-  for (const [line, minor] of Object.entries(budget.spendingMinor).sort())
-    if (!INTEREST_LINES.has(line) && minor > 0)
-      out[line] = -Math.ceil(minor * ratio);
+  let open = lines.filter(
+    ([line, minor]) => minor > 0 && !rule.exempt.includes(line),
+  );
+  // A capped line takes its cap when the common share would cut it deeper;
+  // the share is then found again over the rest.
+  for (;;) {
+    const base = open.reduce((a, [, minor]) => a + minor, 0);
+    if (base <= 0) break;
+    const ratio = Math.min(1, gap / base);
+    const capped = open.filter(
+      ([line]) => rule.caps[line] !== undefined && rule.caps[line]! < ratio,
+    );
+    if (!capped.length) {
+      for (const [line, minor] of open) out[line] = -Math.ceil(minor * ratio);
+      break;
+    }
+    for (const [line, minor] of capped) {
+      const cut = Math.ceil(minor * rule.caps[line]!);
+      out[line] = -cut;
+      gap -= cut;
+    }
+    open = open.filter(([line]) => !capped.some(([c]) => c === line));
+  }
   return out;
 }
 

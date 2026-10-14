@@ -5,13 +5,14 @@
  * chambers and the governor; what passes becomes law in force on the state's
  * own effective date.
  */
+import { wireItem } from "./press-topics";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { enactLaw, openLaws, LAWS_MODULE_ID } from "./modules/laws";
+import { enactLaw, lawChain, openLaws, LAWS_MODULE_ID } from "./modules/laws";
 import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
@@ -98,6 +99,30 @@ describe("M3-10 other governments legislate", () => {
       const voted = session!.bills.filter((b) => b.fate === "voted");
       if (voted.length > session!.perWeek)
         expect(new Set(voted.map((b) => b.decidedOn)).size).toBeGreaterThan(1);
+      // The governor's signature, veto or the override is a public record the
+      // press takes on its wire, like the floor's roll call.
+      const acts = [...core.durableLog.values()].filter(
+        (e) => e.kind === "executive-action",
+      );
+      for (const bill of session!.bills.filter((b) =>
+        ["signed", "vetoed", "overridden"].includes(b.status),
+      )) {
+        const act = acts.find(
+          (e) =>
+            e.facts?.number === bill.number &&
+            String(e.facts?.billId).includes(state),
+        );
+        expect(act?.facts?.action, `${bill.number}: no executive record`).toBe(
+          bill.status,
+        );
+        expect(
+          wireItem(api, act!, {
+            placeId: lawChain(api).townPlaceId,
+            stateKey: state,
+          }),
+          `${bill.number}: not on the press wire`,
+        ).not.toBeNull();
+      }
       const passed = session!.bills.filter((b) =>
         ["enacted", "signed", "overridden"].includes(b.status),
       );

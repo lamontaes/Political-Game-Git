@@ -3,7 +3,7 @@
 Only OPUS-GOV writes this file. The earlier log is `docs/coordination/gov.md`.
 
 - **Owns:** `src/rules` and the government engines (laws, budgets, offices, elections, campaigns, legislatures, executive).
-- **Branches now:** `gov/legislating-next` (PR #4206, ready for merge), `gov/sessions` (PR #4214, stacked on it, ready for merge), `gov/bill-form` (stacked on `gov/sessions`, in progress). #4165 and #4193 merged.
+- **Branches now:** `gov/public-records` (#4253), `gov/congress-national` (#4255), `gov/balanced-budget` (#4259), stacked in that order. Merged today: #4193, #4206, #4214, #4236, #4241, #4248.
 - **Source:** the stress audit of Oct 14 (`docs/reports/stress-audit-2026-10-14/README.md`, PR #4160), defects 3, 18, 19, 4 and 6.
 
 ## What the owner can play now
@@ -35,12 +35,19 @@ Once PRs #4206 and #4214 merge:
 
 ## Queue (CTO, Oct 14, in order)
 
-1. [ ] Bills in their body's real form: numbering, title, enacting clause, motion (`gov/bill-form`, in progress).
-2. [ ] Why one question is every town's first bill: a fixed axis decides it; the floor now weighs how much of the town a change touches (`gov/bill-form`, in progress).
-3. [ ] A member's vote on a federal budget line weighs their state's stake (spending by state).
-4. [ ] The 56-place audit (`docs/reports/trace-audit-2026-10-14/`): real committees and absences, members voting from district, record, caucus and deal; vetoes, failures, overrides and budget votes on the public record; one national Congress with its own leadership; the balanced-budget rule's 29% cuts; numbering per body, recall petitions finding their bill by body; township budgets; unregistered placeholders (restrict-abortion, age-verification; the flat $15 wage).
-5. [ ] Estate and inheritance taxes as law series (`docs/packages/homelessness.md`, branch `packages/homelessness`).
-6. [ ] Federal candidates in federal races; the empty race decided by the place's law.
+1. [x] Bills in their body's real form: numbering, enacting clause, motion, title record (#4236, merged).
+2. [x] Why one question is every town's first bill: a fixed axis; the floor weighs how much of the town a change touches (#4236, merged).
+3. [x] A member's vote on a federal budget line weighs their state's stake (#4241, merged).
+4. The 56-place audit (`docs/reports/trace-audit-2026-10-14/`):
+   - [x] Subject committees (#4248, merged).
+   - [x] Signatures, vetoes, overrides and budget roll calls on the public record (#4253).
+   - [x] Congress as one national body (#4255).
+   - [x] The balanced-budget rule: sequestration's exemptions, over five years (#4259).
+   - [ ] Members voting from district, record, caucus and deal, and absences (cause found: lean times a fixed axis puts a party on one side of every question).
+   - [ ] Recall petitions finding their bill by body; township budgets; the placeholders (restrict-abortion, age-verification; the flat $15 wage).
+5. [ ] Owner rulings on bills (OWNER-DECISIONS.md, "afternoon"): sections composed from the record (series, old and new value, the statute cited); editable terms are number, date and shape (flat or graduated); town and county ordinances in their own form from public-domain municipal forms; members trade votes for amendments, add poison pills and ask favors through the deals engine.
+6. [ ] Estate and inheritance taxes as law series (`docs/packages/homelessness.md`, branch `packages/homelessness`).
+7. [ ] Federal candidates in federal races; the empty race decided by the place's law.
 
 ## Checklist
 
@@ -167,15 +174,6 @@ Branch `gov/justice-small`. Owner's order, October 14, 2026: "Courts, trials, pr
 - **Legislatures sit through their sessions.** State legislatures and Congress convene on their real dates, take bills in over the opening weeks in both chambers and vote them week by week; what the floor never reaches dies at adjournment. A bill you schedule goes to the body's next real sitting.
 - **Budgets are bargained down.** A failing budget's most opposed change is halved up to three times before it's dropped; Congress no longer drops seven lines every year.
 - **Recalls follow the law.** No recall over a disliked ordinance where the state requires grounds, none in a term's first 180 days, no second petition after one failed or is pending, one organizer per petition.
-
-## Queue (CTO, Oct 14, in order)
-
-1. [ ] Bills in their body's real form: numbering, title, enacting clause, motion (`gov/bill-form`, in progress).
-2. [ ] Why one question is every town's first bill: a fixed axis decides it; the floor now weighs how much of the town a change touches (`gov/bill-form`, in progress).
-3. [ ] A member's vote on a federal budget line weighs their state's stake (spending by state).
-4. [ ] The 56-place audit (`docs/reports/trace-audit-2026-10-14/`): real committees and absences, members voting from district, record, caucus and deal; vetoes, failures, overrides and budget votes on the public record; one national Congress with its own leadership; the balanced-budget rule's 29% cuts; numbering per body, recall petitions finding their bill by body; township budgets; unregistered placeholders (restrict-abortion, age-verification; the flat $15 wage).
-5. [ ] Estate and inheritance taxes as law series (`docs/packages/homelessness.md`, branch `packages/homelessness`).
-6. [ ] Federal candidates in federal races; the empty race decided by the place's law.
 
 ## Checklist
 
