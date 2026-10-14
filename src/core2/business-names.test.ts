@@ -26,9 +26,7 @@ describe(`business names: ${key} (seed ${seed})`, () => {
       fillBusinessName(style, context),
     );
     expect(businessName("restaurant", context, new Set())).toBe(first);
-    expect(businessName("restaurant", context, new Set([first!]))).toBe(
-      second,
-    );
+    expect(businessName("restaurant", context, new Set([first!]))).toBe(second);
     // No style carries the raw kind id or a phrase Americans don't use.
     for (const styles of Object.values(names.kinds))
       for (const style of styles)
