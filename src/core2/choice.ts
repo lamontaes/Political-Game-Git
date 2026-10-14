@@ -61,6 +61,47 @@ export function carryTraitScores(
   if (lean) kindLeans.set(next, lean);
 }
 
+/** One side of a trait's pull, as kind indices, and its share of the kinds. */
+interface CompiledSide {
+  toward: readonly number[];
+  away: readonly number[];
+  perKind: number;
+}
+interface CompiledPulls {
+  rows: Map<string, { high?: CompiledSide; low?: CompiledSide }>;
+  zero: number;
+  one: number;
+  traitScale: number;
+}
+/** The trait table with every kind given its index, once per data table. */
+const compiledByData = new WeakMap<object, CompiledPulls>();
+function compiledPulls(data: CoreState["data"]): CompiledPulls {
+  const cached = compiledByData.get(data);
+  if (cached) return cached;
+  const p = (key: string) => parameter(key, data.parameters);
+  const side = (
+    row: { toward?: readonly string[]; away?: readonly string[] } | undefined,
+  ): CompiledSide | undefined =>
+    row && {
+      toward: (row.toward ?? []).map(kindIndex),
+      away: (row.away ?? []).map(kindIndex),
+      perKind:
+        ((row.toward?.length ?? p("zero")) + (row.away?.length ?? p("zero"))) /
+        data.actKinds.length,
+    };
+  const rows = new Map<string, { high?: CompiledSide; low?: CompiledSide }>();
+  for (const [id, row] of Object.entries(data.traitPulls))
+    rows.set(id, { high: side(row.high), low: side(row.low) });
+  const compiled = {
+    rows,
+    zero: p("zero"),
+    one: p("one"),
+    traitScale: p("traitScale"),
+  };
+  compiledByData.set(data, compiled);
+  return compiled;
+}
+
 /**
  * Every trait's pull on every act kind for one person, computed once per
  * person: each trait counts on its high side when above the middle and its
@@ -81,27 +122,22 @@ function kindLean(
   const byTraits = leansByTraits.get(actor.traits);
   const checksum = checked ? traitChecksum(actor.traits) : Number.NaN;
   if (byTraits && (!checked || byTraits.sum === checksum)) return byTraits.lean;
-  const p = (key: string) => parameter(key, core.data.parameters);
-  const sums = new Map<number, number>();
-  let perKind = p("zero");
-  const add = (kind: string, value: number) => {
-    const i = kindIndex(kind);
-    sums.set(i, (sums.get(i) ?? p("zero")) + value);
-  };
-  for (const [id, raw] of Object.entries(actor.traits)) {
-    const row = core.data.traitPulls[id];
-    if (!row || raw === p("zero")) continue;
-    const side = raw > p("zero") ? row.high : row.low;
-    if (!side) continue;
-    const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
-    for (const kind of side.toward ?? []) add(kind, weight);
-    for (const kind of side.away ?? []) add(kind, -weight);
-    perKind +=
-      ((side.toward?.length ?? p("zero")) + (side.away?.length ?? p("zero"))) /
-      core.data.actKinds.length;
-  }
+  const table = compiledPulls(core.data);
+  const zero = table.zero;
   const sum = new Float64Array(KIND_INDEX.size);
-  for (const [i, value] of sums) sum[i] = value;
+  let perKind = zero;
+  for (const id in actor.traits) {
+    const raw = actor.traits[id]!;
+    const row = table.rows.get(id);
+    if (!row || raw === zero) continue;
+    const side = raw > zero ? row.high : row.low;
+    if (!side) continue;
+    const weight = Math.min(table.one, Math.abs(raw) / table.traitScale);
+    for (let i = 0; i < side.toward.length; i++)
+      sum[side.toward[i]!]! += weight;
+    for (let i = 0; i < side.away.length; i++) sum[side.away[i]!]! -= weight;
+    perKind += side.perKind;
+  }
   const lean: KindLean = { sum, perKind };
   kindLeans.set(actor as PersonState, lean);
   leansByTraits.set(actor.traits, { sum: checksum, lean });
