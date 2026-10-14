@@ -268,6 +268,8 @@ export function printItem(
     interviewId: options.interviewId ?? null,
   };
   ctx.save(story);
+  // stopgapId: SG-PEOPLE-press-bring-it-up-row
+  api.stopgap("SG-PEOPLE-press-bring-it-up-row");
   printStory(
     api,
     {

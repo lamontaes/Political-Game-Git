@@ -885,6 +885,8 @@ function reporterFor(
     (id) => api.state.people.get(id)?.alive,
   );
   if (!reporters.length) return null;
+  // stopgapId: SG-PEOPLE-press-favors-and-leaks
+  api.stopgap("SG-PEOPLE-press-favors-and-leaks");
   return reporters
     .map((id) => ({ id, tie: closeness(api, id, candidateId) }))
     .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))[0]!.id;
@@ -921,6 +923,8 @@ export function answerInterview(
     InterviewRow | undefined;
   if (!row || row.status !== "invited")
     throw new Error(`No interview waiting: ${interviewId}`);
+  // stopgapId: SG-PEOPLE-press-interview-conversation
+  api.stopgap("SG-PEOPLE-press-interview-conversation");
   const filing = filingOf(api, row.filingId);
   const given = row.questions.map((question): InterviewAnswer => {
     const answer = answers.find((a) => a.question === question);
@@ -1342,6 +1346,8 @@ export function staffOf(api: CoreAPI, outletId: string): readonly StaffRow[] {
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
+  // stopgapId: SG-PEOPLE-press-endorsements
+  api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   const ctx = deskContext(api);

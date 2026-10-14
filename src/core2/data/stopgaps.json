@@ -3090,5 +3090,65 @@
     "addedAt": "2026-10-14",
     "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-interview-conversation",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 926,
+    "whatItFakes": "An interview's answers carry the conversation's moves (plain, further, turn, brief) and the lie as record data, but the screen does not yet open the interview through the director's conversation, so the player cannot see the reporter's questions as spoken lines or pick a move from worded choices.",
+    "why": "The conversation engine and its word banks are being rewritten by the words session (PR #4156); interview lines need its mined banks and adapters.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-14",
+    "replacement": "An interview subject in the director's conversation: the reporter asks each question as a line, the four moves and the lie are the player's choices, and the chosen move is passed to answerInterview.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-bring-it-up-row",
+    "kind": "missing-record",
+    "file": "src/core2/press-desk.ts",
+    "line": 271,
+    "whatItFakes": "Readers of a printed story learn which outlet printed what (the perceived fact printed:<outlet>:story), which bring-it-up's matcher reads, but bring-it-up's data has no change row for a printed story yet, so no one says it aloud.",
+    "why": "The director's data belongs to the words session until PR #4156 lands; the row needs mined lines for the subject.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-14",
+    "replacement": "A change row {eventKind news.read, institutionFact printed: / :story} in bring-it-up-rows.json with mined lines naming the outlet, the topic and whether it ended something.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-staff-households",
+    "kind": "missing-record",
+    "file": "src/core2/press-staff.ts",
+    "line": 151,
+    "whatItFakes": "An outlet's generated people each live alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them, so their pay piles up as cash.",
+    "why": "The identity fill-in (OPUS-CORE) seats a named person without a home or a budget; a press person's home and family need the population builder's household draw.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-14",
+    "replacement": "A press person's household drawn as the opening draws any household of their age and pay in the town, with its rent, living costs and kin.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-favors-and-leaks",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 888,
+    "whatItFakes": "A reporter's closeness to a candidate gives access (asked first, the friendly reporter asks) and gentler copy, but a candidate cannot do a reporter a favor or leak them a story, and a reporter cannot hold a story back for a friend.",
+    "why": "Favors and leaks need a player act on a reporter (a scene or a conversation move) that the director does not offer yet.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-14",
+    "replacement": "A leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts the reporter's drives and closeness read.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-endorsements",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/press.ts",
+    "line": 1349,
+    "whatItFakes": "Outlets never endorse a candidate in an editorial.",
+    "why": "Endorsements are a real-world step; the owner's rule says a mechanic exists only when the golden path or The Political Process needs it or he asks for it. Whether a paper's endorsement belongs in early access is his call.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling: either no endorsements, or an outlet's head endorses from the outlet's line, their ties and the candidates' records, printed as a story the views and voting engines read.",
+    "status": "open"
   }
 ]

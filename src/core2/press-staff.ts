@@ -148,6 +148,8 @@ export function hireStaffMember(
   const neighbor = [...(core.peopleByPlace.get(input.townPlaceId) ?? [])]
     .map((pid) => core.people.get(pid))
     .find((p) => p?.alive && p.countyId);
+  // stopgapId: SG-PEOPLE-press-staff-households
+  api.stopgap("SG-PEOPLE-press-staff-households");
   fillInIdentity(core, {
     id,
     givenName,
