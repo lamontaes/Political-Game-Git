@@ -7,6 +7,7 @@
  */
 import type { CoreAPI, CoreState } from "./types";
 import { stopgap } from "./stopgaps";
+import { residentsRuntime } from "./modules/residents";
 import {
   EMPLOYER_TAXES_MODULE_ID,
   employerArrears,
@@ -25,6 +26,8 @@ export interface BusinessBooksView {
   /** Since the opening, from the books. */
   readonly salesMinor: number;
   readonly operatingCostsMinor: number;
+  /** Paid to suppliers outside the town. */
+  readonly outsideCostsMinor: number;
   readonly wagesPaidMinor: number;
   readonly wagesUnpaidMinor: number;
   readonly profitMinor: number;
@@ -67,6 +70,9 @@ export function businessBooksView(
       recordIds.push(row.id);
     }
   }
+  const outside =
+    residentsRuntime(core)?.flows.get(`outside-costs:${organizationId}`)
+      ?.outsidePaidMinor ?? 0;
   const facility = books.creditFacilityId
     ? core.finance.facilities.get(books.creditFacilityId)
     : undefined;
@@ -78,12 +84,14 @@ export function businessBooksView(
     cashMinor: api.accounts().balance(`cash:${organizationId}:residual`),
     salesMinor: books.salesReceivedMinor,
     operatingCostsMinor: books.operatingPaidMinor,
+    outsideCostsMinor: outside,
     wagesPaidMinor: books.wagesPaidMinor,
     wagesUnpaidMinor: books.wagesUnpaidMinor,
     profitMinor:
       books.salesReceivedMinor -
       books.operatingPaidMinor -
-      books.wagesPaidMinor,
+      books.wagesPaidMinor -
+      outside,
     taxesPaidMinor: taxesPaid,
     taxesOwedMinor: core.modules.has(EMPLOYER_TAXES_MODULE_ID)
       ? employerArrears(api, organizationId) +

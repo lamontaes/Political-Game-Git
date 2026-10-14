@@ -22,6 +22,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
+import { residentsRuntime } from "./residents";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
@@ -157,10 +158,16 @@ function payProfitTaxes(api: CoreAPI): void {
   for (const [id, books] of [...core.finance.businesses].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
+    // Operating profit to date: sales less local costs, wages and the costs
+    // paid to suppliers outside the town (the residents' outside-costs flow).
+    const outside =
+      residentsRuntime(core)?.flows.get(`outside-costs:${id}`)
+        ?.outsidePaidMinor ?? 0;
     const total =
       books.salesReceivedMinor -
       books.operatingPaidMinor -
-      books.wagesPaidMinor;
+      books.wagesPaidMinor -
+      outside;
     const last = table(api, "quarters").get(id) as unknown as
       { minor: number } | undefined;
     table(api, "quarters").put({ id, minor: total } as unknown as ModuleRow);
