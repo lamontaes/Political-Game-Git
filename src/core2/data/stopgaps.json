@@ -3138,5 +3138,17 @@
     "addedAt": "2026-10-14",
     "replacement": "A residents wage-flow payment hook (OPUS-CORE) that posts the same employer share from the law rows in force.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-staff-seat-applicant",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/staff.ts",
+    "line": 370,
+    "whatItFakes": "An official whose office sits outside the town (a state or federal office, at its seat of government) draws one applicant living where the office sits, generated from the world's seed and the office (name, age in the business-worker range, traits), and records them as a person only when hired.",
+    "why": "The owner ruled that such an official hires from where the office sits (Oct 14), but the seat's population isn't modeled, so there is no labor market there to read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The seat's coarse population (people by age and work, as the town's counted population is kept), from which the official's applicants come by the same reach and working-age reads.",
+    "status": "open"
   }
 ]
