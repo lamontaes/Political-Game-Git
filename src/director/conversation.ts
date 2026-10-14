@@ -2,8 +2,9 @@
  * Conversations on the new core (M4-02). Every subject is a record the
  * speaker holds. The other person asks or tells; every choice answers that
  * line (rule R3), each with a different move: plainly, with a further fact
- * from the records, by turning the question back, or briefly before raising
- * something else. Leaving is the screen's control, never a choice.
+ * from the records, or by turning the question back. A second sentence only
+ * follows from the first (owner, batch 6); the other person moves the talk
+ * on. Leaving is the screen's control, never a choice.
  *
  * Talking is time together: each exchange is recorded through the core's
  * relationship writer, so closeness grows and news passes as at any contact.
@@ -67,12 +68,13 @@ interface SubjectBank {
 }
 export interface ConversationData {
   version: string;
-  minimumChoices: number;
   toldEvent: string;
   lieEvent: string;
   minutesPerExchange: number;
   /** The kind a reply is written as, when it differs from the raised one. */
   replyKinds: Readonly<Record<string, string>>;
+  /** The subjects an answer to each subject may go on to raise: only ones that follow from it. */
+  follows: Readonly<Record<string, readonly string[]>>;
   /** What the player answers when the other person raises one of their own subjects. */
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
@@ -733,8 +735,12 @@ function otherAsks(
   order: readonly string[],
 ): boolean {
   const { playerId, otherId } = conversation;
+  // One relative asked after per talk.
+  const askedFamily = conversation.used.some((id) => id.startsWith("family:"));
   const subjects = subjectsBetween(core, playerId, otherId).filter(
-    (row) => !conversation.used.includes(row.id),
+    (row) =>
+      !conversation.used.includes(row.id) &&
+      !(askedFamily && row.kind === "family"),
   );
   const other = core.people.get(otherId)!;
   const sameWork = subjects.find(
@@ -775,8 +781,6 @@ function otherAsks(
   return true;
 }
 
-/** Subjects raised only by a move that names them, never as "something else". */
-const EXPLICIT_ONLY = ["their-tenure"];
 /** With nothing left to ask, the other person raises something of their own. */
 function otherRaises(
   core: Readonly<CoreState>,
@@ -1025,12 +1029,14 @@ function offerChoices(
       raisable(data, row.kind),
   );
   const taken = new Set<string>();
+  // A reply's second move follows from its first (owner, batch 6): turning
+  // the same question back ("I'm from here. And you?"), or asking about their
+  // work after naming yours. Never an unrelated subject tacked on.
+  const follows = data.follows[last.kind.replace(/-new$/, "")] ?? [];
   const target = (raises: string): Subject | undefined => {
-    const free = unused.filter((row) => !taken.has(row.id));
-    const general = free.filter((row) => !EXPLICIT_ONLY.includes(row.kind));
-    if (raises === "next") return general[zero];
-    if (raises === "next-2") return general[one];
-    return free.find((row) => row.kind === raises);
+    if (!follows.includes(raises)) return undefined;
+    if (raises === last.subject.kind) return last.subject;
+    return unused.find((row) => row.kind === raises && !taken.has(row.id));
   };
   // One choice per move, worded from every mined wording of it.
   const groups = new Map<string, Move[]>();
@@ -1074,7 +1080,9 @@ function offerChoices(
         tail = answer;
       }
     }
-    if (raised) {
+    // Turning the question back asks it; nothing more is said.
+    if (raised === last.subject && !/\?$/.test(answer.text)) return;
+    if (raised && raised !== last.subject) {
       const line = words(
         core,
         data,
@@ -1124,33 +1132,25 @@ function offerChoices(
         : {}),
     });
   };
-  // Answers that name what they raise first, then those taking the next subject.
-  const ordered = [...groups].sort(
-    ([, a], [, b]) =>
-      Number(a[zero]!.raises?.startsWith("next") ?? false) -
-      Number(b[zero]!.raises?.startsWith("next") ?? false),
-  );
-  for (const [choiceKey, group] of ordered) {
+  // What the player already told in this talk is not offered again.
+  const told = OWN_OF[last.kind];
+  for (const [choiceKey, group] of groups) {
+    if (
+      choiceKey === "own" &&
+      told &&
+      conversation.used.includes(`${told}:${playerId}`)
+    )
+      continue;
     const raises = group[zero]!.raises;
     if (raises) {
       const subject = target(raises);
       if (subject) add(choiceKey, group, subject);
     } else add(choiceKey, group);
   }
-  // Four choices at least: further brief answers that raise the next
-  // subjects. Where nothing brief is mined for this subject, taking it in
-  // ("Okay.", "Right.") serves, as the other person's acknowledgment does.
-  const briefKey = "brief";
-  const ackBank = groups.has(briefKey) ? answerBank : "conversation:ack:reply";
-  const brief =
-    groups.get(briefKey) ??
-    data.subjects.ack?.reply?.map((move) => ({ ...move, key: briefKey }));
-  if (!groups.size && brief) add("ack", brief, undefined, ackBank);
-  for (const subject of unused) {
-    if (conversation.choices.length >= data.minimumChoices || !brief) break;
-    if (EXPLICIT_ONLY.includes(subject.kind)) continue;
-    if (!taken.has(subject.id)) add(briefKey, brief, subject, ackBank);
-  }
+  // Nothing mined answers this: taking it in ("Okay.", "Right."), as the
+  // other person's acknowledgment does. The other person carries on after.
+  if (!conversation.choices.length && data.subjects.ack?.reply)
+    add("ack", data.subjects.ack.reply, undefined, "conversation:ack:reply");
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
   if (
@@ -1264,6 +1264,13 @@ function lieChoices(
   });
   return out;
 }
+
+/** The player's own subject an "own" answer tells, by the subject it answers. */
+const OWN_OF: Readonly<Record<string, string>> = {
+  "other-work": "own-work",
+  "tenure-reply": "own-work",
+  "home-reply": "home",
+};
 
 /** The slots that carry the player's own employer or place, which a false alternative replaces. */
 const OWN_SLOTS = ["employer", "my-employer", "place", "my-place"];

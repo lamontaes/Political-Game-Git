@@ -1,6 +1,5 @@
 {
   "about": "How conversations run on the new core: the events they record, how many choices the player gets, and which subject a reply or a raised subject is worded under. No sentence text: every line is a mined sentence from data/english/parts/conversation.json.",
-  "minimumChoices": 4,
   "toldEvent": "conversation.told",
   "lieEvent": "conversation.lie",
   "minutesPerExchange": 2,
@@ -29,5 +28,12 @@
       "kind": "news",
       "stage": "not-heard"
     }
+  },
+  "follows": {
+    "own-work": ["their-work"],
+    "heard-work": ["their-work"],
+    "shared-work": ["their-work"],
+    "other-work": ["their-tenure"],
+    "home": ["home"]
   }
 }

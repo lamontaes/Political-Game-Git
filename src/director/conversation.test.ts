@@ -101,9 +101,8 @@ const opening = (talk: Conversation) =>
   talk.lines.find((row) => row.kind !== "greet")!;
 
 describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("offers at least four distinct choices every turn, each answering the last line", () => {
+  it("offers distinct choices every turn, each answering the last line and only following on from it", () => {
     let turns = 0;
-    let full = 0;
     for (const otherId of others.slice(0, 15)) {
       const talk = openConversation(core, player.id, otherId);
       // A greeting at most, then one question.
@@ -112,28 +111,26 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        // Four when the records and the mined sentences allow; never none.
-        expect(talk.choices.length).toBeGreaterThan(0);
-        if (talk.choices.length >= CONVERSATION_DATA.minimumChoices) full += 1;
         const texts = talk.choices.map((row) => row.text);
         expect(new Set(texts).size).toBe(texts.length);
-        // Not one answer with different topics tacked on.
-        const openings = new Set(texts.map((text) => text.split(/[.?]/)[0]));
-        expect(openings.size).toBeGreaterThan(1);
+        const moves = talk.choices.map((row) => row.move);
+        expect(new Set(moves).size).toBe(moves.length);
+        // A second move only follows from the first (owner, batch 6): the
+        // same question turned back, or their work after yours.
+        const follows =
+          CONVERSATION_DATA.follows[last.kind.replace(/-new$/, "")] ?? [];
         for (const choice of talk.choices) {
           expect(choice.answers).toBe(last.subjectId);
           expect(choice.sourceRecordIds.length).toBeGreaterThan(0);
           expect(choice.text).not.toMatch(/\b(goodbye|leave|bye)\b/i);
+          if (choice.raises)
+            expect(follows).toContain(choice.raises.split(":")[0]);
         }
         say(core, talk, talk.choices[turn % talk.choices.length]!.key);
         turns += 1;
       }
     }
     expect(turns).toBeGreaterThan(15);
-    // Measured Oct 14 with the mined bank: 40 of 48 turns offer four or more;
-    // the rest run out of subjects the bank can raise (no mined sentence
-    // raises a relative or asks how school is going yet).
-    expect(full / turns).toBeGreaterThan(0.75);
   });
 
   it("records talking as time together, and passes news the other hasn't heard", () => {
