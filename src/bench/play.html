@@ -78,7 +78,16 @@
 
       <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
+        <p class="sub">A life in American government.</p>
         <div id="front-main">
+          <button
+            id="new-life"
+            class="item"
+            type="button"
+            data-testid="new-game"
+          >
+            <b>New game</b><span>Begin a life in a real place.</span>
+          </button>
           <button
             id="front-continue"
             class="item"
@@ -86,15 +95,17 @@
             data-testid="continue"
             disabled
           >
-            <b>Continue</b>
+            <b>Continue</b><span>No life saved yet.</span>
           </button>
+          <!-- Saved games and Patch notes wait for saves and a notes route. -->
           <button
-            id="new-life"
+            id="front-saves"
             class="item"
             type="button"
-            data-testid="new-game"
+            data-testid="saved-games"
+            disabled
           >
-            <b>New game</b>
+            <b>Saved games</b><span>Open a saved life, or import one.</span>
           </button>
           <button
             id="front-options"
@@ -103,6 +114,15 @@
             data-testid="title-options"
           >
             <b>Options</b>
+          </button>
+          <button
+            id="front-patch-notes"
+            class="item"
+            type="button"
+            data-testid="title-patch-notes"
+            disabled
+          >
+            <b>Patch notes</b>
           </button>
           <!-- Quit is the desktop's; a browser tab has none to offer. -->
           <button

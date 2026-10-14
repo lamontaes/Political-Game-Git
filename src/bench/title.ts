@@ -1,5 +1,4 @@
-import type { CoreState } from "../core2/types";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFile } from "./scene";
 
 /**
  * The title's scenes: national places and events that hold people (owner,
@@ -31,26 +30,9 @@ function dayNumber(day: string) {
 
 /**
  * The scene for one visit to the title: the day picks where the rotation
- * starts and each visit moves one scene on. With a life in progress, its
- * character stands on the scene's lead spot (Oct 2 ruling: the latest
- * character's hero pose), placed by the scene's own staging.
+ * starts and each visit moves one scene on.
  */
-export function titleScene(
-  day: string,
-  visit: number,
-  core?: CoreState,
-  personId?: string,
-) {
+export function titleScene(day: string, visit: number) {
   const place = TITLE_SCENES[(dayNumber(day) + visit) % TITLE_SCENES.length]!;
-  const person = personId ? core?.people.get(personId) : undefined;
-  const people =
-    core && person
-      ? stagePeople(core, place, [
-          {
-            id: person.id,
-            name: `${person.givenName} ${person.familyName}`,
-          },
-        ]).people
-      : [];
-  return { place, backdrop: backdropFile(place, TITLE_MINUTE), people };
+  return { place, backdrop: backdropFile(place, TITLE_MINUTE) };
 }

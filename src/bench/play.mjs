@@ -2089,16 +2089,14 @@ $("sheet-close").addEventListener("click", closeSheet);
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
-// each visit (owner, Oct 8 and Oct 14). The life in progress, if any, stands
-// in it and is what Continue resumes.
+// each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
 let titleLife = null;
 api("/api/title").then((title) => {
-  if (!$("front").hidden) {
-    $("backdrop").src = title.backdrop.url;
-    drawPeople(title.people);
-  }
+  if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
+  if (titleLife)
+    $("front-continue").querySelector("span").textContent = titleLife.placeName;
 });
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;

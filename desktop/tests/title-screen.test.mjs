@@ -1,8 +1,9 @@
 /**
  * The title screen follows the owner's standing rulings
  * (docs/coordination/prior-rulings/screens.md items 1 and 5): a full-window
- * national scene or event behind the Kit 13 menu (Continue, New
- * game, Options, Quit on the desktop), no version string and no place
+ * national scene or event behind the Kit 13 menu, structured as the
+ * established title (New game, Continue, Saved games, Options, Patch notes,
+ * Quit on the desktop, each with its line), no version string and no place
  * field on the front; the place choice is New game's second step.
  */
 import assert from "node:assert/strict";
@@ -51,24 +52,47 @@ test("the title rotates through national scenes from the backdrop manifest", () 
   assert.match(script, /\$\("backdrop"\)\.src = title\.backdrop\.url;/);
 });
 
-test("the front has Continue, no subtitle and no New game description", () => {
-  assert.doesNotMatch(front, /class="sub"/);
-  assert.match(front, /data-testid="continue"/);
-  const newGame = front.slice(
-    front.indexOf('id="new-life"'),
-    front.indexOf("</button>", front.indexOf('id="new-life"')),
-  );
-  assert.doesNotMatch(newGame, /<span/);
+test("the front follows the established title: subtitle, items with lines", () => {
+  assert.match(front, /<p class="sub">A life in American government\.<\/p>/);
   const main = front.slice(
     front.indexOf('id="front-main"'),
     front.indexOf('id="front-place"'),
   );
+  const order = [
+    "new-game",
+    "continue",
+    "saved-games",
+    "title-options",
+    "title-patch-notes",
+    "title-quit",
+  ].map((id) => main.indexOf(`data-testid="${id}"`));
   assert.ok(
-    main.indexOf('data-testid="continue"') <
-      main.indexOf('data-testid="new-game"'),
-    "Continue leads the menu",
+    order.every((at) => at > 0),
+    "every item is on the front",
   );
-  assert.match(main, /data-testid="title-quit"/);
+  assert.deepEqual(
+    [...order].sort((x, y) => x - y),
+    order,
+    "in order",
+  );
+  const button = (id) =>
+    main.slice(
+      main.indexOf(`data-testid="${id}"`),
+      main.indexOf("</button>", main.indexOf(`data-testid="${id}"`)),
+    );
+  assert.match(
+    button("new-game"),
+    /<span>Begin a life in a real place\.<\/span>/,
+  );
+  assert.match(
+    button("continue"),
+    /disabled[\s\S]*<span>No life saved yet\.<\/span>/,
+  );
+  assert.match(button("saved-games"), /disabled/);
+  assert.match(button("title-patch-notes"), /disabled/);
+  assert.match(button("title-quit"), /hidden/);
+  assert.doesNotMatch(main, /watch/i);
+  assert.doesNotMatch(script, /drawPeople\(title/);
 });
 
 test("the front shows no version string and no place field", () => {

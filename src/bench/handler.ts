@@ -358,8 +358,6 @@ export async function benchRequest(
         const scene = titleScene(
           new Date().toISOString().slice(0, 10),
           titleVisits++,
-          core,
-          personId,
         );
         send(200, {
           ...scene,

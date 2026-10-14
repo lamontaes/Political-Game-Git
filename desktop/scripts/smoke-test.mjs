@@ -159,6 +159,7 @@ async function launch() {
       newGameLine: Boolean(document.querySelector("#new-life span")),
       continueShown: Boolean(document.getElementById("front-continue")),
       continueDisabled: document.getElementById("front-continue")?.disabled,
+      figures: document.querySelectorAll("#people img").length,
       quitShown: !document.getElementById("front-quit")?.hidden,
     };
   });
@@ -171,10 +172,11 @@ async function launch() {
       ),
     titleScreen.src,
   );
-  check("title: no subtitle under the title", !titleScreen.subtitle);
-  check("title: no description line under New game", !titleScreen.newGameLine);
+  check("title: the subtitle sits under the wordmark", titleScreen.subtitle);
+  check("title: New game has its line", titleScreen.newGameLine);
+  check("title: no figure stands on the title", titleScreen.figures === 0);
   check(
-    "title: Continue is there, disabled with no life in progress",
+    "title: Continue is there, disabled with no life saved",
     titleScreen.continueShown && titleScreen.continueDisabled === true,
   );
   check("title: Quit is offered on the desktop", titleScreen.quitShown);
