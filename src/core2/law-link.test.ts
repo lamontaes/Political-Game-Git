@@ -38,7 +38,7 @@ import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
 import { ELECTIONS_MODULE_ID, checkEligibility } from "./modules/elections";
 import {
   resultOf,
-  turnout,
+  turnoutReasons,
   VOTING_MODULE_ID,
   type BallotRow,
 } from "./modules/voting";
@@ -228,12 +228,14 @@ describe("59 policies in the played world, 90 days or the next required event", 
       const voter = [...core.people.values()].find(
         (person) => person.alive && person.placeId === chain.townPlaceId,
       );
-      const priorTurnoutCost = voter ? turnout(api, voter, {}).cost : undefined;
+      const priorTurnoutCost = voter
+        ? turnoutReasons(api, voter).cost
+        : undefined;
       const priorVotingShare = felonyDisenfranchisedShare(api);
       const priorAuthority = authorityFor(api, wageProvision);
       const lawId = enact(question, 1).id;
       const enactedTurnoutCost = voter
-        ? turnout(api, voter, {}).cost
+        ? turnoutReasons(api, voter).cost
         : undefined;
       const enactedVotingShare = felonyDisenfranchisedShare(api);
       const enactedAuthority = authorityFor(api, wageProvision);
@@ -364,9 +366,9 @@ describe("59 policies in the played world, 90 days or the next required event", 
         );
         if (observed) {
           const person = core.people.get(observed.voterId)!;
-          const withRule = turnout(api, person, {}).cost;
+          const withRule = turnoutReasons(api, person).cost;
           enact(question, 0);
-          const withoutRule = turnout(api, person, {}).cost;
+          const withoutRule = turnoutReasons(api, person).cost;
           if (
             withRule !== withoutRule &&
             observed.turnoutReasons.cost === withRule
