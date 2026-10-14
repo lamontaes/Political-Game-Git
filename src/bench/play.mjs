@@ -169,10 +169,9 @@ function showNewsSurface(news) {
   $("news-surface").onclick = () => openNewsReader(news);
   show("news-surface", true);
   // The paper stays on the table for the evening; living on clears it.
-  for (const id of ["day", "week", "skip"])
-    $(id).addEventListener("click", () => show("news-surface", false), {
-      once: true,
-    });
+  $("day").addEventListener("click", () => show("news-surface", false), {
+    once: true,
+  });
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -350,9 +349,7 @@ api("/api/controls").then((value) => (controls = value));
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet && packet.kind !== "complete";
-  for (const id of ["day", "week"]) $(id).disabled = busy || open;
-  $("skip").disabled =
-    !skipping && (busy || (open && packet.kind !== "choice"));
+  $("day").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   show("choices", packet?.kind === "choice" && !talk);
   if (packet?.kind === "choice")
@@ -448,12 +445,8 @@ async function act(path) {
     renderPacket();
   }
 }
-for (const mode of ["day", "week"])
-  $(mode).addEventListener("click", () => act(`/api/advance?mode=${mode}`));
-// Until needed runs in week-long legs so the clock is seen moving; pressing
-// it again stops after the current leg. A stop, choice or day's end that
-// needs you ends it at once.
-let skipping = false;
+// The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
+$("day").addEventListener("click", () => act("/api/advance?mode=day"));
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -464,47 +457,6 @@ async function changeCount() {
 }
 const newChanges = (now) =>
   now.took > seenChanges.took || now.ahead > seenChanges.ahead;
-const SKIP_LEG_DAYS = 7;
-const SKIP_MAX_LEGS = 52;
-$("skip").addEventListener("click", async () => {
-  if (skipping) {
-    skipping = false;
-    return;
-  }
-  skipping = true;
-  $("skip").classList.add("active");
-  try {
-    for (let leg = 0; skipping && leg < SKIP_MAX_LEGS; leg++) {
-      const result = await post(`/api/advance?mode=skip&days=${SKIP_LEG_DAYS}`);
-      me.names = { ...me.names, ...result.names };
-      renderPacket(result.packet);
-      setClock(result.packet.at);
-      if (result.packet.kind !== "complete") break;
-      // Election day needs you: a skip ends when new results are in.
-      const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
-      if (races.length > seenResults) {
-        $("card-why").textContent = controls.endedBy?.results ?? "";
-        break;
-      }
-      // A law taking effect is shown too: the town changes.
-      if (newChanges(await changeCount())) {
-        $("card-why").textContent = controls.endedBy?.law ?? "";
-        await openSheet("changes");
-        break;
-      }
-      await renderScene();
-    }
-  } catch (error) {
-    $("card-place").textContent = error.message;
-  } finally {
-    skipping = false;
-    $("skip").classList.remove("active");
-    renderPacket();
-    await refresh();
-    const moment = storyStop(packet);
-    if (moment) await showStory(moment.recordId);
-  }
-});
 $("continue").addEventListener("click", () => {
   show("talk", false);
   return act(
@@ -1623,6 +1575,42 @@ const sheets = {
         skipOpening?.();
       });
       rows.push(skip);
+    }
+    // Which kinds of scene may stop your day (a record the director reads).
+    const filter = await api("/api/scene-filter").catch(() => null);
+    if (filter) {
+      const allowed = new Set(filter.allowed ?? filter.kinds);
+      const save = () =>
+        post(
+          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
+        );
+      rows.push(
+        el("p", {
+          className: "label",
+          textContent: controls.sceneFilter ?? "",
+        }),
+        el(
+          "div",
+          { className: "scene-filter" },
+          ...filter.kinds.map((kind) => {
+            const box = el("input", {
+              type: "checkbox",
+              checked: allowed.has(kind),
+            });
+            box.addEventListener("change", () => {
+              if (box.checked) allowed.add(kind);
+              else allowed.delete(kind);
+              save();
+            });
+            return el(
+              "label",
+              {},
+              box,
+              ` ${controls.sceneKinds?.[kind] ?? kind}`,
+            );
+          }),
+        ),
+      );
     }
     rows.push(
       el("p", { className: "version", textContent: await displayVersion() }),

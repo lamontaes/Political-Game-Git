@@ -374,15 +374,23 @@ export function scheduleMoment(
   core: Readonly<CoreState>,
   book: PersonLedger,
   moment: Moment,
-  options: { mode: string; interruptImpact: number },
+  options: {
+    mode: string;
+    interruptImpact: number;
+    /**
+     * The scene kinds the player allows to interrupt (their filter record);
+     * absent means every kind. A moment whose scenes are all filtered out
+     * becomes a journal line and stops nothing.
+     */
+    allowedKinds?: ReadonlySet<string>;
+  },
   library: SituationLibrary = SITUATION_LIBRARY,
 ): ScheduleEntry {
   const person = core.people.get(moment.personId);
   if (!person) throw new Error(`Scheduled moment has no person: ${moment.id}`);
   const pace = paceOf(library, person.birthDate, moment.date);
   const rank = paceRank(library, book, moment);
-  const interrupt = moment.impact >= options.interruptImpact;
-  const bindings: SceneBinding[] = [];
+  const found: SceneBinding[] = [];
   let coverage: CoverageRow | undefined;
   for (const type of library.types)
     for (const cause of type.causes) {
@@ -398,10 +406,17 @@ export function scheduleMoment(
           typeKey: type.key,
           detail: bound.detail,
         };
-      else if (!bindings.some((row) => row.typeKey === bound.typeKey))
-        bindings.push(bound);
+      else if (!found.some((row) => row.typeKey === bound.typeKey))
+        found.push(bound);
     }
-  if (!bindings.length)
+  // The player's filter: only the scene kinds they allow stage or interrupt.
+  const allowed = options.allowedKinds;
+  const bindings = allowed
+    ? found.filter((row) => allowed.has(row.typeKey))
+    : found;
+  const filteredOut = found.length > zero && !bindings.length;
+  const interrupt = moment.impact >= options.interruptImpact && !filteredOut;
+  if (!found.length)
     coverage ??= {
       momentId: moment.id,
       personId: moment.personId,
@@ -427,6 +442,6 @@ export function scheduleMoment(
     rank,
     pace,
     bindings,
-    ...(bindings.length ? {} : { coverage }),
+    ...(found.length ? {} : { coverage }),
   };
 }

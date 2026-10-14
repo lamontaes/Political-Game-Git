@@ -1136,6 +1136,20 @@ body.dev .dev-ring {
   padding: 10px 0;
   border-bottom: 1px solid rgba(242, 237, 228, 0.12);
 }
+/* The scenes the player lets stop the day (Options). */
+.scene-filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 4px 16px;
+  margin: 6px 0 16px;
+}
+.scene-filter label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font: 400 13.5px var(--ui);
+  color: var(--text-2);
+}
 .coach {
   box-shadow:
     0 0 0 1px var(--iron),
