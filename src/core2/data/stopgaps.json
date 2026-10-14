@@ -3162,5 +3162,17 @@
     "addedAt": "2026-10-14",
     "replacement": "The jobs engine skips people in custody (justice's inCustody, or discretionaryEligibleV1 false) when deciding who looks for work and whom an employer hires.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-justice-no-forfeiture",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/justice.ts",
+    "line": 670,
+    "whatItFakes": "A convicted official keeps the bribe they took; the court collects only the fine.",
+    "why": "The small justice engine sentences and fines; forfeiture of the proceeds (18 U.S.C. 981 and the states' forfeiture laws) is not built.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "The bribe's amount forfeited from the official's cash to the treasury on the journal at sentencing, from each place's forfeiture law.",
+    "status": "open"
   }
 ]

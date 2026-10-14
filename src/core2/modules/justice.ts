@@ -666,6 +666,9 @@ function convict(api: CoreAPI, row: CaseRow, plea: boolean): void {
             (p(api, "probationMaxMonths") - p(api, "probationMinMonths")) *
               severity,
         );
+  // The bribe itself is not forfeited yet; only the fine is collected.
+  // stopgapId: SG-GOV-justice-no-forfeiture
+  api.stopgap("SG-GOV-justice-no-forfeiture");
   const fineMinor = Math.round(p(api, "fineMultiple") * bribe * severity);
   const sentenceId = `sentence:${row.id}`;
   const forfeiture = convictionForfeitsOffice(api, chain.stateKey);

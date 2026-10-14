@@ -66,7 +66,8 @@ Branch `gov/justice-small`. Owner's order, October 14, 2026: "Courts, trials, pr
 - [x] Sentence from the state's range: fine to the treasury on the journal, probation or prison.
 - [x] Prison: jobs end, seats vacated, no choices until release; release with the record, read by the candidacy inputs as a scandal.
 - [x] The player: hearing and verdict scenes through the director's data; days run without choices in prison.
-- [ ] A background year with a full chain: the only background bribe route is the employers' lobby on a minimum-wage bill, and no background body proposes one (see "Needs").
+- [ ] A background year with a full chain. 11 played years (4 plain, 7 where the player proposed a minimum-wage raise) made 1 bribe offer and 0 reports. The only bribe route is the employers' lobby on a minimum-wage bill, and only the player proposes one (see "Needs").
+- [ ] Forfeiture of the bribe at sentencing (SG-GOV-justice-no-forfeiture).
 
 ### What the owner can play now
 
