@@ -400,14 +400,10 @@ export function candidateInputs(
     incumbent: input.incumbent,
     experienced: input.incumbent || (named && heldOffice(api, input.id)),
     scandal: scandalOf(api, input.id, api.state.date),
-    // A named candidate's campaign books (none kept: nothing spent); an
-    // official the world doesn't name runs the typical campaign unless their
-    // books show spending.
-    spentMinor: named
-      ? (campaign?.spentMinor ?? 0)
-      : campaign?.spentMinor
-        ? campaign.spentMinor
-        : null,
+    // The campaign's books, by one rule for every candidate, named or not:
+    // a campaign the world runs is read as it spent; a candidate with no
+    // campaign in the world runs the typical race's.
+    spentMinor: campaign ? campaign.spentMinor : null,
     record,
     presidentsParty: side !== 0 && side === president,
     seatPartyHolder:

@@ -40,6 +40,7 @@ import { governmentUnit } from "../../simulation/government-units";
 import type { EntityId } from "../../simulation/types";
 import {
   electionInYear,
+  specialElectionDate,
   staggeredSeatElection,
   termStartAfter,
 } from "../elections-calendar";
@@ -216,7 +217,9 @@ function termEnd(
   const year = seat.electionYear ?? office.nextElectionYear;
   const election =
     year !== undefined
-      ? electionInYear({ ...where, year, onDate: `${year}-01-01` })
+      ? // Asked from the year before: a spring election's filing can close
+        // in the winter before its year.
+        electionInYear({ ...where, year, onDate: `${year - 1}-07-01` })
       : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
   if (election) return termStartAfter(office, election.electionDate);
   const starts = office.termStarts ?? "01-01";
@@ -890,7 +893,14 @@ function fillVacancy(
   const scheduled: VacancyRow = {
     ...vacancy,
     status: "awaiting-election",
-    electionDate: addMonths(date, 3),
+    electionDate: specialElectionDate({
+      office,
+      stateKey: office.jurisdiction.startsWith("US-")
+        ? office.jurisdiction
+        : (table(api, "loaded").get("town") as unknown as { stateKey: string })
+            .stateKey,
+      vacancyDate: date,
+    }).electionDate,
   };
   // An interim appointee serves until the special election, where the law
   // makes one; they stand in it as the incumbent.
@@ -958,12 +968,6 @@ export function vacancyFilled(
       status: "filled",
       filledBy: termId,
     } as unknown as ModuleRow);
-}
-
-function addMonths(date: string, months: number): string {
-  const d = new Date(`${date}T00:00:00Z`);
-  d.setUTCMonth(d.getUTCMonth() + months);
-  return d.toISOString().slice(0, 10);
 }
 
 function officesCalendarWork(

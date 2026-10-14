@@ -107,7 +107,7 @@ describe("campaign calibration on totals", () => {
         // the 15% floor in a town that answers at the field rate.
         hours: 12,
       });
-      const knocked = campaignFor(api, filing.id).doorsKnocked.length;
+      const knocked = campaignFor(api, filing.id).doorsKnockedCount ?? 0;
       const contact = met.length / Math.max(1, knocked);
       const filled = core.people.size - namedBefore;
       const known = [...(core.people.get(player.id)?.knownIds ?? [])].filter(
