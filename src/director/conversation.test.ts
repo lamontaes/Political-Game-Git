@@ -130,10 +130,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
     }
     expect(turns).toBeGreaterThan(15);
-    // Measured Oct 14 with the mined bank: 33 of 48 turns offer four or more;
+    // Measured Oct 14 with the mined bank: 40 of 48 turns offer four or more;
     // the rest run out of subjects the bank can raise (no mined sentence
     // raises a relative or asks how school is going yet).
-    expect(full / turns).toBeGreaterThan(0.6);
+    expect(full / turns).toBeGreaterThan(0.75);
   });
 
   it("records talking as time together, and passes news the other hasn't heard", () => {
