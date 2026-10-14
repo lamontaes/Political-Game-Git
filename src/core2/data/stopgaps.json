@@ -3754,5 +3754,17 @@
     "addedAt": "2026-10-14",
     "replacement": "The legislature engine exports the executive's own sign-or-veto choice and office-day calls it.",
     "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-stipend-transfer",
+    "kind": "official-pay",
+    "file": "src/core2/modules/office-day.ts",
+    "line": 713,
+    "whatItFakes": "A part-time local seat's stipend is a monthly transfer from the town's or county's treasury, counted on its books, not a paycheck, so no income tax or payroll tax is withheld from it.",
+    "why": "The core allows one job per person, and most council members and commissioners keep a day job; a second, salaried pay basis in the payroll engine does not exist yet (the same gap as SG-CORE-official-salary).",
+    "addedBy": "OFFICE-LOCAL",
+    "addedAt": "2026-10-14",
+    "replacement": "A salaried second pay basis in the payroll engine (OPUS-CORE), so a stipend is a paycheck with withholding alongside the holder's own job.",
+    "status": "open"
   }
 ]

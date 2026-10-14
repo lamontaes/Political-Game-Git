@@ -59,14 +59,14 @@ export interface MeetingRule {
   readonly source: Source;
 }
 
-/** The population a body's size band reads: the county's for a county board, the town's otherwise. */
-function bodyPopulation(
+/** The population a seat's size band reads: the county's for a county office, the town's otherwise. */
+export function bodyPopulation(
   api: CoreAPI,
   kind: string,
   countyGeoid: string | undefined,
 ): number {
   const town = Number(api.state.placeMetadata.referencePopulation);
-  if (kind === "county-board") {
+  if (kind.startsWith("county-")) {
     const people = countyGeoid ? COUNTY_PEOPLE[countyGeoid] : undefined;
     if (people) return people;
   }

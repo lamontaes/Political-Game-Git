@@ -30,6 +30,12 @@
       "tag": "ESTIMATED",
       "source": "How many days before a regular meeting its agenda is posted, after which a new item waits for the next meeting. State open-meetings laws commonly require 24 to 72 hours' public notice of a regular meeting's agenda (for example California's Brown Act, Gov. Code sec. 54954.2, 72 hours; Texas Gov. Code sec. 551.043, 72 hours).",
       "spread": [1, 7]
+    },
+    "fullTimeWeeklyHours": {
+      "value": 35,
+      "tag": "SOURCED",
+      "source": "Full-time work is 35 hours or more a week (U.S. Bureau of Labor Statistics, Current Population Survey definitions). A seat whose estimated hours reach it is the holder's job.",
+      "spread": [30, 40]
     }
   }
 }

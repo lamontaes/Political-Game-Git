@@ -340,7 +340,7 @@ function* benchWorldStages(
   // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.
-  openOfficeDay(core);
+  openOfficeDay(core, seed);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law

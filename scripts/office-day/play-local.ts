@@ -29,6 +29,7 @@ import {
   meetingInProgress,
   meetingsOf,
   officeActsOf,
+  officeJobsOf,
   placeOnAgenda,
   takeUpItem,
   upcomingMeeting,
@@ -73,7 +74,9 @@ console.log(
 const body = council?.office.id;
 if (!body) throw new Error("No council here.");
 let bill;
-for (const question of Object.keys(POLICY_QUESTIONS).sort()) {
+for (const question of Object.keys(POLICY_QUESTIONS)
+  .filter((q) => !q.startsWith("us-federal"))
+  .sort()) {
   for (const value of [1, -1]) {
     const drafted = draftBill(api, {
       bodyOfficeId: body,
@@ -177,5 +180,31 @@ console.log(
 for (const act of officeActsOf(api, me))
   console.log(
     `act ${act.date} ${act.kind} ${act.how} ${act.recordId} ${act.detail} ${act.position ?? ""}`,
+  );
+for (const job of officeJobsOf(api, me))
+  console.log(
+    `office job: ${job.title}, ${job.fullTime ? "full time on the payroll" : "part time, stipend"}; $${job.annualMinor / 100} a year, ${job.weeklyHours} hours a week; paid by ${job.payerId}; ${job.citation}`,
+  );
+// Skip to the day after the next 1st to see the stipend paid.
+const month = core.date.slice(0, 7);
+const nextFirst = addDays(makeIsoDate(`${month}-01`), 40).slice(0, 8) + "02";
+player.advance("calendar", nextFirst);
+for (
+  let guard = 0;
+  guard < 400 && player.packet?.kind !== "complete";
+  guard++
+) {
+  const packet = player.packet!;
+  if (packet.kind === "choice")
+    player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+  else if (packet.kind === "stop") {
+    const meeting = meetingInProgress(api);
+    if (meeting) adjourn(api, meeting.id);
+    player.resume({ kind: "stop", pauseId: packet.pauseId });
+  } else break;
+}
+for (const job of officeJobsOf(api, me))
+  console.log(
+    `by ${core.date}: last stipend ${JSON.stringify(job.lastPaid ?? null)}; paid through ${job.paidFrom}`,
   );
 console.log(`total ${Date.now() - started} ms`);

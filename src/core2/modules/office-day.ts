@@ -26,7 +26,11 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
-import { townSeats, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import { governments } from "./budgets";
+import { notePublicPay } from "../budgets-treasury";
+import { startPublicJob } from "../public-payroll";
+import { seatPay } from "../office-day-pay";
 import {
   billOf,
   castMemberVote,
@@ -44,6 +48,7 @@ import {
 } from "./legislature";
 import {
   nextMeeting as nextOnRule,
+  bodyPopulation,
   officeDayParameter,
   type MeetingRule,
 } from "../office-day-calendar";
@@ -115,10 +120,25 @@ export const OFFICE_DAY_MODULE: CoreModule = {
       agendaItems: {},
       stops: {},
       acts: { indexes: { byPerson: { fields: ["personId"] } } },
+      officeJobs: { indexes: { byPerson: { fields: ["personId"] } } },
+      world: {},
     },
   },
   onCalendarWork: officeDayCalendar,
+  onDay(api) {
+    // New holders are seated the day the roster grows; ended terms and pay
+    // are read on the 1st.
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms").size;
+    const payday = api.state.date.endsWith("-01");
+    if (payday || seenTerms.get(api.state) !== terms) {
+      seenTerms.set(api.state, terms);
+      reviewOfficeJobs(api);
+    }
+    if (payday) payStipends(api);
+    return undefined;
+  },
 };
+const seenTerms = new WeakMap<object, number>();
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(OFFICE_DAY_MODULE_ID).table(name);
@@ -127,11 +147,16 @@ const playerOf = (api: CoreAPI) =>
   snapshotExplicitControlV1(api.state).personId ??
   (api.state as CoreState).playerId;
 
-export function openOfficeDay(core: CoreState): void {
+export function openOfficeDay(core: CoreState, worldSeed: string): void {
   registerLegislatureHooks({ beforeVote: ownVote, onDesk: deskArrived });
   if (core.modules.has(OFFICE_DAY_MODULE_ID)) return;
   registerModule(core, OFFICE_DAY_MODULE);
   const api = coreAPI(core);
+  table(api, "world").put({
+    id: "seed",
+    seed: worldSeed,
+  } as unknown as ModuleRow);
+  reviewOfficeJobs(api);
   const bodies = new Set(townSeats(api).map((s) => s.office.id));
   for (const officeId of [...bodies].sort())
     scheduleMeeting(api, officeId, api.state.date);
@@ -583,3 +608,166 @@ export function officeActsOf(api: CoreAPI, personId: string): OfficeActRow[] {
 
 // The stop's token is kept per core so a meeting can release its own hold.
 const tokens = new WeakMap<object, Map<string, ModuleStopTokenV1>>();
+
+// ---- The office is a job -----------------------------------------------
+
+/** A local seat held as a job: its hours, its pay and who pays it. */
+export interface OfficeJobRow {
+  /** The term's id: one job per holder per term. */
+  readonly id: string;
+  readonly personId: string;
+  readonly officeId: string;
+  readonly seatId: string;
+  readonly title: string;
+  readonly annualMinor: number;
+  readonly weeklyHours: number;
+  readonly fullTime: boolean;
+  /** The town's or county's treasury. */
+  readonly payerId: string;
+  /** The payroll job, for a full-time seat; a part-time holder keeps their own job. */
+  readonly jobId: string | null;
+  /** Paid for every day before this one (a part-time seat's stipend). */
+  readonly paidFrom: string;
+  readonly endedOn: string | null;
+  readonly citation: string;
+  /** The last stipend paid, for the record. */
+  readonly lastPaid?: { readonly on: string; readonly amountMinor: number };
+}
+
+const COUNTY_KINDS = new Set(["county-board", "county-executive"]);
+
+/** Seat new local holders in their office job; end the job of a term that ended. */
+function reviewOfficeJobs(api: CoreAPI): void {
+  const seed =
+    (table(api, "world").get("seed") as unknown as { seed: string } | undefined)
+      ?.seed ?? "";
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  for (const raw of table(api, "officeJobs").rows()) {
+    const row = raw as unknown as OfficeJobRow;
+    if (row.endedOn) continue;
+    const term = terms.get(row.id) as unknown as TermRow | undefined;
+    if (term?.status === "serving") continue;
+    const ended = term?.endDate ?? api.state.date;
+    if (row.jobId) {
+      const job = (api.state as CoreState).jobs.get(row.jobId);
+      if (job && job.endsAt === undefined)
+        api.endJob(row.jobId, `office-ended:${row.seatId}:${ended}`);
+    }
+    table(api, "officeJobs").put({
+      ...row,
+      endedOn: ended < api.state.date ? ended : api.state.date,
+    } as unknown as ModuleRow);
+  }
+  const govs = api.state.modules.has("core2-budgets-v1")
+    ? governments(api)
+    : [];
+  const countyGeoid = lawChain(api).countyGeoids[0];
+  for (const { office, seat, holder } of townSeats(api)) {
+    if (!holder?.personId || holder.status !== "serving") continue;
+    if (table(api, "officeJobs").get(holder.id)) continue;
+    const person = api.state.people.get(holder.personId);
+    if (!person?.alive) continue;
+    const county = COUNTY_KINDS.has(office.kind);
+    const payer = govs.find((g) => g.level === (county ? "county" : "city"));
+    if (!payer) continue;
+    const pay = seatPay({
+      officeKind: office.kind,
+      officeId: office.id,
+      population: bodyPopulation(api, office.kind, countyGeoid),
+      worldSeed: seed,
+    });
+    if (!pay) continue;
+    // A full-time seat is the holder's job, paid on the payroll like any
+    // public post; a part-time holder keeps their own job.
+    const jobId = pay.fullTime
+      ? startPublicJob(api, {
+          personId: holder.personId,
+          employerId: payer.organizationId,
+          post: `office:${seat.id}`,
+          title: office.title,
+          hourlyMinor: Math.round(pay.annualMinor / (52 * pay.weeklyHours)),
+          citation: pay.citation,
+        })
+      : null;
+    table(api, "officeJobs").put({
+      id: holder.id,
+      personId: holder.personId,
+      officeId: office.id,
+      seatId: seat.id,
+      title: office.title,
+      annualMinor: pay.annualMinor,
+      weeklyHours: pay.weeklyHours,
+      fullTime: jobId !== null,
+      payerId: payer.organizationId,
+      jobId,
+      paidFrom: api.state.date,
+      endedOn: null,
+      citation: pay.citation,
+    } satisfies OfficeJobRow as unknown as ModuleRow);
+  }
+}
+
+/**
+ * On the 1st: each part-time holder's stipend for the days served, from the
+ * treasury that pays the seat, on that treasury's books.
+ * stopgapId: SG-OFFICE-stipend-transfer
+ */
+function payStipends(api: CoreAPI): void {
+  const accounts = api.accounts();
+  const today = api.state.date;
+  for (const raw of table(api, "officeJobs").rows()) {
+    const row = raw as unknown as OfficeJobRow;
+    if (row.jobId) continue;
+    const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
+    const days = Math.round(
+      (Date.parse(`${through}T00:00:00Z`) -
+        Date.parse(`${row.paidFrom}T00:00:00Z`)) /
+        86_400_000,
+    );
+    let lastPaid = row.lastPaid;
+    if (days > 0 && api.state.people.get(row.personId)?.alive) {
+      api.stopgap("SG-OFFICE-stipend-transfer");
+      const amountMinor = Math.round((row.annualMinor * days) / 365);
+      lastPaid = { on: today, amountMinor };
+      if (amountMinor > 0) {
+        const id = `stipend:${row.id}:${today}`;
+        accounts.transfer({
+          id,
+          from: accounts.main(row.payerId),
+          to: accounts.main(row.personId),
+          amountMinor,
+          reasonKey: "office.stipend",
+          partial: true,
+          source: {
+            tag: "ESTIMATED",
+            asOf: today,
+            citation: `${days} days as ${row.title}. ${row.citation}`,
+            estimatedFrom: "local-office-pay-2026.json",
+          },
+        });
+        notePublicPay(api, {
+          id,
+          organizationId: row.payerId,
+          jobId: `office:${row.seatId}`,
+          personId: row.personId,
+          paidMinor: amountMinor,
+        });
+      }
+    }
+    if (row.endedOn && row.endedOn <= today)
+      table(api, "officeJobs").remove(row.id);
+    else
+      table(api, "officeJobs").put({
+        ...row,
+        paidFrom: through,
+        ...(lastPaid ? { lastPaid } : {}),
+      } as unknown as ModuleRow);
+  }
+}
+
+/** The office jobs a person holds now. */
+export function officeJobsOf(api: CoreAPI, personId: string): OfficeJobRow[] {
+  return table(api, "officeJobs").query("byPerson", [
+    personId,
+  ]) as unknown as OfficeJobRow[];
+}
