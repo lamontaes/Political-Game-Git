@@ -42,6 +42,7 @@ import { addDays, makeIsoDate } from "../../simulation/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { startPublicJob } from "../public-payroll";
+import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -537,7 +538,8 @@ export function hireStaff(
   if (candidate.counted) fillInPerson(api.state as CoreState, input.personId);
   if (candidate.seat) fillInIdentity(api.state as CoreState, candidate.seat);
   const person = api.state.people.get(input.personId)!;
-  // On the payroll of the government the official serves, at the post's pay.
+  // On the payroll of the government the official serves, at the post's
+  // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
   const jobId = employer
     ? startPublicJob(api, {
@@ -572,6 +574,27 @@ export function hireStaff(
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
   return row;
+}
+
+/**
+ * How the room left on the line staff pay draws on leans an official toward
+ * or away from hiring: room for many years of the post's pay pushes toward
+ * it, an exhausted line away from it, smoothly in between (0 at exactly a
+ * year's room).
+ */
+function budgetLean(api: CoreAPI, officialId: string): number {
+  const employer = employerOf(api, officialId);
+  if (!employer) return 0;
+  const yearly =
+    campaignParameter("staffHourlyMinor") *
+    treasuryParameter("fullTimeHoursPerYear");
+  const years = Math.max(
+    0,
+    publicPayRoom(api, employer, `staff:${officialId}`) / yearly,
+  );
+  return (
+    treasuryParameter("staffBudgetRoomWeight") * ((2 * years) / (1 + years) - 1)
+  );
 }
 
 /** The treasury of the government whose seat the official holds. */
@@ -853,7 +876,8 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (
       campaignParameter("staffHireBase") +
         parameter("traitDecisionWeight") *
-          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") <=
+          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") +
+        budgetLean(api, officialId) <=
       0
     )
       continue;
