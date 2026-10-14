@@ -60,6 +60,7 @@ import { pollingScene } from "./polling";
 import {
   openConversation,
   say,
+  sayNothing,
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
@@ -355,6 +356,12 @@ export async function benchRequest(
           conversation,
           url.searchParams.get("key") ?? "",
         );
+        send(200, talkView(conversation));
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/talk/silent") {
+        if (!conversation) throw new Error("No conversation is open.");
+        conversation = sayNothing(requireCore(), conversation);
         send(200, talkView(conversation));
         return;
       }

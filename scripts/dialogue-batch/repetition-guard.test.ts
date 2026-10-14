@@ -15,6 +15,7 @@ import {
   verbOf,
   type GuardLine,
   grammatical,
+  closerOf,
 } from "./repetition-guard";
 
 const KINDS = [
@@ -119,6 +120,18 @@ describe("the repetition guard's line rules", () => {
           institutions: ["Aline Bingham Elementary School"],
         }),
       ),
+    ).toBeNull();
+    // Anyone's named school, in a tribute too, but not in talk.
+    expect(
+      lineProblem(
+        line(
+          "emotion",
+          "Gabriel Day graduated from Nicholas S. Lacorte School No. 3. I thank Gabriel Day.",
+        ),
+      ),
+    ).toBe("institution-event");
+    expect(
+      lineProblem(line("conversation", "I go to Sycamore Middle School.")),
     ).toBeNull();
     // The revision names a school only as where someone was known.
     expect(
@@ -231,5 +244,17 @@ describe("an alternative must be whole English", () => {
     expect(grammatical("Voting against this action: Daniel McKinney.")).toBe(
       true,
     );
+  });
+});
+
+describe("closers are counted as openers are", () => {
+  it("reads the last two words, so the same look-back is one closer", () => {
+    expect(closerOf("My mother won. I didn't know at the time.")).toBe(
+      "the time",
+    );
+    expect(
+      closerOf("My father was elected. I didn't know that at the time."),
+    ).toBe("the time");
+    expect(closerOf("Cynthia lost.")).toBe("cynthia lost");
   });
 });

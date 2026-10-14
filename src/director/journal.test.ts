@@ -62,7 +62,12 @@ function resolves(state: CoreState, id: string): boolean {
 describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("tells the life in chapters, each line traced to a record", () => {
     expect(chapters.length).toBeGreaterThan(0);
+    // A workplace or a school never titles a chapter (owner, batch 7).
+    const settings = new Set(
+      [...core.organizations.values()].map((row) => row.name),
+    );
     for (const chapter of chapters) {
+      expect(settings.has(chapter.title), chapter.title).toBe(false);
       expect(chapter.title).not.toMatch(/^\d{4}$/);
       for (const line of chapter.lines) {
         expect(line.text).toMatch(/^[A-Z]/);
@@ -71,6 +76,23 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
           expect(resolves(core, id), id).toBe(true);
       }
     }
+  });
+
+  it("tells each child's birth in that child's chapter, and no look-back twice", () => {
+    const born = /^(My (?:son|daughter|child)) was born\b/;
+    const endings: string[] = [];
+    for (const chapter of chapters)
+      for (const line of chapter.lines) {
+        const child = born.exec(line.text)?.[1];
+        if (child && chapter.title.startsWith("My "))
+          expect(chapter.title).toBe(child);
+        const said = line.text.split(/(?<=[.!?])\s+/);
+        if (said.length > 1)
+          endings.push(
+            said.at(-1)!.toLowerCase().split(/\s+/).slice(-2).join(" "),
+          );
+      }
+    expect(new Set(endings).size).toBe(endings.length);
   });
 
   it("names relatives by relation, never by name", () => {

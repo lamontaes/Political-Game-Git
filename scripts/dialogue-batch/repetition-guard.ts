@@ -4,8 +4,10 @@
  *
  * Owner, Oct 14, 2026, on batch 7: "still super repetitive and terrible."
  *
- * Per kind of text it measures three shares over the batch's lines:
+ * Per kind of text it measures four shares over the batch's lines:
  *   - openers: distinct openers (the first two words) over lines;
+ *   - closers: distinct closers (the last two words) over lines, so a
+ *              look-back ("I didn't know at the time.") is not said twice;
  *   - shapes:  distinct sentence shapes (the text with names, slot values,
  *              quoted titles, numbers and dates masked) over lines;
  *   - verbs:   distinct main verbs over lines.
@@ -23,7 +25,7 @@ import { readFileSync } from "node:fs";
 import directorData from "../../src/director/data/director.json" with { type: "json" };
 import lexicon from "./verb-lexicon.json" with { type: "json" };
 
-export const MEASURES = ["openers", "shapes", "verbs"] as const;
+export const MEASURES = ["openers", "closers", "shapes", "verbs"] as const;
 export type Measure = (typeof MEASURES)[number];
 
 export interface GuardLine {
@@ -47,6 +49,7 @@ export type Rule =
   | "institution-event"
   | "bare-command-title"
   | "repeated-opener"
+  | "repeated-closer"
   | "repeated-shape"
   | "repeated-verb";
 
@@ -69,6 +72,12 @@ export function openerOf(text: string): string {
     .map(clean)
     .filter(Boolean);
   return words.slice(0, 2).join(" ");
+}
+
+/** The last two words of the line's last sentence. */
+export function closerOf(text: string): string {
+  const words = text.split(/\s+/).map(clean).filter(Boolean);
+  return words.slice(-2).join(" ");
 }
 
 const MONTHS =
@@ -148,6 +157,7 @@ export interface KindMeasure {
   kind: string;
   lines: number;
   openers: number;
+  closers: number;
   shapes: number;
   verbs: number;
 }
@@ -163,6 +173,7 @@ export function measureLines(
     kind,
     lines: lines.length,
     openers: share(lines.map((line) => openerOf(line.text))),
+    closers: share(lines.map((line) => closerOf(line.text))),
     shapes: share(lines.map((line) => shapeOf(line.text, line.masks))),
     verbs: share(lines.map((line) => verbOf(line.text))),
   };
@@ -224,7 +235,13 @@ export function lineProblem(line: GuardLine): Rule | null {
     return "institution-part";
   // The event is the sentence: "I went to X School." fails, while "I knew
   // Dawn from X School." (the revision: the person is the event) passes.
-  const sentences = line.text.split(/(?<=[.!?])\s+/);
+  // An initial or an abbreviation ("Nicholas S. Lacorte", "School No. 3")
+  // does not end a sentence.
+  const sentences = line.text
+    .replace(/\b(?:[A-Z]|No|St|Mt|Dr|Jr|Sr|Mr|Mrs|Ms)\. /g, (abbr) =>
+      abbr.replace(". ", "\u00a0"),
+    )
+    .split(/(?<=[.!?])\s+/);
   for (const name of line.institutions ?? [])
     if (
       name &&
@@ -233,6 +250,17 @@ export function lineProblem(line: GuardLine): Rule | null {
       )
     )
       return "institution-event";
+  // Any named school, whoever's it is: "Gabriel Day graduated from Lacorte
+  // School No. 3." makes the school the event.
+  if (
+    line.kind !== "conversation" &&
+    sentences.some(
+      (sentence) =>
+        ATTENDING.test(sentence) &&
+        /\b(?:School|Elementary|Academy|College|University)\b/.test(sentence),
+    )
+  )
+    return "institution-event";
   for (const title of line.titles ?? []) {
     if (!IMPERATIVE_LEAD(title)) continue;
     const at = line.text.toLowerCase().indexOf(title.toLowerCase());
@@ -270,11 +298,13 @@ export function selectPassing<T extends GuardLine>(
   const rejections: Rejection[] = [];
   const seen: Record<Measure, Map<string, number>> = {
     openers: new Map(),
+    closers: new Map(),
     shapes: new Map(),
     verbs: new Map(),
   };
   const keys = (line: T): Record<Measure, string> => ({
     openers: openerOf(line.text),
+    closers: closerOf(line.text),
     shapes: shapeOf(line.text, line.masks),
     verbs: verbOf(line.text),
   });
@@ -306,6 +336,7 @@ export function selectPassing<T extends GuardLine>(
       if (problem) continue;
       const rules: Record<Measure, Rule> = {
         openers: "repeated-opener",
+        closers: "repeated-closer",
         shapes: "repeated-shape",
         verbs: "repeated-verb",
       };
@@ -362,6 +393,7 @@ export function selectPassing<T extends GuardLine>(
   const reach = chosen.length < wanted ? candidates.length : last + 1;
   const names: Record<Measure, Rule> = {
     openers: "repeated-opener",
+    closers: "repeated-closer",
     shapes: "repeated-shape",
     verbs: "repeated-verb",
   };
@@ -442,7 +474,7 @@ if (process.argv[1]?.endsWith("repetition-guard.ts") && process.argv[2]) {
   const result = checkBatch(lines, loadThresholds(kinds));
   for (const measured of result.measures)
     console.log(
-      `${measured.kind.padEnd(12)} n=${measured.lines} openers ${measured.openers.toFixed(2)} shapes ${measured.shapes.toFixed(2)} verbs ${measured.verbs.toFixed(2)}`,
+      `${measured.kind.padEnd(12)} n=${measured.lines} openers ${measured.openers.toFixed(2)} closers ${measured.closers.toFixed(2)} shapes ${measured.shapes.toFixed(2)} verbs ${measured.verbs.toFixed(2)}`,
     );
   console.log(
     result.failures.length

@@ -913,6 +913,12 @@ async function talkTo(otherId) {
     await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
   );
 }
+// Saying nothing is a smaller control beside the four replies (owner, Oct 14).
+$("talk-silent").addEventListener("click", async () => {
+  if (!talk) return;
+  lying = false;
+  renderTalk(await post("/api/talk/silent"));
+});
 $("talk-lie").addEventListener("click", () => {
   if (!talk?.lies?.length) return;
   lying = !lying;

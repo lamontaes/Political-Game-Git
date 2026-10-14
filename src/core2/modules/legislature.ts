@@ -25,7 +25,14 @@ import ties from "../../../data/research/elections/tie-rules-2026.json" with { t
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import type {
+  ActionDefinition,
+  ActOffer,
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonState,
+} from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
@@ -77,6 +84,9 @@ import representation from "../data/offices/federal-representation.json" with { 
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
+import { decisionFromScores, scoreOffers } from "../choice";
+import { decisionKinds } from "../trait-decisions";
+import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
 import {
   bodyNumbering,
@@ -643,13 +653,23 @@ function budgetChambers(
       ? { chambers: state, introducedIn: state[0]!, body: "the legislature" }
       : null;
   }
-  const kind = gov.level === "county" ? "county-board" : "council";
-  const body = offices.find((o) => o.kind === kind && o.level === gov.level);
+  // A county's board, a city's council, or a township's board where the
+  // town's own government is its township.
+  const body =
+    gov.level === "county"
+      ? offices.find((o) => o.kind === "county-board" && o.level === "county")
+      : (offices.find((o) => o.kind === "council" && o.level === "city") ??
+        offices.find((o) => o.kind === "township-board"));
   return body
     ? {
         chambers: [body.id],
         introducedIn: body.id,
-        body: gov.level === "county" ? "the county board" : "the council",
+        body:
+          body.kind === "county-board"
+            ? "the county board"
+            : body.kind === "township-board"
+              ? "the township board"
+              : "the council",
       }
     : null;
 }
@@ -1871,6 +1891,77 @@ function isState(api: CoreAPI, bill: BillRow): boolean {
   );
 }
 
+/**
+ * Whether a member misses the sitting: on a bill they care little about,
+ * they decide as they decide whether to go to work (the core chooser), from
+ * the hours they have for it against the sitting's length and their own
+ * reasons. A member with no person record has no day to read and is present
+ * (SG-GOV-official-attendance).
+ */
+function missesSitting(
+  api: CoreAPI,
+  memberId: string,
+  billId: string,
+  officeId: string,
+  stake: number,
+): boolean {
+  // A member never misses a vote they care about: only a bill they stand
+  // near even on leaves room for the rest of their day to win.
+  if (Math.abs(stake) >= campaignParameter("sittingIndifference")) return false;
+  const person = api.state.people.get(memberId);
+  if (!person?.alive) {
+    // stopgapId: SG-GOV-official-attendance (members with no day of their own always attend)
+    api.stopgap("SG-GOV-official-attendance");
+    return false;
+  }
+  const hours = campaignParameter("sittingHours");
+  // A legislature's or Congress's session days are the member's working
+  // days, planned around (states protect a legislator's job during session);
+  // a town body's evening meeting comes out of the member's own free hours.
+  const legislative = /^federal:|:(legislature-|us-house|us-senate)/.test(
+    officeId,
+  );
+  const available = legislative
+    ? api.parameter("hoursPerDay")
+    : discretionaryHours(api, memberId);
+  // Serving is the member's work: attending meets that goal, as going to
+  // work does.
+  const action = (id: string): ActionDefinition => ({
+    id,
+    actKinds: decisionKinds("legislature.attend-sitting", id),
+    goalKinds: id === "sitting-attend" ? ["fulfil-work"] : [],
+    need: "time",
+    effortParameter: "zero",
+    effectParameter: "one",
+    targetKind: "bill",
+    effect: id,
+  });
+  const offers: ActOffer[] = [
+    {
+      definition: action("sitting-miss"),
+      targetId: billId,
+      availableHours: available,
+      effortHours: api.parameter("zero"),
+    },
+    ...(hours <= available
+      ? [
+          {
+            definition: action("sitting-attend"),
+            targetId: billId,
+            availableHours: available,
+            effortHours: hours,
+          },
+        ]
+      : []),
+  ];
+  const decision = decisionFromScores(
+    api.state,
+    memberId,
+    scoreOffers(api.state, memberId, offers),
+  );
+  return decision.selected?.definition.id !== "sitting-attend";
+}
+
 /** One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way. */
 function chamberVote(
   api: CoreAPI,
@@ -1890,11 +1981,13 @@ function chamberVote(
       chosen?.vote ??
       (key === (api.state as CoreState).playerId
         ? "abstain"
-        : position.total > 0
-          ? "yes"
-          : position.total < 0
-            ? "no"
-            : "abstain");
+        : missesSitting(api, key, bill.id, officeId, position.total)
+          ? "absent"
+          : position.total > 0
+            ? "yes"
+            : position.total < 0
+              ? "no"
+              : "abstain");
     if (vote === "yes") yes += 1;
     if (vote === "no") no += 1;
     table(api, "votes").put({
@@ -1907,7 +2000,7 @@ function chamberVote(
     } as unknown as ModuleRow);
     for (const provision of bill.provisions) {
       const stance = provisionStance(api, provision, billLevel(api, bill));
-      if (stance && vote !== "abstain")
+      if (stance && vote !== "abstain" && vote !== "absent")
         recordVote(api, {
           personId: key,
           body: officeId,
@@ -2656,7 +2749,9 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
-        ...(terms ? { terms } : {}),
+        // The bill itself, not only its number: numbers repeat across bodies
+        // and sessions, and a recall or the record finds the bill by this.
+        terms: { ...(terms ?? {}), enactedByBill: bill.id },
       });
     if (provision.kind === "budget-line" && provision.line)
       amendBudget(api, {
@@ -2674,7 +2769,9 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
-        ...(terms ? { terms } : {}),
+        // The bill itself, not only its number: numbers repeat across bodies
+        // and sessions, and a recall or the record finds the bill by this.
+        terms: { ...(terms ?? {}), enactedByBill: bill.id },
       });
   }
   const next: BillRow = {

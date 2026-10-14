@@ -290,12 +290,17 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       lawInForce(api, "minimum-wage").levels.find((l) => l.level === "city")
         ?.row?.value ?? null;
     const prior = city();
+    // The wage that governs before: a raise always raises it, to the $15
+    // standard or the next step above a floor already there.
+    const governing = lawInForce(api, "minimum-wage").value ?? 0;
     recordRoundTrip(
       key,
-      () =>
+      () => {
         expect(city()!, where).toBeGreaterThanOrEqual(
           reachParameter("stateMinimumWageTargetMinor"),
-        ),
+        );
+        expect(city()!, where).toBeGreaterThan(governing);
+      },
       () => {
         if (prior !== null) expect(city(), where).toBe(prior);
       },

@@ -285,16 +285,14 @@ function readWorld(place: Place): {
   const factsOf = (personId: string, opponentId?: string): Facts => {
     const row = personOf(personId);
     const gender = row?.looks?.gender;
-    const school = schoolsOf(core, personId)[0];
     const employer = employerOf(personId);
     const opponent = opponentId ? personOf(opponentId) : undefined;
     return {
       name: { text: nameOf(personId), sourceRecordIds: [personId] },
       place: { text: town, sourceRecordIds: [personId] },
       ...(employer ? { employer } : {}),
-      ...(school
-        ? { school: { text: school.name, sourceRecordIds: [school.recordId] } }
-        : {}),
+      // No school: a school is never the event of a speech or a tribute
+      // (owner, batch 7), so a speech is not handed one to say.
       ...(opponent
         ? {
             opponent: {
@@ -1479,6 +1477,7 @@ type PageBatch = {
       kind: string;
       lines: number;
       openers: number;
+      closers: number;
       shapes: number;
       verbs: number;
     }[];
@@ -1497,7 +1496,7 @@ function guardSection(batch: PageBatch): string {
   const g = batch.guard;
   const rows = g.measured.map((m) => {
     const t = g.thresholds[m.kind]!;
-    return `| ${KIND_TITLES[m.kind] ?? m.kind} | ${m.lines} | ${m.openers.toFixed(2)} (${t.openers}) | ${m.shapes.toFixed(2)} (${t.shapes}) | ${m.verbs.toFixed(2)} (${t.verbs}) | ${g.candidates[m.kind]} | ${g.tried[m.kind]} |`;
+    return `| ${KIND_TITLES[m.kind] ?? m.kind} | ${m.lines} | ${m.openers.toFixed(2)} (${t.openers}) | ${m.closers.toFixed(2)} (${t.closers}) | ${m.shapes.toFixed(2)} (${t.shapes}) | ${m.verbs.toFixed(2)} (${t.verbs}) | ${g.candidates[m.kind]} | ${g.tried[m.kind]} |`;
   });
   const byRule = new Map<string, Map<string, number>>();
   for (const row of g.rejections) {
@@ -1518,10 +1517,10 @@ function guardSection(batch: PageBatch): string {
   const grades = g.byGrades
     ? `Your grades were applied first: ${g.byGrades.lines} candidate lines and ${g.byGrades.alternatives} alternatives used a part you failed (a school or a job as an entry, "The bill passed.", "the manager turned to"), and ${g.byGrades.ungrammatical} lines or alternatives were not whole English (such as "My daughter was born years old."); none of them is on this page.\n\n`
     : "";
-  return `${grades}Before this page was written, every kind was checked for repetition (owner, Oct 14: batch 7 was "still super repetitive"). Each kind is measured on the share of distinct openers (first two words), distinct sentence shapes (names, titles, numbers and dates masked) and distinct main verbs; a kind under its threshold, or any line whose event is a school, a workplace, an institution or a filing office, or a bill title worded as a bare command, fails. The thresholds are estimated from real samples of the same size (\`src/director/data/director.json\`, \`dialogueGuard*\` rows). The worlds were played ${batch.days} days each.
+  return `${grades}Before this page was written, every kind was checked for repetition (owner, Oct 14: batch 7 was "still super repetitive"). Each kind is measured on the share of distinct openers (first two words), distinct closers (last two words), distinct sentence shapes (names, titles, numbers and dates masked) and distinct main verbs; a kind under its threshold, or any line whose event is a school, a workplace, an institution or a filing office, or a bill title worded as a bare command, fails. The thresholds are estimated from real samples of the same size (\`src/director/data/director.json\`, \`dialogueGuard*\` rows). The worlds were played ${batch.days} days each.
 
-| Kind | Lines | Openers (threshold) | Shapes (threshold) | Verbs (threshold) | Candidates | Looked at before it passed |
-| --- | --- | --- | --- | --- | --- | --- |
+| Kind | Lines | Openers (threshold) | Closers (threshold) | Shapes (threshold) | Verbs (threshold) | Candidates | Looked at before it passed |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ${rows.join("\n")}
 
 Rejected: ${g.rejected} candidates.
