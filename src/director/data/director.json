@@ -832,6 +832,18 @@
         "unit": "share of 12 lines (10th to 90th percentile of the draws)",
         "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
       }
+    },
+    "directorTalkRecentDays": {
+      "value": 90,
+      "tag": "TUNABLE",
+      "citation": "Owner, Oct 14, 2026, night: a talk starts from the biggest recorded event of either person, and someone not in the room is asked after only when something recorded happened to them. How long ago an event still counts as news between two people: one season.",
+      "spread": "30 to 180 days, checked by reading the talks of a played year (src/director/conversation.test.ts)"
+    },
+    "directorTalkAddressImpact": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Owner, Oct 14, 2026, night: public news comes up only for people who follow politics closely. The President's address weighs as a talk's topic as this impact times the speaker's political engagement (src/core2/modules/views.ts), so it leads only for the engaged and only when no bigger event of their own does; kept small so a life event of their own (a job, a move, a birth) leads first.",
+      "spread": "0.1 to 0.3, checked by reading the talks of a played year"
     }
   },
   "channels": [

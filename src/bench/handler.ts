@@ -342,6 +342,7 @@ export async function benchRequest(
           requireCore(),
           player.personId,
           otherId,
+          director ? { director } : {},
         );
         // They mention the newest change they know of, and who they blame.
         broughtUp =

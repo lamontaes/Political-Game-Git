@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
@@ -15,6 +15,7 @@ import {
   doubtsClaim,
   openConversation,
   say,
+  subjectsBetween,
   sayNothing,
   type Conversation,
 } from "./conversation";
@@ -98,6 +99,8 @@ for (const row of [strangers[0]!, ...believing])
   });
 
 /** The other person's first question, after any greeting. */
+const recentDays =
+  DEFAULT_DIRECTOR_DATA.parameters.directorTalkRecentDays!.value;
 const opening = (talk: Conversation) =>
   talk.lines.find((row) => row.kind !== "greet")!;
 
@@ -143,7 +146,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("lets the player say nothing, and the other person carries on or the talk ends", () => {
-    const otherId = others[0]!;
+    // Someone the talk is still open with (a talk can end at its opening
+    // when the topic is done, or was their last talk's).
+    const otherId = others.find(
+      (id) => openConversation(core, player.id, id).choices.length,
+    )!;
     const talk = openConversation(core, player.id, otherId);
     const said = talk.lines.length;
     sayNothing(core, talk);
@@ -283,5 +290,62 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(beliefsOf(api, doubter!.id).map((row) => row.key)).not.toContain(
       key,
     );
+  });
+  it("talks of someone not in the room only when something recorded happened to them", () => {
+    for (const otherId of others.slice(0, 15)) {
+      // With no ledger to read, no one absent is asked after at all.
+      expect(
+        subjectsBetween(core, player.id, otherId).filter((row) =>
+          ["mutual", "family"].includes(row.kind),
+        ),
+      ).toEqual([]);
+      const since = addDays(makeIsoDate(core.date), -recentDays);
+      for (const row of subjectsBetween(core, player.id, otherId, director))
+        if (row.kind === "mutual" || row.kind === "family") {
+          const about = row.aboutId!;
+          const theirs = director.ledger.people
+            .get(about)
+            ?.moments.some((moment) => moment.date > since);
+          const mine = director.ledger.people
+            .get(player.id)
+            ?.moments.some(
+              (moment) =>
+                moment.date > since && moment.counterpartIds.includes(about),
+            );
+          expect(theirs || mine, row.id).toBe(true);
+        }
+    }
+  });
+  it("keeps to one topic, may lead to one related topic, and the other person closes it", () => {
+    let closed = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const talk = openConversation(core, player.id, otherId, { director });
+      for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
+        say(core, talk, talk.choices[0]!.key);
+      expect(talk.topics.length).toBeLessThanOrEqual(2);
+      if (talk.topics.length === 2) {
+        const kindOf = (id: string) => id.replace(/^[^>]*>/, "").split(":")[0]!;
+        expect(CONVERSATION_DATA.related[kindOf(talk.topics[0]!)]).toContain(
+          kindOf(talk.topics[1]!),
+        );
+      }
+      if (!talk.choices.length) {
+        expect(talk.lines.at(-1)?.speakerId).toBe(otherId);
+        closed += 1;
+      }
+    }
+    expect(closed).toBeGreaterThan(0);
+  });
+  it("remembers the last talk's topic and opens the next one with something else", () => {
+    let checked = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const first = openConversation(core, player.id, otherId, { director });
+      if (!first.choices.length || !first.topics[0]) continue;
+      say(core, first, first.choices[0]!.key);
+      const next = openConversation(core, player.id, otherId, { director });
+      if (next.topics[0]) expect(next.topics[0]).not.toBe(first.topics[0]);
+      checked += 1;
+    }
+    expect(checked).toBeGreaterThan(0);
   });
 });

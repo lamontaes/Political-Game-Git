@@ -35,5 +35,26 @@
     "shared-work": ["their-work"],
     "other-work": ["their-tenure"],
     "home": ["home"]
+  },
+  "related": {
+    "about": "Owner, Oct 14, 2026, night: a talk has one main topic with side remarks, and one topic may lead to a related one. For each main topic, the topics it may lead on to, in order; after one of them the other person closes the talk.",
+    "own-work": ["their-work", "their-tenure"],
+    "their-work": ["their-tenure", "own-work"],
+    "shared-work": ["their-work", "own-work"],
+    "shared-school": ["their-school", "school"],
+    "school": ["their-school"],
+    "their-school": ["school"],
+    "home": ["their-school", "school"],
+    "kin": ["family"],
+    "family": ["kin"],
+    "mutual": ["family"],
+    "news": ["address"],
+    "address": ["news"]
+  },
+  "topicOfLabel": {
+    "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
+    "money:job-started": "own-work",
+    "money:job-changed": "own-work",
+    "home:moved": "home"
   }
 }
