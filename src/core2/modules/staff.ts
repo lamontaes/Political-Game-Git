@@ -15,7 +15,22 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
-import { coreAPI, registerModule } from "../state";
+import {
+  coreAPI,
+  fillInIdentity,
+  fillInPerson,
+  registerModule,
+  type RecordedIdentity,
+} from "../state";
+import { drawOfficialIdentity } from "../officials-identity";
+import { openingTemperaments } from "../opening-personality";
+import { countedResidents } from "../electorate";
+import {
+  lifePlaceByJurisdictionId,
+  seatOfGovernmentPlace,
+} from "../../simulation/life-places";
+import { countyPopulationSharesForPlace } from "../../simulation/government-units";
+import type { EntityId } from "../../simulation/types";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
@@ -40,6 +55,10 @@ import {
 } from "./legislature";
 
 export const STAFF_MODULE_ID = "core2-staff-v1";
+/** Relatives living out of town, kept as a name and family ties only. */
+const HUSK_TIER = "husk";
+/** People outside the town act on the calendar, as officials there do. */
+const SEAT_APPLICANT_TIER = "calendar";
 
 export interface StafferRow {
   readonly id: string;
@@ -49,6 +68,15 @@ export interface StafferRow {
   readonly hiredOn: string;
   readonly hiredFrom: "known" | "applicant";
   readonly tasksDone: number;
+  /**
+   * Why this person was the hire, by part: how well they'd do the work, how
+   * far they live within reach of the office, their age's place in the
+   * working-age pool, knowing the official, and a family tie (a reason the
+   * press and views can read; family ties are allowed, owner Oct 14).
+   */
+  readonly reasons?: Readonly<Record<string, number>>;
+  /** The records the reasons read: where they live, the family link, a counted record filled in at hire. */
+  readonly reasonRecordIds?: readonly string[];
 }
 
 export interface WorkRecord {
@@ -93,37 +121,205 @@ const ageOn = (p: Readonly<PersonState>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 
+export interface StaffCandidate {
+  readonly personId: string;
+  readonly from: "known" | "applicant";
+  /** From the town's counted population, filled in from its records at hire. */
+  readonly counted?: boolean;
+  /** An applicant where an out-of-town office sits, recorded as a person at hire. */
+  readonly seat?: RecordedIdentity;
+  /** How far they live within commuting reach of the office (1 in its county). */
+  readonly reach: number;
+  readonly reachBasis: "town" | "county" | "state" | "other-state";
+  /** Their age's place in the working-age pool (1 at its fullest). */
+  readonly workingAge: number;
+  /** A family link to the official, when there is one. */
+  readonly familyLinkId?: string;
+  readonly traits: Readonly<Record<string, number>>;
+}
+
+const ageOnDay = (birthDate: string, date: string) =>
+  Number(date.slice(0, 4)) -
+  Number(birthDate.slice(0, 4)) -
+  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+
+const WORKING_AGE_POINTS = [18, 22, 30, 40, 50, 60, 70, 80] as const;
+
+/**
+ * An age's place in the working-age pool, sliding: the labor force share at
+ * the nearest two band middles, read along the line between them, over the
+ * fullest band's share. No age is cut off.
+ */
+let workingAgeTable: ReadonlyMap<number, number> | null = null;
+export function workingAgeWeight(age: number): number {
+  workingAgeTable ??= new Map(
+    WORKING_AGE_POINTS.map((point) => [
+      point,
+      campaignParameter(`staffWorkingAgeAt${point}`),
+    ]),
+  );
+  const table = workingAgeTable;
+  const at = (point: number) => table.get(point)!;
+  const top = Math.max(...table.values());
+  const first = WORKING_AGE_POINTS[0];
+  const last = WORKING_AGE_POINTS[WORKING_AGE_POINTS.length - 1]!;
+  if (age <= first) return at(first) / top;
+  if (age >= last) return at(last) / top;
+  const upper = WORKING_AGE_POINTS.findIndex((point) => point >= age);
+  const high = WORKING_AGE_POINTS[upper]!;
+  const low = WORKING_AGE_POINTS[upper - 1]!;
+  return (at(low) + ((age - low) / (high - low)) * (at(high) - at(low))) / top;
+}
+
+/** Where an office sits: its place, the counties that place lies in, and its state. */
+interface OfficeSite {
+  readonly placeId: string;
+  readonly countyGeoids: readonly string[];
+  readonly stateKey: string;
+}
+
+/**
+ * Where the official's office sits, from the records: a state (or federal)
+ * office at its government's seat (the capital's place, owner, Oct 14); a
+ * town or county office in the town.
+ */
+function officeSiteOf(api: CoreAPI, officialId: string): OfficeSite {
+  const chain = lawChain(api);
+  const town: OfficeSite = {
+    placeId: chain.townPlaceId,
+    countyGeoids: chain.countyGeoids,
+    stateKey: chain.stateKey,
+  };
+  const office = townSeats(api).find(
+    (row) => row.holder?.personId === officialId,
+  )?.office;
+  if (!office || (office.level !== "state" && office.level !== "federal"))
+    return town;
+  const seat = seatOfGovernmentPlace(
+    office.level === "federal" ? "US-FEDERAL" : office.jurisdiction,
+  );
+  if (!seat) return town;
+  const geoid = seat.place.sourceGeoid ?? "";
+  return {
+    placeId: seat.place.context.jurisdiction.id,
+    countyGeoids: countyPopulationSharesForPlace(geoid).map(
+      ([county]) => county,
+    ),
+    stateKey: seat.place.stateJurisdictionKey ?? chain.stateKey,
+  };
+}
+
+const reachCache = new Map<
+  string,
+  Pick<StaffCandidate, "reach" | "reachBasis">
+>();
+
+/** How far a home is within commuting reach of the office's site, from the place records. */
+function reachOf(
+  site: OfficeSite,
+  placeId: string,
+  countyGeoids: readonly string[],
+): Pick<StaffCandidate, "reach" | "reachBasis"> {
+  // Place records never change in play: one read per site and home.
+  const key = `${site.placeId}|${placeId}|${countyGeoids.join(",")}`;
+  let held = reachCache.get(key);
+  if (!held) {
+    held = readReach(site, placeId, countyGeoids);
+    reachCache.set(key, held);
+  }
+  return held;
+}
+
+function readReach(
+  site: OfficeSite,
+  placeId: string,
+  countyGeoids: readonly string[],
+): Pick<StaffCandidate, "reach" | "reachBasis"> {
+  if (placeId === site.placeId) return { reach: 1, reachBasis: "town" };
+  if (countyGeoids.some((county) => site.countyGeoids.includes(county)))
+    return { reach: 1, reachBasis: "county" };
+  const place = lifePlaceByJurisdictionId(placeId as EntityId);
+  const state =
+    place?.scope === "state" ? place.key : place?.stateJurisdictionKey;
+  // A place the records can't put in the state reads as out of it.
+  return state && state === site.stateKey
+    ? { reach: campaignParameter("staffReachOtherCounty"), reachBasis: "state" }
+    : {
+        reach: campaignParameter("staffReachOtherState"),
+        reachBasis: "other-state",
+      };
+}
+
+/** The counties a person's home lies in, from their recorded county. */
+function homeCounties(countyId: string | undefined): readonly string[] {
+  const geoid = countyId
+    ? lifePlaceByJurisdictionId(countyId as EntityId)?.sourceGeoid
+    : undefined;
+  return geoid ? [geoid] : [];
+}
+
+/** The family link between two people, if the records hold one. */
+function familyLinkOf(api: CoreAPI, a: string, b: string): string | undefined {
+  for (const link of (api.state as CoreState).familyLinks.values())
+    if (link.personIds.includes(a) && link.personIds.includes(b))
+      return link.id;
+  return undefined;
+}
+
 /**
  * Who an official can hire: people they know, and applicants (town adults
- * out of work, or whose current pay is under the post's).
+ * out of work, or whose current pay is under the post's, and the town's
+ * counted adults with no work in the records). Each is someone the records
+ * can place: where they live, sliding by commuting reach of the office, and
+ * their age's place in the working-age pool. A relative living out of town
+ * whose own work isn't modeled (a husk) isn't counted as out of work.
  */
 export function staffCandidates(
   api: CoreAPI,
   officialId: string,
-): readonly { personId: string; from: "known" | "applicant" }[] {
+): readonly StaffCandidate[] {
   const official = api.state.people.get(officialId);
   if (!official) return [];
   const state = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
+  const site = officeSiteOf(api, officialId);
+  const date = api.state.date;
+  const minimum = campaignParameter("staffMinimumAge");
   const hired = new Set(
     (table(api, "staff").rows() as unknown as StafferRow[]).map(
       (s) => s.personId,
     ),
   );
   const postHourly = campaignParameter("staffHourlyMinor");
-  const out: { personId: string; from: "known" | "applicant" }[] = [];
-  for (const person of [...api.state.people.values()].sort((a, b) =>
-    a.id.localeCompare(b.id),
-  )) {
+  const out: StaffCandidate[] = [];
+  for (const person of peopleInOrder(state)) {
     if (
       !person.alive ||
       person.id === officialId ||
       hired.has(person.id) ||
-      ageOn(person, api.state.date) < 18
+      ageOn(person, date) < minimum
     )
       continue;
+    if (person.tier === HUSK_TIER) {
+      // stopgapId: SG-WORLD-staff-husk-work
+      api.stopgap("SG-WORLD-staff-husk-work");
+      continue;
+    }
+    const placed = {
+      ...reachOf(site, person.placeId, homeCounties(person.countyId)),
+      workingAge: workingAgeWeight(ageOn(person, date)),
+      traits: person.traits,
+    };
     if (official.knownIds.has(person.id) || official.familyIds.has(person.id)) {
-      out.push({ personId: person.id, from: "known" });
+      const link = official.familyIds.has(person.id)
+        ? familyLinkOf(api, officialId, person.id)
+        : undefined;
+      out.push({
+        personId: person.id,
+        from: "known",
+        ...placed,
+        ...(link ? { familyLinkId: link } : {}),
+      });
       continue;
     }
     if (person.placeId !== town) continue;
@@ -131,9 +327,191 @@ export function staffCandidates(
       .map((id) => state.work.commitments.get(id))
       .filter((c) => c && c.endsAt === undefined)
       .reduce((max, c) => Math.max(max, c!.hourlyMinor), 0);
-    if (pay < postHourly) out.push({ personId: person.id, from: "applicant" });
+    if (pay < postHourly)
+      out.push({ personId: person.id, from: "applicant", ...placed });
   }
+  // The town's counted adults with no work in their records apply too.
+  for (const voter of countedPool(api, town, minimum)) {
+    if (hired.has(voter.id)) continue;
+    const known =
+      official.knownIds.has(voter.id) || official.familyIds.has(voter.id);
+    const link = official.familyIds.has(voter.id)
+      ? familyLinkOf(api, officialId, voter.id)
+      : undefined;
+    out.push({
+      personId: voter.id,
+      from: known ? "known" : "applicant",
+      counted: true,
+      ...reachOf(site, town, lawChain(api).countyGeoids),
+      workingAge: voter.workingAge,
+      traits: voter.traits,
+      ...(link ? { familyLinkId: link } : {}),
+    });
+  }
+  const applicant = seatApplicant(api, officialId, site, hired);
+  if (applicant) out.push(applicant);
   return out;
+}
+
+/**
+ * An office that sits outside the town draws applicants from where it sits
+ * (owner, Oct 14). That place's people aren't modeled, so one applicant is
+ * drawn from the world's seed and the office, the way officials outside the
+ * town are: the same person every time, a record only once hired, at the
+ * calendar cadence of people outside the town (registered stopgap).
+ */
+function seatApplicant(
+  api: CoreAPI,
+  officialId: string,
+  site: OfficeSite,
+  hired: ReadonlySet<string>,
+): StaffCandidate | null {
+  const town = lawChain(api).townPlaceId;
+  if (site.placeId === town) return null;
+  // stopgapId: SG-WORLD-staff-seat-applicant
+  api.stopgap("SG-WORLD-staff-seat-applicant");
+  const round = staffOf(api, officialId).length;
+  const seatKey = `aide:${officialId}:${round}`;
+  const id = `person:${seatKey}`;
+  if (hired.has(id) || api.state.people.has(id)) return null;
+  const drawn = drawOfficialIdentity({
+    worldSeed: api.state.seed,
+    seatKey,
+    stateUsps: site.stateKey.slice("US-".length),
+    role: "business-worker",
+    referenceDate: api.state.date,
+  });
+  const traits =
+    openingTemperaments(
+      [
+        {
+          id,
+          birthDate: makeIsoDate(drawn.birthDate),
+          gender: drawn.gender,
+          parents: [],
+        },
+      ],
+      {
+        seed: api.state.seed,
+        startedAt: makeIsoDate(api.state.startedAt),
+      },
+    ).get(id) ?? {};
+  const identity: RecordedIdentity = {
+    id,
+    givenName: drawn.givenName,
+    familyName: drawn.familyName,
+    birthDate: makeIsoDate(drawn.birthDate),
+    placeId: site.placeId,
+    gender: drawn.gender,
+    traits,
+    tier: SEAT_APPLICANT_TIER,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `An applicant where the office of ${officialId} sits.`,
+      estimatedFrom: "SG-WORLD-staff-seat-applicant",
+    },
+  };
+  return {
+    personId: id,
+    from: "applicant",
+    seat: identity,
+    reach: 1,
+    reachBasis: "town",
+    workingAge: workingAgeWeight(
+      ageOn(identity as unknown as PersonState, api.state.date),
+    ),
+    traits,
+  };
+}
+
+const pools = new WeakMap<
+  CoreState,
+  {
+    readonly date: string;
+    readonly rows: readonly {
+      readonly id: string;
+      readonly workingAge: number;
+      readonly traits: Readonly<Record<string, number>>;
+    }[];
+  }
+>();
+
+/** The town's counted adults with no work in their records, once a day. */
+function countedPool(api: CoreAPI, town: string, minimum: number) {
+  const state = api.state as CoreState;
+  const held = pools.get(state);
+  if (held?.date === state.date) return held.rows;
+  const rows = countedResidents(state)
+    .filter(
+      (voter) =>
+        voter.placeId === town &&
+        voter.weeklyMinutes <= 0 &&
+        ageOnDay(voter.birthDate, state.date) >= minimum,
+    )
+    .map((voter) => ({
+      id: voter.id,
+      workingAge: workingAgeWeight(ageOnDay(voter.birthDate, state.date)),
+      traits: voter.traits,
+    }));
+  pools.set(state, { date: state.date, rows });
+  return rows;
+}
+
+const ordered = new WeakMap<
+  CoreState,
+  {
+    readonly date: string;
+    readonly size: number;
+    readonly rows: readonly PersonState[];
+  }
+>();
+
+/** Full people in id order, sorted once a day (or when someone is filled in). */
+function peopleInOrder(state: CoreState): readonly PersonState[] {
+  const held = ordered.get(state);
+  if (held?.date === state.date && held.size === state.people.size)
+    return held.rows.map((row) => state.people.get(row.id) ?? row);
+  const rows = [...state.people.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  );
+  ordered.set(state, { date: state.date, size: state.people.size, rows });
+  return rows;
+}
+
+/** How well a new hire would do the work, from their traits alone (no tasks done yet). */
+function hireQuality(traits: Readonly<Record<string, number>>): number {
+  return Math.max(
+    0,
+    Math.min(
+      1,
+      campaignParameter("staffBaseQuality") +
+        ((traits["people-mind-v1:reliability"] ?? 0) +
+          (traits["people-mind-v1:deliberation"] ?? 0)) *
+          campaignParameter("staffTraitWeight"),
+    ),
+  );
+}
+
+/** Why an official would hire this candidate, by part, and the score they add to. */
+export function hireReasons(candidate: StaffCandidate): {
+  score: number;
+  reasons: Record<string, number>;
+} {
+  const work = hireQuality(candidate.traits);
+  const known =
+    candidate.from === "known" ? campaignParameter("staffKnownWeight") : 0;
+  const reasons: Record<string, number> = {
+    work,
+    reach: candidate.reach,
+    workingAge: candidate.workingAge,
+    known,
+    ...(candidate.familyLinkId ? { family: 1 } : {}),
+  };
+  return {
+    score: (work + known) * candidate.reach * candidate.workingAge,
+    reasons,
+  };
 }
 
 /** Hire one of the official's candidates. */
@@ -144,12 +522,22 @@ export function hireStaff(
     readonly personId: string;
     readonly role: string;
   },
+  /** The candidate as the review already weighed them, to skip a second scan. */
+  chosen?: StaffCandidate,
 ): StafferRow {
-  const candidate = staffCandidates(api, input.officialId).find(
-    (c) => c.personId === input.personId,
-  );
+  const candidate =
+    chosen?.personId === input.personId
+      ? chosen
+      : staffCandidates(api, input.officialId).find(
+          (c) => c.personId === input.personId,
+        );
   if (!candidate)
     throw new Error(`${input.personId} isn't a candidate for this office`);
+  // Someone from the counted population becomes a full person from their
+  // records first: their household, past and the work their books show.
+  if (candidate.counted) fillInPerson(api.state as CoreState, input.personId);
+  if (candidate.seat) fillInIdentity(api.state as CoreState, candidate.seat);
+  const person = api.state.people.get(input.personId)!;
   // On the payroll of the government the official serves, at the post's
   // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
@@ -173,6 +561,15 @@ export function hireStaff(
     hiredOn: api.state.date,
     hiredFrom: candidate.from,
     tasksDone: 0,
+    reasons: hireReasons(candidate).reasons,
+    reasonRecordIds: [
+      // Where the office sits, and where the hire lives.
+      officeSiteOf(api, input.officialId).placeId,
+      person.placeId,
+      ...(person.countyId ? [person.countyId] : []),
+      ...(candidate.familyLinkId ? [candidate.familyLinkId] : []),
+      ...(candidate.counted ? [`counted:${person.householdId}`] : []),
+    ],
   };
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
@@ -499,33 +896,20 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           .reduce((max, row) => Math.max(max, row!.hourlyMinor), 0);
         return pay < postHourly;
       })
-      .map((c) => ({
-        ...c,
-        score:
-          workQuality(
-            api,
-            {
-              id: "",
-              officialId,
-              personId: c.personId,
-              role: "",
-              hiredOn: api.state.date,
-              hiredFrom: c.from,
-              tasksDone: 0,
-            },
-            null,
-          ).quality +
-          (c.from === "known" ? campaignParameter("staffKnownWeight") : 0),
-      }))
+      .map((c) => ({ ...c, score: hireReasons(c).score }))
       .sort(
         (a, b) => b.score - a.score || a.personId.localeCompare(b.personId),
       )[0];
     if (choice)
-      hireStaff(api, {
-        officialId,
-        personId: choice.personId,
-        role: "aide",
-      });
+      hireStaff(
+        api,
+        {
+          officialId,
+          personId: choice.personId,
+          role: "aide",
+        },
+        choice,
+      );
   }
 }
 

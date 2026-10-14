@@ -439,7 +439,10 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     const before = felonyDisenfranchisedShare(api);
     recordRoundTrip(
       RESTORE_VOTE,
-      () => expect(felonyDisenfranchisedShare(api), where).toBeLessThan(before),
+      () =>
+        before > 0
+          ? expect(felonyDisenfranchisedShare(api), where).toBeLessThan(before)
+          : expect(felonyDisenfranchisedShare(api), where).toBe(before),
       undefined,
       true,
     );

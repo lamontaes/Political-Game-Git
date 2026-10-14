@@ -8,6 +8,8 @@
  * record; for a minimum wage, every job in the town paying under the new floor
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
+import { addDays, makeIsoDate } from "../../simulation/dates";
+import { lawHistory } from "../past-module";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -136,11 +138,12 @@ export function openLaws(core: CoreState): LawChain {
       tier: "general",
       value: answer.answer === "yes" ? 1 : 0,
       // In force by the research's calibration date, so outcome research
-      // reading the real law at that date sees it (OPUS-WEB, Oct 12).
+      // reading the real law at that date sees it (OPUS-WEB, Oct 12); when
+      // it was enacted, by whom, is the law's history (`enactmentOf`).
       effectiveDate: today < ANSWERS_AS_OF ? today : ANSWERS_AS_OF,
       endDate: null,
       source: entry.source ?? "data/research/laws/starting-law-2026",
-      retrieved: today,
+      retrieved: ANSWERS_AS_OF,
       estimate: answer.estimated !== undefined,
     };
     if (!state.table("laws").get(row.id))
@@ -330,6 +333,73 @@ function seriesRows(api: CoreAPI, series: string): readonly LawRowInput[] {
     .query("bySeriesOnly", [series]) as unknown as readonly LawRowInput[];
 }
 
+/**
+ * When and how a law was enacted: a law passed in play from its own record
+ * (the day it passed, its margin); a day-one law from its history (the
+ * world's past: the enactment date, body, session and roll calls). Null for a
+ * law with neither.
+ */
+export function enactmentOf(
+  api: CoreAPI,
+  row: LawRowInput,
+): {
+  passedOn: string;
+  margin: number;
+  body: string | null;
+  session: Readonly<Record<string, string>> | null;
+} | null {
+  if (row.terms?.enactedBy) {
+    const margin = Number(row.terms.margin);
+    return {
+      passedOn: row.retrieved,
+      margin: Number.isFinite(margin) ? margin : 0,
+      body: null,
+      session: null,
+    };
+  }
+  const history = lawHistory(api, row.id);
+  if (!history) return null;
+  const margins = history.rollCalls.map(
+    (c) => (c.yes - c.no) / Math.max(1, c.yes + c.no),
+  );
+  return {
+    passedOn: history.enactedOn,
+    margin: margins.length ? Math.min(...margins) : 0,
+    body: history.body,
+    session: history.session,
+  };
+}
+
+/**
+ * The latest law enacted on a series, in play or before day one: the day it
+ * passed, the margin it passed by (the narrowest chamber's yes minus no, over
+ * those voting), and its value. Null when no record says when it passed.
+ */
+export function lastEnactment(
+  api: CoreAPI,
+  series: string,
+): { passedOn: string; margin: number; value: number; lawId: string } | null {
+  let latest: {
+    passedOn: string;
+    margin: number;
+    value: number;
+    lawId: string;
+  } | null = null;
+  for (const row of seriesRows(api, series)) {
+    if (row.effectiveDate > api.state.date && !row.terms?.enactedBy) continue;
+    const enacted = enactmentOf(api, row);
+    if (!enacted || enacted.passedOn > api.state.date) continue;
+    if (latest && enacted.passedOn <= latest.passedOn) continue;
+    latest = {
+      passedOn: enacted.passedOn,
+      margin: enacted.margin,
+      value: row.value ?? 0,
+      lawId: row.id,
+    };
+  }
+  return latest;
+}
+
 /** The law on a series for the town, on a date (today by default), at every level. */
 export function lawInForce(
   api: CoreAPI,
@@ -443,6 +513,19 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     LawRowInput | undefined;
   if (!row || !inForceOn(row, api.state.date)) return;
   const town = lawChain(api).townPlaceId;
+  // What it replaced: the law in force on the series the day before. A
+  // policy question set to 0 ends that law (a repeal).
+  const before = lawInForce(
+    api,
+    row.series,
+    addDays(makeIsoDate(api.state.date), -1),
+  ).governing;
+  const ends =
+    before &&
+    before.id !== row.id &&
+    row.value === 0 &&
+    (before.value ?? 0) !== 0;
+  const decidedBy = row.terms?.decidedBy;
   api.emit({
     id: `law-took-effect:${row.id}`,
     date: api.state.date,
@@ -460,6 +543,21 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       tier: row.tier,
       value: String(row.value),
       unit: row.unit ?? "",
+      change: ends
+        ? "ended"
+        : before && (before.value ?? 0) !== 0
+          ? "replaced"
+          : "new",
+      ...(before && before.id !== row.id ? { replacesLawId: before.id } : {}),
+      ...(row.terms?.enactedBy
+        ? { enactedBy: String(row.terms.enactedBy) }
+        : {}),
+      ...(decidedBy
+        ? {
+            decidedBy: String(decidedBy),
+            decision: String(row.terms?.decision ?? ""),
+          }
+        : {}),
     },
   });
   if (row.series === "minimum-wage") raiseToFloor(api, work.source);

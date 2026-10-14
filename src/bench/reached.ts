@@ -30,7 +30,7 @@ export function reachedSteps(core: CoreState, personId: string) {
           api.moduleState("core2-campaigns-v1").table("campaigns").get(f.id) as
             | {
                 id: string;
-                doorsKnocked: string[];
+                doorsKnockedCount?: number;
                 volunteerIds: string[];
                 raisedMinor: number;
               }
@@ -39,7 +39,9 @@ export function reachedSteps(core: CoreState, personId: string) {
       .filter(
         (c) =>
           c &&
-          (c.doorsKnocked.length || c.volunteerIds.length || c.raisedMinor),
+          ((c.doorsKnockedCount ?? 0) ||
+            c.volunteerIds.length ||
+            c.raisedMinor),
       );
     if (campaigns.length)
       out.push({ step: 4, recordIds: campaigns.map((c) => c!.id) });
