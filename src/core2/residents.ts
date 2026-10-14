@@ -71,6 +71,12 @@ export interface ResidentFlowInput {
   endsAt?: IsoDate;
   salesReceipt: boolean;
   marketAdjusted: boolean;
+  /**
+   * Pay from jobs the game doesn't model: follows the place's pay level since
+   * the opening (its finance conditions' wage factor), as modeled jobs'
+   * pay does through their yearly raises.
+   */
+  payIndexed?: boolean;
   /** The employer whose count workers this pays (wages only). */
   organizationId?: string;
   /** Workers this wage flow pays, by job id; shrinks as people are filled in. */
@@ -749,6 +755,7 @@ export function collapseToTwoLevels(
       cadence: { kind: "days", every: 14 },
       salesReceipt: false,
       marketAdjusted: false,
+      payIndexed: true,
       source: {
         tag: "ESTIMATED",
         asOf: start,
