@@ -23,9 +23,7 @@ import {
   moduleState,
 } from "./module-state";
 import { moduleCalendar } from "./module-calendar";
-import { voterGroups } from "./voter-groups";
 import { accountsFacade } from "./accounts";
-import { countedVoterGroupId } from "./opening-voter-groups";
 import {
   emptyWorkRuntime,
   admitWorkCommitment,
@@ -498,12 +496,6 @@ export function createCore(
     moduleState(core, snapshot.moduleId).restore(snapshot);
     restoredModules.add(snapshot.moduleId);
   }
-  const openingGroups = voterGroups(core);
-  for (const row of input.voterGroups ?? []) {
-    if (openingGroups.get(row.id))
-      throw new Error("Duplicate opening voter group.");
-    openingGroups.put(row);
-  }
   assertCoreIntegrity(core);
   nativeFactoryCoreAdd.call(actualCore, core);
   return core;
@@ -909,7 +901,6 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     moduleState: (moduleId) => moduleState(core, moduleId),
     moduleCalendar: (moduleId) => moduleCalendar(core, moduleId),
-    voterGroups: () => voterGroups(core),
     accounts: () => accountsFacade(core, api),
     version: core.apiVersion,
     state: core,
@@ -1940,17 +1931,6 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
     }
-  }
-  // Adults leave their counted voter group; they now vote by name.
-  const groups = voterGroups(core);
-  for (const row of record.people) {
-    const id = countedVoterGroupId(
-      record.household.placeId,
-      row.birthDate,
-      core.date,
-    );
-    const group = id ? groups.get(id) : undefined;
-    if (group && group.size > 0) groups.put({ ...group, size: group.size - 1 });
   }
   // Their economic life moves from the merged flows to their own records.
   const released = releaseResidentHousehold(core, record);
