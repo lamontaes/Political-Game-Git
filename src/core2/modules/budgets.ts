@@ -36,6 +36,7 @@ import {
 } from "../../simulation/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
+import { propertyTaxCapShare } from "../law-reach/property-tax-cap";
 import type { LawRowInput } from "../laws-starting";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 
@@ -178,6 +179,9 @@ interface PlaceBases {
   name: string;
   fiscalYearStart: string;
   population2024?: number;
+  /** Island areas: Puerto Rico's 2025 estimate, the others' 2020 Census counts. */
+  puertoRicoPopulation2025?: number;
+  islandAreaPopulation2020?: number;
   state?: { revenue: Record<string, number>; spending: Record<string, number> };
   local?: { revenue: Record<string, number>; spending: Record<string, number> };
 }
@@ -341,7 +345,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       level: "state",
       name: place?.name ?? chain.stateKey,
       fiscalYearStart: stateStart,
-      residents: place?.population2024 ?? 0,
+      residents:
+        place?.population2024 ??
+        place?.puertoRicoPopulation2025 ??
+        place?.islandAreaPopulation2020 ??
+        0,
     }),
   ];
   const county = chain.countyGeoids[0];
@@ -583,9 +591,11 @@ function propertyTaxTerms(api: CoreAPI) {
   const citation = Array.isArray(row.source)
     ? row.source.join(" ; ")
     : (row.source as string);
+  const cap = propertyTaxCapShare(api);
   return {
     rate: answer.value / 100,
     payeeId: collector,
+    ...(cap === undefined ? {} : { assessmentCapShare: cap }),
     source: {
       tag: "ESTIMATED" as const,
       citation,

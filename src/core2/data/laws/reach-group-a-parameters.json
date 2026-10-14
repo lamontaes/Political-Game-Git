@@ -140,12 +140,6 @@
       "source": "Grounded Solutions Network, Inclusionary Housing Database (2021): the typical set-aside is 10 to 20% of new homes.",
       "spread": [0.1, 0.2]
     },
-    "housingAssistanceAnnualMinor": {
-      "value": 1150000,
-      "tag": "ESTIMATED",
-      "source": "HUD, Picture of Subsidized Households 2023: the average housing choice voucher pays about $960 a month.",
-      "spread": [900000, 1500000]
-    },
     "parksDedicatedShare": {
       "value": 0.2,
       "tag": "TUNABLE",
@@ -180,6 +174,12 @@
       "value": 365,
       "tag": "SOURCED",
       "source": "Civil calendar: a common year has 365 days."
+    },
+    "multifamilyAllowedLandShare": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Oregon HB 2001 (2019) and California SB 9 (2021): two to four homes allowed on every lot zoned for one house, so apartments may be built on all residential land.",
+      "spread": [0.8, 1]
     }
   }
 }

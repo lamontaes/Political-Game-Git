@@ -1369,7 +1369,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE: a leave-taking choice on a birth or a relative's serious illness (health engine), and CORE: a benefit payment from a government treasury to a person through the journal (e.g. payBenefit(treasuryId, personId, amountMinor, source)); then GOV pays wage replacement from the premium fund.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept the payroll premium paid to the treasury (real money); the unpaid-claims stand-in note is removed, no leave event or claim is built."
   },
   {
     "id": "SG-GOV-REACH-A-bargaining",
@@ -1381,7 +1382,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a bargaining engine that negotiates the unit's contract with the public employer and applies it with CORE's rerateJob(jobId, hourlyMinor, source); WORLD: union membership on workers' records.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "No bargaining engine to wire, so the record-only reach on public workers, employers and unions is deleted; the policy is outcome-web (its law: link in the outcome web)."
   },
   {
     "id": "SG-GOV-REACH-A-union-dues",
@@ -1393,7 +1395,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD or CORE: union membership on jobs and dues as a payroll deduction through the journal (e.g. a standing dues contract per member), which right-to-work then ends for nonmembers.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Dues are pooled opening flows with no agency fees to end, so the record-only reach on workers and unions is deleted; the policy is outcome-web (its law: link in the outcome web)."
   },
   {
     "id": "SG-GOV-REACH-A-cannabis-market",
@@ -1405,7 +1408,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: a household purchase kind for cannabis (CES-based) and a licensed retailer entering through CORE's enterMarket({organizationId, financeKinds: [household.cannabis], ...}).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach (adults and retailers records); the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-A-consumer-credit",
@@ -1417,7 +1421,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "CORE: consumer credit for people (credit facilities with a person borrower); then GOV reprices loans above the cap with CORE's repriceCreditFacility(facilityId, cap, source).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach on borrowers; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-A-housing-supply",
@@ -1429,7 +1434,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: a housing engine with lots, units and construction decisions (e.g. addHousingCapacity(placeId, units) driven by builders' returns).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Allowing multifamily homes now sets the housing engine's zoning (setHousingZoning: apartments on all residential land) for the town's builders; a repeal restores the opening share."
   },
   {
     "id": "SG-GOV-REACH-A-rent-assistance",
@@ -1441,7 +1447,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: rent contracts on renting households; CORE: a benefit payment from a treasury toward a household's rent through the journal.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the rent-help records on the lowest-cash households; the housing line's change stays in the budget (mechanic outcome-web)."
   },
   {
     "id": "SG-GOV-REACH-A-affordable-units",
@@ -1453,7 +1460,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: the housing engine's new units, with the set-aside share priced below market for eligible households.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach on builders; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-A-rent-contracts",
@@ -1465,7 +1473,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: household tenure and rent contracts; then GOV caps increases with CORE's setStandingContractAmount(contractId, amountMinor).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The rent cap would have to live in the housing engine's lease renewal, so the record-only reach on tenants and landlords is deleted; the policy is outcome-web (its law: link in the outcome web)."
   },
   {
     "id": "SG-GOV-REACH-A-eviction-cases",
@@ -1477,7 +1486,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD and GOV: eviction filings from unpaid rent contracts and a housing court; the city's legal services pay for counsel through the journal.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A right to counsel now sets the housing engine's counsel rule (setRightToCounsel), funded by the treasury of the government that passed it, so each eviction case pays a tenant's lawyer; a repeal ends it."
   },
   {
     "id": "SG-GOV-REACH-A-citizenship",
@@ -1501,7 +1511,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a justice engine with arrests, charges, pretrial detention and release decisions from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach (adults and the estimated pretrial count); the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-A-convictions",
@@ -1537,7 +1548,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a redistricting step after each census that draws districts, run by the commission when this law is in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach on legislators; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-territory-residents",
@@ -1549,7 +1561,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B then reads GovernmentRow.residents only.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The budgets module now reads island areas' populations from public-budget-bases.json; group B's own Census table and its fallback are removed."
   },
   {
     "id": "SG-GOV-REACH-B-public-school-staff",
@@ -1561,7 +1574,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Dropped the private-school stand-in: the teacher floor and the schools line reach only the town's public school district (service:school), which the core's opening now imports."
   },
   {
     "id": "SG-GOV-REACH-B-transit-fare-price",
@@ -1573,7 +1587,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD prices API: setPlacePrice({ placeId, good: \"transit-fare\", priceMinor, source }) read by household commuting costs, so riders' costs fall to zero and the line pays the transit operator.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Fare-free transit now sets the town's transit fare to zero in the place-prices engine (setPlacePrice), so riders stop paying fares, while the budget replaces the farebox; the transit line's rider records are deleted."
   },
   {
     "id": "SG-GOV-REACH-B-mileage-fee-price",
@@ -1585,7 +1600,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD prices API: setPlaceTax({ placeId, good: \"vehicle-miles\", centsPerUnit, payeeAccountId }) on household fuel and travel spending, with the fuel tax removed.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A mileage fee now charges the town's households per mile through the place-prices engine (setPlaceTax) to the enacting treasury, refunding the fuel tax it replaces."
   },
   {
     "id": "SG-GOV-REACH-B-broadband-bill",
@@ -1597,7 +1613,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD household bills API: offerHouseholdService({ placeId, service: \"broadband\", providerId, monthlyMinor }) so households can take the public offer and telecom revenue moves.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Public broadband is now an offer in the place-prices engine (offerHouseholdService) from the enacting government's treasury; subscribers' bills move to it."
   },
   {
     "id": "SG-GOV-REACH-B-medicaid-coverage",
@@ -1609,7 +1626,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE health engine: setCoverage(personId, { plan: \"medicaid\", from, to }) and counted-group coverage shares, read by medical costs (OPUS-CORE household spending).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the eligibility records of Medicaid expansion and its work requirement; both policies are outcome-web, their effect is their law: links in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-assistance-benefits",
@@ -1621,7 +1639,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE benefits API: addBenefit({ personId|householdId, program: \"snap\", monthlyMinor, from, payerAccountId }) and endBenefit(id), which this time limit ends after three months.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "An assistance work requirement in force now ends the welfare line's monthly benefit obligations for the adults it time-limits (payBenefits ends them through endObligation)."
   },
   {
     "id": "SG-GOV-REACH-B-preschool-enrollment",
@@ -1633,7 +1652,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE schools engine: enroll(childId, schoolOrgId, { program: \"pre-k\" }) and OPUS-CORE household child-care cost, reduced when enrolled.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the preschool eligibility records; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-voucher-payment",
@@ -1645,7 +1665,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury to the private school through accounts.transfer each term.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the voucher eligibility records on children and private schools; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-property-tax-bills",
@@ -1657,7 +1678,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD housing engine: property tax bills on owners (assessed value times the rate in force) with an assessment-growth cap read from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A property-tax growth cap in force now sets assessmentCapShare in the budgets module's property tax terms, so owners' bills rise no faster than the cap."
   },
   {
     "id": "SG-GOV-REACH-B-sales-tax-collection",
@@ -1682,7 +1704,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD housing and business engine: new-construction cost and appliance fuel by code in force (setBuildingCode({ placeId, allElectric: true })).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the compliance records on builders and utilities for a gas hookup ban; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-energy-price",
@@ -1694,7 +1717,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD prices API: adjustPrice({ placeId, good: \"electricity\"|\"fuel\", share, cause }) read by household and business costs.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A clean electricity standard and a carbon price now raise the town's electricity and fuel prices in the place-prices engine (adjustPrice); carbon revenue goes to the enacting treasury."
   },
   {
     "id": "SG-GOV-REACH-B-retail-price",
@@ -1706,7 +1730,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD prices API: addPerUnitCharge({ placeId, good: \"beverage-container\", centsPerUnit, refundable: true }).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A bottle deposit is now a refundable per-container charge in the place-prices engine (addPerUnitCharge)."
   },
   {
     "id": "SG-GOV-REACH-B-nonattainment-data",
@@ -1730,7 +1755,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD business engine: setOperatingLimit({ organizationId, input: \"groundwater\", share }) and regulatory cost read by business books.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the groundwater compliance records and the natural resources line's service records; the policy is outcome-web (law: link in the outcome web) and the line's change stays in the budget."
   },
   {
     "id": "SG-GOV-REACH-B-land-use",
@@ -1742,7 +1768,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD housing engine: land parcels with zoning, read by new construction (zoneParcels({ placeId, use: \"agricultural\", protected: true })).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the farmland protection rule records; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-road-condition",
@@ -1754,7 +1781,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD regional engine: setRoadCondition({ placeId, level }) read by commute time and vehicle costs.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the highways line's road service records on drivers and road builders; the line's change stays in the budget."
   },
   {
     "id": "SG-GOV-REACH-B-tuition",
@@ -1766,7 +1794,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE schools engine: college enrollment and tuition (setTuition({ institutionId, inStateMinor })) read by household spending.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the higher education line's support records on 18-to-24-year-olds; the line's change stays in the budget."
   },
   {
     "id": "SG-GOV-REACH-B-park-use",
@@ -1778,7 +1807,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE time-use and needs: park service level read by leisure choices and well-being (placeService({ placeId, service: \"parks\", level })).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the parks line's service records on residents and recreation firms; the line's change stays in the budget and the outcome web reads it (budget.parks-added-pct)."
   },
   {
     "id": "SG-GOV-tie-by-lot",
