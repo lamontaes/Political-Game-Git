@@ -79,7 +79,8 @@ export interface CampaignRow {
   readonly organizationId: string;
   readonly volunteerIds: readonly string[];
   readonly staffIds: readonly string[];
-  readonly doorsKnocked: readonly string[];
+  /** How many households its doors have reached (each kept in the doors table). */
+  readonly doorsKnockedCount?: number;
   readonly raisedMinor: number;
   readonly spentMinor: number;
   /** Where the next turn's asks for money start in the campaign's list of people it can reach. */
@@ -215,6 +216,8 @@ export const CAMPAIGNS_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       campaigns: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** Each household a campaign's doors reached, one row each. */
+      doors: { indexes: { byCampaign: { fields: ["campaignId"] } } },
       impressions: {
         indexes: {
           byVoter: { fields: ["voterId"] },
@@ -386,7 +389,7 @@ export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
     organizationId,
     volunteerIds: [],
     staffIds: [],
-    doorsKnocked: [],
+    doorsKnockedCount: 0,
     raisedMinor: 0,
     spentMinor: 0,
   };
@@ -742,7 +745,8 @@ export function knockDoors(
     citation: `Campaign ${campaign.id}`,
     asOf: api.state.date,
   });
-  const done = new Set(campaign.doorsKnocked);
+  const done = new Set(doorsKnockedOf(api, campaign.id));
+  const before = done.size;
   const core = api.state as CoreState;
   const met: CauseRow[] = [];
   for (const openerId of walkDoors(api, { done, doors, hours: input.hours })) {
@@ -776,13 +780,34 @@ export function knockDoors(
     met.push(cause);
     retell(api, campaign, answers, cause);
   }
+  const doorRows = table(api, "doors");
+  for (const household of done)
+    if (!doorRows.get(`${campaign.id}|${household}`))
+      doorRows.put({
+        id: `${campaign.id}|${household}`,
+        campaignId: campaign.id,
+        householdId: household,
+        date: api.state.date,
+      } as unknown as ModuleRow);
   campaign = campaignFor(api, input.filingId);
   save(api, {
     ...campaign,
-    doorsKnocked: [...done],
+    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + done.size - before,
     countedReached: (campaign.countedReached ?? 0) + counted,
   });
   return met;
+}
+
+/** The households a campaign's doors have reached. */
+export function doorsKnockedOf(
+  api: CoreAPI,
+  campaignId: string,
+): readonly string[] {
+  return (
+    table(api, "doors").query("byCampaign", [campaignId]) as unknown as {
+      householdId: string;
+    }[]
+  ).map((row) => row.householdId);
 }
 
 /**
@@ -1571,6 +1596,8 @@ export function runAd(
     readonly filingId: string;
     readonly amountMinor: number;
     readonly attackFilingId?: string;
+    /** Leave the message's event to the caller (a campaign turn sends one for all it bought). */
+    readonly quiet?: boolean;
   },
 ): readonly CauseRow[] {
   const campaign = campaignFor(api, input.filingId);
@@ -1638,7 +1665,7 @@ export function runAd(
   }
   // The ad's message is a public record its viewers saw: the views engine
   // moves each one's stance on its question.
-  if (!input.attackFilingId)
+  if (!input.attackFilingId && !input.quiet)
     emitMessage(api, campaign, {
       kind: "campaign-ad",
       id: `campaign-ad:${campaign.id}:${api.state.date}:${campaign.spentMinor}`,
@@ -1908,6 +1935,8 @@ export function sendMail(
   api: CoreAPI,
   filingId: string,
   amountMinor: number,
+  /** Leave the message's event to the caller (a campaign turn). */
+  quiet = false,
 ): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
   const perPiece = unitPrice("mailer-print") + unitPrice("postage");
@@ -1954,11 +1983,12 @@ export function sendMail(
     mailCursor: cursor % Math.max(1, list.length),
     countedReached: (after.countedReached ?? 0) + counted,
   });
-  emitMessage(api, after, {
-    kind: "campaign-mail",
-    id: `campaign-mail:${campaign.id}:${api.state.date}:${cursor}`,
-    witnessIds: causes.map((c) => c.voterId),
-  });
+  if (!quiet)
+    emitMessage(api, after, {
+      kind: "campaign-mail",
+      id: `campaign-mail:${campaign.id}:${api.state.date}:${cursor}`,
+      witnessIds: causes.map((c) => c.voterId),
+    });
   return causes;
 }
 
@@ -2102,10 +2132,29 @@ export function campaignTurn(
   let mailReached = 0;
   let eventAudience = 0;
   let polled = 0;
-  if (part("ad") > 0)
-    adReached = runAd(api, { filingId, amountMinor: part("ad") }).length;
-  if (part("mail") > 0)
-    mailReached = sendMail(api, filingId, part("mail")).length;
+  // What the turn bought reaches its audiences as one message, which the
+  // views engine reads once for each person it reached.
+  const told: string[] = [];
+  if (part("ad") > 0) {
+    const seen = runAd(api, {
+      filingId,
+      amountMinor: part("ad"),
+      quiet: true,
+    });
+    adReached = seen.length;
+    for (const c of seen) told.push(c.voterId);
+  }
+  if (part("mail") > 0) {
+    const read = sendMail(api, filingId, part("mail"), true);
+    mailReached = read.length;
+    for (const c of read) told.push(c.voterId);
+  }
+  if (told.length)
+    emitMessage(api, campaignFor(api, filingId), {
+      kind: "campaign-message",
+      id: `campaign-message:${filingId}:${api.state.date}`,
+      witnessIds: told,
+    });
   // An event and a poll are bought whole: the campaign sets money aside
   // toward them until it covers one.
   campaign = campaignFor(api, filingId);
@@ -2158,6 +2207,12 @@ const contestsSeen = new WeakMap<object, number>();
  * filed to election day. Races are noted when their contest appears (the
  * contests table read only when it has grown) and dropped once decided.
  */
+const daysBetween = (from: string, to: string) =>
+  Math.round(
+    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
+      86_400_000,
+  );
+
 function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "campaign-turn") return;
   scheduleTurn(api);
@@ -2175,13 +2230,25 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     contestsSeen.set(api.state, contests.size);
   }
   const playerId = (api.state as CoreState).playerId;
+  const turnDays = campaignParameter("campaignTurnDays");
   for (const race of (
-    races.rows() as unknown as { id: string; electionDate: string }[]
+    races.rows() as unknown as {
+      id: string;
+      electionDate: string;
+      lastTurn?: string;
+    }[]
   ).slice()) {
     if (race.electionDate < date) {
       races.remove(race.id);
       continue;
     }
+    // A campaign works harder as election day nears: far out its people
+    // turn to it now and then, in the last weeks every few days.
+    const daysLeft = daysBetween(date, race.electionDate);
+    const every =
+      turnDays * (1 + daysLeft / campaignParameter("campaignRampDays"));
+    if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
+    races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     for (const filing of ballot(api, race.id))
       if (
         filing.status === "on-ballot" &&

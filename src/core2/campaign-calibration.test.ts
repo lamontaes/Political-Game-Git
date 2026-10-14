@@ -105,7 +105,7 @@ describe("campaign calibration on totals", () => {
         canvasserId: player.id,
         hours: 3,
       });
-      const knocked = campaignFor(api, filing.id).doorsKnocked.length;
+      const knocked = campaignFor(api, filing.id).doorsKnockedCount ?? 0;
       const contact = met.length / Math.max(1, knocked);
       const filled = core.people.size - namedBefore;
       const known = [...(core.people.get(player.id)?.knownIds ?? [])].filter(

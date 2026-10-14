@@ -689,6 +689,12 @@
       "source": "How many questions a candidate who files with no stated platform campaigns on: the ones they feel most strongly about. Local candidate questionnaires and mailers lead with a few issues (Ballotpedia candidate surveys ask for three key messages).",
       "spread": [2, 5]
     },
+    "campaignRampDays": {
+      "value": 60,
+      "tag": "ESTIMATED",
+      "source": "How a campaign's pace rises toward election day: its turns come every campaignTurnDays times (1 + days left / this), so about every 3 days in the last weeks, every 6 two months out and every 3 weeks a year out. Campaign activity concentrates late: most House candidates' spending falls in the final quarter before the general election (FEC, candidate disbursements by reporting period, 2022 cycle), and canvassing programs run mostly in the last six to eight weeks (Green and Gerber, 'Get Out the Vote', 4th ed. 2019).",
+      "spread": [30, 120]
+    },
     "campaignTurnDays": {
       "value": 3,
       "tag": "TUNABLE",
