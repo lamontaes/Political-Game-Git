@@ -63,6 +63,8 @@ export interface SituationLibrary {
     paceBands: readonly { band: string; maxAge?: number }[];
     trailingDays: number;
     openDays: Readonly<Record<string, number>>;
+    /** Moments that stage their family scene when a household member is in them. */
+    householdScenes: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -417,7 +419,19 @@ export function scheduleMoment(
     ? found.filter((row) => allowed.has(row.typeKey))
     : found;
   const filteredOut = found.length > zero && !bindings.length;
-  const interrupt = moment.impact >= options.interruptImpact && !filteredOut;
+  // News from the household's own records (a parent's lost job, a death, a
+  // serious illness) is a family scene at home whatever its size (owner,
+  // Oct 14, 2026, night: the director picks the family scene the
+  // household's records make apply).
+  const household = person.householdId;
+  const familyNews =
+    library.scheduling.householdScenes.includes(moment.label) &&
+    moment.counterpartIds.some(
+      (id) => core.people.get(id)?.householdId === household,
+    ) &&
+    bindings.some((row) => row.setting.kind === "home");
+  const interrupt =
+    (moment.impact >= options.interruptImpact || familyNews) && !filteredOut;
   if (!found.length)
     coverage ??= {
       momentId: moment.id,

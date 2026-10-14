@@ -913,10 +913,16 @@ export function createDirector(
       for (const [memberId, priorJob] of before.memberJobs) {
         const nowJob = pay.jobs.get(memberId);
         if (priorJob === nowJob) continue;
-        const named = today.events.find((row) =>
-          [...row.event.personIds, ...(row.event.witnessIds ?? [])].includes(
-            memberId,
-          ),
+        // The work or employer record that day naming them (a layoff, a
+        // closure), else the job itself; never another event that only
+        // mentions them (a cause group's ad named a father whose job ended
+        // that day).
+        const named = today.events.find(
+          (row) =>
+            /^(?:work|organization)\./.test(row.event.kind) &&
+            [...row.event.personIds, ...(row.event.witnessIds ?? [])].includes(
+              memberId,
+            ),
         );
         const kind =
           priorJob && !nowJob

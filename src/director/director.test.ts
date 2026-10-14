@@ -550,8 +550,10 @@ describe("story director on the new core", () => {
     const spouseEntry = spouse.schedule.find(
       (row) => row.mode !== "before-opening",
     )!;
-    // The spouse's share of the same loss, 0.431, waits.
-    expect(spouseEntry.outcome).toBe("scene-waiting");
+    // The spouse's share of the same loss, 0.431, is under the line, but a
+    // household member's lost job is a family scene at home whatever its size
+    // (owner, Oct 14, 2026, night).
+    expect(spouseEntry.outcome).toBe("scene-now");
     const heard = spouseEntry.bindings.find(
       (row) => row.typeKey === "news-arrives",
     )!;
@@ -949,23 +951,25 @@ describe("story director on the new core", () => {
       stop: { recordId: momentId, at: { date: "2021-01-11" } },
     });
 
-    // The spouse's 0.431 share of the same loss is under the line: it waits and stops nothing.
+    // The spouse's 0.431 share of the same loss is under the line, but a
+    // household member's lost job is a family scene at home whatever its
+    // size (owner, Oct 14, 2026, night): it stops the spouse's day too.
     const spouse = play("person:spouse");
     expect(
       spouse.stops.filter((packet) =>
         packet.stop.modules.some(
           (row) => row.moduleId === "p13-story-director",
         ),
-      ),
-    ).toEqual([]);
+      ).length,
+    ).toBe(1);
     const shared = spouse.director.ledger.people
       .get("person:spouse")!
       .schedule.find((row) => row.mode !== "before-opening")!;
     expect(shared).toMatchObject({
-      interrupt: false,
-      outcome: "scene-waiting",
+      interrupt: true,
+      outcome: "scene-now",
     });
-    expect(shared.stop).toBeUndefined();
+    expect(shared.stop).toBeDefined();
     // The worker is watched but not controlled in this play: the same 0.509 moment interrupts without a player stop.
     const uncontrolled = spouse.director.ledger.people
       .get("person:worker")!
