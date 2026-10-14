@@ -58,5 +58,17 @@
     "tag": "SOURCED",
     "citation": "Social Security Administration: full retirement age 66 to 67 for people born 1943 to 1960 and later; 65 is the age band edge the ACS employment tables and the opening's age bands use.",
     "estimatedFrom": "Counted adults below this age without a recorded job share the place's unplaced workers."
+  },
+  "countedOutlayShareOfDisposableIncome": {
+    "value": 0.927,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Economic Analysis, NIPA Table 2.1 'Personal Income and Its Disposition', 2019 annual: personal saving 7.3% of disposable personal income, so outlays are about 92.7% of income after taxes.",
+    "estimatedFrom": "A counted group spends this share of its income after the taxes withheld from its pay (wages net, benefits and awards as paid), averaged over recent months; rent and mortgages come out of it first. 2019 avoids the pandemic years' saving.",
+    "spread": {
+      "low": 0.88,
+      "high": 0.965,
+      "unit": "personal outlays / disposable personal income",
+      "citation": "BEA NIPA Table 2.1: saving 12% of disposable income in 2021 (the low end of outlays) to 3.5% in 2022 (the high end)."
+    }
   }
 }

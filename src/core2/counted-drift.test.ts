@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { gameStartDate } from "./game-start";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
@@ -6,6 +7,13 @@ import { countedDrift } from "./modules/counted-drift";
 import { residentsRuntime } from "./modules/residents";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+
+/** A date this many days after the game's opening date (tests once assumed January 1, 2021). */
+const after = (days: number) => {
+  const at = new Date(`${gameStartDate()}T00:00:00Z`);
+  at.setUTCDate(at.getUTCDate() + days);
+  return at.toISOString().slice(0, 10);
+};
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-counted-drift");
@@ -38,7 +46,7 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
         row.people.map((person) => person.id),
       ),
     );
-    advanceCore(core, "2021-12-31");
+    advanceCore(core, after(364));
     let deaths = 0,
       births = 0,
       movedOut = 0,

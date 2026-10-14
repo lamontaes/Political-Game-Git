@@ -130,6 +130,9 @@ function grown<T extends Int8Array | Uint8Array>(
   return next;
 }
 
+/** Where a packed trait reader keeps its member (a symbol: not a trait key to for...in). */
+const MEMBER = Symbol("member");
+
 /**
  * A trait record read straight from the packed columns: `traits[key]` reads
  * the member's value, with no object per trait. Built once per store.
@@ -282,13 +285,13 @@ export class CountedStore {
     if (!this.traitView) {
       const traits = () => this.traits;
       const width = () => this.traitNames.length;
-      const View = function (this: { m: number }, m: number) {
-        this.m = m;
+      const View = function (this: { [MEMBER]: number }, m: number) {
+        this[MEMBER] = m;
       } as unknown as new (member: number) => PackedTraits;
       this.traitNames.forEach((name, ix) =>
         Object.defineProperty(View.prototype, name, {
-          get(this: { m: number }) {
-            return traits()[this.m * width() + ix];
+          get(this: { [MEMBER]: number }) {
+            return traits()[this[MEMBER] * width() + ix];
           },
           enumerable: true,
         }),
