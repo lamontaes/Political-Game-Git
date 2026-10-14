@@ -245,6 +245,52 @@ export function axisOf(
   return null;
 }
 
+/** The words of a part that carry its meaning: slots, short words and addresses left out. */
+const contentWords = (text: string) =>
+  new Set(
+    text
+      .replace(/\{\w+\}/g, " ")
+      .toLowerCase()
+      .match(/[a-z']{4,}/g)
+      ?.filter((word) => !STOP.has(word)) ?? [],
+  );
+const STOP = new Set([
+  "that",
+  "this",
+  "with",
+  "have",
+  "your",
+  "will",
+  "what",
+  "there",
+  "from",
+  "they",
+  "were",
+  "been",
+  "would",
+  "could",
+  "chair",
+  "madam",
+  "speaker",
+]);
+
+/**
+ * Whether another part says the same line. A part whose moment names a
+ * specific choice (a fine answer, a how-is question) is the same move by its
+ * record; one filed only under a broad role ("run-meeting") must share a
+ * meaning word with it (batch 10: "Please state your name for the record"
+ * offered as another way to say "The meeting will come to order").
+ */
+export function saysTheSame(part: BankPart, other: BankPart): boolean {
+  const broad = (part.uses ?? []).every(
+    (use) => !use.choice || use.choice === use.role,
+  );
+  if (!broad) return true;
+  const mine = contentWords(part.text);
+  if (!mine.size) return true;
+  return [...contentWords(other.text)].some((word) => mine.has(word));
+}
+
 export interface Variant {
   axis: Axis;
   /** The mined part that says it. */
@@ -280,6 +326,7 @@ export function variantsFor(
     const byAxis = new Map<Axis, Variant & { distance: number }>();
     for (const other of sameMoment(part, all, minedMoment(moment))) {
       if (accept && !accept(other, part)) continue;
+      if (!saysTheSame(part, other)) continue;
       const partText = fill(other.text, found.values);
       if (partText === null) continue;
       const axis = axisOf(said, partText, sociability);
