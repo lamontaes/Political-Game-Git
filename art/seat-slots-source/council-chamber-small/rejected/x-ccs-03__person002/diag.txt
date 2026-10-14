@@ -1,0 +1,13 @@
+{
+  "source": "x-ccs-03.jpg",
+  "instance": 2,
+  "chair": "chair-025",
+  "reasons": [
+    "visual_occluded_or_incomplete_head"
+  ],
+  "room_pixel_share": 0.014216867469879518,
+  "shift": [
+    0,
+    0
+  ]
+}
