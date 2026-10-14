@@ -1344,8 +1344,10 @@ async function seatRows() {
 }
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
-const kindName = (kind) =>
-  `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
+const kindName = (kind) => {
+  const name = kind.split(":").pop();
+  return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
+};
 
 // ---- Menus ----
 const sheets = {
