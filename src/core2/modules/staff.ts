@@ -15,7 +15,10 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInPerson, registerModule } from "../state";
+import { countedResidents } from "../electorate";
+import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import type { EntityId } from "../../simulation/types";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
@@ -39,6 +42,8 @@ import {
 } from "./legislature";
 
 export const STAFF_MODULE_ID = "core2-staff-v1";
+/** Relatives living out of town, kept as a name and family ties only. */
+const HUSK_TIER = "husk";
 
 export interface StafferRow {
   readonly id: string;
@@ -48,6 +53,15 @@ export interface StafferRow {
   readonly hiredOn: string;
   readonly hiredFrom: "known" | "applicant";
   readonly tasksDone: number;
+  /**
+   * Why this person was the hire, by part: how well they'd do the work, how
+   * far they live within reach of the office, their age's place in the
+   * working-age pool, knowing the official, and a family tie (a reason the
+   * press and views can read; family ties are allowed, owner Oct 14).
+   */
+  readonly reasons?: Readonly<Record<string, number>>;
+  /** The records the reasons read: where they live, the family link, a counted record filled in at hire. */
+  readonly reasonRecordIds?: readonly string[];
 }
 
 export interface WorkRecord {
@@ -92,25 +106,104 @@ const ageOn = (p: Readonly<PersonState>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 
+export interface StaffCandidate {
+  readonly personId: string;
+  readonly from: "known" | "applicant";
+  /** From the town's counted population, filled in from its records at hire. */
+  readonly counted?: boolean;
+  /** How far they live within commuting reach of the office (1 in its county). */
+  readonly reach: number;
+  readonly reachBasis: "town" | "county" | "state" | "other-state";
+  /** Their age's place in the working-age pool (1 at its fullest). */
+  readonly workingAge: number;
+  /** A family link to the official, when there is one. */
+  readonly familyLinkId?: string;
+  readonly traits: Readonly<Record<string, number>>;
+}
+
+const ageOnDay = (birthDate: string, date: string) =>
+  Number(date.slice(0, 4)) -
+  Number(birthDate.slice(0, 4)) -
+  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+
+const WORKING_AGE_POINTS = [18, 22, 30, 40, 50, 60, 70, 80] as const;
+
+/**
+ * An age's place in the working-age pool, sliding: the labor force share at
+ * the nearest two band middles, read along the line between them, over the
+ * fullest band's share. No age is cut off.
+ */
+export function workingAgeWeight(age: number): number {
+  const at = (point: number) => campaignParameter(`staffWorkingAgeAt${point}`);
+  const top = Math.max(...WORKING_AGE_POINTS.map(at));
+  const first = WORKING_AGE_POINTS[0];
+  const last = WORKING_AGE_POINTS[WORKING_AGE_POINTS.length - 1]!;
+  if (age <= first) return at(first) / top;
+  if (age >= last) return at(last) / top;
+  const upper = WORKING_AGE_POINTS.findIndex((point) => point >= age);
+  const high = WORKING_AGE_POINTS[upper]!;
+  const low = WORKING_AGE_POINTS[upper - 1]!;
+  return (at(low) + ((age - low) / (high - low)) * (at(high) - at(low))) / top;
+}
+
+/** How far a place is within commuting reach of the town's office, from the place records. */
+function reachOf(
+  api: CoreAPI,
+  placeId: string,
+  countyId: string | undefined,
+): Pick<StaffCandidate, "reach" | "reachBasis"> {
+  const chain = lawChain(api);
+  if (placeId === chain.townPlaceId) return { reach: 1, reachBasis: "town" };
+  const county = countyId
+    ? lifePlaceByJurisdictionId(countyId as EntityId)?.sourceGeoid
+    : undefined;
+  if (county && chain.countyGeoids.includes(county))
+    return { reach: 1, reachBasis: "county" };
+  const place = lifePlaceByJurisdictionId(placeId as EntityId);
+  const state =
+    place?.scope === "state" ? place.key : place?.stateJurisdictionKey;
+  // A place the records can't put in the state reads as out of it.
+  return state && state === chain.stateKey
+    ? { reach: campaignParameter("staffReachOtherCounty"), reachBasis: "state" }
+    : {
+        reach: campaignParameter("staffReachOtherState"),
+        reachBasis: "other-state",
+      };
+}
+
+/** The family link between two people, if the records hold one. */
+function familyLinkOf(api: CoreAPI, a: string, b: string): string | undefined {
+  for (const link of (api.state as CoreState).familyLinks.values())
+    if (link.personIds.includes(a) && link.personIds.includes(b))
+      return link.id;
+  return undefined;
+}
+
 /**
  * Who an official can hire: people they know, and applicants (town adults
- * out of work, or whose current pay is under the post's).
+ * out of work, or whose current pay is under the post's, and the town's
+ * counted adults with no work in the records). Each is someone the records
+ * can place: where they live, sliding by commuting reach of the office, and
+ * their age's place in the working-age pool. A relative living out of town
+ * whose own work isn't modeled (a husk) isn't counted as out of work.
  */
 export function staffCandidates(
   api: CoreAPI,
   officialId: string,
-): readonly { personId: string; from: "known" | "applicant" }[] {
+): readonly StaffCandidate[] {
   const official = api.state.people.get(officialId);
   if (!official) return [];
   const state = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
+  const date = api.state.date;
+  const minimum = campaignParameter("staffMinimumAge");
   const hired = new Set(
     (table(api, "staff").rows() as unknown as StafferRow[]).map(
       (s) => s.personId,
     ),
   );
   const postHourly = campaignParameter("staffHourlyMinor");
-  const out: { personId: string; from: "known" | "applicant" }[] = [];
+  const out: StaffCandidate[] = [];
   for (const person of [...api.state.people.values()].sort((a, b) =>
     a.id.localeCompare(b.id),
   )) {
@@ -118,11 +211,29 @@ export function staffCandidates(
       !person.alive ||
       person.id === officialId ||
       hired.has(person.id) ||
-      ageOn(person, api.state.date) < 18
+      ageOn(person, date) < minimum
     )
       continue;
+    if (person.tier === HUSK_TIER) {
+      // stopgapId: SG-WORLD-staff-husk-work
+      api.stopgap("SG-WORLD-staff-husk-work");
+      continue;
+    }
+    const placed = {
+      ...reachOf(api, person.placeId, person.countyId),
+      workingAge: workingAgeWeight(ageOn(person, date)),
+      traits: person.traits,
+    };
     if (official.knownIds.has(person.id) || official.familyIds.has(person.id)) {
-      out.push({ personId: person.id, from: "known" });
+      const link = official.familyIds.has(person.id)
+        ? familyLinkOf(api, officialId, person.id)
+        : undefined;
+      out.push({
+        personId: person.id,
+        from: "known",
+        ...placed,
+        ...(link ? { familyLinkId: link } : {}),
+      });
       continue;
     }
     if (person.placeId !== town) continue;
@@ -130,9 +241,70 @@ export function staffCandidates(
       .map((id) => state.work.commitments.get(id))
       .filter((c) => c && c.endsAt === undefined)
       .reduce((max, c) => Math.max(max, c!.hourlyMinor), 0);
-    if (pay < postHourly) out.push({ personId: person.id, from: "applicant" });
+    if (pay < postHourly)
+      out.push({ personId: person.id, from: "applicant", ...placed });
+  }
+  // The town's counted adults with no work in their records apply too.
+  for (const voter of countedResidents(state)) {
+    if (
+      voter.placeId !== town ||
+      voter.weeklyMinutes > 0 ||
+      hired.has(voter.id) ||
+      ageOnDay(voter.birthDate, date) < minimum
+    )
+      continue;
+    const known =
+      official.knownIds.has(voter.id) || official.familyIds.has(voter.id);
+    const link = official.familyIds.has(voter.id)
+      ? familyLinkOf(api, officialId, voter.id)
+      : undefined;
+    out.push({
+      personId: voter.id,
+      from: known ? "known" : "applicant",
+      counted: true,
+      reach: 1,
+      reachBasis: "town",
+      workingAge: workingAgeWeight(ageOnDay(voter.birthDate, date)),
+      traits: voter.traits,
+      ...(link ? { familyLinkId: link } : {}),
+    });
   }
   return out;
+}
+
+/** How well a new hire would do the work, from their traits alone (no tasks done yet). */
+function hireQuality(traits: Readonly<Record<string, number>>): number {
+  return Math.max(
+    0,
+    Math.min(
+      1,
+      campaignParameter("staffBaseQuality") +
+        ((traits["people-mind-v1:reliability"] ?? 0) +
+          (traits["people-mind-v1:deliberation"] ?? 0)) *
+          campaignParameter("staffTraitWeight"),
+    ),
+  );
+}
+
+/** Why an official would hire this candidate, by part, and the score they add to. */
+export function hireReasons(candidate: StaffCandidate): {
+  score: number;
+  reasons: Record<string, number>;
+} {
+  const work = hireQuality(candidate.traits);
+  const known =
+    candidate.from === "known" ? campaignParameter("staffKnownWeight") : 0;
+  const reasons: Record<string, number> = {
+    work,
+    reach: candidate.reach,
+    workingAge: candidate.workingAge,
+    known,
+    ...(candidate.familyLinkId ? { family: 1 } : {}),
+  };
+  return {
+    score: (work + known) * candidate.reach * candidate.workingAge,
+    reasons,
+  };
 }
 
 /** Hire one of the official's candidates. */
@@ -149,6 +321,10 @@ export function hireStaff(
   );
   if (!candidate)
     throw new Error(`${input.personId} isn't a candidate for this office`);
+  // Someone from the counted population becomes a full person from their
+  // records first: their household, past and the work their books show.
+  if (candidate.counted) fillInPerson(api.state as CoreState, input.personId);
+  const person = api.state.people.get(input.personId)!;
   // On the payroll of the government the official serves, at the post's pay.
   const employer = employerOf(api, input.officialId);
   const jobId = employer
@@ -171,6 +347,13 @@ export function hireStaff(
     hiredOn: api.state.date,
     hiredFrom: candidate.from,
     tasksDone: 0,
+    reasons: hireReasons(candidate).reasons,
+    reasonRecordIds: [
+      person.placeId,
+      ...(person.countyId ? [person.countyId] : []),
+      ...(candidate.familyLinkId ? [candidate.familyLinkId] : []),
+      ...(candidate.counted ? [`counted:${person.householdId}`] : []),
+    ],
   };
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
@@ -475,24 +658,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           .reduce((max, row) => Math.max(max, row!.hourlyMinor), 0);
         return pay < postHourly;
       })
-      .map((c) => ({
-        ...c,
-        score:
-          workQuality(
-            api,
-            {
-              id: "",
-              officialId,
-              personId: c.personId,
-              role: "",
-              hiredOn: api.state.date,
-              hiredFrom: c.from,
-              tasksDone: 0,
-            },
-            null,
-          ).quality +
-          (c.from === "known" ? campaignParameter("staffKnownWeight") : 0),
-      }))
+      .map((c) => ({ ...c, score: hireReasons(c).score }))
       .sort(
         (a, b) => b.score - a.score || a.personId.localeCompare(b.personId),
       )[0];

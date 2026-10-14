@@ -3054,5 +3054,29 @@
     "addedAt": "2026-10-13",
     "replacement": "The CTO's art in docs/coordination/people-art-requests.md: activity variants of every look, 12 teen and 12 child looks per sex, and the adult version of each teen look with a shared family id.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-wages-skip-credit-line",
+    "kind": "skipped-mechanic",
+    "file": "src/core2/modules/residents.ts",
+    "line": 535,
+    "whatItFakes": "A counted employer short of cash on payday records a wage shortfall and never draws its approved credit line, though the line has room.",
+    "why": "The credit engine draws only against a standing finance contract; counted wages are residents flows paid by transfer, so a correct draw needs a finance-engine entry for flows (OPUS-CORE).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "A finance-engine draw for a residents wage flow (journal-balanced, up to the line's room), called from residents settle() before the shortfall is recorded.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-staff-husk-work",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/staff.ts",
+    "line": 218,
+    "whatItFakes": "A relative living out of town (a husk) is never an aide candidate, because the records hold no work for them, and an unknown job is not an empty one.",
+    "why": "Husks are kept as a name and family ties only; their place's work isn't modeled at the coarse level, so whether they are out of work, and so free to take the post, can't be read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Work for out-of-town relatives from their place's coarse population (jobs by age and place), after which those within commuting reach and out of work apply like anyone.",
+    "status": "open"
   }
 ]

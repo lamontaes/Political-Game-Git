@@ -702,6 +702,71 @@
       "tag": "TUNABLE",
       "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
+    },
+    "staffMinimumAge": {
+      "value": 18,
+      "tag": "SOURCED",
+      "source": "The age from which federal child labor rules set no limit on hours or occupation (Fair Labor Standards Act, 29 U.S.C. 203(l) and 29 CFR 570.2); an aide is hired as an adult."
+    },
+    "staffReachOtherCounty": {
+      "value": 0.33,
+      "tag": "ESTIMATED",
+      "source": "How far someone living in another county of the same state is within commuting reach of the office, against someone in its own county (1): about 72% of US workers work in their county of residence and about 24% in another county of their state (Census, ACS 2023 1-year, Table B08007 'Sex of Workers by Place of Work, State and County Level'); 24 / 72 = 0.33.",
+      "spread": [0.2, 0.5]
+    },
+    "staffReachOtherState": {
+      "value": 0.055,
+      "tag": "ESTIMATED",
+      "source": "How far someone living in another state is within commuting reach of the office, against someone in its own county (1): about 4% of US workers work outside their state of residence (Census, ACS 2023 1-year, Table B08007); 4 / 72 = 0.055.",
+      "spread": [0.03, 0.1]
+    },
+    "staffWorkingAgeAt18": {
+      "value": 0.37,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 18 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.333, 0.407]
+    },
+    "staffWorkingAgeAt22": {
+      "value": 0.713,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 22 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.642, 0.784]
+    },
+    "staffWorkingAgeAt30": {
+      "value": 0.836,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 30 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.752, 0.92]
+    },
+    "staffWorkingAgeAt40": {
+      "value": 0.831,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 40 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.748, 0.914]
+    },
+    "staffWorkingAgeAt50": {
+      "value": 0.811,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 50 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.73, 0.892]
+    },
+    "staffWorkingAgeAt60": {
+      "value": 0.654,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 60 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.589, 0.719]
+    },
+    "staffWorkingAgeAt70": {
+      "value": 0.267,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 70 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.24, 0.294]
+    },
+    "staffWorkingAgeAt80": {
+      "value": 0.086,
+      "tag": "ESTIMATED",
+      "source": "How much a person of 80 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
+      "spread": [0.077, 0.095]
     }
   }
 }

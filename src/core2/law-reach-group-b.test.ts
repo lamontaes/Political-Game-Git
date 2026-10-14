@@ -880,6 +880,33 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expectEnded(key);
   });
 
+  it("a closed school's eligibility rows end the day it closes", () => {
+    const key = Q("education.public-funds-for-private-schooling");
+    enact(key, 1, "state");
+    const openBefore = openOrgs(key).length,
+      school = openOrgs(key)[0];
+    if (!school) return; // a town with no private school has nothing to end
+    api.emit({
+      id: `event:business.closed:${school.organizationId}`,
+      date: api.state.date,
+      kind: "business.closed",
+      personIds: [],
+      placeId: town,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: "test closure",
+        estimatedFrom: "test closure",
+      },
+      publicRecord: true,
+      topic: school.organizationId,
+    });
+    const row = orgs(key).find((r) => r.id === school.id)!;
+    expect(row.endedOn, where).toBe(api.state.date);
+    expect(openOrgs(key).length, where).toBe(openBefore - 1);
+    enact(key, 0, "state");
+  });
+
   it("reports", () => {
     govReport("law-reach-group-b", JSON.stringify({ place, ...report }));
   });
