@@ -54,6 +54,7 @@ import {
   type PastElectionRow,
   type RollCall,
 } from "./past-module";
+import { daysBetween, makeIsoDate } from "../simulation/dates";
 import type { CoreAPI } from "./types";
 
 const SERIES_QUESTION = (
@@ -453,12 +454,26 @@ export function buildLawHistories(
                 ),
             ),
           )
-        : shiftDays(
-            phase,
-            -Math.round(seededBetween(town.seed, `${id}:lag`, lagLow, lagHigh)),
-          );
-      if (enactedOn >= town.opening)
-        enactedOn = shiftDays(town.opening, -lagLow);
+        : (() => {
+            // A phase taking effect after day one was passed before it:
+            // the lag is at least the days from day one to the phase.
+            const ahead = daysBetween(
+              makeIsoDate(town.opening),
+              makeIsoDate(phase),
+            );
+            const low = Math.max(lagLow, ahead + 1);
+            return shiftDays(
+              phase,
+              -Math.round(
+                seededBetween(
+                  town.seed,
+                  `${id}:lag`,
+                  low,
+                  Math.max(lagHigh, low + lagHigh - lagLow),
+                ),
+              ),
+            );
+          })();
       const previous = index
         ? groups.get(keys[index - 1]!)!.find((r) => r.tier === row.tier)
         : undefined;

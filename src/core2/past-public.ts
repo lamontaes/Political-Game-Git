@@ -12,15 +12,19 @@
  * Knowledge records: each full person the figure's office covers, old enough
  * to follow public life, holds the figure's name, public role and a pointer to
  * the record, with access "public" and learned when the figure took office or
- * the person came of age for it. Knowing a figure this way never adds them to
- * the people a person has met. A promise counts with a voter only when they
+ * the person came of age for it, and the campaigns engine's impression of a
+ * voter who has heard of them and knows where they stand (warmth unmoved),
+ * which the voting engine reads to weigh their record. Knowing a figure this
+ * way never adds them to the people a person has met. A promise counts with a voter only when they
  * heard it made (the record engine), so each covered person who would have
  * heard the campaign by the news engine's rule holds the promise too.
  */
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import publicTraits from "./data/past/public-traits.json" with { type: "json" };
+import { CAMPAIGNS_MODULE_ID, type ImpressionRow } from "./modules/campaigns";
 import { members } from "./modules/legislature";
+import type { ModuleRow } from "./module-data";
 import { votesOf } from "./modules/record";
 import type { TermRow } from "./modules/offices";
 import { strongestQuestions } from "./past-elections";
@@ -105,6 +109,9 @@ export function buildPublicFigures(
   },
 ): readonly PublicFigureRow[] {
   const awareness = pastParameter(api, "pastPublicAwarenessAge");
+  const impressions = api.state.modules.has(CAMPAIGNS_MODULE_ID)
+    ? api.moduleState(CAMPAIGNS_MODULE_ID).table("impressions")
+    : null;
   const people = [...api.state.people.values()].filter((p) => p.alive);
   const figures: PublicFigureRow[] = [];
   // The president and vice president are known everywhere, territories
@@ -196,6 +203,19 @@ export function buildPublicFigures(
         );
         fact(`person:${term.personId}:public-role`, office.id);
         fact(figureKey(term.personId), row.id);
+        // The campaigns engine's own record of a voter who has heard of a
+        // candidate and knows where they stand: the voting engine weighs an
+        // incumbent's record for such a voter.
+        impressions?.put({
+          id: `${viewer.id}|${term.personId}`,
+          voterId: viewer.id,
+          candidateId: term.personId,
+          contestId: row.electionId ?? row.id,
+          heardOf: true,
+          knowsPlatform: true,
+          warmth: 0,
+          causes: 0,
+        } satisfies ImpressionRow as unknown as ModuleRow);
       }
     }
   }
