@@ -1551,3 +1551,64 @@ body.dev .dev-ring {
   display: grid;
   gap: 6px;
 }
+
+/* News: a front page. The masthead's art goes in #slot-news-masthead. */
+#sheet:has(.paper) {
+  background: linear-gradient(#262628, #151517);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.paper {
+  column-span: all;
+  border-top: 3px double var(--gold);
+  border-bottom: 3px double var(--gold);
+  padding: 10px 4px 14px;
+  margin-bottom: 18px;
+}
+.paper .masthead-art:empty {
+  display: none;
+}
+.paper .masthead {
+  font: 800 44px var(--name);
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin: 2px 0 4px;
+  color: var(--text-strong);
+}
+.paper .dateline {
+  font: 600 11px var(--ui);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--gold);
+  border-top: 1px solid rgba(214, 189, 132, 0.5);
+  border-bottom: 1px solid rgba(214, 189, 132, 0.5);
+  padding: 4px 0;
+  margin-bottom: 12px;
+}
+.paper .headline.lead {
+  font: 800 30px/1.15 var(--speech);
+  margin: 6px 0 6px;
+}
+.paper .lede {
+  font: 400 15px/1.45 var(--speech);
+  color: var(--text-2);
+  margin: 0 0 8px;
+}
+.paper-columns {
+  columns: 2 220px;
+  column-gap: 26px;
+  column-rule: 1px solid rgba(214, 189, 132, 0.35);
+  margin-top: 10px;
+}
+.paper .story {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
+.paper .story .headline {
+  font: 700 17px/1.2 var(--speech);
+  margin: 0 0 3px;
+}
+.paper .story .lede {
+  font-size: 13.5px;
+}

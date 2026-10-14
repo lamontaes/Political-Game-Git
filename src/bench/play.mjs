@@ -1721,10 +1721,6 @@ const sheets = {
     ];
   },
   async news() {
-    const isRecordId = (v) =>
-      typeof v === "string" &&
-      !me.names?.[v] &&
-      /^[a-z]+_[0-9a-f]{8,}$/.test(v);
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
     const economy = e.nation
@@ -1756,15 +1752,71 @@ const sheets = {
         ]
       : [];
     const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
+    const opening = await api(
+      `/api/opening?id=${encodeURIComponent(me.id)}`,
+    ).catch(() => null);
+    const dateWords = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    // The front page: the English engine's stories, the lead by weight first,
+    // each a headline and its first sentence.
+    const stories = (opening?.news?.stories ?? []).filter(
+      (story) => story.headline || story.lede,
+    );
+    const [lead, ...rest] = stories;
+    const paper = el(
+      "div",
+      { className: "paper" },
+      // The masthead's art goes in this slot when the owner's picture arrives.
+      el("div", { className: "masthead-art", id: "slot-news-masthead" }),
+      el("h2", {
+        className: "masthead",
+        textContent: controls.news?.masthead ?? "",
+      }),
+      el("div", { className: "dateline", textContent: dateWords(me.date) }),
+      ...(lead
+        ? [
+            el("h3", {
+              className: "headline lead",
+              textContent: lead.headline ?? lead.lede,
+            }),
+            ...(lead.headline && lead.lede
+              ? [el("p", { className: "lede", textContent: lead.lede })]
+              : []),
+          ]
+        : []),
+      el(
+        "div",
+        { className: "paper-columns" },
+        ...rest.map((story) =>
+          el(
+            "div",
+            { className: "story" },
+            el("h4", {
+              className: "headline",
+              textContent: story.headline ?? story.lede,
+            }),
+            ...(story.headline && story.lede
+              ? [el("p", { className: "lede", textContent: story.lede })]
+              : []),
+          ),
+        ),
+      ),
+    );
     return [
+      ...(stories.length ? [paper] : []),
       ...economy,
+      // The public record, by date and kind, naming only who it was about.
       ...rows.slice(0, 30).map((r) =>
         row(
-          `${r.date} · ${r.kind}`,
-          Object.entries(r.facts)
-            // Bare record ids are the bench's, not the reader's.
-            .filter(([k, v]) => !/Id$/.test(k) && !isRecordId(v))
-            .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
+          `${dateWords(r.date)} · ${kindName(r.kind)}`,
+          Object.values(r.facts)
+            .filter((v) => me.names?.[v])
+            .map((v) => me.names[v])
             .join(" · "),
         ),
       ),
