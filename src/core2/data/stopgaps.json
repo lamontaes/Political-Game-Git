@@ -3126,5 +3126,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Resolve the workplace's local chain per paycheck and apply each row's nonresident rate to residents of other jurisdictions.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-employer-tax-counted-wages",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/employer-taxes.ts",
+    "line": 16,
+    "whatItFakes": "Employers pay no Social Security or Medicare share on wages paid to counted workers through the residents' merged wage flows; only full workers' paychecks carry the employer share.",
+    "why": "Counted wages are paid by the residents engine's merged flows, not the work payroll the employer-taxes module hooks, and that engine is OPUS-CORE's.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "A residents wage-flow payment hook (OPUS-CORE) that posts the same employer share from the law rows in force.",
+    "status": "open"
   }
 ]

@@ -343,6 +343,46 @@ function successorOf(
   return family[0] ? { personId: family[0].id, basis: "heir" } : undefined;
 }
 
+/**
+ * Where a dead owner's closing proceeds go: a living member of their household,
+ * else the nearest living relative (a partner, then a child, then a parent, from
+ * the family links; then any other kin), else the place's outside account, as
+ * such (the closure's choice record names it as the owner it paid).
+ */
+export function estateHeir(
+  api: CoreAPI,
+  organizationId: string,
+  ownerId: string,
+) {
+  const c = core(api);
+  const alive = (id: string) => c.people.get(id)?.alive === true;
+  const housemate = c.households
+    .get(c.people.get(ownerId)?.householdId ?? "")
+    ?.memberIds.find(alive);
+  if (housemate) return housemate;
+  const rank = (link: { kind: string; personIds: readonly string[] }) =>
+    link.kind === "partner" ? 0 : link.personIds[0] === ownerId ? 1 : 2;
+  const near = [...c.familyLinks.values()]
+    .filter((link) => link.personIds.includes(ownerId as never))
+    .map((link) => ({
+      id: link.personIds.find((id) => id !== ownerId)!,
+      rank: rank(link),
+    }))
+    .filter((row) => alive(row.id))
+    .sort((a, b) => a.rank - b.rank || a.id.localeCompare(b.id));
+  if (near[0]) return near[0].id;
+  const kin = [...(c.people.get(ownerId)?.familyIds ?? [])]
+    .filter(alive)
+    .sort();
+  if (kin[0]) return kin[0];
+  const placeId = c.organizations.get(organizationId)?.placeId;
+  return (
+    [...c.organizations.values()].find(
+      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
+    )?.id ?? ownerId
+  );
+}
+
 function succeed(api: CoreAPI): void {
   const c = core(api);
   const rows = store(api)
@@ -369,9 +409,7 @@ function succeed(api: CoreAPI): void {
       // Nobody to hand it to: the owner (or, if they died, their household) closes it and takes what's left.
       const heir = previous?.alive
         ? row.ownerId
-        : (c.households
-            .get(c.people.get(row.ownerId)?.householdId ?? "")
-            ?.memberIds.find((id) => c.people.get(id)?.alive) ?? row.ownerId);
+        : estateHeir(api, row.id, row.ownerId);
       closeByChoice(api, row.id, heir, businessData.reasons.noSuccessor);
       store(api).table("owners").remove(row.id);
       continue;
