@@ -21,6 +21,7 @@ import {
 } from "../../src/core2/housing-homeless";
 import hud from "../../docs/research/cloud-b-outcomes-2024/homelessness-hud-2024.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
+import { composeJournal } from "../../src/director/journal";
 
 const seed = process.argv[2] ?? `${Date.now()}`;
 // A place drawn from all 56 by the seed, as the golden-path runner draws.
@@ -70,7 +71,28 @@ const changes = core.modules.has(JOBS_MODULE_ID)
       reasonKey: string;
     }[])
   : [];
-const sample = statuses[0];
+// The journal lines the director wrote about each removal, for anyone it watched.
+const journal = statuses.flatMap((row) =>
+  row.memberIds.flatMap((personId) =>
+    core.people.has(personId)
+      ? composeJournal(core, world.director, personId).flatMap((chapter) =>
+          chapter.lines
+            .filter((line) =>
+              line.sourceRecordIds.some((id) => id.includes(row.caseId)),
+            )
+            .map((line) => ({
+              personId,
+              text: line.text,
+              sourceRecordIds: line.sourceRecordIds,
+            })),
+        )
+      : [],
+  ),
+);
+const sample =
+  statuses.find((row) =>
+    journal.some((line) => row.memberIds.includes(line.personId)),
+  ) ?? statuses[0];
 const member = sample?.memberIds[0];
 const person = member ? core.people.get(member) : undefined;
 const removal = sample ? cases.find((c) => c.id === sample.caseId) : undefined;
@@ -112,6 +134,7 @@ console.log(
         case: removal,
         status: sample,
       },
+      journal,
     },
     null,
     2,
