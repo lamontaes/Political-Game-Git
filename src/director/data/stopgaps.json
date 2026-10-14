@@ -286,5 +286,17 @@
     "addedAt": "2026-10-14",
     "replacement": "GOV's polling-place record (`polling-place:<precinct>` with `pollWorkerIds`), read by the poll-workers fill.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-choices-per-turn",
+    "kind": "owner-decision",
+    "file": "src/director/data/conversation-rules.json",
+    "line": 1,
+    "whatItFakes": "How many choices a conversation turn offers: only the distinct answer moves the mined bank words, one to three per turn, with no unrelated subject tacked on to reach a count.",
+    "why": "Two owner rulings pull apart: Sept 29, 'options come from context, 3 to 5 at a time'; Oct 14 (grading batch 6), a reply's second move must follow from the first. The newer one is applied until the owner rules.",
+    "addedBy": "words/mined-banks-in-play",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling: either fewer choices are right, or OPUS-WORDS mines more answer moves per subject until three to five follow naturally.",
+    "status": "open"
   }
 ]

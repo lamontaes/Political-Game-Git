@@ -1048,6 +1048,8 @@ function offerChoices(
       raisable(data, row.kind),
   );
   const taken = new Set<string>();
+  // How many choices a turn offers is an owner decision (stopgap
+  // SG-WORDS-choices-per-turn): the newer ruling, below, is applied.
   // A reply's second move follows from its first (owner, batch 6): turning
   // the same question back ("I'm from here. And you?"), or asking about their
   // work after naming yours. Never an unrelated subject tacked on.
