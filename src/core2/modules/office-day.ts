@@ -147,13 +147,14 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   offerProviders: {},
   effectHandlers: {},
   onDay(api) {
-    // New holders are seated the day the roster grows; ended terms and pay
-    // are read on the 1st.
+    // A job starts or ends before a day's work, so the roster is read here
+    // and the office jobs change in the next day's calendar work: when the
+    // roster grows, and on the 1st for terms that ended.
     const terms = api.moduleState(OFFICES_MODULE_ID).table("terms").size;
     const payday = api.state.date.endsWith("-01");
     if (payday || seenTerms.get(api.state) !== terms) {
       seenTerms.set(api.state, terms);
-      reviewOfficeJobs(api);
+      scheduleOfficeReview(api);
     }
     if (payday) payStipends(api);
     return undefined;
@@ -347,6 +348,26 @@ function officeDayCalendar(
   if (work.kind === "meeting") return closeMeeting(api, work);
   if (work.kind === "desk-own-choice")
     return deskOwnChoice(api, work.sourceRecordIds[0]!);
+  if (work.kind === "office-review") return reviewOfficeJobs(api);
+}
+
+/** Tomorrow's calendar work seats new holders in their office jobs and ends those whose term ended. */
+function scheduleOfficeReview(api: CoreAPI): void {
+  const date = dayOffset(api.state.date, 1);
+  const calendar = api.moduleCalendar(OFFICE_DAY_MODULE_ID);
+  const key = `office-review:${date}`;
+  if (calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date,
+    kind: "office-review",
+    source: {
+      tag: "SOURCED",
+      citation: "The offices engine's roster of terms changed",
+      asOf: api.state.date,
+    },
+    sourceRecordIds: [OFFICES_MODULE_ID],
+  });
 }
 
 /**
@@ -832,17 +853,8 @@ function reviewOfficeJobs(api: CoreAPI): void {
     if (term?.status === "serving") continue;
     const ended = term?.endDate ?? api.state.date;
     if (row.jobId) {
-      const core = api.state as CoreState;
-      const job = core.jobs.get(row.jobId);
-      // A job ends before the day's work: one already worked today ends in tomorrow's review.
-      if (
-        job &&
-        job.endsAt === undefined &&
-        core.work.lastAttendanceByJob.get(row.jobId)?.date === core.date
-      ) {
-        seenTerms.set(api.state, -1);
-        continue;
-      }
+      // Calendar work runs before the day's work, so the job ends cleanly.
+      const job = (api.state as CoreState).jobs.get(row.jobId);
       if (job && job.endsAt === undefined)
         api.endJob(row.jobId, `office-ended:${row.seatId}:${ended}`);
     }

@@ -373,6 +373,17 @@ export function composeJournal(
   let chapter: (typeof chapters)[number] | undefined;
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
+  // How each closing line (a hard time, a look-back) ends, its last two
+  // words, so none is said twice in one journal.
+  const closedWith = new Set<string>();
+  const closing = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/[^a-z' ]/g, "")
+      .trim()
+      .split(/\s+/)
+      .slice(-P.two)
+      .join(" ");
   const open = (key: string, title: string, date: IsoDate) => {
     chapter = {
       key,
@@ -446,10 +457,27 @@ export function composeJournal(
     }
     // A turn opens a chapter titled by its record (a race, a child), unless
     // the chapter began with the same kind of turn.
-    if (!chapter || (row.turn && chapterKind !== row.kindPrefix)) {
+    // A turn of the same kind about someone else opens its own chapter: a
+    // daughter's birth is never told under "My son".
+    const ownTitle =
+      row.turn && chapterKind === row.kindPrefix
+        ? render(
+            `journal-title:${row.kindPrefix}`,
+            row.title,
+            facts,
+            `${moment.id}:title`,
+            sourceIds,
+          )
+        : null;
+    if (
+      !chapter ||
+      (row.turn && chapterKind !== row.kindPrefix) ||
+      (ownTitle && ownTitle.text !== chapter.title)
+    ) {
       chapterKind = row.turn ? row.kindPrefix : undefined;
       const place = placeName(person.placeId);
       const title =
+        ownTitle ??
         render(
           `journal-title:${row.kindPrefix}`,
           row.title,
@@ -571,12 +599,15 @@ export function composeJournal(
     ) {
       const hard = render(
         "journal-memoir:hard",
-        memoir.hard,
+        memoir.hard?.filter((row) => !closedWith.has(closing(row.text))),
         facts,
         `${moment.id}:hard`,
         sourceIds,
       );
-      if (hard) parts.push(hard);
+      if (hard) {
+        closedWith.add(closing(hard.text));
+        parts.push(hard);
+      }
     }
     // Looking back: a moment whose weight grew with the people in it, when
     // life went on after it.
@@ -587,14 +618,18 @@ export function composeJournal(
         row.counterpartIds.some((id) => moment.counterpartIds.includes(id)),
     );
     if (later && moment.hindsight >= interrupt) {
+      // A look-back is said once: no two end the same way ("at the time").
       const hook = render(
         "journal-memoir:hook",
-        memoir.hook,
+        memoir.hook?.filter((row) => !closedWith.has(closing(row.text))),
         facts,
         `${moment.id}:hook`,
         sourceIds,
       );
-      if (hook) parts.push(hook);
+      if (hook) {
+        closedWith.add(closing(hook.text));
+        parts.push(hook);
+      }
     }
     chapter!.lines.push({
       id: moment.id,
