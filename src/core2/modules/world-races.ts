@@ -22,7 +22,8 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
-import { caucusSide, partySide } from "../appointments";
+import { caucusSide, nationalParty, partySide } from "../appointments";
+import { stateParties } from "./parties";
 import { lawChain } from "./laws";
 import { FEDERAL_HOUSE, members } from "./legislature";
 import { ballot, ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
@@ -296,7 +297,7 @@ function electoralCollege(api: CoreAPI, year: number): void {
       : [-1, 1].map((side) =>
           candidateInputs(api, {
             id: `party:${side > 0 ? "R" : "D"}`,
-            party: side > 0 ? "Republican" : "Democratic",
+            party: nationalParty(side),
             filingId: null,
             incumbent: false,
             seatParty: null,
@@ -344,7 +345,7 @@ function electoralCollege(api: CoreAPI, year: number): void {
   let side =
     republican >= electors.toWin ? 1 : democratic >= electors.toWin ? -1 : 0;
   if (side === 0) side = houseDelegationsSide(api);
-  const winnerParty = side > 0 ? "Republican" : "Democratic";
+  const winnerParty = nationalParty(side);
   const winnerId =
     town?.candidates.find((c) => partySide(c.party) === side)?.personId ??
     `official:president:${year}:${winnerParty}`;
@@ -575,10 +576,6 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     const usps = state.slice(3);
     for (const [district, parties] of Object.entries(seats)) {
       if (district === "senate") continue;
-      if (
-        ["US-DC", "US-PR", "US-GU", "US-VI", "US-AS", "US-MP"].includes(state)
-      )
-        continue;
       const code = district.padStart(2, "0");
       const seatId = `seat:${state}:us-house:${code}`;
       races.push({
@@ -630,7 +627,13 @@ function racePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
   const usps = race.usps;
   if (race.office === "us-house") {
     const place = housePlace(usps, race.code);
-    return place ? [place] : [];
+    if (place) return [place];
+    // A delegate's seat with no House vote on record (a territory): the
+    // place at its 2024 delegate race's lean, its size not yet read.
+    // stopgapId: SG-GOV-delegate-race-size
+    api.stopgap("SG-GOV-delegate-race-size");
+    const delegate = statePlaces(usps, 1)[0];
+    return delegate ? [{ ...delegate, eligible: 0 }] : [];
   }
   if (race.office === "us-senate") return statePlaces(usps);
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -704,6 +707,18 @@ function entries(
   }));
 }
 
+/**
+ * The party that stands for a side of the scale in a state: the largest on
+ * that side in the state's own record (its 2024 ballot or legislature), else
+ * the national party of that side (party-sides data).
+ */
+function partyOnSideIn(stateKey: string, side: number): string {
+  const best = stateParties(stateKey)
+    .filter((p) => partySide(p.name) === side)
+    .sort((a, b) => b.share - a.share || a.name.localeCompare(b.name))[0];
+  return best?.name ?? nationalParty(side);
+}
+
 /** A member's side, with the side an independent caucuses with (party-sides data). */
 const sideOf = caucusSide;
 
@@ -722,7 +737,8 @@ function decide(api: CoreAPI, race: Race, year: number): void {
   const votesAt2024 = places.reduce((s, b) => s + b.votes2024, 0);
   const lean = votesAt2024
     ? places.reduce((s, b) => s + b.votes2024 * b.rightShare, 0) / votesAt2024
-    : 0.5 + side * campaignParameter("legislativeSeatMargin");
+    : (places[0]?.rightShare ??
+      0.5 + side * campaignParameter("legislativeSeatMargin"));
   const cycle = electionCycle(date);
   const townsState = `US-${race.usps}` === lawChain(api).stateKey;
   const conditions = raceConditions(api, {
@@ -737,16 +753,18 @@ function decide(api: CoreAPI, race: Race, year: number): void {
     raceVotes: votesAt2024 * cycleTurnout(date).share,
     townPlaceId: null,
   });
+  const stateKey = `US-${race.usps}`;
   const parties =
     side === 0
-      ? [
-          { party: "Democratic", side: -1, incumbent: false },
-          { party: "Republican", side: 1, incumbent: false },
-        ]
+      ? [-1, 1].map((s) => ({
+          party: partyOnSideIn(stateKey, s),
+          side: s,
+          incumbent: false,
+        }))
       : [
           { party: race.incumbentParty!, side, incumbent: true },
           {
-            party: side > 0 ? "Democratic" : "Republican",
+            party: partyOnSideIn(stateKey, -side),
             side: -side,
             incumbent: false,
           },
@@ -776,9 +794,7 @@ function decide(api: CoreAPI, race: Race, year: number): void {
   const winnerParty =
     winnerSide === side && race.incumbentParty
       ? race.incumbentParty
-      : winnerSide > 0
-        ? "Republican"
-        : "Democratic";
+      : partyOnSideIn(stateKey, winnerSide);
   const reasonsOf = (s: number) => reasons.find((c) => c.side === s);
   const r = reasonsOf(1),
     d = reasonsOf(-1);

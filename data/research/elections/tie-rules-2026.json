@@ -1233,13 +1233,25 @@
         "method": "new-election",
         "detail": "new election for large races; lot for small",
         "citation": "NC election code (not fetched)",
-        "estimate": true
+        "estimate": true,
+        "smallRace": {
+          "method": "lot",
+          "belowVotesParameter": "tieSmallRaceVotes",
+          "citation": "The same row's detail text, 'new election for large races; lot for small'; the line between large and small is not read (SG-GOV-tie-race-size).",
+          "estimate": true
+        }
       },
       "legislativeTie": {
         "method": "new-election",
         "detail": "new election for large races; lot for small",
         "citation": "NC election code (not fetched)",
-        "estimate": true
+        "estimate": true,
+        "smallRace": {
+          "method": "lot",
+          "belowVotesParameter": "tieSmallRaceVotes",
+          "citation": "The same row's detail text, 'new election for large races; lot for small'; the line between large and small is not read (SG-GOV-tie-race-size).",
+          "estimate": true
+        }
       },
       "statewideExecutiveTie": {
         "method": "legislature-decides",

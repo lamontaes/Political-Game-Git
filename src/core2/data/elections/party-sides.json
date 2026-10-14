@@ -21,6 +21,10 @@
     "Write-in (Republican)": 1,
     "Partido Nuevo Progresista": 1
   },
+  "national": {
+    "-1": "Democratic",
+    "1": "Republican"
+  },
   "congressCaucus": {
     "about": "The side a label caucuses with in Congress where it isn't the label's own: both independent U.S. senators of the 119th Congress (Angus King, Bernie Sanders) caucus with the Democrats.",
     "source": "U.S. Senate, Party Division (senate.gov/history/partydiv.htm), 119th Congress",

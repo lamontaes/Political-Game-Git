@@ -80,6 +80,14 @@ export function partySide(party: string | null | undefined): number {
   return SIDES.get(party.trim().toLowerCase()) ?? 0;
 }
 
+/** The national party of a side of the scale, as the party-sides data names it. */
+export function nationalParty(side: number): string {
+  const name = (partySides as unknown as { national: Record<string, string> })
+    .national[String(Math.sign(side))];
+  if (!name) throw new Error(`No national party on side ${side}`);
+  return name;
+}
+
 /** A member of Congress's side: their party's, or the side their label caucuses with. */
 export function caucusSide(party: string | null | undefined): number {
   if (!party) return 0;
