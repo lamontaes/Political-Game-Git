@@ -1,4 +1,5 @@
 import { personOrFillIn } from "../core2/state";
+import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
 import {
   relatedGuideTerms,
@@ -11,7 +12,7 @@ import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
-import { openingShots } from "./opening";
+import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
@@ -59,7 +60,8 @@ let buildProgress: { stage: string; done: number; total: number } = {
   total: 0,
 };
 // The opening, prepared during loading.
-let opening: ReturnType<typeof openingShots> | undefined;
+
+let opening: ReturnType<typeof openingFrames> | null | undefined;
 // What the other person brought up when the conversation opened (OPUS-PEOPLE's
 // "bring it up"): their lines come first in the conversation.
 let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
@@ -217,7 +219,13 @@ const server = createServer(async (request, response) => {
         const entrant = { personId: world.playerId! };
         player.select(entrant.personId);
         // The opening is prepared during loading; its whole figures are files.
-        opening = openingShots(world.core, entrant.personId);
+        opening = world.director.ledger.opening
+          ? openingFrames(
+              world.core,
+              entrant.personId,
+              world.director.ledger.opening,
+            )
+          : null;
         buildProgress = { stage: "done", done: 0, total: 0 };
         send(200, {
           personId: entrant.personId,
@@ -266,12 +274,19 @@ const server = createServer(async (request, response) => {
       // Someone still in the counts is filled in the moment they're looked at.
       if (!personOrFillIn(current, id))
         throw new Error("Resident does not exist in core records.");
+      const playing = player?.personId === id;
+      // The opening day ends at home that evening, where the news is.
+      const openingDay =
+        playing &&
+        !player!.packet &&
+        director?.ledger.opening?.date === current.date;
       send(
         200,
         benchScene(
           current,
           id,
-          player?.personId === id ? player.packet : undefined,
+          playing ? player!.packet : undefined,
+          openingDay ? OPENING_EVENING_MINUTE : undefined,
         ),
       );
       return;
@@ -406,6 +421,29 @@ const server = createServer(async (request, response) => {
     }
     if (request.method === "GET" && url.pathname === "/api/newlife/progress") {
       send(200, buildProgress);
+      return;
+    }
+    // The player's interrupt setting (owner, Oct 14, 2026): which kinds of
+    // scene may stop the day. A director record its scheduling reads.
+    if (url.pathname === "/api/scene-filter") {
+      if (!director || !player?.personId)
+        throw new Error("Start a life first.");
+      if (request.method === "POST") {
+        const kinds = url.searchParams.get("kinds");
+        director.setSceneFilter(
+          player.personId,
+          kinds === null || kinds === "all"
+            ? null
+            : kinds.split(",").filter(Boolean),
+          requireCore().date,
+        );
+      }
+      const filter = director.ledger.sceneFilters.get(player.personId);
+      send(200, {
+        kinds: SITUATION_LIBRARY.types.map((row) => row.key),
+        allowed: filter?.allowedKinds ?? null,
+        ...(filter ? { recordId: filter.id } : {}),
+      });
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/controls") {
@@ -570,7 +608,9 @@ const server = createServer(async (request, response) => {
         200,
         opening && player?.personId === id
           ? opening
-          : openingShots(requireCore(), id),
+          : director?.ledger.opening
+            ? openingFrames(requireCore(), id, director.ledger.opening)
+            : null,
       );
       return;
     }

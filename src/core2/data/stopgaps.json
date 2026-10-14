@@ -2745,18 +2745,6 @@
     "status": "open"
   },
   {
-    "id": "SG-PLAY-opening-without-speech",
-    "kind": "player-text-gap",
-    "file": "src/bench/opening.ts",
-    "line": 10,
-    "whatItFakes": "The opening cuts from the President to each level of government and then home with only each holder’s title and name; the President’s speech that should carry it is missing.",
-    "why": "The speech’s words must come from the English engine, built from real inaugural and State of the Union addresses, which is not on the new core yet.",
-    "addedBy": "OPUS-PLAY",
-    "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE’s speech writer reading the world’s real numbers; the opening plays its lines over these shots.",
-    "status": "open"
-  },
-  {
     "id": "SG-PLAY-doors-fill-in",
     "kind": "faked-mechanic",
     "file": "src/bench/campaign.ts",
