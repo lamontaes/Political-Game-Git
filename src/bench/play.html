@@ -76,22 +76,64 @@
         </div>
       </section>
 
-      <section id="front" class="panel menu">
+      <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
         <p class="sub">A life in American government.</p>
-        <button id="new-life" class="item" type="button">
-          <b>New game</b><span>Begin a life in a real place.</span>
-        </button>
-        <label class="field"
-          ><span class="label">Place</span>
-          <input id="place" list="places" placeholder="Random"
-        /></label>
-        <datalist id="places"></datalist>
+        <div id="front-main">
+          <button
+            id="new-life"
+            class="item"
+            type="button"
+            data-testid="new-game"
+          >
+            <b>New game</b><span>Begin a life in a real place.</span>
+          </button>
+          <button
+            id="front-options"
+            class="item"
+            type="button"
+            data-testid="title-options"
+          >
+            <b>Options</b>
+          </button>
+        </div>
+        <!-- New game, second step: where the life begins. -->
+        <div id="front-place" data-testid="new-game-place" hidden>
+          <button
+            id="place-random"
+            class="item"
+            type="button"
+            data-testid="place-random"
+          >
+            <b>Random</b>
+          </button>
+          <label class="field"
+            ><span class="label">Place</span>
+            <input id="place" list="places" autocomplete="off"
+          /></label>
+          <datalist id="places"></datalist>
+          <div class="acts">
+            <button id="place-back" class="action small" type="button">
+              Back
+            </button>
+            <button
+              id="place-begin"
+              class="action primary small"
+              type="button"
+              data-testid="place-begin"
+              disabled
+            >
+              Begin
+            </button>
+          </div>
+        </div>
         <div class="progress" hidden><span></span></div>
-        <p id="front-status" class="when" role="status"></p>
-        <button id="front-options" class="item" type="button">
-          <b>Options</b>
-        </button>
+        <p
+          id="front-status"
+          class="when"
+          role="status"
+          data-testid="loading-line"
+        ></p>
         <div id="custom" class="dev-only">
           <p class="label">Customize the world</p>
           <label class="field">Seed <input id="seed" /></label>
@@ -159,7 +201,6 @@
               placeholder="1"
           /></label>
         </div>
-        <p id="version" class="when version"></p>
       </section>
 
       <nav id="menu" class="panel" hidden>
@@ -291,7 +332,7 @@
         </button>
       </nav>
 
-      <section id="sheet" class="panel" hidden>
+      <section id="sheet" class="panel" data-testid="sheet" hidden>
         <header class="sheet-head">
           <h2 id="sheet-title" class="heading"></h2>
           <div class="acts">
@@ -300,6 +341,7 @@
               class="glyph close"
               type="button"
               aria-label="Close"
+              data-testid="sheet-close"
             ></button>
           </div>
         </header>

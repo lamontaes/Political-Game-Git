@@ -11,6 +11,7 @@ import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
+import { whyPanels, type WhyPanel } from "./dev-why";
 
 export type TraceKind = "record" | "reason" | "learned" | "person" | "missing";
 
@@ -30,6 +31,8 @@ export interface TraceNode {
   readonly kind: string;
   readonly record: unknown;
   readonly resolver: unknown;
+  /** Why panels: the reasons, books, history or ledger behind this record. */
+  readonly why: readonly WhyPanel[];
   readonly children: readonly TraceChild[];
 }
 
@@ -285,6 +288,7 @@ export function traceNode(
       ("recordKind" in resolver ? resolver.recordKind : "missing"),
     record: found?.record ?? null,
     resolver,
+    why: whyPanels(core, id, found),
     children: children
       .filter((child) => {
         const key = `${child.kind}|${child.id}`;

@@ -47,19 +47,18 @@ import { nationalPanel } from "./modules/macro";
 import cabinetData from "./data/office-day/federal-cabinet.json" with { type: "json" };
 import {
   OFFICE_DAY_FEDERAL_MODULE_ID,
-  actsOf,
-  registerFederalDayPart,
-  type FederalHolderRow,
-  actId,
-  dayAhead,
+  addFederalDayPart,
+  addFederalWorldPart,
+  clearPreparedFederal,
   federalParameter,
   federalSeatOf,
-  holderRow,
-  record,
-  whereOn,
-  type FederalActRow,
+  holdFederal,
+  preparedFederal,
+  releaseFederal,
 } from "./office-day-federal";
+import { officeActsOf, officeHost, stopsOf } from "./modules/office-day";
 import {
+  addDays,
   budgetRequestDate,
   federalHoliday,
   jointAddress,
@@ -117,6 +116,13 @@ export function cabinetOf(api: CoreAPI): readonly CabinetRow[] {
       },
   );
 }
+
+const isPresident = (api: CoreAPI, personId: string) =>
+  federalSeatOf(api, personId)?.kind === "president";
+const mustBePresident = (api: CoreAPI, personId: string) => {
+  if (!isPresident(api, personId))
+    throw new Error(`${personId} is not the president`);
+};
 
 const servedYears = (row: OfficialRow, date: string) =>
   Math.max(
@@ -199,11 +205,8 @@ export function nominate(
   presidentId: string,
   postId: string,
   nomineeId?: string,
-  background = false,
-): FederalActRow {
-  const row = holderRow(api, presidentId);
-  if (!row || row.kind !== "president")
-    throw new Error(`${presidentId} is not the president`);
+): string {
+  mustBePresident(api, presidentId);
   const post = CABINET.posts.find((p) => p.id === postId);
   if (!post) throw new Error(`No cabinet post ${postId}`);
   const current = cabinetOf(api).find((c) => c.postId === postId)!;
@@ -246,28 +249,21 @@ export function nominate(
   emitCabinet(api, "cabinet-nominated", presidentId, post, chosen, {
     voteOn,
   });
-  const when = background ? api.state.date : dayAhead(api);
-  return record(api, {
-    id: actId(presidentId, "nominate", `${postId}:${api.state.date}`),
+  officeHost.keep(api, {
     personId: presidentId,
-    date: when,
     kind: "nominate",
-    mode: nomineeId ? "did" : "simulated",
-    where: whereOn(row, when),
-    sourceRecordIds: [
-      `cabinet:US:${postId}`,
-      chosen,
-      ...ranked.reasons.slice(1, 3).map((r) => r.candidateId),
-    ],
-    facts: {
-      postId,
-      voteOn,
-      ranked: ranked.reasons.length,
-      alignment: ranked.reasons[0]?.alignment ?? null,
-      qualification: ranked.reasons[0]?.qualification ?? null,
-    },
+    how: nomineeId ? "did" : "own-choice",
+    recordId: `cabinet:US:${postId}:${api.state.date}`,
+    position: ranked.reasons[0]?.alignment ?? null,
+    detail: `${chosen} (vote ${voteOn}, of ${ranked.reasons.length})`,
   });
+  if (!cabinetOf(api).some(open)) releaseFederal(api, NOMINATIONS);
+  return chosen;
 }
+
+export const NOMINATIONS = "federal-nominations";
+const open = (c: CabinetRow) =>
+  c.status === "vacant" || c.status === "rejected";
 
 /** Everyone now nominated or serving in the cabinet. */
 const nominated = (api: CoreAPI) =>
@@ -367,10 +363,8 @@ export function requestBudget(
   api: CoreAPI,
   presidentId: string,
   changes?: Readonly<Record<string, number>>,
-): FederalActRow {
-  const row = holderRow(api, presidentId);
-  if (!row || row.kind !== "president")
-    throw new Error(`${presidentId} is not the president`);
+): string {
+  mustBePresident(api, presidentId);
   if (!api.state.modules.has(BUDGETS_MODULE_ID))
     throw new Error("No budgets engine");
   const latest = budgetsOf(api, "US")
@@ -419,23 +413,21 @@ export function requestBudget(
       Object.entries(requested).map(([line, delta]) => [line, String(delta)]),
     ),
   });
-  const when = dayAhead(api);
-  return record(api, {
-    id: actId(presidentId, "budget-request", api.state.date),
+  const id = `budget-request:US:${api.state.date}`;
+  officeHost.keep(api, {
     personId: presidentId,
-    date: when,
     kind: "budget-request",
-    mode: changes ? "did" : "simulated",
-    where: whereOn(row, when),
-    sourceRecordIds: [latest.id, `budget-request:US:${api.state.date}`],
-    facts: {
-      // The year after the one in force (the request is for the next fiscal year).
-      forYearStarting: `${Number(latest.startsOn.slice(0, 4)) + 1}${latest.startsOn.slice(4)}`,
-      lines: Object.keys(requested).length,
-      netMinor: Object.values(requested).reduce((a, b) => a + b, 0),
-    },
+    how: changes ? "did" : "own-choice",
+    recordId: id,
+    position: null,
+    // The year after the one in force (the request is for the next fiscal year).
+    detail: `${Object.keys(requested).length} lines, net ${Object.values(requested).reduce((a, b) => a + b, 0)}, for the year starting ${Number(latest.startsOn.slice(0, 4)) + 1}${latest.startsOn.slice(4)}`,
   });
+  releaseFederal(api, BUDGET_REQUEST);
+  return id;
 }
+
+export const BUDGET_REQUEST = "federal-budget-request";
 
 /**
  * The address to a joint session (the State of the Union, or a new term's
@@ -450,10 +442,8 @@ export function deliverAddress(
   api: CoreAPI,
   presidentId: string,
   answers?: readonly InterviewAnswer[],
-): FederalActRow {
-  const row = holderRow(api, presidentId);
-  if (!row || row.kind !== "president")
-    throw new Error(`${presidentId} is not the president`);
+): string {
+  mustBePresident(api, presidentId);
   const speaker = officeholderSpeaker(api, presidentId) ?? {
     personId: presidentId,
     party: null,
@@ -489,7 +479,7 @@ export function deliverAddress(
       });
       if (cause && cause.warmthAfter !== cause.warmthBefore) moved += 1;
     }
-  const address = jointAddress(Number(dayAhead(api).slice(0, 4)));
+  const address = jointAddress(Number(api.state.date.slice(0, 4)));
   const day = makeIsoDate(api.state.date);
   api.emit({
     id: `joint-address:${api.state.date}`,
@@ -504,23 +494,20 @@ export function deliverAddress(
       statements.map((s) => [s.question, String(s.position)]),
     ),
   });
-  const when = dayAhead(api);
-  return record(api, {
-    id: actId(presidentId, "joint-address", api.state.date),
+  const id = `joint-address:${api.state.date}`;
+  officeHost.keep(api, {
     personId: presidentId,
-    date: when,
     kind: "joint-address",
-    mode: answers ? "did" : "simulated",
-    where: whereOn(row, when),
-    sourceRecordIds: [`joint-address:${api.state.date}`],
-    facts: {
-      kind: address.kind,
-      questions: statements.length,
-      viewers: viewers.length,
-      moved,
-    },
+    how: answers ? "did" : "own-choice",
+    recordId: id,
+    position: null,
+    detail: `${address.kind}: ${statements.length} questions, ${viewers.length} viewers, ${moved} moved`,
   });
+  releaseFederal(api, JOINT_ADDRESS);
+  return id;
 }
+
+export const JOINT_ADDRESS = "federal-joint-address";
 
 /**
  * The daily brief: what the president is told each morning, as facts they now
@@ -531,11 +518,9 @@ export function deliverAddress(
 export function dailyBrief(
   api: CoreAPI,
   presidentId: string,
-  background = false,
-): FederalActRow {
-  const row = holderRow(api, presidentId);
-  if (!row || row.kind !== "president")
-    throw new Error(`${presidentId} is not the president`);
+  how: "did" | "own-choice" = "did",
+): string {
+  mustBePresident(api, presidentId);
   const day = makeIsoDate(api.state.date);
   const learned: string[] = [];
   const month = nationalPanel(api).months.at(-1);
@@ -562,88 +547,107 @@ export function dailyBrief(
     sourceId: `cabinet:US`,
     access: "told",
   });
-  const when = dayAhead(api);
-  return record(api, {
-    id: actId(presidentId, "daily-brief", api.state.date),
+  const id = `daily-brief:US:${api.state.date}`;
+  officeHost.keep(api, {
     personId: presidentId,
-    date: when,
     kind: "daily-brief",
-    mode: background ? "simulated" : "did",
-    where: whereOn(row, when),
-    sourceRecordIds: [...new Set(learned), "cabinet:US"],
-    facts: {
-      unemploymentPct: month?.unemploymentPct ?? null,
-      inflationPct: month?.inflationPct ?? null,
-      cabinetVacancies: vacant,
-    },
+    how,
+    recordId: id,
+    position: null,
+    detail: `${month?.id ?? "no month"}: unemployment ${month?.unemploymentPct ?? "none"}, inflation ${month?.inflationPct ?? "none"}, ${vacant} cabinet vacancies`,
   });
+  return id;
 }
 
 const isWeekday = (date: string) => {
   const day = new Date(`${date}T00:00:00Z`).getUTCDay();
   return day !== 0 && day !== 6;
 };
-const did = (api: CoreAPI, personId: string, kind: string, date: string) =>
-  actsOf(api, personId).some((a) => a.kind === kind && a.date === date);
+/** The player gives a duty while they live its day, which the record dates the day before. */
+const gave = (api: CoreAPI, personId: string, kind: string, date: string) =>
+  officeActsOf(api, personId).some(
+    (a) => a.kind === kind && a.date >= addDays(date, -1) && a.date <= date,
+  );
 
 /**
- * The president's day: a vacant cabinet post waits on a nomination; the
- * budget request is due on its statutory day; the joint address on its
- * date; the brief every working day. What does not stop the player, the
- * character does at the end of the day; a nomination that stops the player
- * waits for them, and the request and the address, tied to their day, are
- * given by the character if the player lets the day pass.
+ * The president's day, for the president the player controls. The brief comes every working day. A vacant
+ * cabinet post holds the player the next morning while nominations stop
+ * them (`nomination`); otherwise the character nominates. The morning of the
+ * budget request's statutory day and of the joint address, each holds the
+ * player when its kind stops them; when the day closes, the character gives
+ * what the player did not.
  */
-registerFederalDayPart({
-  items(api, row, date) {
-    if (row.kind !== "president") return [];
-    const out: {
-      kind: "nomination" | "budget-request" | "joint-address" | "daily-brief";
-      id: string;
-      ids: readonly string[];
-    }[] = [];
-    for (const post of cabinetOf(api))
-      if (post.status === "vacant" || post.status === "rejected")
-        out.push({
-          kind: "nomination",
-          id: `nomination:${post.postId}`,
-          ids: [`cabinet:US:${post.postId}`],
-        });
-    if (budgetRequestDate(Number(date.slice(0, 4))).date === date)
-      out.push({
-        kind: "budget-request",
-        id: `budget-request:${date}`,
-        ids: ["US"],
-      });
-    if (isWeekday(date) && !federalHoliday(date))
-      out.push({ kind: "daily-brief", id: `daily-brief:${date}`, ids: [] });
-    return out;
-  },
-  finish(api, row: FederalHolderRow) {
-    if (row.kind !== "president") return;
-    const date = api.state.date;
-    confirmGivenVotes(api, row.id);
-    if (!row.stops.nomination)
+/** The Senate's votes on nominations come on their day whoever the player controls. */
+addFederalWorldPart((api) => {
+  if (!cabinetOf(api).some((c) => c.status === "nominated")) return;
+  const president = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        "seat:US:president",
+        "serving",
+      ]) as unknown as TermRow[]
+  )[0]?.personId;
+  if (president) confirmGivenVotes(api, president);
+});
+
+addFederalDayPart((api, personId) => {
+  if (!isPresident(api, personId)) return;
+  const date = api.state.date;
+  const tomorrow = addDays(date, 1);
+  const stops = stopsOf(api, personId);
+  if (isWeekday(date) && !federalHoliday(date))
+    dailyBrief(api, personId, "own-choice");
+  if (cabinetOf(api).some(open)) {
+    if (stops.nomination)
+      holdFederal(
+        api,
+        NOMINATIONS,
+        "office-day-federal.nomination",
+        "cabinet:US",
+      );
+    else
       for (const post of cabinetOf(api))
-        if (post.status === "vacant" || post.status === "rejected")
-          nominate(api, row.id, post.postId, undefined, true);
-    if (
-      budgetRequestDate(Number(date.slice(0, 4))).date === date &&
-      !did(api, row.id, "budget-request", date)
-    )
-      requestBudget(api, row.id);
-    if (
-      jointAddress(Number(date.slice(0, 4))).date === date &&
-      !did(api, row.id, "joint-address", date)
-    )
-      deliverAddress(api, row.id);
-    if (
-      isWeekday(date) &&
-      !federalHoliday(date) &&
-      !did(api, row.id, "daily-brief", date)
-    )
-      dailyBrief(api, row.id, true);
-  },
+        if (open(post)) nominate(api, personId, post.postId);
+  }
+  const year = (d: string) => Number(d.slice(0, 4));
+  if (
+    budgetRequestDate(year(date)).date === date &&
+    !gave(api, personId, "budget-request", date)
+  ) {
+    const prepared = preparedFederal(api, personId, BUDGET_REQUEST);
+    requestBudget(api, personId, prepared?.changes);
+    clearPreparedFederal(api, personId, BUDGET_REQUEST);
+  }
+  if (
+    budgetRequestDate(year(tomorrow)).date === tomorrow &&
+    stops["budget-request"]
+  )
+    holdFederal(api, BUDGET_REQUEST, "office-day-federal.budget-request", "US");
+  if (
+    jointAddress(year(date)).date === date &&
+    !gave(api, personId, "joint-address", date)
+  ) {
+    const answers = preparedFederal(api, personId, JOINT_ADDRESS)?.answers;
+    deliverAddress(
+      api,
+      personId,
+      answers &&
+        Object.entries(answers).map(([question, position]) => ({
+          question,
+          position,
+        })),
+    );
+    clearPreparedFederal(api, personId, JOINT_ADDRESS);
+  }
+  if (jointAddress(year(tomorrow)).date === tomorrow && stops["joint-address"])
+    holdFederal(
+      api,
+      JOINT_ADDRESS,
+      "office-day-federal.joint-address",
+      `joint-address:${tomorrow}`,
+    );
 });
 
 /** The vice president serving today, if the offices engine seats one. */
@@ -677,11 +681,11 @@ export function travelToTown(
   personId: string,
   placeKey: string,
   options: { readonly sendVicePresident?: boolean } = {},
-): FederalActRow {
-  const row = holderRow(api, personId);
-  if (!row) throw new Error(`${personId} holds no federal day`);
+): string {
+  if (!federalSeatOf(api, personId))
+    throw new Error(`${personId} holds no federal seat`);
   const traveler = options.sendVicePresident ? vicePresidentOf(api) : personId;
-  if (options.sendVicePresident && row.kind !== "president")
+  if (options.sendVicePresident && !isPresident(api, personId))
     throw new Error("Only the president sends the vice president");
   if (!traveler || !api.state.people.has(traveler))
     throw new Error("No one to send");
@@ -770,22 +774,15 @@ export function travelToTown(
       travelerId: traveler,
     },
   });
-  const when = dayAhead(api);
-  return record(api, {
-    id: actId(personId, "trip", `${placeKey}:${api.state.date}`),
+  officeHost.keep(api, {
     personId,
-    date: when,
     kind: options.sendVicePresident ? "vice-president-trip" : "trip",
-    mode: "did",
-    where: options.sendVicePresident ? whereOn(row, when) : "travel",
-    sourceRecordIds: [tripId, ...met],
-    facts: {
-      placeKey,
-      travelerId: traveler,
-      met: met.length,
-      moved,
-    },
+    how: "did",
+    recordId: tripId,
+    position: null,
+    detail: `${placeKey}: ${traveler} met ${met.length}, ${moved} moved`,
   });
+  return tripId;
 }
 
 /**

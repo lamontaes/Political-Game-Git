@@ -1204,37 +1204,6 @@
       ]
     },
     {
-      "move": "memoir-except",
-      "subject": "memoir",
-      "role": "except",
-      "choice": "except",
-      "journal": [
-        {
-          "kindPrefix": "memoir:",
-          "field": "except"
-        }
-      ],
-      "candidates": [
-        "Except for {name}.",
-        "Except {name}.",
-        "But there was {name}.",
-        "But I had {name}.",
-        "Other than {name}.",
-        "Besides {name}.",
-        "Aside from {name}.",
-        "Apart from {name}.",
-        "But there was one person, {name}.",
-        "There was one person, {name}.",
-        "There was one exception, {name}.",
-        "The one exception was {name}.",
-        "The exception was {name}.",
-        "But {name} was there.",
-        "But {name} was different.",
-        "But {name} was a friend.",
-        "But {name} was my friend."
-      ]
-    },
-    {
       "move": "memoir-became",
       "subject": "memoir",
       "role": "became",

@@ -19,9 +19,7 @@ skin/palette review and shared-source ownership still apply before activation.
 Another engineering owner supplies the reusable preview/control/data and existing
 Art Desk/native-tool bridge. Do not make AG rebuild core machinery or delay its
 independent design/research until a new platform exists. Reuse the registered workspace, shared style
-and control components. Current anchors include `src/player/ShellNav.tsx`,
-`ShellWorkspaces.tsx`, `PlayerGame.tsx`, `controls/GameSelect.tsx`,
-`controls/controls.css` and the existing dynamic-surface/scene bindings.
+and control components. Current anchors are the existing dynamic-surface/scene bindings.
 `PlayerGame` and installed-client files are not automatically your write scope.
 
 ## Procedure
