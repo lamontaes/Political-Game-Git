@@ -36,7 +36,14 @@ import {
 } from "../../simulation/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
-import type { LawRowInput } from "../laws-starting";
+import {
+  lawChainForPlace,
+  startingLawRows,
+  type LawChain,
+  type LawRowInput,
+} from "../laws-starting";
+import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
@@ -920,6 +927,79 @@ function accountFor(api: CoreAPI, jurisdiction: string): string | null {
   return gov ? `cash:${gov.organizationId}:residual` : null;
 }
 
+/** Residence law chains and their starting rows, by the residence's place id (static data). */
+const residenceLaw = new Map<
+  string,
+  { chain: LawChain; rows: readonly LawRowInput[] } | null
+>();
+function residenceLawFor(placeId: string) {
+  if (residenceLaw.has(placeId)) return residenceLaw.get(placeId)!;
+  let found: { chain: LawChain; rows: readonly LawRowInput[] } | null = null;
+  try {
+    const place = corePlaceByJurisdictionId(placeId as never);
+    if (place) {
+      const chain = lawChainForPlace(place.key);
+      found = { chain, rows: startingLawRows(chain) };
+    }
+  } catch {
+    found = null;
+  }
+  residenceLaw.set(placeId, found);
+  return found;
+}
+
+/**
+ * The income and payroll tax law in force where a worker lives (audit 12). The
+ * town's own residents read the town's law. Anyone else reads their own
+ * residence's chain (federal, their state, county and place): the town's
+ * recorded rows where the jurisdiction is shared with the town (so enacted
+ * acts count), the starting rows for the rest.
+ */
+function residentLaw(
+  api: CoreAPI,
+  placeId: string,
+): (series: string) => LawInForceAnswer {
+  if (placeId === lawChain(api).townPlaceId)
+    return (series) => lawInForce(api, series);
+  const own = residenceLawFor(placeId);
+  const town = lawChain(api);
+  const shared = new Set(town.levels.map((l) => l.jurisdiction));
+  return (series) => {
+    if (!own) {
+      // stopgapId: SG-WORLD-withholding-residence-law
+      api.stopgap("SG-WORLD-withholding-residence-law");
+      const answer = lawInForce(api, series);
+      return {
+        ...answer,
+        levels: answer.levels.map((l) =>
+          l.level === "federal" ? l : { ...l, row: null },
+        ),
+      };
+    }
+    // stopgapId: SG-WORLD-withholding-residence-law
+    api.stopgap("SG-WORLD-withholding-residence-law");
+    const recorded = api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .query("bySeriesOnly", [series]) as unknown as readonly LawRowInput[];
+    const seen = new Set(recorded.map((r) => r.id));
+    return resolveLawInForce({
+      series,
+      chain: own.chain,
+      date: api.state.date,
+      rows: [
+        ...recorded,
+        ...own.rows.filter(
+          (r) =>
+            r.series === series &&
+            !shared.has(r.jurisdiction) &&
+            !seen.has(r.id),
+        ),
+      ],
+    });
+  };
+}
+
 /** On payday: the taxes the law in force says come out of this paycheck go to each government. */
 function withhold(
   api: CoreAPI,
@@ -928,7 +1008,8 @@ function withhold(
   const paid = receipt.paidMinor;
   if (paid <= 0) return;
   const person = api.state.people.get(receipt.personId);
-  if (!person || person.placeId !== lawChain(api).townPlaceId) return;
+  if (!person) return;
+  const law = residentLaw(api, person.placeId);
   const year = api.state.date.slice(0, 4);
   const ytdId = `${receipt.personId}:${year}`;
   const ytd =
@@ -946,19 +1027,36 @@ function withhold(
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
-    incomeTax: lawInForce(api, "income-tax"),
-    socialSecurity: lawInForce(api, "social-security-tax"),
-    medicare: lawInForce(api, "medicare-tax"),
+    incomeTax: law("income-tax"),
+    socialSecurity: law("social-security-tax"),
+    medicare: law("medicare-tax"),
   });
+  if (lines.some((l) => l.level === "county" || l.level === "city")) {
+    // stopgapId: SG-WORLD-withholding-local-base
+    api.stopgap("SG-WORLD-withholding-local-base");
+  }
+  if (person.placeId !== lawChain(api).townPlaceId) {
+    // stopgapId: SG-WORLD-withholding-nonresident-local
+    api.stopgap("SG-WORLD-withholding-nonresident-local");
+  }
   table(api, "yearToDate").put({
     id: ytdId,
     minor: ytd + paid,
   } as unknown as ModuleRow);
   const postings: { id: string; accountId: string; deltaMinor: number }[] = [];
+  const paidLines: WithholdingLine[] = [];
   let total = 0;
   for (const [index, line] of lines.entries()) {
     const account = accountFor(api, line.jurisdiction);
-    if (!account) continue;
+    if (!account) {
+      // A government with no treasury here (another state's, a county or city
+      // the world doesn't model) can't be paid: an outside account takes money
+      // only against a due obligation record, which doesn't exist yet.
+      // stopgapId: SG-WORLD-withholding-outside-governments
+      api.stopgap("SG-WORLD-withholding-outside-governments");
+      continue;
+    }
+    paidLines.push(line);
     postings.push({
       id: `${receipt.id}:tax:${index}`,
       accountId: account,
@@ -980,12 +1078,22 @@ function withhold(
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
-    lines,
+    lines: paidLines,
     postings,
     source: {
-      tag: "SOURCED",
-      citation: lines.map((l) => l.lawId).join(" ; "),
+      // SOURCED only when every law row read is; a carried-back estimate makes
+      // the record an estimate (audit 13).
+      tag: paidLines.some((l) => l.estimate) ? "ESTIMATED" : "SOURCED",
+      citation: paidLines.map((l) => l.lawId).join(" ; "),
       asOf: api.state.date,
+      ...(paidLines.some((l) => l.estimate)
+        ? {
+            estimatedFrom: `Law rows read that are estimates: ${paidLines
+              .filter((l) => l.estimate)
+              .map((l) => l.lawId)
+              .join(" ; ")}`,
+          }
+        : {}),
     },
   };
   table(api, "withholding").put(record as unknown as ModuleRow);

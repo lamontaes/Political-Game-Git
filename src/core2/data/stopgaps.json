@@ -3078,5 +3078,53 @@
     "addedAt": "2026-10-14",
     "replacement": "Work for out-of-town relatives from their place's coarse population (jobs by age and place), after which those within commuting reach and out of work apply like anyone.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-withholding-residence-law",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 969,
+    "whatItFakes": "Payroll withholding for a worker who lives outside the town reads the law of the worker's residence from the starting-law rows (the town's recorded rows where a jurisdiction is shared with the town), so a law enacted in play in a jurisdiction the town does not share is not read; a residence the place lookup cannot resolve gets federal and payroll tax only.",
+    "why": "Enacted laws are recorded only for the town's own chain; other places' chains are not opened as worlds yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Each place's law chain recorded in the laws module, enacted acts included, read for every worker's residence.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-withholding-outside-governments",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1055,
+    "whatItFakes": "Income tax a worker owes a government with no treasury in the world (another state, or a county or city the world does not model) is not withheld, so the worker's pay is not reduced by it and no money moves.",
+    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Each such government gets a treasury (or an obligation-backed outside flow) and the withheld tax is paid to it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-withholding-local-base",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1035,
+    "whatItFakes": "A local flat income tax on a row whose base is wages or AGI is taken on the paycheck's gross pay (no pre-tax contributions or personal exemptions are modeled); a row whose base is taxable income is taken after the state (else federal) standard deduction only.",
+    "why": "The law rows name the base but carry no exemption or adjustment amounts, and workers' pre-tax deductions are not modeled.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Personal exemptions and adjustments read from the law rows and the worker's own records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-withholding-nonresident-local",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1039,
+    "whatItFakes": "A worker who lives outside the town pays no county or city income tax to the town's jurisdictions for working there (the rows' nonresident rate is not applied); local tax is withheld only by the law at the worker's residence.",
+    "why": "Where a worker works and which local jurisdiction taxes nonresident wages is not resolved per paycheck yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Resolve the workplace's local chain per paycheck and apply each row's nonresident rate to residents of other jurisdictions.",
+    "status": "open"
   }
 ]
