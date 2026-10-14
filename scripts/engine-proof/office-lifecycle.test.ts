@@ -23,7 +23,7 @@ import {
   makeIsoDate,
   simulationMomentAtLocalTime,
   simulationMomentOnLocalDate,
-} from "../../src/simulation/dates";
+} from "../../src/core2/kernel/dates";
 import {
   deserializeWorld,
   serializeWorld,

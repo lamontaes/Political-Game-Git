@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../demo";
 
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import type { EntityId, World } from "../types";
 import { outOfWorkSince } from "./town-labor-market";
 import {

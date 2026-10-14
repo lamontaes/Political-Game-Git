@@ -37,8 +37,8 @@ import {
  */
 
 import { jailTermOn } from "../justice/jail-terms";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import {
@@ -52,14 +52,14 @@ import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   countyGeoidsForPlace,
   countyGovernmentUnitsForPlace,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import {
   localInstitutionProvenance,
   localInstitutionsFor,
 } from "../local-institutions";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { townBusinessHasRoomToHire } from "./town-business-books";
 import type {
   EntityId,

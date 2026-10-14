@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import actualTable from "../../../data/research/legislature/member-bill-limits-2026.json" with { type: "json" };
-import type { EntityId } from "../types";
+import type { EntityId } from "../../core2/kernel/brands";
 import {
   memberFilingCap,
   type MemberBillLimitRow,

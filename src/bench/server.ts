@@ -1,9 +1,6 @@
 import { personOrFillIn } from "../core2/state";
 import { bringItUp } from "../director/bring-it-up";
-import {
-  relatedGuideTerms,
-  searchGuideTerms,
-} from "../presentation/guide-terms";
+import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -21,7 +18,7 @@ import { bodyScene, seatAct, seatView } from "./legislature";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
 import { governmentMap } from "./map";
-import { lifePlaceSearch } from "../simulation/life-places";
+import { searchCorePlaces } from "../core2/place-lookup";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -313,7 +310,7 @@ const server = createServer(async (request, response) => {
     }
     if (request.method === "GET" && url.pathname === "/api/places") {
       // Engineering list length for the place picker, not a model value.
-      const rows = lifePlaceSearch(url.searchParams.get("q") ?? "", 8, {
+      const rows = searchCorePlaces(url.searchParams.get("q") ?? "", 8, {
         scope: "locality",
       });
       send(

@@ -3,10 +3,10 @@
 // golden-path runner drew (GOLDEN_PATH_SEED, GOLDEN_PATH_PLACE_KEY).
 // Usage: node --import tsx src/bench/m0-check.ts M0-02
 import { createHash } from "node:crypto";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { earliestPlayerStopV1 } from "../core2/player-v1";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld, type BenchWorld } from "./world";
@@ -50,7 +50,7 @@ const label = (w: BenchWorld) =>
 const specs: Record<string, () => string> = {
   /** Three seeds, three places in three different states or territories. */
   "M0-01"() {
-    const identities = lifePlaceStateIdentities(),
+    const identities = corePlaceStateIdentities(),
       localities = realLocalities(),
       seen = new Map<string, string>();
     for (let i = 0; seen.size < 3; i++) {

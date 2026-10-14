@@ -4,7 +4,7 @@ import {
 } from "./character-history";
 import { YOUNGEST_AGE_AT_BIRTH } from "./birth-rates";
 import { appendChildhoodEntry } from "./childhood-record";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   createChildAuthority,
   recordKinship,
@@ -19,7 +19,7 @@ import { drawCanonicalNameForGender, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { peopleTiedTo, tellPeopleOf } from "./neighbor-news";
 import { recordEventKnowledge } from "./records";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type {
   EntityId,
   IsoDate,

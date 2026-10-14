@@ -2,7 +2,7 @@ import {
   candidacyPackForJurisdiction,
   electiveOfficesForJurisdiction,
 } from "../../src/simulation/candidacy";
-import { ageOnDate } from "../../src/simulation/dates";
+import { ageOnDate } from "../../src/core2/kernel/dates";
 import type { EntityId, World } from "../../src/simulation/types";
 
 /** Select fixture people against the office record, without inventing an age.

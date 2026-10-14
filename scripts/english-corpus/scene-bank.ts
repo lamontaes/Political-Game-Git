@@ -10,7 +10,7 @@
  */
 import sceneJson from "../../data/english/parts/scene-words.json" with { type: "json" };
 import bringJson from "../../data/english/parts/bring-it-up.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import { SCENE_WORDS, type SceneWords } from "../../src/director/scene";
 import { BRING_IT_UP_DATA } from "../../src/director/bring-it-up";
 

@@ -3,14 +3,14 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import {
   electionContestResult,
   scheduleElectionContest,
 } from "../election-contests";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { recordWorldEvent } from "../world";
 import type {

@@ -4,7 +4,11 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import { addDays, daysBetween, simulationMomentAtLocalTime } from "./dates";
+import {
+  addDays,
+  daysBetween,
+  simulationMomentAtLocalTime,
+} from "../core2/kernel/dates";
 import {
   EXECUTIVE_GOVERNING_KERNELS,
   EXECUTIVE_GOVERNING_KERNEL_ROWS,

@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   GOVERNMENT_UNITS_META,
   governmentUnit,
   governmentUnitsForPlace,
   governmentUnitsForState,
-} from "./government-units";
+} from "../core2/reference/government-units";
 import { municipalGovernmentByKey } from "./municipal-government";
 import {
   RULES_CAPABILITY_VERSION,

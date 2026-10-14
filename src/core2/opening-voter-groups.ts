@@ -10,11 +10,20 @@ import { lazyValue, readJsonData } from "./reference/lazy-data";
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import { parameter } from "./parameters";
 import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { type: "json" };
-import { ELECTORAL_CALIBRATION } from "../simulation/world-setup/political-start";
+import electoralCalibration from "./data/elections/electoral-calibration.generated.json" with { type: "json" };
 import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
 import { stopgap } from "./stopgaps";
 import type { VoterGroup } from "./voter-groups";
 import type { CoreInput, Source } from "./types";
+
+/** Each state's certified 2024 presidential ballots, by the party printed. */
+interface ElectoralCalibration {
+  readonly presidentialByState?: readonly {
+    readonly stateUsps: string;
+    readonly totalVotes: number | null;
+    readonly totalsByParty: Readonly<Record<string, number>>;
+  }[];
+}
 
 const BANDS: readonly [number, number, string][] = [
   [18, 25, "18 to 24 years"],
@@ -128,9 +137,9 @@ export function withCountedVoterGroups(
   const place = corePlaceByKey(placeKey);
   const usps = place?.stateJurisdictionKey?.replace(/^US-/, "");
   const state = corePlaceStateIdentities().find((row) => row.usps === usps);
-  const presidential = ELECTORAL_CALIBRATION.presidentialByState?.find(
-    (row) => row.stateUsps === usps,
-  );
+  const presidential = (
+    electoralCalibration as unknown as ElectoralCalibration
+  ).presidentialByState?.find((row) => row.stateUsps === usps);
   // The town's county result where one is recorded (Alaska reports by house
   // district, so it keeps the state's); else the state's.
   const county = countyResult(input.placeMetadata?.countyNames, usps);

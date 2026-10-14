@@ -1,11 +1,4 @@
-/**
- * Scenes on the new core (M4-03): when the director stages a moment, the
- * scene is built from blocks, not written: where you are (the setting's
- * record), who is there (the binding's present people), and what led here
- * (the moment's cause), narrated in second person by the English engine.
- * The scene then hands off to a conversation with the person who opens it.
- */
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -13,7 +6,7 @@ import {
   type AuthoredEnglishBank,
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
-} from "../presentation/grounded-english";
+} from "../english/grounded-english";
 import sceneJson from "./data/scene-words.json" with { type: "json" };
 import { JOURNAL_DATA } from "./journal";
 import type { Director } from "./ledger";
@@ -113,7 +106,7 @@ export function composeScene(
     };
   };
   const place = (id: string): Fact | null => {
-    const row = lifePlaceByJurisdictionId(id as never);
+    const row = corePlaceByJurisdictionId(id as never);
     return row ? { text: spoken(row), sourceRecordIds: [id] } : null;
   };
 

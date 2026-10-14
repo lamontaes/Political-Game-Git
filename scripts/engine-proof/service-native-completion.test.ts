@@ -1,7 +1,10 @@
 // Fixture copied from exact1316 handler test; C5 tests native completion instead of manual dispatch.
 import { expect, it } from "vitest";
 import { applyLawConsequences } from "../../src/simulation/enacted-law-effects";
-import { addSimulationMinutes, daysBetween } from "../../src/simulation/dates";
+import {
+  addSimulationMinutes,
+  daysBetween,
+} from "../../src/core2/kernel/dates";
 import { createLegislativeScenario } from "../../src/simulation/legislation-scenarios";
 import {
   introduceMeasure,

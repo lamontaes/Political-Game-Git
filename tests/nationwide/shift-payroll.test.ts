@@ -20,7 +20,7 @@ import {
   serializeWorld,
   deserializeWorld,
 } from "../../src/simulation/serialization";
-import { SeededRng } from "../../src/simulation/rng";
+import { SeededRng } from "../../src/core2/kernel/rng";
 import { advanceWorld } from "../../src/simulation/world";
 import { personName } from "../../src/simulation/people";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
@@ -28,7 +28,7 @@ import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import {
   addDays,
   simulationMomentOnLocalDate,
-} from "../../src/simulation/dates";
+} from "../../src/core2/kernel/dates";
 import { settleTownCompensations } from "../../src/simulation/living-world/town-pay";
 
 const places = new Map<string, [string, number]>();

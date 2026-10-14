@@ -1,6 +1,6 @@
 import { US_CONGRESS_PACK_ID } from "../../src/simulation/congress-rule-pack";
-import { makeIsoDate } from "../../src/simulation/dates";
-import { createStableId } from "../../src/simulation/ids";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
+import { createStableId } from "../../src/core2/kernel/ids";
 import {
   compileBillDraft,
   type CompiledBillDraft,
@@ -14,7 +14,7 @@ import {
 import { TRANSIT_PROGRAM_KEY } from "../../src/simulation/legislation-transit-families";
 import { localFiscalAuthorityScopeForRulePackId } from "../../src/simulation/municipal-government";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
-import type { EntityId } from "../../src/simulation/types";
+import type { EntityId } from "../../src/core2/kernel/brands";
 
 const KENTUCKY = createStableId("jurisdiction", "us-ky");
 const KENTUCKY_PACK = "us-ky-general-assembly-v1";

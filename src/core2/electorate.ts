@@ -7,7 +7,7 @@
 import { registerCountedPeople, registerViewLeans } from "./campaign-views";
 import { residentsRuntime } from "./modules/residents";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import type { CoreState, PersonInput } from "./types";
@@ -92,7 +92,7 @@ function surveyCell(
   birthDate: string,
   date: string,
 ): { mean: number; sd: number; engagement?: number } {
-  const key = lifePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey;
+  const key = corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
     Number(date.slice(0, 4)) -

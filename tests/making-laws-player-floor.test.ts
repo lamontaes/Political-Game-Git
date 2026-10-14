@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "./fixtures/small-world";
-import { governmentUnitsForState } from "../src/simulation/government-units";
+import { governmentUnitsForState } from "../src/core2/reference/government-units";
 import { lifePlaceByKey } from "../src/simulation/life-places";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../src/simulation/nationwide-world/state-executive-candidacy-packs";
 import { ensureLocalGovernmentOrganization } from "../src/simulation/nationwide-world/local-governments";

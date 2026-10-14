@@ -5,7 +5,7 @@
  * come from each person's own records (jobs, work commitments, household).
  */
 import parameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { countedJob, residentsRuntime } from "../modules/residents";
 import type {
   CoreAPI,

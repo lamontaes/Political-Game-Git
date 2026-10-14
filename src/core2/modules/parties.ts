@@ -23,7 +23,7 @@ import parameters from "../data/campaigns/parameters.json" with { type: "json" }
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { lifePlaceByKey } from "../../simulation/life-places";
+import { corePlaceByKey } from "../place-lookup";
 import {
   personLean,
   personStance,
@@ -32,7 +32,7 @@ import {
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { decisionLean } from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 
 export const PARTIES_MODULE_ID = "core2-parties-v1";
 
@@ -175,7 +175,7 @@ export function openParties(core: CoreState): void {
   if (!core.modules.has(PARTIES_MODULE_ID))
     registerModule(core, PARTIES_MODULE);
   const api = coreAPI(core);
-  const place = lifePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
   const stateKey = place!.stateJurisdictionKey!;
   api.moduleState(PARTIES_MODULE_ID).table("parties"); // tables exist even where elections are nonpartisan
   const rules = (
@@ -419,7 +419,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (!parties.length) return;
   const core = api.state as CoreState;
   const date = core.date;
-  const town = lifePlaceByKey(core.placeMetadata.placeKey ?? "")?.context
+  const town = corePlaceByKey(core.placeMetadata.placeKey ?? "")?.context
     .jurisdiction.id;
   if (!town) return;
   const townLean =

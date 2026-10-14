@@ -6,7 +6,7 @@
  * law rows an income-tax act writes for payroll withholding to collect.
  * Money moves only through the accounts journal; pay only through rerateJob.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
   amendBudget,

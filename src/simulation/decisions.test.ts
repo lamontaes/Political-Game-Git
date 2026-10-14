@@ -28,8 +28,8 @@ import { beforeAll } from "vitest";
 import { createDemoWorld } from "./demo";
 import { createLightweightPerson } from "./people";
 import { createWorld, createWorldId, materializePerson } from "./world";
-import { createStableId } from "./ids";
-import { makeIsoDate } from "./dates";
+import { createStableId } from "../core2/kernel/ids";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   STATES,
   isTerritoryUsps,

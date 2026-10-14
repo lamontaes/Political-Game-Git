@@ -13,7 +13,7 @@ import { NATIONAL_PLACES_ROWS } from "../../src/simulation/national-places.gener
 import {
   allGovernmentUnits,
   governmentUnitsForPlace,
-} from "../../src/simulation/government-units";
+} from "../../src/core2/reference/government-units";
 
 /**
  * What a town needs before it plays, and how much of the country has it.

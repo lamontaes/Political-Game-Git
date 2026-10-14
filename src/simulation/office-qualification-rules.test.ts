@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { createScenarioWorld } from "./demo";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   OFFICE_QUALIFICATIONS_META,
   QUALIFICATION_SOURCED_STATE_KEYS,

@@ -1,9 +1,9 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { execFileSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 import matrix from "../../data/research/money/local-tax-authority-matrix.json" with { type: "json" };
-import { allGovernmentUnits } from "./government-units";
-import { stableHash } from "./ids";
+import { allGovernmentUnits } from "../core2/reference/government-units";
+import { stableHash } from "../core2/kernel/ids";
 import { lifePlaceStateIdentities } from "./life-places";
 import {
   localTaxAuthority,

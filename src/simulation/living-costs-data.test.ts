@@ -6,7 +6,7 @@ import {
   REPRESENTATIVE_LIVING_COSTS,
   livingCostsRegionForState,
   representativeMonthlyLivingCostsMinor,
-} from "./living-costs-data";
+} from "../core2/reference/living-costs-data";
 
 describe("A52 retained CES nonhousing bills", () => {
   it.each([

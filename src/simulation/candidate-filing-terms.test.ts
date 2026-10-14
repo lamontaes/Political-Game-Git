@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "./dates";
+import { daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { STATES } from "./state-reference";
 import {
   candidateFilingTerms,

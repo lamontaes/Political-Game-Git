@@ -4,7 +4,7 @@ import {
   stateJurisdictionForKey,
   searchLifePlaces,
 } from "../../src/simulation/life-places";
-import { SeededRng } from "../../src/simulation/rng";
+import { SeededRng } from "../../src/core2/kernel/rng";
 import { personName } from "../../src/simulation/people";
 import type { World } from "../../src/simulation/types";
 

@@ -16,7 +16,7 @@ import type {
   PersonInput,
   Source,
 } from "../core2/types";
-import { STATES } from "../simulation/state-reference";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { paceOf, SITUATION_LIBRARY } from "./scheduling";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
@@ -443,7 +443,7 @@ describe("story director on the new core", () => {
   });
 
   it("applies one rule in all 56 places", () => {
-    const places = Object.keys(STATES);
+    const places = corePlaceStateIdentities().map((state) => state.usps);
     expect(places).toHaveLength(56);
     const shape = (placeId: string) => {
       const { director } = run(`place:${placeId}`, true);

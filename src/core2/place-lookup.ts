@@ -412,6 +412,11 @@ export function corePlaceByJurisdictionId(
   return row ? synthesizeNationwidePlace(row) : null;
 }
 
+/** A state's or territory's name by its USPS code (`KY`), else the code. */
+export function coreStateName(usps: string): string {
+  return stateName(usps);
+}
+
 /** Canonical USPS / `US-KY` identities, not names recovered from place labels. */
 export function corePlaceStateIdentities(): readonly CorePlaceStateIdentity[] {
   return Object.entries(STATE_CLOCKS)
@@ -443,4 +448,203 @@ export function coreSeatOfGovernmentPlace(
   )
     return null;
   return { jurisdictionKey: row[0], place, matchStatus: row[2] };
+}
+
+/**
+ * A state's jurisdiction by its key (`US-KY`): the authored or rule-pack
+ * state place's own record, else a placeholder record with the state's name,
+ * never a playable place and never a borrowed capability.
+ */
+export function coreStateJurisdiction(key: string): CoreJurisdiction | null {
+  if (!stateJurisdictions.has(key))
+    stateJurisdictions.set(key, findStateJurisdiction(key));
+  return stateJurisdictions.get(key)!;
+}
+
+const stateJurisdictions = new Map<string, CoreJurisdiction | null>();
+
+function findStateJurisdiction(key: string): CoreJurisdiction | null {
+  const established = allAuthoredPlaces().find(
+    (place) => place.scope === "state" && place.stateJurisdictionKey === key,
+  );
+  if (established) return established.context.jurisdiction;
+  const state = /^US-[A-Z]{2}$/.test(key) ? STATE_CLOCKS[key.slice(3)] : null;
+  if (!state) return null;
+  const slug = `state-${key.toLowerCase()}-placeholder`;
+  const id = createStableId("jurisdiction", `definition:${slug}`);
+  return {
+    id,
+    slug,
+    name: state.name,
+    kind: "state-placeholder",
+    parentName: "United States",
+    provenance: {
+      asOf: null,
+      source: null,
+      jurisdiction: id,
+      status: "placeholder",
+    },
+  };
+}
+
+/* --------------------------------- search --------------------------------- */
+
+export interface CorePlaceSearchOptions {
+  /** Only places in this state (`US-AL`), matched by identity, not by name. */
+  readonly stateJurisdictionKey?: string;
+  /** Only this scope; a locality search leaves out statewide rows. */
+  readonly scope?: CorePlaceScope;
+}
+
+let rowsByUsps: ReadonlyMap<string, readonly NationwideRow[]> | null = null;
+let authoredGeoids: ReadonlySet<string> | null = null;
+
+function localityRowsByUsps(): ReadonlyMap<string, readonly NationwideRow[]> {
+  if (!rowsByUsps) {
+    const grouped = new Map<string, NationwideRow[]>();
+    for (const row of localityRows()) {
+      const list = grouped.get(row[2]);
+      if (list) list.push(row);
+      else grouped.set(row[2], [row]);
+    }
+    rowsByUsps = grouped;
+  }
+  return rowsByUsps;
+}
+
+function authoredSourceGeoids(): ReadonlySet<string> {
+  authoredGeoids ??= new Set(
+    allAuthoredPlaces()
+      .map((place) => place.sourceGeoid)
+      .filter((geoid): geoid is string => geoid !== undefined),
+  );
+  return authoredGeoids;
+}
+
+function placeMatches(place: CorePlace, needle: string): boolean {
+  return [place.displayName, place.withinName ?? "", place.formalName ?? ""]
+    .join(" ")
+    .toLowerCase()
+    .includes(needle);
+}
+
+function labelMatches(label: string, needle: string): boolean {
+  return needle.length === 0 || label.toLowerCase().includes(needle);
+}
+
+function authoredMatches(
+  place: CorePlace,
+  needle: string,
+  stateKey: string | undefined,
+): boolean {
+  if (stateKey && place.stateJurisdictionKey !== stateKey) return false;
+  if (!stateKey) return placeMatches(place, needle);
+  const localName = place.withinName
+    ? place.displayName.replace(
+        new RegExp(`,\\s*${place.withinName}$`, "i"),
+        "",
+      )
+    : place.displayName;
+  return (
+    labelMatches(localName, needle) ||
+    labelMatches(place.formalName ?? "", needle)
+  );
+}
+
+function territoryMatches(
+  row: TerritoryRow,
+  needle: string,
+  inTerritory: boolean,
+): boolean {
+  const local = `${row[1]} ${row[3] ?? ""}`;
+  const haystack = inTerritory
+    ? local
+    : `${local} ${stateName(row[2])} ${row[2]}`;
+  return haystack.toLowerCase().includes(needle);
+}
+
+/** Whether a place is the one whose name was typed, not one containing it. */
+function namesExactly(place: CorePlace, needle: string): boolean {
+  if (needle.length === 0) return false;
+  const name = place.displayName.toLowerCase();
+  return (
+    name === needle ||
+    name.startsWith(`${needle},`) ||
+    (place.formalName ?? "").toLowerCase() === needle
+  );
+}
+
+/** The place actually named first, then everything else by name, then key. */
+function searchOrder(left: CorePlace, right: CorePlace, needle: string) {
+  const leftExact = namesExactly(left, needle);
+  const rightExact = namesExactly(right, needle);
+  if (leftExact !== rightExact) return leftExact ? -1 : 1;
+  const byName = left.displayName.localeCompare(right.displayName, "en", {
+    sensitivity: "base",
+  });
+  if (byName !== 0) return byName;
+  return left.key.localeCompare(right.key, "en");
+}
+
+/**
+ * Places matching a typed search, authored rows, Census places, territory
+ * villages and counties together, filtered and ordered before `limit` is
+ * applied. An empty query with a state lists that state's places.
+ */
+export function searchCorePlaces(
+  query: string,
+  limit = 20,
+  options?: CorePlaceSearchOptions,
+): readonly CorePlace[] {
+  const needle = query.trim().toLowerCase();
+  const stateKey = options?.stateJurisdictionKey;
+  const usps = stateKey
+    ? (/^US-([A-Z]{2})$/.exec(stateKey)?.[1] ?? null)
+    : null;
+  if (stateKey && !usps) return [];
+  if (!stateKey && needle.length === 0) return [];
+
+  const skip = authoredSourceGeoids();
+  const seen = new Set<string>();
+  const matches: CorePlace[] = [];
+  const take = (place: CorePlace) => {
+    if (options?.scope && place.scope !== options.scope) return;
+    if (stateKey && place.stateJurisdictionKey !== stateKey) return;
+    if (seen.has(place.key)) return;
+    seen.add(place.key);
+    matches.push(place);
+  };
+
+  for (const place of allAuthoredPlaces())
+    if (authoredMatches(place, needle, stateKey)) take(place);
+  if (options?.scope !== "state") {
+    const rows = usps ? (localityRowsByUsps().get(usps) ?? []) : localityRows();
+    for (const row of rows) {
+      if (skip.has(row[0])) continue;
+      if (usps) {
+        if (!labelMatches(row[1], needle)) continue;
+      } else {
+        const haystack =
+          `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
+        if (!haystack.includes(needle)) continue;
+      }
+      take(synthesizeNationwidePlace(row));
+    }
+    for (const row of territoryRows()) {
+      if (usps && row[2] !== usps) continue;
+      if (!territoryMatches(row, needle, usps !== null)) continue;
+      take(territoryIndex().get(row[0])!);
+    }
+    for (const place of nationwideCounties().values())
+      if (placeMatches(place, needle)) take(place);
+  }
+
+  if (limit === 1) {
+    let first: CorePlace | undefined;
+    for (const place of matches)
+      if (!first || searchOrder(place, first, needle) < 0) first = place;
+    return first ? [first] : [];
+  }
+  matches.sort((left, right) => searchOrder(left, right, needle));
+  return matches.slice(0, limit);
 }

@@ -8,13 +8,13 @@ import {
   holdsPackCondition,
   packCondition,
 } from "../src/simulation/crisis/condition-pack";
-import { MULTIPLIER_ONE } from "../src/simulation/crisis/hazard";
+import { MULTIPLIER_ONE } from "../src/core2/health-hazard";
 import { ensureCrisisMortality } from "../src/simulation/crisis/mortality";
 import { crisisRecords } from "../src/simulation/crisis/records";
 import type { HealthEpisodeRecord } from "../src/simulation/crisis/types";
-import { addDays } from "../src/simulation/dates";
+import { addDays } from "../src/core2/kernel/dates";
 import { resolveFutureDueItemsThrough } from "../src/simulation/future-transitions";
-import { stableHash } from "../src/simulation/ids";
+import { stableHash } from "../src/core2/kernel/ids";
 import { lifePlaceStateIdentities } from "../src/simulation/life-places";
 import type { World } from "../src/simulation/types";
 import { smallWorld } from "./fixtures/small-world";

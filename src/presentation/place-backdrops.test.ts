@@ -13,7 +13,7 @@ import {
   workplacePlaceFor,
 } from "./place-backdrops";
 import { backdropStaging } from "../bench/staging";
-import type { SimulationMoment } from "../simulation/types";
+import type { SimulationMoment } from "../core2/kernel/brands";
 
 const at = (date: string, hour: number, minute = 0): SimulationMoment => ({
   date: date as SimulationMoment["date"],

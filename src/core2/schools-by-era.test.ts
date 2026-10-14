@@ -2,12 +2,8 @@ import { describe, expect, it } from "vitest";
 import { buildDeepPast, schoolOpenBy } from "./deep-past";
 import { buildPopulation } from "./population";
 import schoolsJson from "./data/opening-schools.json" with { type: "json" };
-import { stableHash } from "../simulation/ids";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { stableHash } from "./kernel/ids";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const SCHOOLS = schoolsJson as { byGeoid: unknown };
 
@@ -56,9 +52,9 @@ describe(`schools by era in ${input.placeMetadata?.placeName} (seed ${seed})`, (
 // inside a large county, or a territory) sends its children to a few schools
 // nearby, so children of one year there have classmates. The place is drawn
 // at random from all such places.
-const unlisted = [...lifePlaceStateIdentities()]
+const unlisted = [...corePlaceStateIdentities()]
   .flatMap((identity) => [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: identity.jurisdictionKey,
       scope: "locality",
     }),

@@ -18,12 +18,9 @@
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
  * year's totals.
  */
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
-import { stableHash } from "../../simulation/ids";
-import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../../simulation/life-places";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { stableHash } from "../kernel/ids";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
@@ -32,7 +29,7 @@ import { decisionLean } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { endLivingPlan } from "../cost-of-living";
 import type { Parameter } from "../parameters";
-import type { EntityId } from "../../simulation/types";
+import type { EntityId } from "../kernel/brands";
 import type {
   ActionDefinition,
   ActOffer,
@@ -155,7 +152,7 @@ function lifeStageRate(
   person: Readonly<PersonState>,
   band: string,
 ): number {
-  const place = lifePlaceByJurisdictionId(person.placeId as EntityId);
+  const place = corePlaceByJurisdictionId(person.placeId as EntityId);
   const byAge = (
     (place?.stateJurisdictionKey && RATES.places[place.stateJurisdictionKey]) ||
     RATES.national
@@ -364,19 +361,19 @@ function destinationFor(
       };
   }
   const county = person.countyId
-    ? lifePlaceByJurisdictionId(person.countyId as EntityId)
+    ? corePlaceByJurisdictionId(person.countyId as EntityId)
     : undefined;
   const top = county?.sourceGeoid
     ? TOP_DESTINATION[county.sourceGeoid]
     : undefined;
   const to = top
-    ? lifePlaceByKey(`county:${top}`)?.context.jurisdiction.id
+    ? corePlaceByKey(`county:${top}`)?.context.jurisdiction.id
     : undefined;
   if (to)
     return { destinationId: to, destinationBasis: "county-flow", countyId: to };
-  const place = lifePlaceByJurisdictionId(person.placeId as EntityId);
+  const place = corePlaceByJurisdictionId(person.placeId as EntityId);
   const state = place?.stateJurisdictionKey
-    ? lifePlaceByKey(place.stateJurisdictionKey)?.context.jurisdiction.id
+    ? corePlaceByKey(place.stateJurisdictionKey)?.context.jurisdiction.id
     : undefined;
   return {
     destinationId: state ?? person.placeId,

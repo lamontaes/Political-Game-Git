@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
-  lifePlaceByJurisdictionId,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "./place-lookup";
 import natality from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import { createRenewalCore } from "./births-setup";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
@@ -55,7 +55,7 @@ const adults = [...core.people.values()].filter(
   (row) => row.alive && row.tier !== "husk" && bandOf(row.birthDate),
 );
 const state =
-  lifePlaceByJurisdictionId(adults[0]!.placeId as never)
+  corePlaceByJurisdictionId(adults[0]!.placeId as never)
     ?.stateJurisdictionKey ?? "";
 const acs = (RATES.places[state] ?? RATES.national).departurePerYearByAge;
 // Half a year keeps the check inside the golden-path budget.
@@ -80,7 +80,7 @@ const NATALITY = natality as unknown as {
   areas: Record<string, { ageRates: Record<string, number | null> }>;
 };
 const stateName =
-  lifePlaceStateIdentities().find((row) => row.jurisdictionKey === state)
+  corePlaceStateIdentities().find((row) => row.jurisdictionKey === state)
     ?.name ?? "";
 const birthRates = (
   NATALITY.areas[stateName] ?? NATALITY.areas["United States"]!

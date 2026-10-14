@@ -19,7 +19,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import type { CoreState } from "../../src/core2/types";
 import { SPEECH_MODULE_ID } from "../../src/core2/modules/speech";
 import { PARTIES_MODULE_ID } from "../../src/core2/modules/parties";

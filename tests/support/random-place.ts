@@ -3,7 +3,7 @@ import {
   searchLifePlaces,
   type LifePlace,
 } from "../../src/simulation/life-places";
-import { SeededRng } from "../../src/simulation/rng";
+import { SeededRng } from "../../src/core2/kernel/rng";
 
 /**
  * A place drawn at random for a watched run, reproducibly from `seed`: first

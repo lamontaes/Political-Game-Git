@@ -60,8 +60,8 @@ import {
 
 export * from "./types";
 export * from "./records";
-export * from "./mortality-table";
-export * from "./hazard";
+export * from "../../core2/health-mortality-table";
+export * from "../../core2/health-hazard";
 export * from "./mortality";
 export * from "./death-causes";
 export * from "./fatal-illness";

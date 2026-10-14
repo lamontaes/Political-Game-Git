@@ -23,7 +23,7 @@ import {
   resolveRequiredVotes,
 } from "../src/simulation/legislature-rules";
 import { nextMeasureNumbering } from "../src/simulation/measure-numbering";
-import { addDays } from "../src/simulation/dates";
+import { addDays } from "../src/core2/kernel/dates";
 
 const seed = "making-laws-committee-attendance-all56-20261002";
 const procedures = drawLegislativeStartingProcedures({ seed });

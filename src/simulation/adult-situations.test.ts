@@ -8,7 +8,7 @@ import {
 import type { AdultLifeContext } from "./adult-situations";
 import { createDemoWorld } from "./demo";
 import { RETURN_SUMMARY } from "./life-callbacks";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 /**
  * P2 prose migration — behavioral contracts.

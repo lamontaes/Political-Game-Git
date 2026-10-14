@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { makeIsoDate } from "../../src/simulation/dates";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   lawInForce,
   lawInForceAtStart,
 } from "../../src/simulation/governing/law-in-force";
 import { questionAuthority } from "../../src/simulation/governing/question-authority";
-import { stableHash } from "../../src/simulation/ids";
+import { stableHash } from "../../src/core2/kernel/ids";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,

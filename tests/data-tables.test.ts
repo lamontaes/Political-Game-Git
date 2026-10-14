@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import * as townPay from "../src/simulation/living-world/town-pay.generated";
-import * as townRent from "../src/simulation/living-world/town-rent.generated";
+import * as townRent from "../src/core2/reference/town-rent.generated";
 import * as townEmployment from "../src/simulation/living-world/town-employment.generated";
 import * as townBankShapes from "../src/simulation/living-world/town-bank-shapes.generated";
 import * as townDeposits from "../src/simulation/living-world/town-deposits.generated";

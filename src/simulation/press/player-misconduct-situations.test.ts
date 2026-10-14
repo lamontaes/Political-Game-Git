@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { offerToPlayer } from "./player-misconduct-situations";
 import { MISCONDUCT_FAMILY_LABELS } from "./records";
-import type { EntityId } from "../types";
+import type { EntityId } from "../../core2/kernel/brands";
 
 const candidate = "candidate" as EntityId;
 const vendor = "vendor" as EntityId;

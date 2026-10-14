@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { makeIsoDate as d } from "../dates";
+import { makeIsoDate as d } from "../../core2/kernel/dates";
 import { US_STATE_USPS } from "./state-executive-candidacy-packs";
 import {
   STATE_EXECUTIVE_GAME_PROFILE_VERSION,

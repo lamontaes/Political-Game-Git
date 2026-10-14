@@ -1,12 +1,4 @@
-/**
- * "My life" on the new core: a first-person story in chapters, written by
- * the English engine from the story director's moments and the person's own
- * records (owner, Sept 22 and Oct 1). It is selective (only moments a line
- * covers), names relatives by relation, folds repeats within a chapter into
- * one line, and never invents a feeling: every slot is a recorded fact the
- * person holds, and the templates carry no feeling words.
- */
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import {
@@ -14,7 +6,7 @@ import {
   type AuthoredEnglishBank,
   type GroundedEnglishPacket,
   type GroundedEnglishKnowledge,
-} from "../presentation/grounded-english";
+} from "../english/grounded-english";
 import journalJson from "./data/journal.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { properName } from "./words";
@@ -168,7 +160,7 @@ export function composeJournal(
       : null;
   };
   const placeName = (placeId: string | undefined) => {
-    const place = placeId ? lifePlaceByJurisdictionId(placeId as never) : null;
+    const place = placeId ? corePlaceByJurisdictionId(placeId as never) : null;
     return place
       ? { text: place.displayName, sourceRecordIds: [placeId!] }
       : null;
@@ -488,7 +480,7 @@ export function composeLookBack(
   const lines = composeJournal(core, director, personId, { data }).map(
     (chapter) => chapter.lines[zero]!,
   );
-  const place = lifePlaceByJurisdictionId(person.placeId as never);
+  const place = corePlaceByJurisdictionId(person.placeId as never);
   const years = String(
     Number(core.date.slice(zero, core.date.indexOf("-"))) -
       Number(person.birthDate.slice(zero, person.birthDate.indexOf("-"))) -

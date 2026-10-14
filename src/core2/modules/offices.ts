@@ -32,12 +32,9 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import municipalBaseline from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
-import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../../simulation/life-places";
-import { governmentUnit } from "../../simulation/government-units";
-import type { EntityId } from "../../simulation/types";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
+import { governmentUnit } from "../reference/government-units";
+import type { EntityId } from "../kernel/brands";
 import {
   electionInYear,
   staggeredSeatElection,
@@ -177,7 +174,7 @@ function livesWithin(
     OfficeInput | undefined;
   if (!office || office.jurisdiction === "US") return true;
   const to = destination
-    ? lifePlaceByJurisdictionId(destination as EntityId)
+    ? corePlaceByJurisdictionId(destination as EntityId)
     : null;
   if (!to) return false;
   if (office.level === "federal" || office.level === "state")
@@ -397,7 +394,7 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     registerModule(core, OFFICES_MODULE);
   const api = coreAPI(core);
   const placeKey = api.state.placeMetadata.placeKey;
-  const place = placeKey ? lifePlaceByKey(placeKey) : null;
+  const place = placeKey ? corePlaceByKey(placeKey) : null;
   if (!place?.stateJurisdictionKey)
     throw new Error("Offices need the town's place and state.");
   const stateKey = place.stateJurisdictionKey;

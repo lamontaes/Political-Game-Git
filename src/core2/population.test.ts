@@ -1,19 +1,18 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { characterHistoryContextPersonId } from "../simulation/character-history";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
-  lifePlaceByKey,
-  lifePlaces,
-  lifePlaceStateIdentities,
-  stateJurisdictionForKey,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  corePlaceStateIdentities,
+  coreStateJurisdiction,
+} from "./place-lookup";
 import { WORKING_AGE_MIN } from "../simulation/living-world/town-employment";
 import {
   materializeTownHousehold,
   townHouseholdPeople,
   townHouseholdSkeleton,
 } from "../simulation/living-world/town-residents";
-import { PEOPLE_MIND_VERSION } from "../simulation/people-trait-definitions";
+import { PEOPLE_MIND_VERSION } from "./people-mind";
 import { PERSONALITY_TRAIT_REGISTRY } from "../simulation/personality-trait-registry";
 import { createWorld } from "../simulation/world";
 import { parameter as p } from "./parameters";
@@ -104,8 +103,8 @@ describe("real-place one-time population import", () => {
   });
 
   it("keeps canonical identity and kin IDs without treating roommates as family", () => {
-    const place = lifePlaceByKey(opening.placeMetadata!.placeKey!)!;
-    const state = stateJurisdictionForKey(place.stateJurisdictionKey!)!;
+    const place = corePlaceByKey(opening.placeMetadata!.placeKey!)!;
+    const state = coreStateJurisdiction(place.stateJurisdictionKey!)!;
     const context = createWorld({
       seed: `${POPULATION_VERSION}:${seed}:${place.key}`,
       currentDate: makeIsoDate(startedAt),
@@ -349,7 +348,7 @@ describe("real-place one-time population import", () => {
         .filter((place) => place.scope === "locality")
         .map((place) => place.stateJurisdictionKey),
     );
-    for (const state of lifePlaceStateIdentities())
+    for (const state of corePlaceStateIdentities())
       expect(statesWithLocalities).toContain(state.jurisdictionKey);
     const missingGeography = realLocalities().find(
       (place) =>
@@ -395,7 +394,7 @@ describe("real-place one-time population import", () => {
     expect(() =>
       buildPopulation({ seed, startedAt, minimumPeople: p("zero") }),
     ).toThrow("positive whole count");
-    const statePlace = lifePlaces().find((place) => place.scope === "state")!;
+    const statePlace = corePlaceByKey("kentucky")!;
     expect(() =>
       buildPopulation({
         seed,

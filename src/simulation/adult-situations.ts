@@ -8,7 +8,7 @@ import {
   PUBLIC_MEETING_KEY,
   type LifeOpportunityKind,
 } from "./life-opportunities";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { activeIncidentsAt } from "./incidents";
 import { workItemOccasionHasPassed } from "./time-work";
 import { canPayRentOwed, openEvictionCase } from "./living-world/town-rent";

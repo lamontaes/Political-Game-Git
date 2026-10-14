@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { recordsByStringField } from "./history-index";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
 import { recordWorldEvent } from "./world";

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { stableHash } from "../simulation/ids";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { stableHash } from "./kernel/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { corePlaceStateIdentities } from "./place-lookup";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import { stancesOf, viewOf, viewsModule, VIEWS_KEYS } from "./modules/views";
@@ -15,7 +15,7 @@ import { applyCoreEvent, coreAPI } from "./state";
 
 /** One locality from a state drawn from all 56 by the seed. */
 function drawnPlace(seed: string) {
-  const states = [...lifePlaceStateIdentities()].sort((a, b) =>
+  const states = [...corePlaceStateIdentities()].sort((a, b) =>
     stableHash(`${seed}:${a.jurisdictionKey}`).localeCompare(
       stableHash(`${seed}:${b.jurisdictionKey}`),
     ),

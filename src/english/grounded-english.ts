@@ -1,6 +1,6 @@
 import { tagEngineText } from "./runtime-text-origin";
-import { stableHash } from "../simulation/ids";
-import type { EntityId } from "../simulation/types";
+import { stableHash } from "../core2/kernel/ids";
+import type { EntityId } from "../core2/kernel/brands";
 
 /**
  * A small, pure realization boundary for already-recorded facts. It does not

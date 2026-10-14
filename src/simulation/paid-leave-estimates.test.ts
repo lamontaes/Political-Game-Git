@@ -20,7 +20,7 @@ import {
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { personName } from "./people";
 import { pay } from "../../tests/fixtures/public-program-fixture";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 describe("paid-leave fallback rates read sourced peers without a draw", () => {
   it("ranks the same-program sources and retains actual employee zero shares", () => {

@@ -2,7 +2,7 @@ import limitResearch from "../../data/research/campaign-reality/campaign-contrib
 import { peopleKnownTo, viewOfOfficial } from "./living-world/official-views";
 import { campaignState, requireCampaign } from "./campaign-queries";
 import { campaignCompliancePackFor } from "./campaign-compliance";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import {
   activeOrganizationParticipationsAt,

@@ -796,7 +796,7 @@
       "replacement": null
     },
     {
-      "file": "src/simulation/people.ts",
+      "file": "src/core2/person-names.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -807,7 +807,7 @@
       "replacement": null
     },
     {
-      "file": "src/simulation/people.ts",
+      "file": "src/core2/person-names.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -818,7 +818,7 @@
       "replacement": null
     },
     {
-      "file": "src/simulation/people.ts",
+      "file": "src/core2/person-names.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -829,7 +829,7 @@
       "replacement": null
     },
     {
-      "file": "src/simulation/people.ts",
+      "file": "src/core2/person-names.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -840,7 +840,7 @@
       "replacement": null
     },
     {
-      "file": "src/simulation/people.ts",
+      "file": "src/core2/person-names.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -1221,7 +1221,7 @@
       "kind": "list-pick",
       "build": null,
       "count": 1,
-      "code": "`${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;",
+      "code": "`${rng.pick(SCHOOL_NAMES.features)} ${stage.nameSuffix}`;",
       "class": "GENERATION",
       "keyedBy": "school id (place and stage)",
       "reason": "Generated name pattern for a school that has no record; who exists, not what anyone does.",

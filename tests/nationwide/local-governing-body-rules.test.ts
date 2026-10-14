@@ -2,14 +2,14 @@ import { describe, expect, it } from "vitest";
 import {
   allGovernmentUnits,
   governmentUnitsForPlace,
-} from "../../src/simulation/government-units";
+} from "../../src/core2/reference/government-units";
 import {
   TYPICAL_COUNCIL_SOURCE,
   localGoverningBodyReadSpread,
   localGoverningBodyRules,
   localRuleCoverage,
 } from "../../src/simulation/nationwide-world/local-governing-body-rules";
-import { governmentUnitDisplayName } from "../../src/simulation/nationwide-world/government-unit-names";
+import { governmentUnitDisplayName } from "../../src/core2/gov-rules/government-unit-names";
 
 /**
  * Which towns' governing-body rules the game has read, and what every other

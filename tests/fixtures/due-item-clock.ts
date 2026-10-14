@@ -1,5 +1,5 @@
 import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
-import { makeIsoDate } from "../../src/simulation/dates";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import { resolveFutureDueItemsThrough } from "../../src/simulation/future-transitions";
 import type {
   EntityId,

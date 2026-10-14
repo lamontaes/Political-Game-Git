@@ -39,7 +39,7 @@ import { recordMemberBallot } from "./governing/member-ballots";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld } from "./world";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type {
   EntityId,
   LegislativeVoteDisposition,

@@ -15,17 +15,17 @@
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import headlinesJson from "../../data/english/parts/headlines.json" with { type: "json" };
 import newsJson from "../../data/english/parts/news.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   composeGroundedLine,
   type ComposedLineBank,
   type LinePartVariant,
   type SpeechAct,
-} from "../../src/presentation/english-composition";
+} from "../../src/english/english-composition";
 import type {
   EnglishSurface,
   GroundedEnglishPacket,
-} from "../../src/presentation/grounded-english";
+} from "../../src/english/grounded-english";
 
 interface MinedPart {
   key: string;

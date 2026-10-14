@@ -1,4 +1,4 @@
-import { addDays } from "../../src/simulation/dates";
+import { addDays } from "../../src/core2/kernel/dates";
 import { createScenarioWorld } from "../../src/simulation/demo";
 import {
   declareProgramCapacity,

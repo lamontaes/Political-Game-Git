@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import {
   PAID_LEAVE_QUESTION,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   operativeDateForEnactment,
   resolveLegislativeEffectiveDate,

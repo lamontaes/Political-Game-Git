@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import {
   addDays,
   simulationMomentOnLocalDate,
-} from "../../src/simulation/dates";
+} from "../../src/core2/kernel/dates";
 import { createDemoWorld } from "../../src/simulation/demo";
 import {
   electionContestResult,

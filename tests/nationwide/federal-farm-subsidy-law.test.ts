@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   CUT_FARM_SUBSIDIES_QUESTION,
   farmPaymentsCutPctOfLandValue,
 } from "../../src/simulation/federal-farm-subsidy-law";
-import { stableHash } from "../../src/simulation/ids";
+import { stableHash } from "../../src/core2/kernel/ids";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,

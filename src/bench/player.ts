@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   advancePlayerV1,
   resumePlayerV1,

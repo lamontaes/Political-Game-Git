@@ -5,8 +5,8 @@ import {
   completedMonthsBetween,
   makeIsoDate,
   spokenDate,
-} from "./dates";
-import type { IsoDate } from "./types";
+} from "../core2/kernel/dates";
+import type { IsoDate } from "../core2/kernel/brands";
 
 describe("simulation dates", () => {
   const months = (from: string, to: string) =>

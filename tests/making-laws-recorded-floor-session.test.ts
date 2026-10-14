@@ -5,7 +5,7 @@ import {
   measureSessionIsClosed,
 } from "../src/simulation/governing/legislative-clock";
 import { applyLegislativeStep } from "../src/presentation/legislation-session";
-import { addDays } from "../src/simulation/dates";
+import { addDays } from "../src/core2/kernel/dates";
 import {
   serializeWorld,
   deserializeWorld,

@@ -12,8 +12,8 @@
  * its exact claim as a belief in everyone present, the director keeps it, and
  * anyone who knows the truth sets a believer straight when they next talk.
  */
-import { stableHash } from "../simulation/ids";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { stableHash } from "../core2/kernel/ids";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
@@ -195,7 +195,7 @@ export function subjectsBetween(
       kind: "their-tenure",
       facts: {},
     });
-  const place = lifePlaceByJurisdictionId(speaker.placeId as never);
+  const place = corePlaceByJurisdictionId(speaker.placeId as never);
   if (place)
     out.push({
       id: `home:${speakerId}`,
@@ -315,7 +315,7 @@ function replyFacts(
   const listener = core.people.get(listenerId)!;
   switch (subject.kind) {
     case "home": {
-      const place = lifePlaceByJurisdictionId(listener.placeId as never);
+      const place = corePlaceByJurisdictionId(listener.placeId as never);
       return place
         ? {
             facts: {
@@ -414,7 +414,7 @@ function playerFacts(
     };
     facts["my-since"] = facts.since;
   }
-  const place = lifePlaceByJurisdictionId(player.placeId as never);
+  const place = corePlaceByJurisdictionId(player.placeId as never);
   if (place)
     facts["my-place"] = {
       text: spoken(place),

@@ -1,5 +1,5 @@
 import { RENEWAL_PARAMETERS, renewalParameter } from "../births-parameters";
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import {
   BIRTHS_STOPGAP,
   chooseBirthPlan,

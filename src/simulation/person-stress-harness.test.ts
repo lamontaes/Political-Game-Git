@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { createScenarioWorld } from "./demo";
 import { PORTABILITY_CONTEXT } from "./portability-fixture";
 import { assertWorldIntegrity } from "./world";

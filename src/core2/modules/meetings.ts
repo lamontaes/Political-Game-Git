@@ -20,7 +20,7 @@
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";

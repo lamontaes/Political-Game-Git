@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { money } from "../resources";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { advanceWorld } from "../world";
@@ -36,7 +36,7 @@ import {
   publicTaxAccountForIdentity,
   publicTaxAccountForJurisdiction,
 } from "../tax-policy";
-import type { PublicGovernmentIdentity } from "../types";
+import type { PublicGovernmentIdentity } from "../../core2/kernel/brands";
 
 function days(world: World, count: number): World {
   return advanceWorld(world, count, createCampaignElectionTransitionRegistry());

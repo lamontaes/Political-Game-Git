@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createLightweightPerson } from "../../src/simulation/people";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
-import { makeIsoDate, addDays } from "../../src/simulation/dates";
+import { makeIsoDate, addDays } from "../../src/core2/kernel/dates";
 import {
   createWorld,
   createWorldId,

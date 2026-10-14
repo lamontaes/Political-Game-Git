@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { advanceWorld } from "../src/simulation/world";
 import { childServiceFixture } from "./fixtures/child-service-fixture";
 import { drawRandomPlace } from "./support/random-place";
-import { addSimulationMinutes } from "../src/simulation/dates";
+import { addSimulationMinutes } from "../src/core2/kernel/dates";
 import { activeEducationEnrollmentsAt } from "../src/simulation/life-queries";
 import {
   requestPublicService,

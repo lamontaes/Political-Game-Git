@@ -20,10 +20,10 @@ import {
   ageOnDate,
   isoDateFromParts,
   makeIsoDate,
-} from "../simulation/dates";
-import { createStableId } from "../simulation/ids";
-import { generatePersonIdentity } from "../simulation/person-identity";
-import { SeededRng } from "../simulation/rng";
+} from "./kernel/dates";
+import { createStableId } from "./kernel/ids";
+import { generatePersonIdentity } from "./gov-rules/person-identity";
+import { SeededRng } from "./kernel/rng";
 import partnershipJson from "./data/opening-partnership.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";

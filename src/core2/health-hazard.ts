@@ -1,9 +1,9 @@
-import { addDays, dateAtAge, daysBetween, makeIsoDate } from "../dates";
-import type { IsoDate } from "../types";
+import { addDays, dateAtAge, daysBetween, makeIsoDate } from "./kernel/dates";
+import type { IsoDate } from "./kernel/brands";
 import {
   doubledAgeYearHazard,
   type MortalityCalibrationCategory,
-} from "./mortality-table";
+} from "./health-mortality-table";
 
 /**
  * Cumulative all-cause hazard with exact age-year splitting.

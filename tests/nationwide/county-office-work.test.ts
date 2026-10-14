@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { advanceWorld, assertWorldIntegrity } from "../../src/simulation/world";
 import { createCampaignElectionTransitionRegistry } from "../../src/simulation/campaigns";
 import { recordHouseholdLocation } from "../../src/simulation/life";
-import { stableHash } from "../../src/simulation/ids";
+import { stableHash } from "../../src/core2/kernel/ids";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { ensureWorldStartingConditions } from "../../src/simulation/world-setup/conditions";
 import { generatePoliticalStartingConditions } from "../../src/simulation/world-setup/political-start";

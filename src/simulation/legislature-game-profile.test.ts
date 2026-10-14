@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { districtIdentityCatalog } from "../districts/catalog";
 import { listDistrictIdentities } from "../districts/query";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { createScenarioWorld } from "./demo";
 import type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { introduceMeasure, measuresForJurisdiction } from "./legislation";
 import {
   LEGISLATURE_GAME_PROFILE_VERSION,

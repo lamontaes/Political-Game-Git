@@ -18,7 +18,7 @@
  * OPUS-WORDS owns this file until OPUS-PEOPLE folds it into the director.
  */
 import bankJson from "../../data/english/parts/conversation.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   CONVERSATION_DATA,
   type ConversationData,

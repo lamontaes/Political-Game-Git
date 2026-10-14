@@ -1,7 +1,7 @@
 import { coreAPI } from "../core2/state";
 import { townSeats } from "../core2/modules/offices";
-import { lifePlaceByKey } from "../simulation/life-places";
-import { capitolPlaceFor } from "../presentation/place-backdrops";
+import { corePlaceByKey } from "../core2/place-lookup";
+import { capitolPlaceFor } from "./backdrop-places";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { backdropFile, stagePeople, homeOf } from "./scene";
 import shots from "./data/opening-shots.json" with { type: "json" };
@@ -30,7 +30,7 @@ export function openingShots(core: CoreState, playerId: string) {
   if (!player) throw new Error("No such person.");
   const api = coreAPI(core);
   const seats = townSeats(api);
-  const usps = lifePlaceByKey(
+  const usps = corePlaceByKey(
     api.state.placeMetadata.placeKey ?? "",
   )?.stateJurisdictionKey?.slice(3);
   const resolve = (place: string) =>

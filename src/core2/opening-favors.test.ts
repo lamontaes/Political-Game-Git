@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { buildDeepPast } from "./deep-past";
 import { OPENING_FAVORS } from "./opening-favors";
 import { OPENING_KIN } from "./opening-kin";

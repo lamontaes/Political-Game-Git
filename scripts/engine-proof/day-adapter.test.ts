@@ -10,7 +10,7 @@ import {
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
   addSimulationMinutes,
-} from "../../src/simulation/dates";
+} from "../../src/core2/kernel/dates";
 import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
 import { createLightweightPerson } from "../../src/simulation/people";
 import { lifePlaceByKey } from "../../src/simulation/life-places";

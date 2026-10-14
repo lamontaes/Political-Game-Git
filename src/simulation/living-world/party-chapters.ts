@@ -9,7 +9,7 @@ import {
   compareSimulationMoments,
   makeIsoDate,
   simulationMomentAtLocalTime,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import { evaluateDecision } from "../decisions";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
@@ -26,7 +26,7 @@ import {
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { recordEventKnowledge } from "../records";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import {
   cancelScheduledActivity,
   createScheduledActivity,

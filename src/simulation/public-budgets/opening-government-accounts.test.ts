@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import acsTowns from "../../../data/research/money/place-towns-acs-2024.json" with { type: "json" };
-import { makeIsoDate } from "../dates";
-import { stableHash } from "../ids";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { stableHash } from "../../core2/kernel/ids";
 import {
   governmentUnitJurisdictionId,
   governmentUnitsForState,
   governmentUnitsForPlace,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import { lifePlaceStateIdentities, lifePlaceByKey } from "../life-places";
 import {
   assertPublicGovernmentIdentity,

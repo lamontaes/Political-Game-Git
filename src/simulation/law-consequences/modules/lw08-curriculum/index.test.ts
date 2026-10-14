@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { ResolvedLawConsequence } from "../../../law-consequence-types";
 import type { EntityId, World } from "../../../types";
-import { stableHash } from "../../../ids";
+import { stableHash } from "../../../../core2/kernel/ids";
 import { lifePlaceStateIdentities } from "../../../life-places";
 import { CURRICULUM_STANDARDS_ROW } from "./data";
 import {

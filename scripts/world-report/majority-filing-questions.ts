@@ -1,6 +1,6 @@
 /** Retained-record counts; never forms principles or advances the clock. */
 import { readFileSync, writeFileSync } from "node:fs";
-import { SeededRng } from "../../src/simulation/rng";
+import { SeededRng } from "../../src/core2/kernel/rng";
 import { US_STATE_USPS } from "../../src/simulation/nationwide-world/state-executive-candidacy-packs";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { legislativePackForJurisdiction } from "../../src/simulation/legislative-institutions";

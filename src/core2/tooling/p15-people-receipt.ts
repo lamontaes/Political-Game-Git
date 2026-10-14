@@ -7,18 +7,18 @@
  *     [--place <placeKey>] [--minimum <people>] [--out <file>]
  */
 import { writeFileSync } from "node:fs";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
   HOUSEHOLD_SHAPE_ORDER,
   householdMixForJurisdiction,
   type HouseholdShape,
 } from "../../simulation/household-mix";
-import { PEOPLE_MIND_VERSION } from "../../simulation/people-trait-definitions";
+import { PEOPLE_MIND_VERSION } from "../people-mind";
 import { OPENING_KIN } from "../opening-kin";
 import { OPENING_PARTNERSHIP, partnershipGeo } from "../opening-partnership";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import { buildPopulation } from "../population";
-import type { EntityId } from "../../simulation/types";
+import type { EntityId } from "../kernel/brands";
 import type { CoreInput, PersonInput } from "../types";
 import keys from "./p15-people-answer-keys.json" with { type: "json" };
 
@@ -106,7 +106,7 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
 
   // Adult age structure against the place's ACS sex by age (B01001).
   const geo = partnershipGeo(
-    lifePlaceByJurisdictionId(town as EntityId)?.sourceGeoid,
+    corePlaceByJurisdictionId(town as EntityId)?.sourceGeoid,
   );
   const acsAdults = (low: number, high: number) =>
     OPENING_PARTNERSHIP.populationBands.reduce((sum, band, i) => {

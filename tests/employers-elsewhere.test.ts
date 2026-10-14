@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { smallWorld } from "./fixtures/small-world";
-import { addDays } from "../src/simulation/dates";
+import { addDays } from "../src/core2/kernel/dates";
 import {
   createOrganization,
   createWorkRelationship,
@@ -23,7 +23,7 @@ import {
   NO_CREDENTIAL_OCCUPATIONS,
   placeToLookFor,
 } from "../src/simulation/migration/employers-elsewhere";
-import { SeededRng, pickDistinct } from "../src/simulation/rng";
+import { SeededRng, pickDistinct } from "../src/core2/kernel/rng";
 import type {
   EntityId,
   OccupationClassification,

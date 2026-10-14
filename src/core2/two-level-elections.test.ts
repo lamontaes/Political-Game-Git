@@ -27,11 +27,7 @@ import tieRules from "../../data/research/elections/tie-rules-2026.json" with { 
 import { partySide } from "./appointments";
 import { countedResidents } from "./electorate";
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";
 const seed =
@@ -41,7 +37,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter(
     (k) => !["US-AS", "US-GU", "US-MP", "US-VI", "US-PR", "US-DC"].includes(k),
@@ -62,7 +58,7 @@ describe("elections in the two-level world", () => {
   it("counted residents vote, challengers get real votes, and statewide results track the state", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

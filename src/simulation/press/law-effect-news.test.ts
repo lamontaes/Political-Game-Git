@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { appendCrisisRecord } from "../crisis/records";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import type { LawEffectStamp } from "../law-effect-stamp";

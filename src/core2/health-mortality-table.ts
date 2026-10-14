@@ -1,5 +1,8 @@
-import table from "./ssa-2023-period-life-table.json" with { type: "json" };
-import { fixedFromDecimal, hazardFromAnnualProbability } from "./fixed-point";
+import table from "./data/health/ssa-2023-period-life-table.json" with { type: "json" };
+import {
+  fixedFromDecimal,
+  hazardFromAnnualProbability,
+} from "./kernel/fixed-point";
 
 /**
  * SSA 2023 period life table, as used in the 2026 Trustees Report.

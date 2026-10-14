@@ -1,5 +1,5 @@
 import scf from "../../data/research/money/scf-transaction-accounts-2022.json" with { type: "json" };
-import { ageOnDate, dateAtAge, daysBetween } from "./dates";
+import { ageOnDate, dateAtAge, daysBetween } from "../core2/kernel/dates";
 import { recordsWithFieldValue } from "./history-index";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeWorkRelationshipsAt } from "./life-queries";

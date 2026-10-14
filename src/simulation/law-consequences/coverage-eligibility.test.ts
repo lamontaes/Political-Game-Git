@@ -23,7 +23,12 @@ import {
 import { recordFiledProvision } from "../legislative-politics";
 import type { World } from "../types";
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import {
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,

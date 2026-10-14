@@ -1,5 +1,5 @@
 import { applyFindingReferral } from "../justice/finding-referral";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { personName } from "../people";
 import { recordEventKnowledge } from "../records";

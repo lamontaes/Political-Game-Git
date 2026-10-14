@@ -22,7 +22,7 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { lifePlaceByKey } from "../../simulation/life-places";
+import { corePlaceByKey } from "../place-lookup";
 import { nextElectionForSeat, type ElectionDates } from "../elections-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import type { OfficeInput } from "../offices-local";
@@ -269,7 +269,7 @@ export function openElections(core: CoreState): void {
     registerModule(core, ELECTIONS_MODULE);
   registerElectorate(core);
   const api = coreAPI(core);
-  const place = lifePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
   if (!place?.stateJurisdictionKey) throw new Error("Elections need the town.");
   const stateKey = place.stateJurisdictionKey;
   const geoid = place.sourceGeoid ?? place.key;

@@ -32,17 +32,16 @@ import {
 } from "./modules/parties";
 import { holdPrimary, openVoting } from "./modules/voting";
 import {
-  lifePlaceByKey,
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`parties:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -54,7 +53,7 @@ describe("M2-08 parties", () => {
   it("parties are organizations from data; ties come from views; no party and independent both exist; a primary picks one nominee", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -76,7 +75,7 @@ describe("M2-08 parties", () => {
     openVoting(core);
     const api = coreAPI(core);
     const parties = partiesHere(api);
-    const stateKey = lifePlaceByKey(place)!.stateJurisdictionKey!;
+    const stateKey = corePlaceByKey(place)!.stateJurisdictionKey!;
     expect(parties.map((p) => p.name).sort()).toEqual(
       stateParties(stateKey)
         .map((p) => p.name)

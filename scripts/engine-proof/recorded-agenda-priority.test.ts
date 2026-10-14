@@ -19,7 +19,7 @@ import { npcEligibleProgramConfigurations } from "../../src/simulation/legislati
 import { considerationScore } from "../../src/simulation/decisions";
 import { personName } from "../../src/simulation/people";
 import { ensureOfficeholderPrinciples } from "../../src/simulation/governing/officeholder-principles";
-import { daysBetween } from "../../src/simulation/dates";
+import { daysBetween } from "../../src/core2/kernel/dates";
 import { createCampaignElectionTransitionRegistry } from "../../src/simulation/campaigns";
 import {
   advanceWorld,

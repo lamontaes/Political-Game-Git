@@ -3,11 +3,11 @@ import {
   conditionHazard,
   startingConditionAssignments,
 } from "../simulation/crisis/condition-pack";
-import { MULTIPLIER_ONE } from "../simulation/crisis/hazard";
-import { doubledAgeYearHazard } from "../simulation/crisis/mortality-table";
-import { FIXED_SCALE } from "../simulation/crisis/fixed-point";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import type { EntityId } from "../simulation/types";
+import { MULTIPLIER_ONE } from "./health-hazard";
+import { doubledAgeYearHazard } from "./health-mortality-table";
+import { FIXED_SCALE } from "./kernel/fixed-point";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import type { EntityId } from "./kernel/brands";
 import { advanceCore, createLifeCore } from "./life";
 import { createHealthModule, healthReport } from "./modules/health";
 import { parameter as p } from "./parameters";

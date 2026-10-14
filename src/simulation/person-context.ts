@@ -2,7 +2,7 @@ import {
   ageOfMajorityFor,
   GROWN_UP_PRESENTATION_AGE_ESTIMATE,
 } from "./age-of-majority";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import {
   activeCareResponsibilitiesAt,
   activeChildAuthoritiesAt,

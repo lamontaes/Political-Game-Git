@@ -14,7 +14,7 @@
  * one level up. Whoever decides to run files with the place's filing office,
  * on a platform from their own views.
  */
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -52,7 +52,7 @@ import {
   viewOf,
 } from "./views";
 import { residentPerson } from "./residents";
-import { stableHash } from "../../simulation/ids";
+import { stableHash } from "../kernel/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 

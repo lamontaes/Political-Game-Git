@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { allGovernmentUnits } from "../../src/simulation/government-units";
+import { allGovernmentUnits } from "../../src/core2/reference/government-units";
 import { sessionLegalLimit } from "../../src/simulation/governing/session-adjournments";
 import { localOrdinanceGameRulePack } from "../../src/simulation/local-ordinance-game-profile";
 import { countyGoverningBodyRules } from "../../src/simulation/nationwide-world/county-governing-body-rules";

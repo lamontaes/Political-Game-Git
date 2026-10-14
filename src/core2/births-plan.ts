@@ -1,14 +1,6 @@
-import {
-  addDays,
-  ageOnDate,
-  daysBetween,
-  makeIsoDate,
-} from "../simulation/dates";
-import {
-  bedroomsForHousehold,
-  hudRentRowFor,
-} from "../simulation/living-world/town-rent";
-import type { EntityId } from "../simulation/types";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import type { EntityId } from "./kernel/brands";
 import { healthReport } from "./modules/health";
 import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";

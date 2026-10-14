@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { createDemoWorld } from "../demo";
-import type { EntityId } from "../types";
+import type { EntityId } from "../../core2/kernel/brands";
 import {
   addJudicialCourt,
   changeJudicialCourtRules,

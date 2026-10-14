@@ -5,7 +5,7 @@ import { candidacyPacks } from "../../src/simulation/candidacy-packs";
 import {
   completedMonthsBetween,
   makeIsoDate,
-} from "../../src/simulation/dates";
+} from "../../src/core2/kernel/dates";
 import { districtResidenceSince } from "../../src/simulation/district-residence";
 import { recordProspectRunChoice } from "../../src/simulation/election-candidate-prospect";
 import { createOrganization } from "../../src/simulation/life";
@@ -25,7 +25,7 @@ import {
   officeQualifications,
   assessOfficeQualifications,
 } from "../../src/simulation/office-qualification-rules";
-import { SeededRng } from "../../src/simulation/rng";
+import { SeededRng } from "../../src/core2/kernel/rng";
 import {
   deserializeWorld,
   serializeWorld,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { addDays, makeIsoDate } from "../dates";
-import { SeededRng } from "../rng";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { SeededRng } from "./kernel/rng";
 import {
   FIXED_LN2,
   FIXED_SCALE,
@@ -8,19 +8,19 @@ import {
   fixedLn,
   hazardFromAnnualProbability,
   survivalThresholdFromDraws,
-} from "./fixed-point";
+} from "./kernel/fixed-point";
 import {
   cumulativeHazardUnits,
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
   type HazardProfile,
-} from "./hazard";
+} from "./health-hazard";
 import {
   doubledAgeYearHazard,
   ssa2023AnnualProbability,
   SSA_2023_SOURCE,
-} from "./mortality-table";
+} from "./health-mortality-table";
 
 const d = makeIsoDate;
 const near = (value: bigint, expected: number, tolerance = 1e-12) =>

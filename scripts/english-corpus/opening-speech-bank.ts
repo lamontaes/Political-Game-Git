@@ -19,15 +19,15 @@
  * OPUS-WORDS owns this file until PEOPLE or PLAY folds it into the engine.
  */
 import bankJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   composeAddress,
   type AddressMove,
   type ComposedLineBank,
   type LinePartVariant,
   type SpeechAct,
-} from "../../src/presentation/english-composition";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
+} from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 
 interface MinedPart {
   key: string;

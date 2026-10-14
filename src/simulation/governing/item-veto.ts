@@ -1,5 +1,5 @@
 import itemVetoTable from "../../../data/research/legislative-procedure/item-veto.json" with { type: "json" };
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   requireMeasure,
   measureActions,

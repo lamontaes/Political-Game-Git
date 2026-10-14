@@ -12,7 +12,7 @@
  * OPUS-WORDS owns this file until OPUS-PEOPLE folds it into the director.
  */
 import bankJson from "../../data/english/parts/journal.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import { JOURNAL_DATA, type JournalData } from "../../src/director/journal";
 
 interface JournalUse {

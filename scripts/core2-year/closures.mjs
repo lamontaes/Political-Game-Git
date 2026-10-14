@@ -12,20 +12,20 @@ const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
 const { generatedOpening } = await at("src/core2/tooling/generated-world.ts");
 const { drawPlace } = await at("scripts/core2-year/place.ts");
 const { createLifeCore, advanceCore } = await at("src/core2/life.ts");
-const { addDays, makeIsoDate } = await at("src/simulation/dates.ts");
+const { addDays, makeIsoDate } = await at("src/core2/kernel/dates.ts");
 const seed = value(
   "--seed",
   process.env.GOLDEN_PATH_SEED ??
     (await import("node:crypto")).randomBytes(16).toString("hex"),
 );
-const { lifePlaceByKey } = await at("src/simulation/life-places.ts");
+const { corePlaceByKey } = await at("src/core2/place-lookup.ts");
 const givenKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const place = givenKey
   ? {
       seed,
       key: givenKey,
-      name: lifePlaceByKey(givenKey)?.formalName ?? givenKey,
-      state: lifePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
+      name: corePlaceByKey(givenKey)?.formalName ?? givenKey,
+      state: corePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
     }
   : drawPlace(seed, "core2-year");
 const input = generatedOpening(place, {

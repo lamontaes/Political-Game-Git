@@ -6,7 +6,7 @@ import {
   candidateQualificationRuleSet,
   ruleSetApplicableOn,
 } from "./candidate-qualification";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 
 /**
  * A rule set whose instrument states no commencement date.

@@ -4271,7 +4271,7 @@
   "resilienceHashDigits": {
     "value": 8,
     "tag": "SOURCED",
-    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
+    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/core2/kernel/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/core2/kernel/fixed-point.ts). A generation key, not a behavioral draw."
   },
   "driveClosureImpulse": {
     "value": 0.47,

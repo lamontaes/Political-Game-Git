@@ -1,4 +1,4 @@
-import type { SeededRng } from "../rng";
+import type { SeededRng } from "./rng";
 
 /**
  * Engine-independent logarithm, exponential and normal draws.

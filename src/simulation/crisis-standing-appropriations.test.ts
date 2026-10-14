@@ -6,13 +6,13 @@ import {
 } from "./crisis-standing-appropriations";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { lawEffectStamp } from "./law-effect-stamp";
-import { addDays, daysBetween, makeIsoDate } from "./dates";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { stateJurisdictionForKey } from "./life-places";
 import { createWorld } from "./world";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { resourcePositionAt } from "./resource-queries";
 import { money } from "./resources";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import { personName } from "./people";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {

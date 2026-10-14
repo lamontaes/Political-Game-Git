@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { ruleValueInWorld } from "../enacted-rule-changes";
 import type { TermLimitRule } from "../enacted-rule-changes";
 import {

@@ -10,7 +10,7 @@ import { createNewGameWorld } from "../src/presentation/new-game";
 import {
   NATIONAL_COUNTIES_META,
   NATIONAL_COUNTIES_ROWS,
-} from "../src/simulation/national-counties.generated";
+} from "../src/core2/reference/national-counties.generated";
 
 describe("county identities reach life setup without inventing a town", () => {
   it("projects every accepted source row with its exact name and namespace", () => {

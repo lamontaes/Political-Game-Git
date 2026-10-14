@@ -8,7 +8,7 @@ import {
   renderGroundedEnglish,
   type EnglishSurface,
   type GroundedEnglishPacket,
-} from "../presentation/grounded-english";
+} from "../english/grounded-english";
 
 export interface Fact {
   text: string;

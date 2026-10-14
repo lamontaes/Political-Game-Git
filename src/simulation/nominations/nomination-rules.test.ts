@@ -5,8 +5,8 @@ import {
   assertAmendableRuleValue,
   describeRuleChangeValue,
 } from "../enacted-rule-changes";
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson } from "../people";
 import { STATES } from "../state-reference";
