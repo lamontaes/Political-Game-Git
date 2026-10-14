@@ -48,6 +48,7 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   if (n === 0) await shot("title");
   await page.fill("#seed", seed);
   await page.click("#new-life");
+  await page.click("#place-random");
   // The opening: the President, then the Senate.
   await page.waitForSelector("#caption:not([hidden])", { timeout: 300000 });
   await page.waitForTimeout(1500);

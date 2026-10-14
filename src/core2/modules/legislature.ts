@@ -425,6 +425,39 @@ function councilBudget(
     result = roll(kept);
   }
   for (const row of result.rows) table(api, "votes").put(row);
+  // Each chamber's roll call on the budget is public record the press reads,
+  // like any bill's.
+  for (const chamber of chambers.chambers) {
+    const rows = result.rows.filter(
+      (r) => (r as unknown as { chamber: string }).chamber === chamber,
+    ) as unknown as { memberId: string; vote: string }[];
+    api.emit({
+      id: `bill-vote:${bill.id}:${chamber}`,
+      date: api.state.date,
+      kind: "legislative-vote",
+      personIds: rows
+        .map((r) => r.memberId)
+        .filter((id) => api.state.people.has(id)),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `Vote on ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        form: bill.form.kind,
+        motion: "pass",
+        subjects: "budget",
+        chamber,
+        yes: String(rows.filter((r) => r.vote === "yes").length),
+        no: String(rows.filter((r) => r.vote === "no").length),
+      },
+    });
+  }
   const tallies = result.tallies;
   const adopted = result.adopted;
   // The changes that passed, after any the negotiation dropped.
@@ -593,16 +626,12 @@ function budgetChambers(
     level: string;
     jurisdiction: string;
   }[];
-  if (gov.level === "federal") {
-    const house = offices.find((o) => o.kind.startsWith("us-house"));
-    return house
-      ? {
-          chambers: [FEDERAL_HOUSE, FEDERAL_SENATE],
-          introducedIn: house.id,
-          body: "Congress",
-        }
-      : null;
-  }
+  if (gov.level === "federal")
+    return {
+      chambers: [FEDERAL_HOUSE, FEDERAL_SENATE],
+      introducedIn: FEDERAL_HOUSE,
+      body: "Congress",
+    };
   if (gov.level === "state") {
     const state = offices
       .filter(
@@ -614,13 +643,23 @@ function budgetChambers(
       ? { chambers: state, introducedIn: state[0]!, body: "the legislature" }
       : null;
   }
-  const kind = gov.level === "county" ? "county-board" : "council";
-  const body = offices.find((o) => o.kind === kind && o.level === gov.level);
+  // A county's board, a city's council, or a township's board where the
+  // town's own government is its township.
+  const body =
+    gov.level === "county"
+      ? offices.find((o) => o.kind === "county-board" && o.level === "county")
+      : (offices.find((o) => o.kind === "council" && o.level === "city") ??
+        offices.find((o) => o.kind === "township-board"));
   return body
     ? {
         chambers: [body.id],
         introducedIn: body.id,
-        body: gov.level === "county" ? "the county board" : "the council",
+        body:
+          body.kind === "county-board"
+            ? "the county board"
+            : body.kind === "township-board"
+              ? "the township board"
+              : "the council",
       }
     : null;
 }
@@ -815,15 +854,7 @@ function numberAndForm(
   api: CoreAPI,
   officeId: string,
 ): Pick<BillRow, "number" | "form"> {
-  const body = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(officeId) as unknown as {
-    id: string;
-    kind: string;
-    jurisdiction: string;
-    governmentName: string;
-  };
+  const body = bodyOf(api, officeId)!;
   const numbering = bodyNumbering(body, api.state.date);
   if (numbering.kind === "ordinance") {
     // stopgapId: SG-GOV-local-bill-numbering (one national ordinance numbering for every town)
@@ -1062,6 +1093,48 @@ const NON_VOTING = new Set(
 );
 export const FEDERAL_HOUSE = "federal:us-house";
 export const FEDERAL_SENATE = "federal:us-senate";
+
+/**
+ * A bill's body: its office row, or for Congress, the one national chamber
+ * (the House or the Senate, the same in every world), not any state's seat.
+ */
+export function bodyOf(
+  api: CoreAPI,
+  officeId: string,
+):
+  | {
+      readonly id: string;
+      readonly kind: string;
+      readonly jurisdiction: string;
+      readonly governmentName: string;
+    }
+  | undefined {
+  if (officeId === FEDERAL_HOUSE)
+    return {
+      id: officeId,
+      kind: "us-house",
+      jurisdiction: "US",
+      governmentName: "the Congress of the United States",
+    };
+  if (officeId === FEDERAL_SENATE)
+    return {
+      id: officeId,
+      kind: "us-senate",
+      jurisdiction: "US",
+      governmentName: "the Congress of the United States",
+    };
+  return api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as unknown as
+    | {
+        id: string;
+        kind: string;
+        jurisdiction: string;
+        governmentName: string;
+      }
+    | undefined;
+}
 
 /**
  * Every member of Congress, seat by seat with the party that holds it (public
@@ -1778,11 +1851,7 @@ export function obligationsOf(
 
 /** The bill's chambers, in order: the town's body, or the state's chambers starting where it was introduced. */
 function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(bill.bodyOfficeId) as unknown as
-    { kind: string; jurisdiction: string } | undefined;
+  const office = bodyOf(api, bill.bodyOfficeId);
   if (office?.kind.startsWith("us-house") || office?.kind === "us-senate")
     return office.kind === "us-senate"
       ? [FEDERAL_SENATE, FEDERAL_HOUSE]
@@ -2178,10 +2247,7 @@ export function executiveOf(
   readonly federal: boolean;
 } {
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const body = offices.table("offices").get(bodyOfficeId) as unknown as {
-    jurisdiction: string;
-    kind: string;
-  };
+  const body = bodyOf(api, bodyOfficeId)!;
   const federal = body.kind.startsWith("us-house") || body.kind === "us-senate";
   const office = (
     offices
@@ -2234,6 +2300,7 @@ function executiveAction(
   } = executiveOf(api, bill.bodyOfficeId);
   let status: BillRow["status"] = "enacted";
   let decision: { executiveId: string; action: string } | undefined;
+  let override: ReturnType<typeof overrideVote> | null = null;
   // A mayor vetoes only where the state's law gives the office a veto (and
   // above any population line), overridden by the state's own share.
   const mayorRule = executiveOffice?.kind === "mayor" ? mayorVeto(api) : null;
@@ -2281,7 +2348,7 @@ function executiveAction(
       // Two thirds of each body's whole membership (not of those voting).
       const share =
         mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
-      status = overrideVote(
+      override = overrideVote(
         api,
         bill,
         memberSide(api, key, executive.party),
@@ -2289,9 +2356,8 @@ function executiveAction(
           mayorRule?.plusOne
             ? Math.floor(n * share) + 1
             : Math.ceil(n * share - 1e-9),
-      )
-        ? "overridden"
-        : "vetoed";
+      );
+      status = override.passed ? "overridden" : "vetoed";
     } else status = "signed";
     table(api, "votes").put({
       id: `vote:${bill.id}:${key}`,
@@ -2309,6 +2375,38 @@ function executiveAction(
         temperament: decided ? 0 : signLean,
       });
     decision = { executiveId: key, action: status };
+    // The signature, the veto and any override vote are public record the
+    // press reads, like the floor's roll call.
+    api.emit({
+      id: `executive-action:${bill.id}`,
+      date: api.state.date,
+      kind: "executive-action",
+      personIds: [
+        ...(executive.personId ? [executive.personId] : []),
+        ...(api.state.people.has(bill.sponsorId) ? [bill.sponsorId] : []),
+      ],
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${status === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        executiveId: key,
+        action: status,
+        ...(override
+          ? {
+              override: override.tallies
+                .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
+                .join(","),
+            }
+          : {}),
+      },
+    });
   }
   const next: BillRow = { ...bill, status };
   table(api, "bills").put(next as unknown as ModuleRow);
@@ -2328,7 +2426,21 @@ function overrideVote(
   bill: BillRow,
   executiveSide: number,
   needed: (members: number) => number,
-): boolean {
+): {
+  readonly passed: boolean;
+  readonly tallies: readonly {
+    chamber: string;
+    yes: number;
+    needed: number;
+    members: number;
+  }[];
+} {
+  const tallies: {
+    chamber: string;
+    yes: number;
+    needed: number;
+    members: number;
+  }[] = [];
   for (const chamber of chambersOf(api, bill)) {
     const roster = members(api, chamber);
     let yes = 0;
@@ -2364,9 +2476,15 @@ function overrideVote(
         position: { ...position, executive, total },
       } as unknown as ModuleRow);
     }
-    if (yes < needed(roster.length)) return false;
+    tallies.push({
+      chamber,
+      yes,
+      needed: needed(roster.length),
+      members: roster.length,
+    });
+    if (yes < needed(roster.length)) return { passed: false, tallies };
   }
-  return true;
+  return { passed: true, tallies };
 }
 
 /** A member's party side: an official's caucus or party, else their term's. */
@@ -2548,7 +2666,9 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
-        ...(terms ? { terms } : {}),
+        // The bill itself, not only its number: numbers repeat across bodies
+        // and sessions, and a recall or the record finds the bill by this.
+        terms: { ...(terms ?? {}), enactedByBill: bill.id },
       });
     if (provision.kind === "budget-line" && provision.line)
       amendBudget(api, {
@@ -2566,7 +2686,9 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
-        ...(terms ? { terms } : {}),
+        // The bill itself, not only its number: numbers repeat across bodies
+        // and sessions, and a recall or the record finds the bill by this.
+        terms: { ...(terms ?? {}), enactedByBill: bill.id },
       });
   }
   const next: BillRow = {
