@@ -689,14 +689,16 @@
     "value": 0.25,
     "tag": "TUNABLE",
     "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-civic-progress",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.125,
+      "high": 0.5,
+      "unit": "hours",
+      "citation": "Tuning range: half to twice the current value."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
   },
   "openingPeerGroupSize": {
     "value": 20,
