@@ -210,5 +210,28 @@
       "unit": "per month since rent first went unpaid",
       "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
     }
+  },
+  "housingHostMaxPeople": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "The most people a relative's home takes in before it is crowded: a household of six or more is past one person per room in a typical five- or six-room home (American Housing Survey crowding standard, more than one person per room); checked against the spread 5 to 8.",
+    "spread": {
+      "low": 5,
+      "high": 8,
+      "unit": "people in the host's home",
+      "citation": "American Housing Survey crowding standard (more than one person per room); typical homes of five to six rooms."
+    }
+  },
+  "housingRehouseIncomeMultiple": {
+    "value": 3,
+    "tag": "ESTIMATED",
+    "citation": "Landlords commonly ask for monthly income of about three times the rent before they lease (the 30 percent rent-burden standard, HUD); spread 2.5 to 3.",
+    "estimatedFrom": "rent-screening practice",
+    "spread": {
+      "low": 2.5,
+      "high": 3,
+      "unit": "monthly income per month of rent",
+      "citation": "HUD's 30 percent rent-burden standard; landlord screening at two and a half to three times the rent."
+    }
   }
 }
