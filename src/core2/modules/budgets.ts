@@ -635,6 +635,16 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
       };
     })
     .filter((l) => l.perResident > 0);
+  // Where no government in the game levies it (the place's local levels have
+  // no government of their own), the collector's own government keeps it.
+  if (!levies.length) {
+    const own = governments(api).find(
+      (g) =>
+        g.id ===
+        api.state.organizations.get(id)?.governmentFacts?.governmentKey,
+    );
+    if (own) levies.push({ gov: own, perResident: 1 });
+  }
   const total = levies.reduce((sum, l) => sum + l.perResident, 0);
   if (!(total > 0)) return;
   const accounts = api.accounts();

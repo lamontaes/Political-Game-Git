@@ -1146,7 +1146,7 @@
     "id": "SG-GOV-budget-adopted-by-rule",
     "kind": "missing-engine",
     "file": "src/core2/modules/budgets.ts",
-    "line": 857,
+    "line": 880,
     "whatItFakes": "Each new fiscal year's budget is adopted on its start date by carrying the year's amounts forward.",
     "why": "Councils and legislatures can't vote budgets until M3 (owner, Oct 10: old budget rules until councils vote).",
     "addedBy": "OPUS-GOV",
