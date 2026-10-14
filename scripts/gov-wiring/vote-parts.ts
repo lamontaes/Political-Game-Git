@@ -60,7 +60,9 @@ for (const chamber of [...new Set(votes.map((v) => v.chamber))].filter((c) =>
   /legislature-/.test(c),
 )) {
   for (const bill of bills) {
-    const vs = votes.filter((v) => v.billId === bill.id && v.chamber === chamber);
+    const vs = votes.filter(
+      (v) => v.billId === bill.id && v.chamber === chamber,
+    );
     if (!vs.length) continue;
     const byParty: Record<string, string> = {};
     for (const v of vs) {
@@ -82,7 +84,10 @@ for (const chamber of [...new Set(votes.map((v) => v.chamber))].filter((c) =>
     out.push({
       chamber: chamber.split(":").pop(),
       bill: bill.number,
-      subject: bill.provisions[0]?.question ?? bill.provisions[0]?.series ?? bill.provisions[0]?.line,
+      subject:
+        bill.provisions[0]?.question ??
+        bill.provisions[0]?.series ??
+        bill.provisions[0]?.line,
       byParty: Object.fromEntries(
         Object.entries(byParty).map(([k, s]) => [
           k,
@@ -93,4 +98,6 @@ for (const chamber of [...new Set(votes.map((v) => v.chamber))].filter((c) =>
     });
   }
 }
-console.log(JSON.stringify({ place: `${place.name} (${place.key})`, out }, null, 1));
+console.log(
+  JSON.stringify({ place: `${place.name} (${place.key})`, out }, null, 1),
+);
