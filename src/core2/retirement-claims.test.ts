@@ -11,6 +11,7 @@ import { coreAPI, fillInPerson } from "./state";
 import { decisionLean } from "./trait-decisions";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-retirement-claims");
@@ -80,7 +81,7 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     });
     const api = coreAPI(core);
     const start = total(core);
-    advanceCore(core, "2022-01-01");
+    advanceCore(core, daysAfterStart(365));
     const claims = retirementClaims(core);
     expect(claims.has(adult.id)).toBe(true);
     const flows = residentsRuntime(core)!.flows;
@@ -116,7 +117,7 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       ([id, row]) => row.counted && residentPerson(core, id),
     )!;
     fillInPerson(core, claimant);
-    advanceCore(core, "2022-03-01");
+    advanceCore(core, daysAfterStart(424));
     const moved = retirementClaims(core).get(claimant)!;
     expect(moved.counted).toBe(false);
     expect(api.accounts().obligation(moved.obligationId)!.paidMinor).toBe(

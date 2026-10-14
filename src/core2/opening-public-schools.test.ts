@@ -8,6 +8,7 @@ import {
 } from "./opening-public-schools";
 import { parameter as p } from "./parameters";
 import { generatedOpening } from "./tooling/generated-world";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-public-schools");
@@ -108,7 +109,7 @@ describe(`the public school district in ${place.name}, ${place.state} (seed ${se
       expect(job.hourlyMinor).toBe(hourly);
     }
     const core = createLifeCore(input);
-    advanceCore(core, "2021-02-15");
+    advanceCore(core, daysAfterStart(45));
     const attended = [...core.work.lastAttendanceByJob.keys()].filter((id) =>
       jobs.some((job) => job.id === id),
     );
