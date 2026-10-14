@@ -173,18 +173,20 @@ export function regionalMonth(
     .get(`${place.regionId}:${month}`) as unknown as RegionMonth | undefined;
 }
 
-/** How a place's pay and demand moved relative to the nation since the opening. */
+/** How a place's pay, demand and price level moved relative to the nation since the opening. */
 export function regionalFactors(
   api: CoreAPI,
   placeId: string,
   opening: Readonly<MacroMonth>,
   now: Readonly<MacroMonth>,
-): { wage: number; demand: number } {
+): { wage: number; demand: number; price: number } {
   const one = api.parameter("one");
   const first = regionalMonth(api, placeId, opening.month),
     latest = regionalMonth(api, placeId, now.month);
-  if (!first || !latest) return { wage: one, demand: one };
+  if (!first || !latest) return { wage: one, demand: one, price: one };
   return {
+    // The region's price level against the nation's, since the opening.
+    price: latest.priceLevelPct / first.priceLevelPct,
     wage:
       latest.hourlyEarnings /
       first.hourlyEarnings /

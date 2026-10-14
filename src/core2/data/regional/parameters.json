@@ -267,5 +267,16 @@
       "unit": "percent of population per year per point",
       "citation": "Blanchard and Katz 1992; Dao, Furceri and Loungani 2017."
     }
+  },
+  "regionalPriceLevelPayElasticity": {
+    "value": 0.277,
+    "tag": "SOURCED",
+    "citation": "OLS of the log of BEA regional price parity (2024) on the log of BEA per capita personal income across the 77 metro and rest-of-state regions in regions.json that carry both, slope 0.277, SE 0.036, R-squared 0.44.",
+    "spread": {
+      "low": 0.206,
+      "high": 0.348,
+      "unit": "percent change in a region's price level per percent change in its pay against the nation's",
+      "citation": "OLS of the log of BEA regional price parity (2024) on the log of BEA per capita personal income across the 77 metro and rest-of-state regions in regions.json that carry both, slope 0.277, SE 0.036, R-squared 0.44."
+    }
   }
 }
