@@ -3,30 +3,40 @@
 Only OPUS-GOV writes this file. The earlier log is `docs/coordination/gov.md`.
 
 - **Owns:** `src/rules` and the government engines (laws, budgets, offices, elections, campaigns, legislatures, executive).
-- **Branch now:** `gov/wiring-votes-and-views`, draft PR to main.
+- **Branch now:** `gov/wiring-votes-and-views`, draft PR #4165 to main.
 - **Source:** the stress audit of Oct 14 (`docs/reports/stress-audit-2026-10-14/README.md`, PR #4160), defects 3, 18, 19, 4 and 6.
 
 ## What the owner can play now
 
-Nothing new yet on this branch. When it lands: a speech, a committee hearing, a visit from a lobbyist, a constituent's case or a candidate's stated position changes what the people who heard it think about that question, by how much they like and trust the speaker, and the next vote reads what they think now. A council member who heard enough of the right speeches can change their vote.
+Once PR #4165 merges:
+
+- **Speeches change votes.** What a council member hears changes how they vote. Public comment, witnesses at a committee hearing, a lobbyist's visit, a resident bringing a problem to their office and a candidate's speeches each move the listener's view on that question. The move is larger when the listener trusts the speaker, is close to them, shares their party, or has seen them vote that way before. In the audit's own Hurlock, Maryland, Derek Ramirez now votes yes on the August 18 ordinance after hearing public comment for it. His opening view would have voted no.
+- **Speak at public comment yourself.** When you sign up to speak, the members hear you and can be moved. Before, a sign-up was recorded and heard by no one.
+- **Groups follow minds.** Residents join the group on their side of a question. Anyone who turns against their group leaves it on the day their view crosses over. Nobody belongs to both sides.
+- **Who runs.** Only a cause or standing in town pushes someone to file for office. A grudge or a family worry no longer does.
+- **Unemployment follows your state's law.** A laid-off worker's weekly benefit, its cap, the waiting week and the number of weeks come from their state's law. American Samoa, Guam and the Northern Marianas have no program.
 
 ## Checklist
 
-- [ ] Defect 3: speaking, persuading and voting are one chain of reads (views engine moves the listener; legislature votes read the current view).
-- [ ] Defect 18: interest-group membership follows the person's view; no one belongs to both sides.
-- [ ] Defect 19: only cause drives and civic standing push someone to file (sub-agent, Sonnet).
-- [ ] Defect 4: outcome-web landing rows deleted or given a real reader (sub-agent, Sonnet).
-- [ ] Defect 6: unemployment claims read the law in force (sub-agent, Sonnet).
+- [x] Defect 3: speaking, persuading and voting are one chain of reads (views engine moves the listener by the speaker's standing; council, ballot-measure, record and election choices read the current view).
+- [x] Defect 18: interest-group membership follows the view; joining one side leaves the other; no one in both (0 in three one-year worlds).
+- [x] Defect 19: only cause and calling drives and standing push someone to file (sub-agent, Sonnet).
+- [x] Defect 4: outcome-web landing rows and `outcomesOn` deleted, about 280 lines and 32 data rules (sub-agent, Sonnet).
+- [x] Defect 6: unemployment claims read the law in force; stand-in deleted, its stopgap resolved (sub-agent, Sonnet).
+- [ ] Next from the audit, this lane: 11, 12, 13, 14, 16, 24.
+- [ ] Follow-up: the unemployment law rows describe each state's benefit basis in prose; the claim reads it with patterns. Add a structured basis field to `scripts/research/build-starting-law.py`.
+- [ ] Follow-up: interest groups lobby every seat covering the town on a state or federal bill, town board members included. Limit it to the bill's own chambers.
 
 ## Sub-agents
 
-- Sonnet (high): defect 6, unemployment law read. Running.
-- Sonnet (high): defects 19 and 4, candidacy reasons and outcome-web landings. Running.
+- Sonnet (high): defect 6. Finished; 8 tests pass in a random place.
+- Sonnet (high): defects 19 and 4. Finished; candidacy 5 of 5 pass. Two outcome-web tests are red on main too (dates before the 2025 opening).
 
 ## Needs from other sessions
 
-- OPUS-PEOPLE: views.ts is theirs; the audit routed the views half of defect 3 to them and the owner's Oct 14 order gives it to this branch. Tell them the read changes here.
+- OPUS-PEOPLE: views and speech are theirs, and this branch changed them. A case now moves a listener by the speaker's standing (trust, closeness, party, record), not lean nearness alone. A person's own act for their cause no longer moves their own stance; the drives engine already strengthens the drive. A drive forming no longer re-counts the event behind it.
+- OPUS-CORE: added `leave(personId, organizationId)` to the core API, the mirror of `join`, for group members who change sides.
 
 ## Questions for the owner
 
-- None yet.
+- Should a sponsor be able to vote against their own bill after a year of persuasion? It happened once in a Maryland run: his household kept retelling speeches against it. The game allows it today.
