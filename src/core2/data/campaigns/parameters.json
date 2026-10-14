@@ -647,6 +647,120 @@
       "source": "How firm a lean must be for someone no campaign reached to name their party's candidate to a pollster rather than say they're undecided.",
       "spread": [0.1, 0.6]
     },
+    "partyIdentifierLean": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "Where a party's average identifier stands on the -1 to 1 lean scale, before its state shifts it: Cooperative Election Study 2024 ideological self-placement by party identification puts Democratic identifiers' mean about a third to a half of the way from the center to the liberal end and Republicans' mean about half to two thirds toward the conservative end (CES 2024 common content, ideo5 by pid3).",
+      "spread": [0.35, 0.65]
+    },
+    "partyStateLeanWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a state's own vote moves where its parties stand: state parties sit to the side their state leans (Shor and McCarty 2011, 'The Ideological Mapping of American Legislatures', APSR 105(3): each state party's median legislator moves with state ideology while the two parties stay apart).",
+      "spread": [0.2, 0.8]
+    },
+    "partyPositionPriorMembers": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "How many tied members' worth of weight the state's party position carries against the town's own members when the town's party takes a position: a town with a handful of members leans on the state party; one with many speaks for itself.",
+      "spread": [3, 30]
+    },
+    "partyFirmnessBase": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "The share of a party candidate's stated position that comes from their party before their own tie and traits add to it: House candidates' positions sit roughly between their district's and their national party's (Ansolabehere, Snyder and Stewart 2001, 'Candidate Positioning in U.S. House Elections', AJPS 45(1)). For a seated official it scales with their recorded party loyalty.",
+      "spread": [0.2, 0.6]
+    },
+    "partyFirmnessTieWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much a firmer party tie (the tie's lean, 0 to 1) adds to how closely a candidate states the party's positions; strong partisans hold the party line most (Green, Palmquist and Schickler 2002, Partisan Hearts and Minds).",
+      "spread": [0.1, 0.5]
+    },
+    "partyFirmnessTraitWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "How much a candidate's trait lean toward joining over staying out (parties.join, -1 to 1) adds to or takes from how closely they state their party's positions.",
+      "spread": [0.05, 0.3]
+    },
+    "candidatePlatformQuestions": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many questions a candidate who files with no stated platform campaigns on: the ones they feel most strongly about. Local candidate questionnaires and mailers lead with a few issues (Ballotpedia candidate surveys ask for three key messages).",
+      "spread": [2, 5]
+    },
+    "campaignTurnDays": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Days between a world candidate's campaign turns (asks for money, doors, buys): a part-time local campaign works a few evenings and a weekend day a week (Green and Gerber, Get Out the Vote, 2019).",
+      "spread": [1, 7]
+    },
+    "donorAsksPerTurn": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "How many people a campaign asks for money in one turn, by call or in person: call time runs a few hours a session at roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides).",
+      "spread": [10, 100]
+    },
+    "donorPartyWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much sharing the candidate's party adds to a person's reason to give. Party identifiers give far more often than independents (Pew Research Center 2018, 'Political engagement': 12% of strong partisans and few independents gave in the past year).",
+      "spread": [0.2, 0.8]
+    },
+    "donorRelationshipWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a person's own relationship with the candidate (-1 to 1) adds to their reason to give: a first campaign's first money comes from family and friends (Center for Responsive Politics donor studies; campaign finance guides' 'friends and family' round).",
+      "spread": [0.2, 1]
+    },
+    "adSpendShare": {
+      "value": 0.4,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on paid media: about 40% of U.S. House candidates' disbursements go to media and advertising (OpenSecrets, House expenditures by category, 2022 cycle: media 35 to 45%).",
+      "spread": [0.25, 0.55]
+    },
+    "mailSpendShare": {
+      "value": 0.3,
+      "tag": "ESTIMATED",
+      "source": "Share of a local campaign's spending on direct mail: state legislative and local races lean on mail more than federal ones (OpenSecrets direct-mail share 10 to 20% for House; National Institute on Money in Politics shows local campaigns' printing and postage among the largest lines).",
+      "spread": [0.15, 0.45]
+    },
+    "eventSpendShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on events and rallies before a sociable candidate leans further in (OpenSecrets: campaign events and fundraising events about 5 to 15% of disbursements).",
+      "spread": [0.05, 0.2]
+    },
+    "pollSpendShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on polling and research before a deliberate candidate leans further in (OpenSecrets 'strategy and research' about 5 to 10% of House disbursements).",
+      "spread": [0.03, 0.2]
+    },
+    "spendTraitWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a candidate's sociability moves their event share, and their deliberation their poll share (each trait -1 to 1).",
+      "spread": [0.2, 1]
+    },
+    "pollMinimumInterviews": {
+      "value": 200,
+      "tag": "ESTIMATED",
+      "source": "The smallest poll a campaign commissions: a sample of 200 carries about a 7-point margin of error (AAPOR margin-of-sampling-error guidance); local campaign polls run 200 to 400 interviews.",
+      "spread": [100, 400]
+    },
+    "adViewsImpulse": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "The appraised impulse of seeing a campaign ad, on the views engine's scale, below a speech heard in person (speech 0.3): single ads persuade little and fade (Kalla and Broockman 2018; Coppock, Hill and Vavreck 2020).",
+      "spread": [0.05, 0.3]
+    },
+    "mailWarmthWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far one mailer moves the adults in the household it reaches toward what they make of the candidate: direct mail's persuasion effect is small (Green and Gerber 2019, ch. 5).",
+      "spread": [0.05, 0.4]
+    },
     "committeeSize": {
       "value": 11,
       "tag": "SOURCED",
