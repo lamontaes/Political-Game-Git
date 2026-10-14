@@ -707,6 +707,11 @@
         "unit": "share of 12 lines (10th to 90th percentile of the draws)",
         "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
       }
+    },
+    "directorChoicesPerTurn": {
+      "value": 4,
+      "tag": "SOURCED",
+      "citation": "Owner ruling, Oct 14, 2026 (afternoon, docs/coordination/OWNER-DECISIONS.md): a conversation always offers four replies ranked by the engine, with 'say nothing' a smaller control beside them, never one of the four."
     }
   },
   "channels": [

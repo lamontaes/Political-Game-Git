@@ -23,9 +23,14 @@ export function startPublicJob(
   const c = api.state as CoreState;
   const person = c.people.get(input.personId);
   if (!person?.alive || !c.organizations.has(input.employerId)) return null;
-  const jobId = `job:public:${input.post}:${input.personId}`;
-  if (c.jobs.has(jobId) && c.jobs.get(jobId)!.endsAt === undefined)
-    return jobId;
+  // A person who holds a post again after leaving it starts a new job under a
+  // new id; a job still open for the post is theirs as it stands.
+  const base = `job:public:${input.post}:${input.personId}`;
+  let jobId = base;
+  for (let stint = 2; c.jobs.has(jobId); stint++) {
+    if (c.jobs.get(jobId)!.endsAt === undefined) return jobId;
+    jobId = `${base}:${stint}`;
+  }
   // The longest-hours job where the employer sits to follow, a public
   // employer's first (the person may live elsewhere).
   const where = c.organizations.get(input.employerId)!.placeId;

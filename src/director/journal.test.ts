@@ -62,7 +62,12 @@ function resolves(state: CoreState, id: string): boolean {
 describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("tells the life in chapters, each line traced to a record", () => {
     expect(chapters.length).toBeGreaterThan(0);
+    // A workplace or a school never titles a chapter (owner, batch 7).
+    const settings = new Set(
+      [...core.organizations.values()].map((row) => row.name),
+    );
     for (const chapter of chapters) {
+      expect(settings.has(chapter.title), chapter.title).toBe(false);
       expect(chapter.title).not.toMatch(/^\d{4}$/);
       for (const line of chapter.lines) {
         expect(line.text).toMatch(/^[A-Z]/);

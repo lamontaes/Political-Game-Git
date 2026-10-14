@@ -449,6 +449,7 @@ async function prepareRuntimeContentSuccessor({
 
   const build = stageReceivedCode({
     clientDir: path.join(stagedRoot, "client"),
+    playApiDir: path.join(stagedRoot, "play-api"),
     dataRoot,
     revision: targetRevision,
     version: identity.version,

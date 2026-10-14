@@ -37,6 +37,7 @@ import type {
 } from "../core2/types";
 import { changesKnownTo } from "./bring-it-up";
 import { JOURNAL_DATA } from "./journal";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { MINED_CONVERSATION } from "./mined/conversation-bank";
 import { renderLine, type Fact } from "./render";
 import { properName, spoken, spokenMonth, spokenWhen } from "./words";
@@ -1048,8 +1049,6 @@ function offerChoices(
       raisable(data, row.kind),
   );
   const taken = new Set<string>();
-  // How many choices a turn offers is an owner decision (stopgap
-  // SG-WORDS-choices-per-turn): the newer ruling, below, is applied.
   // A reply's second move follows from its first (owner, batch 6): turning
   // the same question back ("I'm from here. And you?"), or asking about their
   // work after naming yours. Never an unrelated subject tacked on.
@@ -1103,6 +1102,8 @@ function offerChoices(
     }
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !/\?$/.test(answer.text)) return;
+    // A move that turns the question back says nothing without its subject.
+    if (!raised && group[zero]!.raises && /\?$/.test(answer.text)) return;
     if (raised && raised !== last.subject) {
       const line = words(
         core,
@@ -1153,7 +1154,9 @@ function offerChoices(
         : {}),
     });
   };
-  // What the player already told in this talk is not offered again.
+  // Every reply the bank words for this line: each move said plainly, and
+  // carried on to the subject it leads to, and each way of taking it in
+  // ("Okay.", "Right."). What the player already told is not offered again.
   const told = OWN_OF[last.kind];
   for (const [choiceKey, group] of groups) {
     if (
@@ -1163,15 +1166,16 @@ function offerChoices(
     )
       continue;
     const raises = group[zero]!.raises;
-    if (raises) {
-      const subject = target(raises);
-      if (subject) add(choiceKey, group, subject);
-    } else add(choiceKey, group);
+    const subject = raises ? target(raises) : undefined;
+    if (subject) add(choiceKey, group, subject);
+    add(choiceKey, group);
   }
-  // Nothing mined answers this: taking it in ("Okay.", "Right."), as the
-  // other person's acknowledgment does. The other person carries on after.
-  if (!conversation.choices.length && data.subjects.ack?.reply)
-    add("ack", data.subjects.ack.reply, undefined, "conversation:ack:reply");
+  const acks = new Map<string, Move[]>();
+  for (const move of data.subjects.ack?.reply ?? [])
+    acks.set(move.key, [...(acks.get(move.key) ?? []), move]);
+  for (const [key, group] of acks)
+    add(`ack:${key}`, group, undefined, "conversation:ack:reply");
+  conversation.choices = rankChoices(core, playerId, conversation.choices);
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
   if (
@@ -1181,6 +1185,77 @@ function offerChoices(
     !knowsTruth(core, otherId, playerId, last.subject.own)
   )
     conversation.lies = lieChoices(core, conversation, data, turn, facts);
+}
+
+/**
+ * The four replies a turn offers (owner, Oct 14: "four dynamic choices,
+ * always"), ranked by the player's traits: someone who carries talk on sees
+ * the replies that raise or ask first, someone who keeps it short sees plain
+ * answers and acknowledgments first. Different moves come before a second
+ * wording of the same move. "Say nothing" is a control beside them
+ * (`sayNothing`), never one of the four.
+ */
+function rankChoices(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  pool: readonly ConversationChoice[],
+): ConversationChoice[] {
+  const player = core.people.get(playerId);
+  const reach = player
+    ? decisionLean(
+        core,
+        player,
+        "conversation.reply-reach",
+        "carry-on",
+        "keep-short",
+      )
+    : zero;
+  const carries = (row: ConversationChoice) =>
+    !!row.raises || !!row.tail || /\?$/.test(row.text);
+  const brief = (row: ConversationChoice) => row.move.startsWith("ack:");
+  const place = (row: ConversationChoice) =>
+    reach >= zero
+      ? carries(row)
+        ? zero
+        : brief(row)
+          ? P.two
+          : one
+      : carries(row)
+        ? P.two
+        : brief(row)
+          ? one
+          : zero;
+  const ranked = pool
+    .map((row, at) => ({ row, at }))
+    .sort((a, b) => place(a.row) - place(b.row) || a.at - b.at)
+    .map(({ row }) => row);
+  const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  const moves = new Set<string>();
+  const first = ranked.filter((row) => {
+    const move = row.move.startsWith("ack:") ? "ack" : row.move;
+    if (moves.has(move)) return false;
+    moves.add(move);
+    return true;
+  });
+  return [...first, ...ranked.filter((row) => !first.includes(row))].slice(
+    zero,
+    count,
+  );
+}
+
+/**
+ * The player says nothing (the smaller control beside the four replies): the
+ * other person takes the silence and carries on with something else, or the
+ * talk ends.
+ */
+export function sayNothing(
+  core: CoreState,
+  conversation: Conversation,
+  data: ConversationData = CONVERSATION_DATA,
+): Conversation {
+  if (!otherAsks(core, conversation, data, FOLLOW_ORDER))
+    endConversation(core, conversation, data);
+  return conversation;
 }
 
 /**

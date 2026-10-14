@@ -53,6 +53,7 @@ import {
   serveAppRequest,
 } from "../app-protocol.mjs";
 import { portableDownloadSavePath } from "../download-policy.mjs";
+import { createPlayApi, utilityFork } from "../play-api-client.mjs";
 import { AgentsHost } from "./agents/agents-host.mjs";
 import {
   ART_DESK_TOKEN_HEADER,
@@ -116,6 +117,7 @@ const {
   protocol,
   session,
   shell,
+  utilityProcess,
 } = electron;
 const execFileAsync = promisify(execFile);
 const appRoot = path.dirname(fileURLToPath(import.meta.url));
@@ -596,6 +598,27 @@ const superseded = () => ({ ok: false, superseded: true, message: SUPERSEDED });
 
 const runtimeSnapshots = new Map();
 const contentRoots = new Map(); // track id -> client directory
+// track id -> the build's play server, the same handler the packaged game
+// runs (desktop/play-api-host.mjs): it answers the page's /api and /art.
+const playApis = new Map();
+
+function playApiFor(id, appPath) {
+  const root = path.join(appPath, "Contents", "Resources", "play-api");
+  const current = playApis.get(id);
+  if (current?.root === root) return current.api;
+  current?.api.stop();
+  const api = existsSync(path.join(root, "play-api.mjs"))
+    ? createPlayApi({ root, fork: utilityFork(utilityProcess) })
+    : async () => ({
+        status: 503,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          error: "This build has no play server; rebuild this track.",
+        }),
+      });
+  playApis.set(id, { root, api });
+  return api;
+}
 const configuredSessions = new Set();
 
 function sessionForTrack(id) {
@@ -618,7 +641,7 @@ function sessionForTrack(id) {
         ? serveRuntimeContent(loaded, request)
         : new Response("Not found", { status: 404 });
     }
-    return serveAppRequest(root, request);
+    return serveAppRequest(root, request, playApis.get(id)?.api);
   });
   ses.setPermissionRequestHandler((_wc, _permission, callback) =>
     callback(false),
@@ -759,11 +782,16 @@ async function openPlay(id, stillWanted = () => true) {
     return superseded();
   }
   contentRoots.set(id, clientRoot);
+  playApiFor(id, track.current.appPath);
   if (loadedContent) runtimeSnapshots.set(id, loadedContent);
   else runtimeSnapshots.delete(id);
   hub.play.set(id, { view, revision: track.current.revision });
   contents.once("destroyed", () => {
-    if (hub.play.get(id)?.view === view) hub.play.delete(id);
+    if (hub.play.get(id)?.view === view) {
+      hub.play.delete(id);
+      playApis.get(id)?.api.stop?.();
+      playApis.delete(id);
+    }
     broadcast();
   });
   hub.window.contentView.addChildView(view);

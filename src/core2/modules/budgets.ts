@@ -20,6 +20,8 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import { corePlaceByKey } from "../place-lookup";
+import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
@@ -30,10 +32,7 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import {
-  countyGovernmentUnit,
-  governmentUnitsForPlace,
-} from "../reference/government-units";
+import { countyGovernmentUnit } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
 import {
@@ -411,9 +410,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   const geoid = chain.levels[chain.levels.length - 1]!.jurisdiction.slice(
     "place:".length,
   );
-  const city = governmentUnitsForPlace(geoid).find(
-    (u) => u.unitType === "municipality",
-  );
+  // The town's own government: its city or village, or where the place has
+  // none, the township that governs it.
+  // (the same units the town's offices are seated for).
+  const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+  const city = local.municipal[0] ?? local.townships[0];
   if (city)
     govs.push(
       government(

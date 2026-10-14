@@ -224,7 +224,13 @@ export function lineProblem(line: GuardLine): Rule | null {
     return "institution-part";
   // The event is the sentence: "I went to X School." fails, while "I knew
   // Dawn from X School." (the revision: the person is the event) passes.
-  const sentences = line.text.split(/(?<=[.!?])\s+/);
+  // An initial or an abbreviation ("Nicholas S. Lacorte", "School No. 3")
+  // does not end a sentence.
+  const sentences = line.text
+    .replace(/\b(?:[A-Z]|No|St|Mt|Dr|Jr|Sr|Mr|Mrs|Ms)\. /g, (abbr) =>
+      abbr.replace(". ", "\u00a0"),
+    )
+    .split(/(?<=[.!?])\s+/);
   for (const name of line.institutions ?? [])
     if (
       name &&
@@ -233,6 +239,17 @@ export function lineProblem(line: GuardLine): Rule | null {
       )
     )
       return "institution-event";
+  // Any named school, whoever's it is: "Gabriel Day graduated from Lacorte
+  // School No. 3." makes the school the event.
+  if (
+    line.kind !== "conversation" &&
+    sentences.some(
+      (sentence) =>
+        ATTENDING.test(sentence) &&
+        /\b(?:School|Elementary|Academy|College|University)\b/.test(sentence),
+    )
+  )
+    return "institution-event";
   for (const title of line.titles ?? []) {
     if (!IMPERATIVE_LEAD(title)) continue;
     const at = line.text.toLowerCase().indexOf(title.toLowerCase());

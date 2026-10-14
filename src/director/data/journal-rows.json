@@ -74,49 +74,25 @@
   "lines": [
     {
       "kindPrefix": "school:",
-      "turn": true,
-      "title": [
-        {
-          "key": "school",
-          "text": "{{school}}"
-        }
-      ],
+      "turn": false,
       "oncePer": "school",
       "entry": "setting"
     },
     {
       "kindPrefix": "work:opening",
-      "turn": true,
-      "title": [
-        {
-          "key": "employer",
-          "text": "{{employer}}"
-        }
-      ],
+      "turn": false,
       "entry": "setting"
     },
     {
       "kindPrefix": "job-started",
-      "turn": true,
+      "turn": false,
       "hasOtherLine": true,
-      "title": [
-        {
-          "key": "employer",
-          "text": "{{employer}}"
-        }
-      ],
       "entry": "setting"
     },
     {
       "kindPrefix": "job-ended",
-      "turn": true,
+      "turn": false,
       "hasOtherLine": true,
-      "title": [
-        {
-          "key": "after",
-          "text": "{{employer}}"
-        }
-      ],
       "entry": "story",
       "framesAge": true
     },

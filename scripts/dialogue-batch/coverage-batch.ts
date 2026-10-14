@@ -285,16 +285,14 @@ function readWorld(place: Place): {
   const factsOf = (personId: string, opponentId?: string): Facts => {
     const row = personOf(personId);
     const gender = row?.looks?.gender;
-    const school = schoolsOf(core, personId)[0];
     const employer = employerOf(personId);
     const opponent = opponentId ? personOf(opponentId) : undefined;
     return {
       name: { text: nameOf(personId), sourceRecordIds: [personId] },
       place: { text: town, sourceRecordIds: [personId] },
       ...(employer ? { employer } : {}),
-      ...(school
-        ? { school: { text: school.name, sourceRecordIds: [school.recordId] } }
-        : {}),
+      // No school: a school is never the event of a speech or a tribute
+      // (owner, batch 7), so a speech is not handed one to say.
       ...(opponent
         ? {
             opponent: {

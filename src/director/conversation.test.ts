@@ -15,9 +15,10 @@ import {
   doubtsClaim,
   openConversation,
   say,
+  sayNothing,
   type Conversation,
 } from "./conversation";
-import { createDirector } from "./ledger";
+import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
@@ -101,7 +102,8 @@ const opening = (talk: Conversation) =>
   talk.lines.find((row) => row.kind !== "greet")!;
 
 describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("offers distinct choices every turn, each answering the last line and only following on from it", () => {
+  it("offers four distinct replies every turn, each answering the last line and only following on from it", () => {
+    const four = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
     let turns = 0;
     for (const otherId of others.slice(0, 15)) {
       const talk = openConversation(core, player.id, otherId);
@@ -111,10 +113,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
+        // Four replies, always (owner, Oct 14), each saying something else.
         const texts = talk.choices.map((row) => row.text);
+        expect(texts).toHaveLength(four);
         expect(new Set(texts).size).toBe(texts.length);
-        const moves = talk.choices.map((row) => row.move);
-        expect(new Set(moves).size).toBe(moves.length);
         // A second move only follows from the first (owner, batch 6): the
         // same question turned back, or their work after yours.
         const follows =
@@ -131,6 +133,18 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
     }
     expect(turns).toBeGreaterThan(15);
+  });
+
+  it("lets the player say nothing, and the other person carries on or the talk ends", () => {
+    const otherId = others[0]!;
+    const talk = openConversation(core, player.id, otherId);
+    const said = talk.lines.length;
+    sayNothing(core, talk);
+    // Nothing is said for the player; the other person speaks next, or leaves.
+    expect(
+      talk.lines.slice(said).every((row) => row.speakerId === otherId),
+    ).toBe(true);
+    expect(talk.lines.length).toBeGreaterThan(said);
   });
 
   it("records talking as time together, and passes news the other hasn't heard", () => {

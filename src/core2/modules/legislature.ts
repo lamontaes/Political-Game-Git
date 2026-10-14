@@ -643,13 +643,23 @@ function budgetChambers(
       ? { chambers: state, introducedIn: state[0]!, body: "the legislature" }
       : null;
   }
-  const kind = gov.level === "county" ? "county-board" : "council";
-  const body = offices.find((o) => o.kind === kind && o.level === gov.level);
+  // A county's board, a city's council, or a township's board where the
+  // town's own government is its township.
+  const body =
+    gov.level === "county"
+      ? offices.find((o) => o.kind === "county-board" && o.level === "county")
+      : (offices.find((o) => o.kind === "council" && o.level === "city") ??
+        offices.find((o) => o.kind === "township-board"));
   return body
     ? {
         chambers: [body.id],
         introducedIn: body.id,
-        body: gov.level === "county" ? "the county board" : "the council",
+        body:
+          body.kind === "county-board"
+            ? "the county board"
+            : body.kind === "township-board"
+              ? "the township board"
+              : "the council",
       }
     : null;
 }
@@ -2656,7 +2666,9 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
-        ...(terms ? { terms } : {}),
+        // The bill itself, not only its number: numbers repeat across bodies
+        // and sessions, and a recall or the record finds the bill by this.
+        terms: { ...(terms ?? {}), enactedByBill: bill.id },
       });
     if (provision.kind === "budget-line" && provision.line)
       amendBudget(api, {
@@ -2674,7 +2686,9 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
-        ...(terms ? { terms } : {}),
+        // The bill itself, not only its number: numbers repeat across bodies
+        // and sessions, and a recall or the record finds the bill by this.
+        terms: { ...(terms ?? {}), enactedByBill: bill.id },
       });
   }
   const next: BillRow = {
