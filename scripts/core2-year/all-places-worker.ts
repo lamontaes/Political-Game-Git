@@ -164,6 +164,7 @@ function run(job: PlaceJob) {
   const result: Row = {
     place: world.place.displayName,
     placeKey: world.placeId,
+    localityKey: job.placeKey,
     seed: job.seed,
     people: core.people.size,
     buildSeconds: +((performance.now() - built) / 1000).toFixed(1),
