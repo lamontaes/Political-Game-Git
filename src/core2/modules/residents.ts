@@ -6,6 +6,7 @@
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
+  RESIDENTS_KIND,
   RESIDENTS_STOPGAP,
   type ResidentFlowInput,
   type ResidentHouseholdRecord,
@@ -44,6 +45,9 @@ import {
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
+import { placeDistrictPopulations } from "../../districts/place-population-share";
+import { stopgap } from "../stopgaps";
+import { corePlaceByKey } from "../place-lookup";
 import {
   chargeGroups,
   flowWeights,
@@ -128,13 +132,13 @@ export interface ResidentsRuntime {
   outsideByPlace: Map<PlaceId, string>;
   /** Yearly pay of one counted worker without a recorded job, by place. */
   unplacedPerWorker: Map<PlaceId, number>;
-  /** The district a counted household lives in (one rule; "town" without districts). */
-  districtOf?: (household: CountedHousehold) => string;
   /** Each counted group's account (a fund under its place's residents account). */
   funds: Map<number, string>;
   funded: boolean;
   /** Housing payments each group still owes. */
   arrears: Map<number, number>;
+  /** Each group's monthly housing and outside living costs, kept back from its spending. */
+  housingDue: Map<number, number>;
   /** Each group's latest month of housing payments: asked and paid. */
   housingMonth: Map<number, { month: string; asked: number; paid: number }>;
   /** Pay so far this year per worker, by group and year (the Social Security wage base). */
@@ -179,10 +183,9 @@ registerSnapshotPart("core2-residents", {
       store,
       api: _a,
       moneyCache: _c,
-      districtOf: _d,
       ...rest
     } = rt;
-    void [_h, _p, _a, _c, _d];
+    void [_h, _p, _a, _c];
     return { ...rest, input: undefined, store: encodeStore(store) };
   },
   restore: (core, data) => {
@@ -197,7 +200,6 @@ registerSnapshotPart("core2-residents", {
       ...saved,
       input: rebuilt.input,
       moneyCache: { serial: 0 },
-      ...(rebuilt.districtOf ? { districtOf: rebuilt.districtOf } : {}),
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
@@ -311,7 +313,7 @@ export function groupKeyOf(
         : "not-working";
   return {
     placeId: h.placeId,
-    district: rt.districtOf?.(h) ?? "town",
+    district: h.district ?? "town",
     kind,
     incomeBand: incomeBandOf(householdIncome(rt, h)),
     tenure: h.tenure,
@@ -367,6 +369,70 @@ function jobless(
     if (age >= from && age < below && !working.has(store.ids[m]!)) n++;
   }
   return n;
+}
+
+export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
+
+/** The town's districts and their people (state House, else state Senate), by GEOID. */
+export function townDistricts(core: CoreState): [string, number][] {
+  const geoid = core.placeMetadata?.placeKey;
+  if (!geoid) return [];
+  for (const chamber of ["state-lower", "state-upper"] as const) {
+    const counts = Object.entries(placeDistrictPopulations(geoid, chamber))
+      .filter(([, n]) => n > 0)
+      .sort((a, b) => a[0].localeCompare(b[0]));
+    if (counts.length > 1)
+      return counts.map(([id, n]) => [`${chamber}:${id}`, n]);
+  }
+  return [];
+}
+
+/**
+ * A town whose people split between districts (the Census place-district
+ * populations): its counted households fill the districts in proportion to
+ * the districts' people, in order of their income, so each district holds
+ * the households its share of the town's income ladder holds
+ * (SG-CORE-district-placement until the districts' own Census tables are
+ * read). Other places are whole.
+ */
+function placeInDistricts(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  households: readonly CountedHousehold[],
+): void {
+  const districts = townDistricts(core);
+  if (districts.length < 2) return;
+  stopgap(DISTRICT_STOPGAP);
+  const placeId = townPlaceOf(core);
+  const town = households.filter((h) => h.placeId === placeId);
+  const ordered = [...town].sort(
+    (a, b) =>
+      householdIncome(rt, a) - householdIncome(rt, b) || (a.id < b.id ? -1 : 1),
+  );
+  const people = ordered.reduce(
+    (n, h) => n + rt.store.countedMembers(h).length,
+    0,
+  );
+  const total = districts.reduce((n, [, count]) => n + count, 0);
+  let d = 0,
+    filled = 0,
+    edge = (districts[0]![1] / total) * people;
+  for (const h of ordered) {
+    while (filled >= edge && d < districts.length - 1) {
+      d++;
+      edge += (districts[d]![1] / total) * people;
+    }
+    h.district = districts[d]![0];
+    filled += rt.store.countedMembers(h).length;
+  }
+}
+
+/** The town's own place id (its jurisdiction), from the world's place key. */
+export function townPlaceOf(core: CoreState): PlaceId | undefined {
+  const key = core.placeMetadata?.placeKey;
+  return key
+    ? (corePlaceByKey(key)?.context.jurisdiction.id as PlaceId | undefined)
+    : undefined;
 }
 
 /**
@@ -449,6 +515,7 @@ function packOpening(
     for (const h of households)
       if (h.placeId === placeId) h.unplacedWorkers = open.get(h.index)! * share;
   }
+  placeInDistricts(core, rt, households);
   for (const h of households) regroupHousehold(rt, h, date);
   store.openingMembers = store.memberCount;
   return owners;
@@ -504,6 +571,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     funds: new Map(),
     funded: false,
     arrears: new Map(),
+    housingDue: new Map(),
     housingMonth: new Map(),
     withholdingYtd: new Map(),
     withheld: new Map(),
@@ -786,8 +854,16 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     base = Math.floor(
       (base * payeeBook.annualDemandMinor) / payeeBook.anchorAnnualDemandMinor,
     );
-  const countedPays = flow.payerId === flow.residentsId,
-    countedPaid = flow.payeeId === flow.residentsId;
+  // The counted side of a flow is a place's residents account (outside
+  // buyers' and suppliers' flows name the outside account instead).
+  const counted = (id: string) =>
+    id === flow.residentsId &&
+    core.organizations.get(id)?.kind === RESIDENTS_KIND;
+  // A place with no counted households (a test world, a place emptied by
+  // moves) keeps its money in the residents account itself.
+  const grouped = placeWeights(rt, flow.placeId).size > 0;
+  const countedPays = grouped && counted(flow.payerId),
+    countedPaid = grouped && counted(flow.payeeId);
   const fixed =
     flow.financeKind === FIXED_SPENDING || HOUSING_KINDS.has(flow.financeKind);
   let requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
@@ -1029,7 +1105,8 @@ function closeMonths(rt: ResidentsRuntime, month: string): void {
     if (
       flow.endedAt ||
       flow.kind !== "purchase" ||
-      flow.payerId !== flow.residentsId
+      flow.payerId !== flow.residentsId ||
+      !rt.input.accounts.some((row) => row.accountId === flow.payerId)
     )
       continue;
     const monthly = (flow.amountMinor * perYear(flow)) / 12;
@@ -1043,6 +1120,12 @@ function closeMonths(rt: ResidentsRuntime, month: string): void {
     for (const [group, weight] of weights)
       into.set(group, (into.get(group) ?? 0) + (monthly * weight) / total);
   }
+  rt.housingDue = new Map(
+    [...fixed].map(([group, amount]) => [
+      group,
+      Math.round(amount + (rt.arrears.get(group) ?? 0)),
+    ]),
+  );
   for (const [key, row] of rt.monthly) {
     if (row.month !== month) continue;
     const history = [...(rt.incomeHistory.get(key) ?? []), row.incomeMinor];

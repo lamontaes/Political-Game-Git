@@ -79,6 +79,8 @@ export interface CountedHousehold {
   /** Working-age members the opening's employment target puts to work outside a recorded job. */
   unplacedWorkers: number;
   tenure: Tenure;
+  /** The district it lives in, where its place has districts. */
+  district?: string;
   gone?: true;
 }
 

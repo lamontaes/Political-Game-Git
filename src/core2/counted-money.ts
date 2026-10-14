@@ -450,6 +450,8 @@ export function chargeGroups(
     reasonKey: string;
     source: Source;
     scaleOf?: (group: number) => number;
+    /** Money a group keeps back from this payment (its housing due this month). */
+    reserveOf?: (group: number) => number;
   },
 ): {
   paid: number;
@@ -469,7 +471,13 @@ export function chargeGroups(
       : share;
     const arrears = housing ? (rt.arrears.get(group) ?? 0) : 0;
     const asked = scaled + arrears;
-    const pay = Math.max(0, Math.min(asked, fundBalance(api, rt, group)));
+    const pay = Math.max(
+      0,
+      Math.min(
+        asked,
+        fundBalance(api, rt, group) - (input.reserveOf?.(group) ?? 0),
+      ),
+    );
     if (housing) rt.arrears.set(group, asked - pay);
     byGroup.set(group, { asked, paid: pay });
     if (pay <= 0) continue;
@@ -562,6 +570,23 @@ export function countedPayment(
     weights = placeWeights(rt, input.placeId);
   }
   const other = api.accounts().main(input.otherOwnerId);
+  if (![...weights.values()].some((v) => v > 0)) {
+    // No counted groups here: the place's residents account pays or is paid itself.
+    const owner = rt.input.accounts.find(
+      (row) => row.placeId === input.placeId,
+    )?.accountId;
+    if (!owner) return 0;
+    const residents = api.accounts().main(owner);
+    return api.accounts().transfer({
+      id: input.id,
+      from: input.amountMinor > 0 ? residents : other,
+      to: input.amountMinor > 0 ? other : residents,
+      amountMinor: Math.abs(input.amountMinor),
+      reasonKey: input.reasonKey,
+      source: input.source,
+      partial: true,
+    }).paidMinor;
+  }
   const flow: SplitFlow = {
     id: input.id,
     kind: input.amountMinor > 0 ? "purchase" : "retirement",
