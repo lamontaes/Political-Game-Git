@@ -11,7 +11,7 @@ Only OPUS-WORLD writes this file. See "The team" in `AGENTS.md` and `docs/coordi
 
 Nothing on a screen of its own yet; the economy runs in every new game started with `newGame(recipe, worldGameOptions())`, and the bench reads it through `worldPanels` (more panels are listed for PLAY under Needs). A town opens with its real history since 2000 and runs on its own:
 
-- **The nation and the central bank:** a national economy, and a board whose open seats the president fills and the Senate confirms.
+- **The nation and the central bank:** a national economy, and a board whose open seats the president fills and the Senate confirms. A bigger federal budget (defense, highways and the like) moves the nation's jobs, and a state's own budget moves its regions.
 - **Regions:** state and metro economies; a town's pay follows its region.
 - **Jobs:**
   - Workers quit for better pay or just leave; moving to another job takes a raise.
@@ -22,16 +22,17 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
   - Tenure holds people: a move must beat what their years at the job have added to their pay.
   - Residents the opening couldn't place work at jobs elsewhere of their own, and the town's unemployment counts where people live.
   - Unions cover workplaces at BLS's state and industry rates (public employers most); members pay dues, and right-to-work changes who joins.
-- **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons; startups open small, sized by the founder's savings, home equity and an SBA-rule loan, and spread across the town's kinds of business at about the real rate. Where cannabis sales are legal, retailers apply for licenses and sell to the town's adults.
+- **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons; startups open small, sized by the founder's savings, a home equity line from the town bank and an SBA-rule loan, and spread across the town's kinds of business at about the real rate. Where cannabis sales are legal, retailers apply for licenses and sell to the town's adults at their state's real sales per adult.
 - **The town bank** lends to businesses and households, and holds the residents' savings on deposit, paying interest.
 - **Homes:**
   - Homes in the place's real mix, priced like the county's, with FHFA prices, mortgages and property tax at the county's rate.
   - Owners refinance when rates fall far enough below theirs to pay for the closing costs.
-  - Builders put up houses and apartment buildings as value outruns cost, and new vacancy lowers rents.
+  - Builders put up houses and apartment buildings as value outruns cost, and new vacancy lowers rents; finished houses sell at today's typical value to renters already in town.
   - Landlords serve notice after about two months owed, and evictions follow the state's steps.
   - Rent help from a housing budget pays the landlord, and the household's bill falls to its share.
-  - Every lease renews yearly; owners refinance when rates fall; property tax falls due on the place's own dates (escrow monthly for owners with a mortgage).
-  - Connecticut, Puerto Rico and some Indiana, Pennsylvania and Virginia towns now have housing too.
+  - Every lease renews yearly; owners refinance when rates fall; property tax falls due on the place's own dates, read from official text in 49 places, and a mortgage's escrow at the town bank pays it.
+  - Rent help from a housing budget pays the landlord, and the household's bill falls to its share.
+  - Connecticut, Puerto Rico and some Indiana, Pennsylvania and Virginia towns now have housing too, and the four smaller island areas have their own census homes and bank deposits.
 - **What laws can do,** waiting for GOV's handlers:
   - Zoning, set-aside units, all-electric codes and farmland protection.
   - Right to counsel, with payment plans.
@@ -40,6 +41,8 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
   - Groundwater limits and clean-air compliance costs.
   - Right-to-work changes how many represented workers join a union; legal cannabis lets retailers apply for licenses.
 - **Checks the golden path runs on my items:** M1-02 (the nation), M1-03 (regions), M1-04 (jobs), M1-05 (housing), M1-06 (credit) and M1-08 (businesses), each in a drawn place.
+- **The town's numbers each month:** jobs, unemployment, the employment rate, pay, household income, poverty and real income growth, rents, home values, evictions and past-due bills, for the outcome web and screens.
+- **Saves:** a saved world with the economy loads from its snapshot and runs on identically.
 - **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
