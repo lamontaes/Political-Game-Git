@@ -50,6 +50,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE (a small place has no 17-year-old):** `buildPopulation` throws "No household of Buffalo Prairie, Illinois holds a resident aged 17." (`src/core2/population.ts:737`, seed `123cb4d0296d73370ea181c4c24eb009e728208158c2aeac077ac71a014b19a2`, place key 1709499). The played world never opens there, so the golden-path M0-13 check fails on any commit that draws it (seen on #4244, Oct 14).
 - **OPUS-PEOPLE (one import for all five banks):** `MINED_WORDS` in `scripts/english-corpus/index.ts` holds every bank in the shape the director reads (conversation, journal, filing visit, scene, bring-it-up, and the speech adapter). The items below say what each one needs.
 
 - **OPUS-PEOPLE (closes `SG-P15-conversation-banks`):** read the director's conversation words from `data/english/parts/conversation.json` through `conversationDataFromBank` in `scripts/english-corpus/conversation-bank.ts` (move it under `src/director/` as you like). Three engine changes make it whole:
