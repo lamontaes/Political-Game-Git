@@ -19,6 +19,14 @@ npm run dist:mac                 # Mac .app + DMG + ZIP (Apple Silicon)
 npm run dist:win                 # Windows x64 NSIS installer (cross-build on Mac)
 ```
 
+The play page's `/api` and `/art` requests are answered by the play server's
+request handler (`src/bench/handler.ts`), which `scripts/stage.mjs` bundles
+with `scripts/build-play-api.mjs` into `staged/play-api/` (the bundle plus the
+art and data files it reads, copied by reading the code's own lookups). The
+shell runs it in a utility process (`play-api-host.mjs`) behind `app://game`:
+no network listener, nothing written outside the profile, developer routes
+off.
+
 Artifacts land in `desktop/release-artifacts/`. `npm run dist:mac-intel`
 cross-builds Intel Mac output (untested until launched on an Intel Mac).
 Rebuilding after newer accepted UI/game changes is exactly the same
