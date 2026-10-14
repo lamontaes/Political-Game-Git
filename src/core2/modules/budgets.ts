@@ -47,8 +47,8 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
-  noteLinePayment,
   notePublicPay,
+  registerLinePayments,
 } from "../budgets-treasury";
 import { residentsRuntime } from "./residents";
 
@@ -1311,10 +1311,11 @@ export function withholdingOf(
 }
 
 /** Eligibility spends only when an eligible child and an actual provider exist. */
-function paySchoolEligibility(api: CoreAPI): void {
+function paySchoolEligibility(api: CoreAPI, dry = false): number {
+  let monthly = 0;
   const chain = lawChain(api);
   const treasury = governments(api).find((g) => g.level === "state");
-  if (!treasury) return;
+  if (!treasury) return 0;
   const facts = townFacts(api, chain.townPlaceId);
   const params = lawParameters.parameters;
   const pay = (
@@ -1344,8 +1345,12 @@ function paySchoolEligibility(api: CoreAPI): void {
         params.monthsPerYear.value /
         providers.length,
     );
+    if (dry) {
+      monthly += amount * providers.length;
+      return;
+    }
     for (const provider of providers) {
-      const paid = transferCash(
+      transferCash(
         api,
         `school-eligibility:${law.governing.id}:${provider.id}:${api.state.date}`,
         treasury.organizationId,
@@ -1359,7 +1364,6 @@ function paySchoolEligibility(api: CoreAPI): void {
             "Eligible children from town records, times data/laws/reach-group-b-parameters.json annual cost, in monthly installments.",
         },
       );
-      noteLinePayment(api, treasury.id, "schools", paid);
     }
   };
   pay(
@@ -1376,19 +1380,26 @@ function paySchoolEligibility(api: CoreAPI): void {
     ["service:private-school"],
     params.voucherAmountDollars.value,
   );
+  return monthly;
 }
 
 /** The appropriated pension contribution leaves spendable cash for its dedicated fund. */
-function payPensionContribution(api: CoreAPI): void {
+function payPensionContribution(
+  api: CoreAPI,
+  dry = false,
+): {
+  readonly governmentId: string;
+  readonly minor: number;
+} | null {
   const law = lawInForce(
     api,
     "us-policy-positions:fiscal.fund-pensions-to-schedule",
   );
-  if (law.value !== 1 || !law.governing) return;
+  if (law.value !== 1 || !law.governing) return null;
   const gov = governments(api).find(
     (row) => row.id === law.governing!.jurisdiction,
   );
-  if (!gov) return;
+  if (!gov) return null;
   const budget = budgetsOf(api, gov.id)
     .filter((row) => row.startsOn <= api.state.date)
     .at(-1);
@@ -1396,7 +1407,8 @@ function payPensionContribution(api: CoreAPI): void {
     (budget?.spendingMinor.retirementContributions ?? 0) /
       lawParameters.parameters.monthsPerYear.value,
   );
-  if (monthly <= 0) return;
+  if (monthly <= 0) return null;
+  if (dry) return { governmentId: gov.id, minor: monthly };
   // stopgapId: SG-LAW-LINK-calibration
   api.stopgap("SG-LAW-LINK-calibration");
   const accounts = api.accounts();
@@ -1415,7 +1427,7 @@ function payPensionContribution(api: CoreAPI): void {
       name: "pension contribution fund",
       source,
     });
-  const contributed = accounts.transfer({
+  accounts.transfer({
     id: `pension-contribution:${law.governing.id}:${api.state.date}`,
     from: accounts.main(gov.organizationId),
     to: fund,
@@ -1424,12 +1436,7 @@ function payPensionContribution(api: CoreAPI): void {
     source,
     partial: true,
   });
-  noteLinePayment(
-    api,
-    gov.id,
-    "retirementContributions",
-    contributed.paidMinor,
-  );
+  return { governmentId: gov.id, minor: monthly };
 }
 
 const FACIAL_RECOGNITION =
@@ -1442,7 +1449,13 @@ const FACIAL_RECOGNITION =
  * Days a restriction was in force are not billed; the bill it cut short
  * cites it, and no bill follows while it stays in force.
  */
-function payPoliceTechnology(api: CoreAPI): void {
+function payPoliceTechnology(
+  api: CoreAPI,
+  dry = false,
+): {
+  readonly governmentId: string;
+  readonly minor: number;
+} | null {
   const c = api.state,
     town = lawChain(api).townPlaceId;
   const latest = (gov: GovernmentRow | undefined) =>
@@ -1461,7 +1474,7 @@ function payPoliceTechnology(api: CoreAPI): void {
   const vendor = [...c.organizations.values()].find(
     (row) => row.outsideFlow !== undefined && row.placeId === town,
   );
-  if (!payer || !vendor) return;
+  if (!payer || !vendor) return null;
   const police = new Set(
     [...c.organizations.values()]
       .filter(
@@ -1495,7 +1508,8 @@ function payPoliceTechnology(api: CoreAPI): void {
       billed) /
       365,
   );
-  if (amount <= 0) return;
+  if (amount <= 0) return null;
+  if (dry) return { governmentId: payer.id, minor: amount };
   const paidVendor = transferCash(
     api,
     `police-technology:${payer.id}:${first.slice(0, 7)}${cutBy ? `:${cutBy}` : ""}`,
@@ -1510,5 +1524,25 @@ function payPoliceTechnology(api: CoreAPI): void {
       estimatedFrom: `${officers} sworn officers times policeFacialRecognitionPerOfficerDollars, for ${billed} of ${days} days${cutBy ? `; the rest restricted by ${cutBy}` : ""}.`,
     },
   );
-  noteLinePayment(api, payer.id, "police", paidVendor);
+  return { governmentId: payer.id, minor: paidVendor };
 }
+
+/**
+ * The month's close keeps back what these in-town payments will take from a
+ * treasury (a standing school eligibility law's seats, the pension
+ * contribution, the police line's facial recognition bill), as it does for
+ * benefits, so the line pays only the rest outside.
+ */
+registerLinePayments((api, gov) => {
+  const out: Record<string, number> = {};
+  if (gov.id === governments(api).find((g) => g.level === "state")?.id) {
+    const seats = paySchoolEligibility(api, true);
+    if (seats > 0) out.schools = seats;
+  }
+  const pension = payPensionContribution(api, true);
+  if (pension?.governmentId === gov.id)
+    out.retirementContributions = pension.minor;
+  const police = payPoliceTechnology(api, true);
+  if (police?.governmentId === gov.id) out.police = police.minor;
+  return out;
+});

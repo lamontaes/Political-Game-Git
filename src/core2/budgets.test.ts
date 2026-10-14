@@ -420,6 +420,7 @@ it("the police line pays its facial recognition vendor monthly; a restriction st
         measureId: `police-technology:${value}`,
         citation: "Test facial recognition restriction.",
       });
+    const standing = lawInForce(api, question, "2025-12-15").value === 1;
     enact(0);
     advanceCore(core, "2026-01-02");
     const lawId = restricted ? enact(1).id : undefined;
@@ -434,10 +435,13 @@ it("the police line pays its facial recognition vendor monthly; a restriction st
         id: row.sourceRef.id,
         minor: row.grossDebitMinor,
       }));
-    return { bills, lawId, place: chain.townPlaceId };
+    return { bills, lawId, place: chain.townPlaceId, standing };
   };
-  const open = run(false),
-    restricted = run(true);
+  const open = run(false);
+  // A state whose standing law already restricted facial recognition in
+  // December has no December service to bill: nothing to compare.
+  if (open.standing) return;
+  const restricted = run(true);
   // December's, January's and February's service, each paid net 30.
   expect(open.bills.map((row) => row.date)).toEqual([
     "2026-02-01",

@@ -154,24 +154,13 @@ export function notePublicPay(
     date: api.state.date,
     amountMinor: input.paidMinor,
   } satisfies PublicPayRow as unknown as ModuleRow);
-  noteLinePayment(api, gov.id, line, input.paidMinor);
-}
-
-/** Money a treasury paid in town on a budget line since its last close (the close pays only the rest). */
-export function noteLinePayment(
-  api: CoreAPI,
-  governmentId: string,
-  line: string,
-  minor: number,
-): void {
-  if (minor <= 0) return;
-  const since = (table(api, "sinceClose").get(governmentId) as unknown as
+  const since = (table(api, "sinceClose").get(gov.id) as unknown as
     { lines: Record<string, number> } | undefined) ?? { lines: {} };
   table(api, "sinceClose").put({
-    id: governmentId,
+    id: gov.id,
     lines: {
       ...since.lines,
-      [line]: (since.lines[line] ?? 0) + minor,
+      [line]: (since.lines[line] ?? 0) + input.paidMinor,
     },
   } as unknown as ModuleRow);
 }
@@ -362,9 +351,14 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       )?.lines ?? {};
     table(api, "sinceClose").put({ id: gov.id, lines: {} } as ModuleRow);
     const inTown: Record<string, number> = { ...since };
+    // What registered payers will take from this treasury this month is held
+    // back before the lines are scaled to what is left.
+    let reserved = 0;
     for (const payer of linePayers)
-      for (const [line, minor] of Object.entries(payer(api, gov)))
+      for (const [line, minor] of Object.entries(payer(api, gov))) {
         inTown[line] = (inTown[line] ?? 0) + minor;
+        reserved += minor;
+      }
     // A line pays its twelfth and whatever it fell short last month.
     const owed =
       (
@@ -445,7 +439,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       }).paidMinor;
       have += borrowed;
     }
-    const scale = need > 0 ? Math.min(1, Math.max(0, have) / need) : 1;
+    const scale =
+      need > 0 ? Math.min(1, Math.max(0, have - reserved) / need) : 1;
     const paymentIds: string[] = [];
     const pay = (
       id: string,
