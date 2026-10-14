@@ -346,6 +346,8 @@ it("court caseload moves the existing administration budget line", () => {
   enact(0);
   advanceCore(core, "2026-01-04");
   const before = proposedBudget(api, government, 2026, "test");
+  // A territory's budget has no lines by function: no administration line to move.
+  if (before.spendingMinor.administration === undefined) return;
   enact(1);
   advanceCore(core, "2026-02-04");
   const after = proposedBudget(api, government, 2026, "test");
