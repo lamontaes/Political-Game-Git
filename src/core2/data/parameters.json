@@ -3881,6 +3881,17 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "driveKeepHomeHalfLifeDays": {
+    "value": 180,
+    "tag": "TUNABLE",
+    "citation": "Half-life of the resolve to secure a home, without new events or acts: about the length of a homelessness episode (most sheltered stays end within six months, HUD Annual Homeless Assessment Report 2023, Part 2), after which the pull eases.",
+    "spread": {
+      "low": 90,
+      "high": 365,
+      "unit": "days",
+      "citation": "A season to a year."
+    }
+  },
   "driveStatusHalfLifeDays": {
     "value": 365,
     "tag": "TUNABLE",
@@ -4256,6 +4267,17 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "responseSecureHomeFit": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "How strongly losing a home, or facing an eviction, pushes toward a resolve to secure a home again: above the carry-on fit (1.0), so most people form it, and below the ambition fit (1.9); a person whose traits lean toward keeping things the same or holding back can still carry on (owner, Oct 14: 'not being homeless is some people's motivation').",
+    "spread": {
+      "low": 1.0,
+      "high": 2.0,
+      "unit": "fit",
+      "citation": "From level with carrying on to near the ambition fit; checked against how many people who lose a home in a played year form the drive."
+    }
+  },
   "responseAmbitionFit": {
     "value": 1.9,
     "tag": "TUNABLE",
@@ -4305,6 +4327,12 @@
     "tag": "ESTIMATED",
     "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
     "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
+  },
+  "driveHomeLostImpulse": {
+    "value": 0.47,
+    "tag": "ESTIMATED",
+    "citation": "Losing one's home (doubled up with kin, in a shelter or on the street), sized like an eviction (driveEvictionImpulse): the Social Readjustment Rating Scale's nearest items are 'Foreclosure of mortgage or loan' at 30 and 'Fired at work' at 47 life-change units (Holmes and Rahe 1967), and homelessness follows the eviction that caused it.",
+    "estimatedFrom": "Holmes and Rahe (1967), as for driveEvictionImpulse; spread 0.3 to 0.6"
   },
   "schoolCohortPopulationShare": {
     "value": 0.0129,
