@@ -25,6 +25,7 @@ import type { LawRowInput } from "../laws-starting";
 import {
   reachParameter,
   selectResidents,
+  forgetTownFacts,
   townFacts,
   type PeopleSelector,
   type ResidentFacts,
@@ -40,8 +41,6 @@ import {
 } from "./group-b-store";
 import {
   balancePlan,
-  budgetNow,
-  governmentAt,
   holdReserve,
   incomeTaxAct,
   jobsAt,
@@ -53,7 +52,6 @@ import {
   scalePayroll,
   serviceLevel,
 } from "./group-b-money";
-import { amendBudget } from "../modules/budgets";
 
 type Mechanic =
   | "records"
@@ -123,7 +121,9 @@ function employers(api: CoreAPI, classifications: readonly string[]): string[] {
   for (const org of api.state.organizations.values())
     if (
       org.placeId === town &&
-      classifications.includes(org.classification ?? "")
+      classifications.includes(org.classification ?? "") &&
+      // A closed organization is no longer bound; the review must not re-add it.
+      !api.state.finance.businesses.get(org.id)?.closedAt
     )
       out.push(org.id);
   return out.sort();
@@ -282,28 +282,23 @@ function runPolicy(
       });
       break;
     case "balanced-budget": {
-      const gov = governmentAt(api, level);
-      const budget = gov ? budgetNow(api, gov.id) : undefined;
-      if (input.enacting && gov && budget) {
-        const plan = balancePlan(budget);
-        let cut = 0;
-        for (const [line, delta] of Object.entries(plan)) {
-          amendBudget(api, {
-            governmentId: gov.id,
-            line,
-            deltaMinor: delta,
-            measureId: `${input.lawId}#balance#${api.state.date}`,
-          });
-          cut -= delta;
-        }
-        if (cut)
-          putRow(api, "taken", {
-            id: `balance|${gov.id}|${api.state.date}`,
-            key,
-            governmentId: gov.id,
-            cutMinor: cut,
-          });
-      }
+      // Applied once a fiscal year while the act stands; a repeal restores
+      // the lines it cut this year.
+      const moved = moveBudget(api, {
+        key,
+        level,
+        inForce: input.enacting,
+        lawId: `${input.lawId}#balance`,
+        plan: (_gov, budget) => balancePlan(budget),
+      });
+      const cut = -Object.values(moved?.moves ?? {}).reduce((a, b) => a + b, 0);
+      if (input.enacting && moved && cut)
+        putRow(api, "taken", {
+          id: `balance|${moved.governmentId}|${api.state.date}`,
+          key,
+          governmentId: moved.governmentId,
+          cutMinor: cut,
+        });
       break;
     }
     case "reserve": {
@@ -527,6 +522,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
 
 /** Re-run every policy in force: reach follows people's records month to month. */
 function review(api: CoreAPI): void {
+  forgetTownFacts(api);
   for (const row of rowsOf<ActiveRow>(api, "active")) {
     if (row.id.startsWith("budget-line:"))
       runBudgetLine(api, row.id.slice("budget-line:".length), row.lawId);
@@ -554,6 +550,7 @@ export function registerGroupB(): void {
   setReachReview(review);
   for (const key of Object.keys(data.policies))
     registerPolicyHandler(key, (api, change) => {
+      forgetTownFacts(api);
       const row = lawRow(api, change.lawId);
       const enacting = key.includes(":")
         ? row?.value === 1
@@ -567,7 +564,8 @@ export function registerGroupB(): void {
       });
     });
   for (const line of Object.keys(data.budgetLines))
-    registerPolicyHandler(`budget-line:${line}`, (api, change) =>
-      runBudgetLine(api, line, change.lawId),
-    );
+    registerPolicyHandler(`budget-line:${line}`, (api, change) => {
+      forgetTownFacts(api);
+      runBudgetLine(api, line, change.lawId);
+    });
 }

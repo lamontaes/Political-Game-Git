@@ -10,7 +10,8 @@
     "classmates": "People enrolled at the subject's school.",
     "coworkers": "People employed at the subject's workplace.",
     "absent": "A person tied to the subject who is away for a recorded reason or has died.",
-    "authority": "The subject's guardian, teacher or supervisor on record."
+    "authority": "The subject's guardian, teacher or supervisor on record.",
+    "poll-workers": "The poll workers the precinct's polling-place record names for that election day."
   },
   "settings": {
     "home": "The subject's household home.",
@@ -128,13 +129,16 @@
           "opening": "farewell"
         },
         {
-          "awaitingProducer": "jailed",
           "bind": {
             "leaving": "subject",
             "staying": "kin"
           },
           "opener": "leaving",
-          "opening": "farewell"
+          "opening": "farewell",
+          "match": {
+            "label": "feeling:event:justice.imprisoned",
+            "counterpart": "none"
+          }
         }
       ],
       "awaiting": ["record:deployment"]
@@ -226,14 +230,17 @@
           "opening": "tell"
         },
         {
-          "awaitingProducer": "jailed",
           "bind": {
             "about": "subject",
             "receiver": "kin",
             "bearer": "present"
           },
           "opener": "bearer",
-          "opening": "tell"
+          "opening": "tell",
+          "match": {
+            "label": "feeling:event:justice.imprisoned",
+            "counterpart": "none"
+          }
         },
         {
           "match": {
@@ -1073,12 +1080,15 @@
       "timing": "next-together",
       "causes": [
         {
-          "awaitingProducer": "jailed",
           "bind": {
             "cannot-come": "subject",
             "visitor": "kin"
           },
-          "opener": "visitor"
+          "opener": "visitor",
+          "match": {
+            "label": "feeling:event:justice.imprisoned",
+            "counterpart": "none"
+          }
         },
         {
           "awaitingProducer": "held-before-trial",
@@ -1328,6 +1338,191 @@
       "timing": "at-cause",
       "causes": [],
       "awaiting": ["record:choice-needing-permission"]
+    },
+    {
+      "key": "polling-place",
+      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. Waits on the elections engine's polling-place record for the poll workers (SG-PEOPLE-poll-workers).",
+      "roles": [
+        {
+          "key": "voter",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["greet", "thank", "ask"],
+          "wants": ["engage"],
+          "bearing": "braced"
+        },
+        {
+          "key": "workers",
+          "fill": "poll-workers",
+          "count": "some",
+          "moves": ["greet", "tell", "thank"],
+          "wants": ["help-others"]
+        },
+        {
+          "key": "neighbors",
+          "fill": "present",
+          "count": "some",
+          "moves": ["greet", "tell", "ask"],
+          "wants": ["engage"]
+        }
+      ],
+      "setting": ["venue"],
+      "timing": "at-cause",
+      "choice": "ballot",
+      "causes": [
+        {
+          "awaitingProducer": "election-day",
+          "causeEngine": "elections",
+          "bind": {
+            "voter": "subject",
+            "workers": "poll-workers",
+            "neighbors": "present"
+          },
+          "opener": "workers",
+          "opening": "greet"
+        }
+      ],
+      "awaiting": ["record:polling-place"]
+    },
+    {
+      "key": "hearing",
+      "roles": [
+        {
+          "key": "accused",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["deflect", "confess", "refuse", "tell", "request"],
+          "wants": ["self-interest", "play-safe", "confront"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "some",
+          "moves": ["comfort", "tell", "promise"],
+          "wants": ["help-others", "engage"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "others",
+          "fill": "present",
+          "count": "some",
+          "moves": ["tell", "blame"],
+          "wants": ["stay-quiet", "speak-out"],
+          "bearing": "nervous"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:justice.charged",
+            "counterpart": "none"
+          },
+          "bind": {
+            "accused": "subject",
+            "family": "household"
+          },
+          "opener": "accused",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.charged",
+            "counterpart": "some"
+          },
+          "bind": {
+            "accused": "counterpart",
+            "family": "subject"
+          },
+          "opener": "family",
+          "opening": "comfort"
+        }
+      ],
+      "awaiting": ["record:prosecutor-in-scene"]
+    },
+    {
+      "key": "verdict",
+      "roles": [
+        {
+          "key": "defendant",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "confess", "apologize", "refuse", "tell"],
+          "wants": ["engage", "concede", "withdraw"],
+          "bearing": "braced"
+        },
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "some",
+          "moves": ["comfort", "tell", "promise", "farewell"],
+          "wants": ["help-others", "commit"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "others",
+          "fill": "present",
+          "count": "some",
+          "moves": ["tell", "blame"],
+          "wants": ["stay-quiet", "speak-out"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:justice.convicted",
+            "counterpart": "none"
+          },
+          "bind": {
+            "defendant": "subject",
+            "family": "household"
+          },
+          "opener": "defendant",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.convicted",
+            "counterpart": "some"
+          },
+          "bind": {
+            "defendant": "counterpart",
+            "family": "subject"
+          },
+          "opener": "family",
+          "opening": "comfort"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.acquitted",
+            "counterpart": "none"
+          },
+          "bind": {
+            "defendant": "subject",
+            "family": "household"
+          },
+          "opener": "defendant",
+          "opening": "thank"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.acquitted",
+            "counterpart": "some"
+          },
+          "bind": {
+            "defendant": "counterpart",
+            "family": "subject"
+          },
+          "opener": "family",
+          "opening": "comfort"
+        }
+      ],
+      "awaiting": ["record:judge-in-scene"]
     }
   ]
 }

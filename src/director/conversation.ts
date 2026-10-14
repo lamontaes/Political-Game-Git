@@ -20,6 +20,7 @@
  * mined sentence covers is left unsaid.
  */
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../simulation/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { P } from "../core2/parameters";
@@ -418,6 +419,24 @@ export function subjectsBetween(
         topic: {
           text: properName(institution.name),
           sourceRecordIds: [news.eventId, institution.id],
+        },
+      },
+    });
+  // The President's address, once the speaker saw it or heard of it: its
+  // remembered line is theirs to quote. Last, so it never takes the place of
+  // a subject the banks can word.
+  const known = core.knowledgeByPerson.get(speakerId);
+  const address = known?.get(ADDRESS_FACT.event);
+  const quote = known?.get(ADDRESS_FACT.remembered);
+  if (address && quote)
+    out.push({
+      id: `address:${address.value}`,
+      kind: "address",
+      aboutId: address.value,
+      facts: {
+        quote: {
+          text: quote.value,
+          sourceRecordIds: [address.value, quote.sourceId],
         },
       },
     });

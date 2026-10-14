@@ -92,18 +92,20 @@ BUDGET_LINES = {
 }
 
 SERIES = {
-    "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour"),
-    "income-tax": ("taxes-finance", "Taxes", "Local income tax rate", "percent"),
-    "sales-tax": ("taxes-finance", "Taxes", "Local sales tax rate", "percent"),
+    "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour", ["federal", "state", "city"]),
+    "income-tax": ("taxes-finance", "Taxes", "Local income tax rate", "percent", ["city"]),
+    "sales-tax": ("taxes-finance", "Taxes", "Local sales tax rate", "percent", ["city"]),
+    # Each government sets its own employees' pay floor (CTO ruling, Oct 14, 2026).
+    "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year", ["federal", "state", "city"]),
 }
 
 
 def main():
     subjects = {key: {"id": key, "name": name, "topics": {t: {"name": t, "policies": []} for t in topics}} for key, name, topics in SUBJECTS}
-    for series, (subject, topic, name, unit) in SERIES.items():
+    for series, (subject, topic, name, unit, levels) in SERIES.items():
         subjects[subject]["topics"][topic]["policies"].append({
             "id": f"law:{series}", "name": name, "kind": "law-amount", "series": series, "unit": unit,
-            "operations": ["raise", "lower"], "levels": ["federal", "state", "city"] if series == "minimum-wage" else ["city"],
+            "operations": ["raise", "lower"], "levels": levels,
         })
     for line, (subject, topic) in BUDGET_LINES.items():
         subjects[subject]["topics"][topic]["policies"].append({

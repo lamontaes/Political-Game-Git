@@ -34,7 +34,7 @@ import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
-import { turnout } from "./voting";
+import { turnoutOn } from "./voting";
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
 
@@ -330,7 +330,7 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       grievance(api, p, recall.question, enacted, side) +
       parameter("traitDecisionWeight") *
         decisionLean(api.state, p, "recalls.vote", "remove", "keep");
-    const t = turnout(api, p, { remove: { total: g }, keep: { total: -g } });
+    const t = turnoutOn(api, p, { remove: { total: g }, keep: { total: -g } });
     if (!t.votes) continue;
     if (g > 0) remove += 1;
     if (g < 0) keep += 1;

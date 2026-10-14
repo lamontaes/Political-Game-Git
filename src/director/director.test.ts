@@ -505,7 +505,8 @@ describe("story director on the new core", () => {
 
   it("keeps situation types to human moments, with no election-night type", () => {
     const types = SITUATION_LIBRARY.types;
-    expect(types).toHaveLength(31);
+    // 32, plus the justice engine's hearing and verdict (OPUS-GOV, October 14, 2026).
+    expect(types).toHaveLength(34);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
@@ -571,6 +572,38 @@ describe("story director on the new core", () => {
         .get("person:worker")!
         .schedule.find((row) => row.mode !== "before-opening"),
     ).toMatchObject({ outcome: "scene-now", stopsSkip: true });
+  });
+
+  it("keeps a scene kind the player filtered out from interrupting them", () => {
+    const filtered = createDirector({ watch: ["person:worker"] });
+    const core = createLifeCore(town("place:director-fixture"), {
+      scheduledWork: false,
+      modules: [fixtureWorld("place:director-fixture"), filtered.module],
+    });
+    filtered.start(core);
+    // The player allows only funerals to stop their day (owner, Oct 14, 2026).
+    const record = filtered.setSceneFilter(
+      "person:worker",
+      ["funeral", "not-a-kind"],
+      core.date,
+    );
+    expect(record?.allowedKinds).toEqual(["funeral"]);
+    advanceCore(core, "2021-01-15");
+    const entry = filtered.ledger.people
+      .get("person:worker")!
+      .schedule.find((row) =>
+        row.momentId.endsWith("fixture-closed:2021-01-10"),
+      )!;
+    // The same 0.509 job loss that otherwise takes over is a journal line.
+    expect(entry).toMatchObject({
+      interrupt: false,
+      outcome: "journal-line",
+      bindings: [],
+    });
+    expect(
+      filtered.setSceneFilter("person:worker", null, core.date),
+    ).toBeNull();
+    expect(filtered.ledger.sceneFilters.size).toBe(P.zero);
   });
 
   it("lets a death take over the screen, stop a skip, and log a moment no type stages", () => {

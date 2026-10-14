@@ -1,0 +1,35 @@
+{
+  "about": "States with a statewide recall law whose signature requirement is tiered, ranged or compound, so no single threshold is read. Each row says why and cites the corpus row (data/municipal-elections/92O-national-state-baseline.json, secondary-synthesis-only). Read by src/core2/gov-rules/municipal-election-rule-packs.ts.",
+  "states": {
+    "CA": {
+      "why": "Tiered by registered voters: 30% under 1,000; 25% for 1,000 to 10,000; 20% for 10,000 to 50,000; 15% for 50,000 to 100,000; 10% for 100,000 and over.",
+      "citation": "Cal. Const. art. II sec. 19; Cal. Elec. Code div. 11 (sec. 11000 et seq.)",
+      "tag": "SOURCED"
+    },
+    "DC": {
+      "why": "Compound: 10% of registered electors District-wide plus 10% of registered electors in at least 5 of the 8 wards.",
+      "citation": "D.C. Code sec. 1-204.111 et seq., sec. 1-1001.16",
+      "tag": "SOURCED"
+    },
+    "FL": {
+      "why": "Two petitions: 10% of registered electors (7.5% in cities over 25,000, 5% over 100,000), then a second petition of 15% more within 60 days.",
+      "citation": "Fla. Stat. sec. 100.361 (Uniform Municipal Recall Statute)",
+      "tag": "SOURCED"
+    },
+    "LA": {
+      "why": "Tiered by registered voters: 40% under 1,000; 33.3% for 1,000 to 25,000; 25% for 25,000 to 50,000; 20% at 50,000 and over.",
+      "citation": "La. Const. art. X sec. 26; La. R.S. 18:1300.1 et seq.",
+      "tag": "SOURCED"
+    },
+    "MT": {
+      "why": "Tiered by city size: 15% for cities over 1,000, 20% for smaller.",
+      "citation": "Mont. Const. art. XI sec. 8; Mont. Code Ann. title 2, ch. 16, pt. 6",
+      "tag": "SOURCED"
+    },
+    "WA": {
+      "why": "Tiered by city class (25% for first and second class, 35% for others) of votes cast for the office, after a mandatory court sufficiency hearing.",
+      "citation": "Wash. Const. art. I secs. 33, 34; RCW 29A.56.110 et seq.",
+      "tag": "SOURCED"
+    }
+  }
+}

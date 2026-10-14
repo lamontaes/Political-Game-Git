@@ -226,5 +226,65 @@
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from mined speech; blame leaning on views, trust and the person's own experience of each official (M4-05).",
     "status": "resolved"
+  },
+  {
+    "id": "SG-PEOPLE-opening-goal-words",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/opening-story.json",
+    "line": 1,
+    "whatItFakes": "Which of the bill catalog's policy names read as an action the President can ask Congress for, listed by their first word.",
+    "why": "The opening address needs the President's own issues as a {goal} now; the catalog names some questions as actions (\"raise minimum wage\") and some as things (\"paid family leave\").",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "An action phrase on each policy question in OPUS-GOV's bill catalog, or a mined goal phrase per question from OPUS-WORDS.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-address-register",
+    "kind": "hand-written-bank",
+    "file": "src/director/opening-story.ts",
+    "line": 1,
+    "whatItFakes": "The register card the President's opening address composes under: election night's public-address card stands in for a President's address.",
+    "why": "The engine has no register card for a State of the Union or an inaugural address yet (docs/coordination/words.md); the mined sentences need a public-address card to compose.",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "A President's-address register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-newscast-register",
+    "kind": "hand-written-bank",
+    "file": "src/director/opening-story.ts",
+    "line": 1,
+    "whatItFakes": "The register card the evening news composes under: the press briefing's card stands in for a newscast.",
+    "why": "The engine has no register card for a newscast yet (docs/coordination/words.md); the opening's evening news composes now.",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "A newscast register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-opening-key-people",
+    "kind": "owner-decision",
+    "file": "src/director/opening-sequence.ts",
+    "line": 1,
+    "whatItFakes": "Who the opening points out as its key people: picked from the offices and leadership records by rank (Vice President, Speaker, Senate majority leader with the President; Congress's other leaders and your state's members; your governor and your state legislature's leaders), with no cabinet picks because no cabinet is seated yet.",
+    "why": "Owner ruling, Oct 14, 2026 (late): the owner clarifies who the key people are tomorrow; until then the CTO's rank list stands.",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's list of key people, as rows in src/director/data/opening-story.json (sequence.stages), with cabinet picks once an engine seats a cabinet.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-poll-workers",
+    "kind": "missing-producer",
+    "file": "src/director/polling-place.ts",
+    "line": 1,
+    "whatItFakes": "Nobody works the polling place: the election-day scene shows the voter and the household members who may vote, with no poll workers.",
+    "why": "The elections engine records no polling place for a precinct and no one who works it; the scene's poll-workers role needs that record.",
+    "addedBy": "director/scenes-and-filters",
+    "addedAt": "2026-10-14",
+    "replacement": "GOV's polling-place record (`polling-place:<precinct>` with `pollWorkerIds`), read by the poll-workers fill.",
+    "status": "open"
   }
 ]
