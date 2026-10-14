@@ -1170,15 +1170,37 @@ function main() {
     cached = JSON.parse(readFileSync(cachePath, "utf8"));
   if (!cached) {
     cached = { raws: [], gaps: [], stood: [] };
-    if (only !== "conversation")
-      for (const place of placeList) {
+    if (only !== "conversation") {
+      // A world that fails to run is named as a gap and the next place is
+      // drawn, so the batch still covers as many places as asked.
+      const read: Place[] = [];
+      for (let life = 0; read.length < places && life < places * 2; life += 1) {
+        const drawn = drawPlace(`${seed}:${life}`, "dialogue-report");
+        const place: Place = {
+          life,
+          key: drawn.key,
+          name: drawn.name,
+          state: drawn.state,
+          seed: drawn.seed,
+        };
         console.error(`reading ${place.name}`);
-        const read = readWorld(place);
-        cached.raws.push(...read.raws);
-        cached.gaps.push(...read.gaps.map((g) => `${place.name}: ${g}`));
-        cached.stood.push(...read.stood);
+        try {
+          const world = readWorld(place);
+          cached.raws.push(...world.raws);
+          cached.gaps.push(...world.gaps.map((g) => `${place.name}: ${g}`));
+          cached.stood.push(...world.stood);
+          read.push(place);
+        } catch (error) {
+          const message =
+            error instanceof Error ? error.message : String(error);
+          cached.gaps.push(
+            `${place.name} (seed ${place.seed}): the played world stopped before its year ended (${message}); another place was drawn`,
+          );
+        }
         (globalThis as { gc?: () => void }).gc?.();
       }
+      placeList.splice(0, placeList.length, ...read);
+    }
     if (cachePath) writeFileSync(cachePath, JSON.stringify(cached));
   }
   const conversation = mix.conversation
