@@ -53,6 +53,7 @@ import {
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
 const DONATION_KIND = "campaigns:donation";
 const AD_KIND = "campaigns:ad-buy";
+const POLL_KIND = "campaigns:poll";
 
 export interface CampaignRow {
   readonly id: string;
@@ -198,6 +199,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
+    [POLL_KIND]: (api, reference) => moneySlot(api, reference.id),
   },
 };
 
@@ -1387,7 +1389,7 @@ export function commissionPoll(
   if (n === 0) return poll;
   postMoney(
     api,
-    AD_KIND,
+    POLL_KIND,
     `poll:${input.filingId}:${date}:${campaign.spentMinor}`,
     campaign.organizationId,
     pollster(api),

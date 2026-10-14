@@ -6,6 +6,7 @@ import { residentsRuntime, shiftToOpenSellers } from "./modules/residents";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-market-entry");
@@ -29,7 +30,7 @@ describe(`a business founded mid-run in ${place.name}, ${place.state} (seed ${se
         settings: { population: 1500 },
       }),
     );
-    advanceCore(core, "2021-01-20");
+    advanceCore(core, daysAfterStart(19));
     const rt = residentsRuntime(core)!;
     const purchases = () =>
       [...rt.flows.values()].filter(
@@ -71,7 +72,7 @@ describe(`a business founded mid-run in ${place.name}, ${place.state} (seed ${se
     // The market is split, not grown: the same purchases, more sellers.
     expect(byKind(rivalFlow.financeKind)).toBe(before);
     expect(rivalFlow.amountMinor).toBeLessThan(rivalBefore);
-    advanceCore(core, "2021-03-01");
+    advanceCore(core, daysAfterStart(59));
     expect(
       core.organizations.get("founded:test-shop")!.liquidMinor,
     ).toBeGreaterThan(0);
@@ -85,7 +86,7 @@ describe(`a business founded mid-run in ${place.name}, ${place.state} (seed ${se
         settings: { population: 1500 },
       }),
     );
-    advanceCore(core, "2021-01-10");
+    advanceCore(core, daysAfterStart(9));
     const rt = residentsRuntime(core)!;
     const live = () =>
       [...rt.flows.values()].filter(
@@ -134,7 +135,7 @@ describe(`a business founded mid-run in ${place.name}, ${place.state} (seed ${se
     if (sameCadence) expect(others()).toBe(before + moved);
     expect(others()).toBeGreaterThan(before);
     const startCash = cash(core) + outsideNet(core);
-    advanceCore(core, "2021-03-01");
+    advanceCore(core, daysAfterStart(59));
     expect(cash(core) + outsideNet(core)).toBe(startCash);
   }, 300_000);
 });

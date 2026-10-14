@@ -29,6 +29,7 @@ import {
   type BenchFilingVisit,
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
+import { pollingScene } from "./polling";
 import {
   openConversation,
   say,
@@ -660,7 +661,45 @@ const server = createServer(async (request, response) => {
         ...result,
         names: namesFor(result.packet),
         progress: benchProgress(requireCore(), placeId, player?.personId),
+        pollingPlace: player.pollingPlace
+          ? pollingScene(requireCore(), player.pollingPlace)
+          : null,
       });
+      return;
+    }
+    // Election day at the polls: the ballot, marked race by race, or left.
+    if (request.method === "GET" && url.pathname === "/api/polling-place") {
+      send(
+        200,
+        player?.pollingPlace
+          ? pollingScene(requireCore(), player.pollingPlace)
+          : null,
+      );
+      return;
+    }
+    if (
+      request.method === "POST" &&
+      url.pathname === "/api/polling-place/mark"
+    ) {
+      if (!player) throw new Error("Generate a town first.");
+      const record = player.markBallot(
+        url.searchParams.get("contestId") ?? "",
+        url.searchParams.get("candidateId") || null,
+      );
+      send(200, {
+        record,
+        pollingPlace: player.pollingPlace
+          ? pollingScene(requireCore(), player.pollingPlace)
+          : null,
+      });
+      return;
+    }
+    if (
+      request.method === "POST" &&
+      url.pathname === "/api/polling-place/leave"
+    ) {
+      if (!player) throw new Error("Generate a town first.");
+      send(200, { record: player.leavePolls(), pollingPlace: null });
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/resume") {
