@@ -1408,11 +1408,15 @@ const sheets = {
         "div",
         { className: "character" },
         portraitUrl()
-          ? el("img", {
-              className: "portrait",
-              src: portraitUrl(),
-              alt: c.name,
-            })
+          ? el(
+              "div",
+              { className: "portrait-frame" },
+              el("img", {
+                className: "portrait",
+                src: portraitUrl(),
+                alt: c.name,
+              }),
+            )
           : "",
         el("b", { className: "name", textContent: c.name }),
       ),

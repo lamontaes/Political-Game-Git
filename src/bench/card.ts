@@ -11,7 +11,7 @@ import {
   BALANCED_TRAIT,
   PEOPLE_TRAITS,
   TRAIT_SHAPES,
-  peopleTraitId,
+  PEOPLE_MIND_VERSION,
 } from "../simulation/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 
@@ -110,7 +110,7 @@ export function personCard(core: CoreState, personId: string) {
       : null,
     // The temperament recorded on the person, each in the pole's own word.
     traits: PEOPLE_TRAITS.flatMap((trait) => {
-      const value = person.traits[peopleTraitId(trait)];
+      const value = person.traits[`${PEOPLE_MIND_VERSION}:${trait}`];
       if (value === undefined) return [];
       const shape = TRAIT_SHAPES[trait];
       return [
