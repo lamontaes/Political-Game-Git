@@ -59,7 +59,7 @@ import { townDistrict } from "../offices-state";
 import {
   announce,
   contestsOnDate,
-  fileCandidacy,
+  checkEligibility,
   filingRulesFor,
   openNextContest,
   specialContestFor,
@@ -639,7 +639,7 @@ function countedField(
   return contestView(api, contest, field).field;
 }
 
-/** A candidate's recognition in town: named adults who heard of them and counted adults reached, over all adults. */
+/** A candidate's recognition in town: the share of the named adults who heard of them, or of all adults counting those the campaign reached, whichever is wider. */
 function townShareKnowing(
   api: CoreAPI,
   namedAdults: number,
@@ -655,8 +655,12 @@ function townShareKnowing(
           .get(filingId) as unknown as { countedReached?: number } | undefined
       )?.countedReached ?? 0)
     : 0;
+  // The named adults stand for the town as its sample; the counted adults a
+  // campaign's doors and mail reached raise that where they reach further.
+  const sample = namedAdults ? namedHeard / namedAdults : 0;
   const all = namedAdults + counted;
-  return all ? Math.min(1, (namedHeard + Math.min(counted, reached)) / all) : 0;
+  const reach = all ? (namedHeard + Math.min(counted, reached)) / all : 0;
+  return Math.min(1, Math.max(sample, reach));
 }
 
 /** The town's counted adults today. */
@@ -886,20 +890,18 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       : undefined);
   // Each stands where the place's records say filings go, on the same
   // rules any candidate meets, and the filing is announced. A full person
-  // who doesn't meet the rules isn't put on the ballot.
+  // who doesn't meet the rules isn't put on the ballot. The stand-in files
+  // for them when filing closes; when they would have filed is the
+  // stand-in's to fake, so its filing counts as on time.
   const put = (personId: string, party: string | null, how: string) => {
     if (ballot(api, contestId).some((f) => f.personId === personId)) return;
-    if (api.state.people.has(personId)) {
-      const filed = fileCandidacy(api, {
-        personId,
-        contestId,
-        platform: [],
-        party,
-      });
-      if (filed.status !== "refused")
-        filings.put({ ...filed.filing, how } as unknown as ModuleRow);
+    if (
+      api.state.people.has(personId) &&
+      checkEligibility(api, personId, contestId, party).some(
+        (c) => !c.met && c.rule !== "filing-deadline",
+      )
+    )
       return;
-    }
     const filing: FilingRow = {
       id: `filing:${contestId}:${personId}`,
       contestId,
@@ -1585,7 +1587,21 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     ) as unknown as { candidateId: string | null } | undefined;
     // The player's ballot is the player's own: the engine never casts it.
     // With none chosen, the player didn't vote in this race.
-    if (voter.id === playerId && !chosen) continue;
+    if (voter.id === playerId && !chosen) {
+      table(api, "ballots").put({
+        id: `ballot:${contestId}:${voter.id}`,
+        contestId,
+        voterId: voter.id,
+        date,
+        voted: false,
+        turnoutReasons: { duty: 0, interest: 0, cost: 0 },
+        choice: null,
+        appeal: {},
+        basis: "party-name-incumbency",
+        toldPollster: null,
+      } as unknown as ModuleRow);
+      continue;
+    }
     const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
     if (chosen && !decided.votes) recordChosenVote(api, voter.id);
     const t = chosen ? { ...decided, votes: true } : decided;

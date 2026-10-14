@@ -534,10 +534,21 @@ export function checkEligibility(
   // Where they must live: the town for a local seat; the state for a state
   // or federal one (a district's own residency rule is in the requirement
   // text the place's records give).
+  // Whoever holds the seat met its residency rule when they took it.
+  const holdsSeat = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+  ).some((t) => t.personId === personId);
   const resident =
-    contest.level === "federal" || contest.level === "state"
+    holdsSeat ||
+    (contest.level === "federal" || contest.level === "state"
       ? stateOfPlace(person.placeId) === town(api).stateKey
-      : person.placeId === town(api).townPlaceId;
+      : person.placeId === town(api).townPlaceId);
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
