@@ -3078,5 +3078,53 @@
     "addedAt": "2026-10-14",
     "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-past-undated-law-age",
+    "kind": "estimated-data",
+    "file": "src/core2/data/past/parameters.json",
+    "line": 41,
+    "whatItFakes": "A law the research records only as in force at the opening (a state's policy answers, a law carried back to the start date) is given an enactment date between one and twenty years before day one, fixed by the world's seed.",
+    "why": "The starting-law research reads which law is in force on its calibration date, not when each was passed.",
+    "addedBy": "OPUS-CORE (the-world-has-a-past)",
+    "addedAt": "2026-10-14",
+    "replacement": "Enactment years from the research for each policy answer (NCSL and state code histories), read by the law history in place of the seeded age.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-past-named-only",
+    "kind": "generated-identity",
+    "file": "src/core2/past-elections.ts",
+    "line": 299,
+    "whatItFakes": "The prior election's challenger, a law's sponsor or signer who left office before day one, and the predecessors who held a seat are names drawn from the seed, not people of the world.",
+    "why": "Only officeholders and the player's circle are full people (two-level population); the people who lost or left are not filled in yet.",
+    "addedBy": "OPUS-CORE (the-world-has-a-past)",
+    "addedAt": "2026-10-14",
+    "replacement": "The core's fill-in makes a challenger or former official a full person the moment the player meets or looks them up, matching the name, party and record already written (OPUS-CORE fill-in).",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-past-archive-kind",
+    "kind": "missing-record",
+    "file": "src/core2/past-news.ts",
+    "line": 82,
+    "whatItFakes": "Archive stories use kinds prefixed 'archive:' in the news engine's story shape, and keep their facts on the story with a pointer in the reader's knowledge.",
+    "why": "The press session has not yet named a news-archive record kind; asked on PR #4190.",
+    "addedBy": "OPUS-CORE (the-world-has-a-past)",
+    "addedAt": "2026-10-14",
+    "replacement": "The press engine's own archive kind, written through its writer, once it lands.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-past-no-deaths-closures",
+    "kind": "missing-record",
+    "file": "src/core2/past-news.ts",
+    "line": 84,
+    "whatItFakes": "The news archive carries elections, laws, votes and budgets, but no deaths or business closures from the year before day one.",
+    "why": "The generated past holds no death or closure records dated before the opening: kin and businesses start on day one.",
+    "addedBy": "OPUS-CORE (the-world-has-a-past)",
+    "addedAt": "2026-10-14",
+    "replacement": "Deaths of the circle's relatives and closures of the town's businesses in the year before day one, generated as records by the deep past and the business engine, and carried into the archive.",
+    "status": "open"
   }
 ]
