@@ -318,6 +318,66 @@ export function bankYes(
  * A home loan from the town bank: the bank pays the seller the principal and
  * the household repays monthly like any loan. Zero when the bank has no room.
  */
+/**
+ * Home loans of households that no longer exist in the town (a counted
+ * household that died out or moved away): the home is sold to a buyer from
+ * outside the town, whose money repays the bank, and the loan is paid off.
+ * `exists` says whether a household is still here. Returns the homes sold.
+ */
+export function settleDepartedHomeLoans(
+  api: CoreAPI,
+  exists: (householdId: string) => boolean,
+  buyerOf: (householdId: string) => string | undefined,
+): string[] {
+  const c = core(api);
+  const sold: string[] = [];
+  for (const loan of store(api)
+    .table("loans")
+    .query("open", [true]) as unknown as LoanRow[]) {
+    if (loan.kind !== "mortgage" && loan.kind !== "home-equity") continue;
+    if (exists(loan.householdId)) continue;
+    const buyer = buyerOf(loan.householdId);
+    if (!buyer) continue;
+    const paid = transferCash(
+      api,
+      `home-sale-payoff:${loan.id}:${c.date}`,
+      buyer,
+      loan.lenderId,
+      loan.balanceMinor,
+      {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: creditData.source.citation,
+        estimatedFrom: `The home of a household no longer in the town, sold to a buyer from outside, repays ${loan.id}.`,
+      },
+    );
+    store(api)
+      .table("loans")
+      .put({
+        ...loan,
+        balanceMinor: Math.max(0, loan.balanceMinor - paid),
+        pastDueMinor: 0,
+        standing: "paid",
+        open: false,
+      } as unknown as { id: string });
+    sold.push(loan.householdId);
+  }
+  return sold;
+}
+
+/** What the town bank's capital has room left to lend, in minor units (0 without a bank). */
+export function lendingRoom(api: CoreAPI): number {
+  const bank = bankOf(api);
+  if (!bank) return 0;
+  const book = equity(api, bank.organizationId);
+  return Math.max(
+    0,
+    book.equity * api.parameter("creditMaxLimitsPerEquity") -
+      book.limits -
+      book.loans,
+  );
+}
+
 export function lendMortgage(
   api: CoreAPI,
   input: {

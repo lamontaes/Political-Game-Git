@@ -150,6 +150,8 @@ export function takeNewHome(
   ).find(
     (p) => p.placeId === placeId && p.kind === "single" && !p.open,
   )?.builderId;
+  // No builder on record to sell it: the house stays for sale.
+  if (!builder) return undefined;
   stock.put({ ...row, newHomesForSale: row.newHomesForSale - 1 });
   return builder;
 }

@@ -154,6 +154,47 @@ describe("property tax bills", () => {
         core.organizations.get("organization:servicer")!.liquidMinor,
     ).toBeLessThanOrEqual(deposit + 1);
   });
+  it("when the mortgage is paid off, the escrow's balance goes back to the owner, who then pays the installment directly", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [HOUSING_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2021-01-02");
+    const mortgages = api.moduleState("housing").table("mortgages");
+    mortgages.put({
+      id: "mortgage:household:owner",
+      householdId: "household:owner",
+      holderId: "organization:servicer",
+      balanceMinor: 20_000_000,
+      monthsLeft: 300,
+    });
+    const table = api.moduleState("housing").table("assessments");
+    const home = {
+      householdId: "household:owner",
+      placeId: place,
+      valueMinor: 40_000_000,
+    };
+    const annual = 40_000_000 * stateEffectiveRate("NJ");
+    billPropertyTax(api, table, [home]);
+    const held = api.accounts().balance("escrow:organization:servicer");
+    expect(held).toBeGreaterThan(0);
+    // Paid off before February's installment.
+    mortgages.put({
+      id: "mortgage:household:owner",
+      householdId: "household:owner",
+      holderId: "organization:servicer",
+      balanceMinor: 0,
+      monthsLeft: 0,
+    });
+    advanceCore(core, "2021-02-02");
+    const before = core.people.get("owner")!.liquidMinor;
+    billPropertyTax(api, table, [home]);
+    expect(api.accounts().balance("escrow:organization:servicer")).toBe(0);
+    expect(core.people.get("owner")!.liquidMinor).toBe(
+      before + held - Math.round(annual / 4),
+    );
+  });
   it("an owner without a mortgage owes nothing in a month with no installment due", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),

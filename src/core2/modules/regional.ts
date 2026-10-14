@@ -95,20 +95,28 @@ export function stepRegional(
   const p = (key: string) => api.parameter(key);
   const months = store(api).table("months");
   const stepped: RegionMonth[] = [];
-  // The town's state's and local governments' purchases above their base, over the state's output.
+  // The town's state government's purchases above their base move the state's regions, over the state's output;
+  // its county's and city's move the town's own region, over that region's output.
   const state = statePurchasesAboveMinor(api);
+  const outputOf = (region: (typeof REGIONS)[number]) =>
+    region.population *
+    (region.perCapitaIncome ?? 0) *
+    p("regionalOutputPerPersonalIncome");
   let statePct = 0;
-  if (state && state.aboveMinor !== 0) {
+  const townRegion = state ? regionOfPlace(state.townPlaceId) : undefined;
+  let localPct = 0;
+  if (state) {
     let output = 0;
     for (const region of REGIONS)
-      if (region.stateUsps === state.usps)
-        output +=
-          region.population *
-          (region.perCapitaIncome ?? 0) *
-          p("regionalOutputPerPersonalIncome");
-    if (output > 0)
+      if (region.stateUsps === state.usps) output += outputOf(region);
+    if (output > 0 && state.stateMinor !== 0)
       statePct =
-        (state.aboveMinor / p("macroHundred") / output) * p("macroHundred");
+        (state.stateMinor / p("macroHundred") / output) * p("macroHundred");
+    const own = townRegion ? REGION_BY_ID.get(townRegion) : undefined;
+    const ownOutput = own ? outputOf(own) : 0;
+    if (ownOutput > 0 && state.localMinor !== 0)
+      localPct =
+        (state.localMinor / p("macroHundred") / ownOutput) * p("macroHundred");
   }
   for (const region of REGIONS) {
     const previous = months.get(
@@ -120,7 +128,8 @@ export function stepRegional(
       before,
       now,
       p,
-      state && region.stateUsps === state.usps ? statePct : 0,
+      (state && region.stateUsps === state.usps ? statePct : 0) +
+        (region.id === townRegion ? localPct : 0),
     );
     stepped.push(row);
     months.put({ ...row });

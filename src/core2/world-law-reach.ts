@@ -217,7 +217,10 @@ const rentHelp: PolicyHandler = (api, law) => {
     )
     .slice(0, slots)
     .map(([id]) => id)
-    .filter((id) => c.finance.contracts.has(`lease:${id}`));
+    .filter((id) => {
+      const lease = c.finance.contracts.get(`lease:${id}`);
+      return lease !== undefined && !lease.endedAt;
+    });
   setRentHelp(api, {
     governmentKey: government.id,
     payerId: government.organizationId,

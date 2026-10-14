@@ -9,6 +9,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { ownedHomes } from "./housing";
 import { residentsRuntime } from "./residents";
+import { retirementClaims } from "./retirement-claims";
 import poverty from "../data/world-metrics-poverty.json" with { type: "json" };
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
@@ -200,12 +201,14 @@ export function townMetrics(api: CoreAPI) {
     if (job && job.endsAt === undefined && !flow.endedAt)
       addPay(job.personId, job.wageDailyMinor * daysPerYear);
   }
+  // Retirement claims made in play (full and counted), and counted retirees' added income.
+  for (const [personId, claim] of retirementClaims(c))
+    addPay(personId, claim.monthlyMinor * monthsPerYear);
   for (const flow of rt?.flows.values() ?? [])
-    if (flow.id.startsWith("retirement-claim:") && !flow.endedAt)
-      addPay(
-        flow.id.slice("retirement-claim:".length),
-        flow.amountMinor * monthsPerYear,
-      );
+    if (flow.id.startsWith("residents:retirement:added:") && !flow.endedAt)
+      for (const [part, amount] of Object.entries(flow.amountByContract ?? {}))
+        if (part.startsWith("retiree:"))
+          addPay(part.slice("retiree:".length), amount * monthsPerYear);
   for (const row of rows(api, "jobs", "claims") as unknown as {
     personId: string;
     open: boolean;

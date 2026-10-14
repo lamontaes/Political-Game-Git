@@ -76,7 +76,7 @@ describe("public purchases and output", () => {
       "test",
       { highways: state.residents * 50 * 100 },
     );
-    expect(statePurchasesAboveMinor(api)!.aboveMinor).toBe(
+    expect(statePurchasesAboveMinor(api)!.stateMinor).toBe(
       state.residents * 50 * 100,
     );
     const share = federalPurchasesPct(api);

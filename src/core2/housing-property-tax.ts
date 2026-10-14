@@ -132,6 +132,8 @@ interface AssessmentRow {
   year: number;
   /** What the servicer's escrow holds for the home (below zero: what it advanced). */
   escrowMinor?: number;
+  /** Who holds that escrow. */
+  servicerId?: string;
 }
 
 /**
@@ -190,7 +192,7 @@ export function billPropertyTax(
   const usps = c.placeMetadata?.housingState ?? "",
     due = dueShare(usps, Number(c.date.slice(5, 7)));
   // Each escrowed home's servicer: the mortgage's holder, or the bank for a home loan made in play.
-  const escrowed = new Map<string, string>();
+  const escrowed = new Map<string, { servicer: string; opening: boolean }>();
   for (const row of api
     .moduleState("housing")
     .table("mortgages")
@@ -199,7 +201,8 @@ export function billPropertyTax(
     holderId: string;
     monthsLeft: number;
   }[])
-    if (row.monthsLeft > 0) escrowed.set(row.householdId, row.holderId);
+    if (row.monthsLeft > 0)
+      escrowed.set(row.householdId, { servicer: row.holderId, opening: true });
   if ((api.state as CoreState).modules.has("credit"))
     for (const row of api
       .moduleState("credit")
@@ -210,7 +213,10 @@ export function billPropertyTax(
       lenderId: string;
     }[])
       if (row.kind === "mortgage" && row.householdId)
-        escrowed.set(row.householdId, row.lenderId);
+        escrowed.set(row.householdId, {
+          servicer: row.lenderId,
+          opening: false,
+        });
   const byPlace = new Map<string, PropertyTaxTerms>();
   const termsFor = (placeId: string) => {
     let row = byPlace.get(placeId);
@@ -289,6 +295,25 @@ export function billPropertyTax(
       partial: true,
     }).paidMinor;
   };
+  // Where a refund goes: a full household's oldest member, else its place's pooled account.
+  const ownerAccount = (householdId: string, placeId: string) => {
+    const household = c.households.get(householdId);
+    if (household) {
+      const head = [...household.memberIds]
+        .map((pid) => c.people.get(pid))
+        .filter((person) => person?.alive)
+        .sort(
+          (a, b) =>
+            a!.birthDate.localeCompare(b!.birthDate) ||
+            a!.id.localeCompare(b!.id),
+        )[0];
+      return head ? accounts.main(head.id) : undefined;
+    }
+    const pooled = residentsRuntime(c)?.input.accounts.find(
+      (row) => row.placeId === placeId,
+    )?.accountId;
+    return pooled ? accounts.main(pooled) : undefined;
+  };
   const escrowAccount = (servicerId: string, source: Source) => {
     const id = `escrow:${servicerId}`;
     if (!c.cashJournal.accounts.has(id))
@@ -336,7 +361,8 @@ export function billPropertyTax(
     const to = payee(home.placeId, t);
     if (!to) continue;
     const county = accounts.main(to);
-    const servicer = escrowed.get(home.householdId);
+    const loan = escrowed.get(home.householdId);
+    const servicer = loan?.servicer;
     // A servicer outside the town keeps no account here: its escrow pays the county a twelfth as each deposit arrives.
     if (servicer && c.organizations.get(servicer)?.outsideFlow !== undefined) {
       total += pay(
@@ -350,6 +376,31 @@ export function billPropertyTax(
       continue;
     }
     if (!servicer) {
+      // The mortgage is paid off: the escrow settles with the owner (RESPA, 12 CFR 1024.34), a balance back to them, an advance repaid.
+      const held = assessments.get(id) as unknown as AssessmentRow;
+      if (held.escrowMinor !== undefined && held.servicerId) {
+        if (held.escrowMinor > 0)
+          moveTo(
+            `escrow-refund:${home.householdId}:${c.date}`,
+            `escrow:${held.servicerId}`,
+            ownerAccount(home.householdId, home.placeId) ?? county,
+            held.escrowMinor,
+            t.source,
+          );
+        else if (held.escrowMinor < 0)
+          pay(
+            home.householdId,
+            home.placeId,
+            accounts.main(held.servicerId),
+            -held.escrowMinor,
+            "escrow-repay",
+            t.source,
+          );
+        const rest: Record<string, unknown> = { ...held };
+        delete rest.escrowMinor;
+        delete rest.servicerId;
+        assessments.put(rest as { id: string });
+      }
       // No mortgage: the owner pays each installment as it falls due.
       total += pay(
         home.householdId,
@@ -366,7 +417,8 @@ export function billPropertyTax(
     const deposit = Math.round(annual / months);
     const escrow = escrowAccount(servicer, t.source);
     let balance = row.escrowMinor ?? 0;
-    if (row.escrowMinor === undefined)
+    // Only an opening mortgage's escrow is already funded; a loan made in play starts empty.
+    if (row.escrowMinor === undefined && loan!.opening)
       // A new escrow already holds the deposits made since the last installment: the servicer sets them aside from its cash.
       balance = moveTo(
         `escrow-opening:${home.householdId}:${c.date}`,
@@ -393,7 +445,7 @@ export function billPropertyTax(
       "escrow",
       t.source,
     );
-    assessments.put({ ...row, escrowMinor: balance });
+    assessments.put({ ...row, escrowMinor: balance, servicerId: servicer });
     if (installment > 0)
       fromEscrow.push({
         id,

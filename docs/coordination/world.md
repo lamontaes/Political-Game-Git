@@ -85,6 +85,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - Eviction research (general-purpose): hearing and stay periods from official statute text for 40 places.
 - Fresh-eyes review (general-purpose): 12 findings, 11 fixed.
 - Report review (civic-report-reviewer): the drift report, 14 findings, all addressed.
+- Fresh-eyes review of Oct 14's money paths (general-purpose, read-only): 13 findings, 12 fixed.
 - Island areas (general-purpose on Sonnet, read-only): 2020 census housing and labor, FDIC deposits.
 - PACE and island unions (general-purpose on Sonnet, read-only): pollution abatement costs by industry, territory union statistics.
 - Property tax due dates (general-purpose on Sonnet, read-only): official text for all 56 places.
@@ -202,6 +203,17 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-14: a fresh-eyes review of today's money paths (13 findings) and the fixes:
+  - A counted renter buys a new house only when the bank has room to lend the whole loan; the pool no longer covers a shortfall beyond the household's share.
+  - Escrow settles at payoff (RESPA, 12 CFR 1024.34): a balance goes back to the owner and an advance is repaid, so nobody pays a year's tax twice. Only an opening mortgage's escrow starts funded, so the bank no longer pays new buyers' cushions.
+  - A counted household that dies out or moves away sells its home to an outside buyer, whose money repays its loans. Before, the pool kept paying them.
+  - A home equity draw no longer counts as the founder's own money when the startup loan is sized.
+  - Rent help owed for a lease's last bill is paid even when the lease ended between reviews. A set-aside unit's new rent settles the help first. Ended leases no longer take rent-help slots.
+  - The town's county and city purchases move the town's own region; the state's move the whole state.
+  - Household income now counts retirement claims made in play and counted retirees' added income.
+  - The island areas' 2020 census values are aged from April 2020.
+  - A new house isn't taken off the market when no builder is on record.
+  - Left: counted escrow deposits are recorded before the pool pays, so a short pool could let one home's installment use another's deposits (pools rarely run short).
 - 2026-10-14: after the home equity lines, on the runner's places for that head: M1-06 passes in Franklin, Idaho, and M1-08 in Ethel, Mississippi (5 openings and 6 closings in three years, against 2 to 10 each).
 - 2026-10-14: the town bank's smallest personal loan ($1,000) is now a tunable figure cited to the FDIC's 2011 bank survey (43% of banks offering unsecured personal loans set no minimum, another 53% one of $2,500 or less), spread from nothing to $2,500. `SG-WORLD-credit-minimum-loan` is resolved.
 - 2026-10-14: the monthly rows carry real income growth: the median household's money income against the same month a year earlier, deflated by the nation's consumer prices (each row now records the price index). Conway, South Carolina, February 2021 to February 2022: real median household income fell 1.35%, in a year of 7% inflation.

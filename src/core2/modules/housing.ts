@@ -19,7 +19,13 @@ import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { regionalLevel, regionalRegistered } from "./regional";
 import { MACRO_PARAMETERS } from "./macro";
-import { bankYes, lendMortgage, monthlyIncome } from "./credit";
+import {
+  bankYes,
+  lendingRoom,
+  lendMortgage,
+  monthlyIncome,
+  settleDepartedHomeLoans,
+} from "./credit";
 import { chooseAct } from "../choice";
 import { CREDIT_PARAMETERS } from "./credit";
 import { DEFAULT_DATA } from "../data";
@@ -126,6 +132,14 @@ const ISLANDS = islandAreas.areas as Record<
     }
   | undefined
 >;
+/** When a place's rent and value figures were measured: the island areas' 2020 census, else the ACS 2020-2024 midpoint. */
+function valueDateOf(county: string): string {
+  return county.startsWith(`${NATION}:`) &&
+    ISLANDS[county.slice(`${NATION}:`.length)]
+    ? ISLAND_CENSUS_DATE
+    : ACS_VALUE_DATE;
+}
+const ISLAND_CENSUS_DATE = "2020-04-01";
 function nationTenure(town: { county: string }): [number, number] | undefined {
   if (!town.county.startsWith(`${NATION}:`)) return undefined;
   const island = ISLANDS[town.county.slice(`${NATION}:`.length)];
@@ -486,7 +500,7 @@ export function withHousing(input: CoreInput): CoreInput {
         medianValue *
           100 *
           // ACS values are dated mid-2022; the state's house price index moves them to the start.
-          homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
+          homePriceRatio(town.usps, valueDateOf(town.county), input.startedAt) *
           // A household without pay (most often retired) owns a home like its neighbors': the county's median.
           (row.income > 0 ? incomeScale(row.income) : 1),
       ),
@@ -1059,7 +1073,7 @@ function buyHomes(api: CoreAPI): void {
     const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
     const prices = homePriceRatio(
       c.placeMetadata?.housingState ?? "",
-      ACS_VALUE_DATE,
+      valueDateOf(c.placeMetadata?.housingCounty ?? ""),
       c.date,
       macroPrices(api),
     );
@@ -1211,7 +1225,7 @@ function buyCountedHomes(api: CoreAPI): void {
     r > 0 ? (principal * r) / (1 - (1 + r) ** -term) : principal / term;
   const prices = homePriceRatio(
     c.placeMetadata?.housingState ?? "",
-    ACS_VALUE_DATE,
+    valueDateOf(c.placeMetadata?.housingCounty ?? ""),
     c.date,
     macroPrices(api),
   );
@@ -1285,9 +1299,14 @@ function buyCountedHomes(api: CoreAPI): void {
       0,
       Math.floor(forSale),
     )) {
-      // A new house has its price: the loan is the rest of it.
+      // A new house has its price: the loan is the rest of it, and the bank must have room for all of it.
       const principal = Math.floor(row.value - row.down);
-      if (principal <= 0 || (pool?.liquidMinor ?? 0) < row.down) continue;
+      if (
+        principal <= 0 ||
+        (pool?.liquidMinor ?? 0) < row.down ||
+        lendingRoom(api) < principal
+      )
+        continue;
       const seller = takeNewHome(stock, store(api).table("projects"), placeId);
       if (!seller) break;
       const source = {
@@ -1312,13 +1331,13 @@ function buyCountedHomes(api: CoreAPI): void {
         annualRate: rate,
         termMonths: term,
       });
-      // What the bank can't lend the pool pays, so the builder gets the house's price.
+      // The bank checked its room above; anything it still fell short by (rounding) comes from the pool.
       const rest = transferCash(
         api,
         `house-price:${row.id}:${c.date}`,
         account.accountId,
         seller,
-        principal - lent,
+        Math.min(principal - lent, Math.max(0, cash - row.down)),
         source,
       );
       const rent = rt.flows.get(`rent:${row.id}`)!;
@@ -1372,6 +1391,26 @@ function review(api: CoreAPI): void {
   landlordPayout(api);
   buyHomes(api);
   buyCountedHomes(api);
+  // A household gone from the town (died out, moved away) leaves its home: it sells, and the sale repays its loans.
+  const rt = residentsRuntime(c);
+  if (c.modules.has("credit"))
+    for (const householdId of settleDepartedHomeLoans(
+      api,
+      (id) => c.households.has(id) || Boolean(rt?.households.has(id)),
+      (id) => {
+        const placeId =
+          (
+            store(api).table("dwellings").get(`dwelling:${id}`) as
+              { placeId?: string } | undefined
+          )?.placeId ?? c.placeMetadata?.placeId;
+        return [...c.organizations.values()].find(
+          (org) =>
+            org.outsideFlow !== undefined &&
+            (placeId === undefined || org.placeId === placeId),
+        )?.id;
+      },
+    ))
+      store(api).table("dwellings").remove(`dwelling:${householdId}`);
   // The landlord weighs each late lease past the grace period: how many months of rent are owed and how long.
   const late: { id: string; score: number; months: number }[] = [];
   for (const [id, row] of c.finance.contracts) {
@@ -1726,7 +1765,7 @@ function finish(
       const lease = c.finance.contracts.get(row.leaseId)!;
       const whole = contractRent(api, row.householdId, lease.amountMinor);
       if (rent >= whole) continue;
-      setLeaseRent(api, row.leaseId, row.householdId, rent);
+      setLeaseRent(api, row.leaseId, row.householdId, rent, true);
       store(api).table("affordable").put({
         id: row.householdId,
         householdId: row.householdId,
@@ -1877,9 +1916,18 @@ function setLeaseRent(
   leaseId: string,
   householdId: string,
   rentMinor: number,
+  /** A new rent set from the household's pay (a set-aside unit): the help owed so far is paid and the household's bill is the whole new rent. */
+  settleHelp = false,
 ): void {
   const table = store(api).table("rentHelp");
   const row = table.get(`help:${householdId}`) as RentHelpRow | undefined;
+  const lease = core(api).finance.contracts.get(leaseId);
+  if (settleHelp && row?.helpMinor && lease) {
+    payOwedHelp(api, row, lease);
+    api.setStandingContractAmount(leaseId, rentMinor);
+    table.put({ ...row, helpMinor: 0, billedMinor: rentMinor });
+    return;
+  }
   const help = Math.min(row?.helpMinor ?? 0, rentMinor);
   api.setStandingContractAmount(leaseId, rentMinor - help);
   if (row?.helpMinor)
@@ -1894,7 +1942,13 @@ function payRentHelp(api: CoreAPI): void {
   for (const row of rows) {
     const lease = c.finance.contracts.get(`lease:${row.householdId}`);
     const household = c.households.get(row.householdId);
-    if (!lease || lease.endedAt || !household) continue;
+    // A lease that ended since the last review (a move, a purchase, a removal): the help for its last bill is still owed.
+    if (lease?.endedAt) {
+      payOwedHelp(api, row, lease);
+      table.remove(row.id);
+      continue;
+    }
+    if (!lease || !household) continue;
     let income = 0;
     for (const id of household.memberIds) {
       const job = c.people.get(id)?.jobId;

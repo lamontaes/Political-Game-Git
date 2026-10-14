@@ -1320,12 +1320,16 @@ function found(
     Math.max(0, c.organizations.get(ownerFrom)?.liquidMinor ?? Infinity),
     location ? Math.max(0, location.fundsMinor) : founderMoney(api, founder),
   );
+  // The startup loan is sized on the founder's own money; a home equity line adds money but not equity.
+  const ownMinor = location
+    ? equityMinor
+    : Math.min(equityMinor, founderFunds(api, founder).savingsMinor);
   const shortOfMoney = (size: number) =>
     size * fullCost >
     equityMinor +
       foundingLoanLimit(
         api,
-        { equityMinor, monthlyProfitMinor: fullProfit * size },
+        { equityMinor: ownMinor, monthlyProfitMinor: fullProfit * size },
         term,
       );
   let scale = 1;
@@ -1508,7 +1512,8 @@ function found(
     startup - funded > 0
       ? lendForFounding(api, id, startup - funded, term, {
           founderId,
-          equityMinor: funded,
+          // The founder's own money in it: a home equity draw is the bank's, not theirs.
+          equityMinor: funded - drawn,
           monthlyProfitMinor:
             (annualDemandMinor * p(kind.marginParameter)) /
             p("macroMonthsPerYear"),

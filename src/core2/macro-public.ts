@@ -50,19 +50,33 @@ function above(
   return sum;
 }
 
-/** The state's and its local governments' purchases above their base, by the state's postal code, in minor units a year. */
-export function statePurchasesAboveMinor(
-  api: CoreAPI,
-): { usps: string; aboveMinor: number } | undefined {
+/** The town's state government's purchases above their base, and its county's and city's, in minor units a year. */
+export function statePurchasesAboveMinor(api: CoreAPI):
+  | {
+      usps: string;
+      stateMinor: number;
+      localMinor: number;
+      townPlaceId: string;
+    }
+  | undefined {
   if (!(api.state as CoreState).modules.has(BUDGETS_MODULE_ID))
     return undefined;
-  let sum = 0;
+  let state = 0,
+    local = 0;
   for (const gov of governments(api)) {
     if (gov.level === "federal") continue;
     const budget = inForce(api, gov);
-    if (budget) sum += above(budget, STATE_PURCHASES);
+    if (!budget) continue;
+    if (gov.level === "state") state += above(budget, STATE_PURCHASES);
+    else local += above(budget, STATE_PURCHASES);
   }
-  return { usps: lawChain(api).stateKey.replace(/^US-/, ""), aboveMinor: sum };
+  const chain = lawChain(api);
+  return {
+    usps: chain.stateKey.replace(/^US-/, ""),
+    stateMinor: state,
+    localMinor: local,
+    townPlaceId: chain.townPlaceId,
+  };
 }
 
 /** Federal purchases in the budget in force above their base, as a percent of output. */
