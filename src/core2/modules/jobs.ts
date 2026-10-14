@@ -1390,8 +1390,7 @@ function raisePay(api: CoreAPI): void {
   for (const job of jobs) {
     const placeId = c.organizations.get(job.organizationId)?.placeId;
     if (!placeId || !job.hourlyMinor) continue;
-    const row = pay.get(job.id) as
-      { level: number; at: string; since?: string } | undefined;
+    const row = pay.get(job.id) as { level: number; at: string } | undefined;
     const level = row?.level ?? api.parameter("one"),
       at = row?.at ?? api.state.startedAt;
     if (
@@ -1412,12 +1411,7 @@ function raisePay(api: CoreAPI): void {
           `A yearly raise following the place's pay level, ${level.toFixed(4)} to ${now.toFixed(4)} against the opening.`,
         ),
       );
-    pay.put({
-      id: job.id,
-      level: now,
-      at: c.date,
-      ...(row?.since ? { since: row.since } : {}),
-    });
+    pay.put({ id: job.id, level: now, at: c.date });
   }
   rerateCountedJobs(c, counted);
 }
@@ -2033,7 +2027,6 @@ function hireCounted(
         c.organizations.get(job.organizationId)?.placeId ?? "",
       ),
       at: c.date,
-      since: c.date,
     });
   store(api)
     .table("positions")
@@ -2272,14 +2265,6 @@ function reviewCountedEntry(api: CoreAPI): void {
 function reviewCountedQuits(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const going = new Map<string, number>();
-  for (const position of store(api)
-    .table("positions")
-    .query("byStatus", ["open"]) as unknown as PositionRow[])
-    going.set(
-      position.occupation,
-      Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
-    );
   const seekers = store(api).table("countedSeekers");
   const rows: { id: string; job: JobInput; placeId: string; score: number }[] =
     [];
@@ -2290,14 +2275,15 @@ function reviewCountedQuits(api: CoreAPI): void {
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
-      const payGap = Math.max(0, (going.get(roleOf(job)) ?? pay) / pay - 1);
       rows.push({
         id: job.id,
         job,
         placeId: person.placeId,
         score: quitScore(p, {
-          payGap,
-          tenureYears: countedTenureYears(api, job),
+          // A better-paid opening sends a worker looking while still employed (reviewCountedLooking), not out of work.
+          payGap: 0,
+          // A job held at the opening counts the years before it (the median for the worker's age).
+          tenureYears: tenureYears(api, job),
           unemploymentGapPts: unemploymentGap(api, person.placeId),
           restless: traitLeanBetween(
             c,
@@ -2460,21 +2446,6 @@ function countedRolesOf(rt: NonNullable<ReturnType<typeof residentsRuntime>>) {
     countedRoles.set(rt.input, roles);
   }
   return roles;
-}
-
-/** Years a counted worker has held their job: from their hire here, else their opening work commitment. */
-function countedTenureYears(api: CoreAPI, job: JobInput): number {
-  const c = core(api),
-    rt = residentsRuntime(c);
-  const since =
-    (store(api).table("pay").get(job.id) as { since?: string } | undefined)
-      ?.since ??
-    (rt ? countedRolesOf(rt).byJob.get(job.id)?.startsAt : undefined) ??
-    api.state.startedAt;
-  return (
-    Math.max(0, daysBetween(makeIsoDate(since), makeIsoDate(c.date))) /
-    api.parameter("jobsDaysPerYear")
-  );
 }
 
 /**
