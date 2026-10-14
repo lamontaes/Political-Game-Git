@@ -21,8 +21,12 @@ import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import {
+  answerInterview,
+  candidateAnswers,
   followersOf,
+  officeholderSpeaker,
   outletsHere,
+  requestInterview,
   storiesPrinted,
   PRESS_MODULE_ID,
   type InterviewRow,
@@ -39,6 +43,7 @@ import {
   believedCause,
   changesKnownTo,
 } from "../../src/director/bring-it-up";
+import { townSeats } from "../../src/core2/modules/offices";
 import type { CoreState } from "../../src/core2/types";
 
 setBookkeeping(false);
@@ -117,6 +122,10 @@ for (;;) {
   };
   let broughtUp: string | null = null;
   let filed: string | null = null;
+  // On day 90, between races, each seated resident asks each town outlet for
+  // an interview; the outlet decides by its reads.
+  const asksOn = addDays(makeIsoDate(start), 90);
+  const asks: string[] = [];
   const t1 = Date.now();
   for (let day = core.date; day < end;) {
     day = addDays(makeIsoDate(day), 1);
@@ -133,6 +142,28 @@ for (;;) {
         if (result.status !== "refused") {
           filed = `${core.date}: the player filed for ${contest.id} (${result.filing.id})`;
           break;
+        }
+      }
+    if (core.date === asksOn)
+      for (const { holder } of townSeats(api)) {
+        const id = holder?.personId;
+        if (!id || !core.people.get(id)?.alive) continue;
+        const speaker = officeholderSpeaker(api, id);
+        if (!speaker) continue;
+        for (const o of outletsHere(api).filter((x) => x.tier !== "national")) {
+          let row = requestInterview(api, { outletId: o.id, personId: id });
+          const why = row.interest
+            ? `worth ${row.interest.worth.toFixed(2)}, editor ${row.interest.head.toFixed(2)}, owner ${row.interest.owner.toFixed(2)}, readers ${row.interest.readers.toFixed(2)}`
+            : "";
+          if (row.status === "invited")
+            row = answerInterview(
+              api,
+              row.id,
+              candidateAnswers(api, row.questions, speaker),
+            );
+          asks.push(
+            `${row.id}: ${name(core, id)} (${id}) asked ${core.organizations.get(o.organizationId)?.name}: ${row.status}${row.reason ? ` (${row.reason})` : ""}; ${why}; questions ${row.questions.join(", ")}; story ${row.storyId ?? "none"}, reached ${row.audience}`,
+          );
         }
       }
     if (broughtUp) continue;
@@ -259,6 +290,8 @@ for (;;) {
   );
   for (const e of examples) console.log(`- ${e}`);
   // Owners: a story whose framing the owner's regard turned most.
+  console.log(`\n## Officeholders who asked (${asksOn})`);
+  for (const line of asks) console.log(`- ${line}`);
   console.log(`\n## Owners`);
   console.log(filed ?? "The player filed for no race.");
   const ownerTurned = all
