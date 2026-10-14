@@ -67,3 +67,16 @@ for (const [personId, row] of lost) {
     `  ${personId}: ${row.status} on ${row.date} (${row.id}); resolve ${formed.get(personId)?.id ?? "none (carried on or too young)"}; looking ${seeker ? `since ${seeker.since} (${seeker.reasonKey})` : "no"}; job ${job ? `${job.title} from ${job.startsAt}` : "none"}`,
   );
 }
+const housing = api.moduleState("housing");
+const cases = housing.table("cases").rows() as {
+  stage?: string;
+  status?: string;
+}[];
+const stages = new Map<string, number>();
+for (const row of cases) {
+  const key = String(row.stage ?? row.status ?? "?");
+  stages.set(key, (stages.get(key) ?? 0) + 1);
+}
+console.log(
+  `housing: ${cases.length} cases by stage ${JSON.stringify([...stages])}; ${housing.table("statuses").size} households not housed`,
+);
