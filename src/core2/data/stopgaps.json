@@ -3260,6 +3260,30 @@
     "status": "open"
   },
   {
+    "id": "SG-CORE-estate-tax-awaits-gov",
+    "kind": "missing-engine",
+    "file": "src/core2/estates.ts",
+    "line": 1,
+    "whatItFakes": "An estate pays no estate or inheritance tax: no tax series exists for it in the law catalog yet.",
+    "why": "Owner, Oct 14: the estate pays its debts, then the taxes in force, then the heirs. GOV adds the federal estate tax and the states' estate and inheritance taxes as law series.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "Probate reads the estate and inheritance tax series in force for the decedent's state and the nation, pays the named treasuries, and the heirs take the rest.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-trusts",
+    "kind": "owner-decision",
+    "file": "src/core2/estates.ts",
+    "line": 1,
+    "whatItFakes": "Nobody holds anything in a trust: every estate passes through probate.",
+    "why": "Owner, Oct 14: trusts are the simplest real version (assets that pass outside probate), behind an owner decision on how far trusts go in 1.0.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling on trusts: at least a revocable living trust a person can make, whose assets pass to its named beneficiaries at death without probate.",
+    "status": "open"
+  },
+  {
     "id": "SG-CORE-counted-giving-stand-in",
     "kind": "counted-giving",
     "file": "src/core2/modules/drives.ts",
@@ -3712,7 +3736,7 @@
     "kind": "estate",
     "file": "src/core2/estates.ts",
     "line": 1,
-    "whatItFakes": "A full person's estate is only their cash: homes, loans, businesses and accounts other than their main one are not settled, and no will is read. A relative who is still only a counted record does not inherit.",
+    "whatItFakes": "A full person's estate is only their cash and the standing payments they owed: homes, loans, businesses and accounts other than their main one are not settled. A relative who is still only a counted record does not inherit.",
     "why": "Money stress audit defect 6 (Oct 14): a dead person's cash stayed on their record. Cash first; the rest of an estate needs property and debt records the core doesn't settle yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",

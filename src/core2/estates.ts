@@ -1,17 +1,39 @@
 /**
- * A full person's estate when they die (money stress audit defect 6): their
- * cash passes, in one balanced journal entry per heir, to their nearest
- * living kin by the intestate order in `data/estates.json` (Uniform Probate
- * Code §2-102 to §2-103), shared equally within that class. With no living
- * kin it escheats to their state (UPC §2-105). Standing payments to them
- * (a benefit award) end. Stopgap
- * SG-CORE-estate-cash-only: only cash passes; homes, loans and businesses
- * are not settled, and no will is read.
+ * A full person's estate when they die (money stress audit defect 6; owner,
+ * Oct 14: wills, probate, debts and taxes before heirs). Standing payments
+ * to them (a benefit award) end. Their debts come first: what they owed and
+ * hadn't paid on each standing payment is paid from the estate, and the
+ * payment ends. Then probate: where the estates module runs, the estate
+ * waits `probateDays` (a timeline, not a scene). Then the heirs: by the
+ * person's will, where their traits and age led them to make one, in shares
+ * by closeness among their family; else by the intestate order in
+ * `data/estates.json` (Uniform Probate Code §2-102 to §2-103), equally within
+ * the first class with anyone living; with no kin it escheats to their state
+ * (UPC §2-105). The settlement is a public record.
+ *
+ * Stopgaps: SG-CORE-estate-cash-only (homes, loans and businesses are not
+ * settled), SG-CORE-estate-tax-awaits-gov (no estate or inheritance tax series
+ * exists yet; GOV adds them and this reads them), and
+ * SG-CORE-owner-decision-trusts (no trusts: how far trusts go in 1.0 is the
+ * owner's call).
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { outsideGovernment } from "./outside-governments";
-import type { CoreAPI, PersonId, PersonState } from "./types";
+import { closenessBetween } from "./closeness";
+import { decisionLean } from "./trait-decisions";
+import { registerModule } from "./state";
+import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "./types";
+
+export const ESTATES_MODULE_ID = "core2-estates-v1";
+const PROBATE_CLOSES = "probate-closes";
 
 export const ESTATES = data;
 
@@ -69,7 +91,71 @@ function escheatTo(
   return outsideGovernment(api, stateKey);
 }
 
-/** Pass a dead person's cash to their heirs, or to the state. Returns who received what. */
+/**
+ * Whether the person made a will, from their traits and age: the trait lean
+ * toward planning ahead over leaving things be (the shared trait table), plus
+ * how much older than `willAgeMidpointYears` they are. Their will leaves
+ * their estate to their living family in shares by how close each is.
+ */
+export function willOf(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): readonly { id: PersonId; weight: number }[] | null {
+  const p = (key: string) => api.parameter(key);
+  const age =
+    daysBetween(makeIsoDate(person.birthDate), makeIsoDate(api.state.date)) /
+    p("daysPerMeanYear");
+  const lean = decisionLean(
+    api.state,
+    person,
+    "estates.will",
+    "make-will",
+    "leave-it",
+  );
+  const score =
+    lean +
+    (p("willAgeWeight") * (age - p("willAgeMidpointYears"))) /
+      p("willAgeMidpointYears");
+  if (score <= p("zero")) return null;
+  const shares = [...person.familyIds]
+    .filter((id) => api.state.people.get(id)?.alive)
+    .sort()
+    .map((id) => ({ id, weight: closenessBetween(api.state, person.id, id) }))
+    .filter((row) => row.weight > p("zero"));
+  return shares.length ? shares : null;
+}
+
+/** Debts first: pays what the person owed and hadn't paid on each standing payment, then ends it. */
+function payDebts(api: CoreAPI, personId: PersonId, from: string): number {
+  const accounts = api.accounts();
+  let paid = api.parameter("zero");
+  for (const row of accounts.obligationsFrom(from)) {
+    const owed = Math.min(row.arrearsMinor, accounts.balance(from));
+    if (owed > api.parameter("zero")) {
+      accounts.transfer({
+        id: `estate-debt:${personId}:${row.id}`,
+        from,
+        to: row.to,
+        amountMinor: owed,
+        reasonKey: "estate.debt",
+        source: {
+          tag: "SOURCED",
+          asOf: api.state.date,
+          citation: `Estate of ${personId}: unpaid ${row.reasonKey} (${row.id}). Uniform Probate Code §3-805: debts are paid from the estate before heirs take.`,
+        },
+      });
+      paid += owed;
+    }
+    accounts.endObligation(row.id);
+  }
+  return paid;
+}
+
+/**
+ * Settle a dead person's estate: their payments end and their debts are paid
+ * at once; the heirs take after probate where the estates module runs (else
+ * now). Returns who received what now.
+ */
 export function settleEstate(
   api: CoreAPI,
   personId: PersonId,
@@ -81,29 +167,90 @@ export function settleEstate(
   const from = accounts.main(personId);
   // Benefits and other standing payments to them stop with their death.
   accounts.endObligationsTo(from);
+  payDebts(api, personId, from);
+  if (accounts.balance(from) <= api.parameter("zero")) return [];
+  if (api.state.modules.has(ESTATES_MODULE_ID)) {
+    api.moduleCalendar(ESTATES_MODULE_ID).schedule({
+      key: `${PROBATE_CLOSES}:${personId}`,
+      date: addDays(makeIsoDate(api.state.date), api.parameter("probateDays")),
+      kind: PROBATE_CLOSES,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `Probate of the estate of ${personId} after ${deathEventId}.`,
+        estimatedFrom: "probateDays",
+      },
+      sourceRecordIds: [personId, deathEventId],
+    });
+    return [];
+  }
+  return distribute(api, personId, deathEventId);
+}
+
+/** Probate closes: the estate passes by the will, or by the law. */
+function distribute(
+  api: CoreAPI,
+  personId: PersonId,
+  deathEventId: string,
+): readonly { toId: string; amountMinor: number }[] {
+  const person = api.state.people.get(personId);
+  if (!person) return [];
+  const accounts = api.accounts();
+  const from = accounts.main(personId);
   const estate = accounts.balance(from);
   if (estate <= api.parameter("zero")) return [];
   api.stopgap(data.stopgapId);
-  const { heirs, row } = heirsOf(api, person);
-  const treasury = heirs.length ? undefined : escheatTo(api, person);
-  const takers = heirs.length ? heirs : treasury ? [treasury] : [];
+  // No estate or inheritance tax series exists yet; none is taken.
+  api.stopgap("SG-CORE-estate-tax-awaits-gov");
+  // No trusts: everything passes through probate.
+  api.stopgap("SG-CORE-owner-decision-trusts");
+  const will = willOf(api, person);
+  const { heirs, row } = will
+    ? { heirs: [], row: undefined }
+    : heirsOf(api, person);
+  const treasury = will || heirs.length ? undefined : escheatTo(api, person);
+  const takers: { id: string; weight: number }[] = will
+    ? [...will]
+    : heirs.length
+      ? heirs.map((id) => ({ id, weight: api.parameter("one") }))
+      : treasury
+        ? [{ id: treasury, weight: api.parameter("one") }]
+        : [];
   if (!takers.length) return [];
+  const total = takers.reduce(
+    (n, taker) => n + taker.weight,
+    api.parameter("zero"),
+  );
   const paid: { toId: string; amountMinor: number }[] = [];
-  const share = Math.floor(estate / takers.length);
-  takers.forEach((toId, index) => {
-    // The first taker also receives the cents an equal split leaves over.
+  const shares = takers.map((taker) =>
+    Math.floor((estate * taker.weight) / total),
+  );
+  takers.forEach((taker, index) => {
+    // The first taker also receives the cents the shares leave over.
     const amountMinor = index
-      ? share
-      : estate - share * (takers.length - api.parameter("one"));
+      ? shares[index]!
+      : estate -
+        shares.reduce((n, share) => n + share, api.parameter("zero")) +
+        shares[0]!;
     if (amountMinor <= api.parameter("zero")) return;
     accounts.transfer({
-      id: `estate:${personId}:${toId}`,
+      id: `estate:${personId}:${taker.id}`,
       from,
-      to: accounts.main(toId),
+      to: accounts.main(taker.id),
       amountMinor,
-      reasonKey: heirs.length ? "estate.inheritance" : "estate.escheat",
-      source:
-        row?.tag === "SOURCED"
+      reasonKey: will
+        ? "estate.bequest"
+        : heirs.length
+          ? "estate.inheritance"
+          : "estate.escheat",
+      source: will
+        ? {
+            tag: "ESTIMATED",
+            asOf: api.state.date,
+            citation: `Estate of ${personId} after ${deathEventId}: by their will, a share by closeness.`,
+            estimatedFrom: "willOf (traits, age, closeness)",
+          }
+        : row?.tag === "SOURCED"
           ? {
               tag: "SOURCED",
               asOf: api.state.date,
@@ -118,7 +265,47 @@ export function settleEstate(
                   ?.estimatedFrom ?? data.escheat.estimatedFrom,
             },
     });
-    paid.push({ toId, amountMinor });
+    paid.push({ toId: taker.id, amountMinor });
+  });
+  // Probate's close is a court record.
+  api.emit({
+    id: `estate.settled:${personId}:${api.state.date}`,
+    date: api.state.date,
+    kind: "estate.settled",
+    personIds: paid
+      .map((row) => row.toId)
+      .filter((id) => api.state.people.has(id)),
+    placeId: person.placeId,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `Probate of the estate of ${personId} after ${deathEventId}.`,
+      estimatedFrom: will ? "the decedent's will" : "the intestate order",
+    },
+    publicRecord: true,
+    facts: {
+      decedentId: personId,
+      by: will ? "will" : heirs.length ? "intestacy" : "escheat",
+      estateMinor: `${estate}`,
+      heirs: paid.map((row) => `${row.toId}=${row.amountMinor}`).join(" "),
+    },
   });
   return paid;
+}
+
+export const ESTATES_MODULE: CoreModule = {
+  id: ESTATES_MODULE_ID,
+  // Probate's calendar is the module's state; no rows of its own.
+  state: { schemaVersion: 1, tables: { probate: {} } },
+  onCalendarWork(api, work) {
+    if (work.kind !== PROBATE_CLOSES) return;
+    const [personId, deathEventId] = work.sourceRecordIds as [string, string];
+    distribute(api, personId, deathEventId);
+  },
+};
+
+/** Run estates through probate (the bench's played world). */
+export function openEstates(core: CoreState): void {
+  if (core.modules.has(ESTATES_MODULE_ID)) return;
+  registerModule(core, ESTATES_MODULE);
 }
