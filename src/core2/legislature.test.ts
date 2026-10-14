@@ -48,7 +48,7 @@ import {
   votesOn,
 } from "./modules/legislature";
 import { partySide } from "./appointments";
-import { campaignParameter } from "./campaign-views";
+import { officialLean, officialOf } from "./modules/officials";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,
@@ -630,10 +630,11 @@ describe(
 );
 
 describe("a Congress member from elsewhere", () => {
-  // Regression (wire-all-modules, Oct 12): reading one stand-in member's lean
-  // rebuilt the whole chamber, once per member per vote; it now reads the
-  // seat directly and must give the same lean the chamber list gives.
-  it("leans by their seat's party, as the chamber lists them", () => {
+  // Regression (wire-all-modules, Oct 12): reading one member's lean rebuilt
+  // the whole chamber, once per member per vote. Since OPUS-OFFICIALS every
+  // member is a person: their lean is their own position, read from their
+  // official record, and the parties' medians sit on their own sides.
+  it("leans by their own position, as the chamber lists them", () => {
     const state = pick(
       [...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
       "congress-lean:state",
@@ -660,14 +661,21 @@ describe("a Congress member from elsewhere", () => {
     openLegislature(core);
     const api = coreAPI(core);
     const house = members(api, FEDERAL_HOUSE);
-    const standIns = house.filter((t) => t.id.startsWith("congress:"));
-    expect(
-      standIns.length,
-      `seed ${seed}, ${state} place ${key}`,
-    ).toBeGreaterThan(400);
-    for (const term of house)
-      expect(leanOf(api, memberKey(term)), term.id).toBe(
-        partySide(term.party) * campaignParameter("identityLeanScale"),
-      );
+    expect(house.length, `seed ${seed}, ${state} place ${key}`).toBeGreaterThan(
+      400,
+    );
+    const leans = new Map<number, number[]>();
+    for (const term of house) {
+      const official = officialOf(api, memberKey(term));
+      expect(official, term.id).toBeDefined();
+      const lean = leanOf(api, memberKey(term));
+      expect(lean, term.id).toBe(officialLean(official!));
+      const side = partySide(term.party);
+      leans.set(side, [...(leans.get(side) ?? []), lean]);
+    }
+    const median = (xs: number[]) =>
+      [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)]!;
+    expect(median(leans.get(-1)!)).toBeLessThan(0);
+    expect(median(leans.get(1)!)).toBeGreaterThan(0);
   });
 });

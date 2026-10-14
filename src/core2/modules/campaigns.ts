@@ -41,13 +41,12 @@ import {
   type Stance,
 } from "../campaign-views";
 import { recordAppeal } from "./record";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
-  requestSignature,
   type ContestRow,
   type FilingRow,
-  type SignatureRow,
 } from "./elections";
 
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
@@ -64,8 +63,6 @@ export interface CampaignRow {
   readonly volunteerIds: readonly string[];
   readonly staffIds: readonly string[];
   readonly doorsKnocked: readonly string[];
-  /** Doors walked with the filing petition (a separate round from canvassing). */
-  readonly petitionDoors?: readonly string[];
   readonly raisedMinor: number;
   readonly spentMinor: number;
 }
@@ -565,51 +562,6 @@ function* walkDoors(
 }
 
 /**
- * Walk a filing petition door to door for some hours, the whole town
- * (counted households filled in as their doors open): whoever answers is
- * asked to sign and decides for themselves (`requestSignature`). Stops once
- * the petition puts the filing on the ballot. Returns each answer.
- */
-export function circulatePetition(
-  api: CoreAPI,
-  input: {
-    readonly filingId: string;
-    readonly circulatorId: string;
-    readonly hours: number;
-  },
-): readonly SignatureRow[] {
-  const filingOf = () =>
-    elections(api, "filings").get(input.filingId) as unknown as FilingRow;
-  if (filingOf()?.status !== "gathering-signatures") return [];
-  const campaign = campaignFor(api, input.filingId);
-  const circulator = api.state.people.get(input.circulatorId)!;
-  const efficiency =
-    1 +
-    campaignParameter("canvasserReliabilityEfficiency") *
-      (circulator.traits["people-mind-v1:reliability"] ?? 0);
-  const doors = Math.floor(
-    input.hours * campaignParameter("doorsPerCanvasserHour") * efficiency,
-  );
-  api.recordActivityTime(input.circulatorId, "campaign", input.hours * 60, {
-    tag: "SOURCED",
-    citation: `Petition for filing ${input.filingId}`,
-    asOf: api.state.date,
-  });
-  const done = new Set(campaign.petitionDoors ?? []);
-  const core = api.state as CoreState;
-  const asked: SignatureRow[] = [];
-  for (const openerId of walkDoors(api, { done, doors, hours: input.hours })) {
-    if (!api.state.people.has(openerId)) fillInPerson(core, openerId);
-    if (!api.state.people.has(openerId) || openerId === campaign.candidateId)
-      continue;
-    asked.push(requestSignature(api, input.filingId, openerId));
-    if (filingOf().status === "on-ballot") break;
-  }
-  save(api, { ...campaignFor(api, input.filingId), petitionDoors: [...done] });
-  return asked;
-}
-
-/**
  * Knock on doors for some hours: the montage. Households not yet visited, in
  * the order they stand. At each door the most outgoing adult answers, if
  * anyone in the house is willing to open to a stranger; they talk with the
@@ -1042,7 +994,37 @@ export function makeStatements(
     ...campaignFor(api, input.filingId),
     platform: withStatements.platform,
   });
+  // In person (a speech, a town hall), a candidate who is a person is heard
+  // as a speaker on their first statement's question: the speech engine
+  // moves those in the room and lets them retell it at home. Broadcasts
+  // (debates, interviews) reach their audiences through the causes above.
+  const first = input.statements[0];
+  if (
+    input.faceToFace &&
+    speaker &&
+    first &&
+    api.state.modules.has(SPEECH_MODULE_ID)
+  )
+    deliverSpeech(api, {
+      id: statementSpeechId(campaign.candidateId, api.state.date, input),
+      speakerId: speaker.id,
+      placeId: speaker.placeId,
+      topic: first.question,
+      desiredChange: first.position > 0 ? "enact" : "repeal",
+      audienceIds: [...new Set(causes.map((c) => c.voterId))].filter(
+        (id) => id !== speaker.id && api.state.people.get(id)?.alive,
+      ),
+    });
   return causes;
+}
+
+/** The speech a candidate's statements make, by who, when, how and where. */
+export function statementSpeechId(
+  candidateId: string,
+  date: string,
+  input: { readonly act: string; readonly venue: string },
+): string {
+  return `speech:${candidateId}:${date}:${input.act}:${input.venue}`;
 }
 
 /** Where an ad is bought: an outlet and its followers (the press registers it). */

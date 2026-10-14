@@ -22,6 +22,7 @@ import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openLegislature } from "../core2/modules/legislature";
+import { openOfficials } from "../core2/modules/officials";
 import { openLawEffects } from "../core2/modules/law-effects";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
@@ -299,6 +300,9 @@ function* benchWorldStages(
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
   openOffices(core, seed);
+  // Officials outside the town are people before anyone files, so state and
+  // federal races draw named candidates from them (OPUS-OFFICIALS).
+  openOfficials(core);
   openElections(core);
   openCampaigns(core);
   openParties(core);

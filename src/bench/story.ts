@@ -46,13 +46,13 @@ export function storyScene(
     steps
       .map((step) =>
         step === "@home"
-          ? homeOf(core, personId)
+          ? homeOf(core, personId, minuteOfDay)
           : step === "@org"
             ? orgPlace(core, scene.setting.recordId)
             : step,
       )
       .find((row): row is string => !!row && PICTURED.has(row)) ??
-    homeOf(core, personId);
+    homeOf(core, personId, minuteOfDay);
   const ids = [
     personId,
     ...scene.presentIds.filter(
