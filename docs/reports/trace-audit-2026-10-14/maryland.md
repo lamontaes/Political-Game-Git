@@ -1,5 +1,7 @@
 # Cavetown, Maryland: a board whose tallies contradict its votes, and a year with no deaths
 
+Cavetown's county board passed four measures on February 4, 2025, and the county laws took effect March 6, 2025. Three later board tallies disagree with the individual votes behind them, so the file cannot say which of those measures passed. The year also shows no deaths, no births, no governor action on eight state measures and no recorded choice by the player, which needs an explanation before this run is treated as a playable year.
+
 ## The year
 
 Cavetown's county board organized on February 4, 2025, under a council president.

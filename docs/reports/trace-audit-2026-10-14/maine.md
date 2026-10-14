@@ -6,7 +6,7 @@ Seed 13744ef7bcc3, run January 20, 2025 to January 20, 2026.
 
 The run began on January 20, 2025 with 1,894 people in Van Buren. It ended with 1,949 people, of whom 1,945 were alive.
 
-The local board (`office:gus2025:105825:board`) met on February 4, 2025 and passed five measures. Four passed 2-1 and one passed 3-0. Those five measures took effect as county law on March 6, 2025. A second local board (`office:gus2025:208208:board`) passed one measure that day, and it took effect as city law.
+The local board met on February 4, 2025 and passed five measures. Four passed 2-1 and one passed 3-0. Those five measures took effect as county law on March 6, 2025. A second local board passed one measure that day, and it took effect as city law.
 
 Two board seats were vacated by moves, on March 1 and May 1, 2025. The file names no one appointed to fill them. The board named a new president on February 4, March 6 and May 5, 2025. It met again on June 19, 2025. On January 15, 2026 it voted 1-2 on universal preschool, a subject a county law had already covered since March 2025.
 
