@@ -2095,8 +2095,6 @@ api("/api/title").then((title) => {
   if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
-  if (titleLife)
-    $("front-continue").querySelector("span").textContent = titleLife.placeName;
 });
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
@@ -2119,10 +2117,14 @@ if (window.location.protocol === "app:") {
   show("front-quit", true);
   $("front-quit").addEventListener("click", () => window.close());
 }
-api("/api/seed").then((value) => {
-  $("seed").value = value.seed;
-  $("date").value = value.date;
-});
+// The seed draws a world; Random draws a new one (Oct 13 front).
+const drawSeed = () =>
+  api("/api/seed").then((value) => {
+    $("seed").value = value.seed;
+    $("date").value = value.date;
+  });
+void drawSeed();
+$("seed-random").addEventListener("click", () => void drawSeed());
 let placeRows = [];
 const typedPlace = () => placeRows.find((row) => row.name === $("place").value);
 $("place").addEventListener("input", async () => {
@@ -2133,10 +2135,6 @@ $("place").addEventListener("input", async () => {
   $("places").replaceChildren(
     ...placeRows.map((row) => el("option", { value: row.name })),
   );
-  $("place-begin").disabled = !typedPlace();
-});
-$("place").addEventListener("keydown", (event) => {
-  if (event.key === "Enter" && typedPlace()) void startLife(typedPlace());
 });
 /** What the player changed from real data; nothing means a real world. */
 function worldSettings() {
@@ -2171,17 +2169,9 @@ $("front-options").addEventListener("click", () => openSheet("options"));
 $("dev-toggle").addEventListener("click", () =>
   document.body.classList.toggle("dev"),
 );
-// New game opens its second step: where the life begins.
-function frontStep(place) {
-  show("front-main", !place);
-  show("front-place", place);
-  if (place) $("place-random").focus();
-}
-$("new-life").addEventListener("click", () => frontStep(true));
-$("place-back").addEventListener("click", () => frontStep(false));
-$("place-random").addEventListener("click", () => startLife(undefined));
-$("place-begin").addEventListener("click", () => startLife(typedPlace()));
-const placeControls = ["place-random", "place", "place-back", "place-begin"];
+// New game starts with what the front holds: an empty place is Random.
+$("new-life").addEventListener("click", () => startLife(typedPlace()));
+const placeControls = ["new-life", "seed", "seed-random", "place"];
 async function startLife(chosen) {
   for (const id of placeControls) $(id).disabled = true;
   show("front-status", true);
@@ -2269,7 +2259,6 @@ async function startLife(chosen) {
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
-    $("place-begin").disabled = !typedPlace();
   } finally {
     document.querySelector("#front .progress").hidden = true;
   }

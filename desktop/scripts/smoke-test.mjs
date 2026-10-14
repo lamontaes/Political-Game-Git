@@ -155,8 +155,11 @@ async function launch() {
       painted: backdrop.naturalWidth > 0,
       version: /\bv?\d+\.\d+\.\d+/.test(front.innerText),
       placeShown: Boolean(place && place.offsetParent !== null),
+      seedShown: Boolean(document.getElementById("seed")?.offsetParent),
+      seedRandom: Boolean(document.getElementById("seed-random")),
+      customize: Boolean(document.getElementById("custom")),
       subtitle: Boolean(front.querySelector(".sub")),
-      newGameLine: Boolean(document.querySelector("#new-life span")),
+      itemLines: front.querySelectorAll(".item span").length,
       continueShown: Boolean(document.getElementById("front-continue")),
       continueDisabled: document.getElementById("front-continue")?.disabled,
       figures: document.querySelectorAll("#people img").length,
@@ -172,8 +175,18 @@ async function launch() {
       ),
     titleScreen.src,
   );
-  check("title: the subtitle sits under the wordmark", titleScreen.subtitle);
-  check("title: New game has its line", titleScreen.newGameLine);
+  check("title: no subtitle under the wordmark", !titleScreen.subtitle);
+  check(
+    "title: no description line under any item",
+    titleScreen.itemLines === 0,
+  );
+  check(
+    "title: Seed with Random, Place and Customize the world are on the front",
+    titleScreen.seedShown &&
+      titleScreen.seedRandom &&
+      titleScreen.placeShown &&
+      titleScreen.customize,
+  );
   check("title: no figure stands on the title", titleScreen.figures === 0);
   check(
     "title: Continue is there, disabled with no life saved",
@@ -181,7 +194,6 @@ async function launch() {
   );
   check("title: Quit is offered on the desktop", titleScreen.quitShown);
   check("title: no version string on the title", !titleScreen.version);
-  check("title: no place field on the title", !titleScreen.placeShown);
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
@@ -200,7 +212,6 @@ async function launch() {
     { timeout: 240000 },
   );
   await page.getByTestId("new-game").click();
-  await page.getByTestId("place-random").click();
   await page.waitForFunction(
     () => {
       const line = document.querySelector('[data-testid="loading-line"]');

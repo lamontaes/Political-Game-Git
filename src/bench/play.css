@@ -714,11 +714,6 @@ input[type="range"]::-moz-range-thumb {
   letter-spacing: 0.07em;
   color: var(--gold);
 }
-.sub {
-  font: 500 14.5px var(--speech);
-  color: var(--text-2);
-  margin: 6px 0 18px;
-}
 .item {
   display: block;
   width: 100%;
@@ -730,37 +725,38 @@ input[type="range"]::-moz-range-thumb {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.item span {
-  display: block;
-  font: 400 13px var(--ui);
-  color: var(--text-2);
-  margin-top: 2px;
-}
 #new-life b {
   color: #fff;
 }
 #front-status:empty {
   display: none;
 }
+#front .title {
+  margin-bottom: 14px;
+}
 #custom {
-  margin-top: 8px;
+  margin: 4px 0 10px;
+}
+#custom summary {
+  cursor: pointer;
+  padding: 6px 0;
+}
+.seed-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.seed-row input {
+  width: 150px;
 }
 /* About keeps the version; the title never shows one. */
 .version {
   margin-top: 12px;
   color: var(--text-3);
 }
-/* New game, second step: Random, or a typed place. */
-#front-place .field input {
-  width: 220px;
-}
 /* No chevron at rest: the suggestions open as the player types. */
 #place::-webkit-calendar-picker-indicator {
   display: none !important;
-}
-#front-place .acts {
-  justify-content: space-between;
-  margin-top: 12px;
 }
 /* Progress: a brass frame, the fill running dark to light gold. */
 .progress {

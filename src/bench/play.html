@@ -78,106 +78,35 @@
 
       <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
-        <p class="sub">A life in American government.</p>
-        <div id="front-main">
-          <button
-            id="new-life"
-            class="item"
-            type="button"
-            data-testid="new-game"
-          >
-            <b>New game</b><span>Begin a life in a real place.</span>
-          </button>
-          <button
-            id="front-continue"
-            class="item"
-            type="button"
-            data-testid="continue"
-            disabled
-          >
-            <b>Continue</b><span>No life saved yet.</span>
-          </button>
-          <!-- Saved games and Patch notes wait for saves and a notes route. -->
-          <button
-            id="front-saves"
-            class="item"
-            type="button"
-            data-testid="saved-games"
-            disabled
-          >
-            <b>Saved games</b><span>Open a saved life, or import one.</span>
-          </button>
-          <button
-            id="front-options"
-            class="item"
-            type="button"
-            data-testid="title-options"
-          >
-            <b>Options</b>
-          </button>
-          <button
-            id="front-patch-notes"
-            class="item"
-            type="button"
-            data-testid="title-patch-notes"
-            disabled
-          >
-            <b>Patch notes</b>
-          </button>
-          <!-- Quit is the desktop's; a browser tab has none to offer. -->
-          <button
-            id="front-quit"
-            class="item"
-            type="button"
-            data-testid="title-quit"
-            hidden
-          >
-            <b>Quit</b>
-          </button>
-        </div>
-        <!-- New game, second step: where the life begins. -->
-        <div id="front-place" data-testid="new-game-place" hidden>
-          <button
-            id="place-random"
-            class="item"
-            type="button"
-            data-testid="place-random"
-          >
-            <b>Random</b>
-          </button>
-          <label class="field"
-            ><span class="label">Place</span>
-            <input id="place" list="places" autocomplete="off"
-          /></label>
-          <datalist id="places"></datalist>
-          <div class="acts">
-            <button id="place-back" class="action small" type="button">
-              Back
-            </button>
-            <button
-              id="place-begin"
-              class="action primary small"
+        <!-- The front as it stood on Oct 13 (fd3574c979): seed, date, place,
+             and the world's custom settings, all used by New game. -->
+        <div class="field">
+          <label for="seed">Seed</label>
+          <span class="seed-row"
+            ><input id="seed" /><button
+              id="seed-random"
+              class="action small"
               type="button"
-              data-testid="place-begin"
-              disabled
+              data-testid="seed-random"
             >
-              Begin
-            </button>
-          </div>
+              Random
+            </button></span
+          >
         </div>
-        <div class="progress" hidden><span></span></div>
-        <p
-          id="front-status"
-          class="when"
-          role="status"
-          data-testid="loading-line"
-        ></p>
-        <div id="custom" class="dev-only">
-          <p class="label">Customize the world</p>
-          <label class="field">Seed <input id="seed" /></label>
-          <label class="field"
-            >Opening date <input id="date" type="date" readonly
-          /></label>
+        <label class="field"
+          >Opening date <input id="date" type="date" readonly
+        /></label>
+        <label class="field"
+          >Place
+          <input
+            id="place"
+            list="places"
+            placeholder="Random"
+            autocomplete="off"
+        /></label>
+        <datalist id="places"></datalist>
+        <details id="custom" data-testid="customize-world">
+          <summary class="label">Customize the world</summary>
           <label class="field"
             >Town size
             <input
@@ -238,7 +167,51 @@
               step="0.05"
               placeholder="1"
           /></label>
+        </details>
+        <div id="front-main">
+          <button
+            id="new-life"
+            class="item"
+            type="button"
+            data-testid="new-game"
+          >
+            <b>New game</b>
+          </button>
+          <button
+            id="front-continue"
+            class="item"
+            type="button"
+            data-testid="continue"
+            disabled
+          >
+            <b>Continue</b>
+          </button>
+          <button
+            id="front-options"
+            class="item"
+            type="button"
+            data-testid="title-options"
+          >
+            <b>Options</b>
+          </button>
+          <!-- Quit is the desktop's; a browser tab has none to offer. -->
+          <button
+            id="front-quit"
+            class="item"
+            type="button"
+            data-testid="title-quit"
+            hidden
+          >
+            <b>Quit</b>
+          </button>
         </div>
+        <div class="progress" hidden><span></span></div>
+        <p
+          id="front-status"
+          class="when"
+          role="status"
+          data-testid="loading-line"
+        ></p>
       </section>
 
       <nav id="menu" class="panel" hidden>

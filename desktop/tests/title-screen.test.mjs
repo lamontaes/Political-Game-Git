@@ -1,10 +1,9 @@
 /**
  * The title screen follows the owner's standing rulings
  * (docs/coordination/prior-rulings/screens.md items 1 and 5): a full-window
- * national scene or event behind the Kit 13 menu, structured as the
- * established title (New game, Continue, Saved games, Options, Patch notes,
- * Quit on the desktop, each with its line), no version string and no place
- * field on the front; the place choice is New game's second step.
+ * national scene or event behind the Kit 13 menu, holding the Oct 13
+ * front's controls (seed, opening date, place, Customize the world) and New
+ * game, Continue, Options, and Quit on the desktop, and no version string.
  */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -52,20 +51,31 @@ test("the title rotates through national scenes from the backdrop manifest", () 
   assert.match(script, /\$\("backdrop"\)\.src = title\.backdrop\.url;/);
 });
 
-test("the front follows the established title: subtitle, items with lines", () => {
-  assert.match(front, /<p class="sub">A life in American government\.<\/p>/);
+test("the front is the Oct 13 front: seed, date, place, custom world, menu", () => {
+  assert.doesNotMatch(front, /class="sub"/);
+  assert.doesNotMatch(front, /id="version"/);
+  for (const id of [
+    "seed",
+    "seed-random",
+    "date",
+    "place",
+    "set-population",
+    "set-wages",
+    "set-cash",
+    "set-demand",
+    "set-lean",
+    "set-turnout",
+  ])
+    assert.match(front, new RegExp(`id="${id}"`), `${id} is on the front`);
+  assert.match(front, /<details id="custom"/);
+  assert.match(front, /id="place"[^>]*placeholder="Random"/);
   const main = front.slice(
     front.indexOf('id="front-main"'),
-    front.indexOf('id="front-place"'),
+    front.indexOf('class="progress"'),
   );
-  const order = [
-    "new-game",
-    "continue",
-    "saved-games",
-    "title-options",
-    "title-patch-notes",
-    "title-quit",
-  ].map((id) => main.indexOf(`data-testid="${id}"`));
+  const order = ["new-game", "continue", "title-options", "title-quit"].map(
+    (id) => main.indexOf(`data-testid="${id}"`),
+  );
   assert.ok(
     order.every((at) => at > 0),
     "every item is on the front",
@@ -75,36 +85,11 @@ test("the front follows the established title: subtitle, items with lines", () =
     order,
     "in order",
   );
-  const button = (id) =>
-    main.slice(
-      main.indexOf(`data-testid="${id}"`),
-      main.indexOf("</button>", main.indexOf(`data-testid="${id}"`)),
-    );
+  assert.doesNotMatch(main, /<span>|saved-games|patch-notes|watch/i);
+  assert.doesNotMatch(front, /front-place|place-begin/);
   assert.match(
-    button("new-game"),
-    /<span>Begin a life in a real place\.<\/span>/,
+    script,
+    /\$\("new-life"\)\.addEventListener\("click", \(\) => startLife\(typedPlace\(\)\)\)/,
   );
-  assert.match(
-    button("continue"),
-    /disabled[\s\S]*<span>No life saved yet\.<\/span>/,
-  );
-  assert.match(button("saved-games"), /disabled/);
-  assert.match(button("title-patch-notes"), /disabled/);
-  assert.match(button("title-quit"), /hidden/);
-  assert.doesNotMatch(main, /watch/i);
   assert.doesNotMatch(script, /drawPeople\(title/);
-});
-
-test("the front shows no version string and no place field", () => {
-  assert.doesNotMatch(front, /id="version"/);
-  const main = front.slice(
-    front.indexOf('id="front-main"'),
-    front.indexOf('id="front-place"'),
-  );
-  assert.doesNotMatch(main, /id="place"/);
-  assert.match(
-    front,
-    /<div id="front-place" data-testid="new-game-place" hidden>/,
-  );
-  assert.match(front, /data-testid="place-random"/);
 });

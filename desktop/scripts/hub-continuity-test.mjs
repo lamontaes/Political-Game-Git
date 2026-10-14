@@ -164,7 +164,6 @@ async function quitHub(app) {
 
 async function createAndKeepLife(page) {
   await page.getByTestId("new-game").click();
-  await page.getByTestId("place-random").click();
   await page.getByTestId("setup-screen").waitFor();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-stage-character").waitFor();
@@ -386,7 +385,6 @@ let expected;
   );
   // Current private people in build B's creator; nothing is saved.
   await branchPage.getByTestId("new-game").click();
-  await branchPage.getByTestId("place-random").click();
   await branchPage.getByTestId("setup-screen").waitFor();
   await branchPage.getByTestId("start-normal").click();
   await branchPage.getByTestId("creator-stage-character").waitFor();
