@@ -46,21 +46,29 @@ for (let i = 0; i < count; i += 1) {
     .filter((b) => b.form.kind === "ordinance")
     .sort(
       (a, b) =>
-        a.introduced.localeCompare(b.introduced) || a.id.localeCompare(b.id),
+        a.bodyOfficeId.localeCompare(b.bodyOfficeId) ||
+        a.introduced.localeCompare(b.introduced) ||
+        Number(/\d+$/.exec(a.number)![0]) - Number(/\d+$/.exec(b.number)![0]),
     );
+  const bodies = [...new Set(local.map((b) => b.bodyOfficeId))];
   out.push({
     place: `${place.name} (${place.key})`,
     seed: place.seed,
-    firstThree: local.slice(0, 3).map((b) => ({
-      id: b.id,
-      number: b.number,
-      introduced: b.introduced,
-      subjects: billTitle(b).subjects.map((s) => s.key),
-      touches: b.provisions.map((p) =>
-        p.question ? Number(townConcernShare(api, p.question).toFixed(2)) : 0,
-      ),
-      enactingClause: b.form.enactingClause,
-    })),
+    firstThree: bodies
+      .flatMap((body) =>
+        local.filter((b) => b.bodyOfficeId === body).slice(0, 3),
+      )
+      .map((b) => ({
+        body: b.bodyOfficeId,
+        id: b.id,
+        number: b.number,
+        introduced: b.introduced,
+        subjects: billTitle(b).subjects.map((s) => s.key),
+        touches: b.provisions.map((p) =>
+          p.question ? Number(townConcernShare(api, p.question).toFixed(2)) : 0,
+        ),
+        enactingClause: b.form.enactingClause,
+      })),
   });
 }
 console.log(JSON.stringify({ seed, days, places: out }, null, 2));
