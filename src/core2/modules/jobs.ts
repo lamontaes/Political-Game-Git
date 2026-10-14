@@ -1143,8 +1143,11 @@ function runWeek(api: CoreAPI): void {
   );
   if (!positions.length) return;
   const inPlace = new Map<string, PositionRow[]>();
-  for (const row of positions)
-    inPlace.set(row.placeId, [...(inPlace.get(row.placeId) ?? []), row]);
+  for (const row of positions) {
+    const list = inPlace.get(row.placeId);
+    if (list) list.push(row);
+    else inPlace.set(row.placeId, [row]);
+  }
   // A seeker looks at home and wherever their place's people commute to work.
   const commutes =
     (
