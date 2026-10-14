@@ -1094,7 +1094,16 @@ function tenureYears(api: CoreAPI, job: JobInput): number {
       (row.maxAgeExclusive === null || age < row.maxAgeExclusive),
   );
   const workingYears = Math.max(0, age - jobsData.workingAge[0]!);
-  return years + Math.min(band?.medianYears ?? 0, workingYears);
+  // Industries keep their workers for different spans (hospitality 2.4 years, utilities 6.3): the age band's median scaled by the industry's.
+  const kindId = core(api).finance.businesses.get(job.organizationId)?.kindId;
+  const sector =
+    (kindId && (jobsData.kindSector as Record<string, string>)[kindId]) ||
+    jobsData.kindSector["*"]!;
+  const byIndustry = jobsData.tenureBySector;
+  const scale =
+    ((byIndustry.medianYears as Record<string, number>)[sector] ??
+      byIndustry.totalMedianYears) / byIndustry.totalMedianYears;
+  return years + Math.min((band?.medianYears ?? 0) * scale, workingYears);
 }
 
 /** The pay a worker gives up by moving: their pay with what their years at the employer have added (job-specific skill). */

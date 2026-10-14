@@ -1895,5 +1895,23 @@
       }
     ]
   },
-  "elsewhereEmployerNamePattern": "Employers outside {place}"
+  "elsewhereEmployerNamePattern": "Employers outside {place}",
+  "tenureBySector": {
+    "source": "BLS, Employee Tenure in 2026, Table 5: median years with current employer, wage and salary workers 16 and over, January 2026 (all industries 4.1). Trade, transportation and utilities blends wholesale and retail trade (3.4) with transportation and utilities (4.4) by their staff, about 3.7.",
+    "totalMedianYears": 4.1,
+    "medianYears": {
+      "construction": 3.9,
+      "education-health": 3.9,
+      "financial": 5.0,
+      "government": 5.6,
+      "information": 4.9,
+      "leisure-hospitality": 2.4,
+      "manufacturing": 4.9,
+      "mining-logging": 4.9,
+      "other-services": 4.2,
+      "professional-business": 3.8,
+      "trade-transport-utilities": 3.7,
+      "total": 4.1
+    }
+  }
 }
