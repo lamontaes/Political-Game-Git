@@ -37,6 +37,7 @@ import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { openCases } from "../core2/modules/constituent-cases";
+import { openJustice } from "../core2/modules/justice";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
@@ -332,6 +333,8 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // Prosecutors, trials and prisons: reads the corruption engine's records.
+  openJustice(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
