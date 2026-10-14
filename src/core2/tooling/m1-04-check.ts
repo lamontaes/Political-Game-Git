@@ -188,7 +188,12 @@ const named = layoff
   : null;
 
 const byKind: Record<string, number> = {};
-for (const row of townChanges) byKind[row.kind] = (byKind[row.kind] ?? 0) + 1;
+const byReason: Record<string, number> = {};
+for (const row of townChanges) {
+  byKind[row.kind] = (byKind[row.kind] ?? 0) + 1;
+  const key = `${row.kind}:${row.reasonKey}`;
+  byReason[key] = (byReason[key] ?? 0) + 1;
+}
 const elsewhereByKind: Record<string, number> = {};
 const elsewhereByReason: Record<string, number> = {};
 for (const row of changes)
@@ -221,6 +226,7 @@ console.log(
         region: +regionUnemployment.toFixed(2),
       },
       changes: byKind,
+      changesByReason: byReason,
       elsewhere: {
         jobsAtEnd: [...outside].reduce(
           (n, id) => n + countedJobsOf(core, id).length,
