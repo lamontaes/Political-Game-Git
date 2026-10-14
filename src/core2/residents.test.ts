@@ -443,7 +443,9 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // Counted votes stand for the town's citizens: the place's ACS share of
     // adults, blended with its state's.
     const usps =
-      lifePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(3) ?? "";
+      lifePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(
+        3,
+      ) ?? "";
     const share = citizenShareOf(two.placeMetadata!.placeKey!, usps);
     expect(share).toBeGreaterThan(0);
     expect(share).toBeLessThanOrEqual(1);

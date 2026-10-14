@@ -103,7 +103,9 @@ check(
 // The electorate reads the politics settings: the town's lean shifts and the
 // cost of voting scales (src/core2/electorate.ts customPolitics).
 const politics = customPolitics({ placeMetadata: custom.placeMetadata ?? {} });
-const realPolitics = customPolitics({ placeMetadata: real.placeMetadata ?? {} });
+const realPolitics = customPolitics({
+  placeMetadata: real.placeMetadata ?? {},
+});
 check(
   "lean shift",
   politics.leanShift === settings.politics.leanShift &&

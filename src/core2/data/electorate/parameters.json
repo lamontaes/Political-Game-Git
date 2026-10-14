@@ -104,10 +104,10 @@
       "spread": [200, 2000]
     },
     "stateShareTolerance": {
-      "value": 0.06,
+      "value": 0.02,
       "tag": "TUNABLE",
-      "source": "How far a state's Republican two-party share, counted on the engine with the opening's inputs and no campaign, may sit from its 2024 presidential share (Clerk of the House) in the calibration test. The spread is the test's range of acceptable settings; the engine is never forced to the figure.",
-      "spread": [0.03, 0.1]
+      "source": "How far a state's Republican two-party share, counted on the engine with the opening's inputs and no candidate standing, may sit from its 2024 presidential share (Clerk of the House) in the calibration test. Each place's people are placed on the lean order where the town's counted voters, turning out by their own readiness, would split as the place voted (src/core2/electorate.ts orderPlacement); the test checks that placement and the coarse sample together, and every change in play moves the vote from there.",
+      "spread": [0.01, 0.06]
     },
     "countedTurnoutTolerance": {
       "value": 0.25,

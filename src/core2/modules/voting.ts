@@ -1488,7 +1488,10 @@ export function cycleTurnout(date: string): { share: number; cost: number } {
 function countedScale(api: CoreAPI): number {
   const usps = town(api).stateKey.slice(3);
   return (
-    citizenShareOf(api.state.placeMetadata.placeKey as string | undefined, usps) *
+    citizenShareOf(
+      api.state.placeMetadata.placeKey as string | undefined,
+      usps,
+    ) *
     (1 - electorateChange(api).barred)
   );
 }

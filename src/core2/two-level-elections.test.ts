@@ -1,8 +1,9 @@
 /**
  * Elections in the two-level world: the town's counted residents vote from
  * their own records (they see party labels on the ballot, no campaign reached
- * them), the rest of the district or state votes as groups around its real
- * lean, and no candidate wins every vote for want of named supporters.
+ * them), the rest of the district or state votes on the same engine at a
+ * coarser level from its real 2024 vote, and no candidate wins every vote
+ * for want of named supporters.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";

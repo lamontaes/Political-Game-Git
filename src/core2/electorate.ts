@@ -303,6 +303,51 @@ export interface PlaceResult {
 }
 
 /**
+ * Where a place's people stand on the lean order for its 2024 vote. The
+ * people who feel most strongly turn out most (interest is the strength of
+ * their strongest feeling), so a place whose people stood at its 2024 share
+ * would vote past it, toward its majority. Placing them is a calibration of
+ * the input, as the 2024 vote is the place's only record of where its people
+ * stand: the right share at which these voters, with no candidate standing,
+ * would split as the place did. Everything that moves in play (standing,
+ * conditions, laws, the cycle) moves the vote from there.
+ */
+function orderPlacement(
+  voters: readonly SampleVoter[],
+): (target: number) => number {
+  // Each voter's own readiness against their own place in the order: who
+  // turns out at what strength of feeling, as the count itself decides it.
+  const shareAt = (right: number) => {
+    let r = 0,
+      all = 0;
+    for (const voter of voters) {
+      const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
+      if (voter.readiness + Math.abs(lean) <= 0) continue;
+      all += 1;
+      if (lean > 0) r += 1;
+      else if (lean === 0) r += 0.5;
+    }
+    return all ? r / all : right;
+  };
+  const cache = new Map<number, number>();
+  return (target) => {
+    if (!voters.length) return target;
+    const hit = cache.get(target);
+    if (hit !== undefined) return hit;
+    let lo = 0,
+      hi = 1;
+    for (let i = 0; i < 24; i += 1) {
+      const mid = (lo + hi) / 2;
+      if (shareAt(mid) < target) lo = mid;
+      else hi = mid;
+    }
+    const right = (lo + hi) / 2;
+    cache.set(target, right);
+    return right;
+  };
+}
+
+/**
  * Count places outside the town's counted residents on the same engine:
  * each place's voters are the town's counted voters re-placed on the
  * place's own lean (the same rank in the order, against the place's right
@@ -333,6 +378,7 @@ export function countPlaces(
     voters.push(sample[Math.floor(i)]!);
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
+  const placement = orderPlacement(voters);
   let cast = 0;
   for (const place of places) {
     const votes: Record<string, number> = {};
@@ -341,12 +387,13 @@ export function countPlaces(
       voters.length && place.eligible > 0
         ? (place.eligible * (place.scale ?? 1)) / voters.length
         : 0;
+    // Where the place's people stand on the lean order: so that with no
+    // candidate standing they would split as the place voted in 2024 (the
+    // town's own people stand where the town's order puts them).
+    const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
       for (const voter of voters) {
-        const lean = Math.max(
-          -1,
-          Math.min(1, 2 * (place.rightShare - voter.rank)),
-        );
+        const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;
           const takesPart =

@@ -110,9 +110,9 @@ export function citizenShareOf(
 ): number {
   const state = cpsTurnout(usps)?.citizenShare ?? 1;
   const own = placeKey
-    ? (PLACE_CITIZENSHIP.byPlace as unknown as Record<string, [number, number]>)[
-        placeKey
-      ]
+    ? (
+        PLACE_CITIZENSHIP.byPlace as unknown as Record<string, [number, number]>
+      )[placeKey]
     : undefined;
   if (!own) return state;
   const prior = parameter("citizenShareStatePriorAdults");

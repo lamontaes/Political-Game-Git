@@ -807,7 +807,9 @@ export function racePlacesOf(
   api: CoreAPI,
   raceId: string,
 ): readonly (PlaceResult & { placeId: string })[] {
-  return table(api, "places").query("byRace", [raceId]) as unknown as (PlaceResult & {
+  return table(api, "places").query("byRace", [
+    raceId,
+  ]) as unknown as (PlaceResult & {
     placeId: string;
   })[];
 }

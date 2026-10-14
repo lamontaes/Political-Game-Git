@@ -3,9 +3,9 @@
  *
  * Election day falls on the place's real date; named people vote as
  * themselves, each vote from what that person knows and thinks and turnout
- * from their own circumstances, with no roll; the wider electorate votes as
- * groups; exit polls report what voters told the pollster; the winner takes
- * the seat on the start date. State and federal races covering the town run
+ * from their own circumstances, with no roll; the wider electorate votes on
+ * the counted residents' engine; exit polls report what voters told the
+ * pollster; the winner takes the seat on the start date. State and federal races covering the town run
  * on the same engine in the same year.
  */
 import { createHash } from "node:crypto";
@@ -88,7 +88,7 @@ function placeWithOpenRace(): string {
 }
 
 describe("M2-07 elections", () => {
-  it("votes come from each person's own reasons, groups vote as groups, and the winner takes the seat on its date", () => {
+  it("votes come from each person's own reasons, the wider electorate votes on the same engine, and the winner takes the seat on its date", () => {
     const place = process.env.GOLDEN_PATH_PLACE_KEY ?? placeWithOpenRace();
     const core = createLifeCore(
       buildPopulation({
