@@ -160,8 +160,15 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const core = createLifeCore(two);
     if (due <= start) {
       // The opening day isn't run: that payday passes and the calendar holds.
+      // A twice-monthly payroll is two flows sharing one list of paydays:
+      // each takes the paydays on its own day of the month.
       const next = Object.keys(flow.earnedDaysByDue!)
-        .filter((date) => date > start)
+        .filter(
+          (date) =>
+            date > start &&
+            (flow.cadence.kind !== "months" ||
+              Number(date.slice(8, 10)) === flow.cadence.day),
+        )
         .sort()[0];
       if (next)
         expect(residentsRuntime(core)!.flows.get(flow.id)!.nextAt).toBe(next);

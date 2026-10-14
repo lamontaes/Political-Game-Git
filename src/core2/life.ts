@@ -41,6 +41,7 @@ import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
 import { ACCOUNTS_MODULE } from "./accounts";
 import { COUNTED_DRIFT_MODULE } from "./modules/counted-drift";
 import { COUNTED_MOVES_MODULE } from "./modules/counted-moves";
+import { COUNTED_DEMOTION_MODULE } from "./modules/counted-demotion";
 import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { SCHOOL_MODULE } from "./modules/school";
@@ -84,6 +85,7 @@ declareSnapshotCovered(
   RETIREMENT_CLAIMS_MODULE.id,
   COUNTED_DRIFT_MODULE.id,
   COUNTED_MOVES_MODULE.id,
+  COUNTED_DEMOTION_MODULE.id,
   // Installed on first use: the journal's cash writers.
   ...[
     DEFAULT_DATA.finance?.cashJournal?.moduleId,
@@ -165,6 +167,8 @@ export function createLifeCore(
             COUNTED_DRIFT_MODULE,
             // Counted people move between places from causes (one model, two tiers).
             COUNTED_MOVES_MODULE,
+            // Filled-in people long out of the player's life return to the counts.
+            COUNTED_DEMOTION_MODULE,
           ]
         : []),
       ...(options.modules ?? []),

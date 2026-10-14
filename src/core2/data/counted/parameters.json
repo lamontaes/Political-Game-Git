@@ -166,5 +166,17 @@
       "unit": "share of population",
       "citation": "State range in the same estimates."
     }
+  },
+  "countedDemotionDays": {
+    "value": 180,
+    "tag": "TUNABLE",
+    "citation": "Owner, Oct 14, 2026: a person filled in from the counts returns to their group when they leave the player's life 'for a long while'; how long is the owner's call (stopgap SG-CORE-owner-decision-demotion-days).",
+    "estimatedFrom": "Days since the household was filled in and since the player's last contact with any of its people before it returns to the counts.",
+    "spread": {
+      "low": 60,
+      "high": 730,
+      "unit": "days",
+      "citation": "Two months to two years: a season out of the player's life to a full election cycle."
+    }
   }
 }

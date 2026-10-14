@@ -6,6 +6,7 @@
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
+  nextMonthDay,
   RESIDENTS_KIND,
   RESIDENTS_STOPGAP,
   type ResidentFlowInput,
@@ -27,6 +28,7 @@ import type {
   PersonInput,
   PersonId,
   PlaceId,
+  Source,
 } from "../types";
 import { registerSnapshotPart } from "../snapshot";
 import {
@@ -42,6 +44,7 @@ import {
   type GroupKey,
   type HeadWork,
   type HouseholdKind,
+  type Tenure,
 } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
@@ -114,6 +117,8 @@ export interface ResidentsRuntime {
   openingCashByPlace: Map<PlaceId, number>;
   /** Households filled in from the counts (their people are full people now). */
   filledIn: Set<string>;
+  /** When each filled-in household left the counts. */
+  filledAt: Map<string, IsoDate>;
   wageFlowByJob: Map<string, FlowState>;
   /** Today's missed count-worker paydays, the evidence a closure cites. */
   shortfalls: Map<string, ResidentWageShortfall>;
@@ -182,24 +187,29 @@ registerSnapshotPart("core2-residents", {
       householdOfPerson: _p,
       store,
       api: _a,
-      moneyCache: _c,
+      moneyCache,
       ...rest
     } = rt;
-    void [_h, _p, _a, _c];
-    return { ...rest, input: undefined, store: encodeStore(store) };
+    void [_h, _p, _a];
+    return {
+      ...rest,
+      input: undefined,
+      store: encodeStore(store),
+      moneySerial: moneyCache.serial,
+    };
   },
   restore: (core, data) => {
     const rebuilt = runtimes.get(core);
     if (!data || !rebuilt) return void runtimes.delete(core);
-    const saved = data as Omit<
+    const { moneySerial, ...saved } = data as Omit<
       ResidentsRuntime,
       "store" | "households" | "householdOfPerson"
-    > & { store: unknown };
+    > & { store: unknown; moneySerial?: number };
     const store = decodeStore(saved.store);
     runtimes.set(core, {
       ...saved,
       input: rebuilt.input,
-      moneyCache: { serial: 0 },
+      moneyCache: { serial: moneySerial ?? 0 },
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
@@ -556,6 +566,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     shortfalls: new Map(),
     jobs: new Map(),
     filledIn: new Set(),
+    filledAt: new Map(),
     openingCashByPlace: new Map(),
     wageFlowByJob: new Map(),
     monthly: new Map(),
@@ -1256,16 +1267,22 @@ const MORTGAGE_KEY = "mortgage:";
  * own (`releaseResidentHousehold`).
  */
 function householdContracts(
+  core: CoreState,
   rt: ResidentsRuntime,
   h: CountedHousehold,
   payerIds: readonly PersonId[],
 ): FinanceContractInput[] {
   if (!payerIds.length) return [];
+  const contracts = core.finance.contracts;
   const out: FinanceContractInput[] = [];
   const part = householdPart(h.id),
     mortgage = `${MORTGAGE_KEY}${h.id}`;
   for (const flow of rt.flows.values()) {
     if (flow.endedAt || flow.kind !== "purchase") continue;
+    // Bills to someone outside the town stay flows of the household's own
+    // (releaseResidentHousehold), as its outside living costs do.
+    if (core.organizations.get(flow.payeeId)?.outsideFlow !== undefined)
+      continue;
     const months = flow.cadence.kind === "months" ? flow.cadence.every : 1;
     const base = {
       householdId: h.id,
@@ -1304,7 +1321,15 @@ function householdContracts(
         ...(flow.marketAdjusted ? { marketAdjusted: true } : {}),
       });
   }
-  return [...out, ...h.incomeContracts];
+  // A household filled in a second time (it returned to the counts between)
+  // takes new contract ids; its first ones are on record, ended.
+  const taken = (id: string) => contracts.has(id);
+  return [
+    ...out.map((row) =>
+      taken(row.id) ? { ...row, id: `${row.id}@${row.dueAt}` } : row,
+    ),
+    ...h.incomeContracts,
+  ];
 }
 
 /**
@@ -1328,6 +1353,7 @@ export function releaseResidentHousehold(
   const jobIds = new Set(record.jobs.map((row) => row.id));
   const parts = partsOf(householdId);
   let outsideLiving: { amount: number; flow: FlowState } | undefined;
+  const ownOutside: { amount: number; flow: FlowState }[] = [];
   const retirees: FlowState[] = [];
   const incomeIds = new Set(
     record.contracts.filter((row) => row.recipientIncome).map((row) => row.id),
@@ -1380,6 +1406,8 @@ export function releaseResidentHousehold(
       for (const id of parts) removed += present[id] ?? 0;
       if (!removed) continue;
       const amounts = { ...present };
+      const outside =
+        core.organizations.get(flow.payeeId)?.outsideFlow !== undefined;
       for (const id of parts) {
         if (
           id === `household:${householdId}` &&
@@ -1387,6 +1415,8 @@ export function releaseResidentHousehold(
           amounts[id]
         )
           outsideLiving = { amount: amounts[id]!, flow };
+        else if (outside && amounts[id])
+          ownOutside.push({ amount: amounts[id]!, flow });
         delete amounts[id];
       }
       flow.amountByContract = amounts;
@@ -1439,6 +1469,20 @@ export function releaseResidentHousehold(
   );
   // The household now pays its own outside living costs from its payer.
   const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
+  // Its bills to someone outside the town (a mortgage held outside, outside
+  // purchases) are paid from its payer as flows of its own.
+  for (const own of ownFlows && payer ? ownOutside : []) {
+    const flow: FlowState = {
+      ...own.flow,
+      id: `${own.flow.id}:${householdId}`,
+      payerId: payer!.id,
+      amountMinor: own.amount,
+      amountByContract: undefined,
+      arrearsMinor: 0,
+    };
+    rt.flows.set(flow.id, flow);
+    schedule(rt, flow);
+  }
   if (ownFlows && outsideLiving && payer) {
     const flow: FlowState = {
       ...outsideLiving.flow,
@@ -1491,6 +1535,7 @@ export function takeResidentHousehold(
     jobs: [...h.jobs],
     workCommitments: [...h.workCommitments],
     contracts: householdContracts(
+      core,
       rt,
       h,
       payers.length ? payers : people.slice(0, 1).map((row) => row.id),
@@ -1499,6 +1544,7 @@ export function takeResidentHousehold(
   rt.fillInCash.set(h.id, { group: h.group, amount: householdCash(rt, h) });
   store.retire(h, MemberState.Filled);
   rt.filledIn.add(h.id);
+  rt.filledAt.set(h.id, makeIsoDate(core.date));
   return record;
 }
 
@@ -2068,4 +2114,97 @@ export function replaceCountedMembers(
   h.retirementMinorYear = 0;
   h.unplacedWorkers = 0;
   regroupHousehold(rt, h, core.date);
+}
+
+/**
+ * A full household returns to the counts (demotion): its people are packed
+ * into its group again under their own ids, with the jobs and income it
+ * brings, and its standing bills as parts of the merged flows (the caller
+ * ends its own contracts and moves its cash). Returns the household.
+ */
+export function returnToCounts(
+  core: CoreState,
+  record: ResidentHouseholdRecord,
+  facts: {
+    tenure: Tenure;
+    /** Merged-flow parts its bills become: flow id to amount. */
+    parts: ReadonlyMap<string, number>;
+    /** A rent it pays, payee and amount: a counted rent flow again. */
+    rent?: { payeeId: string; amountMinor: number; source: Source };
+  },
+): CountedHousehold {
+  const rt = runtimes.get(core);
+  if (!rt) throw new Error("Residents are not admitted.");
+  const h = rt.store.addHousehold(record, {
+    tenure: facts.tenure,
+    unplacedWorkers: 0,
+  });
+  for (const contract of h.incomeContracts)
+    rt.incomeContractHousehold.set(contract.id, h.index);
+  rt.filledIn.delete(h.id);
+  rt.filledAt.delete(h.id);
+  const part = householdPart(h.id);
+  for (const [flowId, amount] of facts.parts) {
+    const flow = rt.flows.get(flowId);
+    if (!flow || flow.endedAt || !flow.amountByContract || amount <= 0)
+      continue;
+    const key = flowId.startsWith(MORTGAGE_KEY)
+      ? `${MORTGAGE_KEY}${h.id}`
+      : part;
+    flow.amountByContract = {
+      ...flow.amountByContract,
+      [key]: (flow.amountByContract[key] ?? 0) + amount,
+    };
+    flow.amountMinor += amount;
+  }
+  const account = rt.input.accounts.find(
+    (row) => row.placeId === h.placeId,
+  )?.accountId;
+  if (facts.rent && account) {
+    const flow: FlowState = {
+      id: `rent:${h.id}`,
+      kind: "purchase",
+      financeKind: "household.rent",
+      payerId: account,
+      payeeId: facts.rent.payeeId,
+      residentsId: account,
+      placeId: h.placeId,
+      amountMinor: facts.rent.amountMinor,
+      firstAt: nextMonthDay(makeIsoDate(addDays(makeIsoDate(core.date), 1)), 1),
+      nextAt: nextMonthDay(makeIsoDate(addDays(makeIsoDate(core.date), 1)), 1),
+      cadence: { kind: "months", every: 1, day: 1 },
+      salesReceipt: false,
+      marketAdjusted: false,
+      source: facts.rent.source,
+      arrearsMinor: 0,
+    };
+    rt.flows.set(flow.id, flow);
+    schedule(rt, flow);
+  }
+  regroupHousehold(rt, h, core.date);
+  return h;
+}
+
+/** A counted household's group's account, opening it if needed (money a demotion brings). */
+export function countedFundOf(
+  core: CoreState,
+  householdId: string,
+): string | undefined {
+  const rt = runtimes.get(core);
+  const ix = rt?.store.householdOf.get(householdId);
+  if (!rt || ix === undefined || !rt.api) return undefined;
+  const h = rt.store.households[ix]!;
+  return h.gone || h.group < 0 ? undefined : fundOf(rt.api, rt, h.group);
+}
+
+/** A payday calendar a returning worker was paid on, kept so a later fill-in pays them on it again. */
+export function keepCalendar(
+  core: CoreState,
+  calendar: WorkPayrollCalendarInput,
+): void {
+  const rt = runtimes.get(core);
+  if (!rt) return;
+  const calendars = rt.input.calendars ?? [];
+  if (calendars.some((row) => row.id === calendar.id)) return;
+  rt.input = { ...rt.input, calendars: [...calendars, calendar] };
 }

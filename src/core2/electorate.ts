@@ -19,6 +19,7 @@ import {
 import { electorateParameter } from "./electorate-inputs";
 import type { ElectoratePlace } from "./electorate-places";
 import { residentsRuntime } from "./modules/residents";
+import { isDemoted } from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import viewsData from "./data/views/views.json" with { type: "json" };
@@ -58,7 +59,9 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
           );
       for (const m of store.countedMembers(h)) {
         const id = store.ids[m]!;
-        if (core.people.has(id)) continue;
+        // A full person returned to the counts votes as counted.
+        const full = core.people.get(id);
+        if (full && !isDemoted(full)) continue;
         rows.push({
           id,
           birthDate: store.born[m]!,

@@ -28,6 +28,17 @@ import type {
 
 export const COUNTED_VIEWS_STOPGAP = "SG-CORE-counted-person-views";
 
+/**
+ * A full person returned to the counts (demoted) keeps their record, on the
+ * inactive tier, at their place's counted tier: `counted:<place id>`.
+ */
+export const COUNTED_PLACE_PREFIX = "counted:";
+export const countedPlaceOf = (placeId: string) =>
+  `${COUNTED_PLACE_PREFIX}${placeId}`;
+export function isDemoted(person: { readonly placeId: string }): boolean {
+  return person.placeId.startsWith(COUNTED_PLACE_PREFIX);
+}
+
 /** A member's place in the counts. */
 export const enum MemberState {
   Counted = 0,
@@ -441,7 +452,10 @@ export class CountedStore {
       unplacedWorkers: number;
     },
   ): CountedHousehold {
-    if (this.householdOf.has(record.household.id))
+    const prior = this.householdOf.get(record.household.id);
+    // A household filled in and later returned to the counts comes back
+    // under its own id, as a new entry.
+    if (prior !== undefined && !this.households[prior]!.gone)
       throw new Error(`Duplicate counted household: ${record.household.id}`);
     const index = this.households.length;
     const members = record.people.map((person) =>
@@ -646,6 +660,9 @@ export function encodeStore(store: CountedStore): unknown {
             "traitView",
             "traitViews",
             "peopleViews",
+            // Cache keys, not state: a restored store starts its own count.
+            "version",
+            "membersVersion",
           ].includes(key),
       ),
     ),
