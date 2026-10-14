@@ -15,6 +15,7 @@ import {
   verbOf,
   type GuardLine,
   grammatical,
+  closerOf,
 } from "./repetition-guard";
 
 const KINDS = [
@@ -243,5 +244,17 @@ describe("an alternative must be whole English", () => {
     expect(grammatical("Voting against this action: Daniel McKinney.")).toBe(
       true,
     );
+  });
+});
+
+describe("closers are counted as openers are", () => {
+  it("reads the last two words, so the same look-back is one closer", () => {
+    expect(closerOf("My mother won. I didn't know at the time.")).toBe(
+      "the time",
+    );
+    expect(
+      closerOf("My father was elected. I didn't know that at the time."),
+    ).toBe("the time");
+    expect(closerOf("Cynthia lost.")).toBe("cynthia lost");
   });
 });
