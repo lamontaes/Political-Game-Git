@@ -1066,6 +1066,12 @@
       "tag": "TUNABLE",
       "source": "Days from a bill's introduction until the floor can take it up: referral, a committee hearing and the committee's report, at most legislatures' pace of two to four weeks (NCSL, Committee Procedures; a hearing must be noticed days ahead in most chambers).",
       "spread": [7, 45]
+    },
+    "recallTermOpeningDays": {
+      "value": 180,
+      "tag": "ESTIMATED",
+      "source": "Days into a term before a recall petition may be filed against the officeholder: state recall statutes commonly bar a petition in a term's first 90 days to 6 months, and once a recall fails, for the rest of the term (NCSL, Recall of Local Officials; e.g., Cal. Elec. Code 11007 at 90 days, Mich. Comp. Laws 168.951a at 6 months). One national bar stands until each state's statute is read (SG-GOV-recall-bars-national).",
+      "spread": [90, 365]
     }
   }
 }

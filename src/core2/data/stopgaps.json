@@ -3756,5 +3756,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Each law-reach policy that binds employers moves its own money (a price, a fee, a compliance cost), and the stake reads that.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-recall-bars-national",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/recalls.ts",
+    "line": 1,
+    "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed), not each state's own statute.",
+    "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window.",
+    "status": "open"
   }
 ]
