@@ -84,6 +84,16 @@ describe("the press in the played world", () => {
     // A news desert has only the national tier, whose people the town does not pay.
     if (outlets.some((o) => o.tier !== "national"))
       expect(paid.length, where).toBeGreaterThan(0);
+    // Whoever left a town outlet's payroll was replaced: every reporter on
+    // its list today works there.
+    for (const outlet of outletsHere(api).filter((o) => o.tier !== "national"))
+      for (const id of outlet.reporterIds) {
+        const person = core.people.get(id);
+        const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
+        expect(job?.organizationId, `${where}: ${id}`).toBe(
+          outlet.organizationId,
+        );
+      }
     // A follower read a printed story and their stance on its topic moved.
     const printed = new Set(stories.map((s) => s.id));
     const moved = outlets.some((o) =>

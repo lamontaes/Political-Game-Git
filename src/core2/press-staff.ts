@@ -109,6 +109,8 @@ export interface StaffRow {
   readonly role: StaffRole;
   readonly jobId: string | null;
   readonly hiredOn: string;
+  /** When they left the outlet (another job, a move, death). */
+  readonly leftOn?: string;
 }
 
 /**

@@ -2099,9 +2099,85 @@ export function staffOf(api: CoreAPI, outletId: string): readonly StaffRow[] {
   ]) as unknown as StaffRow[];
 }
 
+/**
+ * A town outlet's people who left its payroll (a better job, a move) or
+ * died are replaced: the outlet hires the next person for the role, the same
+ * way it hired at the opening, and the staff row keeps when the old one left.
+ * The departed stop filing and asking. An owner is not replaced here.
+ */
+function replaceDeparted(api: CoreAPI): void {
+  const town = lawChain(api).townPlaceId;
+  for (const outlet of outletsHere(api)) {
+    const rows = [...staffOf(api, outlet.id)];
+    const gone = rows.filter((row) => {
+      if (row.role === "owner" || row.leftOn) return false;
+      const person = api.state.people.get(row.id);
+      return (
+        !person?.alive || (row.jobId !== null && person.jobId !== row.jobId)
+      );
+    });
+    if (!gone.length) continue;
+    let { headId, reporterIds } = outlet;
+    for (const row of gone) {
+      table(api, "staff").put({
+        ...row,
+        leftOn: api.state.date,
+      } as unknown as ModuleRow);
+      const role = STAFF_ROLES.find((r) => r.id === row.role)!;
+      const next = hireStaffMember(api, {
+        outletId: outlet.id,
+        organizationId: outlet.organizationId,
+        role,
+        index: rows.filter((r) => r.role === row.role).length,
+        townPlaceId: town,
+        stateKey:
+          outlet.tier === "local" ? lawChain(api).stateKey : outlet.placeId,
+        // Where the role lives, as at the opening: town payroll staff in
+        // town; a station's director in the state; national staff at base.
+        ...(row.jobId !== null
+          ? {}
+          : {
+              livesAt:
+                outlet.tier === "local"
+                  ? lawChain(api).stateKey
+                  : outlet.placeId,
+            }),
+        parameter: pressParameter,
+        source: {
+          tag: "ESTIMATED",
+          citation:
+            "src/core2/data/press/staff.json: an outlet hires the next person for a role someone left",
+          asOf: api.state.date,
+          estimatedFrom: "press-staff",
+        },
+      });
+      table(api, "staff").put(next as unknown as ModuleRow);
+      rows.push(next);
+      if (row.role === "head") headId = next.id;
+      else
+        reporterIds = reporterIds.map((id) => (id === row.id ? next.id : id));
+      // The newcomer meets the people they now work with.
+      for (const other of [outlet.ownerId, headId, ...reporterIds])
+        if (other && other !== next.id && api.state.people.get(other)?.alive)
+          api.meet(next.id, other, {
+            placeId: outlet.placeId,
+            sourceId: outlet.organizationId,
+            cause: "coworker",
+            hours: pressParameter("coworkerHoursAtOpening"),
+          });
+    }
+    table(api, "outlets").put({
+      ...outlet,
+      headId,
+      reporterIds,
+    } as unknown as ModuleRow);
+  }
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
+  replaceDeparted(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.

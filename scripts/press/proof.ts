@@ -27,6 +27,7 @@ import {
   officeholderSpeaker,
   outletsHere,
   requestInterview,
+  staffOf,
   storiesPrinted,
   PRESS_MODULE_ID,
   type InterviewRow,
@@ -322,6 +323,13 @@ for (;;) {
   );
   for (const e of examples) console.log(`- ${e}`);
   // Owners: a story whose framing the owner's regard turned most.
+  console.log(`\n## Staff who left and who replaced them`);
+  for (const o of outletsHere(api))
+    for (const row of staffOf(api, o.id))
+      if (row.leftOn || row.hiredOn > start)
+        console.log(
+          `- ${o.id}: ${name(core, row.id)} (${row.id}), ${row.role}, hired ${row.hiredOn}${row.leftOn ? `, left ${row.leftOn} (now ${core.people.get(row.id)?.alive ? (core.people.get(row.id)?.jobId ?? "no job") : "dead"})` : ""}`,
+        );
   console.log(`\n## Asked for an interview`);
   for (const line of asks) console.log(`- ${line}`);
   console.log(`\n## Owners`);
