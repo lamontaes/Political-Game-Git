@@ -229,6 +229,10 @@ export function billPropertyTax(
       (org) => org.placeId === placeId && org.outsideFlow !== undefined,
     )?.id;
   // What each payer owes this month, by where it goes; the wider population's homes are paid from their place's pool.
+  const pooledHomes = new Map<
+    string,
+    { householdId: string; amountMinor: number }[]
+  >();
   const pooled = new Map<
     string,
     { placeId: string; to: string; amountMinor: number; source: Source }
@@ -254,6 +258,10 @@ export function billPropertyTax(
       };
       row.amountMinor += amountMinor;
       pooled.set(key, row);
+      // Which homes this pooled payment credits, so a short pool credits each home only what it paid.
+      const homesOf = pooledHomes.get(key) ?? [];
+      homesOf.push({ householdId, amountMinor });
+      pooledHomes.set(key, homesOf);
       // The pool pays in full at the month's end; the wider population's balances are pooled too.
       return amountMinor;
     }
@@ -471,7 +479,22 @@ export function billPropertyTax(
       row.amountMinor,
       row.source,
     );
-    if (row.to.startsWith("escrow:") || key.endsWith("|escrow-repay")) continue;
+    if (row.to.startsWith("escrow:") || key.endsWith("|escrow-repay")) {
+      // An escrow deposit or repayment the pool couldn't fully pay: each home's record keeps only its share of what was paid.
+      const short = row.amountMinor > 0 ? 1 - paid / row.amountMinor : 0;
+      if (short > 0)
+        for (const home of pooledHomes.get(key) ?? []) {
+          const id = `assessment:${home.householdId}`;
+          const held = assessments.get(id) as unknown as AssessmentRow;
+          if (held?.escrowMinor !== undefined)
+            assessments.put({
+              ...held,
+              escrowMinor:
+                held.escrowMinor - Math.round(home.amountMinor * short),
+            });
+        }
+      continue;
+    }
     total += paid;
   }
   // Once every deposit is in, each escrow pays the county what it holds for the home, and the servicer advances what it lacks.

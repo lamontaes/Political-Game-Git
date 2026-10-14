@@ -222,7 +222,7 @@ Newest first: one line per event (what changed, the measured result, what's next
   - Household income now counts retirement claims made in play and counted retirees' added income.
   - The island areas' 2020 census values are aged from April 2020.
   - A new house isn't taken off the market when no builder is on record.
-  - Left: counted escrow deposits are recorded before the pool pays, so a short pool could let one home's installment use another's deposits (pools rarely run short).
+  - Counted escrow deposits recorded before the pool pays: fixed the same day. When a place's pool can't pay all its escrow deposits, each home's record keeps only its share of what was paid.
 - 2026-10-14: after the home equity lines, on the runner's places for that head: M1-06 passes in Franklin, Idaho, and M1-08 in Ethel, Mississippi (5 openings and 6 closings in three years, against 2 to 10 each).
 - 2026-10-14: the town bank's smallest personal loan ($1,000) is now a tunable figure cited to the FDIC's 2011 bank survey (43% of banks offering unsecured personal loans set no minimum, another 53% one of $2,500 or less), spread from nothing to $2,500. `SG-WORLD-credit-minimum-loan` is resolved.
 - 2026-10-14: the monthly rows carry real income growth: the median household's money income against the same month a year earlier, deflated by the nation's consumer prices (each row now records the price index). Conway, South Carolina, February 2021 to February 2022: real median household income fell 1.35%, in a year of 7% inflation.
