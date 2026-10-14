@@ -1680,7 +1680,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks Prior to a Meeting With President Recep Tayyip Erdo\u011fan of Turkey and an Exchange With Reporters",
+        "document": "Remarks Prior to a Meeting With President Recep Tayyip Erdoğan of Turkey and an Exchange With Reporters",
         "date": "2025-09-25",
         "granule": "DCPD-202500954",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500954/html/DCPD-202500954.htm",
@@ -1757,7 +1757,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "The President's News Conference in \u00c9vian-les-Bains, France",
+        "document": "The President's News Conference in Évian-les-Bains, France",
         "date": "2026-06-17",
         "granule": "DCPD-202600410",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600410/html/DCPD-202600410.htm",
@@ -2177,7 +2177,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Bentley, Helen Delich - U.S. Representative of Maryland - 1985\u20131995",
+        "document": "U.S. House Oral History: Bentley, Helen Delich - U.S. Representative of Maryland - 1985–1995",
         "date": "2016-03-21",
         "granule": "house-oh-bentley",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/bentley-transcript/",
@@ -2374,7 +2374,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -4947,7 +4947,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -6623,12 +6623,6 @@
       "text": "How's {name}?",
       "uses": [
         {
-          "move": "mutual-raise-seen",
-          "subject": "mutual",
-          "role": "raise",
-          "choice": "seen"
-        },
-        {
           "move": "family-ask-how",
           "subject": "family",
           "role": "ask",
@@ -6656,12 +6650,6 @@
       "text": "How's {name} doing?",
       "uses": [
         {
-          "move": "mutual-raise-seen",
-          "subject": "mutual",
-          "role": "raise",
-          "choice": "seen"
-        },
-        {
           "move": "family-ask-how",
           "subject": "family",
           "role": "ask",
@@ -6680,61 +6668,6 @@
         "date": "2026-07-23",
         "granule": "DCPD-202600486",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600486/html/DCPD-202600486.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.mutual-raise-seen.how-is-name",
-      "move": "mutual-raise-seen",
-      "kind": "spoken",
-      "text": "How is {name}?",
-      "uses": [
-        {
-          "move": "mutual-raise-seen",
-          "subject": "mutual",
-          "role": "raise",
-          "choice": "seen"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "STATE, FOREIGN OPERATIONS, AND RELATED PROGRAMS APPROPRIATIONS FOR 2022",
-        "date": "2021-03-25",
-        "granule": "CHRG-117hhrg47449",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg47449/html/CHRG-117hhrg47449.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.mutual-raise-seen.how-is-name-doing",
-      "move": "mutual-raise-seen",
-      "kind": "spoken",
-      "text": "How is {name} doing?",
-      "uses": [
-        {
-          "move": "mutual-raise-seen",
-          "subject": "mutual",
-          "role": "raise",
-          "choice": "seen"
-        }
-      ],
-      "transcriptsUsing": 11,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 8,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks to Farmers",
-        "date": "2026-03-27",
-        "granule": "DCPD-202600211",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600211/html/DCPD-202600211.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -6762,61 +6695,6 @@
         "date": "2017-09-25",
         "granule": "DCPD-201700686",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201700686/html/DCPD-201700686.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.mutual-raise-seen.hows-first",
-      "move": "mutual-raise-seen",
-      "kind": "spoken",
-      "text": "How's {first}?",
-      "uses": [
-        {
-          "move": "mutual-raise-seen",
-          "subject": "mutual",
-          "role": "raise",
-          "choice": "seen"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "dcpd": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks Honoring the 2025 Major League Soccer Champion Inter Miami",
-        "date": "2026-03-05",
-        "granule": "DCPD-202600151",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600151/html/DCPD-202600151.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.mutual-raise-seen.hows-first-doing",
-      "move": "mutual-raise-seen",
-      "kind": "spoken",
-      "text": "How's {first} doing?",
-      "uses": [
-        {
-          "move": "mutual-raise-seen",
-          "subject": "mutual",
-          "role": "raise",
-          "choice": "seen"
-        }
-      ],
-      "transcriptsUsing": 20,
-      "bySource": {
-        "briefing": 3,
-        "dcpd": 16,
-        "hearings": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks in a Roundtable Discussion on the Ratepayer Protection Pledge",
-        "date": "2026-07-23",
-        "granule": "DCPD-202600486",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600486/html/DCPD-202600486.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -6870,7 +6748,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks Prior to a Meeting With President Iv\u00e1n Duque M\u00e1rquez of Colombia and an Exchange With Reporters in New York City",
+        "document": "Remarks Prior to a Meeting With President Iván Duque Márquez of Colombia and an Exchange With Reporters in New York City",
         "date": "2018-09-25",
         "granule": "DCPD-201800632",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201800632/html/DCPD-201800632.htm",
@@ -6992,7 +6870,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks Prior to a Meeting With President Iv\u00e1n Duque M\u00e1rquez of Colombia and an Exchange With Reporters in New York City",
+        "document": "Remarks Prior to a Meeting With President Iván Duque Márquez of Colombia and an Exchange With Reporters in New York City",
         "date": "2018-09-25",
         "granule": "DCPD-201800632",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201800632/html/DCPD-201800632.htm",
@@ -10621,7 +10499,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Standards Board Meeting \u2014 transcript (EAC0411-1219VerbatimStandardsBoard.pdf)",
+        "document": "Standards Board Meeting — transcript (EAC0411-1219VerbatimStandardsBoard.pdf)",
         "date": "2019-04-11",
         "granule": "eac-2019-04-11-eac0411-1219verbatimstandardsboard",
         "url": "https://www.eac.gov/sites/default/files/event_document/files/EAC0411-1219VerbatimStandardsBoard.pdf",
@@ -10754,7 +10632,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G\u20137) Nations Leaders in Kananaskis, Canada",
+        "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G–7) Nations Leaders in Kananaskis, Canada",
         "date": "2025-06-16",
         "granule": "DCPD-202500700",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500700/html/DCPD-202500700.htm",
@@ -10812,7 +10690,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting \u2014 transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
         "date": "2025-05-05",
         "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
         "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
@@ -12191,7 +12069,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -12229,7 +12107,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
