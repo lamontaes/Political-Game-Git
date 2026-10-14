@@ -6,8 +6,10 @@
  * someone in the player's circle as bring-it-up reads it, an interview two
  * outlets printed differently, and the views the print moved.
  *
+ * The one act the proof takes for the player: when a race in town is open
+ * for filing, the player files for it (if eligible), so the press covers them.
  * The seed is random unless PRESS_PROOF_SEED is set; draws that open with
- * fewer than two outlets are skipped and counted.
+ * fewer than two town outlets are skipped and counted.
  * Run: node --max-old-space-size=8192 --import tsx scripts/press/proof.ts
  */
 import { randomBytes } from "node:crypto";
@@ -28,7 +30,11 @@ import {
 } from "../../src/core2/modules/press";
 import type { PrintedStory } from "../../src/core2/press-desk";
 import { stancesOf } from "../../src/core2/modules/views";
-import { ELECTIONS_MODULE_ID } from "../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  fileCandidacy,
+  openContests,
+} from "../../src/core2/modules/elections";
 import {
   BRING_IT_UP_DATA,
   believedCause,
@@ -70,7 +76,10 @@ for (;;) {
   const api = coreAPI(core);
   const outlets = outletsHere(api);
   const contests = (
-    api.moduleState(ELECTIONS_MODULE_ID).table("contests").rows() as unknown as {
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as {
       id: string;
       electionDate: string;
     }[]
@@ -79,15 +88,17 @@ for (;;) {
     `draw ${draws}: seed ${seed}, place ${place.key} (${world.place.displayName}), ${outlets.length} outlets, ${contests.length} contests on record at the opening`,
   );
   // Races are opened through the year, so only the outlets are checked here.
-  if (outlets.length < 2) continue;
+  if (outlets.filter((o) => o.tier !== "national").length < 2) continue;
   const buildSeconds = (Date.now() - t0) / 1000;
-  console.log(`\n## World\nseed ${seed}\nplace ${place.key}, ${world.place.displayName}`);
+  console.log(
+    `\n## World\nseed ${seed}\nplace ${place.key}, ${world.place.displayName}`,
+  );
   for (const o of outlets) {
     const org = core.organizations.get(o.organizationId)!;
     console.log(
       `- ${org.name} (${o.kind}, ${o.id}): lean ${o.lean.toFixed(2)}, ${followersOf(api, o.id).length} full followers, revenue ${o.audienceRevenueMinor} minor a year`,
     );
-    for (const id of [o.headId, ...o.reporterIds]) {
+    for (const id of [o.ownerId, o.headId, ...o.reporterIds]) {
       const p = core.people.get(id!)!;
       const job = p.jobId ? core.jobs.get(p.jobId) : undefined;
       console.log(
@@ -106,10 +117,25 @@ for (;;) {
     );
   };
   let broughtUp: string | null = null;
+  let filed: string | null = null;
   const t1 = Date.now();
-  for (let day = core.date; day < end; ) {
+  for (let day = core.date; day < end;) {
     day = addDays(makeIsoDate(day), 1);
     advanceCore(core, day);
+    if (!filed)
+      for (const contest of openContests(api)) {
+        // A race in town: not a state or federal seat.
+        if (contest.level === "state" || contest.level === "federal") continue;
+        const result = fileCandidacy(api, {
+          personId: playerId,
+          contestId: contest.id,
+          platform: [],
+        });
+        if (result.status !== "refused") {
+          filed = `${core.date}: the player filed for ${contest.id} (${result.filing.id})`;
+          break;
+        }
+      }
     if (broughtUp) continue;
     for (const id of circle()) {
       const change = changesKnownTo(core, id, data as never)[0];
@@ -118,10 +144,17 @@ for (;;) {
         .get(id)
         ?.get(`printed:${change.institutionId}:story`)?.value;
       const story = storyId
-        ? (api.moduleState(PRESS_MODULE_ID).table("stories").get(storyId) as unknown as
-            PrintedStory | undefined)
+        ? (api
+            .moduleState(PRESS_MODULE_ID)
+            .table("stories")
+            .get(storyId) as unknown as PrintedStory | undefined)
         : undefined;
-      if (!story || !["law-took-effect", "legislative-vote", "vote-recorded"].includes(story.kind))
+      if (
+        !story ||
+        !["law-took-effect", "legislative-vote", "vote-recorded"].includes(
+          story.kind,
+        )
+      )
         continue;
       const cause = believedCause(core, id, change, data as never);
       broughtUp = `${core.date}: ${name(core, id)} (${id}), in the player's circle, would bring up ${story.id} (${story.kind}, topic ${story.topic}, ${story.ending ? "an ending" : "a change"} printed by ${core.organizations.get(story.organizationId)?.name}); learned from ${change.eventId}; belief ${cause.how}${cause.blamedId ? ` on ${cause.blamedId}` : ""}`;
@@ -130,27 +163,57 @@ for (;;) {
   }
   const runSeconds = (Date.now() - t1) / 1000;
   const all = outlets.flatMap((o) => storiesPrinted(api, o.id));
-  console.log(`\n## Stories\n${all.length} printed in the year (build ${buildSeconds.toFixed(0)} s, year ${runSeconds.toFixed(0)} s)`);
+  console.log(
+    `\n## Stories\n${all.length} printed in the year (build ${buildSeconds.toFixed(0)} s, year ${runSeconds.toFixed(0)} s)`,
+  );
   const byReporter = new Map<string, PrintedStory[]>();
-  for (const s of all) byReporter.set(s.reporterId, [...(byReporter.get(s.reporterId) ?? []), s]);
-  const [reporterId, theirs] = [...byReporter].sort((a, b) => b[1].length - a[1].length)[0]!;
-  console.log(`Reporter ${name(core, reporterId)} (${reporterId}) filed ${theirs.length}. Three of them:`);
+  for (const s of all)
+    byReporter.set(s.reporterId, [...(byReporter.get(s.reporterId) ?? []), s]);
+  const [reporterId, theirs] = [...byReporter].sort(
+    (a, b) => b[1].length - a[1].length,
+  )[0]!;
+  console.log(
+    `Reporter ${name(core, reporterId)} (${reporterId}) filed ${theirs.length}. Three of them:`,
+  );
   const picks = theirs.filter((s) => s.pick).slice(0, 40);
-  const varied = [...new Map(picks.map((s) => [s.kind, s])).values()].slice(0, 3);
+  const varied = [...new Map(picks.map((s) => [s.kind, s])).values()].slice(
+    0,
+    3,
+  );
   for (const s of varied.length >= 3 ? varied : picks.slice(0, 3))
     console.log(
       `- ${s.id}: ${s.kind} on ${s.topic}, ${s.date}; picked ${s.pick!.rank} of ${s.pick!.weighed} (score ${s.pick!.score.toFixed(2)}: proximity ${s.pick!.proximity}, readers' care ${s.pick!.readerCare.toFixed(2)}, people ${s.pick!.people.toFixed(2)}, own drives ${s.pick!.drive.toFixed(2)}); slant ${s.slant.toFixed(2)} (lean ${s.slantReasons.lean.toFixed(2)}, tie ${s.slantReasons.tie.toFixed(2)}, publisher ${s.slantReasons.publisher.toFixed(2)}, ads ${s.slantReasons.advertiser.toFixed(2)}); argued ${s.desiredChange}; ${s.readers} readers`,
     );
   const laws = all.filter((s) => s.kind === "law-took-effect");
-  console.log(`\n## Laws\n${laws.length} law stories printed; ${laws.filter((s) => s.ending).length} were endings.`);
-  for (const s of laws.slice(0, 3)) console.log(`- ${s.id}: topic ${s.topic}, ${s.ending ? "ending" : "enacted"}, slant ${s.slant.toFixed(2)}`);
-  console.log(`Brought up: ${broughtUp ?? "no one in the player's circle had a printed law as their newest change"}`);
+  console.log(
+    `\n## Laws\n${laws.length} law stories printed; ${laws.filter((s) => s.ending).length} were endings.`,
+  );
+  for (const s of laws.slice(0, 3))
+    console.log(
+      `- ${s.id}: topic ${s.topic}, ${s.ending ? "ending" : "enacted"}, slant ${s.slant.toFixed(2)}`,
+    );
+  console.log(
+    `Brought up: ${broughtUp ?? "no one in the player's circle had a printed law as their newest change"}`,
+  );
   // Interviews: a candidate two outlets printed.
-  const interviews = (api.moduleState(PRESS_MODULE_ID).table("interviews").rows() as unknown as InterviewRow[]).filter((i) => i.status === "published" && i.storyId);
+  const interviews = (
+    api
+      .moduleState(PRESS_MODULE_ID)
+      .table("interviews")
+      .rows() as unknown as InterviewRow[]
+  ).filter((i) => i.status === "published" && i.storyId);
   const byCandidate = new Map<string, InterviewRow[]>();
-  for (const i of interviews) byCandidate.set(i.candidateId, [...(byCandidate.get(i.candidateId) ?? []), i]);
-  const pair = [...byCandidate].find(([, rows]) => new Set(rows.map((r) => r.outletId)).size >= 2);
-  console.log(`\n## Interviews\n${interviews.length} printed; ${(api.moduleState(PRESS_MODULE_ID).table("interviews").rows() as unknown as InterviewRow[]).filter((i) => i.reason === "candidate-declined").length} refused.`);
+  for (const i of interviews)
+    byCandidate.set(i.candidateId, [
+      ...(byCandidate.get(i.candidateId) ?? []),
+      i,
+    ]);
+  const pair = [...byCandidate].find(
+    ([, rows]) => new Set(rows.map((r) => r.outletId)).size >= 2,
+  );
+  console.log(
+    `\n## Interviews\n${interviews.length} printed; ${(api.moduleState(PRESS_MODULE_ID).table("interviews").rows() as unknown as InterviewRow[]).filter((i) => i.reason === "candidate-declined").length} refused.`,
+  );
   const stories = new Map(all.map((s) => [s.id, s]));
   const movedBy = (storyId: string) => {
     let n = 0;
@@ -166,7 +229,9 @@ for (;;) {
   };
   if (pair) {
     const [candidateId, rows] = pair;
-    console.log(`Candidate ${name(core, candidateId)} (${candidateId}), interviews:`);
+    console.log(
+      `Candidate ${name(core, candidateId)} (${candidateId}), interviews:`,
+    );
     for (const r of rows.slice(0, 3)) {
       const s = stories.get(r.storyId!)!;
       const moved = movedBy(s.id);
@@ -186,12 +251,84 @@ for (;;) {
           moved += 1;
           people.add(p.id);
           if (examples.length < 3)
-            examples.push(`${name(core, p.id)} (${p.id}): ${st.topic} toward ${st.desiredChange} by ${c.change.toFixed(3)} from ${c.eventId}`);
+            examples.push(
+              `${name(core, p.id)} (${p.id}): ${st.topic} toward ${st.desiredChange} by ${c.change.toFixed(3)} from ${c.eventId}`,
+            );
         }
-  console.log(`\n## Views\n${moved} stance changes in ${people.size} people came from reading a printed story.`);
+  console.log(
+    `\n## Views\n${moved} stance changes in ${people.size} people came from reading a printed story.`,
+  );
   for (const e of examples) console.log(`- ${e}`);
-  console.log(`\n## Money\n${outlets.map((o) => `${core.organizations.get(o.organizationId)?.name} holds ${core.organizations.get(o.organizationId)?.liquidMinor} minor`).join("; ")}`);
-  console.log(`Staff: ${outlets.flatMap((o) => [o.headId, ...o.reporterIds]).map((id) => `${name(core, id)} ${core.people.get(id!)?.liquidMinor}`).join("; ")}`);
+  // Owners: a story whose framing the owner's regard turned most.
+  console.log(`\n## Owners`);
+  console.log(filed ?? "The player filed for no race.");
+  const ownerTurned = all
+    .filter((s) => (s.slantReasons.owner ?? 0) !== 0)
+    .sort(
+      (a, b) =>
+        Math.abs(b.slantReasons.owner!) - Math.abs(a.slantReasons.owner!),
+    )[0];
+  if (ownerTurned) {
+    const o = outlets.find((x) => x.id === ownerTurned.outletId)!;
+    console.log(
+      `Owner-turned: ${ownerTurned.id} at ${core.organizations.get(o.organizationId)?.name}, owner ${name(core, o.ownerId)} (${o.ownerId}); names ${ownerTurned.subjectIds.map((id) => `${name(core, id)} (${id})`).join(", ")}; framing ${ownerTurned.slant.toFixed(2)} (owner ${ownerTurned.slantReasons.owner!.toFixed(2)}, rivals ${(ownerTurned.slantReasons.rivals ?? 0).toFixed(2)}, lean ${ownerTurned.slantReasons.lean.toFixed(2)}, tie ${ownerTurned.slantReasons.tie.toFixed(2)})`,
+    );
+  }
+  const rivalHelped = all
+    .filter((s) => (s.slantReasons.rivals ?? 0) > 0)
+    .sort(
+      (a, b) => (b.slantReasons.rivals ?? 0) - (a.slantReasons.rivals ?? 0),
+    );
+  const forPlayer = rivalHelped.find((s) => s.subjectIds.includes(playerId));
+  const shown = forPlayer ?? rivalHelped[0];
+  console.log(
+    shown
+      ? `Rival's falling-out helped: ${shown.id} names ${shown.subjectIds.map((id) => `${name(core, id)} (${id})`).join(", ")}${forPlayer ? " (the player)" : ""}; rivals term ${(shown.slantReasons.rivals ?? 0).toFixed(2)}, framing ${shown.slant.toFixed(2)}; ${rivalHelped.length} stories warmed by an owner's dislike of a rival`
+      : "No story was warmed by an owner's dislike of a rival.",
+  );
+  const profiles = all.filter((s) => s.kind === "profile");
+  console.log(
+    `${profiles.length} profiles; ${profiles
+      .slice(0, 2)
+      .map((s) => `${s.id} framing ${s.slant.toFixed(2)}`)
+      .join("; ")}`,
+  );
+  const tips = api.moduleState(PRESS_MODULE_ID).table("tips").rows();
+  console.log(
+    `${tips.length} tips of a hidden act reached a reporter; ${all.filter((s) => s.kind === "press.exposed").length} ran.`,
+  );
+  // Received: a printed law, who received it, and who cites it in a stance.
+  const law = laws[0];
+  if (law) {
+    let named = 0;
+    let cites = 0;
+    for (const p of core.people.values()) {
+      if (core.knowledgeByPerson.get(p.id)?.get(`news:${law.id}`)) named += 1;
+      if (
+        stancesOf(api, p.id).some((st) =>
+          st.causes.some((c) => c.eventId.startsWith(`news.read:${law.id}:`)),
+        )
+      )
+        cites += 1;
+    }
+    console.log(
+      `\n## Received\n${law.id}: ${law.receivedNamed} named followers received it (${named} hold it in what they know), and ${law.receivedCounted} counted residents; ${cites} named people's stances cite it.`,
+    );
+  }
+  console.log(
+    `\n## Money\n${outlets.map((o) => `${core.organizations.get(o.organizationId)?.name} holds ${core.organizations.get(o.organizationId)?.liquidMinor} minor`).join("; ")}`,
+  );
+  console.log(
+    `Staff: ${outlets
+      .filter((o) => o.tier !== "national")
+      .flatMap((o) => [o.headId, ...o.reporterIds])
+      .map((id) => {
+        const p = core.people.get(id!)!;
+        const job = p.jobId ? core.jobs.get(p.jobId) : undefined;
+        return `${name(core, id)} ${p.alive ? "alive" : "dead"} ${p.placeId === world.placeId ? "in town" : p.placeId} job ${job ? (job.organizationId.startsWith("organization:press") ? "outlet" : job.organizationId) : "none"} cash ${p.liquidMinor}`;
+      })
+      .join("; ")}`,
+  );
   console.log(`\n${draws} draw(s).`);
   break;
 }

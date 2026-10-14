@@ -85,6 +85,13 @@ export interface PrintedStory {
   readonly pick: PickReasons | null;
   readonly slantReasons: SlantReasons;
   readonly readers: number;
+  /**
+   * Who received it: the named followers its deliveries reach (each holds
+   * the story in what they know), and the town's counted residents who follow
+   * the outlet, in the same share.
+   */
+  readonly receivedNamed: number;
+  readonly receivedCounted: number;
   readonly interviewId: string | null;
 }
 
@@ -98,6 +105,8 @@ export interface DeskContext {
   /** The candidates running against a person in their open races. */
   readonly rivals: (personId: string) => readonly string[];
   readonly printed: (wireId: string, outletId: string) => boolean;
+  /** The town's counted residents who follow an outlet. */
+  readonly countedFollowers: (outlet: DeskOutlet) => number;
   readonly save: (story: PrintedStory) => void;
 }
 
@@ -324,12 +333,13 @@ export function printItem(
     pick,
     slantReasons: reasons,
     readers: readers.length,
+    receivedNamed: 0,
+    receivedCounted: 0,
     interviewId: options.interviewId ?? null,
   };
-  ctx.save(story);
   // stopgapId: SG-PEOPLE-press-bring-it-up-row
   api.stopgap("SG-PEOPLE-press-bring-it-up-row");
-  printStory(
+  const received = printStory(
     api,
     {
       id: story.id,
@@ -353,7 +363,14 @@ export function printItem(
     },
     readers as PersonId[],
   );
-  return story;
+  const share = readers.length ? received / readers.length : 0;
+  const saved: PrintedStory = {
+    ...story,
+    receivedNamed: received,
+    receivedCounted: Math.round(ctx.countedFollowers(outlet) * share),
+  };
+  ctx.save(saved);
+  return saved;
 }
 
 /**

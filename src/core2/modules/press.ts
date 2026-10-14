@@ -1413,6 +1413,7 @@ export function deskContext(api: CoreAPI): DeskContext {
         ]) as unknown as PrintedStory[]
       ).some((s) => s.outletId === outletId),
     save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
+    countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
   };
 }
 
@@ -1662,6 +1663,30 @@ function writeProfile(
         weight: pressParameter("profileWeight"),
         rapport: 0,
       });
+}
+
+/**
+ * The town's counted residents who follow an outlet: for a town outlet, its
+ * share of the town's adults by their age bands' habits less its named
+ * followers; for a national one, its kind's share of the town's counted
+ * adults, split among the kind's outlets.
+ */
+function countedFollowersOf(api: CoreAPI, outlet: OutletRow): number {
+  if (outlet.tier !== "national")
+    return Math.max(
+      0,
+      countedAudience(api, outlet) - followersOf(api, outlet.id).length,
+    );
+  const row = NATIONAL.kinds.find((k) => k.kind === outlet.kind);
+  if (!row) return 0;
+  let adults = 0;
+  for (const counts of residentCounts(api.state as CoreState))
+    if (
+      counts.placeId === outlet.placeId ||
+      counts.placeId === lawChain(api).townPlaceId
+    )
+      adults += counts.adults;
+  return (adults * row.followShare) / Math.max(1, row.audienceLeans.length);
 }
 
 /** The candidates on the ballot against a person in their open races. */

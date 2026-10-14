@@ -337,7 +337,8 @@ function scheduleDeliveries(
   story: Story,
   readerIds: Iterable<PersonId>,
   skip: ReadonlySet<PersonId>,
-): void {
+): number {
+  let scheduled = 0;
   const maxAge = n(api, "newsMaxAgeDays");
   for (const personId of readerIds) {
     if (skip.has(personId)) continue;
@@ -355,23 +356,26 @@ function scheduleDeliveries(
       personId,
       date: addDays(makeIsoDate(story.date), delay),
     });
+    scheduled += 1;
   }
+  return scheduled;
 }
 
 /**
  * A town outlet prints a story its reporter chose (the press): it reaches the
- * outlet's followers, each on their own day.
+ * outlet's followers, each on their own day, as far as their habits and
+ * trust carry it. Returns how many of them will receive it.
  */
 export function printStory(
   api: CoreAPI,
   story: Story,
   readerIds: readonly PersonId[],
-): void {
+): number {
   // A world without news keeps the press's own record of the story only.
   if (!api.state.modules.has(NEWS_MODULE_ID) || stories(api).get(story.id))
-    return;
+    return 0;
   stories(api).put(story as unknown as { id: string });
-  scheduleDeliveries(api, story, readerIds, new Set());
+  return scheduleDeliveries(api, story, readerIds, new Set());
 }
 
 /**
