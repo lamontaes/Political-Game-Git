@@ -919,7 +919,11 @@ export function releaseResidentHousehold(
         outsideLiving = { amount: removed, flow };
     }
   }
-  for (const id of jobIds) rt.wageFlowByJob.delete(id);
+  // The released jobs leave the counts too (fill-in has already read them).
+  for (const id of jobIds) {
+    rt.wageFlowByJob.delete(id);
+    rt.jobs.delete(id);
+  }
   const ownFlows = options.ownFlows !== false;
   // Admitted after the scan: the person must be a full person by now.
   for (const flow of ownFlows ? retirees : []) {
