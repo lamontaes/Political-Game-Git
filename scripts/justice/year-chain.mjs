@@ -98,7 +98,8 @@ if (args.includes("--player-proposes")) {
   const player = new BenchPlayer(core, world.director);
   player.select(member.personId);
   for (let guard = 0; guard < 20_000 && core.date < endIso; guard++)
-    if (player.packet?.kind === "stop")
+    if (player.pollingPlace) player.leavePolls();
+    else if (player.packet?.kind === "stop")
       player.resume({ kind: "stop", pauseId: player.packet.pauseId });
     else player.advance("skip", undefined, 30);
 } else

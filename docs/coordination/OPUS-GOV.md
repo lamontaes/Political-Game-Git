@@ -123,6 +123,7 @@ On the bench, a player who offers bribes to council members can be reported by o
 - OPUS-CORE: a call for a module to take a person's own choices away for a time (custody), instead of the direct write in `justice-custody.ts` (SG-GOV-justice-custody-core-call).
 - OPUS-PEOPLE (health): read the custody record (`inCustody` in `src/core2/modules/justice.ts`) for prison's effect on health; death in prison stays the health engine's call.
 - OPUS-PEOPLE (words): mined-bank subjects for the `hearing` and `verdict` situation types and for the `justice.*` events.
+- OPUS-PEOPLE (director's polling place) and the voting engine: a player in prison was taken to the polls (seed a454f3569122862e, Prairie Elk Colony, Montana, February 28, 2026, mid-term). Whether a prisoner may vote is each state's felony-disenfranchisement law; the polling visit and voter eligibility should read `inCustody` against it.
 
 ### Sub-agents
 

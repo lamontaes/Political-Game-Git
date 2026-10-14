@@ -118,6 +118,7 @@ for (const candidate of candidates.slice(0, 60)) {
 const player = new BenchPlayer(core, world.director);
 const scenes: string[] = [];
 const ownChoiceDates: string[] = [];
+const pollingDates: string[] = [];
 const logAt = new Map<string, number>();
 // The run ends at release, or a year into a longer term: enough to show the
 // term running with the world going, without playing out every year of it.
@@ -130,6 +131,12 @@ const playerCustody = () =>
 if (playerId) {
   player.select(playerId);
   for (let guard = 0; guard < 5_000 && core.date < stopAt; guard++) {
+    // Election Day stops the skip at the polls; the character leaves and
+    // decides its own races, as the bench's own control does.
+    if (player.pollingPlace) {
+      pollingDates.push(core.date);
+      player.leavePolls();
+    }
     const result =
       player.packet?.kind === "stop"
         ? player.resume({ kind: "stop", pauseId: player.packet.pauseId })
@@ -181,6 +188,7 @@ afterAll(() => {
           playerId,
           scenes,
           coverage,
+          pollingDates,
           chains: justiceChains(api),
         },
         null,
