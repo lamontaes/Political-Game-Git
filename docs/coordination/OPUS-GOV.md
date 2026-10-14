@@ -69,6 +69,13 @@ Branch `gov/justice-small`. Owner's order, October 14, 2026: "Courts, trials, pr
 - [ ] A background year with a full chain. 11 played years (4 plain, 7 where the player proposed a minimum-wage raise) made 1 bribe offer and 0 reports. The only bribe route is the employers' lobby on a minimum-wage bill, and only the player proposes one (see "Needs").
 - [ ] Forfeiture of the bribe at sentencing (SG-GOV-justice-no-forfeiture).
 
+### Next, from the capability research (docs/research/capability-cases-2026-10-14.md)
+
+- [ ] U1, the rest: a target who turns witness (cooperating testimony in exchange for a plea), from the target's own reads; the prosecutor's workload as a read on opening and charging.
+- [ ] U13: an auditor, inspector general or ethics body as a second door into the complaint record, reading a government's books and producing a public report.
+- [ ] U3 (conflict to flag): a conviction now feeds the candidacy inputs' on/off scandal flag; the research and the owner's October 5 ruling (the flat scandal penalty is deleted) want each voter's own knowledge of it instead.
+- [ ] U6 (with the pillar): the bribe buys something real (a vote position, a contract, a permit), so background corruption has causes.
+
 ### What the owner can play now
 
 On the bench, a player who offers bribes to council members can be reported by one who refuses, charged, and tried. The charge and the verdict open scenes in the player's story. A prison term then runs with the world going on and no choices for the player, and the player comes back with the conviction on record. A player on the council who proposes a minimum-wage raise draws the employers' lobby, whose lobbyist may now offer the members a bribe.
