@@ -42,6 +42,8 @@ describe(`the public school district in ${place.name}, ${place.state} (seed ${se
         p("openingPupilTeacherRatio"),
     );
     expect(receipt.teachers).toBe(Math.min(wanted, receipt.unplacedWorkers));
+    // A town the records show with no school-age children needs no teachers.
+    if (!receipt.schoolAgeChildren) return;
     expect(receipt.teachers).toBeGreaterThan(0);
     // Each teacher holds one job, with a timetable on the district's payday calendar.
     const people = new Map(input.people.map((row) => [row.id, row]));
@@ -96,6 +98,10 @@ describe(`the public school district in ${place.name}, ${place.state} (seed ${se
       ),
     };
     const { input, receipt } = withPublicSchoolDistrict(bare);
+    if (!receipt?.schoolAgeChildren) {
+      expect(receipt?.teachers ?? 0).toBe(0);
+      return;
+    }
     expect(receipt?.teachers).toBeGreaterThan(0);
     const jobs = input.jobs.filter(
       (row) => row.organizationId === receipt!.organizationId,
