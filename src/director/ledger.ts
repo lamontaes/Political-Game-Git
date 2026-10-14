@@ -11,6 +11,7 @@
  */
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { appraiseEvent } from "../core2/emotion";
+import { closenessBetween } from "../core2/closeness";
 import { P, parameterValues } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
@@ -1292,11 +1293,7 @@ export function createDirector(
         directorStopgap("SG-P13-appraisal-recompute", ledger.stopgapHits);
         const relation = event.personIds.reduce(
           (level, subject) =>
-            Math.max(
-              level,
-              core.relationships.get([id, subject].sort().join(":"))?.level ??
-                zero,
-            ),
+            Math.max(level, closenessBetween(core, id, subject)),
           zero,
         );
         const appraisal = appraiseEvent(
