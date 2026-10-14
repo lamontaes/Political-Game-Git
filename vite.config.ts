@@ -1,5 +1,6 @@
 import { runtimeArtBuild } from "./scripts/dev-lab/runtime-art-build";
 import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
+import { renameSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
 import react from "@vitejs/plugin-react";
@@ -25,14 +26,19 @@ import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 // document: the desktop shell loads `/index.html` and the staging check
 // requires `client/index.html`.
 function playIsIndex(): Plugin {
+  let outDir = "";
   return {
     name: "our-civic-duty-play-is-index",
     apply: "build",
-    generateBundle(_options, bundle) {
-      for (const file of Object.values(bundle)) {
-        if (file.fileName === "src/bench/play.html")
-          file.fileName = "index.html";
-      }
+    configResolved(config) {
+      outDir = resolve(config.root, config.build.outDir);
+    },
+    closeBundle() {
+      renameSync(
+        resolve(outDir, "src/bench/play.html"),
+        resolve(outDir, "index.html"),
+      );
+      rmSync(resolve(outDir, "src"), { recursive: true, force: true });
     },
   };
 }
