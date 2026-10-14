@@ -40,6 +40,8 @@ export interface BatchFileItem {
   readonly i: number;
   readonly parts: readonly string[];
   readonly variants?: readonly BatchFileVariant[];
+  /** A conversation turn's choice set: each reply and lie, by its number on the page. */
+  readonly choices?: readonly { n: number; parts: readonly string[] }[];
 }
 
 export interface BatchFile {
@@ -55,8 +57,10 @@ export interface GradeFileRow {
   readonly note?: string;
   /** Multi-axis batches: a grade per axis, e.g. { "formality": "GOOD" }. */
   readonly axes?: Readonly<Record<string, string>>;
-  /** Multi-axis batches: the variant number that is better, per axis. */
-  readonly prefer?: Readonly<Record<string, number>>;
+  /** The variant number that is better: per axis, or one number in a scene batch. */
+  readonly prefer?: Readonly<Record<string, number>> | number;
+  /** A choice set's grades, reply by reply: { "1": "good", "3": "bad" }. */
+  readonly choices?: Readonly<Record<string, string>>;
   /** The part keys of the graded line, when the grade file carries them. */
   readonly parts?: readonly string[];
 }
@@ -158,7 +162,8 @@ function foldAxes(
   for (const [axis, word] of Object.entries(row.axes ?? {})) {
     const grade = ownerGrade({ grade: word }, `${where} axis ${axis}`);
     for (const key of new Set(lineKeys)) addAxisGrade(parts, key, axis, grade);
-    const preferred = row.prefer?.[axis];
+    const preferred =
+      typeof row.prefer === "object" ? row.prefer[axis] : undefined;
     if (preferred === undefined) continue;
     const variant = item?.variants?.find(
       (row) => row.n === preferred && row.axis === axis,
@@ -182,6 +187,34 @@ export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
     for (const row of rowsOf(grades)) {
       const number = row.i ?? row.n;
       const where = `${id} item ${number}`;
+      const item = number === undefined ? undefined : byNumber.get(number);
+      // A choice set: each reply counts against its own parts.
+      if (row.choices) {
+        for (const [n, word] of Object.entries(row.choices)) {
+          const choice = item?.choices?.find((c) => c.n === Number(n));
+          if (!choice?.parts.length)
+            throw new Error(`${where}: no reply ${n} in the choice set`);
+          const grade = ownerGrade({ grade: word }, `${where} reply ${n}`);
+          const field = choice.parts.length === 1 ? grade : SHARED[grade];
+          for (const key of new Set(choice.parts)) {
+            const counts = parts[key] ?? EMPTY;
+            parts[key] = { ...counts, [field]: counts[field] + 1 };
+          }
+        }
+        if (row.grade === undefined && row.verdict === undefined) continue;
+      }
+      // One preferred alternative, in a scene batch: it is good there.
+      if (typeof row.prefer === "number") {
+        const better = item?.variants?.find((v) => v.n === row.prefer);
+        if (!better)
+          throw new Error(
+            `${where}: prefer ${row.prefer} names no alternative`,
+          );
+        for (const key of new Set(better.parts)) {
+          const counts = parts[key] ?? EMPTY;
+          parts[key] = { ...counts, good: counts.good + 1 };
+        }
+      }
       const keys =
         row.parts ??
         (number === undefined ? undefined : byNumber.get(number)?.parts);

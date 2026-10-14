@@ -292,3 +292,44 @@ describe("grades from batches whose files were removed", () => {
     expect(merged.parts["bank:meeting.opener.b"]).toMatchObject({ bad: 1 });
   });
 });
+
+describe("grades from a scene batch", () => {
+  const scenes: BatchFile = {
+    id: "batch-scenes",
+    items: [
+      {
+        i: 0,
+        parts: ["bank:talk.ask"],
+        choices: [
+          { n: 1, parts: ["bank:talk.reply-a"] },
+          { n: 2, parts: ["bank:talk.reply-b"] },
+        ],
+      },
+      {
+        i: 1,
+        parts: ["bank:meeting.close"],
+        variants: [
+          { n: 1, axis: "word choice", parts: ["bank:meeting.close-b"] },
+        ],
+      },
+    ],
+  };
+  it("grades each reply of a choice set against its own parts, and a preferred alternative as good", () => {
+    const ledger = foldGrades([
+      {
+        batch: scenes,
+        grades: {
+          batch: scenes.id,
+          grades: [
+            { i: 0, choices: { "1": "good", "2": "bad" } },
+            { i: 1, grade: "fail", prefer: 1 },
+          ],
+        },
+      },
+    ]);
+    expect(heldByGrades("bank:talk.reply-a", ledger)).toBe(false);
+    expect(heldByGrades("bank:talk.reply-b", ledger)).toBe(true);
+    expect(heldByGrades("bank:meeting.close", ledger)).toBe(true);
+    expect(ledger.parts["bank:meeting.close-b"]).toMatchObject({ good: 1 });
+  });
+});
