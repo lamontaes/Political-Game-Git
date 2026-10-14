@@ -20,11 +20,8 @@ import { votesAreTownNews } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  personStance,
-  type Stance,
-} from "../campaign-views";
+import { campaignParameter, type Stance } from "../campaign-views";
+import { viewOn } from "./views";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./campaigns";
 
 export const RECORD_MODULE_ID = "core2-record-v1";
@@ -182,7 +179,7 @@ export function recordAppeal(
     if (status.status === "open") return false;
     // A promise only counts with a voter who heard it made.
     if (!shown && !api.knows(voter.id, status.promise.id)) return false;
-    const own = personStance(lean, status.promise.stance.question);
+    const own = viewOn(api, voter.id, status.promise.stance.question, lean);
     return (
       Math.sign(own) === Math.sign(status.promise.stance.position) && own !== 0
     );
@@ -204,7 +201,7 @@ export function recordAppeal(
       effect:
         weight *
         voteShare *
-        personStance(lean, vote.stance.question) *
+        viewOn(api, voter.id, vote.stance.question, lean) *
         vote.stance.position,
     });
   for (const status of promises)

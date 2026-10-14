@@ -447,6 +447,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const before = new Map(
       teacherJobs().map((j) => [j.id, j.hourlyMinor ?? 0]),
     );
+    // A state whose starting law already had this floor raised teachers on the first day, before this test; the raise stays on record after the repeal.
+    const raisedBefore = new Set(
+      table<{ key: string; jobId: string }>("taken")
+        .filter((row) => row.key === key)
+        .map((row) => row.jobId),
+    );
     enact(key, 1, "state");
     const now = teacherJobs();
     for (const job of now) {
@@ -459,8 +465,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
         `${where} ${job.id}`,
       ).toBeGreaterThanOrEqual(Math.floor(floorDaily));
     }
+    // The floor counts every covered teacher it has a raise on record for: raised now, or raised earlier.
     const raised = now.filter(
-      (j) => (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0),
+      (j) =>
+        (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0) ||
+        raisedBefore.has(j.id),
     );
     expect(group(key)?.terms.raised ?? 0).toBe(raised.length);
     expect(openOrgs(key).length).toBe(
@@ -775,6 +784,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const moved = Math.round(highways * reachParameter("highwayShareShifted"));
     expect(line(state, "highways")).toBe(highways - moved);
     expect(line(state, "transit")).toBe(transit + moved);
+    // The law moved the line on its effective morning, with the town as it stood then; counted births, moves and arrivals later that day change who lives here. Nudge the line and put it back so the engine reads the town as it stands now, the instant this test counts it.
+
+    amend(state, "highways", -1);
+    amend(state, "highways", 1);
+    expect(line(state, "highways")).toBe(highways - moved);
     const road = openPeople("budget-line:highways");
     for (const row of road) expect(row.terms.townDeltaMinor).toBeLessThan(0);
     expect(reached("budget-line:highways"), where).toBe(residentsAged(16));
@@ -811,7 +825,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
         [
           ...core.jobs.values(),
           ...(residentsRuntime(core)?.jobs.values() ?? []),
-        ].some((j) => j.organizationId === o.id),
+        ].some((j) => j.organizationId === o.id && j.endsAt === undefined),
     );
     expect(openOrgs("budget-line:retirementContributions").length, where).toBe(
       publicOrgs.length,

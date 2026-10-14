@@ -54,12 +54,7 @@ import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  personLean,
-  platformAgreement,
-  type Stance,
-} from "../campaign-views";
+import { campaignParameter, personLean, type Stance } from "../campaign-views";
 import { townDistrict } from "../offices-state";
 import {
   announce,
@@ -96,9 +91,10 @@ import { nationalParty, partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
 import {
+  agreementWith,
   VIEWS_DATA,
   VIEWS_MODULE_ID,
-  VIEWS_SPEECH_LEAN_KEY,
+  VIEWS_SPEAKER_KEY,
   viewOf,
 } from "./views";
 import {
@@ -493,7 +489,7 @@ function appealFor(
       voter.knownIds.has(entry.id) ||
       (impression?.heardOf ?? false);
     const agreement = impression?.knowsPlatform
-      ? platformAgreement(lean, entry.platform)
+      ? agreementWith(api, voter.id, lean, entry.platform)
       : null;
     if (agreement !== null) heardPlatform = true;
     // Their own knowledge in place of the town's share of it.
@@ -1853,14 +1849,13 @@ function mandate(
   };
 }
 
-/** The winner's own lean on the views scale, where the views engine holds one. */
+/** The winner makes the case the result carries: the views engine weighs it by how each person stands with them. */
 function mandateLean(
   api: CoreAPI,
   winnerId: string | null,
 ): Record<string, string> {
   if (!winnerId || !api.state.modules.has(VIEWS_MODULE_ID)) return {};
-  const view = viewOf(api, winnerId);
-  return view ? { [VIEWS_SPEECH_LEAN_KEY]: String(view.lean) } : {};
+  return { [VIEWS_SPEAKER_KEY]: winnerId };
 }
 
 /**

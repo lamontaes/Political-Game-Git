@@ -41,21 +41,16 @@ import {
   campaignParameter,
   districtLean,
   personLean,
-  platformAgreement,
   type Stance,
 } from "../campaign-views";
-import {
-  candidateLean,
-  candidatePlatform,
-  partyLean,
-} from "../campaign-stances";
+import { candidatePlatform, partyLean } from "../campaign-stances";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
   partyTie,
   type TieRow,
 } from "./parties";
-import { VIEWS_DATA, VIEWS_SPEECH_LEAN_KEY } from "./views";
+import { agreementWith, VIEWS_SPEAKER_KEY } from "./views";
 import { recordAppeal } from "./record";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
@@ -439,7 +434,7 @@ function reach(
   const knowsPlatform =
     (before?.knowsPlatform ?? false) || options.carriesPlatform;
   const agreement = knowsPlatform
-    ? platformAgreement(lean, campaign.platform)
+    ? agreementWith(api, voterId, lean, campaign.platform)
     : null;
   const target = clamp(options.target ?? (agreement ?? 0) + options.rapport);
   const warmthBefore = before?.warmth ?? 0;
@@ -1067,7 +1062,7 @@ function backingReasons(
   const warmth =
     impressionOf(api, person.id, campaign.candidateId)?.warmth ?? 0;
   const lean = personLean(api.state.people, person, townRow(api).lean);
-  const agreement = platformAgreement(lean, campaign.platform);
+  const agreement = agreementWith(api, person.id, lean, campaign.platform);
   const party = partyFit(api, campaign, person.id);
   const level = person.familyIds.has(campaign.candidateId)
     ? 1
@@ -1439,26 +1434,27 @@ export function makeStatements(
     platform: withStatements.platform,
   });
   // In person (a speech, a town hall), a candidate who is a person is heard
-  // as a speaker on their first statement's question: the speech engine
-  // moves those in the room and lets them retell it at home. Broadcasts
-  // (debates, interviews) reach their audiences through the causes above.
-  const first = input.statements[0];
-  if (
-    input.faceToFace &&
-    speaker &&
-    first &&
-    api.state.modules.has(SPEECH_MODULE_ID)
-  )
-    deliverSpeech(api, {
-      id: statementSpeechId(campaign.candidateId, api.state.date, input),
-      speakerId: speaker.id,
-      placeId: speaker.placeId,
-      topic: first.question,
-      desiredChange: first.position > 0 ? "enact" : "repeal",
-      audienceIds: [...new Set(causes.map((c) => c.voterId))].filter(
-        (id) => id !== speaker.id && api.state.people.get(id)?.alive,
-      ),
-    });
+  // as a speaker on each statement's question: the speech engine moves those
+  // in the room by the candidate's standing with them and lets them retell
+  // it at home. Broadcasts (debates, interviews) reach their audiences
+  // through the causes above.
+  if (input.faceToFace && speaker && api.state.modules.has(SPEECH_MODULE_ID)) {
+    const audienceIds = [...new Set(causes.map((c) => c.voterId))].filter(
+      (id) => id !== speaker.id && api.state.people.get(id)?.alive,
+    );
+    input.statements.forEach((statement, index) =>
+      deliverSpeech(api, {
+        id:
+          statementSpeechId(campaign.candidateId, api.state.date, input) +
+          (index ? `:${index}` : ""),
+        speakerId: speaker.id,
+        placeId: speaker.placeId,
+        topic: statement.question,
+        desiredChange: statement.position > 0 ? "enact" : "repeal",
+        audienceIds,
+      }),
+    );
+  }
   return causes;
 }
 
@@ -1699,11 +1695,6 @@ function emitMessage(
     (id) => id !== campaign.candidateId && api.state.people.has(id),
   );
   if (!lead || lead.position === 0 || !witnessIds.length) return;
-  const lean = candidateLean(
-    api,
-    campaign.candidateId,
-    filingOf(api, campaign.filingId)?.party ?? null,
-  );
   api.emit({
     id: input.id,
     date: api.state.date,
@@ -1719,13 +1710,9 @@ function emitMessage(
     facts: {
       campaignId: campaign.id,
       candidateId: campaign.candidateId,
-      ...(lean === null
-        ? {}
-        : {
-            [VIEWS_SPEECH_LEAN_KEY]: String(
-              lean * VIEWS_DATA.parameters.leanMax!.value,
-            ),
-          }),
+      // The views engine weighs the message by how each person stands with
+      // the candidate who makes the case.
+      [VIEWS_SPEAKER_KEY]: campaign.candidateId,
     },
     source: {
       tag: "SOURCED",
@@ -1749,7 +1736,7 @@ export function askForEndorsement(
   const endorser = api.state.people.get(endorserId);
   if (!endorser?.alive) return false;
   const lean = personLean(api.state.people, endorser, townRow(api).lean);
-  const raw = platformAgreement(lean, campaign.platform);
+  const raw = agreementWith(api, endorserId, lean, campaign.platform);
   const mine =
     raw +
     api.parameter("traitDecisionWeight") *
@@ -1766,7 +1753,7 @@ export function askForEndorsement(
     ]) as unknown as CampaignRow[]
   )
     .filter((c) => c.id !== campaign.id)
-    .map((c) => platformAgreement(lean, c.platform));
+    .map((c) => agreementWith(api, endorserId, lean, c.platform));
   if (mine <= 0 || rivals.some((r) => r >= raw)) return false;
   for (const id of [...endorser.knownIds, ...endorser.familyIds]) {
     const listener = api.state.people.get(id);
