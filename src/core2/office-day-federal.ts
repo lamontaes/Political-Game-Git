@@ -55,6 +55,7 @@ import {
 import { MEETINGS_MODULE_ID, holdTownHall } from "./modules/meetings";
 import { COMMITTEES, committeeRoster, leaderOf } from "./modules/leadership";
 import { candidateStance } from "./campaign-stances";
+import { filingWindowOpens } from "./modules/candidacy";
 import federalCommittees from "./data/office-day/federal-committees.json" with { type: "json" };
 import { partySide } from "./appointments";
 import {
@@ -62,7 +63,12 @@ import {
   casesFor,
   handleCase,
 } from "./modules/constituent-cases";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  ballot,
+  fileCandidacy,
+  type ContestRow,
+} from "./modules/elections";
 import federalParameters from "./data/office-day/federal-parameters.json" with { type: "json" };
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import federalOffices from "./data/office-day/federal-offices.json" with { type: "json" };
@@ -125,7 +131,8 @@ export type FederalStopKind =
   | "casework"
   | "nomination"
   | "budget-request"
-  | "daily-brief";
+  | "daily-brief"
+  | "filing";
 
 export const DEFAULT_STOPS: Readonly<Record<FederalStopKind, boolean>> = {
   "own-bill-vote": true,
@@ -139,6 +146,7 @@ export const DEFAULT_STOPS: Readonly<Record<FederalStopKind, boolean>> = {
   nomination: true,
   "budget-request": true,
   "daily-brief": false,
+  filing: true,
 };
 
 type ItemProvider = (
@@ -478,8 +486,19 @@ export function federalDay(api: CoreAPI, personId: string): FederalDay {
       .moduleState(ELECTIONS_MODULE_ID)
       .table("contests")
       .rows() as unknown as ContestRow[])
-      if (contest.seatId === row.seatId && contest.electionDate === date)
-        add("election-day", `election:${contest.id}`, [contest.id]);
+      if (contest.seatId === row.seatId) {
+        if (contest.electionDate === date)
+          add("election-day", `election:${contest.id}`, [contest.id]);
+        // The member's own race: its filing window is open (the place's
+        // record, else the candidacy engine's estimate) and they have not
+        // filed.
+        if (
+          filingWindowOpens(api, contest) <= date &&
+          date <= contest.filingDeadline &&
+          !ballot(api, contest.id).some((f) => f.personId === personId)
+        )
+          add("filing", `filing:${contest.id}`, [contest.id]);
+      }
   for (const provide of itemProviders)
     for (const item of provide(api, row, date))
       add(item.kind, item.id, item.ids);
@@ -979,6 +998,57 @@ export function takeCase(
     where: whereOn(row, when),
     sourceRecordIds: [caseId, ...(handled ? [handled.personId] : [])],
     facts: { decision, status: handled?.status ?? null },
+  });
+}
+
+/**
+ * File for re-election to the member's own seat, where the place's records
+ * say filings go, under the party they sit with, on the stances the player
+ * picks. A member who lets the window pass is filed when it closes, or not,
+ * by the voting engine's rule for every incumbent: their own traits weigh
+ * standing again against retiring.
+ */
+export function fileForReelection(
+  api: CoreAPI,
+  personId: string,
+  platform: readonly { question: string; position: number }[] = [],
+): FederalActRow {
+  const row = holderRow(api, personId);
+  if (!row) throw new Error(`${personId} holds no federal day`);
+  const contest = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[]
+  ).find(
+    (c) =>
+      c.seatId === row.seatId &&
+      filingWindowOpens(api, c) <= dayAhead(api) &&
+      dayAhead(api) <= c.filingDeadline,
+  );
+  if (!contest) throw new Error(`No open filing for ${row.seatId}`);
+  const result = fileCandidacy(api, {
+    personId,
+    contestId: contest.id,
+    platform: platform.map((s) => `${s.question}=${s.position}`),
+    party: federalSeatOf(api, personId)?.term.party ?? null,
+  });
+  const when = dayAhead(api);
+  return record(api, {
+    id: actId(personId, "filing", contest.id),
+    personId,
+    date: when,
+    kind: "filing",
+    mode: "did",
+    where: whereOn(row, when),
+    sourceRecordIds: [
+      contest.id,
+      ...(result.status === "refused" ? [] : [result.filing.id]),
+    ],
+    facts: {
+      status: result.status,
+      unmet: result.status === "refused" ? result.unmet.length : 0,
+    },
   });
 }
 
