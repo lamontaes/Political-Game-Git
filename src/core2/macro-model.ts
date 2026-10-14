@@ -179,7 +179,6 @@ export function stepMacroMonth(
   const outputGapPct =
     p("macroOutputGapPersistence") * previous.outputGapPct -
     p("macroRealRateEffectOnGap") * (realRate - p("macroNeutralRealRatePct")) +
-    p("macroPublicBudgetImpulse") / months +
     town / months;
   const unemploymentPct =
     p("macroNaturalUnemploymentPct") -

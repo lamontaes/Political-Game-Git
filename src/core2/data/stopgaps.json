@@ -2210,7 +2210,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "A government monthly mortgage-rate series, or monthly HMDA origination dates if CFPB publishes them.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruling Oct 14: the mortgage rate past the published series is the 10-year Treasury plus the FHFA 1990-2019 mean spread (1.768), tagged ESTIMATED with its 5th-95th spread; no outside feed."
   },
   {
     "id": "SG-WORLD-macro-public-budget",
@@ -2222,7 +2223,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The national, state and local budgets' actual spending and taxes from M1-07, read as indexed totals each month.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the zero public-budget impulse term and its parameter; trend growth already carries average public spending, so output no longer has a budget stand-in."
   },
   {
     "id": "SG-WORLD-board-appointments",
