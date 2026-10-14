@@ -274,5 +274,17 @@
     "addedAt": "2026-10-14",
     "replacement": "The owner's list of key people, as rows in src/director/data/opening-story.json (sequence.stages), with cabinet picks once an engine seats a cabinet.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-poll-workers",
+    "kind": "missing-producer",
+    "file": "src/director/polling-place.ts",
+    "line": 1,
+    "whatItFakes": "Nobody works the polling place: the election-day scene shows the voter and the household members who may vote, with no poll workers.",
+    "why": "The elections engine records no polling place for a precinct and no one who works it; the scene's poll-workers role needs that record.",
+    "addedBy": "director/scenes-and-filters",
+    "addedAt": "2026-10-14",
+    "replacement": "GOV's polling-place record (`polling-place:<precinct>` with `pollWorkerIds`), read by the poll-workers fill.",
+    "status": "open"
   }
 ]
