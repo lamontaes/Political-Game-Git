@@ -48,6 +48,7 @@
     "src/core2/person-names.ts",
     "src/core2/place-lookup.ts",
     "src/core2/school-calendar.ts",
+    "src/core2/starting-cash.ts",
     "src/source/**/*.ts",
     "src/player/LifeStartTransition.tsx",
     "src/player/observer-run-controller.ts",
