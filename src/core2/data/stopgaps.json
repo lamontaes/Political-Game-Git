@@ -1798,11 +1798,11 @@
     "file": "src/core2/modules/press.ts",
     "line": 201,
     "whatItFakes": "A local outlet's record name is its kind (newspaper, television, radio); outlets are sized from state counts, not named real outlets.",
-    "why": "Outlet names are player text and come from the English engine; the per-place outlet roster isn't researched.",
+    "why": "Outlet names are player text and come from the English engine; the per-place outlet roster isn't researched. Resolved by the press (OPUS-PEOPLE, 2026-10-14): each outlet is named at the opening from the world's seed, the place's name and src/core2/data/press/mastheads.json (masthead words, call-sign letters by state); outlets stay sized from state counts.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Names from the English engine (OPUS-PEOPLE) and per-county outlet rosters from Medill and FCC data.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-params-uncalibrated",
@@ -3053,6 +3053,18 @@
     "addedBy": "PEOPLE",
     "addedAt": "2026-10-13",
     "replacement": "The CTO's art in docs/coordination/people-art-requests.md: activity variants of every look, 12 teen and 12 child looks per sex, and the adult version of each teen look with a shared family id.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-outlet-revenue",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 344,
+    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks.",
+    "why": "Local advertising needs businesses that choose to advertise, which the business engine (OPUS-WORLD) does not model; the outlet's people must be paid from its own cash now.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-14",
+    "replacement": "Business advertising bought by each business from its own books and the outlet's reach, and subscriptions that follow the outlet's follower count.",
     "status": "open"
   }
 ]

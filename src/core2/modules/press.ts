@@ -50,6 +50,10 @@ import {
   type Stance,
 } from "../campaign-views";
 import { POLICY_QUESTIONS } from "../policy-answers";
+import { hireStaffMember, outletName, STAFF_ROLES } from "../press-staff";
+import { viewOf, VIEWS_MODULE_ID } from "./views";
+import { residentCounts } from "./residents";
+import { startOutletRevenue } from "../press-money";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 
@@ -63,6 +67,16 @@ export interface OutletRow {
   /** Which of its kind it is, in the order outlets were recorded. */
   readonly index: number;
   readonly placeId: string;
+  /** Its head (publisher or news director), who sets its editorial line. */
+  readonly headId: string | null;
+  readonly reporterIds: readonly string[];
+  /**
+   * Its editorial lean, -2 to +2 on the views scale: its head's lean and its
+   * audience's, weighted (`outletLeanHeadWeight`).
+   */
+  readonly lean: number;
+  /** Yearly revenue it took from its audience's spending at the opening. */
+  readonly audienceRevenueMinor: number;
 }
 
 export interface InterviewAnswer {
@@ -137,6 +151,7 @@ export const PRESS_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       outlets: {},
+      staff: { indexes: { byOutlet: { fields: ["outletId"] } } },
       interviews: {
         indexes: {
           byOutlet: { fields: ["outletId"] },
@@ -147,6 +162,10 @@ export const PRESS_MODULE: CoreModule = {
   },
   onCalendarWork: (api, work) => pressWeek(api, work),
 };
+
+/** A person's lean on the views scale; level where the world keeps no views. */
+const leanOf = (api: CoreAPI, id: string): number =>
+  api.state.modules.has(VIEWS_MODULE_ID) ? (viewOf(api, id)?.lean ?? 0) : 0;
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(PRESS_MODULE_ID).table(name);
@@ -161,6 +180,9 @@ const bandOf = (age: number): Band =>
  * Register the press and record the town's outlets: its county's share of the
  * state's newspapers and news radio, and the television stations of one of
  * the state's markets, each kind capped at the handful that cover politics.
+ * Each outlet gets its people (a head and its reporters, named and on its
+ * payroll), its lean from its head and its audience, and its revenue from its
+ * audience's spending.
  */
 export function openPress(core: CoreState): readonly OutletRow[] {
   registerAdOutlet(adOutlet);
@@ -197,31 +219,174 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     asOf: api.state.date,
     estimatedFrom: "local-news-2026",
   };
-  // stopgapId: SG-GOV-press-outlet-names
-  api.stopgap("SG-GOV-press-outlet-names");
+  const staffSource = {
+    tag: "ESTIMATED" as const,
+    citation:
+      "src/core2/data/press/staff.json: an outlet's head and reporters, named at the opening, paid the BLS median for their occupation",
+    asOf: api.state.date,
+    estimatedFrom: "press-staff",
+  };
+  const names = new Set<string>();
+  const opened: OutletRow[] = [];
   for (const kind of KINDS)
     for (let index = 0; index < Math.min(cap, wanted[kind]); index += 1) {
       const id = `outlet:${kind}:${index}:${town}`;
       const organizationId = `organization:press:${kind}:${index}:${town}`;
+      const name = outletName({
+        seed: core.seed,
+        outletId: id,
+        kind,
+        townPlaceId: town,
+        stateKey: chain.stateKey,
+        taken: names,
+      });
+      names.add(name);
       if (!api.state.organizations.has(organizationId))
         api.addOrganization({
           id: organizationId,
           placeId: town,
-          name: kind,
+          name,
           kind: "media",
           liquidMinor: 0,
           source,
         });
-      table(api, "outlets").put({
+      const hire = (role: (typeof STAFF_ROLES)[number], i: number) => {
+        const row = hireStaffMember(api, {
+          outletId: id,
+          organizationId,
+          role,
+          index: i,
+          townPlaceId: town,
+          stateKey: chain.stateKey,
+          parameter: pressParameter,
+          source: staffSource,
+        });
+        table(api, "staff").put(row as unknown as ModuleRow);
+        return row.id;
+      };
+      const [headRole, reporterRole] = [
+        STAFF_ROLES.find((r) => r.id === "head")!,
+        STAFF_ROLES.find((r) => r.id === "reporter")!,
+      ];
+      const headId = hire(headRole, 0);
+      const reporters = pressParameter(
+        kind === "newspaper" ? "reportersPerNewspaper" : "reportersPerStation",
+      );
+      const reporterIds = Array.from({ length: reporters }, (_, i) =>
+        hire(reporterRole, i),
+      );
+      // Coworkers know one another from the first day.
+      for (const other of reporterIds)
+        for (const one of [headId, ...reporterIds])
+          if (one < other)
+            api.meet(one, other, {
+              placeId: town,
+              sourceId: organizationId,
+              cause: "coworker",
+              hours: pressParameter("coworkerHoursAtOpening"),
+            });
+      opened.push({
         id,
         organizationId,
         kind,
         index,
         placeId: town,
-      } as unknown as ModuleRow);
+        headId,
+        reporterIds,
+        lean: 0,
+        audienceRevenueMinor: 0,
+      });
     }
+  // An outlet's lean: its head's, and its kind's audience's as a whole.
+  const headWeight = pressParameter("outletLeanHeadWeight");
+  for (const outlet of opened) {
+    const audience = audienceOfKind(api, outlet.kind);
+    const audienceLean = audience.length
+      ? audience.reduce((s, id) => s + leanOf(api, id), 0) /
+        audience.length
+      : 0;
+    const headLean = outlet.headId
+      ? leanOf(api, outlet.headId)
+      : 0;
+    table(api, "outlets").put({
+      ...outlet,
+      lean: headWeight * headLean + (1 - headWeight) * audienceLean,
+    } as unknown as ModuleRow);
+  }
+  followCache.delete(api.state);
+  // Revenue: its audience's subscriptions and the advertising they see, from
+  // the town's outside customers.
+  for (const outlet of outletsHere(api)) {
+    const audience = countedAudience(api, outlet);
+    const fromAudience = Math.round(
+      audience *
+        pressParameter(
+          outlet.kind === "newspaper"
+            ? "newspaperRevenuePerFollowerYear"
+            : outlet.kind === "television"
+              ? "televisionRevenuePerFollowerYear"
+              : "radioRevenuePerFollowerYear",
+        ),
+    );
+    // The outlet in town is its town bureau: where its audience here pays
+    // less than its people here cost, the wider area it serves makes up the
+    // rest, as a parent funds a location.
+    const payroll = [outlet.headId, ...outlet.reporterIds].reduce((sum, id) => {
+      const job = id ? core.jobs.get(core.people.get(id)?.jobId ?? "") : null;
+      return (
+        sum + (job?.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear")
+      );
+    }, 0);
+    const capacityMinor = Math.max(
+      fromAudience,
+      Math.round(payroll * (1 + pressParameter("bureauMarginShare"))),
+    );
+    // stopgapId: SG-PEOPLE-press-outlet-revenue
+    api.stopgap("SG-PEOPLE-press-outlet-revenue");
+    const revenue = startOutletRevenue(api, {
+      organizationId: outlet.organizationId,
+      placeId: town,
+      annualMinor: capacityMinor,
+      monthsPerYear: pressParameter("monthsPerYear"),
+      daysPerYear: pressParameter("daysPerYear"),
+      source: {
+        tag: "ESTIMATED",
+        citation:
+          "src/core2/data/press/parameters.json: an outlet's revenue per follower per year by kind (Pew State of the News Media 2023), at least its town staff's pay and margin",
+        asOf: api.state.date,
+        estimatedFrom: "revenue per follower",
+      },
+    });
+    table(api, "outlets").put({
+      ...outlet,
+      audienceRevenueMinor: revenue,
+    } as unknown as ModuleRow);
+  }
   scheduleWeek(api, api.state.date);
   return outletsHere(api);
+}
+
+/**
+ * How many of the town's adults, counted and full, follow an outlet: its
+ * kind's share of each age band (Pew 2024), split evenly among the kind's
+ * outlets.
+ */
+function countedAudience(api: CoreAPI, outlet: OutletRow): number {
+  const core = api.state as CoreState;
+  const town = outlet.placeId;
+  const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
+  let total = 0;
+  for (const row of residentCounts(core)) {
+    if (row.placeId !== town) continue;
+    for (const [bandKey, people] of Object.entries(row.byAgeBand ?? {})) {
+      const low = Number(bandKey.split("-")[0]);
+      if (!Number.isFinite(low) || low < 18) continue;
+      total +=
+        people * (NEWS.habits.byAge[bandOf(low)]?.[HABIT[outlet.kind]] ?? 0);
+    }
+  }
+  total += followersOf(api, outlet.id).length * own;
+  return total / Math.max(1, own);
 }
 
 export function outletsHere(api: CoreAPI): readonly OutletRow[] {
@@ -256,29 +421,28 @@ const followCache = new WeakMap<
   { date: string; map: Map<string, readonly string[]> }
 >();
 
+/** Each adult's habit, once per rebuild, not once per sort comparison. */
+function habitOf(api: CoreAPI, scores: Map<string, number>, p: PersonState) {
+  let score = scores.get(p.id);
+  if (score === undefined) {
+    score = habitScore(p, api.state);
+    scores.set(p.id, score);
+  }
+  return score;
+}
+
 /**
- * The adults in town who read, watch or listen to an outlet. In each age
- * band, the share of adults that follows that kind of local news (Pew 2024)
- * are its most dutiful and deliberate members; a kind's followers split
- * among its outlets in that order.
+ * The town's full adults who follow a kind of local news: in each age band,
+ * the share that follows that kind (Pew 2024), its most dutiful and
+ * deliberate members first.
  */
-export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
-  const cached = followCache.get(api.state);
-  if (cached?.date === api.state.date) return cached.map.get(outletId) ?? [];
-  const map = new Map<string, readonly string[]>();
-  const outlets = outletsHere(api);
+function audienceOfKind(
+  api: CoreAPI,
+  kind: OutletKind,
+  scores: Map<string, number> = new Map(),
+): readonly string[] {
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
-  // Each person's lean once for this rebuild, not once per sort comparison.
-  const scores = new Map<string, number>();
-  const habit = (p: PersonState) => {
-    let score = scores.get(p.id);
-    if (score === undefined) {
-      score = habitScore(p, api.state);
-      scores.set(p.id, score);
-    }
-    return score;
-  };
   const bands = new Map<Band, PersonState[]>();
   for (const id of api.state.peopleByPlace.get(town) ?? []) {
     const p = api.state.people.get(id);
@@ -290,30 +454,50 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
     list.push(p);
     bands.set(band, list);
   }
+  const habit = (p: PersonState) => habitOf(api, scores, p);
+  const followers: PersonState[] = [];
+  for (const [band, people] of bands) {
+    const share = NEWS.habits.byAge[band]?.[HABIT[kind]] ?? 0;
+    followers.push(
+      ...people
+        .slice()
+        .sort((a, b) => habit(b) - habit(a) || a.id.localeCompare(b.id))
+        .slice(0, Math.round(share * people.length)),
+    );
+  }
+  // The ones who follow most closely first: an ad's or a story's first
+  // contacts.
+  followers.sort((a, b) => habit(b) - habit(a) || a.id.localeCompare(b.id));
+  return followers.map((p) => p.id);
+}
+
+/**
+ * The adults in town who read, watch or listen to an outlet. A kind's
+ * audience (`audienceOfKind`) each follows the outlet of that kind whose
+ * lean is nearest their own (selective exposure: Stroud 2011).
+ */
+export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
+  const cached = followCache.get(api.state);
+  if (cached?.date === api.state.date) return cached.map.get(outletId) ?? [];
+  const map = new Map<string, readonly string[]>();
+  const outlets = outletsHere(api);
+  const scores = new Map<string, number>();
   for (const kind of KINDS) {
     const own = outlets.filter((o) => o.kind === kind);
     if (!own.length) continue;
-    // The ones who follow most closely first: an ad's or a story's first
-    // contacts.
-    const followers: PersonState[] = [];
-    for (const [band, people] of bands) {
-      const share = NEWS.habits.byAge[band]?.[HABIT[kind]] ?? 0;
-      followers.push(
-        ...people
-          .slice()
-          .sort((a, b) => habit(b) - habit(a) || a.id.localeCompare(b.id))
-          .slice(0, Math.round(share * people.length)),
+    const lists = new Map<string, string[]>(own.map((o) => [o.id, []]));
+    for (const id of audienceOfKind(api, kind, scores)) {
+      const lean = leanOf(api, id);
+      const nearest = own.reduce((best, o) =>
+        Math.abs((o.lean ?? 0) - lean) < Math.abs((best.lean ?? 0) - lean)
+          ? o
+          : best,
       );
+      lists.get(nearest.id)!.push(id);
     }
-    followers.sort((a, b) => habit(b) - habit(a) || a.id.localeCompare(b.id));
-    own.forEach((outlet, i) =>
-      map.set(
-        outlet.id,
-        followers.filter((_, rank) => rank % own.length === i).map((p) => p.id),
-      ),
-    );
+    for (const [id, list] of lists) map.set(id, list);
   }
-  followCache.set(api.state, { date, map });
+  followCache.set(api.state, { date: api.state.date, map });
   return map.get(outletId) ?? [];
 }
 

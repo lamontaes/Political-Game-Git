@@ -1,0 +1,22 @@
+{
+  "about": "Who works at a town's outlet (OPUS-PEOPLE press): its head, who sets the editorial line, and its reporters. Titles are the Standard Occupational Classification's names; ages and pay are rows in parameters.json.",
+  "source": "BLS Standard Occupational Classification 2018: 27-3041 Editors; 27-3023 News Analysts, Reporters, and Journalists.",
+  "roles": [
+    {
+      "id": "head",
+      "soc": "27-3041",
+      "title": "Editors",
+      "payParameter": "editorAnnualPayMinor",
+      "ageMinParameter": "editorAgeMin",
+      "ageMaxParameter": "editorAgeMax"
+    },
+    {
+      "id": "reporter",
+      "soc": "27-3023",
+      "title": "News Analysts, Reporters, and Journalists",
+      "payParameter": "reporterAnnualPayMinor",
+      "ageMinParameter": "reporterAgeMin",
+      "ageMaxParameter": "reporterAgeMax"
+    }
+  ]
+}
