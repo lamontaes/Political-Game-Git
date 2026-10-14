@@ -1,0 +1,504 @@
+# Asbury, New Jersey seed 4f6dec4a3e47 start 2025-01-20 built in 43s people 1761 orgs 125
+player person_1a3a8f786459d426 Riley Osborne born 2007-01-21
+
+## year 1: 2025-01-20 -> 2026-01-20  110s  heap 1342MB  people 1827 alive 1827 orgs 194
+records this year: 28205; kinds: person.acted=23608, cause.shared=1231, speech.retold=683, news.read=615, campaign-message=321, cause.donated=313, case.made=305, vote-recorded=120, drive.strengthened=112, office.approached=100, office.replied=95, speech.heard=94, drive.formed=89, committee-hearing=56, cause-group.ad-ran=50, legislative-vote=48, cause.volunteered=47, bill-held-in-committee=45, cause-group.joined=40, budget-line-changed=30, interview-published=30, law-took-effect=28, initiative.organizing-started=20, candidate-filed=17, cause-group.founded=14, election-result=14, took-office=14, public-comment=11, primary-result=11, recall-petition=10, association.requested=10, chamber-organized=4, organization.owner-changed=3, organization.closed=3, business.closed=3, budget-adopted=3, debate=3, organization.founded=2, person.moved-away=1, seat-vacated=1, law.effect-landed=1
+news items: 393 (federal 39: law-took-effect=8, legislative-vote=16, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:fiscal.fund-pensions-to-schedule value=1 
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=50 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-01-23 candidate-filed {"filingId":"filing:contest:seat:gus2025:208755:assessor:0:2025-11-04:person_4eb11b2e2e408fe6","contestId":"contest:seat:gus2025:208755:assessor:0:2025-11-04","office":"County assessor","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-01-23 candidate-filed {"filingId":"filing:contest:seat:gus2025:208755:board:0:2025-11-04:person_287794aad352cb26","contestId":"contest:seat:gus2025:208755:board:0:2025-11-04","office":"Commissioner","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-01-23 candidate-filed {"filingId":"filing:contest:seat:gus2025:208755:board:3:2025-11-04:person_31b2e6358087aae2","contestId":"contest:seat:gus2025:208755:board:3:2025-11-04","office":"Commissioner","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-01-23 candidate-filed {"filingId":"filing:contest:seat:gus2025:208755:board:6:2025-11-04:person_ff0c18cf5c2d832a","contestId":"contest:seat:gus2025:208755:board:6:2025-11-04","office":"Commissioner","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-01-23 candidate-filed {"filingId":"filing:contest:seat:gus2025:208755:clerk:0:2025-11-04:person_2755ad6f8baa51d7","contestId":"contest:seat:gus2025:208755:clerk:0:2025-11-04","office":"County clerk","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-01-23 candidate-filed {"filingId":"filing:contest:seat:gus2025:208755:sheriff:0:2025-11-04:person_0ffdce06b23cdd08","contestId":"contest:seat:gus2025:208755:sheriff:0:2025-11-04","office":"Sheriff","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-01-23 candidate-filed {"filingId":"filing:contest:seat:gus2025:208755:treasurer:0:2025-11-04:person_31b2e7358087ac95","contestId":"contest:seat:gus2025:208755:treasurer:0:2025-11-04","office":"County treasurer","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-02-04 chamber-organized {"council-president":"person_0ffdcf06b23cdebb"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:109173:board:2025-02-04:person_2755ac6f8baa5024:0","for":"4","against":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:109173:board:2025-02-04:person_2755ac6f8baa5024:0","number":"2025-001","chamber":"office:gus2025:109173:board","yes":"2","no":"1"}
+  2025-02-04 chamber-organized {"council-president":"person_287794aad352cb26"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:208755:board:2025-02-04:person_8c1928cfbf8150d9:1","for":"0","against":"3"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:208755:board:2025-02-04:person_8c1928cfbf8150d9:1","number":"2025-001","chamber":"office:gus2025:208755:board","yes":"2","no":"5"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:208755:board:2025-02-04:person_8c1928cfbf8150d9:2","for":"0","against":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:208755:board:2025-02-04:person_8c1928cfbf8150d9:2","number":"2025-002","chamber":"office:gus2025:208755:board","yes":"1","no":"6"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:208755:board:2025-02-04:person_8c1928cfbf8150d9:3","for":"0","against":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:208755:board:2025-02-04:person_8c1928cfbf8150d9:3","number":"2025-003","chamber":"office:gus2025:208755:board","yes":"2","no":"5"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:208755:board:2025-02-04:person_8c1928cfbf8150d9:4","number":"2025-004","chamber":"office:gus2025:208755:board","yes":"5","no":"2"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:109173:board:2025-02-19:person_ff0c19cf5c2d84dd:5","for":"4","against":"2"}
+  2025-02-19 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:109173:board:2025-02-19:person_ff0c19cf5c2d84dd:5","number":"2025-002","chamber":"office:gus2025:109173:board","yes":"1","no":"2"}
+  2025-03-06 law-took-effect {"lawId":"law:place:3401900:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-03-06:2025-001","series":"us-policy-positions:housing-land-use.rent-stabilization","level":"city","jurisdiction":"place:3401900","tier":"general","value":"1",
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:109173:board:0:2025-01-20:2025-03-06","termId":"term:seat:gus2025:109173:board:0:2025-01-20","lawId":"law:place:3401900:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-03-06:2025-001"}
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:109173:board:1:2025-01-20:2025-03-06","termId":"term:seat:gus2025:109173:board:1:2025-01-20","lawId":"law:place:3401900:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-03-06:2025-001"}
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:109173:board:2:2025-01-20:2025-03-06","termId":"term:seat:gus2025:109173:board:2:2025-01-20","lawId":"law:place:3401900:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-03-06:2025-001"}
+  2025-03-06 law-took-effect {"lawId":"law:county:34041:county:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004","series":"us-policy-positions:education.universal-preschool","level":"county","jurisdiction":"county:34041","tier":"general","value":"1","unit":"",
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:208755:board:0:2025-01-20:2025-03-06","termId":"term:seat:gus2025:208755:board:0:2025-01-20","lawId":"law:county:34041:county:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004"}
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:208755:board:1:2025-01-20:2025-03-06","termId":"term:seat:gus2025:208755:board:1:2025-01-20","lawId":"law:county:34041:county:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004"}
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:208755:board:2:2025-01-20:2025-03-06","termId":"term:seat:gus2025:208755:board:2:2025-01-20","lawId":"law:county:34041:county:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004"}
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:208755:board:3:2025-01-20:2025-03-06","termId":"term:seat:gus2025:208755:board:3:2025-01-20","lawId":"law:county:34041:county:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004"}
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:208755:board:4:2025-01-20:2025-03-06","termId":"term:seat:gus2025:208755:board:4:2025-01-20","lawId":"law:county:34041:county:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004"}
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:208755:board:5:2025-01-20:2025-03-06","termId":"term:seat:gus2025:208755:board:5:2025-01-20","lawId":"law:county:34041:county:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004"}
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:208755:board:6:2025-01-20:2025-03-06","termId":"term:seat:gus2025:208755:board:6:2025-01-20","lawId":"law:county:34041:county:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004"}
+  2025-03-24 candidate-filed {"filingId":"filing:contest:seat:US-NJ:governor:2025-11-04:official:term:seat:US-NJ:governor:2025-01-20","contestId":"contest:seat:US-NJ:governor:2025-11-04","office":"Governor","electionDate":"2025-11-04","filedWith":"New Jersey Division of Elections"}
+  2025-03-24 candidate-filed {"filingId":"filing:contest:seat:US-NJ:governor:2025-11-04:official:term:seat:US-NJ:us-house:07:2025-01-20","contestId":"contest:seat:US-NJ:governor:2025-11-04","office":"Governor","electionDate":"2025-11-04","filedWith":"New Jersey Division of Elections"}
+  2025-03-24 candidate-filed {"filingId":"filing:contest:seat:US-NJ:lieutenant-governor:2025-11-04:official:term:seat:US-NJ:lieutenant-governor:2025-01-20","contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","office":"Lieutenant Governor","electionDate":"2025-11-04","filedWith
+  2025-03-24 candidate-filed {"filingId":"filing:contest:seat:US-NJ:lieutenant-governor:2025-11-04:official:term:seat:US-NJ:upper:026:0:2025-01-20","contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","office":"Lieutenant Governor","electionDate":"2025-11-04","filedWith":"New J
+  2025-03-24 candidate-filed {"filingId":"filing:contest:seat:US-NJ:lower:023:0:2025-11-04:official:term:seat:US-NJ:lower:023:0:2025-01-20","contestId":"contest:seat:US-NJ:lower:023:0:2025-11-04","office":"State Representative","electionDate":"2025-11-04","filedWith":"New Jersey Division 
+  2025-03-24 candidate-filed {"filingId":"filing:contest:seat:US-NJ:lower:023:1:2025-11-04:official:term:seat:US-NJ:lower:023:1:2025-01-20","contestId":"contest:seat:US-NJ:lower:023:1:2025-11-04","office":"State Representative","electionDate":"2025-11-04","filedWith":"New Jersey Division 
+  2025-04-01 organization.owner-changed {}
+  2025-04-01 seat-vacated {"officeId":"office:US-NJ:legislature-lower","seatId":"seat:US-NJ:lower:038:0","cause":"moved away","rule":"appointment-then-special"}
+  2025-04-20 public-comment {"billId":"bill:office:gus2025:109173:board:2025-04-20:person_2755ac6f8baa5024:6","for":"1","against":"5"}
+  2025-04-20 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-04-20 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-04-20 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-04-20 legislative-vote {"billId":"bill:office:gus2025:109173:board:2025-04-20:person_2755ac6f8baa5024:6","number":"2025-003","chamber":"office:gus2025:109173:board","yes":"1","no":"2"}
+  2025-06-01 organization.closed {"organization:organization_feb9a5089a45f606:status":"closed","organization:organization_feb9a5089a45f606:closure-source":"owner-closed:2025-06-01:organization_feb9a5089a45f606"}
+  2025-06-01 business.closed {"organization:organization_feb9a5089a45f606:closing-reason":"losses-kept"}
+  2025-06-03 primary-result {"contestId":"contest:seat:US-NJ:governor:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 primary-result {"contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 primary-result {"contestId":"contest:seat:US-NJ:lower:023:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 primary-result {"contestId":"contest:seat:US-NJ:lower:023:1:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:board:3:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:sheriff:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:clerk:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:treasurer:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:assessor:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-05 organization.closed {"organization:organization_0d6085ea8681493d:status":"closed","organization:organization_0d6085ea8681493d:closure-source":"residents:wages:opening-payroll-calendar:organization_0d6085ea8681493d|residents:jurisdiction_f7be53ea56975116:0@2025-06-05"}
+  2025-06-05 business.closed {"organization:organization_0d6085ea8681493d:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-06-27 candidate-filed {"filingId":"filing:contest:seat:gus2025:109173:board:0:2025-11-04:person_287795aad352ccd9","contestId":"contest:seat:gus2025:109173:board:0:2025-11-04","office":"Committee member","electionDate":"2025-11-04","filedWith":"City or town clerk"}
+  2025-06-27 candidate-filed {"filingId":"filing:contest:seat:gus2025:109173:board:1:2025-11-04:person_0ffdcf06b23cdebb","contestId":"contest:seat:gus2025:109173:board:1:2025-11-04","office":"Committee member","electionDate":"2025-11-04","filedWith":"City or town clerk"}
+  2025-06-27 candidate-filed {"filingId":"filing:contest:seat:gus2025:109173:board:2:2025-11-04:person_2755ac6f8baa5024","contestId":"contest:seat:gus2025:109173:board:2:2025-11-04","office":"Committee member","electionDate":"2025-11-04","filedWith":"City or town clerk"}
+  2025-06-30 chamber-organized {"speaker":"official:term:seat:US-NJ:lower:035:0:2025-01-20","majority-leader":"official:term:seat:US-NJ:lower:022:0:2025-01-20","minority-leader":"official:term:seat:US-NJ:lower:024:0:2025-01-20","majority-whip":"official:term:seat:US-NJ:lower:032:1:2025-01-2
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:7","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:7","number":"2025-001","chamber":"office:US-NJ:legislature-lower","yes":"79","no":"1"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:7","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:8","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.end-cash-bail","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.end-cash-bail","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:8","number":"2025-002","chamber":"office:US-NJ:legislature-lower","yes":"79","no":"1"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:8","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.end-cash-bail","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:8","number":"2025-002","chamber":"office:US-NJ:legislature-upper","yes":"40","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:9","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:10","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:10","number":"2025-004","chamber":"office:US-NJ:legislature-lower","yes":"57","no":"23"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:10","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:10","number":"2025-004","chamber":"office:US-NJ:legislature-upper","yes":"25","no":"15"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:11","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:11","number":"2025-005","chamber":"office:US-NJ:legislature-lower","yes":"70","no":"10"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:11","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:025:1:2025-01-20:12","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:13","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:13","number":"2025-007","chamber":"office:US-NJ:legislature-lower","yes":"57","no":"23"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:13","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:13","number":"2025-007","chamber":"office:US-NJ:legislature-upper","yes":"25","no":"15"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:024:1:2025-01-20:14","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:15","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:024:1:2025-01-20:16","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:17","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:government-operations.independent-redistricting","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:17","number":"2025-011","chamber":"office:US-NJ:legislature-lower","yes":"60","no":"20"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:17","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:18","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:18","number":"2025-012","chamber":"office:US-NJ:legislature-lower","yes":"67","no":"13"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:18","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:19","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:20","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:20","number":"2025-014","chamber":"office:US-NJ:legislature-lower","yes":"44","no":"36"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:20","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:21","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:21","number":"2025-015","chamber":"office:US-NJ:legislature-lower","yes":"54","no":"26"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:21","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:21","number":"2025-015","chamber":"office:US-NJ:legislature-upper","yes":"25","no":"15"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:upper:017:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:upper:017:0:2025-01-20:22","number":"2025-016","chamber":"office:US-NJ:legislature-lower","yes":"54","no":"26"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:upper:017:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:upper:017:0:2025-01-20:22","number":"2025-016","chamber":"office:US-NJ:legislature-upper","yes":"24","no":"16"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:23","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:23","number":"2025-017","chamber":"office:US-NJ:legislature-lower","yes":"53","no":"27"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:23","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:24","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:labor-workforce.local-minimum-wage-authority","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:labor-workforce.local-minimum-wage-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:24","number":"2025-018","chamber":"office:US-NJ:legislature-lower","yes":"55","no":"25"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:24","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:labor-workforce.local-minimum-wage-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:24","number":"2025-018","chamber":"office:US-NJ:legislature-upper","yes":"25","no":"15"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:25","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:26","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:27","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:28","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:29","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:30","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:environment-energy.bottle-deposit","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:environment-energy.bottle-deposit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:30","number":"2025-024","chamber":"office:US-NJ:legislature-lower","yes":"55","no":"25"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:30","committee":"general","chair":"official:term:seat:US-NJ:upper:007:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:environment-energy.bottle-deposit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:30","number":"2025-024","chamber":"office:US-NJ:legislature-upper","yes":"25","no":"15"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:31","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:017:1:2025-01-20:32","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:024:1:2025-01-20:33","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:34","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:35","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:032:1:2025-01-20:36","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:37","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:upper:030:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:39","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:40","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:41","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:upper:012:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:024:1:2025-01-20:43","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:024:1:2025-01-20:44","committee":"general","chair":"official:term:seat:US-NJ:lower:011:0:2025-01-20","yes":"0","no":"0"}
+deaths: 0
+election-ish kinds: primary-result=11, election-result=14
+  E 2025-06-03 primary-result {"contestId":"contest:seat:US-NJ:governor:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:US-NJ:lower:023:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:US-NJ:lower:023:1:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:board:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:board:3:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:board:6:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:sheriff:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:clerk:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:treasurer:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-06-03 primary-result {"contestId":"contest:seat:gus2025:208755:assessor:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:US-NJ:governor:2025-11-04","office":"Governor","winnerId":"official:term:seat:US-NJ:governor:2025-01-20","totals":"{\"official:term:seat:US-NJ:governor:2025-01-20\":933011,\"official:term:seat:US-NJ:us-house:07:20
+  E 2025-11-04 election-result {"contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","office":"Lieutenant Governor","winnerId":"official:term:seat:US-NJ:lieutenant-governor:2025-01-20","totals":"{\"official:term:seat:US-NJ:lieutenant-governor:2025-01-20\":9329
+  E 2025-11-04 election-result {"contestId":"contest:seat:US-NJ:lower:023:0:2025-11-04","office":"State Representative","winnerId":"official:term:seat:US-NJ:lower:023:0:2025-01-20","totals":"{\"official:term:seat:US-NJ:lower:023:0:2025-01-20\":24791}","views:speaker":"of
+  E 2025-11-04 election-result {"contestId":"contest:seat:US-NJ:lower:023:1:2025-11-04","office":"State Representative","winnerId":"official:term:seat:US-NJ:lower:023:1:2025-01-20","totals":"{\"official:term:seat:US-NJ:lower:023:1:2025-01-20\":24789}","views:speaker":"of
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:109173:board:0:2025-11-04","office":"Committee member","winnerId":"person_ff0c19cf5c2d84dd","totals":"{\"person_287795aad352ccd9\":205,\"person_ff0c19cf5c2d84dd\":1794}","views:speaker":"person_ff0c19cf5c2
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:109173:board:1:2025-11-04","office":"Committee member","winnerId":"person_0ffdcf06b23cdebb","totals":"{\"person_0ffdcf06b23cdebb\":1911}","views:speaker":"person_0ffdcf06b23cdebb"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:109173:board:2:2025-11-04","office":"Committee member","winnerId":"person_2755ac6f8baa5024","totals":"{\"person_2755ac6f8baa5024\":1901}","views:speaker":"person_2755ac6f8baa5024"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:208755:board:0:2025-11-04","office":"Commissioner","winnerId":"person_287794aad352cb26","totals":"{\"person_287794aad352cb26\":1997}","views:speaker":"person_287794aad352cb26"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:208755:board:3:2025-11-04","office":"Commissioner","winnerId":"person_31b2e6358087aae2","totals":"{\"person_31b2e6358087aae2\":1998}","views:speaker":"person_31b2e6358087aae2"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:208755:board:6:2025-11-04","office":"Commissioner","winnerId":"person_ff0c18cf5c2d832a","totals":"{\"person_ff0c18cf5c2d832a\":1994}","views:speaker":"person_ff0c18cf5c2d832a"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:208755:sheriff:0:2025-11-04","office":"Sheriff","winnerId":"person_0ffdce06b23cdd08","totals":"{\"person_0ffdce06b23cdd08\":1997}","views:speaker":"person_0ffdce06b23cdd08"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:208755:clerk:0:2025-11-04","office":"County clerk","winnerId":"person_2755ad6f8baa51d7","totals":"{\"person_2755ad6f8baa51d7\":1999}","views:speaker":"person_2755ad6f8baa51d7"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:208755:treasurer:0:2025-11-04","office":"County treasurer","winnerId":"person_31b2e7358087ac95","totals":"{\"person_31b2e7358087ac95\":1963}","views:speaker":"person_31b2e7358087ac95"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:208755:assessor:0:2025-11-04","office":"County assessor","winnerId":"person_4eb11b2e2e408fe6","totals":"{\"person_4eb11b2e2e408fe6\":1998}","views:speaker":"person_4eb11b2e2e408fe6"}
+player: alive=true job=Server cash=$9075 home=household_9efe3427133d8d6e
+
+### trace speech:party-meeting:party:US-NJ:democratic:2026-01-15:retold:person_ed7620428a2ee7d4 (speech.retold 2026-01-15)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+speech:party-meeting:party:US-NJ:democratic:2026-01-15:retold:person_ed7620428a2ee7d4 [core.log speech.retold]
+   facts views:speaker=person_ed7620428a2ee7d4
+  <- person_ff0c19cf5c2d84dd [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:retold:person_ed7620428a2ee7d4:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:retold:person_ed7620428a2ee7d4:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:retold:person_ed7620428a2ee7d4:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:retold:person_ed7620428a2ee7d4:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:retold:person_ed7620428a2ee7d4:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:retold:person_ed7620428a2ee7d4:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-NJ:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+speech:party-meeting:party:US-NJ:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_779ac5fac8f7a680
+  <- person_779ac5fac8f7a680 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NJ:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace budget-adopted:budget:county:34041:2026 (budget-adopted 2026-01-01)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+budget-adopted:budget:county:34041:2026 [core.log budget-adopted]
+   facts governmentId=county:34041 fiscalYear=2026 adoptedBy=the county board vote 7-0, 2026-001
+  <- county:34041 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:county:34041 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_f7be53ea56975116 [regional.places places] via core.organizations.placeId
+        <- region:34:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId
+
+### trace law-took-effect:law:county:34041:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+law-took-effect:law:county:34041:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:34041:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:34041 tier=general value=2.343 unit=percent-of-home-value change=replaced replacesLawId=law:county:34041:county:property-tax:general:2026-01-01:from-start
+  <- law:county:34041:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:34041 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:34041 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_f7be53ea56975116 [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-NJ:us-house:2025-12-15:official:seat:US-DE:us-house:00:92:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+committee:bill:office:US-NJ:us-house:2025-12-15:official:seat:US-DE:us-house:00:92:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-NJ:us-house:2025-12-15:official:seat:US-DE:us-house:00:92 committee=general chair=official:seat:US-NC:us-house:11 yes=0 no=0
+  <- bill:office:US-NJ:us-house:2025-12-15:official:seat:US-DE:us-house:00:92 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-NJ:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace bill-vote:bill:office:US-NJ:us-house:2025-12-15:official:seat:US-AK:us-house:00:83:federal:us-senate (legislative-vote 2025-12-15)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+bill-vote:bill:office:US-NJ:us-house:2025-12-15:official:seat:US-AK:us-house:00:83:federal:us-senate [core.log legislative-vote]
+   facts billId=bill:office:US-NJ:us-house:2025-12-15:official:seat:US-AK:us-house:00:83 number=2025-017 chamber=federal:us-senate yes=53 no=47
+  <- official:seat:US-AK:us-senate:0 [core.people person] via core.log.personIds.0
+    <- job:office:seat:US-AK:us-senate:0:official:seat:US-AK:us-senate:0 [core.jobs job] via saved-trace.job
+      <- official:seat:US-AK:us-senate:0 [core.people person] via core.jobs.personId
+        <- job:office:seat:US-AK:us-senate:0:official:seat:US-AK:us-senate:0 [core.jobs job] via saved-trace.job
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.personIds.14 | record:core.log.personIds.15 | record:core.log.personIds.16 | record:core.log.personIds.17 | record:core.log.personIds.18 | record:core.log.personIds.19 | record:core.log.personIds.20 | record:core.log.personIds.21 | record:core.log.personIds.22 | record:core.log.personIds.23 | record:core.log.personIds.24 | record:core.log.personIds.25 | record:core.log.personIds.26 | record:core.log.personIds.27 | record:core.log.personIds.28 | record:core.log.personIds.29 | record:core.log.personIds.30 | record:core.log.personIds.31 | record:core.log.personIds.32 | record:core.log.personIds.33 | record:core.log.personIds.34 | record:core.log.personIds.35 | record:core.log.personIds.36 | record:core.log.personIds.37 | record:core.log.personIds.38 | record:core.log.personIds.39 | record:core.log.personIds.40 | record:core.log.personIds.41 | record:core.log.personIds.42 | record:core.log.personIds.43 | record:core.log.personIds.44 | record:core.log.personIds.45 | record:core.log.personIds.46 | record:core.log.personIds.47 | record:core.log.person
+
+### trace vote-recorded:vote:2025-017:official:term:seat:US-NJ:us-senate:1:2025-01-20 (vote-recorded 2025-12-15)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+vote-recorded:vote:2025-017:official:term:seat:US-NJ:us-senate:1:2025-01-20 [core.log vote-recorded]
+   facts measureId=2025-017 question=us-policy-positions:fiscal.adopt-income-tax position=1
+  <- official:term:seat:US-NJ:us-senate:1:2025-01-20 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.question | learned:core.observe.perceived={"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11084215963625 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_f7be53ea56975116 [regional.places places] via core.log.placeId
+    <- region:34:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace event:law.effect-landed:2025-12-15:retirement-claim:person_9a0116d78a360772 (law.effect-landed 2025-12-15)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+event:law.effect-landed:2025-12-15:retirement-claim:person_9a0116d78a360772 [core.log law.effect-landed]
+   facts obligationId=retirement-claim:person_9a0116d78a360772 fromMinor=171199 toMinor=120886
+  <- person_9a0116d78a360772 [core.people person] via core.observe.perceived
+     value {"key":"event:event:law.effect-landed:2025-12-15:retirement-claim:person_9a0116d78a360772:experienced","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.obligationId | learned:core.observe.perceived={"key":"event:event:law.effect-landed:2025-12-15:retirement-claim:person_9a0116d78a360772:experienced","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace campaign-message:filing:contest:seat:gus2025:208755:assessor:0:2025-11-04:person_4eb11b2e2e408fe6:2025-11-04 (campaign-message 2025-11-04)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+campaign-message:filing:contest:seat:gus2025:208755:assessor:0:2025-11-04:person_4eb11b2e2e408fe6:2025-11-04 [core.log campaign-message]
+   facts campaignId=filing:contest:seat:gus2025:208755:assessor:0:2025-11-04:person_4eb11b2e2e408fe6 candidateId=person_4eb11b2e2e408fe6 views:speaker=person_4eb11b2e2e408fe6
+  <- person_8a2d8ac744547f67 [core.people person] via core.observe.perceived
+     value {"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.witnessIds.8 | record:core.log.witnessIds.9 | record:core.log.witnessIds.10 | record:core.log.witnessIds.11 | record:core.log.witnessIds.12 | record:core.log.witnessIds.13 | record:core.log.witnessIds.14 | record:core.log.witnessIds.15 | record:core.log.witnessIds.16 | record:core.log.witnessIds.17 | record:core.log.witnessIds.18 | record:core.log.witnessIds.19 | record:core.log.witnessIds.20 | record:core.log.witnessIds.21 | record:core.log.witnessIds.22 | record:core.log.witnessIds.23 | record:core.log.witnessIds.24 | record:core.log.witnessIds.25 | record:core.log.witnessIds.26 | record:core.log.witnessIds.27 | record:core.log.witnessIds.28 | record:core.log.witnessIds.29 | record:core.log.witnessIds.30 | record:core.log.witnessIds.31 | record:core.log.witnessIds.32 | record:core.log.witnessIds.33 | record:core.log.witnessIds.34 | record:core.log.witnessIds.35 | record:core.log.witnessIds.36 | record:core.log.witnessIds.37 | record:core.log.witnessIds.38 | record:core.log.placeId | record:core.log.facts.campaignId | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11
+
+### trace election-result:contest:seat:gus2025:208755:assessor:0:2025-11-04 (election-result 2025-11-04)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+election-result:contest:seat:gus2025:208755:assessor:0:2025-11-04 [core.log election-result]
+   facts contestId=contest:seat:gus2025:208755:assessor:0:2025-11-04 office=County assessor winnerId=person_4eb11b2e2e408fe6 totals={"person_4eb11b2e2e408fe6":1998} views:speaker=person_4eb11b2e2e408fe6
+  <- person_4eb11b2e2e408fe6 [core.people person] via core.observe.perceived
+     value {"key":"contestId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.contestId | learned:core.observe.perceived={"key":"contestId","learnedAt":"2025-11-04","access":"perceived"}
+
+### trace event:business.closed:organization_9b0af69e6b30d361 (business.closed 2025-11-01)
+trace report · seed 4f6dec4a3e47 · place 3401900 · date 2026-01-20
+event:business.closed:organization_9b0af69e6b30d361 [core.log business.closed]
+   facts organization:organization_9b0af69e6b30d361:closing-reason=losses-kept
+  <- organization_9b0af69e6b30d361 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom | record:core.log.source.estimatedFrom
+
+## core2-offices-v1.offices: 8 of 14
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-NJ:us-senate","level":"federal","jurisdiction":"US-NJ","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-NJ:us-house","level":"federal","jurisdiction":"US-NJ","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":12,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-NJ:governor","level":"state","jurisdiction":"US-NJ","governmentName":"US-NJ","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2025,"elected":true,"districted":false,"coversTown":true,"source":"N.J. Const. art. V sec. I para. 7; N.J.S.A. 52:14A-4 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":"{\"method\":\"successor\",\"successor\":\"lieutenant governor\",\"citation\":\"N.J. Const. art. V sec. I para. 7; N.J.S.A. 52:14A-4\",\"source\":\"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_t…"}
+  {"id":"office:US-NJ:lieutenant-governor","level":"state","jurisdiction":"US-NJ","governmentName":"US-NJ","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2025,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (in practice; 2023 precedent)\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https…"}
+  {"id":"office:US-NJ:legislature-upper","level":"state","jurisdiction":"US-NJ","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":40,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"predecessor's party county committee(s) in the district\",\"citation\":\"N.J. Const. art. IV sec. IV para. 1; N.J.S.A. 19:13-20\",\"source\":\"https://ballo…"}
+  {"id":"office:US-NJ:legislature-lower","level":"state","jurisdiction":"US-NJ","governmentName":"General Assembly","kind":"legislature-lower","title":"State Representative","seats":80,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"predecessor's party county committee(s) in the district\",\"citation\":\"N.J. Const. art. IV sec. IV para. 1; N.J.S.A. 19:13-20\",\"source\":\"https://ballo…"}
+
+## core2-offices-v1.seats: 6 of 152
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-NJ:us-senate:0","officeId":"office:US-NJ:us-senate","index":0,"coversTown":true,"party":"Democrat","electionYear":2030}
+  {"id":"seat:US-NJ:us-senate:1","officeId":"office:US-NJ:us-senate","index":1,"coversTown":true,"party":"Democrat","electionYear":2026}
+  {"id":"seat:US-NJ:governor","officeId":"office:US-NJ:governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-NJ:lieutenant-governor","officeId":"office:US-NJ:lieutenant-governor","index":0,"coversTown":true,"party":"Democratic"}
+
+## core2-offices-v1.terms: 6 of 541
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Donald","familyName":"Rojas","gender":"male","birthDate":"1967-06-05","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Robert","familyName":"Whitehead","gender":"male","birthDate":"1958-08-22","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-NJ:governor:2025-01-20","seatId":"seat:US-NJ:governor","officeId":"office:US-NJ:governor","personId":"official:term:seat:US-NJ:governor:2025-01-20","identity":{"givenName":"Bo","familyName":"Pitts","gender":"nonbinary","birthDate":"1972-05-06","homeState":"US-NJ"},"party":"Democratic","startDate":"2022-01-01","endDate":"2026-01-01","endEstimated":false,"reached":"in office at the opening","status":"ended","serviceStart":"2022-01-01","elected":{"date":"2021-11-02","share":0.56},"endedBy":"term ended"}
+  {"id":"term:seat:US-NJ:governor:2026-01-01:elected","seatId":"seat:US-NJ:governor","officeId":"office:US-NJ:governor","personId":"official:term:seat:US-NJ:governor:2025-01-20","identity":{"givenName":"Bo","familyName":"Pitts","gender":"nonbinary","birthDate":"1972-05-06","homeState":"US-NJ"},"party":"Democratic","startDate":"2026-01-01","endDate":"2030-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:US-NJ:lieutenant-governor:2025-01-20","seatId":"seat:US-NJ:lieutenant-governor","officeId":"office:US-NJ:lieutenant-governor","personId":"official:term:seat:US-NJ:lieutenant-governor:2025-01-20","identity":{"givenName":"Rebecca","familyName":"Ware","gender":"female","birthDate":"1979-08-05","homeState":"US-NJ"},"party":"Democratic","startDate":"2022-01-01","endDate":"2026-01-01","endEstimated":false,"reached":"in office at the opening","status":"ended","serviceStart":"2022-01-01","elected":{"date":"2021-11-02","share":0.56},"endedBy":"term ended"}
+  {"id":"term:seat:US-NJ:lieutenant-governor:2026-01-01:elected","seatId":"seat:US-NJ:lieutenant-governor","officeId":"office:US-NJ:lieutenant-governor","personId":"official:term:seat:US-NJ:lieutenant-governor:2025-01-20","identity":{"givenName":"Rebecca","familyName":"Ware","gender":"female","birthDate":"1979-08-05","homeState":"US-NJ"},"party":"Democratic","startDate":"2026-01-01","endDate":"2030-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+
+## core2-offices-v1.terms: 453 of 541
+  {"id":"term:seat:US-NJ:upper:002:0:2025-01-20:past:1","seatId":"seat:US-NJ:upper:002:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Taylor","familyName":"Valencia","gender":"female","birthDate":"1996-08-09","homeState":"US-NJ"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2020-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:011:0:2025-01-20:past:5","seatId":"seat:US-NJ:upper:011:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Angela","familyName":"Edwards","gender":"female","birthDate":"1981-05-17","homeState":"US-NJ"},"party":"Democratic","startDate":"2004-01-01","endDate":"2008-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2004-01-01","endedBy":"re-elected","elected":{"date":"2003-11-04","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:011:0:2025-01-20:past:4","seatId":"seat:US-NJ:upper:011:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Angela","familyName":"Edwards","gender":"female","birthDate":"1981-05-17","homeState":"US-NJ"},"party":"Democratic","startDate":"2008-01-01","endDate":"2012-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2004-01-01","endedBy":"re-elected","elected":{"date":"2007-11-06","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:011:0:2025-01-20:past:3","seatId":"seat:US-NJ:upper:011:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Angela","familyName":"Edwards","gender":"female","birthDate":"1981-05-17","homeState":"US-NJ"},"party":"Democratic","startDate":"2012-01-01","endDate":"2016-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2004-01-01","endedBy":"re-elected","elected":{"date":"2011-11-08","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:011:0:2025-01-20:past:2","seatId":"seat:US-NJ:upper:011:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Angela","familyName":"Edwards","gender":"female","birthDate":"1981-05-17","homeState":"US-NJ"},"party":"Democratic","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2004-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:011:0:2025-01-20:past:1","seatId":"seat:US-NJ:upper:011:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Angela","familyName":"Edwards","gender":"female","birthDate":"1981-05-17","homeState":"US-NJ"},"party":"Democratic","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2004-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:012:0:2025-01-20:past:2","seatId":"seat:US-NJ:upper:012:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"David","familyName":"Potts","gender":"male","birthDate":"1953-02-20","homeState":"US-NJ"},"party":"Republican","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:012:0:2025-01-20:past:1","seatId":"seat:US-NJ:upper:012:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"David","familyName":"Potts","gender":"male","birthDate":"1953-02-20","homeState":"US-NJ"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:013:0:2025-01-20:past:1","seatId":"seat:US-NJ:upper:013:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Thomas","familyName":"Fletcher","gender":"male","birthDate":"1979-08-06","homeState":"US-NJ"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2020-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:015:0:2025-01-20:past:1","seatId":"seat:US-NJ:upper:015:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Zachary","familyName":"Wade","gender":"male","birthDate":"1977-04-16","homeState":"US-NJ"},"party":"Democratic","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2020-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:016:0:2025-01-20:past:2","seatId":"seat:US-NJ:upper:016:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Daniel","familyName":"Holland","gender":"male","birthDate":"1951-12-15","homeState":"US-NJ"},"party":"Democratic","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.635}}
+  {"id":"term:seat:US-NJ:upper:016:0:2025-01-20:past:1","seatId":"seat:US-NJ:upper:016:0","officeId":"office:US-NJ:legislature-upper","identity":{"givenName":"Daniel","familyName":"Holland","gender":"male","birthDate":"1951-12-15","homeState":"US-NJ"},"party":"Democratic","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+
+## core2-elections-v1.contests: 13 of 37
+  {"electionDate":"2028-11-07","primaryDate":"2028-06-06","filingDeadline":"2028-03-27","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US:president:2028-11-07","officeId":"office:US:president","seatId":"seat:US:president","title":"President","level":"federal","family":"statewideExecutive","incumbentTermId":"term:seat:US:president:2025-01-20"}
+  {"electionDate":"2030-11-05","primaryDate":"2030-06-04","filingDeadline":"2030-03-25","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:us-senate:0:2030-11-05","officeId":"office:US-NJ:us-senate","seatId":"seat:US-NJ:us-senate:0","title":"U.S. Senator","level":"federal","family":"statewideExecutive","incumbentTermId":"term:seat:US-NJ:us-senate:0:2025-01-20"}
+  {"electionDate":"2026-11-03","primaryDate":"2026-06-02","filingDeadline":"2026-03-23","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:us-senate:1:2026-11-03","officeId":"office:US-NJ:us-senate","seatId":"seat:US-NJ:us-senate:1","title":"U.S. Senator","level":"federal","family":"statewideExecutive","incumbentTermId":"term:seat:US-NJ:us-senate:1:2025-01-20"}
+  {"electionDate":"2026-11-03","primaryDate":"2026-06-02","filingDeadline":"2026-03-23","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:us-house:07:2026-11-03","officeId":"office:US-NJ:us-house","seatId":"seat:US-NJ:us-house:07","title":"U.S. Representative","level":"federal","district":"07","family":"usHouse","incumbentTermId":"term:seat:US-NJ:us-house:07:2025-01-20"}
+  {"electionDate":"2025-11-04","primaryDate":"2025-06-03","filingDeadline":"2025-03-24","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:governor:2025-11-04","officeId":"office:US-NJ:governor","seatId":"seat:US-NJ:governor","title":"Governor","level":"state","family":"statewideExecutive","incumbentTermId":"term:seat:US-NJ:governor:2025-01-20"}
+  {"electionDate":"2025-11-04","primaryDate":"2025-06-03","filingDeadline":"2025-03-24","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","officeId":"office:US-NJ:lieutenant-governor","seatId":"seat:US-NJ:lieutenant-governor","title":"Lieutenant Governor","level":"state","family":"statewideExecutive","incumbentTermId":"term:seat:US-NJ:lieutenant-governor:2025-01-20"}
+  {"electionDate":"2027-11-02","primaryDate":"2027-06-08","filingDeadline":"2027-03-29","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:upper:023:0:2027-11-02","officeId":"office:US-NJ:legislature-upper","seatId":"seat:US-NJ:upper:023:0","title":"State Senator","level":"state","district":"023","family":"stateLegislative","incumbentTermId":"term:seat:US-NJ:upper:023:0:2025-01-20"}
+  {"electionDate":"2025-11-04","primaryDate":"2025-06-03","filingDeadline":"2025-03-24","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:lower:023:0:2025-11-04","officeId":"office:US-NJ:legislature-lower","seatId":"seat:US-NJ:lower:023:0","title":"State Representative","level":"state","district":"023","family":"stateLegislative","incumbentTermId":"term:seat:US-NJ:lower:023:0:2025-01-20"}
+  {"electionDate":"2025-11-04","primaryDate":"2025-06-03","filingDeadline":"2025-03-24","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:lower:023:1:2025-11-04","officeId":"office:US-NJ:legislature-lower","seatId":"seat:US-NJ:lower:023:1","title":"State Representative","level":"state","district":"023","family":"stateLegislative","incumbentTermId":"term:seat:US-NJ:lower:023:1:2025-01-20"}
+  {"electionDate":"2029-11-06","primaryDate":"2029-06-05","filingDeadline":"2029-03-26","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:governor:2029-11-06","officeId":"office:US-NJ:governor","seatId":"seat:US-NJ:governor","title":"Governor","level":"state","family":"statewideExecutive","incumbentTermId":"term:seat:US-NJ:governor:2026-01-01:elected"}
+  {"electionDate":"2029-11-06","primaryDate":"2029-06-05","filingDeadline":"2029-03-26","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:lieutenant-governor:2029-11-06","officeId":"office:US-NJ:lieutenant-governor","seatId":"seat:US-NJ:lieutenant-governor","title":"Lieutenant Governor","level":"state","family":"statewideExecutive","incumbentTermId":"term:seat:US-NJ:lieutenant-governor:2026-01-01:elected"}
+  {"electionDate":"2027-11-02","primaryDate":"2027-06-08","filingDeadline":"2027-03-29","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:lower:023:0:2027-11-02","officeId":"office:US-NJ:legislature-lower","seatId":"seat:US-NJ:lower:023:0","title":"State Representative","level":"state","district":"023","family":"stateLegislative","incumbentTermId":"term:seat:US-NJ:lower:023:0:2026-01-01:elected"}
+  {"electionDate":"2027-11-02","primaryDate":"2027-06-08","filingDeadline":"2027-03-29","basis":"read","sources":"[\"https://nj.gov/www.nj.gov/state/dos-statutes-elections-19-01-09.shtml\",\"N.J.S.A. 19:2-1; 19:23-40\",\"FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of…","id":"contest:seat:US-NJ:lower:023:1:2027-11-02","officeId":"office:US-NJ:legislature-lower","seatId":"seat:US-NJ:lower:023:1","title":"State Representative","level":"state","district":"023","family":"stateLegislative","incumbentTermId":"term:seat:US-NJ:lower:023:1:2026-01-01:elected"}
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (94 bills)
+  office:US-NJ:legislature-lower 2025-06-30: 54
+  office:US-NJ:legislature-lower 2025-07-01: 1
+  office:US-NJ:us-house 2025-10-01: 1
+  office:US-NJ:us-house 2025-12-15: 25
+  office:gus2025:109173:board 2025-02-04: 1
+  office:gus2025:109173:board 2025-02-19: 1
+  office:gus2025:109173:board 2025-04-20: 1
+  office:gus2025:109173:board 2025-09-02: 1
+  office:gus2025:109173:board 2025-09-17: 1
+  office:gus2025:208755:board 2025-02-04: 4
+  office:gus2025:208755:board 2025-08-18: 2
+  office:gus2025:208755:board 2025-09-02: 1
+  office:gus2025:208755:board 2026-01-01: 1
+## bills by body and status
+  office:US-NJ:legislature-lower enacted: 8
+  office:US-NJ:legislature-lower failed: 47
+  office:US-NJ:us-house enacted: 5
+  office:US-NJ:us-house failed: 21
+  office:gus2025:109173:board enacted: 2
+  office:gus2025:109173:board failed: 3
+  office:gus2025:208755:board enacted: 2
+  office:gus2025:208755:board failed: 6
+## sample federal bill
+  {"id":"bill:office:US-NJ:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:67","number":"2025-001","bodyOfficeId":"office:US-NJ:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":6832947820},{"kind":"budget-line","line":"transportation","value":20192956421},{"kind":"budget-line","line":"otherPrograms","value":-84531736210}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-NJ:legislature-lower:2025-06-30:official:term:seat:US-NJ:lower:030:1:2025-01-20:7","number":"2025-001","bodyOfficeId":"office:US-NJ:legislature-lower","sponsorId":"official:term:seat:US-NJ:lower:030:1:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:housing-land-use.inclusionary-requirement","value":-1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"failed"}
+
+## federal and state log kinds: case.made=289, campaign-message=146, drive.strengthened=77, drive.formed=76, committee-hearing=56, vote-recorded=56, bill-held-in-committee=45, office.approached=37, legislative-vote=36, budget-line-changed=33, law-took-effect=26, initiative.organizing-started=13, chamber-organized=6, candidate-filed=6, association.requested=6, primary-result=4, election-result=4, took-office=4, budget-adopted=2, debate=2, inauguration=1, president.address=1, seat-vacated=1
+
+## election-result (4)
+  2025-11-04 {"contestId":"contest:seat:US-NJ:governor:2025-11-04","office":"Governor","winnerId":"official:term:seat:US-NJ:governor:2025-01-20","totals":"{\"official:term:seat:US-NJ:governor:2025-01-20\":933011,\"official:term:seat:US-NJ:us-house:07:2025-01-20\":720069}","views:speaker":"official:term:seat:US-NJ:governor:2025-01-20"}
+  2025-11-04 {"contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","office":"Lieutenant Governor","winnerId":"official:term:seat:US-NJ:lieutenant-governor:2025-01-20","totals":"{\"official:term:seat:US-NJ:lieutenant-governor:2025-01-20\":932990,\"official:term:seat:US-NJ:upper:026:0:2025-01-20\":720091}","views:speaker":"official:term:seat:US-NJ:lieutenant-governor:2025-01-20"}
+  2025-11-04 {"contestId":"contest:seat:US-NJ:lower:023:0:2025-11-04","office":"State Representative","winnerId":"official:term:seat:US-NJ:lower:023:0:2025-01-20","totals":"{\"official:term:seat:US-NJ:lower:023:0:2025-01-20\":24791}","views:speaker":"official:term:seat:US-NJ:lower:023:0:2025-01-20"}
+  2025-11-04 {"contestId":"contest:seat:US-NJ:lower:023:1:2025-11-04","office":"State Representative","winnerId":"official:term:seat:US-NJ:lower:023:1:2025-01-20","totals":"{\"official:term:seat:US-NJ:lower:023:1:2025-01-20\":24789}","views:speaker":"official:term:seat:US-NJ:lower:023:1:2025-01-20"}
+
+## took-office (4)
+  2026-01-01 {"office":"Governor","seatId":"seat:US-NJ:governor","winnerId":"official:term:seat:US-NJ:governor:2025-01-20"}
+  2026-01-01 {"office":"Lieutenant Governor","seatId":"seat:US-NJ:lieutenant-governor","winnerId":"official:term:seat:US-NJ:lieutenant-governor:2025-01-20"}
+  2026-01-01 {"office":"State Representative","seatId":"seat:US-NJ:lower:023:0","winnerId":"official:term:seat:US-NJ:lower:023:0:2025-01-20"}
+  2026-01-01 {"office":"State Representative","seatId":"seat:US-NJ:lower:023:1","winnerId":"official:term:seat:US-NJ:lower:023:1:2025-01-20"}
+
+## seat-vacated (1)
+  2025-04-01 {"officeId":"office:US-NJ:legislature-lower","seatId":"seat:US-NJ:lower:038:0","cause":"moved away","rule":"appointment-then-special"}
+
+## primary-result (4)
+  2025-06-03 {"contestId":"contest:seat:US-NJ:governor:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 {"contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 {"contestId":"contest:seat:US-NJ:lower:023:0:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+  2025-06-03 {"contestId":"contest:seat:US-NJ:lower:023:1:2025-11-04","method":"party-primary","votes":"{}","namedVotes":"0"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-NJ","fiscalYear":"2025","adoptedBy":"the legislature vote 57-23, 25-15, 2025-055"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 254-179, 69-31 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (6)
+  2025-01-20 {"speaker":"official:seat:US-VA:us-house:01","majority-leader":"official:seat:US-NC:us-house:13","minority-leader":"official:seat:US-CA:us-house:45","majority-whip":"official:seat:US-IN:us-house:02","minority-whip":"official:seat:US-PA:us-house:12"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-KY:us-senate:1","majority-leader":"official:seat:US-KY:us-senate:0","minority-leader":"official:seat:US-MI:us-senate:1","majority-whip":"official:seat:US-MO:us-senate:1","minority-whip":"official:term:seat:US-NJ:us-senate:1:2025-01-20"}
+  2025-01-20 {"speaker":"official:term:seat:US-NJ:lower:035:0:2025-01-20","majority-leader":"official:term:seat:US-NJ:lower:022:0:2025-01-20","minority-leader":"official:term:seat:US-NJ:lower:024:0:2025-01-20","majority-whip":"official:term:seat:US-NJ:lower:032:1:2025-01-20","minority-whip":"official:term:seat:US-NJ:lower:010:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-NJ:upper:011:0:2025-01-20","majority-leader":"official:term:seat:US-NJ:upper:034:0:2025-01-20","minority-leader":"official:term:seat:US-NJ:upper:026:0:2025-01-20","majority-whip":"official:term:seat:US-NJ:upper:027:0:2025-01-20","minority-whip":"official:term:seat:US-NJ:upper:039:0:2025-01-20"}
+  2025-06-30 {"speaker":"official:term:seat:US-NJ:lower:035:0:2025-01-20","majority-leader":"official:term:seat:US-NJ:lower:022:0:2025-01-20","minority-leader":"official:term:seat:US-NJ:lower:024:0:2025-01-20","majority-whip":"official:term:seat:US-NJ:lower:032:1:2025-01-20","minority-whip":"official:term:seat:US-NJ:lower:010:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-NJ:us-house:09:2025-01-20"}
+
+## candidate-filed (6)
+  2025-03-24 {"filingId":"filing:contest:seat:US-NJ:governor:2025-11-04:official:term:seat:US-NJ:governor:2025-01-20","contestId":"contest:seat:US-NJ:governor:2025-11-04","office":"Governor","electionDate":"2025-11-04","filedWith":"New Jersey Division of Elections"}
+  2025-03-24 {"filingId":"filing:contest:seat:US-NJ:governor:2025-11-04:official:term:seat:US-NJ:us-house:07:2025-01-20","contestId":"contest:seat:US-NJ:governor:2025-11-04","office":"Governor","electionDate":"2025-11-04","filedWith":"New Jersey Division of Elections"}
+  2025-03-24 {"filingId":"filing:contest:seat:US-NJ:lieutenant-governor:2025-11-04:official:term:seat:US-NJ:lieutenant-governor:2025-01-20","contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","office":"Lieutenant Governor","electionDate":"2025-11-04","filedWith":"New Jersey Division of Elections"}
+  2025-03-24 {"filingId":"filing:contest:seat:US-NJ:lieutenant-governor:2025-11-04:official:term:seat:US-NJ:upper:026:0:2025-01-20","contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","office":"Lieutenant Governor","electionDate":"2025-11-04","filedWith":"New Jersey Division of Elections"}
+  2025-03-24 {"filingId":"filing:contest:seat:US-NJ:lower:023:0:2025-11-04:official:term:seat:US-NJ:lower:023:0:2025-01-20","contestId":"contest:seat:US-NJ:lower:023:0:2025-11-04","office":"State Representative","electionDate":"2025-11-04","filedWith":"New Jersey Division of Elections"}
+  2025-03-24 {"filingId":"filing:contest:seat:US-NJ:lower:023:1:2025-11-04:official:term:seat:US-NJ:lower:023:1:2025-01-20","contestId":"contest:seat:US-NJ:lower:023:1:2025-11-04","office":"State Representative","electionDate":"2025-11-04","filedWith":"New Jersey Division of Elections"}
+
+## debate (2)
+  2025-10-27 {"debateId":"debate:contest:seat:US-NJ:governor:2025-11-04","contestId":"contest:seat:US-NJ:governor:2025-11-04","outletId":"outlet:newspaper:0:jurisdiction_f7be53ea56975116","candidates":"2"}
+  2025-10-27 {"debateId":"debate:contest:seat:US-NJ:lieutenant-governor:2025-11-04","contestId":"contest:seat:US-NJ:lieutenant-governor:2025-11-04","outletId":"outlet:newspaper:0:jurisdiction_f7be53ea56975116","candidates":"2"}
+
+done 2.6 min

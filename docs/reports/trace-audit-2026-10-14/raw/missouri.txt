@@ -1,0 +1,452 @@
+# Benton, Missouri seed 70cdb7d9991e start 2025-01-20 built in 54s people 1849 orgs 122
+player person_b7a99119551ff3b5 Blair Garrett born 2007-01-22
+
+## year 1: 2025-01-20 -> 2026-01-20  73s  heap 1567MB  people 1904 alive 1899 orgs 138
+records this year: 18975; kinds: person.acted=17679, case.made=572, news.read=322, speech.retold=70, vote-recorded=61, committee-hearing=59, legislative-vote=49, bill-held-in-committee=40, budget-line-changed=32, law-took-effect=30, speech.heard=16, cause.volunteered=8, person.moved-away=5, housing.completed=5, chamber-organized=4, seat-vacated=4, budget-adopted=4, organization.closed=3, business.closed=3, office.approached=2, organization.founded=1, drive.formed=1, association.requested=1, initiative.organizing-started=1, cause-group.founded=1, office.replied=1, health.serious-illness=1
+news items: 293 (federal 34: law-took-effect=6, legislative-vote=13, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=64.44 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-01-21 law-took-effect {"lawId":"law:US-MO:state:minimum-wage:general:2025-01-21:law:US-MO:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting","series":"minimum-wage","level":"state","jurisdiction":"US-MO","tier":"general","value":"1500","unit":"minor/hour
+  2025-02-04 chamber-organized {"council-president":"person_81838274c31da570"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 chamber-organized {"mayor-pro-tem":"person_3068a2812ef5d231"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:169170:council:2025-02-04:person_73569c2facf9aec6:1","number":"2025-001","chamber":"office:gus2025:169170:council","yes":"4","no":"1"}
+  2025-03-06 law-took-effect {"lawId":"law:place:2904798:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-03-06:2025-001","series":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","level":"city
+  2025-05-01 seat-vacated {"officeId":"office:US-MO:legislature-lower","seatId":"seat:US-MO:lower:108:0","cause":"moved away","rule":"special-election"}
+  2025-05-05 organization.closed {"organization:organization_0bfc666292f24d23:status":"closed","organization:organization_0bfc666292f24d23:closure-source":"residents:wages:opening-payroll-calendar:organization_0bfc666292f24d23|residents:jurisdiction_6c276f7008b7bcb2:0@2025-05-05"}
+  2025-05-05 business.closed {"organization:organization_0bfc666292f24d23:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-05-16 chamber-organized {"speaker":"official:term:seat:US-MO:lower:002:0:2025-01-20","majority-leader":"official:term:seat:US-MO:lower:011:0:2025-01-20","minority-leader":"official:term:seat:US-MO:lower:074:0:2025-01-20","majority-whip":"official:term:seat:US-MO:lower:016:0:2025-01-2
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:2","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"9","no":"2"}
+  2025-05-16 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:2","number":"2025-001","chamber":"office:US-MO:legislature-lower","yes":"119","no":"43"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:2","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"7","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:2","number":"2025-001","chamber":"office:US-MO:legislature-upper","yes":"25","no":"9"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:3","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:fiscal.graduated-income-tax","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:3","number":"2025-002","chamber":"office:US-MO:legislature-lower","yes":"115","no":"47"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:3","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"7","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:fiscal.graduated-income-tax","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:3","number":"2025-002","chamber":"office:US-MO:legislature-upper","yes":"24","no":"10"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:4","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:labor-workforce.right-to-work","position":"1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:4","number":"2025-003","chamber":"office:US-MO:legislature-lower","yes":"113","no":"49"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:4","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"7","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:labor-workforce.right-to-work","position":"1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:4","number":"2025-003","chamber":"office:US-MO:legislature-upper","yes":"24","no":"10"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:5","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:5","number":"2025-004","chamber":"office:US-MO:legislature-lower","yes":"112","no":"50"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:5","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"7","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:5","number":"2025-004","chamber":"office:US-MO:legislature-upper","yes":"24","no":"10"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:6","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"9","no":"2"}
+  2025-05-16 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:6","number":"2025-005","chamber":"office:US-MO:legislature-lower","yes":"113","no":"49"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:6","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"8","no":"2"}
+  2025-05-16 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:6","number":"2025-005","chamber":"office:US-MO:legislature-upper","yes":"27","no":"7"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:7","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:environment-energy.clean-electricity-standard","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:7","number":"2025-006","chamber":"office:US-MO:legislature-lower","yes":"112","no":"50"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:7","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"7","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:environment-energy.clean-electricity-standard","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:7","number":"2025-006","chamber":"office:US-MO:legislature-upper","yes":"24","no":"10"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:8","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:labor-workforce.public-sector-collective-bargaining","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:8","number":"2025-007","chamber":"office:US-MO:legislature-lower","yes":"112","no":"50"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:8","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"7","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:labor-workforce.public-sector-collective-bargaining","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:8","number":"2025-007","chamber":"office:US-MO:legislature-upper","yes":"24","no":"10"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:9","number":"2025-008","chamber":"office:US-MO:legislature-lower","yes":"112","no":"50"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"7","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:9","number":"2025-008","chamber":"office:US-MO:legislature-upper","yes":"24","no":"10"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:10","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:health-human-services.expand-medicaid-eligibility","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:10","number":"2025-009","chamber":"office:US-MO:legislature-lower","yes":"111","no":"51"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:10","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"5","no":"5"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:11","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"9","no":"2"}
+  2025-05-16 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:11","number":"2025-010","chamber":"office:US-MO:legislature-lower","yes":"114","no":"48"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:11","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"7","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:11","number":"2025-010","chamber":"office:US-MO:legislature-upper","yes":"26","no":"8"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:12","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:fiscal.adopt-income-tax","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:12","number":"2025-011","chamber":"office:US-MO:legislature-lower","yes":"111","no":"51"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:12","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"6","no":"4"}
+  2025-05-16 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:fiscal.adopt-income-tax","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:12","number":"2025-011","chamber":"office:US-MO:legislature-upper","yes":"22","no":"12"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:13","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:justice-public-safety.restore-voting-after-sentence","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:13","number":"2025-012","chamber":"office:US-MO:legislature-lower","yes":"110","no":"52"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:13","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"4","no":"6"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:14","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"9","no":"2"}
+  2025-05-16 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:14","number":"2025-013","chamber":"office:US-MO:legislature-lower","yes":"109","no":"53"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:14","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"6","no":"4"}
+  2025-05-16 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:14","number":"2025-013","chamber":"office:US-MO:legislature-upper","yes":"17","no":"17"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:15","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:health-human-services.medicaid-work-requirement","position":"1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:15","number":"2025-014","chamber":"office:US-MO:legislature-lower","yes":"102","no":"60"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:15","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"6","no":"4"}
+  2025-05-16 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:health-human-services.medicaid-work-requirement","position":"1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:15","number":"2025-014","chamber":"office:US-MO:legislature-upper","yes":"22","no":"12"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:16","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:justice-public-safety.raise-juvenile-court-age","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:16","number":"2025-015","chamber":"office:US-MO:legislature-lower","yes":"90","no":"72"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:163:0:2025-01-20:16","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"3","no":"7"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-16 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:fiscal.exempt-groceries-from-sales-tax","position":"1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:17","number":"2025-016","chamber":"office:US-MO:legislature-lower","yes":"114","no":"48"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"10","no":"0"}
+  2025-05-16 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:fiscal.exempt-groceries-from-sales-tax","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:17","number":"2025-016","chamber":"office:US-MO:legislature-upper","yes":"21","no":"13"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-16 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:18","number":"2025-017","chamber":"office:US-MO:legislature-lower","yes":"90","no":"72"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"5","no":"5"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:19","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:20","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:21","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"5","no":"6"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:23","number":"2025-022","chamber":"office:US-MO:legislature-lower","yes":"102","no":"60"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-MO:upper:029:0:2025-01-20","yes":"6","no":"4"}
+  2025-05-16 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:23","number":"2025-022","chamber":"office:US-MO:legislature-upper","yes":"15","no":"19"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:24","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:077:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:077:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:081:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:021:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:046:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-16 vote-recorded {"measureId":"2025-030","question":"us-policy-positions:technology-privacy.age-verification-for-social-media","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:31","number":"2025-030","chamber":"office:US-MO:legislature-lower","yes":"73","no":"89"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:068:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:080:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:077:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 committee-hearing {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:008:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-16 vote-recorded {"measureId":"2025-035","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-05-16 legislative-vote {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:008:0:2025-01-20:36","number":"2025-035","chamber":"office:US-MO:legislature-lower","yes":"71","no":"91"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:077:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:077:0:2025-01-20:39","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:40","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:43","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:075:0:2025-01-20:44","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:45","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:009:0:2025-01-20:46","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:014:0:2025-01-20:47","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:48","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:024:0:2025-01-20:49","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:upper:024:0:2025-01-20:50","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-16 bill-held-in-committee {"billId":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:083:0:2025-01-20:51","committee":"general","chair":"official:term:seat:US-MO:lower:153:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-23 seat-vacated {"officeId":"office:US-MO:legislature-lower","seatId":"seat:US-MO:lower:063:0","cause":"death","rule":"special-election"}
+  2025-06-01 organization.closed {"organization:organization_e58646d3a7a59eb9:status":"closed","organization:organization_e58646d3a7a59eb9:closure-source":"owner-closed:2025-06-01:organization_e58646d3a7a59eb9"}
+  2025-06-01 business.closed {"organization:organization_e58646d3a7a59eb9:closing-reason":"losses-kept"}
+  2025-07-01 budget-adopted {"governmentId":"US-MO","fiscalYear":"2025","adoptedBy":"the legislature vote 111-50, 24-10, 2025-051"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"administration","deltaMinor":"-1047805533","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"corrections","deltaMinor":"567757050","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"healthAndHospitals","deltaMinor":"-9084112795","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"higherEducation","deltaMinor":"-6605442303","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"highways","deltaMinor":"349149206","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"housing","deltaMinor":"-1125346735","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"localAid","deltaMinor":"-21405552532","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"naturalResources","deltaMinor":"-1182743251","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"otherPrograms","deltaMinor":"-2859772463","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"parks","deltaMinor":"-37913818","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"police","deltaMinor":"933535123","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"schools","deltaMinor":"-1721952494","measureId":"budget:US-MO:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MO","level":"state","line":"welfareAndMedicaid","deltaMinor":"-44185504724","measureId":"budget:US-MO:2025"}
+  2025-07-01 seat-vacated {"officeId":"office:US-MO:legislature-lower","seatId":"seat:US-MO:lower:156:0","cause":"moved away","rule":"special-election"}
+  2025-07-20 budget-line-changed {"governmentId":"US-MO","level":"state","line":"retirementContributions","deltaMinor":"43718262000","measureId":"law:US-MO:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2025-07-20"}
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-08-14:2025-001","series":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","level":"state","jurisdiction":"US-MO","tier":"gener
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:fiscal.graduated-income-tax:general:2025-08-14:2025-002","series":"us-policy-positions:fiscal.graduated-income-tax","level":"state","jurisdiction":"US-MO","tier":"general","value":"0","unit":"","change":"ended","re
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:labor-workforce.right-to-work:general:2025-08-14:2025-003","series":"us-policy-positions:labor-workforce.right-to-work","level":"state","jurisdiction":"US-MO","tier":"general","value":"1","unit":"","change":"new","
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-08-14:2025-004","series":"us-policy-positions:business-commerce.legalize-cannabis-sales","level":"state","jurisdiction":"US-MO","tier":"general","value":"0","u
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-08-14:2025-005","series":"us-policy-positions:government-operations.ban-lobbying-after-office","level":"state","jurisdiction":"US-MO","tier":"general","v
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-08-14:2025-006","series":"us-policy-positions:environment-energy.clean-electricity-standard","level":"state","jurisdiction":"US-MO","tier":"general","value
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-08-14:2025-007","series":"us-policy-positions:labor-workforce.public-sector-collective-bargaining","level":"state","jurisdiction":"US-MO","tier":"gen
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-08-14:2025-008","series":"us-policy-positions:labor-workforce.raise-minimum-wage","level":"state","jurisdiction":"US-MO","tier":"general","value":"0","unit":"","chang
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-08-14:2025-010","series":"us-policy-positions:government-operations.broaden-local-authority","level":"state","jurisdiction":"US-MO","tier":"general","value
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-08-14:2025-011","series":"us-policy-positions:fiscal.adopt-income-tax","level":"state","jurisdiction":"US-MO","tier":"general","value":"0","unit":"","change":"ended","replacesLa
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-08-14:2025-013","series":"us-policy-positions:fiscal.fund-pensions-to-schedule","level":"state","jurisdiction":"US-MO","tier":"general","value":"0","unit":"","change":"
+  2025-08-14 budget-line-changed {"governmentId":"US-MO","level":"state","line":"retirementContributions","deltaMinor":"-43718262000","measureId":"law:US-MO:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-08-14:2025-013#2025-08-14#undo"}
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:2025-08-14:2025-014","series":"us-policy-positions:health-human-services.medicaid-work-requirement","level":"state","jurisdiction":"US-MO","tier":"general","v
+  2025-08-14 law-took-effect {"lawId":"law:US-MO:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-08-14:2025-016","series":"us-policy-positions:fiscal.exempt-groceries-from-sales-tax","level":"state","jurisdiction":"US-MO","tier":"general","value":"1","unit":"
+  2025-08-15 law-took-effect {"lawId":"law:US-MO:state:minimum-wage:general:2025-08-15:law:US-MO:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-08-14:2025-008","series":"minimum-wage","level":"state","jurisdiction":"US-MO","tier":"general","value":"1375","unit":
+  2025-09-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+  2025-10-01 budget-adopted {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 246-187, 68-32 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+  2025-10-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+  2025-11-01 organization.closed {"organization:organization_6ea1813070683134:status":"closed","organization:organization_6ea1813070683134:closure-source":"owner-closed:2025-11-01:organization_6ea1813070683134"}
+  2025-11-01 business.closed {"organization:organization_6ea1813070683134:closing-reason":"losses-kept"}
+  2025-11-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+  2025-12-01 organization.founded {}
+  2025-12-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+  2025-12-15 chamber-organized {"council-president":"official:term:seat:US-MO:us-house:06:2025-01-20"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-MO:us-house:2025-12-15:official:seat:US-NC:us-house:06:54","committee":"general","chair":"official:seat:US-UT:us-house:03","yes":"11","no":"0"}
+  2025-12-15 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:fiscal.balanced-operating-budget","position":"1"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-MO:us-house:2025-12-15:official:seat:US-NC:us-house:06:54","committee":"general","chair":"official:seat:US-WV:us-senate:1","yes":"11","no":"0"}
+  2025-12-15 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:fiscal.balanced-operating-budget","position":"1"}
+  2025-12-15 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:fiscal.balanced-operating-budget","position":"1"}
+deaths: 0
+election-ish kinds: 
+player: alive=true job=none cash=$0 home=household_9e90c62fdf7e0405
+
+### trace speech:party-meeting:party:US-MO:democratic:2026-01-15:retold:person_45dd8943d459d15c (speech.retold 2026-01-15)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+speech:party-meeting:party:US-MO:democratic:2026-01-15:retold:person_45dd8943d459d15c [core.log speech.retold]
+   facts views:speaker=person_45dd8943d459d15c
+  <- person_45dd8b43d459d4c2 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-MO:democratic:2026-01-15:retold:person_45dd8943d459d15c:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.placeId | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MO:democratic:2026-01-15:retold:person_45dd8943d459d15c:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MO:democratic:2026-01-15:retold:person_45dd8943d459d15c:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MO:democratic:2026-01-15:retold:person_45dd8943d459d15c:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MO:democratic:2026-01-15:retold:person_45dd8943d459d15c:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-MO:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+speech:party-meeting:party:US-MO:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_47986025b606c351
+  <- person_47986025b606c351 [core.people person] via core.observe.perceived
+     value {"key":"views:speaker","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.placeId | learned:core.observe.perceived={"key":"views:speaker","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace budget-line-changed:budget:place:2904798:2026:parks:adopted (budget-line-changed 2026-01-01)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+budget-line-changed:budget:place:2904798:2026:parks:adopted [core.log budget-line-changed]
+   facts governmentId=place:2904798 level=city line=parks deltaMinor=2070 measureId=budget:place:2904798:2026
+  <- place:2904798 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:place:2904798 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_6c276f7008b7bcb2 [regional.places places] via core.organizations.placeId
+        <- region:29:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId | record:core.log.facts.measureId
+
+### trace budget-adopted:budget:place:2904798:2026 (budget-adopted 2026-01-01)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+budget-adopted:budget:place:2904798:2026 [core.log budget-adopted]
+   facts governmentId=place:2904798 fiscalYear=2026 adoptedBy=the council vote 5-0 (amended: welfareAndMedicaid, naturalResources, police, localAid, housing, higherEducation, healthAndHospitals, otherPrograms, schools, administration, corrections dropped), 2026-001
+  <- place:2904798 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:place:2904798 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_6c276f7008b7bcb2 [regional.places places] via core.organizations.placeId
+        <- region:29:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId
+
+### trace law-took-effect:law:county:29201:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+law-took-effect:law:county:29201:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:29201:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:29201 tier=general value=0.62 unit=percent-of-home-value change=replaced replacesLawId=law:county:29201:county:property-tax:general:2026-01-01:from-start
+  <- law:county:29201:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:29201 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:29201 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_6c276f7008b7bcb2 [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-MO:us-house:2025-12-15:official:seat:US-IN:us-house:01:75:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+committee:bill:office:US-MO:us-house:2025-12-15:official:seat:US-IN:us-house:01:75:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-MO:us-house:2025-12-15:official:seat:US-IN:us-house:01:75 committee=general chair=official:seat:US-UT:us-house:03 yes=0 no=0
+  <- bill:office:US-MO:us-house:2025-12-15:official:seat:US-IN:us-house:01:75 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-MO:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace bill-vote:bill:office:US-MO:us-house:2025-12-15:official:seat:US-NV:us-house:04:60:federal:us-senate (legislative-vote 2025-12-15)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+bill-vote:bill:office:US-MO:us-house:2025-12-15:official:seat:US-NV:us-house:04:60:federal:us-senate [core.log legislative-vote]
+   facts billId=bill:office:US-MO:us-house:2025-12-15:official:seat:US-NV:us-house:04:60 number=2025-008 chamber=federal:us-senate yes=67 no=33
+  <- official:seat:US-AK:us-senate:0 [core.people person] via core.log.personIds.0
+    <- job:office:seat:US-AK:us-senate:0:official:seat:US-AK:us-senate:0 [core.jobs job] via saved-trace.job
+      <- official:seat:US-AK:us-senate:0 [core.people person] via core.jobs.personId
+        <- job:office:seat:US-AK:us-senate:0:official:seat:US-AK:us-senate:0 [core.jobs job] via saved-trace.job
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.personIds.14 | record:core.log.personIds.15 | record:core.log.personIds.16 | record:core.log.personIds.17 | record:core.log.personIds.18 | record:core.log.personIds.19 | record:core.log.personIds.20 | record:core.log.personIds.21 | record:core.log.personIds.22 | record:core.log.personIds.23 | record:core.log.personIds.24 | record:core.log.personIds.25 | record:core.log.personIds.26 | record:core.log.personIds.27 | record:core.log.personIds.28 | record:core.log.personIds.29 | record:core.log.personIds.30 | record:core.log.personIds.31 | record:core.log.personIds.32 | record:core.log.personIds.33 | record:core.log.personIds.34 | record:core.log.personIds.35 | record:core.log.personIds.36 | record:core.log.personIds.37 | record:core.log.personIds.38 | record:core.log.personIds.39 | record:core.log.personIds.40 | record:core.log.personIds.41 | record:core.log.personIds.42 | record:core.log.personIds.43 | record:core.log.personIds.44 | record:core.log.personIds.45 | record:core.log.personIds.46 | record:core.log.personIds.47 | record:core.log.person
+
+### trace vote-recorded:vote:2025-008:official:term:seat:US-MO:us-senate:1:2025-01-20 (vote-recorded 2025-12-15)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+vote-recorded:vote:2025-008:official:term:seat:US-MO:us-senate:1:2025-01-20 [core.log vote-recorded]
+   facts measureId=2025-008 question=us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties position=-1
+  <- official:term:seat:US-MO:us-senate:1:2025-01-20 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace event:business.closed:organization_6ea1813070683134 (business.closed 2025-11-01)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+event:business.closed:organization_6ea1813070683134 [core.log business.closed]
+   facts organization:organization_6ea1813070683134:closing-reason=losses-kept
+  <- organization_6ea1813070683134 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2025-11-01:organization_6ea1813070683134 (organization.closed 2025-11-01)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+employer-closed:2025-11-01:organization_6ea1813070683134 [core.log organization.closed]
+   facts organization:organization_6ea1813070683134:status=closed organization:organization_6ea1813070683134:closure-source=owner-closed:2025-11-01:organization_6ea1813070683134
+  <- jurisdiction_6c276f7008b7bcb2 [regional.places places] via core.log.placeId
+    <- region:29:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace person.moved-away:person_dbe5f357ad0c8faa:2025-02-01 (person.moved-away 2025-02-01)
+trace report · seed 70cdb7d9991e · place 2904798 · date 2026-01-20
+person.moved-away:person_dbe5f357ad0c8faa:2025-02-01 [core.log person.moved-away]
+   facts person:person_dbe5f357ad0c8faa:residence=jurisdiction_c2beba59030cad56
+  <- person_dbe5f357ad0c8faa [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_dbe5f357ad0c8faa:2025-02-01:experienced","learnedAt":"2025-02-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_dbe5f357ad0c8faa:2025-02-01:experienced","learnedAt":"2025-02-01","access":"perceived"}
+
+## core2-offices-v1.offices: 12 of 21
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-MO:us-senate","level":"federal","jurisdiction":"US-MO","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-MO:us-house","level":"federal","jurisdiction":"US-MO","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":8,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-MO:governor","level":"state","jurisdiction":"US-MO","governmentName":"US-MO","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"Mo. Const. art. IV sec. 11(a) https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":{"method":"successor","successor":"lieutenant governor","citation":"Mo. Const. art. IV sec. 11(a)","source":"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false}}
+  {"id":"office:US-MO:lieutenant-governor","level":"state","jurisdiction":"US-MO","governmentName":"US-MO","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.org/State_execu…"}
+  {"id":"office:US-MO:attorney-general","level":"state","jurisdiction":"US-MO","governmentName":"US-MO","kind":"attorney-general","title":"Attorney General","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MO:secretary-of-state","level":"state","jurisdiction":"US-MO","governmentName":"US-MO","kind":"secretary-of-state","title":"Secretary of State","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MO:treasurer","level":"state","jurisdiction":"US-MO","governmentName":"US-MO","kind":"treasurer","title":"Treasurer","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MO:auditor","level":"state","jurisdiction":"US-MO","governmentName":"US-MO","kind":"auditor","title":"State Auditor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MO:legislature-upper","level":"state","jurisdiction":"US-MO","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":34,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Mo. Const. art. III sec. 14; RSMo sec. 21.130","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+  {"id":"office:US-MO:legislature-lower","level":"state","jurisdiction":"US-MO","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":163,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Mo. Const. art. III sec. 14; RSMo sec. 21.130","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+
+## core2-offices-v1.seats: 10 of 230
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MO:us-senate:0","officeId":"office:US-MO:us-senate","index":0,"coversTown":true,"party":"Republican","electionYear":2030}
+  {"id":"seat:US-MO:us-senate:1","officeId":"office:US-MO:us-senate","index":1,"coversTown":true,"party":"Republican","electionYear":2028}
+  {"id":"seat:US-MO:governor","officeId":"office:US-MO:governor","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MO:lieutenant-governor","officeId":"office:US-MO:lieutenant-governor","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MO:attorney-general","officeId":"office:US-MO:attorney-general","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MO:secretary-of-state","officeId":"office:US-MO:secretary-of-state","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MO:treasurer","officeId":"office:US-MO:treasurer","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MO:auditor","officeId":"office:US-MO:auditor","index":0,"coversTown":true,"party":"Republican"}
+
+## core2-offices-v1.terms: 25 of 498
+  {"id":"term:seat:US-MO:governor:2025-01-20:past:6","seatId":"seat:US-MO:governor","officeId":"office:US-MO:governor","identity":{"givenName":"Melanie","familyName":"Kennedy","gender":"female","birthDate":"1975-07-06","homeState":"US-MO"},"party":"Republican","startDate":"2001-01-01","endDate":"2005-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2001-01-01","endedBy":"re-elected","elected":{"date":"2000-11-07","share":0.56}}
+  {"id":"term:seat:US-MO:governor:2025-01-20:past:5","seatId":"seat:US-MO:governor","officeId":"office:US-MO:governor","identity":{"givenName":"Melanie","familyName":"Kennedy","gender":"female","birthDate":"1975-07-06","homeState":"US-MO"},"party":"Republican","startDate":"2005-01-01","endDate":"2009-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2001-01-01","endedBy":"re-elected","elected":{"date":"2004-11-02","share":0.56}}
+  {"id":"term:seat:US-MO:governor:2025-01-20:past:4","seatId":"seat:US-MO:governor","officeId":"office:US-MO:governor","identity":{"givenName":"Melanie","familyName":"Kennedy","gender":"female","birthDate":"1975-07-06","homeState":"US-MO"},"party":"Republican","startDate":"2009-01-01","endDate":"2013-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2001-01-01","endedBy":"re-elected","elected":{"date":"2008-11-04","share":0.56}}
+  {"id":"term:seat:US-MO:governor:2025-01-20:past:3","seatId":"seat:US-MO:governor","officeId":"office:US-MO:governor","identity":{"givenName":"Melanie","familyName":"Kennedy","gender":"female","birthDate":"1975-07-06","homeState":"US-MO"},"party":"Republican","startDate":"2013-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2001-01-01","endedBy":"re-elected","elected":{"date":"2012-11-06","share":0.56}}
+  {"id":"term:seat:US-MO:governor:2025-01-20:past:2","seatId":"seat:US-MO:governor","officeId":"office:US-MO:governor","identity":{"givenName":"Melanie","familyName":"Kennedy","gender":"female","birthDate":"1975-07-06","homeState":"US-MO"},"party":"Republican","startDate":"2017-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2001-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.56}}
+  {"id":"term:seat:US-MO:governor:2025-01-20:past:1","seatId":"seat:US-MO:governor","officeId":"office:US-MO:governor","identity":{"givenName":"Melanie","familyName":"Kennedy","gender":"female","birthDate":"1975-07-06","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2001-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US-MO:lieutenant-governor:2025-01-20:past:1","seatId":"seat:US-MO:lieutenant-governor","officeId":"office:US-MO:lieutenant-governor","identity":{"givenName":"Valerie","familyName":"Page","gender":"female","birthDate":"1968-12-02","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US-MO:attorney-general:2025-01-20:past:4","seatId":"seat:US-MO:attorney-general","officeId":"office:US-MO:attorney-general","identity":{"givenName":"Cynthia","familyName":"Lambert","gender":"female","birthDate":"1975-05-05","homeState":"US-MO"},"party":"Republican","startDate":"2009-01-01","endDate":"2013-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2009-01-01","endedBy":"re-elected","elected":{"date":"2008-11-04","share":0.56}}
+  {"id":"term:seat:US-MO:attorney-general:2025-01-20:past:3","seatId":"seat:US-MO:attorney-general","officeId":"office:US-MO:attorney-general","identity":{"givenName":"Cynthia","familyName":"Lambert","gender":"female","birthDate":"1975-05-05","homeState":"US-MO"},"party":"Republican","startDate":"2013-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2009-01-01","endedBy":"re-elected","elected":{"date":"2012-11-06","share":0.56}}
+  {"id":"term:seat:US-MO:attorney-general:2025-01-20:past:2","seatId":"seat:US-MO:attorney-general","officeId":"office:US-MO:attorney-general","identity":{"givenName":"Cynthia","familyName":"Lambert","gender":"female","birthDate":"1975-05-05","homeState":"US-MO"},"party":"Republican","startDate":"2017-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2009-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.56}}
+  {"id":"term:seat:US-MO:attorney-general:2025-01-20:past:1","seatId":"seat:US-MO:attorney-general","officeId":"office:US-MO:attorney-general","identity":{"givenName":"Cynthia","familyName":"Lambert","gender":"female","birthDate":"1975-05-05","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2009-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US-MO:treasurer:2025-01-20:past:1","seatId":"seat:US-MO:treasurer","officeId":"office:US-MO:treasurer","identity":{"givenName":"Amanda","familyName":"Craig","gender":"female","birthDate":"1975-01-16","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US-MO:auditor:2025-01-20:past:5","seatId":"seat:US-MO:auditor","officeId":"office:US-MO:auditor","identity":{"givenName":"Jennifer","familyName":"McKenzie","gender":"female","birthDate":"1979-11-03","homeState":"US-MO"},"party":"Republican","startDate":"2003-01-01","endDate":"2007-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2002-11-05","share":0.56}}
+  {"id":"term:seat:US-MO:auditor:2025-01-20:past:4","seatId":"seat:US-MO:auditor","officeId":"office:US-MO:auditor","identity":{"givenName":"Jennifer","familyName":"McKenzie","gender":"female","birthDate":"1979-11-03","homeState":"US-MO"},"party":"Republican","startDate":"2007-01-01","endDate":"2011-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2006-11-07","share":0.56}}
+  {"id":"term:seat:US-MO:auditor:2025-01-20:past:3","seatId":"seat:US-MO:auditor","officeId":"office:US-MO:auditor","identity":{"givenName":"Jennifer","familyName":"McKenzie","gender":"female","birthDate":"1979-11-03","homeState":"US-MO"},"party":"Republican","startDate":"2011-01-01","endDate":"2015-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2010-11-02","share":0.56}}
+  {"id":"term:seat:US-MO:auditor:2025-01-20:past:2","seatId":"seat:US-MO:auditor","officeId":"office:US-MO:auditor","identity":{"givenName":"Jennifer","familyName":"McKenzie","gender":"female","birthDate":"1979-11-03","homeState":"US-MO"},"party":"Republican","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.56}}
+  {"id":"term:seat:US-MO:auditor:2025-01-20:past:1","seatId":"seat:US-MO:auditor","officeId":"office:US-MO:auditor","identity":{"givenName":"Jennifer","familyName":"McKenzie","gender":"female","birthDate":"1979-11-03","homeState":"US-MO"},"party":"Republican","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Christopher","familyName":"Grant","gender":"male","birthDate":"1979-07-13","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Diane","familyName":"Shields","gender":"female","birthDate":"1961-06-28","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-MO:governor:2025-01-20","seatId":"seat:US-MO:governor","officeId":"office:US-MO:governor","personId":"official:term:seat:US-MO:governor:2025-01-20","identity":{"givenName":"Melanie","familyName":"Kennedy","gender":"female","birthDate":"1975-07-06","homeState":"US-MO"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2001-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-MO:lieutenant-governor:2025-01-20","seatId":"seat:US-MO:lieutenant-governor","officeId":"office:US-MO:lieutenant-governor","personId":"official:term:seat:US-MO:lieutenant-governor:2025-01-20","identity":{"givenName":"Valerie","familyName":"Page","gender":"female","birthDate":"1968-12-02","homeState":"US-MO"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-MO:attorney-general:2025-01-20","seatId":"seat:US-MO:attorney-general","officeId":"office:US-MO:attorney-general","personId":"official:term:seat:US-MO:attorney-general:2025-01-20","identity":{"givenName":"Cynthia","familyName":"Lambert","gender":"female","birthDate":"1975-05-05","homeState":"US-MO"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2009-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-MO:secretary-of-state:2025-01-20","seatId":"seat:US-MO:secretary-of-state","officeId":"office:US-MO:secretary-of-state","personId":"official:term:seat:US-MO:secretary-of-state:2025-01-20","identity":{"givenName":"Travis","familyName":"Serrano","gender":"male","birthDate":"1975-10-24","homeState":"US-MO"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-MO:treasurer:2025-01-20","seatId":"seat:US-MO:treasurer","officeId":"office:US-MO:treasurer","personId":"official:term:seat:US-MO:treasurer:2025-01-20","identity":{"givenName":"Amanda","familyName":"Craig","gender":"female","birthDate":"1975-01-16","homeState":"US-MO"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-MO:auditor:2025-01-20","seatId":"seat:US-MO:auditor","officeId":"office:US-MO:auditor","personId":"official:term:seat:US-MO:auditor:2025-01-20","identity":{"givenName":"Jennifer","familyName":"McKenzie","gender":"female","birthDate":"1979-11-03","homeState":"US-MO"},"party":"Republican","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2003-01-01","elected":{"date":"2022-11-08","share":0.56}}
+
+## core2-offices-v1.terms: 422 of 498
+  {"id":"term:seat:US-MO:lower:001:0:2025-01-20:past:2","seatId":"seat:US-MO:lower:001:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Rachel","familyName":"Travis","gender":"female","birthDate":"1990-11-10","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MO:lower:001:0:2025-01-20:past:1","seatId":"seat:US-MO:lower:001:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Rachel","familyName":"Travis","gender":"female","birthDate":"1990-11-10","homeState":"US-MO"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MO:lower:002:0:2025-01-20:past:2","seatId":"seat:US-MO:lower:002:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Carlos","familyName":"Fox","gender":"male","birthDate":"1975-07-05","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MO:lower:002:0:2025-01-20:past:1","seatId":"seat:US-MO:lower:002:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Carlos","familyName":"Fox","gender":"male","birthDate":"1975-07-05","homeState":"US-MO"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MO:lower:004:0:2025-01-20:past:2","seatId":"seat:US-MO:lower:004:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Diana","familyName":"Whitaker","gender":"female","birthDate":"1962-03-01","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MO:lower:004:0:2025-01-20:past:1","seatId":"seat:US-MO:lower:004:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Diana","familyName":"Whitaker","gender":"female","birthDate":"1962-03-01","homeState":"US-MO"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MO:lower:007:0:2025-01-20:past:2","seatId":"seat:US-MO:lower:007:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"David","familyName":"Martinez","gender":"male","birthDate":"1976-03-09","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MO:lower:007:0:2025-01-20:past:1","seatId":"seat:US-MO:lower:007:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"David","familyName":"Martinez","gender":"male","birthDate":"1976-03-09","homeState":"US-MO"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MO:lower:009:0:2025-01-20:past:2","seatId":"seat:US-MO:lower:009:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Robert","familyName":"Day","gender":"male","birthDate":"1984-05-16","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MO:lower:009:0:2025-01-20:past:1","seatId":"seat:US-MO:lower:009:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Robert","familyName":"Day","gender":"male","birthDate":"1984-05-16","homeState":"US-MO"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MO:lower:011:0:2025-01-20:past:2","seatId":"seat:US-MO:lower:011:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Patricia","familyName":"Hunter","gender":"female","birthDate":"1957-08-05","homeState":"US-MO"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MO:lower:011:0:2025-01-20:past:1","seatId":"seat:US-MO:lower:011:0","officeId":"office:US-MO:legislature-lower","identity":{"givenName":"Patricia","familyName":"Hunter","gender":"female","birthDate":"1957-08-05","homeState":"US-MO"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+
+## core2-elections-v1.contests: 0 of 27
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (80 bills)
+  office:US-MO:legislature-lower 2025-05-16: 50
+  office:US-MO:legislature-lower 2025-07-01: 1
+  office:US-MO:us-house 2025-10-01: 1
+  office:US-MO:us-house 2025-12-15: 24
+  office:gus2025:129444:board 2025-02-04: 1
+  office:gus2025:129444:board 2026-01-01: 1
+  office:gus2025:169170:council 2025-02-04: 1
+  office:gus2025:169170:council 2026-01-01: 1
+## bills by body and status
+  office:US-MO:legislature-lower enacted: 14
+  office:US-MO:legislature-lower failed: 37
+  office:US-MO:us-house enacted: 3
+  office:US-MO:us-house failed: 20
+  office:US-MO:us-house vetoed: 2
+  office:gus2025:129444:board enacted: 1
+  office:gus2025:129444:board failed: 1
+  office:gus2025:169170:council enacted: 2
+## sample federal bill
+  {"id":"bill:office:US-MO:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:53","number":"2025-001","bodyOfficeId":"office:US-MO:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":11293876898},{"kind":"budget-line","line":"transportation","value":33376043549},{"kind":"budget-line","line":"otherPrograms","value":-139718763821}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-MO:legislature-lower:2025-05-16:official:term:seat:US-MO:lower:096:0:2025-01-20:2","number":"2025-001","bodyOfficeId":"office:US-MO:legislature-lower","sponsorId":"official:term:seat:US-MO:lower:096:0:2025-01-20","introduced":"2025-05-16","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","value":-1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted"}
+
+## federal and state log kinds: case.made=572, vote-recorded=61, committee-hearing=59, legislative-vote=47, bill-held-in-committee=40, budget-line-changed=32, law-took-effect=29, chamber-organized=6, seat-vacated=4, budget-adopted=2, office.approached=2, inauguration=1, president.address=1, drive.formed=1, association.requested=1, initiative.organizing-started=1
+
+## seat-vacated (4)
+  2025-05-01 {"officeId":"office:US-MO:legislature-lower","seatId":"seat:US-MO:lower:108:0","cause":"moved away","rule":"special-election"}
+  2025-05-23 {"officeId":"office:US-MO:legislature-lower","seatId":"seat:US-MO:lower:063:0","cause":"death","rule":"special-election"}
+  2025-07-01 {"officeId":"office:US-MO:legislature-lower","seatId":"seat:US-MO:lower:156:0","cause":"moved away","rule":"special-election"}
+  2025-12-16 {"officeId":"office:US-MO:legislature-lower","seatId":"seat:US-MO:lower:028:0","cause":"death","rule":"special-election"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-MO","fiscalYear":"2025","adoptedBy":"the legislature vote 111-50, 24-10, 2025-051"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 246-187, 68-32 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (6)
+  2025-01-20 {"speaker":"official:seat:US-NE:us-house:03","majority-leader":"official:seat:US-VA:us-house:06","minority-leader":"official:seat:US-MA:us-house:09","majority-whip":"official:seat:US-WV:us-house:02","minority-whip":"official:seat:US-KS:us-house:03"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-UT:us-senate:0","majority-leader":"official:seat:US-KY:us-senate:1","minority-leader":"official:seat:US-CA:us-senate:1","majority-whip":"official:seat:US-WY:us-senate:0","minority-whip":"official:seat:US-CT:us-senate:0"}
+  2025-01-20 {"speaker":"official:term:seat:US-MO:lower:002:0:2025-01-20","majority-leader":"official:term:seat:US-MO:lower:011:0:2025-01-20","minority-leader":"official:term:seat:US-MO:lower:074:0:2025-01-20","majority-whip":"official:term:seat:US-MO:lower:016:0:2025-01-20","minority-whip":"official:term:seat:US-MO:lower:078:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-MO:upper:012:0:2025-01-20","majority-leader":"official:term:seat:US-MO:upper:008:0:2025-01-20","minority-leader":"official:term:seat:US-MO:upper:004:0:2025-01-20","majority-whip":"official:term:seat:US-MO:upper:018:0:2025-01-20","minority-whip":"official:term:seat:US-MO:upper:024:0:2025-01-20"}
+  2025-05-16 {"speaker":"official:term:seat:US-MO:lower:002:0:2025-01-20","majority-leader":"official:term:seat:US-MO:lower:011:0:2025-01-20","minority-leader":"official:term:seat:US-MO:lower:074:0:2025-01-20","majority-whip":"official:term:seat:US-MO:lower:016:0:2025-01-20","minority-whip":"official:term:seat:US-MO:lower:078:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-MO:us-house:06:2025-01-20"}
+
+done 2.1 min

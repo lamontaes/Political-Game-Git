@@ -1,0 +1,216 @@
+# Tafuna, American Samoa seed 2dfdf07a2bc5 start 2025-01-20 built in 51s people 1728 orgs 112
+player person_2194927b3eb5de0e Diego Marquez born 2007-01-21
+
+## year 1: 2025-01-20 -> 2026-01-20  58s  heap 1308MB  people 1733 alive 1731 orgs 124
+records this year: 20593; kinds: person.acted=20354, news.read=144, committee-hearing=20, budget-line-changed=16, legislative-vote=16, bill-held-in-committee=13, person.moved-away=7, law-took-effect=7, housing.completed=5, health.serious-illness=2, organization.closed=2, business.closed=2, budget-adopted=2, organization.owner-changed=1, life.death=1, chamber-organized=1
+news items: 85 (federal 36: law-took-effect=5, legislative-vote=16, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=83 percent
+  2025-03-01 organization.owner-changed {}
+  2025-07-01 organization.closed {"organization:organization_617250401b22e8f7:status":"closed","organization:organization_617250401b22e8f7:closure-source":"owner-closed:2025-07-01:organization_617250401b22e8f7"}
+  2025-07-01 business.closed {"organization:organization_617250401b22e8f7:closing-reason":"losses-kept"}
+  2025-09-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+  2025-10-01 budget-adopted {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 261-172, 69-31 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+  2025-10-01 budget-adopted {"governmentId":"US-AS","fiscalYear":"2025","adoptedBy":"carried forward by the budget rule until the council or legislature votes it"}
+  2025-10-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+  2025-10-20 budget-line-changed {"governmentId":"US-AS","level":"state","line":"retirementContributions","deltaMinor":"347970000","measureId":"law:US-AS:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting#2025-10-20"}
+  2025-11-01 organization.closed {"organization:organization_d4f6e46751c996b5:status":"closed","organization:organization_d4f6e46751c996b5:closure-source":"owner-closed:2025-11-01:organization_d4f6e46751c996b5"}
+  2025-11-01 business.closed {"organization:organization_d4f6e46751c996b5:closing-reason":"losses-kept"}
+  2025-11-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+  2025-12-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+  2025-12-15 chamber-organized {"council-president":"official:term:seat:US-AS:us-house:at-large:2025-01-20"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:1","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"11","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:1","committee":"general","chair":"official:seat:US-LA:us-senate:1","yes":"11","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:2","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"11","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:2","committee":"general","chair":"official:seat:US-LA:us-senate:1","yes":"11","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WV:us-house:01:3","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"7","no":"4"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WV:us-house:01:3","committee":"general","chair":"official:seat:US-LA:us-senate:1","yes":"8","no":"3"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:4","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"11","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:4","committee":"general","chair":"official:seat:US-LA:us-senate:1","yes":"11","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:5","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"10","no":"1"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:5","committee":"general","chair":"official:seat:US-LA:us-senate:1","yes":"9","no":"2"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:6","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:7","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"8","no":"3"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:7","committee":"general","chair":"official:seat:US-LA:us-senate:1","yes":"7","no":"4"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:8","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"6","no":"5"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:8","committee":"general","chair":"official:seat:US-LA:us-senate:1","yes":"6","no":"5"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:9","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"6","no":"5"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:9","committee":"general","chair":"official:seat:US-LA:us-senate:1","yes":"6","no":"5"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:10","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:11","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-MN:us-house:08:12","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"5","no":"6"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:13","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:14","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"5","no":"6"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:15","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:16","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:17","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:18","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:19","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:20","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"5","no":"6"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:21","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"5","no":"6"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:22","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-NY:us-house:15:23","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:24","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:25","committee":"general","chair":"official:seat:US-TN:us-house:03","yes":"0","no":"0"}
+  2026-01-01 law-took-effect {"lawId":"law:US-AS:state:income-tax:general:2026-01-01","series":"income-tax","level":"state","jurisdiction":"US-AS","tier":"general","value":"39.6","unit":"percent-top-rate","change":"replaced","replacesLawId":"law:US-AS:state:income-tax:general:2026-01-01:f
+  2026-01-01 law-took-effect {"lawId":"law:US-AS:state:sales-tax:general:2026-01-01","series":"sales-tax","level":"state","jurisdiction":"US-AS","tier":"general","value":"0","unit":"percent","change":"new","replacesLawId":"law:US-AS:state:sales-tax:general:2026-01-01:from-start"}
+  2026-01-06 housing.completed {"kind":"single","units":"1","affordableUnits":"0"}
+deaths: 1
+election-ish kinds: 
+player: alive=true job=Housekeeper cash=$15803 home=household_0e584590702c4c5b
+
+### trace law-took-effect:law:US-AS:state:sales-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+law-took-effect:law:US-AS:state:sales-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:US-AS:state:sales-tax:general:2026-01-01 series=sales-tax level=state jurisdiction=US-AS tier=general value=0 unit=percent change=new replacesLawId=law:US-AS:state:sales-tax:general:2026-01-01:from-start
+  <- law:US-AS:state:sales-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:25:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+committee:bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:25:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:25 committee=general chair=official:seat:US-TN:us-house:03 yes=0 no=0
+  <- bill:office:US-AS:us-house:2025-12-15:official:seat:US-AZ:us-senate:0:25 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-AS:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace bill-vote:bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:9:federal:us-senate (legislative-vote 2025-12-15)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+bill-vote:bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:9:federal:us-senate [core.log legislative-vote]
+   facts billId=bill:office:US-AS:us-house:2025-12-15:official:seat:US-WY:us-senate:1:9 number=2025-010 chamber=federal:us-senate yes=53 no=47
+  <- official:seat:US-AK:us-senate:0 [core.people person] via core.log.personIds.0
+    <- job:office:seat:US-AK:us-senate:0:official:seat:US-AK:us-senate:0 [core.jobs job] via saved-trace.job
+      <- official:seat:US-AK:us-senate:0 [core.people person] via core.jobs.personId
+        <- job:office:seat:US-AK:us-senate:0:official:seat:US-AK:us-senate:0 [core.jobs job] via saved-trace.job
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.personIds.14 | record:core.log.personIds.15 | record:core.log.personIds.16 | record:core.log.personIds.17 | record:core.log.personIds.18 | record:core.log.personIds.19 | record:core.log.personIds.20 | record:core.log.personIds.21 | record:core.log.personIds.22 | record:core.log.personIds.23 | record:core.log.personIds.24 | record:core.log.personIds.25 | record:core.log.personIds.26 | record:core.log.personIds.27 | record:core.log.personIds.28 | record:core.log.personIds.29 | record:core.log.personIds.30 | record:core.log.personIds.31 | record:core.log.personIds.32 | record:core.log.personIds.33 | record:core.log.personIds.34 | record:core.log.personIds.35 | record:core.log.personIds.36 | record:core.log.personIds.37 | record:core.log.personIds.38 | record:core.log.personIds.39 | record:core.log.personIds.40 | record:core.log.personIds.41 | record:core.log.personIds.42 | record:core.log.personIds.43 | record:core.log.personIds.44 | record:core.log.personIds.45 | record:core.log.personIds.46 | record:core.log.personIds.47 | record:core.log.person
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11084425448201 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_e8575ea6ff2b6140 [regional.places places] via core.log.placeId
+    <- region:60:territory [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace event:business.closed:organization_d4f6e46751c996b5 (business.closed 2025-11-01)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+event:business.closed:organization_d4f6e46751c996b5 [core.log business.closed]
+   facts organization:organization_d4f6e46751c996b5:closing-reason=losses-kept
+  <- organization_d4f6e46751c996b5 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2025-11-01:organization_d4f6e46751c996b5 (organization.closed 2025-11-01)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+employer-closed:2025-11-01:organization_d4f6e46751c996b5 [core.log organization.closed]
+   facts organization:organization_d4f6e46751c996b5:status=closed organization:organization_d4f6e46751c996b5:closure-source=owner-closed:2025-11-01:organization_d4f6e46751c996b5
+  <- jurisdiction_e8575ea6ff2b6140 [regional.places places] via core.log.placeId
+    <- region:60:territory [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace budget-adopted:budget:US-AS:2025 (budget-adopted 2025-10-01)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+budget-adopted:budget:US-AS:2025 [core.log budget-adopted]
+   facts governmentId=US-AS fiscalYear=2025 adoptedBy=carried forward by the budget rule until the council or legislature votes it
+  <- jurisdiction_e8575ea6ff2b6140 [regional.places places] via core.log.placeId
+    <- region:60:territory [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace life.death:person_54329af40283b002:2025-08-17 (life.death 2025-08-17)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+life.death:person_54329af40283b002:2025-08-17 [core.log life.death]
+   facts event:life.death:person_54329af40283b002:2025-08-17:condition=diabetes
+  <- person_2194967b3eb5e4da [core.people person] via core.observe.perceived
+     value {"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"2025-08-17","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.placeId | record:core.log.source.estimatedFrom | learned:core.observe.perceived={"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"2025-08-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"2025-08-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"2025-08-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"2025-08-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"2025-08-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"2025-08-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"2025-08-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_54329af40283b002:2025-08-17:experienced","learnedAt":"
+
+### trace person.moved-away:person_c5c33fd35d6169b4:2025-03-01 (person.moved-away 2025-03-01)
+trace report · seed 2dfdf07a2bc5 · place territory:AS:tafuna · date 2026-01-20
+person.moved-away:person_c5c33fd35d6169b4:2025-03-01 [core.log person.moved-away]
+   facts person:person_c5c33fd35d6169b4:residence=jurisdiction_ae6ce74aba911cf7
+  <- person_c5c340d35d616b67 [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_c5c33fd35d6169b4:2025-03-01:experienced","learnedAt":"2025-03-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_c5c33fd35d6169b4:2025-03-01:experienced","learnedAt":"2025-03-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_c5c33fd35d6169b4:2025-03-01:experienced","learnedAt":"2025-03-01","access":"perceived"}
+
+## core2-offices-v1.offices: 7 of 7
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":false,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":false,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-AS:us-house","level":"federal","jurisdiction":"US-AS","governmentName":"United States House of Representatives","kind":"us-house-delegate","title":"Delegate","seats":1,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-AS:governor","level":"state","jurisdiction":"US-AS","governmentName":"US-AS","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"Rev. Const. of American Samoa art. IV sec. 4; A.S.C.A. 4.0106 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":"{\"method\":\"successor\",\"successor\":\"lieutenant governor\",\"citation\":\"Rev. Const. of American Samoa art. IV sec. 4; A.S.C.A. 4.0106\",\"source\":\"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succes…"}
+  {"id":"office:US-AS:lieutenant-governor","level":"state","jurisdiction":"US-AS","governmentName":"US-AS","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.org/State_execu…"}
+  {"id":"office:US-AS:legislature-upper","level":"state","jurisdiction":"US-AS","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":0,"termYears":4,"elected":true,"districted":true,"coversTown":false,"source":"https://en.wikipedia.org/wiki/Comparison_of_U.S._state_and_territory_governments Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"county council of the senator's county under Samoan custom (fa'amatai)\",\"citation\":\"Rev. Const. of American Samoa art. II sec. 3\",\"source\":\"https://en.wikipedia.…"}
+  {"id":"office:US-AS:legislature-lower","level":"state","jurisdiction":"US-AS","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":0,"termYears":2,"elected":true,"districted":true,"coversTown":false,"source":"https://en.wikipedia.org/wiki/Comparison_of_U.S._state_and_territory_governments Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Rev. Const. of American Samoa art. II","source":"https://en.wikipedia.org/wiki/Comparison_of_U.S._state_and_territory_governments","estimate":true}}
+
+## core2-offices-v1.seats: 5 of 5
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":false,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":false,"party":"Republican"}
+  {"id":"seat:US-AS:us-house:at-large","officeId":"office:US-AS:us-house","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-AS:governor","officeId":"office:US-AS:governor","index":0,"coversTown":true}
+  {"id":"seat:US-AS:lieutenant-governor","officeId":"office:US-AS:lieutenant-governor","index":0,"coversTown":true}
+
+## core2-offices-v1.terms: 8 of 8
+  {"id":"term:seat:US-AS:us-house:at-large:2025-01-20:past:2","seatId":"seat:US-AS:us-house:at-large","officeId":"office:US-AS:us-house","identity":{"givenName":"Charles","familyName":"Castro","gender":"male","birthDate":"1959-09-26","homeState":"US-AS"},"party":"Republican","startDate":"2021-01-03","endDate":"2023-01-03","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-03","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.64}}
+  {"id":"term:seat:US-AS:us-house:at-large:2025-01-20:past:1","seatId":"seat:US-AS:us-house:at-large","officeId":"office:US-AS:us-house","identity":{"givenName":"Charles","familyName":"Castro","gender":"male","birthDate":"1959-09-26","homeState":"US-AS"},"party":"Republican","startDate":"2023-01-03","endDate":"2025-01-03","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-03","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.64}}
+  {"id":"term:seat:US-AS:lieutenant-governor:2025-01-20:past:1","seatId":"seat:US-AS:lieutenant-governor","officeId":"office:US-AS:lieutenant-governor","identity":{"givenName":"Kelly","familyName":"Watson","gender":"female","birthDate":"1968-02-01","homeState":"US-AS"},"startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Brett","familyName":"Dunn","gender":"male","birthDate":"1979-12-25","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Jennifer","familyName":"Yarbrough","gender":"female","birthDate":"1971-10-24","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-AS:us-house:at-large:2025-01-20","seatId":"seat:US-AS:us-house:at-large","officeId":"office:US-AS:us-house","personId":"official:term:seat:US-AS:us-house:at-large:2025-01-20","identity":{"givenName":"Charles","familyName":"Castro","gender":"male","birthDate":"1959-09-26","homeState":"US-AS"},"party":"Republican","startDate":"2025-01-03","endDate":"2027-01-03","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-03","elected":{"date":"2024-11-05","share":0.64}}
+  {"id":"term:seat:US-AS:governor:2025-01-20","seatId":"seat:US-AS:governor","officeId":"office:US-AS:governor","personId":"official:term:seat:US-AS:governor:2025-01-20","identity":{"givenName":"Kimberly","familyName":"Reyes","gender":"female","birthDate":"1970-07-15","homeState":"US-AS"},"startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-AS:lieutenant-governor:2025-01-20","seatId":"seat:US-AS:lieutenant-governor","officeId":"office:US-AS:lieutenant-governor","personId":"official:term:seat:US-AS:lieutenant-governor:2025-01-20","identity":{"givenName":"Kelly","familyName":"Watson","gender":"female","birthDate":"1968-02-01","homeState":"US-AS"},"startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-01","elected":{"date":"2024-11-05","share":0.56}}
+
+## core2-offices-v1.terms: 0 of 8
+
+## core2-elections-v1.contests: 0 of 3
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (26 bills)
+  office:US-AS:us-house 2025-10-01: 1
+  office:US-AS:us-house 2025-12-15: 25
+## bills by body and status
+  office:US-AS:us-house enacted: 3
+  office:US-AS:us-house failed: 19
+  office:US-AS:us-house vetoed: 4
+## sample federal bill
+  {"id":"bill:office:US-AS:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:0","number":"2025-001","bodyOfficeId":"office:US-AS:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":6268509829},{"kind":"budget-line","line":"transportation","value":18524910352},{"kind":"budget-line","line":"otherPrograms","value":-77548963239}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-AS:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:0","number":"2025-001","bodyOfficeId":"office:US-AS:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":6268509829},{"kind":"budget-line","line":"transportation","value":18524910352},{"kind":"budget-line","line":"otherPrograms","value":-77548963239}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+
+## federal and state log kinds: committee-hearing=20, budget-line-changed=17, legislative-vote=16, bill-held-in-committee=13, law-took-effect=7, chamber-organized=3, budget-adopted=2, inauguration=1, president.address=1
+
+## budget-adopted (2)
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 261-172, 69-31 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+  2025-10-01 {"governmentId":"US-AS","fiscalYear":"2025","adoptedBy":"carried forward by the budget rule until the council or legislature votes it"}
+
+## chamber-organized (3)
+  2025-01-20 {"speaker":"official:seat:US-FL:us-house:08","majority-leader":"official:seat:US-ID:us-house:02","minority-leader":"official:seat:US-TX:us-house:18","majority-whip":"official:seat:US-NC:us-house:07","minority-whip":"official:seat:US-OH:us-house:01"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-TN:us-senate:1","majority-leader":"official:seat:US-UT:us-senate:1","minority-leader":"official:seat:US-PA:us-senate:0","majority-whip":"official:seat:US-AR:us-senate:1","minority-whip":"official:seat:US-HI:us-senate:1"}
+  2025-12-15 {"council-president":"official:term:seat:US-AS:us-house:at-large:2025-01-20"}
+
+done 1.8 min

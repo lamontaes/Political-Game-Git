@@ -1,0 +1,454 @@
+# Southbridge Town, Massachusetts seed 9ff7c242b94b start 2025-01-20 built in 57s people 1951 orgs 128
+player person_937b3a9be889080e Ashley Love born 2007-01-21
+
+## year 1: 2025-01-20 -> 2026-01-20  76s  heap 2022MB  people 2002 alive 1998 orgs 146
+records this year: 21411; kinds: person.acted=20082, news.read=466, cause.shared=154, case.made=97, vote-recorded=92, speech.retold=76, committee-hearing=58, cause.volunteered=56, legislative-vote=48, budget-line-changed=41, bill-held-in-committee=38, speech.heard=29, law-took-effect=26, person.moved-away=22, cause.donated=18, interview-published=16, campaign-message=15, cause-group.ad-ran=12, seat-vacated=10, cause-group.joined=8, chamber-organized=5, drive.formed=5, drive.strengthened=5, public-comment=4, official-appointed=4, election-result=4, organization.closed=3, business.closed=3, budget-adopted=3, initiative.organizing-started=3, housing.completed=3, candidate-filed=1, cause-group.founded=1, association.requested=1, housing.eviction=1, took-office=1
+news items: 337 (federal 39: law-took-effect=7, legislative-vote=17, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:government-operations.ban-lobbying-after-office value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=50 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:224814:council","seatId":"seat:gus2025:224814:council:3","cause":"moved away","rule":"appointment"}
+  2025-02-04 chamber-organized {"mayor-pro-tem":"person_6f7c37a8b8b31e35"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:224814:council:2025-02-04:person:press:outlet:newspaper:2:jurisdiction_28826356f5a0d879:head:0:0","number":"2025-001","chamber":"office:gus2025:224814:council","yes":"1","no":"4"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:224814:council:2025-02-04:person:press:outlet:newspaper:2:jurisdiction_28826356f5a0d879:head:0:1","number":"2025-002","chamber":"office:gus2025:224814:council","yes":"2","no":"3"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:224814:council:2025-02-04:person:press:outlet:newspaper:2:jurisdiction_28826356f5a0d879:head:0:2","number":"2025-003","chamber":"office:gus2025:224814:council","yes":"1","no":"4"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:224814:council:2025-02-04:person:press:outlet:newspaper:2:jurisdiction_28826356f5a0d879:head:0:3","number":"2025-004","chamber":"office:gus2025:224814:council","yes":"1","no":"4"}
+  2025-02-19 official-appointed {"post":"city-attorney","appointedBy":"person_b302056703fe9be4"}
+  2025-02-19 official-appointed {"post":"police-chief","appointedBy":"person_b302056703fe9be4"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:224814:council","seatId":"seat:gus2025:224814:council:0","cause":"moved away","rule":"appointment"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:224814:council","seatId":"seat:gus2025:224814:council:4","cause":"moved away","rule":"appointment"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:224814:council","seatId":"seat:gus2025:224814:council:1","cause":"moved away","rule":"appointment"}
+  2025-03-06 chamber-organized {"mayor-pro-tem":"person_edb77bb86dbb57eb"}
+  2025-03-06 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 legislative-vote {"billId":"bill:office:gus2025:224814:council:2025-03-06:person_3bbeee5efe2ca35f:4","number":"2025-005","chamber":"office:gus2025:224814:council","yes":"3","no":"2"}
+  2025-03-21 official-appointed {"post":"fire-chief","appointedBy":"person_b302056703fe9be4"}
+  2025-03-21 official-appointed {"post":"planning","appointedBy":"person_b302056703fe9be4"}
+  2025-04-01 seat-vacated {"officeId":"office:gus2025:224814:council","seatId":"seat:gus2025:224814:council:2","cause":"moved away","rule":"appointment"}
+  2025-04-05 chamber-organized {"mayor-pro-tem":"person_0236c4a55d3f44d1"}
+  2025-05-01 organization.closed {"organization:organization_4e8c507b72b28c27:status":"closed","organization:organization_4e8c507b72b28c27:closure-source":"owner-closed:2025-05-01:organization_4e8c507b72b28c27"}
+  2025-05-01 business.closed {"organization:organization_4e8c507b72b28c27:closing-reason":"losses-kept"}
+  2025-06-01 seat-vacated {"officeId":"office:US-MA:legislature-lower","seatId":"seat:US-MA:lower:131:0","cause":"moved away","rule":"special-election"}
+  2025-06-30 chamber-organized {"speaker":"official:term:seat:US-MA:lower:062:0:2025-01-20","majority-leader":"official:term:seat:US-MA:lower:133:0:2025-01-20","minority-leader":"official:term:seat:US-MA:lower:112:0:2025-01-20","majority-whip":"official:term:seat:US-MA:lower:122:0:2025-01-2
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:5","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:5","number":"2025-001","chamber":"office:US-MA:legislature-lower","yes":"134","no":"25"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:5","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:5","number":"2025-001","chamber":"office:US-MA:legislature-upper","yes":"35","no":"5"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:6","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:7","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"2","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:8","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:8","number":"2025-004","chamber":"office:US-MA:legislature-lower","yes":"136","no":"23"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:8","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:8","number":"2025-004","chamber":"office:US-MA:legislature-upper","yes":"36","no":"4"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:9","number":"2025-005","chamber":"office:US-MA:legislature-lower","yes":"135","no":"24"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:9","number":"2025-005","chamber":"office:US-MA:legislature-upper","yes":"36","no":"4"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:126:0:2025-01-20:10","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:126:0:2025-01-20:10","number":"2025-006","chamber":"office:US-MA:legislature-lower","yes":"135","no":"24"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:126:0:2025-01-20:10","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:126:0:2025-01-20:10","number":"2025-006","chamber":"office:US-MA:legislature-upper","yes":"35","no":"5"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:11","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:11","number":"2025-007","chamber":"office:US-MA:legislature-lower","yes":"130","no":"29"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:11","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:11","number":"2025-007","chamber":"office:US-MA:legislature-upper","yes":"33","no":"7"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:12","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:13","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:14","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:14","number":"2025-010","chamber":"office:US-MA:legislature-lower","yes":"72","no":"87"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:004:0:2025-01-20:15","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:004:0:2025-01-20:15","number":"2025-011","chamber":"office:US-MA:legislature-lower","yes":"129","no":"30"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:004:0:2025-01-20:15","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:004:0:2025-01-20:15","number":"2025-011","chamber":"office:US-MA:legislature-upper","yes":"31","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:16","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:labor-workforce.local-minimum-wage-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:16","number":"2025-012","chamber":"office:US-MA:legislature-lower","yes":"132","no":"27"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:16","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:labor-workforce.local-minimum-wage-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:16","number":"2025-012","chamber":"office:US-MA:legislature-upper","yes":"35","no":"5"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"2","no":"9"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:19","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:20","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:21","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D33:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:government-operations.all-mail-voting","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D33:0:2025-01-20:22","number":"2025-018","chamber":"office:US-MA:legislature-lower","yes":"91","no":"68"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D33:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:government-operations.all-mail-voting","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D33:0:2025-01-20:22","number":"2025-018","chamber":"office:US-MA:legislature-upper","yes":"23","no":"17"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:117:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"11"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:24","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:civil-family-community.restrict-abortion","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:25","number":"2025-021","chamber":"office:US-MA:legislature-lower","yes":"123","no":"36"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:civil-family-community.restrict-abortion","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:25","number":"2025-021","chamber":"office:US-MA:legislature-upper","yes":"31","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:26","number":"2025-022","chamber":"office:US-MA:legislature-lower","yes":"78","no":"81"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:117:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"2","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:117:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D23:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-031","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D23:0:2025-01-20:35","number":"2025-031","chamber":"office:US-MA:legislature-lower","yes":"118","no":"41"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D23:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-MA:upper:D15:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-031","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D23:0:2025-01-20:35","number":"2025-031","chamber":"office:US-MA:legislature-upper","yes":"23","no":"17"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D39:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"2","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:39","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:40","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:43","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:44","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"11"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:45","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:46","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:47","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:48","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:081:0:2025-01-20:49","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:50","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:51","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:027:0:2025-01-20:52","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"11"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:upper:D23:0:2025-01-20:53","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:54","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:55","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:56","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:57","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:148:0:2025-01-20:58","committee":"general","chair":"official:term:seat:US-MA:lower:049:0:2025-01-20","yes":"0","no":"0"}
+  2025-07-01 budget-adopted {"governmentId":"US-MA","fiscalYear":"2025","adoptedBy":"the legislature vote 134-25, 35-5, 2025-055"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"administration","deltaMinor":"872524876","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"corrections","deltaMinor":"-406864134","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"healthAndHospitals","deltaMinor":"1568703289","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"higherEducation","deltaMinor":"3238234915","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"highways","deltaMinor":"-150445628","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"housing","deltaMinor":"1005425155","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"localAid","deltaMinor":"11501124115","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"naturalResources","deltaMinor":"312377999","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"otherPrograms","deltaMinor":"1984464317","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"parks","deltaMinor":"43295013","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"police","deltaMinor":"-580923093","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"schools","deltaMinor":"1255310445","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-MA","level":"state","line":"welfareAndMedicaid","deltaMinor":"38108639281","measureId":"budget:US-MA:2025"}
+  2025-07-01 budget-adopted {"governmentId":"place:2563345","fiscalYear":"2025","adoptedBy":"the council vote 3-2, 2025-006"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"administration","deltaMinor":"-772175","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"healthAndHospitals","deltaMinor":"-1230501","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"higherEducation","deltaMinor":"-26876","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"highways","deltaMinor":"136441","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"housing","deltaMinor":"-2419442","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"localAid","deltaMinor":"-667173","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"naturalResources","deltaMinor":"-37648","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"otherPrograms","deltaMinor":"-6002254","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"parks","deltaMinor":"-164290","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"police","deltaMinor":"2914965","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"schools","deltaMinor":"-15017830","measureId":"budget:place:2563345:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"place:2563345","level":"city","line":"welfareAndMedicaid","deltaMinor":"-140761","measureId":"budget:place:2563345:2025"}
+  2025-08-18 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-08-18 legislative-vote {"billId":"bill:office:gus2025:224814:council:2025-08-18:person_703a2ffd849851b0:61","number":"2025-007","chamber":"office:gus2025:224814:council","yes":"5","no":"0"}
+  2025-08-18 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-08-18 legislative-vote {"billId":"bill:office:gus2025:224814:council:2025-08-18:person_703a2ffd849851b0:62","number":"2025-008","chamber":"office:gus2025:224814:council","yes":"5","no":"0"}
+  2025-08-18 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-08-18 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-08-18 legislative-vote {"billId":"bill:office:gus2025:224814:council:2025-08-18:person_703a2ffd849851b0:63","number":"2025-009","chamber":"office:gus2025:224814:council","yes":"5","no":"0"}
+  2025-09-01 organization.closed {"organization:organization_da36803428bcc668:status":"closed","organization:organization_da36803428bcc668:closure-source":"owner-closed:2025-09-01:organization_da36803428bcc668"}
+deaths: 0
+election-ish kinds: official-appointed=4, election-result=4
+  E 2025-02-19 official-appointed {"post":"city-attorney","appointedBy":"person_b302056703fe9be4"}
+  E 2025-02-19 official-appointed {"post":"police-chief","appointedBy":"person_b302056703fe9be4"}
+  E 2025-03-21 official-appointed {"post":"fire-chief","appointedBy":"person_b302056703fe9be4"}
+  E 2025-03-21 official-appointed {"post":"planning","appointedBy":"person_b302056703fe9be4"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:224814:council:0:2025-11-04","office":"Council member","winnerId":"","totals":"{}"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:224814:council:2:2025-11-04","office":"Council member","winnerId":"","totals":"{}"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:224814:council:4:2025-11-04","office":"Council member","winnerId":"","totals":"{}"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:224814:mayor:0:2025-11-04","office":"Mayor","winnerId":"person_b302056703fe9be4","totals":"{\"person_b302056703fe9be4\":3894}","views:speaker":"person_b302056703fe9be4"}
+player: alive=true job=none cash=$0 home=household_9604ea6beb6f7f01
+
+### trace speech:party-meeting:party:US-MA:democratic:2026-01-15:retold:person_9fa51731e401a54e (speech.retold 2026-01-15)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+speech:party-meeting:party:US-MA:democratic:2026-01-15:retold:person_9fa51731e401a54e [core.log speech.retold]
+   facts views:speaker=person_9fa51731e401a54e
+  <- person_9fa51531e401a1e8 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:retold:person_9fa51731e401a54e:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:retold:person_9fa51731e401a54e:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:retold:person_9fa51731e401a54e:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:retold:person_9fa51731e401a54e:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-MA:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+speech:party-meeting:party:US-MA:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_937b389be88904a8
+  <- person_b302066703fe9d97 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MA:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:par
+
+### trace person.moved-away:person_82bc744a9d041d67:2026-01-01 (person.moved-away 2026-01-01)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+person.moved-away:person_82bc744a9d041d67:2026-01-01 [core.log person.moved-away]
+   facts person:person_82bc744a9d041d67:residence=jurisdiction_660e18bc5aac592d
+  <- person_82bc744a9d041d67 [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_82bc744a9d041d67:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_82bc744a9d041d67:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+### trace event:business.closed:organization_7da919b18fadafc1 (business.closed 2026-01-01)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+event:business.closed:organization_7da919b18fadafc1 [core.log business.closed]
+   facts organization:organization_7da919b18fadafc1:closing-reason=losses-kept
+  <- organization_7da919b18fadafc1 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2026-01-01:organization_7da919b18fadafc1 (organization.closed 2026-01-01)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+employer-closed:2026-01-01:organization_7da919b18fadafc1 [core.log organization.closed]
+   facts organization:organization_7da919b18fadafc1:status=closed organization:organization_7da919b18fadafc1:closure-source=owner-closed:2026-01-01:organization_7da919b18fadafc1
+  <- person_321b36e88e951213 [core.people person] via core.observe.perceived
+     value {"key":"event:employer-closed:2026-01-01:organization_7da919b18fadafc1:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+  children: record:core.log.placeId | record:core.log.personIds.0 | record:core.log.personIds.1 | learned:core.observe.perceived={"key":"event:employer-closed:2026-01-01:organization_7da919b18fadafc1:experienced","learnedAt":"2026-01-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2026-01-01:organization_7da919b18fadafc1:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+### trace law-took-effect:law:county:25027:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+law-took-effect:law:county:25027:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:25027:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:25027 tier=general value=1.283 unit=percent-of-home-value change=replaced replacesLawId=law:county:25027:county:property-tax:general:2026-01-01:from-start
+  <- law:county:25027:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-MA:us-house:2025-12-15:official:seat:US-CA:us-house:09:87:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+committee:bill:office:US-MA:us-house:2025-12-15:official:seat:US-CA:us-house:09:87:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-MA:us-house:2025-12-15:official:seat:US-CA:us-house:09:87 committee=general chair=official:seat:US-KY:us-house:06 yes=0 no=0
+  <- bill:office:US-MA:us-house:2025-12-15:official:seat:US-CA:us-house:09:87 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-MA:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace bill-vote:bill:office:US-MA:us-house:2025-12-15:official:seat:US-SD:us-senate:1:84:federal:us-house (legislative-vote 2025-12-15)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+bill-vote:bill:office:US-MA:us-house:2025-12-15:official:seat:US-SD:us-senate:1:84:federal:us-house [core.log legislative-vote]
+   facts billId=bill:office:US-MA:us-house:2025-12-15:official:seat:US-SD:us-senate:1:84 number=2025-020 chamber=federal:us-house yes=216 no=217
+  <- official:seat:US-AK:us-house:00 [core.people person] via core.log.personIds.0
+    <- household:official:seat:US-AK:us-house:00 [core.households household] via core.people.householdId
+      <- official:seat:US-AK:us-house:00 [core.people person] via core.households.memberIds.0
+        <- household:official:seat:US-AK:us-house:00 [core.households household] via core.people.householdId
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.personIds.14 | record:core.log.personIds.15 | record:core.log.personIds.16 | record:core.log.personIds.17 | record:core.log.personIds.18 | record:core.log.personIds.19 | record:core.log.personIds.20 | record:core.log.personIds.21 | record:core.log.personIds.22 | record:core.log.personIds.23 | record:core.log.personIds.24 | record:core.log.personIds.25 | record:core.log.personIds.26 | record:core.log.personIds.27 | record:core.log.personIds.28 | record:core.log.personIds.29 | record:core.log.personIds.30 | record:core.log.personIds.31 | record:core.log.personIds.32 | record:core.log.personIds.33 | record:core.log.personIds.34 | record:core.log.personIds.35 | record:core.log.personIds.36 | record:core.log.personIds.37 | record:core.log.personIds.38 | record:core.log.personIds.39 | record:core.log.personIds.40 | record:core.log.personIds.41 | record:core.log.personIds.42 | record:core.log.personIds.43 | record:core.log.personIds.44 | record:core.log.personIds.45 | record:core.log.personIds.46 | record:core.log.personIds.47 | record:core.log.person
+
+### trace vote-recorded:vote:2025-020:official:term:seat:US-MA:us-house:01:2025-01-20 (vote-recorded 2025-12-15)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+vote-recorded:vote:2025-020:official:term:seat:US-MA:us-house:01:2025-01-20 [core.log vote-recorded]
+   facts measureId=2025-020 question=us-policy-positions:technology-privacy.age-verification-for-social-media position=-1
+  <- official:term:seat:US-MA:us-house:01:2025-01-20 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11084867501755 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_28826356f5a0d879 [regional.places places] via core.log.placeId
+    <- region:25:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace event:housing.eviction:eviction:lease:household_d801987b77500ef5:2025-10-06 (housing.eviction 2025-11-06)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+event:housing.eviction:eviction:lease:household_d801987b77500ef5:2025-10-06 [core.log housing.eviction]
+  <- person_82bc744a9d041d67 [core.people person] via core.observe.perceived
+     value {"key":"event:event:housing.eviction:eviction:lease:household_d801987b77500ef5:2025-10-06:experienced","learnedAt":"2025-11-06","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:event:housing.eviction:eviction:lease:household_d801987b77500ef5:2025-10-06:experienced","learnedAt":"2025-11-06","access":"perceived"}
+
+### trace campaign-message:filing:contest:seat:gus2025:224814:mayor:0:2025-11-04:person_b302056703fe9be4:2025-11-04 (campaign-message 2025-11-04)
+trace report · seed 9ff7c242b94b · place 2563345 · date 2026-01-20
+campaign-message:filing:contest:seat:gus2025:224814:mayor:0:2025-11-04:person_b302056703fe9be4:2025-11-04 [core.log campaign-message]
+   facts campaignId=filing:contest:seat:gus2025:224814:mayor:0:2025-11-04:person_b302056703fe9be4 candidateId=person_b302056703fe9be4 views:speaker=person_b302056703fe9be4
+  <- person_ed9ce391fcd539f7 [core.people person] via core.observe.perceived
+     value {"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.witnessIds.8 | record:core.log.witnessIds.9 | record:core.log.witnessIds.10 | record:core.log.witnessIds.11 | record:core.log.witnessIds.12 | record:core.log.witnessIds.13 | record:core.log.witnessIds.14 | record:core.log.witnessIds.15 | record:core.log.witnessIds.16 | record:core.log.witnessIds.17 | record:core.log.witnessIds.18 | record:core.log.witnessIds.19 | record:core.log.witnessIds.20 | record:core.log.witnessIds.21 | record:core.log.witnessIds.22 | record:core.log.witnessIds.23 | record:core.log.witnessIds.24 | record:core.log.witnessIds.25 | record:core.log.witnessIds.26 | record:core.log.witnessIds.27 | record:core.log.witnessIds.28 | record:core.log.witnessIds.29 | record:core.log.witnessIds.30 | record:core.log.witnessIds.31 | record:core.log.witnessIds.32 | record:core.log.witnessIds.33 | record:core.log.witnessIds.34 | record:core.log.witnessIds.35 | record:core.log.witnessIds.36 | record:core.log.witnessIds.37 | record:core.log.witnessIds.38 | record:core.log.witnessIds.39 | record:core.log.placeId | record:core.log.facts.campaignId | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"
+
+## core2-offices-v1.offices: 12 of 14
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-MA:us-senate","level":"federal","jurisdiction":"US-MA","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-MA:us-house","level":"federal","jurisdiction":"US-MA","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":9,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-MA:governor","level":"state","jurisdiction":"US-MA","governmentName":"US-MA","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"Mass. Const. amend. art. LV https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":{"method":"successor","successor":"lieutenant governor","citation":"Mass. Const. amend. art. LV","source":"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false}}
+  {"id":"office:US-MA:lieutenant-governor","level":"state","jurisdiction":"US-MA","governmentName":"US-MA","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":{"method":"remains-vacant","citation":"State constitution executive article / election code (generic rule; not verified per office)","source":"https://ballotpedia.org/State_executive_offices","estimate":true}}
+  {"id":"office:US-MA:attorney-general","level":"state","jurisdiction":"US-MA","governmentName":"US-MA","kind":"attorney-general","title":"Attorney General","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MA:secretary-of-state","level":"state","jurisdiction":"US-MA","governmentName":"US-MA","kind":"secretary-of-state","title":"Secretary of the Commonwealth","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MA:treasurer","level":"state","jurisdiction":"US-MA","governmentName":"US-MA","kind":"treasurer","title":"Treasurer and Receiver-General","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MA:auditor","level":"state","jurisdiction":"US-MA","governmentName":"US-MA","kind":"auditor","title":"State Auditor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MA:legislature-upper","level":"state","jurisdiction":"US-MA","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":40,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Mass. Gen. Laws ch. 3 sec. 10","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+  {"id":"office:US-MA:legislature-lower","level":"state","jurisdiction":"US-MA","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":160,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Mass. Gen. Laws ch. 3 sec. 10","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+
+## core2-offices-v1.seats: 10 of 225
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MA:us-senate:0","officeId":"office:US-MA:us-senate","index":0,"coversTown":true,"party":"Democrat","electionYear":2030}
+  {"id":"seat:US-MA:us-senate:1","officeId":"office:US-MA:us-senate","index":1,"coversTown":true,"party":"Democrat","electionYear":2026}
+  {"id":"seat:US-MA:governor","officeId":"office:US-MA:governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MA:lieutenant-governor","officeId":"office:US-MA:lieutenant-governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MA:attorney-general","officeId":"office:US-MA:attorney-general","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MA:secretary-of-state","officeId":"office:US-MA:secretary-of-state","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MA:treasurer","officeId":"office:US-MA:treasurer","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MA:auditor","officeId":"office:US-MA:auditor","index":0,"coversTown":true,"party":"Democratic"}
+
+## core2-offices-v1.terms: 14 of 757
+  {"id":"term:seat:US-MA:governor:2025-01-20:past:1","seatId":"seat:US-MA:governor","officeId":"office:US-MA:governor","identity":{"givenName":"Angela","familyName":"Wilder","gender":"female","birthDate":"1979-11-06","homeState":"US-MA"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-MA:secretary-of-state:2025-01-20:past:3","seatId":"seat:US-MA:secretary-of-state","officeId":"office:US-MA:secretary-of-state","identity":{"givenName":"Peter","familyName":"Rodriguez","gender":"male","birthDate":"1959-12-06","homeState":"US-MA"},"party":"Democratic","startDate":"2011-01-01","endDate":"2015-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2011-01-01","endedBy":"re-elected","elected":{"date":"2010-11-02","share":0.56}}
+  {"id":"term:seat:US-MA:secretary-of-state:2025-01-20:past:2","seatId":"seat:US-MA:secretary-of-state","officeId":"office:US-MA:secretary-of-state","identity":{"givenName":"Peter","familyName":"Rodriguez","gender":"male","birthDate":"1959-12-06","homeState":"US-MA"},"party":"Democratic","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2011-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.56}}
+  {"id":"term:seat:US-MA:secretary-of-state:2025-01-20:past:1","seatId":"seat:US-MA:secretary-of-state","officeId":"office:US-MA:secretary-of-state","identity":{"givenName":"Peter","familyName":"Rodriguez","gender":"male","birthDate":"1959-12-06","homeState":"US-MA"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2011-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-MA:treasurer:2025-01-20:past:1","seatId":"seat:US-MA:treasurer","officeId":"office:US-MA:treasurer","identity":{"givenName":"Robert","familyName":"Martin","gender":"male","birthDate":"1961-05-23","homeState":"US-MA"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-MA:auditor:2025-01-20:past:1","seatId":"seat:US-MA:auditor","officeId":"office:US-MA:auditor","identity":{"givenName":"Angela","familyName":"Sinclair","gender":"female","birthDate":"1974-12-19","homeState":"US-MA"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Charles","familyName":"Hines","gender":"male","birthDate":"1978-05-27","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Sharon","familyName":"Mathews","gender":"female","birthDate":"1976-05-11","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-MA:governor:2025-01-20","seatId":"seat:US-MA:governor","officeId":"office:US-MA:governor","personId":"official:term:seat:US-MA:governor:2025-01-20","identity":{"givenName":"Angela","familyName":"Wilder","gender":"female","birthDate":"1979-11-06","homeState":"US-MA"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MA:lieutenant-governor:2025-01-20","seatId":"seat:US-MA:lieutenant-governor","officeId":"office:US-MA:lieutenant-governor","personId":"official:term:seat:US-MA:lieutenant-governor:2025-01-20","identity":{"givenName":"Frank","familyName":"Parsons","gender":"male","birthDate":"1958-08-11","homeState":"US-MA"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MA:attorney-general:2025-01-20","seatId":"seat:US-MA:attorney-general","officeId":"office:US-MA:attorney-general","personId":"official:term:seat:US-MA:attorney-general:2025-01-20","identity":{"givenName":"Brian","familyName":"Wade","gender":"male","birthDate":"1970-08-20","homeState":"US-MA"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MA:secretary-of-state:2025-01-20","seatId":"seat:US-MA:secretary-of-state","officeId":"office:US-MA:secretary-of-state","personId":"official:term:seat:US-MA:secretary-of-state:2025-01-20","identity":{"givenName":"Peter","familyName":"Rodriguez","gender":"male","birthDate":"1959-12-06","homeState":"US-MA"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2011-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MA:treasurer:2025-01-20","seatId":"seat:US-MA:treasurer","officeId":"office:US-MA:treasurer","personId":"official:term:seat:US-MA:treasurer:2025-01-20","identity":{"givenName":"Robert","familyName":"Martin","gender":"male","birthDate":"1961-05-23","homeState":"US-MA"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MA:auditor:2025-01-20","seatId":"seat:US-MA:auditor","officeId":"office:US-MA:auditor","personId":"official:term:seat:US-MA:auditor:2025-01-20","identity":{"givenName":"Angela","familyName":"Sinclair","gender":"female","birthDate":"1974-12-19","homeState":"US-MA"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+
+## core2-offices-v1.terms: 684 of 757
+  {"id":"term:seat:US-MA:upper:D01:0:2025-01-20:past:6","seatId":"seat:US-MA:upper:D01:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"William","familyName":"Freeman","gender":"male","birthDate":"1973-09-22","homeState":"US-MA"},"startDate":"2013-01-01","endDate":"2015-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2012-11-06","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D01:0:2025-01-20:past:5","seatId":"seat:US-MA:upper:D01:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"William","familyName":"Freeman","gender":"male","birthDate":"1973-09-22","homeState":"US-MA"},"startDate":"2015-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D01:0:2025-01-20:past:4","seatId":"seat:US-MA:upper:D01:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"William","familyName":"Freeman","gender":"male","birthDate":"1973-09-22","homeState":"US-MA"},"startDate":"2017-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D01:0:2025-01-20:past:3","seatId":"seat:US-MA:upper:D01:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"William","familyName":"Freeman","gender":"male","birthDate":"1973-09-22","homeState":"US-MA"},"startDate":"2019-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D01:0:2025-01-20:past:2","seatId":"seat:US-MA:upper:D01:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"William","familyName":"Freeman","gender":"male","birthDate":"1973-09-22","homeState":"US-MA"},"startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D01:0:2025-01-20:past:1","seatId":"seat:US-MA:upper:D01:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"William","familyName":"Freeman","gender":"male","birthDate":"1973-09-22","homeState":"US-MA"},"startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D02:0:2025-01-20:past:1","seatId":"seat:US-MA:upper:D02:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"Kathryn","familyName":"Conway","gender":"female","birthDate":"1944-09-11","homeState":"US-MA"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2023-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D04:0:2025-01-20:past:3","seatId":"seat:US-MA:upper:D04:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"Richard","familyName":"Blanchard","gender":"male","birthDate":"1945-03-22","homeState":"US-MA"},"startDate":"2019-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D04:0:2025-01-20:past:2","seatId":"seat:US-MA:upper:D04:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"Richard","familyName":"Blanchard","gender":"male","birthDate":"1945-03-22","homeState":"US-MA"},"startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D04:0:2025-01-20:past:1","seatId":"seat:US-MA:upper:D04:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"Richard","familyName":"Blanchard","gender":"male","birthDate":"1945-03-22","homeState":"US-MA"},"startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D05:0:2025-01-20:past:2","seatId":"seat:US-MA:upper:D05:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"Katherine","familyName":"Gutierrez","gender":"female","birthDate":"1945-01-09","homeState":"US-MA"},"startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MA:upper:D05:0:2025-01-20:past:1","seatId":"seat:US-MA:upper:D05:0","officeId":"office:US-MA:legislature-upper","identity":{"givenName":"Katherine","familyName":"Gutierrez","gender":"female","birthDate":"1945-01-09","homeState":"US-MA"},"startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+
+## core2-elections-v1.contests: 0 of 22
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (90 bills)
+  office:US-MA:legislature-lower 2025-06-30: 54
+  office:US-MA:legislature-lower 2025-07-01: 1
+  office:US-MA:us-house 2025-10-01: 1
+  office:US-MA:us-house 2025-12-15: 24
+  office:gus2025:224814:council 2025-02-04: 4
+  office:gus2025:224814:council 2025-03-06: 1
+  office:gus2025:224814:council 2025-07-01: 1
+  office:gus2025:224814:council 2025-08-18: 3
+  office:gus2025:224814:council 2025-09-17: 1
+## bills by body and status
+  office:US-MA:legislature-lower enacted: 10
+  office:US-MA:legislature-lower failed: 44
+  office:US-MA:legislature-lower vetoed: 1
+  office:US-MA:us-house enacted: 4
+  office:US-MA:us-house failed: 21
+  office:gus2025:224814:council enacted: 1
+  office:gus2025:224814:council failed: 4
+  office:gus2025:224814:council overridden: 4
+  office:gus2025:224814:council vetoed: 1
+## sample federal bill
+  {"id":"bill:office:US-MA:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:65","number":"2025-001","bodyOfficeId":"office:US-MA:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":5077405795},{"kind":"budget-line","line":"transportation","value":15004919787},{"kind":"budget-line","line":"otherPrograms","value":-62813581868}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-MA:legislature-lower:2025-06-30:official:term:seat:US-MA:lower:049:0:2025-01-20:5","number":"2025-001","bodyOfficeId":"office:US-MA:legislature-lower","sponsorId":"official:term:seat:US-MA:lower:049:0:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:government-operations.same-day-voter-registration","value":1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted"}
+
+## federal and state log kinds: case.made=92, committee-hearing=58, vote-recorded=57, legislative-vote=39, bill-held-in-committee=38, budget-line-changed=29, law-took-effect=25, chamber-organized=6, seat-vacated=5, budget-adopted=2, inauguration=1, president.address=1
+
+## seat-vacated (5)
+  2025-06-01 {"officeId":"office:US-MA:legislature-lower","seatId":"seat:US-MA:lower:131:0","cause":"moved away","rule":"special-election"}
+  2025-09-26 {"officeId":"office:US-MA:legislature-upper","seatId":"seat:US-MA:upper:D04:0","cause":"death","rule":"special-election"}
+  2025-11-01 {"officeId":"office:US-MA:legislature-lower","seatId":"seat:US-MA:lower:072:0","cause":"moved away","rule":"special-election"}
+  2025-11-20 {"officeId":"office:US-MA:legislature-lower","seatId":"seat:US-MA:lower:057:0","cause":"death","rule":"special-election"}
+  2026-01-01 {"officeId":"office:US-MA:legislature-lower","seatId":"seat:US-MA:lower:063:0","cause":"moved away","rule":"special-election"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-MA","fiscalYear":"2025","adoptedBy":"the legislature vote 134-25, 35-5, 2025-055"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 254-179, 65-35 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (6)
+  2025-01-20 {"speaker":"official:seat:US-FL:us-house:28","majority-leader":"official:seat:US-NJ:us-house:04","minority-leader":"official:seat:US-NV:us-house:04","majority-whip":"official:seat:US-FL:us-house:12","minority-whip":"official:seat:US-CA:us-house:24"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-MT:us-senate:0","majority-leader":"official:seat:US-AR:us-senate:0","minority-leader":"official:seat:US-NY:us-senate:0","majority-whip":"official:seat:US-KY:us-senate:1","minority-whip":"official:seat:US-NH:us-senate:0"}
+  2025-01-20 {"speaker":"official:term:seat:US-MA:lower:062:0:2025-01-20","majority-leader":"official:term:seat:US-MA:lower:133:0:2025-01-20","minority-leader":"official:term:seat:US-MA:lower:112:0:2025-01-20","majority-whip":"official:term:seat:US-MA:lower:122:0:2025-01-20","minority-whip":"official:term:seat:US-MA:lower:044:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-MA:upper:D38:0:2025-01-20","majority-leader":"official:term:seat:US-MA:upper:D08:0:2025-01-20","minority-leader":"official:term:seat:US-MA:upper:D01:0:2025-01-20","majority-whip":"official:term:seat:US-MA:upper:D17:0:2025-01-20","minority-whip":"official:term:seat:US-MA:upper:D33:0:2025-01-20"}
+  2025-06-30 {"speaker":"official:term:seat:US-MA:lower:062:0:2025-01-20","majority-leader":"official:term:seat:US-MA:lower:133:0:2025-01-20","minority-leader":"official:term:seat:US-MA:lower:112:0:2025-01-20","majority-whip":"official:term:seat:US-MA:lower:122:0:2025-01-20","minority-whip":"official:term:seat:US-MA:lower:044:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-MA:us-house:08:2025-01-20"}
+
+done 2.2 min

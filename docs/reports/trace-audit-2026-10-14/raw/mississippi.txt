@@ -1,0 +1,480 @@
+# Fayette, Mississippi seed 984f104b965b start 2025-01-20 built in 51s people 1816 orgs 104
+player person_490ec29703c03976 Jonathan Le born 2007-01-22
+
+## year 1: 2025-01-20 -> 2026-01-20  86s  heap 2380MB  people 1882 alive 1882 orgs 149
+records this year: 21226; kinds: person.acted=17438, cause.shared=1094, cause.volunteered=997, speech.retold=264, cause.donated=255, news.read=212, vote-recorded=160, case.made=150, office.replied=69, speech.heard=68, office.approached=68, bill-held-in-committee=58, cause-group.joined=50, legislative-vote=46, budget-line-changed=41, law-took-effect=36, cause-group.ad-ran=34, committee-hearing=32, drive.strengthened=21, person.moved-away=16, drive.formed=13, recall-petition=13, campaign-message=13, public-comment=11, candidate-filed=8, seat-vacated=8, interview-published=8, election-result=6, initiative.organizing-started=5, housing.completed=5, took-office=5, chamber-organized=4, budget-adopted=4, official-appointed=3, cause-group.founded=3, association.requested=2, housing.eviction=2, organization.owner-changed=1, organization.closed=1, business.closed=1, law.effect-landed=1
+news items: 416 (federal 30: law-took-effect=7, legislative-vote=8, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01 2025-03-07)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=76.9 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  FED 2025-03-07 minimum-wage value=1500 minor/hour
+  2025-01-21 candidate-filed {"filingId":"filing:contest:seat:gus2025:168650:council:0:2025-06-03:person_80a9922ad70bb162","contestId":"contest:seat:gus2025:168650:council:0:2025-06-03","office":"Council member","electionDate":"2025-06-03","filedWith":"Municipal clerk"}
+  2025-01-21 candidate-filed {"filingId":"filing:contest:seat:gus2025:168650:council:2:2025-06-03:person_befbcc2cd3e7fdab","contestId":"contest:seat:gus2025:168650:council:2:2025-06-03","office":"Council member","electionDate":"2025-06-03","filedWith":"Municipal clerk"}
+  2025-01-21 candidate-filed {"filingId":"filing:contest:seat:gus2025:168650:council:3:2025-06-03:person_c5455a90f2d33dfd","contestId":"contest:seat:gus2025:168650:council:3:2025-06-03","office":"Council member","electionDate":"2025-06-03","filedWith":"Municipal clerk"}
+  2025-01-21 candidate-filed {"filingId":"filing:contest:seat:gus2025:168650:council:4:2025-06-03:person_e84275def76322d5","contestId":"contest:seat:gus2025:168650:council:4:2025-06-03","office":"Council member","electionDate":"2025-06-03","filedWith":"Municipal clerk"}
+  2025-01-21 candidate-filed {"filingId":"filing:contest:seat:gus2025:168650:mayor:0:2025-06-03:person_6605a9ab773b0ab3","contestId":"contest:seat:gus2025:168650:mayor:0:2025-06-03","office":"Mayor","electionDate":"2025-06-03","filedWith":"Municipal clerk"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:168573:board","seatId":"seat:gus2025:168573:board:2","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:168573:assessor","seatId":"seat:gus2025:168573:assessor:0","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:168573:sheriff","seatId":"seat:gus2025:168573:sheriff:0","cause":"moved away","rule":"appointment"}
+  2025-02-04 chamber-organized {"council-president":"person_ede6e73824b82221"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-04:person_37d5eb01bbebf7cf:0","for":"1","against":"5"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-04:person_37d5eb01bbebf7cf:1","for":"1","against":"5"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-04:person_37d5eb01bbebf7cf:2","for":"1","against":"5"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-04:person_37d5eb01bbebf7cf:3","for":"1","against":"4"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-04:person_37d5eb01bbebf7cf:4","for":"1","against":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-02-04 chamber-organized {"mayor-pro-tem":"person_80a9922ad70bb162"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:168650:council:2025-02-04:person_e84275def76322d5:13","number":"2025-001","chamber":"office:gus2025:168650:council","yes":"1","no":"4"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:168650:council:2025-02-04:person_e84275def76322d5:14","number":"2025-002","chamber":"office:gus2025:168650:council","yes":"2","no":"3"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:168650:council:2025-02-04:person_c23a3bb3d996dffa:15","number":"2025-003","chamber":"office:gus2025:168650:council","yes":"3","no":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:168650:council:2025-02-04:person_c23a3bb3d996dffa:16","number":"2025-004","chamber":"office:gus2025:168650:council","yes":"3","no":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:168650:council:2025-02-04:person_e84275def76322d5:17","number":"2025-005","chamber":"office:gus2025:168650:council","yes":"1","no":"4"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-19:person_37d5eb01bbebf7cf:21","for":"4","against":"2"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-19:person_37d5eb01bbebf7cf:22","for":"4","against":"2"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-19:person_37d5eb01bbebf7cf:23","for":"4","against":"2"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:168573:board:2025-02-19:person_37d5eb01bbebf7cf:25","for":"2","against":"0"}
+  2025-02-19 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-03-01 organization.owner-changed {}
+  2025-03-06 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-03-06:2025-001","series":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","level":"county","juri
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:168573:board:1:2025-01-20:2025-03-06","termId":"term:seat:gus2025:168573:board:1:2025-01-20","lawId":"law:county:28063:county:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-0
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:168573:board:2:2025-02-01:2025-03-06","termId":"term:seat:gus2025:168573:board:2:2025-02-01","lawId":"law:county:28063:county:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-0
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:168573:board:3:2025-01-20:2025-03-06","termId":"term:seat:gus2025:168573:board:3:2025-01-20","lawId":"law:county:28063:county:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-0
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:168573:board:4:2025-01-20:2025-03-06","termId":"term:seat:gus2025:168573:board:4:2025-01-20","lawId":"law:county:28063:county:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-0
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:168573:board:5:2025-01-20:2025-03-06","termId":"term:seat:gus2025:168573:board:5:2025-01-20","lawId":"law:county:28063:county:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-0
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:168573:board:6:2025-01-20:2025-03-06","termId":"term:seat:gus2025:168573:board:6:2025-01-20","lawId":"law:county:28063:county:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-0
+  2025-03-06 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:labor-workforce.paid-family-leave:general:2025-03-06:2025-002","series":"us-policy-positions:labor-workforce.paid-family-leave","level":"county","jurisdiction":"county:28063","tier":"general","value":"1","u
+  2025-03-06 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:2025-003","series":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","level":"county","jurisdiction":"county:2806
+  2025-03-06 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-03-06:2025-004","series":"us-policy-positions:labor-workforce.raise-minimum-wage","level":"county","jurisdiction":"county:28063","tier":"general","value":"1",
+  2025-03-06 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-03-06:2025-005","series":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","level":"county","
+  2025-03-06 public-comment {"billId":"bill:office:gus2025:168573:board:2025-03-06:person_37d5eb01bbebf7cf:29","for":"2","against":"0"}
+  2025-03-06 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-023","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-023","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-023","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-023","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-023","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-023","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-03-21 official-appointed {"post":"police-chief","appointedBy":"person_6605a9ab773b0ab3"}
+  2025-03-21 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-03-21:2025-014","series":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","level":"county","jurisdiction
+  2025-03-21 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-03-21:2025-015","series":"us-policy-positions:business-commerce.legalize-cannabis-sales","level":"county","jurisdiction":"county:28063","tier":"general
+  2025-03-21 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-03-21:2025-016","series":"us-policy-positions:housing-land-use.inclusionary-requirement","level":"county","jurisdiction":"county:28063","tier":"general
+  2025-03-21 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:education.universal-preschool:general:2025-03-21:2025-017","series":"us-policy-positions:education.universal-preschool","level":"county","jurisdiction":"county:28063","tier":"general","value":"1","unit":"",
+  2025-03-21 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-03-21:2025-018","series":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","level":"county","jurisdiction
+  2025-04-05 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-04-05:2025-022","series":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","level":"county","jurisdiction":"county:28063","tier":
+  2025-04-05 law-took-effect {"lawId":"law:county:28063:county:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-04-05:2025-023","series":"us-policy-positions:government-operations.ban-lobbying-after-office","level":"county","jurisdiction":"county:28063","ti
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"4","no":"7"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"5","no":"6"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"4","no":"7"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:35","number":"2025-004","chamber":"office:US-MS:legislature-lower","yes":"82","no":"40"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-MS:upper:023:0:2025-01-20","yes":"8","no":"3"}
+  2025-04-06 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:35","number":"2025-004","chamber":"office:US-MS:legislature-upper","yes":"38","no":"14"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"4","no":"7"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:government-operations.legislative-term-limits","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:37","number":"2025-006","chamber":"office:US-MS:legislature-lower","yes":"81","no":"41"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-MS:upper:023:0:2025-01-20","yes":"8","no":"3"}
+  2025-04-06 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:government-operations.legislative-term-limits","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:37","number":"2025-006","chamber":"office:US-MS:legislature-upper","yes":"36","no":"16"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"6","no":"5"}
+  2025-04-06 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:38","number":"2025-007","chamber":"office:US-MS:legislature-lower","yes":"81","no":"41"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-MS:upper:023:0:2025-01-20","yes":"9","no":"2"}
+  2025-04-06 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:38","number":"2025-007","chamber":"office:US-MS:legislature-upper","yes":"36","no":"16"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:39","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:transportation-infrastructure.public-broadband","position":"1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:39","number":"2025-008","chamber":"office:US-MS:legislature-lower","yes":"80","no":"42"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:39","committee":"general","chair":"official:term:seat:US-MS:upper:023:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:transportation-infrastructure.public-broadband","position":"1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:39","number":"2025-008","chamber":"office:US-MS:legislature-upper","yes":"35","no":"17"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:103:0:2025-01-20:40","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"9","no":"2"}
+  2025-04-06 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:103:0:2025-01-20:40","number":"2025-009","chamber":"office:US-MS:legislature-lower","yes":"91","no":"31"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:103:0:2025-01-20:40","committee":"general","chair":"official:term:seat:US-MS:upper:023:0:2025-01-20","yes":"11","no":"0"}
+  2025-04-06 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:103:0:2025-01-20:40","number":"2025-009","chamber":"office:US-MS:legislature-upper","yes":"41","no":"11"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.raise-juvenile-court-age","position":"1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:41","number":"2025-010","chamber":"office:US-MS:legislature-lower","yes":"68","no":"54"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-MS:upper:023:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.raise-juvenile-court-age","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:41","number":"2025-010","chamber":"office:US-MS:legislature-upper","yes":"33","no":"19"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:health-human-services.medicaid-work-requirement","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:42","number":"2025-011","chamber":"office:US-MS:legislature-lower","yes":"77","no":"45"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-MS:upper:023:0:2025-01-20","yes":"8","no":"3"}
+  2025-04-06 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:health-human-services.medicaid-work-requirement","position":"-1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:42","number":"2025-011","chamber":"office:US-MS:legislature-upper","yes":"33","no":"19"}
+  2025-04-06 bill-held-in-committee {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:43","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"0","no":"0"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:44","committee":"general","chair":"official:term:seat:US-MS:lower:090:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:fiscal.adopt-income-tax","position":"1"}
+  2025-04-06 legislative-vote {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:44","number":"2025-013","chamber":"office:US-MS:legislature-lower","yes":"79","no":"43"}
+  2025-04-06 committee-hearing {"billId":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:lower:061:0:2025-01-20:44","committee":"general","chair":"official:term:seat:US-MS:upper:023:0:2025-01-20","yes":"7","no":"4"}
+  2025-04-06 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:fiscal.adopt-income-tax","position":"1"}
+deaths: 0
+election-ish kinds: official-appointed=3, election-result=6
+  E 2025-02-19 official-appointed {"post":"police-chief","appointedBy":"person_6605a9ab773b0ab3"}
+  E 2025-03-21 official-appointed {"post":"police-chief","appointedBy":"person_6605a9ab773b0ab3"}
+  E 2025-06-03 election-result {"contestId":"contest:seat:gus2025:168650:council:0:2025-06-03","office":"Council member","winnerId":"person_80a9922ad70bb162","totals":"{\"person_80a9922ad70bb162\":1458}","views:speaker":"person_80a9922ad70bb162"}
+  E 2025-06-03 election-result {"contestId":"contest:seat:gus2025:168650:council:1:2025-06-03","office":"Council member","winnerId":"","totals":"{}"}
+  E 2025-06-03 election-result {"contestId":"contest:seat:gus2025:168650:council:2:2025-06-03","office":"Council member","winnerId":"person_befbcc2cd3e7fdab","totals":"{\"person_befbcc2cd3e7fdab\":1458}","views:speaker":"person_befbcc2cd3e7fdab"}
+  E 2025-06-03 election-result {"contestId":"contest:seat:gus2025:168650:council:3:2025-06-03","office":"Council member","winnerId":"person_c5455a90f2d33dfd","totals":"{\"person_c5455a90f2d33dfd\":1461}","views:speaker":"person_c5455a90f2d33dfd"}
+  E 2025-06-03 election-result {"contestId":"contest:seat:gus2025:168650:council:4:2025-06-03","office":"Council member","winnerId":"person_e84275def76322d5","totals":"{\"person_e84275def76322d5\":1461}","views:speaker":"person_e84275def76322d5"}
+  E 2025-06-03 election-result {"contestId":"contest:seat:gus2025:168650:mayor:0:2025-06-03","office":"Mayor","winnerId":"person_6605a9ab773b0ab3","totals":"{\"person_6605a9ab773b0ab3\":1461}","views:speaker":"person_6605a9ab773b0ab3"}
+  E 2025-08-18 official-appointed {"post":"planning","appointedBy":"person_6605a9ab773b0ab3"}
+player: alive=true job=Server cash=$725 home=household_3b78a9f0a36caf12
+
+### trace bill-vote:bill:office:gus2025:168573:board:2026-01-15:person_ede6e73824b82221:114:office:gus2025:168573:board (legislative-vote 2026-01-15)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+bill-vote:bill:office:gus2025:168573:board:2026-01-15:person_ede6e73824b82221:114:office:gus2025:168573:board [core.log legislative-vote]
+   facts billId=bill:office:gus2025:168573:board:2026-01-15:person_ede6e73824b82221:114 number=2026-001 chamber=office:gus2025:168573:board yes=5 no=2
+  <- person_ede6e73824b82221 [core.people person] via core.observe.perceived
+     value {"key":"billId","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chamber | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:bill-vote:bill:office:gus2025:168573:board:2026-01-15:person_ede6e73824b82221:114:office:gus2025:168573:board:experienced","learnedAt":"2026-01-15
+
+### trace vote-recorded:vote:2026-001:person_743642ac80687d34 (vote-recorded 2026-01-15)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+vote-recorded:vote:2026-001:person_743642ac80687d34 [core.log vote-recorded]
+   facts measureId=2026-001 question=us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal position=-1
+  <- person_743642ac80687d34 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"measureId","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-MS:democratic:2026-01-15:retold:person_a9fcd036b6a3ee05 (speech.retold 2026-01-15)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+speech:party-meeting:party:US-MS:democratic:2026-01-15:retold:person_a9fcd036b6a3ee05 [core.log speech.retold]
+   facts views:speaker=person_a9fcd036b6a3ee05
+  <- person_a9fccf36b6a3ec52 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-MS:democratic:2026-01-15:retold:person_a9fcd036b6a3ee05:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MS:democratic:2026-01-15:retold:person_a9fcd036b6a3ee05:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MS:democratic:2026-01-15:retold:person_a9fcd036b6a3ee05:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-MS:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+speech:party-meeting:party:US-MS:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_befbce2cd3e80111
+  <- person_befbce2cd3e80111 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-MS:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.placeId | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MS:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MS:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MS:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MS:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace campaign-message:filing:contest:seat:US-MS:us-house:02:2026-11-03:official:term:seat:US-MS:us-house:02:2025-01-20:2026-01-09 (campaign-message 2026-01-09)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+campaign-message:filing:contest:seat:US-MS:us-house:02:2026-11-03:official:term:seat:US-MS:us-house:02:2025-01-20:2026-01-09 [core.log campaign-message]
+   facts campaignId=filing:contest:seat:US-MS:us-house:02:2026-11-03:official:term:seat:US-MS:us-house:02:2025-01-20 candidateId=official:term:seat:US-MS:us-house:02:2025-01-20 views:speaker=official:term:seat:US-MS:us-house:02:2025-01-20
+  <- person_befbcc2cd3e7fdab [core.people person] via core.observe.perceived
+     value {"key":"candidateId","learnedAt":"2026-01-09","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.witnessIds.8 | record:core.log.witnessIds.9 | record:core.log.witnessIds.10 | record:core.log.witnessIds.11 | record:core.log.witnessIds.12 | record:core.log.witnessIds.13 | record:core.log.witnessIds.14 | record:core.log.witnessIds.15 | record:core.log.witnessIds.16 | record:core.log.witnessIds.17 | record:core.log.witnessIds.18 | record:core.log.witnessIds.19 | record:core.log.witnessIds.20 | record:core.log.witnessIds.21 | record:core.log.placeId | record:core.log.facts.campaignId | learned:core.observe.perceived={"key":"candidateId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"event:campaign-message:filing:contest:seat:US-MS:us-house:02:2026-11-03:official:term:seat:US-MS:us-house:02:2025-01-20:2026-01-09:experienced","learned | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"candidateId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observ
+
+### trace person.moved-away:person_743642ac80687d34:2026-01-01 (person.moved-away 2026-01-01)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+person.moved-away:person_743642ac80687d34:2026-01-01 [core.log person.moved-away]
+   facts person:person_743642ac80687d34:residence=jurisdiction_fbdc085005b0f2cd
+  <- person_743642ac80687d34 [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_743642ac80687d34:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_743642ac80687d34:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_743642ac80687d34:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_743642ac80687d34:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+### trace law-took-effect:law:county:28063:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+law-took-effect:law:county:28063:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:28063:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:28063 tier=general value=0.859 unit=percent-of-home-value change=replaced replacesLawId=law:county:28063:county:property-tax:general:2026-01-01:from-start
+  <- law:county:28063:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:28063 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:28063 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_3f2bb2276e3af0e2 [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-MS:us-house:2025-12-15:official:seat:US-NC:us-house:02:113:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+committee:bill:office:US-MS:us-house:2025-12-15:official:seat:US-NC:us-house:02:113:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-MS:us-house:2025-12-15:official:seat:US-NC:us-house:02:113 committee=general chair=official:seat:US-NY:us-house:01 yes=0 no=0
+  <- bill:office:US-MS:us-house:2025-12-15:official:seat:US-NC:us-house:02:113 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- law:county:28063:county:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-05-20:2025-025 [core2-outcome-web-v1.laws laws] via core2-laws-v1.enactLaw
+      <- us-policy-positions:transportation-infrastructure.public-broadband [core2-law-reach-b-v1.active active] via core2-outcome-web-v1.laws.series
+        <- law:US-MS:state:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-06-05:2025-008 [core2-outcome-web-v1.laws laws] via core2-law-reach-b-v1.active.lawId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11082962894112 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_3f2bb2276e3af0e2 [regional.places places] via core.log.placeId
+    <- region:28:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace event:law.effect-landed:2025-12-15:retirement-claim:person_684930880a09393a:own (law.effect-landed 2025-12-15)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+event:law.effect-landed:2025-12-15:retirement-claim:person_684930880a09393a:own [core.log law.effect-landed]
+   facts obligationId=retirement-claim:person_684930880a09393a:own fromMinor=152830 toMinor=107921
+  <- person_684930880a09393a [core.people person] via core.observe.perceived
+     value {"key":"event:event:law.effect-landed:2025-12-15:retirement-claim:person_684930880a09393a:own:experienced","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.obligationId | learned:core.observe.perceived={"key":"event:event:law.effect-landed:2025-12-15:retirement-claim:person_684930880a09393a:own:experienced","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace event:business.closed:organization_bbaa1da31dd98771 (business.closed 2025-10-01)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+event:business.closed:organization_bbaa1da31dd98771 [core.log business.closed]
+   facts organization:organization_bbaa1da31dd98771:closing-reason=losses-kept
+  <- organization_bbaa1da31dd98771 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2025-10-01:organization_bbaa1da31dd98771 (organization.closed 2025-10-01)
+trace report · seed 984f104b965b · place 2824500 · date 2026-01-20
+employer-closed:2025-10-01:organization_bbaa1da31dd98771 [core.log organization.closed]
+   facts organization:organization_bbaa1da31dd98771:status=closed organization:organization_bbaa1da31dd98771:closure-source=owner-closed:2025-10-01:organization_bbaa1da31dd98771
+  <- person_09bc89689218fe16 [core.people person] via core.observe.perceived
+     value {"key":"event:employer-closed:2025-10-01:organization_bbaa1da31dd98771:experienced","learnedAt":"2025-10-01","access":"perceived"}
+
+  children: record:core.log.placeId | record:core.log.personIds.0 | learned:core.observe.perceived={"key":"event:employer-closed:2025-10-01:organization_bbaa1da31dd98771:experienced","learnedAt":"2025-10-01","access":"perceived"}
+
+## core2-offices-v1.offices: 14 of 22
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-MS:us-senate","level":"federal","jurisdiction":"US-MS","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-MS:us-house","level":"federal","jurisdiction":"US-MS","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":4,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-MS:governor","level":"state","jurisdiction":"US-MS","governmentName":"US-MS","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2027,"elected":true,"districted":false,"coversTown":true,"source":"Miss. Const. art. V sec. 131 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":{"method":"successor","successor":"lieutenant governor","citation":"Miss. Const. art. V sec. 131","source":"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false}}
+  {"id":"office:US-MS:lieutenant-governor","level":"state","jurisdiction":"US-MS","governmentName":"US-MS","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2027,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":{"method":"remains-vacant","citation":"State constitution executive article / election code (generic rule; not verified per office)","source":"https://ballotpedia.org/State_executive_offices","estimate":true}}
+  {"id":"office:US-MS:attorney-general","level":"state","jurisdiction":"US-MS","governmentName":"US-MS","kind":"attorney-general","title":"Attorney General","seats":1,"termYears":4,"nextElectionYear":2027,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MS:secretary-of-state","level":"state","jurisdiction":"US-MS","governmentName":"US-MS","kind":"secretary-of-state","title":"Secretary of State","seats":1,"termYears":4,"nextElectionYear":2027,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MS:treasurer","level":"state","jurisdiction":"US-MS","governmentName":"US-MS","kind":"treasurer","title":"Treasurer","seats":1,"termYears":4,"nextElectionYear":2027,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MS:auditor","level":"state","jurisdiction":"US-MS","governmentName":"US-MS","kind":"auditor","title":"State Auditor","seats":1,"termYears":4,"nextElectionYear":2027,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MS:agriculture-commissioner","level":"state","jurisdiction":"US-MS","governmentName":"US-MS","kind":"agriculture-commissioner","title":"Commissioner of Agriculture and Commerce","seats":1,"termYears":4,"nextElectionYear":2027,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MS:insurance-commissioner","level":"state","jurisdiction":"US-MS","governmentName":"US-MS","kind":"insurance-commissioner","title":"Insurance Commissioner","seats":1,"termYears":4,"nextElectionYear":2027,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MS:legislature-upper","level":"state","jurisdiction":"US-MS","governmentName":"State Senate","kind":"legislature-upper","title":"State Senator","seats":52,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Miss. Code sec. 23-15-851","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+  {"id":"office:US-MS:legislature-lower","level":"state","jurisdiction":"US-MS","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":122,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Miss. Code sec. 23-15-851","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+
+## core2-offices-v1.seats: 12 of 208
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MS:us-senate:0","officeId":"office:US-MS:us-senate","index":0,"coversTown":true,"party":"Republican","electionYear":2030}
+  {"id":"seat:US-MS:us-senate:1","officeId":"office:US-MS:us-senate","index":1,"coversTown":true,"party":"Republican","electionYear":2026}
+  {"id":"seat:US-MS:governor","officeId":"office:US-MS:governor","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MS:lieutenant-governor","officeId":"office:US-MS:lieutenant-governor","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MS:attorney-general","officeId":"office:US-MS:attorney-general","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MS:secretary-of-state","officeId":"office:US-MS:secretary-of-state","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MS:treasurer","officeId":"office:US-MS:treasurer","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MS:auditor","officeId":"office:US-MS:auditor","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MS:agriculture-commissioner","officeId":"office:US-MS:agriculture-commissioner","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MS:insurance-commissioner","officeId":"office:US-MS:insurance-commissioner","index":0,"coversTown":true,"party":"Republican"}
+
+## core2-offices-v1.terms: 25 of 437
+  {"id":"term:seat:US-MS:governor:2025-01-20:past:2","seatId":"seat:US-MS:governor","officeId":"office:US-MS:governor","identity":{"givenName":"Stanley","familyName":"Rogers","gender":"male","birthDate":"1957-04-07","homeState":"US-MS"},"party":"Republican","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.56}}
+  {"id":"term:seat:US-MS:governor:2025-01-20:past:1","seatId":"seat:US-MS:governor","officeId":"office:US-MS:governor","identity":{"givenName":"Stanley","familyName":"Rogers","gender":"male","birthDate":"1957-04-07","homeState":"US-MS"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.56}}
+  {"id":"term:seat:US-MS:lieutenant-governor:2025-01-20:past:1","seatId":"seat:US-MS:lieutenant-governor","officeId":"office:US-MS:lieutenant-governor","identity":{"givenName":"Joseph","familyName":"Marshall","gender":"male","birthDate":"1959-09-25","homeState":"US-MS"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2020-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.56}}
+  {"id":"term:seat:US-MS:secretary-of-state:2025-01-20:past:1","seatId":"seat:US-MS:secretary-of-state","officeId":"office:US-MS:secretary-of-state","identity":{"givenName":"Deborah","familyName":"Paul","gender":"female","birthDate":"1962-01-21","homeState":"US-MS"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2020-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.56}}
+  {"id":"term:seat:US-MS:treasurer:2025-01-20:past:3","seatId":"seat:US-MS:treasurer","officeId":"office:US-MS:treasurer","identity":{"givenName":"Michael","familyName":"Austin","gender":"male","birthDate":"1966-03-10","homeState":"US-MS"},"party":"Republican","startDate":"2012-01-01","endDate":"2016-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2012-01-01","endedBy":"re-elected","elected":{"date":"2011-11-08","share":0.56}}
+  {"id":"term:seat:US-MS:treasurer:2025-01-20:past:2","seatId":"seat:US-MS:treasurer","officeId":"office:US-MS:treasurer","identity":{"givenName":"Michael","familyName":"Austin","gender":"male","birthDate":"1966-03-10","homeState":"US-MS"},"party":"Republican","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2012-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.56}}
+  {"id":"term:seat:US-MS:treasurer:2025-01-20:past:1","seatId":"seat:US-MS:treasurer","officeId":"office:US-MS:treasurer","identity":{"givenName":"Michael","familyName":"Austin","gender":"male","birthDate":"1966-03-10","homeState":"US-MS"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2012-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.56}}
+  {"id":"term:seat:US-MS:auditor:2025-01-20:past:3","seatId":"seat:US-MS:auditor","officeId":"office:US-MS:auditor","identity":{"givenName":"Patricia","familyName":"Miller","gender":"female","birthDate":"1956-02-18","homeState":"US-MS"},"party":"Republican","startDate":"2012-01-01","endDate":"2016-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2012-01-01","endedBy":"re-elected","elected":{"date":"2011-11-08","share":0.56}}
+  {"id":"term:seat:US-MS:auditor:2025-01-20:past:2","seatId":"seat:US-MS:auditor","officeId":"office:US-MS:auditor","identity":{"givenName":"Patricia","familyName":"Miller","gender":"female","birthDate":"1956-02-18","homeState":"US-MS"},"party":"Republican","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2012-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.56}}
+  {"id":"term:seat:US-MS:auditor:2025-01-20:past:1","seatId":"seat:US-MS:auditor","officeId":"office:US-MS:auditor","identity":{"givenName":"Patricia","familyName":"Miller","gender":"female","birthDate":"1956-02-18","homeState":"US-MS"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2012-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.56}}
+  {"id":"term:seat:US-MS:agriculture-commissioner:2025-01-20:past:1","seatId":"seat:US-MS:agriculture-commissioner","officeId":"office:US-MS:agriculture-commissioner","identity":{"givenName":"Anthony","familyName":"Cox","gender":"male","birthDate":"1980-08-25","homeState":"US-MS"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2020-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.56}}
+  {"id":"term:seat:US-MS:insurance-commissioner:2025-01-20:past:4","seatId":"seat:US-MS:insurance-commissioner","officeId":"office:US-MS:insurance-commissioner","identity":{"givenName":"Jennifer","familyName":"Edwards","gender":"female","birthDate":"1977-08-02","homeState":"US-MS"},"party":"Republican","startDate":"2008-01-01","endDate":"2012-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2008-01-01","endedBy":"re-elected","elected":{"date":"2007-11-06","share":0.56}}
+  {"id":"term:seat:US-MS:insurance-commissioner:2025-01-20:past:3","seatId":"seat:US-MS:insurance-commissioner","officeId":"office:US-MS:insurance-commissioner","identity":{"givenName":"Jennifer","familyName":"Edwards","gender":"female","birthDate":"1977-08-02","homeState":"US-MS"},"party":"Republican","startDate":"2012-01-01","endDate":"2016-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2008-01-01","endedBy":"re-elected","elected":{"date":"2011-11-08","share":0.56}}
+  {"id":"term:seat:US-MS:insurance-commissioner:2025-01-20:past:2","seatId":"seat:US-MS:insurance-commissioner","officeId":"office:US-MS:insurance-commissioner","identity":{"givenName":"Jennifer","familyName":"Edwards","gender":"female","birthDate":"1977-08-02","homeState":"US-MS"},"party":"Republican","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2008-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.56}}
+  {"id":"term:seat:US-MS:insurance-commissioner:2025-01-20:past:1","seatId":"seat:US-MS:insurance-commissioner","officeId":"office:US-MS:insurance-commissioner","identity":{"givenName":"Jennifer","familyName":"Edwards","gender":"female","birthDate":"1977-08-02","homeState":"US-MS"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2008-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Karen","familyName":"Woodard","gender":"female","birthDate":"1960-09-04","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Carolyn","familyName":"Sosa","gender":"female","birthDate":"1961-11-10","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-MS:governor:2025-01-20","seatId":"seat:US-MS:governor","officeId":"office:US-MS:governor","personId":"official:term:seat:US-MS:governor:2025-01-20","identity":{"givenName":"Stanley","familyName":"Rogers","gender":"male","birthDate":"1957-04-07","homeState":"US-MS"},"party":"Republican","startDate":"2024-01-01","endDate":"2028-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2016-01-01","elected":{"date":"2023-11-07","share":0.56}}
+  {"id":"term:seat:US-MS:lieutenant-governor:2025-01-20","seatId":"seat:US-MS:lieutenant-governor","officeId":"office:US-MS:lieutenant-governor","personId":"official:term:seat:US-MS:lieutenant-governor:2025-01-20","identity":{"givenName":"Joseph","familyName":"Marshall","gender":"male","birthDate":"1959-09-25","homeState":"US-MS"},"party":"Republican","startDate":"2024-01-01","endDate":"2028-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2020-01-01","elected":{"date":"2023-11-07","share":0.56}}
+  {"id":"term:seat:US-MS:attorney-general:2025-01-20","seatId":"seat:US-MS:attorney-general","officeId":"office:US-MS:attorney-general","personId":"official:term:seat:US-MS:attorney-general:2025-01-20","identity":{"givenName":"Timothy","familyName":"Clay","gender":"male","birthDate":"1963-02-04","homeState":"US-MS"},"party":"Republican","startDate":"2024-01-01","endDate":"2028-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2024-01-01","elected":{"date":"2023-11-07","share":0.56}}
+  {"id":"term:seat:US-MS:secretary-of-state:2025-01-20","seatId":"seat:US-MS:secretary-of-state","officeId":"office:US-MS:secretary-of-state","personId":"official:term:seat:US-MS:secretary-of-state:2025-01-20","identity":{"givenName":"Deborah","familyName":"Paul","gender":"female","birthDate":"1962-01-21","homeState":"US-MS"},"party":"Republican","startDate":"2024-01-01","endDate":"2028-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2020-01-01","elected":{"date":"2023-11-07","share":0.56}}
+  {"id":"term:seat:US-MS:treasurer:2025-01-20","seatId":"seat:US-MS:treasurer","officeId":"office:US-MS:treasurer","personId":"official:term:seat:US-MS:treasurer:2025-01-20","identity":{"givenName":"Michael","familyName":"Austin","gender":"male","birthDate":"1966-03-10","homeState":"US-MS"},"party":"Republican","startDate":"2024-01-01","endDate":"2028-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2012-01-01","elected":{"date":"2023-11-07","share":0.56}}
+  {"id":"term:seat:US-MS:auditor:2025-01-20","seatId":"seat:US-MS:auditor","officeId":"office:US-MS:auditor","personId":"official:term:seat:US-MS:auditor:2025-01-20","identity":{"givenName":"Patricia","familyName":"Miller","gender":"female","birthDate":"1956-02-18","homeState":"US-MS"},"party":"Republican","startDate":"2024-01-01","endDate":"2028-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2012-01-01","elected":{"date":"2023-11-07","share":0.56}}
+  {"id":"term:seat:US-MS:agriculture-commissioner:2025-01-20","seatId":"seat:US-MS:agriculture-commissioner","officeId":"office:US-MS:agriculture-commissioner","personId":"official:term:seat:US-MS:agriculture-commissioner:2025-01-20","identity":{"givenName":"Anthony","familyName":"Cox","gender":"male","birthDate":"1980-08-25","homeState":"US-MS"},"party":"Republican","startDate":"2024-01-01","endDate":"2028-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2020-01-01","elected":{"date":"2023-11-07","share":0.56}}
+  {"id":"term:seat:US-MS:insurance-commissioner:2025-01-20","seatId":"seat:US-MS:insurance-commissioner","officeId":"office:US-MS:insurance-commissioner","personId":"official:term:seat:US-MS:insurance-commissioner:2025-01-20","identity":{"givenName":"Jennifer","familyName":"Edwards","gender":"female","birthDate":"1977-08-02","homeState":"US-MS"},"party":"Republican","startDate":"2024-01-01","endDate":"2028-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2008-01-01","elected":{"date":"2023-11-07","share":0.56}}
+
+## core2-offices-v1.terms: 346 of 437
+  {"id":"term:seat:US-MS:upper:002:0:2025-01-20:past:1","seatId":"seat:US-MS:upper:002:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Walter","familyName":"Ingram","gender":"male","birthDate":"1949-12-21","homeState":"US-MS"},"party":"Democratic","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2020-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-MS:upper:007:0:2025-01-20:past:2","seatId":"seat:US-MS:upper:007:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Cynthia","familyName":"Stephenson","gender":"female","birthDate":"1970-04-10","homeState":"US-MS"},"party":"Democratic","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.635}}
+  {"id":"term:seat:US-MS:upper:007:0:2025-01-20:past:1","seatId":"seat:US-MS:upper:007:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Cynthia","familyName":"Stephenson","gender":"female","birthDate":"1970-04-10","homeState":"US-MS"},"party":"Democratic","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-MS:upper:013:0:2025-01-20:past:2","seatId":"seat:US-MS:upper:013:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Melissa","familyName":"Sinclair","gender":"female","birthDate":"1986-10-04","homeState":"US-MS"},"party":"Democratic","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.635}}
+  {"id":"term:seat:US-MS:upper:013:0:2025-01-20:past:1","seatId":"seat:US-MS:upper:013:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Melissa","familyName":"Sinclair","gender":"female","birthDate":"1986-10-04","homeState":"US-MS"},"party":"Democratic","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-MS:upper:015:0:2025-01-20:past:6","seatId":"seat:US-MS:upper:015:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Adam","familyName":"Schmidt","gender":"male","birthDate":"1976-07-21","homeState":"US-MS"},"party":"Republican","startDate":"2000-01-01","endDate":"2004-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2000-01-01","endedBy":"re-elected","elected":{"date":"1999-11-02","share":0.635}}
+  {"id":"term:seat:US-MS:upper:015:0:2025-01-20:past:5","seatId":"seat:US-MS:upper:015:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Adam","familyName":"Schmidt","gender":"male","birthDate":"1976-07-21","homeState":"US-MS"},"party":"Republican","startDate":"2004-01-01","endDate":"2008-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2000-01-01","endedBy":"re-elected","elected":{"date":"2003-11-04","share":0.635}}
+  {"id":"term:seat:US-MS:upper:015:0:2025-01-20:past:4","seatId":"seat:US-MS:upper:015:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Adam","familyName":"Schmidt","gender":"male","birthDate":"1976-07-21","homeState":"US-MS"},"party":"Republican","startDate":"2008-01-01","endDate":"2012-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2000-01-01","endedBy":"re-elected","elected":{"date":"2007-11-06","share":0.635}}
+  {"id":"term:seat:US-MS:upper:015:0:2025-01-20:past:3","seatId":"seat:US-MS:upper:015:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Adam","familyName":"Schmidt","gender":"male","birthDate":"1976-07-21","homeState":"US-MS"},"party":"Republican","startDate":"2012-01-01","endDate":"2016-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2000-01-01","endedBy":"re-elected","elected":{"date":"2011-11-08","share":0.635}}
+  {"id":"term:seat:US-MS:upper:015:0:2025-01-20:past:2","seatId":"seat:US-MS:upper:015:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Adam","familyName":"Schmidt","gender":"male","birthDate":"1976-07-21","homeState":"US-MS"},"party":"Republican","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2000-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.635}}
+  {"id":"term:seat:US-MS:upper:015:0:2025-01-20:past:1","seatId":"seat:US-MS:upper:015:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Adam","familyName":"Schmidt","gender":"male","birthDate":"1976-07-21","homeState":"US-MS"},"party":"Republican","startDate":"2020-01-01","endDate":"2024-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2000-01-01","endedBy":"re-elected","elected":{"date":"2019-11-05","share":0.635}}
+  {"id":"term:seat:US-MS:upper:017:0:2025-01-20:past:2","seatId":"seat:US-MS:upper:017:0","officeId":"office:US-MS:legislature-upper","identity":{"givenName":"Steven","familyName":"Dunn","gender":"male","birthDate":"1965-05-08","homeState":"US-MS"},"party":"Republican","startDate":"2016-01-01","endDate":"2020-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2016-01-01","endedBy":"re-elected","elected":{"date":"2015-11-03","share":0.635}}
+
+## core2-elections-v1.contests: 0 of 38
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (115 bills)
+  office:US-MS:legislature-lower 2025-04-06: 53
+  office:US-MS:legislature-lower 2025-07-01: 1
+  office:US-MS:us-house 2025-10-01: 1
+  office:US-MS:us-house 2025-12-15: 24
+  office:gus2025:168573:board 2025-02-04: 13
+  office:gus2025:168573:board 2025-02-19: 8
+  office:gus2025:168573:board 2025-03-06: 3
+  office:gus2025:168573:board 2025-04-20: 1
+  office:gus2025:168573:board 2025-10-01: 1
+  office:gus2025:168573:board 2026-01-15: 1
+  office:gus2025:168650:council 2025-02-04: 8
+  office:gus2025:168650:council 2025-10-01: 1
+## bills by body and status
+  office:US-MS:legislature-lower enacted: 10
+  office:US-MS:legislature-lower failed: 44
+  office:US-MS:us-house enacted: 3
+  office:US-MS:us-house failed: 22
+  office:gus2025:168573:board enacted: 15
+  office:gus2025:168573:board failed: 12
+  office:gus2025:168650:council enacted: 1
+  office:gus2025:168650:council failed: 6
+  office:gus2025:168650:council vetoed: 2
+## sample federal bill
+  {"id":"bill:office:US-MS:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:87","number":"2025-001","bodyOfficeId":"office:US-MS:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":10209049349},{"kind":"budget-line","line":"transportation","value":30170124818},{"kind":"budget-line","line":"otherPrograms","value":-126298149681}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-MS:legislature-lower:2025-04-06:official:term:seat:US-MS:upper:012:0:2025-01-20:32","number":"2025-001","bodyOfficeId":"office:US-MS:legislature-lower","sponsorId":"official:term:seat:US-MS:upper:012:0:2025-01-20","introduced":"2025-04-06","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:technology-privacy.age-verification-for-social-media","value":-1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"failed"}
+
+## federal and state log kinds: case.made=148, bill-held-in-committee=58, vote-recorded=42, law-took-effect=35, committee-hearing=32, budget-line-changed=30, legislative-vote=26, chamber-organized=5, seat-vacated=4, candidate-filed=3, budget-adopted=2, campaign-message=2, inauguration=1, president.address=1, drive.formed=1
+
+## seat-vacated (4)
+  2025-08-01 {"officeId":"office:US-MS:legislature-lower","seatId":"seat:US-MS:lower:061:0","cause":"moved away","rule":"special-election"}
+  2025-10-01 {"officeId":"office:US-MS:legislature-lower","seatId":"seat:US-MS:lower:103:0","cause":"moved away","rule":"special-election"}
+  2025-11-01 {"officeId":"office:US-MS:legislature-lower","seatId":"seat:US-MS:lower:031:0","cause":"moved away","rule":"special-election"}
+  2026-01-01 {"officeId":"office:US-MS:legislature-lower","seatId":"seat:US-MS:lower:122:0","cause":"moved away","rule":"special-election"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-MS","fiscalYear":"2025","adoptedBy":"the legislature vote 80-42, 35-17, 2025-054"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 247-186, 73-27 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (5)
+  2025-01-20 {"speaker":"official:seat:US-SD:us-house:00","majority-leader":"official:seat:US-NJ:us-house:07","minority-leader":"official:seat:US-CO:us-house:01","majority-whip":"official:seat:US-IA:us-house:02","minority-whip":"official:seat:US-CA:us-house:47"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-IA:us-senate:1","majority-leader":"official:seat:US-AK:us-senate:1","minority-leader":"official:seat:US-VA:us-senate:1","majority-whip":"official:seat:US-KS:us-senate:0","minority-whip":"official:seat:US-MN:us-senate:0"}
+  2025-01-20 {"speaker":"official:term:seat:US-MS:lower:008:0:2025-01-20","majority-leader":"official:term:seat:US-MS:lower:021:0:2025-01-20","minority-leader":"official:term:seat:US-MS:lower:082:0:2025-01-20","majority-whip":"official:term:seat:US-MS:lower:025:0:2025-01-20","minority-whip":"official:term:seat:US-MS:lower:110:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-MS:upper:015:0:2025-01-20","majority-leader":"official:term:seat:US-MS:upper:035:0:2025-01-20","minority-leader":"official:term:seat:US-MS:upper:028:0:2025-01-20","majority-whip":"official:term:seat:US-MS:upper:042:0:2025-01-20","minority-whip":"official:term:seat:US-MS:upper:045:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-MS:us-house:04:2025-01-20"}
+
+## candidate-filed (3)
+  2025-12-26 {"filingId":"filing:contest:seat:US-MS:us-senate:1:2026-11-03:official:term:seat:US-MS:us-senate:1:2025-01-20","contestId":"contest:seat:US-MS:us-senate:1:2026-11-03","office":"U.S. Senator","electionDate":"2026-11-03","filedWith":"State party executive committee (party); Secretary of State (independent)"}
+  2025-12-26 {"filingId":"filing:contest:seat:US-MS:us-house:02:2026-11-03:official:term:seat:US-MS:us-house:02:2025-01-20","contestId":"contest:seat:US-MS:us-house:02:2026-11-03","office":"U.S. Representative","electionDate":"2026-11-03","filedWith":"State party executive committee (party); Secretary of State (independent)"}
+  2025-12-26 {"filingId":"filing:contest:seat:US-MS:us-house:02:2026-11-03:official:term:seat:US-MS:lower:079:0:2025-01-20","contestId":"contest:seat:US-MS:us-house:02:2026-11-03","office":"U.S. Representative","electionDate":"2026-11-03","filedWith":"State party executive committee (party); Secretary of State (independent)"}
+
+done 2.3 min
