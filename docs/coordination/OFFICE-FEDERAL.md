@@ -16,14 +16,14 @@ Once PR #4220 merges, in dev mode, from a script (no screen yet):
 - [x] Representative: floor votes, own bill, the whip, interviews, town halls, committee and subcommittee seats (40 committees, 174 subcommittees, cited), casework (waits on GOV), election day.
 - [x] President: cabinet nominations and Senate confirmation, budget request, joint address, daily brief, the trip, the vice president.
 - [ ] Presidential orders, pardons, the situation room: registered stand-ins, waiting on GOV and on crisis records.
-- [ ] District projects (community project funding): not started.
-- [ ] The midterm as a stop with the member's own filing: election day is listed; the filing is the elections engine's.
+- [ ] District projects (community project funding): waits on GOV (an appropriation with a named recipient government).
+- [x] The midterm: the member's own filing window stops them and they file through the elections engine; election day is listed.
 - [ ] Move onto OFFICE-LOCAL's engine when it lands; delete this branch's stand-in tables.
 
 ## Needs from other sessions
 
 - OFFICE-LOCAL: the engine `src/core2/modules/office-day.ts`. The federal day registers items and an end-of-day finisher (`registerFederalDayPart`) and keeps its own tables until then.
-- OPUS-GOV: federal executive orders; pardons (federal jurisdiction in justice); routing residents' problems to members of Congress; every House member on at least one committee; an exported floor agenda by date; `committeeFor` exported.
+- OPUS-GOV: a sitting member of Congress was filed for town council by candidacy and lost the House seat when they won (Orem, Utah, seed `fed-filing-1`); federal executive orders; pardons (federal jurisdiction in justice); routing residents' problems to members of Congress; every House member on at least one committee; an exported floor agenda by date; `committeeFor` exported.
 - OPUS-GOV (press): national outlets decline a sitting president as not newsworthy and print none of the president's acts.
 - OPUS-PEOPLE: the journal of a person the player continues as shows nothing of taking office, interviews or town halls.
 - OPUS-PLAY: dev mode's custom start as a federal officeholder (this branch's `startAsFederalOfficeholder` is the stand-in), calling the director's `watch`.
