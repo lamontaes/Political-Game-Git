@@ -15,6 +15,7 @@ const value = (name, fallback) =>
   args.includes(name) ? args[args.indexOf(name) + 1] : fallback;
 const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
 const { buildBenchWorld } = await at("src/bench/world.ts");
+const { gameStartDate } = await at("src/core2/game-start.ts");
 const { advanceCore } = await at("src/core2/life.ts");
 const { decoder, restoreWorld, snapshotWorld, uncoveredModules } = await at(
   "src/core2/snapshot.ts",
@@ -36,11 +37,11 @@ const plus = (date, n) => {
   d.setUTCDate(d.getUTCDate() + n);
   return d.toISOString().slice(0, 10);
 };
-const original = buildBenchWorld(seed, "2026-10-12", options);
+const original = buildBenchWorld(seed, gameStartDate(), options);
 const start = original.core.date;
 advanceCore(original.core, plus(start, days));
 const text = JSON.stringify(snapshotWorld(original.core));
-const loaded = buildBenchWorld(seed, "2026-10-12", options);
+const loaded = buildBenchWorld(seed, gameStartDate(), options);
 restoreWorld(loaded.core, JSON.parse(text));
 advanceCore(original.core, plus(start, 2 * days));
 advanceCore(loaded.core, plus(start, 2 * days));

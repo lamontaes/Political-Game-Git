@@ -9,6 +9,7 @@ import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
+import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
 import { openingShots } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
@@ -181,9 +182,10 @@ const server = createServer(async (request, response) => {
         // The whole town, two-level (OPUS-CORE): full people for the
         // player's circle and officials, counts for everyone else.
         buildProgress = { stage: "people", done: 0, total: 0 };
+        // Every game opens on the one start date (owner, Oct 14, 2026).
         const world = await buildBenchWorldInStages(
           url.searchParams.get("seed") ?? "",
-          url.searchParams.get("date") ?? "",
+          gameStartDate(),
           {
             twoLevel: true,
             ...(url.searchParams.get("settings")
@@ -301,6 +303,12 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("id") ?? "",
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/version") {
+      // Source runs have no bundler define; the package's release number is the record.
+      const { version } = JSON.parse(await readFile("package.json", "utf8"));
+      send(200, { version });
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/places") {
@@ -652,13 +660,19 @@ const server = createServer(async (request, response) => {
     if (request.method === "POST" && url.pathname === "/api/build") {
       if (building) throw new Error("Opening generation is already running.");
       const seed = url.searchParams.get("seed") ?? "";
-      const date = url.searchParams.get("date") ?? "";
+      const date = gameStartDate();
       // Stopgap SG-PLAY-bench-town-size: a smaller town plays at a usable
       // speed until the core's two-level population and speed work land.
       const size = Number(url.searchParams.get("size") ?? "") || undefined;
       building = true;
       try {
-        const world = buildBenchWorld(seed, date, { minimumPeople: size });
+        // Two-level, as "New life" builds it (MEMORY-FLAT): a month of the
+        // full population ran the bench out of memory. Tests that need every
+        // resident as a full person ask for it with full=1.
+        const world = buildBenchWorld(seed, date, {
+          minimumPeople: size,
+          twoLevel: url.searchParams.get("full") !== "1",
+        });
         opening = undefined;
         const { place, residents } = world;
         const next = world.core,
@@ -722,7 +736,7 @@ const server = createServer(async (request, response) => {
     if (request.method === "GET" && url.pathname === "/api/seed") {
       send(200, {
         seed: randomUUID(),
-        date: new Date().toISOString().split("T")[0],
+        date: gameStartDate(),
       });
       return;
     }

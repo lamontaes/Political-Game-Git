@@ -14,6 +14,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { before, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { buildBenchWorld } from "../../src/bench/world";
+import { gameStartDate } from "../../src/core2/game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -26,7 +27,7 @@ import { EXECUTIVE_MODULE_ID } from "../../src/core2/modules/executive";
 import { STAFF_MODULE_ID } from "../../src/core2/modules/staff";
 import { INTEREST_GROUPS_MODULE_ID } from "../../src/core2/modules/interest-groups";
 
-const OPENING_DATE = "2026-10-12";
+const OPENING_DATE = gameStartDate();
 const MODULES = [
   SPEECH_MODULE_ID,
   PARTIES_MODULE_ID,

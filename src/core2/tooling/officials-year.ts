@@ -9,6 +9,7 @@
  */
 import { performance } from "node:perf_hooks";
 import { buildBenchWorld } from "../../bench/world";
+import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
 import { coreAPI } from "../state";
 import { partySide } from "../appointments";
@@ -23,7 +24,7 @@ import { openWorldRaces, WORLD_RACES_MODULE_ID } from "../modules/world-races";
 const seed = process.argv[2] ?? "officials-proof";
 const placeKey = process.argv[3] || undefined;
 const years = Number(process.argv[4] ?? 1);
-const start = "2026-01-05";
+const start = gameStartDate();
 
 const t0 = performance.now();
 const world = buildBenchWorld(seed, start, {

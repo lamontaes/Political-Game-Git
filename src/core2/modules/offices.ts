@@ -431,6 +431,7 @@ export function openOffices(core: CoreState, worldSeed: string): void {
       );
   }
   table(api, "loaded").put({ id: `state:${stateKey}` });
+  recordInauguration(api, place.context.jurisdiction.id);
   const rule = municipalVacancyRule(stateKey.slice(3));
   const taken = new Set<string>();
   for (const office of localOfficesForPlace(placeKey!)) {
@@ -470,6 +471,46 @@ export function openOffices(core: CoreState, worldSeed: string): void {
   }
 }
 
+/**
+ * Inauguration Day (U.S. Const. amend. XX, § 1): when the world opens on the
+ * day the president's and vice president's terms begin, their taking office
+ * is a public record on day one. Nothing else follows from it.
+ */
+function recordInauguration(api: CoreAPI, townPlaceId: string): void {
+  const date = api.state.date;
+  const began = ["seat:US:president", "seat:US:vice-president"]
+    .map(
+      (seatId) =>
+        (
+          table(api, "terms").query("bySeatStatus", [
+            seatId,
+            "serving",
+          ]) as unknown as TermRow[]
+        )[0],
+    )
+    .filter((term): term is TermRow => term?.startDate === date);
+  if (!began.length) return;
+  api.emit({
+    id: `inauguration:${date}`,
+    date,
+    kind: "inauguration",
+    personIds: [],
+    placeId: townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation:
+        "U.S. Const. amend. XX, § 1 (the president's and vice president's terms begin at noon on January 20); data/research/offices/federal-executive-2026.json",
+      asOf: date,
+    },
+    publicRecord: true,
+    facts: {
+      officeIds: began.map((term) => term.officeId).join(" "),
+      ...(began[0]!.party ? { party: began[0]!.party } : {}),
+      ...(began[0]!.endDate ? { termEnds: began[0]!.endDate } : {}),
+    },
+  });
+}
+
 const TENURE = (
   tenure as unknown as { parameters: Record<string, { value: number }> }
 ).parameters;
@@ -499,9 +540,19 @@ function pastTerms(
 ): void {
   const years = office.termYears;
   const opening = api.state.date;
-  if (!years || !term.endDate || office.kind === "president") return;
-  if (office.kind === "vice-president") return;
+  if (!years || !term.endDate) return;
   const start = shiftYears(term.endDate, -years);
+  // The federal executive keeps its real record: the current term began a
+  // full term before it ends (January 20), with no earlier terms invented.
+  if (office.kind === "president" || office.kind === "vice-president") {
+    if (start <= opening)
+      table(api, "terms").put({
+        ...term,
+        startDate: start,
+        serviceStart: start,
+      } as unknown as ModuleRow);
+    return;
+  }
   // A term read as ending more than a full term out began at the opening.
   if (start > opening) {
     table(api, "terms").put({

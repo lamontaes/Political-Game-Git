@@ -532,16 +532,13 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const source = estimatedSource(
     startedAt,
     `${HOUSEHOLD_MIX_META.source} ${TOWN_RESIDENTS_VERSION}; ${place.context.jurisdiction.provenance.source ?? "recorded locality identity"}; ${LIVING_COSTS_SOURCE}; ${TOWN_RENT_META.fairMarketRents}; Federal Reserve SCF 2022 Tables 1/6; src/simulation/people-upbringing.ts.`,
-    `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster or an exact 2021 population. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
+    `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
   );
-  stopgap("SG-P8-opening-vintage");
-  stopgap("SG-P8-historical-start");
   stopgap("SG-P8-family-network-coverage");
   stopgap("SG-P8-person-trait-diversity");
   const gaps = new Set<string>([
-    `Opening vintage: ${startedAt} household/population estimates retain later source vintages; no reconstructed 2021 census or migration history.`,
+    `Opening vintage: ${startedAt} household and population estimates are calibrated from the latest source vintages, which calibrate the world without dating it.`,
     "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
-    "Baseline law and offices: January 2021 laws, officeholder rosters and powers are not reconstructed; later place/government/institution identity records remain opening proxies, with no actual 2021 officeholder count claimed.",
     "Labor context: no school enrollment, primary care responsibility, pensions, business books or funded public staffing imported; canonical matcher reads the records actually present.",
     "Money: CES nonhousing categories and a hypothetical HUD shelter budget exclude actual tenure, debts, taxes, insurance contracts and medical service bills; no housing contract is invented.",
   ]);
@@ -746,7 +743,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const employmentSource = estimatedSource(
     startedAt,
     `${TOWN_EMPLOYMENT_META.countyBusinessPatterns.source} ${TOWN_EMPLOYMENT_META.publicEmployment.source} src/simulation/living-world/town-employment.ts`,
-    "Existing deterministic matcher and authored workplace/role mix, interpreted as an opening estimate; later employment vintages are not observed 2021 jobs.",
+    "Existing deterministic matcher and authored workplace/role mix, interpreted as an opening estimate; employment vintages are not observed opening-day jobs.",
   );
   const roles = new Map(
     world.history.workRoles
@@ -813,7 +810,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       source: estimatedSource(
         startedAt,
         `${wageCitation} ${employmentSource.citation}`,
-        `${rate ? `SOC ${rate.soc}, area ${rate.area}, percentile ${rate.percentile}` : "National same-occupation median or registered missing-occupation fallback"}; weekly hours from the generated role; calendar-day average. Job tenure, wage and minimum floor are opening proxies, not historical 2021 contracts.`,
+        `${rate ? `SOC ${rate.soc}, area ${rate.area}, percentile ${rate.percentile}` : "National same-occupation median or registered missing-occupation fallback"}; weekly hours from the generated role; calendar-day average. Job tenure, wage and minimum floor are opening proxies, not historical contracts.`,
       ),
     };
     jobs.push(job);

@@ -231,7 +231,12 @@ export function filingRulesFor(
   contest: ContestRow,
   side: FilingSide,
 ): FilingRequirements {
-  return filingRequirements(town(api).stateKey, contest.family, side);
+  const rules = filingRequirements(town(api).stateKey, contest.family, side);
+  // A side's own deadline is read for the 2026 cycle only; other years'
+  // contests keep the deadline from their own calendar.
+  return contest.electionDate.startsWith("2026-")
+    ? rules
+    : { ...rules, deadline: null };
 }
 
 function localFilingOfficer(usps: string, family: OfficeFamily): string {

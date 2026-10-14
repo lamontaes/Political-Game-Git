@@ -1129,7 +1129,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
         score:
           p("jobsRetireBaseline") +
           p("jobsRetireAgeWeight") * past +
-          p("jobsCountedRestlessWeight") *
+          p("traitWeight") *
             traitLeanBetween(
               c,
               person,
@@ -1347,7 +1347,7 @@ function reviewCountedLooking(api: CoreAPI): void {
         score:
           p("jobsLookBaseline") +
           p("jobsPayGapWeight") * payGap +
-          p("jobsCountedRestlessWeight") * restless,
+          p("traitWeight") * restless,
       });
     }
   }
@@ -1441,7 +1441,8 @@ function roleTemplate(
         (rt.input.calendars ?? []).map((row) => [row.id, row]),
       ),
     };
-    for (const record of rt.input.households)
+    // The counted households' records (the opening's own are not kept).
+    for (const record of rt.households.values())
       for (const row of record.workCommitments) {
         roles.byJob.set(row.jobId, row);
         if (!roles.byOrganization.has(row.organizationId))

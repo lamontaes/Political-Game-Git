@@ -463,6 +463,23 @@ const LANDING_LINKS = WEB_LINKS.flatMap((link) => {
 function land(api: CoreAPI, row: WebMonth): void {
   const table = store(api).table("landings");
   const residents = residentsOf(api, row.placeId);
+  // Retention (MEMORY-FLAT): a landing lives while its effect reaches the
+  // person. Each row carries this month's effect and the previous one; when
+  // the link stops running, or the person dies or leaves, the row goes.
+  const current = new Set<string>();
+  for (const { link, selector } of LANDING_LINKS) {
+    const effect = row.effects[link.key];
+    if (effect !== undefined)
+      for (const resident of residents)
+        if (selects(selector, resident))
+          current.add(`landing:${link.key}:${resident.person.id}`);
+    for (const held of table.query("byLink", [link.key]))
+      if (
+        (held as unknown as WebLanding).placeId === row.placeId &&
+        !current.has(held.id)
+      )
+        table.remove(held.id);
+  }
   for (const { link, selector } of LANDING_LINKS) {
     const effect = row.effects[link.key];
     if (effect === undefined) continue;

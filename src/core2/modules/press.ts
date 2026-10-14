@@ -269,6 +269,16 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
   const outlets = outletsHere(api);
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  // Each person's lean once for this rebuild, not once per sort comparison.
+  const scores = new Map<string, number>();
+  const habit = (p: PersonState) => {
+    let score = scores.get(p.id);
+    if (score === undefined) {
+      score = habitScore(p, api.state);
+      scores.set(p.id, score);
+    }
+    return score;
+  };
   const bands = new Map<Band, PersonState[]>();
   for (const id of api.state.peopleByPlace.get(town) ?? []) {
     const p = api.state.people.get(id);
@@ -291,19 +301,11 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
       followers.push(
         ...people
           .slice()
-          .sort(
-            (a, b) =>
-              habitScore(b, api.state) - habitScore(a, api.state) ||
-              a.id.localeCompare(b.id),
-          )
+          .sort((a, b) => habit(b) - habit(a) || a.id.localeCompare(b.id))
           .slice(0, Math.round(share * people.length)),
       );
     }
-    followers.sort(
-      (a, b) =>
-        habitScore(b, api.state) - habitScore(a, api.state) ||
-        a.id.localeCompare(b.id),
-    );
+    followers.sort((a, b) => habit(b) - habit(a) || a.id.localeCompare(b.id));
     own.forEach((outlet, i) =>
       map.set(
         outlet.id,
