@@ -12,9 +12,10 @@ import {
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import { transferCash } from "./world-transfer";
+import type * as WorldTransfer from "./world-transfer";
 
 vi.mock("./world-transfer", async (original) => {
-  const actual = await original<typeof import("./world-transfer")>();
+  const actual = await original<typeof WorldTransfer>();
   return { ...actual, transferCash: vi.fn(actual.transferCash) };
 });
 

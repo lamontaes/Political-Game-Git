@@ -49,8 +49,11 @@ describe(`counted rents renew (${drawn.name}, ${drawn.state}, seed ${drawn.seed}
     const counted = renewals.filter(
       (row) => row.id.startsWith("rent:") && row.previousRentMinor,
     );
-    // Over a year every counted lease has renewed once, in several different months.
-    expect(counted.length).toBeGreaterThan(before.size * 0.75);
+    // Over a year every counted lease still running has renewed once, in several different months (households that moved away, bought a home or were evicted no longer rent).
+    const still = new Set([...rents().keys()].filter((id) => before.has(id)));
+    expect(counted.filter((row) => still.has(row.id)).length).toBeGreaterThan(
+      still.size * 0.75,
+    );
     // The first review sees them a month in, so the last month's group renews just after the year.
     expect(
       new Set(counted.map((row) => row.renewedAt.slice(0, 7))).size,
