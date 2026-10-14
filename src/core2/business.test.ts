@@ -497,6 +497,10 @@ describe("closing by choice", () => {
       }),
       api = coreAPI(core),
       total = money(core);
+    const closed: { facts?: Readonly<Record<string, string>> }[] = [];
+    api.subscribeEvents("test", ["business.closed"], (_api, event) => {
+      closed.push(event);
+    });
     books(core);
     advanceCore(core, "2021-01-15");
     const owners = api.moduleState("business").table("owners");
@@ -518,6 +522,11 @@ describe("closing by choice", () => {
     expect(
       api.moduleState("business").table("closures").get(`closure:${shop}`),
     ).toMatchObject({ cause: "losses-kept" });
+    // The news record carries that same recorded reason as data.
+    expect(closed).toHaveLength(1);
+    expect(closed[0]!.facts).toEqual({
+      [`organization:${shop}:closing-reason`]: "losses-kept",
+    });
     expect(money(core)).toBe(total);
   });
 });

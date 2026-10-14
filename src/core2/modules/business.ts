@@ -1474,14 +1474,8 @@ export const BUSINESS_MODULE: PreStartModule = {
         organizationId,
         ownerId: row.ownerId,
         date: c.date,
-        // A closure the owner chose carries its reason; any other is one the business couldn't pay its way out of.
-        cause:
-          (
-            store(api)
-              .table("choices")
-              .get(`choice:${organizationId}:${c.date}`) as
-              { reasonKey?: string } | undefined
-          )?.reasonKey ?? "could-not-pay",
+        // The closing choice's recorded reason (by choice, insolvent, owner retired, no successor).
+        ...(book?.closingReasonKey ? { cause: book.closingReasonKey } : {}),
         workersAffected: event.personIds.length,
         salesMinor: book?.salesReceivedMinor ?? 0,
         wagesMinor: book?.wagesPaidMinor ?? 0,
@@ -1497,8 +1491,17 @@ export const BUSINESS_MODULE: PreStartModule = {
         tag: "ESTIMATED",
         asOf: c.date,
         citation: businessData.source.citation,
-        estimatedFrom: `${organizationId} closed when it could not pay what it owed; its owner ${row.ownerId} answers for it.`,
+        estimatedFrom: `${organizationId} closed; its owner ${row.ownerId} answers for it.`,
       },
+      // The recorded reason rides on the event for the English engine to read.
+      ...(book?.closingReasonKey
+        ? {
+            facts: {
+              [`organization:${organizationId}:closing-reason`]:
+                book.closingReasonKey,
+            },
+          }
+        : {}),
       publicRecord: true,
       topic: organizationId,
     });
