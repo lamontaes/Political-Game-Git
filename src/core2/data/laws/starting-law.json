@@ -44,6 +44,36 @@
       },
       {
         "level": "federal",
+        "series": "federal-unemployment-tax",
+        "tier": "general",
+        "value": 0.6,
+        "effectiveDate": "2011-07-01",
+        "endDate": null,
+        "source": "26 U.S.C. 3301 (6.0% of taxable wages since July 1, 2011), less the 5.4% credit for employers paying state unemployment tax, 26 U.S.C. 3302; taxable wages are the first $7,000 paid to each worker in a year, 26 U.S.C. 3306(b)(1). Covers the 50 states, D.C., Puerto Rico and the U.S. Virgin Islands, 26 U.S.C. 3306(j); Guam, American Samoa and the Northern Mariana Islands run no program under it.",
+        "retrieved": "2026-10-14",
+        "estimate": false,
+        "unit": "percent-of-wages",
+        "terms": {
+          "wageBase": 7000,
+          "grossRate": 6.0,
+          "stateCredit": 5.4,
+          "notCovered": ["US-GU", "US-AS", "US-MP"]
+        }
+      },
+      {
+        "level": "federal",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 21,
+        "effectiveDate": "2018-01-01",
+        "endDate": null,
+        "source": "26 U.S.C. 11(b): a flat 21% of a corporation's taxable income (Tax Cuts and Jobs Act, Pub. L. 115-97, section 13001).",
+        "retrieved": "2026-10-14",
+        "estimate": false,
+        "unit": "percent-flat"
+      },
+      {
+        "level": "federal",
         "series": "income-tax",
         "tier": "general",
         "value": 37.0,
@@ -162,6 +192,19 @@
           "answer": "yes",
           "cite": "Alaska Const. art. X, \u00a7 11; AS 29.10.200"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -484,6 +527,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 5.0,
@@ -720,6 +776,19 @@
           "answer": "no",
           "cite": "Ark. Code \u00a7 11-4-221"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -1613,6 +1682,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 2.5,
@@ -1853,6 +1935,19 @@
         "retrieved": "2026-10-12",
         "estimate": false,
         "terms": { "preempts": false, "answer": "yes", "cite": null }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -2110,6 +2205,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 4.4,
@@ -2359,6 +2467,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 6.99,
@@ -2605,6 +2726,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 10.75,
@@ -2829,6 +2963,19 @@
           "answer": "no",
           "cite": "19 Del. C. ch. 9 (\u00a7 902)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -3079,6 +3226,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 0,
@@ -3305,6 +3465,19 @@
           "answer": "no",
           "cite": "O.C.G.A. \u00a7 34-4-3.1(b)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -3750,6 +3923,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 11.0,
@@ -4009,6 +4195,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 3.8,
@@ -4241,6 +4440,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 5.3,
@@ -4466,6 +4678,19 @@
         "retrieved": "2026-10-12",
         "estimate": false,
         "terms": { "preempts": false, "answer": "yes", "cite": null }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -4702,6 +4927,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 2.95,
@@ -4914,6 +5152,19 @@
           "answer": "no",
           "cite": "K.S.A. 12-16,130(a)(3)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -5154,6 +5405,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 3.5,
@@ -5349,6 +5613,19 @@
           "answer": "no",
           "cite": "La. R.S. 23:642(B)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -5584,6 +5861,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 9.0,
@@ -5798,6 +6088,19 @@
         "retrieved": "2026-10-12",
         "estimate": false,
         "terms": { "preempts": false, "answer": "yes", "cite": null }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -6030,6 +6333,19 @@
         "retrieved": "2026-10-12",
         "estimate": false,
         "terms": { "preempts": false, "answer": "yes", "cite": null }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -6267,6 +6583,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 4.25,
@@ -6491,6 +6820,19 @@
         "retrieved": "2026-10-12",
         "estimate": false,
         "terms": { "preempts": false, "answer": "yes", "cite": null }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -6730,6 +7072,19 @@
         "retrieved": "2026-10-12",
         "estimate": false,
         "terms": { "preempts": true, "answer": "no", "cite": "RSMo 290.528" }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -7088,6 +7443,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 4.0,
@@ -7336,6 +7704,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 5.65,
@@ -7555,6 +7936,19 @@
           "answer": "no",
           "cite": "N.C. Gen. Stat. \u00a7 95-25.1(d)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -7787,6 +8181,19 @@
           "answer": "no",
           "cite": "N.D.C.C. \u00a7 40-05.1-06"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -8088,6 +8495,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 4.55,
@@ -8321,6 +8741,19 @@
         "retrieved": "2026-10-12",
         "estimate": false,
         "terms": { "preempts": true, "answer": "no", "cite": "RSA 31:39" }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -8565,6 +8998,19 @@
           "answer": "no",
           "cite": "N.J.S.A. 34:11-56a et seq."
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -8813,6 +9259,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 5.9,
@@ -9057,6 +9516,19 @@
           "answer": "no",
           "cite": "NRS 268.001; NRS 268.003(1)(c)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -9320,6 +9792,19 @@
           "answer": "no",
           "cite": "N.Y. Labor Law \u00a7 652 (as construed in Wholesale Laundry Bd. of Trade v. City of New York, 1962)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -9608,6 +10093,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 2.75,
@@ -9837,6 +10335,19 @@
           "answer": "no",
           "cite": "Okla. Stat. tit. 40, \u00a7 160"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -10199,6 +10710,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 9.9,
@@ -10421,6 +10945,19 @@
           "answer": "no",
           "cite": "43 P.S. \u00a7 333.114a (Act 112 of 2006)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -10656,6 +11193,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 33,
@@ -10849,6 +11399,19 @@
           "answer": "no",
           "cite": "R.I. Gen. Laws \u00a7 28-12-25"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -11055,6 +11618,19 @@
           "answer": "no",
           "cite": "S.C. Code Ann. \u00a7 6-1-130(B)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -11304,6 +11880,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 0,
@@ -11514,6 +12103,19 @@
           "answer": "no",
           "cite": "Tenn. Code Ann. \u00a7 50-2-112"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -11746,6 +12348,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 0,
@@ -11972,6 +12587,19 @@
           "answer": "no",
           "cite": "Utah Code \u00a7 34-40-106(1)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -12241,6 +12869,19 @@
           "answer": "no",
           "cite": "Va. Code \u00a7 15.2-1102 (charter powers, read under Dillon's Rule)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -12538,6 +13179,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 37,
@@ -12738,6 +13392,19 @@
           "answer": "no",
           "cite": "24 V.S.A. \u00a7 2291"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -12992,6 +13659,19 @@
       },
       {
         "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
         "series": "income-tax",
         "tier": "general",
         "value": 0,
@@ -13217,6 +13897,19 @@
           "answer": "no",
           "cite": "Wis. Stat. \u00a7 104.001(2)"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -13459,6 +14152,19 @@
           "answer": "no",
           "cite": "W. Va. Code \u00a7 21-5C-2"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",
@@ -13713,6 +14419,19 @@
           "answer": "no",
           "cite": "Wyo. Stat. \u00a7 27-4-202"
         }
+      },
+      {
+        "level": "state",
+        "series": "state-unemployment-tax",
+        "tier": "general",
+        "value": 2.7,
+        "effectiveDate": "2025-01-01",
+        "endDate": null,
+        "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+        "retrieved": "2026-10-14",
+        "estimate": true,
+        "unit": "percent-of-wages",
+        "terms": { "wageBase": 7000 }
       },
       {
         "level": "state",

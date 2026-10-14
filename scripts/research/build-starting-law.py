@@ -150,6 +150,27 @@ def payroll_taxes(rows):
                     False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
 
 
+def business_taxes(rows):
+    """Taxes a business pays on wages and profit (data/research/money/business-taxes-2026.json)."""
+    taxes = load(RESEARCH / "money/business-taxes-2026.json")
+    futa = taxes["federalUnemploymentTax"]
+    rows.append(row("US", "federal", "federal-unemployment-tax", futa["value"], futa["effectiveDate"],
+                    FOREVER, futa["source"], False, unit="percent-of-wages",
+                    terms={k: futa[k] for k in ("wageBase", "grossRate", "stateCredit", "notCovered")},
+                    retrieved=taxes["retrieved"]))
+    corporate = taxes["corporateIncomeTax"]
+    rows.append(row("US", "federal", "corporate-income-tax", corporate["value"], corporate["effectiveDate"],
+                    FOREVER, corporate["source"], False, unit="percent-flat", retrieved=taxes["retrieved"]))
+    suta = taxes["stateUnemploymentTax"]
+    states = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")["places"]
+    for state in sorted(states):
+        if state in futa["notCovered"]:
+            continue
+        rows.append(row(state, "state", "state-unemployment-tax", suta["value"], suta["effectiveDate"],
+                        FOREVER, suta["source"], suta["estimate"], unit="percent-of-wages",
+                        terms={"wageBase": suta["wageBase"]}, retrieved=taxes["retrieved"]))
+
+
 def local_wage_authority(rows):
     questions = load(RESEARCH / "laws/starting-law-2026/labor-workforce.json")["questions"]
     question = questions["us-policy-positions:labor-workforce.local-minimum-wage-authority"]
@@ -339,6 +360,7 @@ def main():
     minimum_wages(rows)
     local_wage_authority(rows)
     payroll_taxes(rows)
+    business_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)
     benefits(rows)

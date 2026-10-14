@@ -32,6 +32,8 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
 - **Who moves away, and why (Oct 14):** each adult's pull to leave town comes from their own life: rent or mortgage against what the household earns, a job in another town, family they're close to living elsewhere, a death at home, and the region's jobs getting worse than the nation's. Nobody leaves by chance.
 - **Officials' aides (Oct 14):** officials hire people from around town who are of working age; out-of-town relatives are no longer hired as if they were out of work, and a hire from the wider population becomes a full person with their own past.
 - **Paychecks (Oct 14):** taxes come out by the law where the worker lives, and each paycheck's record says when the tax figures are estimates.
+- **Laws reach the economy (Oct 14, #4184):** new openings never pay below the minimum wage in force; a federal budget cut or raise pushes the national economy that month; employers pay their Social Security and Medicare share; unpaid property tax and sales tax become arrears; movers take their cash with them.
+- **Businesses (Oct 14, #4197):** businesses close from months of operating losses or their owner's reasons, not a yearly chance; workers quit for better pay or a better job; every payday carries federal and state unemployment tax, and company-owned businesses pay profit tax each quarter, all from the law in force; supplies bought outside the town leave its books.
 - **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
@@ -64,7 +66,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Open work taken
 
-- **Stress audit wiring (CTO, Oct 14), PR #4166, in progress:** defects 23 (moves read records, no draw), 16 (aides the records can place), 12–14 (withholding), 7 (wage credit line: registered stopgap), 11 (voucher rows end on closure).
+- **Stack, Oct 14 (all merged up to main through #4173):** #4166 (stress-audit wiring) → #4184 (laws reach the economy, money audit) → #4197 (business audit). #4166 carries a port that restores three English files the dead-files cleanup removed while the opening still imports them.
+- **Stress audit wiring (CTO, Oct 14), PR #4166, done:** defects 23 (moves read records, no draw), 16 (aides the records can place), 12–14 (withholding), 7 (wage credit line: registered stopgap), 11 (voucher rows end on closure).
 - **Next, from the CTO (Oct 14), in this order after #4166:**
   - Laws reach the economy: hiring pay reads the wage floor in force; the macro engine reads the federal budget (`SG-WORLD-macro-public-budget`); employers pay their Social Security and Medicare share on the journal.
   - Money audit (#4162) defects 5, 12, 13, 14: mortgage balances fall only when paid; unpaid property tax and unremittable sales tax become arrears records; a short down payment can't get the full mortgage.
@@ -77,6 +80,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **Taking M1-14, the economy's part (history before your start):** a 2026 world opens with every real national month since January 2021 and each region's real month for the same span. Built on #3996.
 
 ## Helpers run
+
+- Oct 14, PRs #4184 and #4197: Sonnet sub-agents, at most two at a time, each on its own files. They built mortgage amortization and down payments (`housing.ts`), tax arrears (`housing-property-tax.ts`, `purchase-tax.ts`), the jobs rows (`jobs.ts`), the credit rows (`credit.ts`, `macro.ts`, regional prices), the business rows (`business.ts`, `cost-of-living.ts`, `opening-customers.ts`) and the audit tests. I wrote employer taxes, business taxes and the books record myself.
 
 - Oct 14, PR #4166: two Sonnet sub-agents on separate files. One fixed withholding (`budgets.ts` withhold, `tax-withholding.ts`, a new test; four stopgaps). The other ended closed organizations' law-reach rows (`group-b-store.ts`) and registered the wage credit-line stopgap (`residents.ts`), because a real draw needs a finance-engine entry (OPUS-CORE).
 
@@ -152,6 +157,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-CORE: API version labels collide.** My seams are labeled `core2-api-v11` to `-v16` (v11 you carried); you have your own `v12`. Please renumber mine when you carry them: v12 `startJob`/`endJob`, v13 `attachBusinessCredit`, v14 `endStandingContract`, v15 `setStandingContractAmount`, v16 `reduceStandingArrears`.
 
 ## Questions for the owner
+
+- **Does a player see another business's books? (owner decision, registered `SG-WORLD-owner-decision-business-books`).** The record is built and no screen shows it. Simplest answer: the owner and the bank, plus anything the law makes public.
+- **The federal budget's push on the economy.** The national model reads a budget change at a multiplier of 1.2 on the whole budget, interest included. Real multipliers differ by line (interest paid to bondholders moves less than spending on goods). Per-line multipliers would need your call (question in #4184).
 
 - **Recessions in long games.** Real recessions start from shocks (oil, a pandemic, a financial crisis). Measured credit links alone don't make cycles. I'll let them come from causes in the game: the president's appointments to the central bank board, Congress's budgets and laws, and price changes in data. A self-starting credit cycle is possible at the edge of the measured ranges. Tell me if you want it.
 

@@ -341,6 +341,12 @@
       "tag": "ESTIMATED",
       "citation": "Release from prison, sized like the Social Readjustment Rating Scale's 'Marital reconciliation', 45 life-change units divided by 100 (Holmes and Rahe 1967): a return to the household after a separation.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.5"
+    },
+    "directorElectionResultImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses; the owner rules that running, winning and losing are journal entries (Oct 14).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
     }
   },
   "channels": [
@@ -506,6 +512,11 @@
       "eventKind": "candidate-filed",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "election-result",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
     },
     {
       "eventKind": "office.replied",

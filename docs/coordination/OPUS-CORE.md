@@ -34,3 +34,41 @@ A new world opens with a year behind it. The news has stories from the year befo
 ### Sub-agents
 
 One Sonnet Explore agent (read-only) mapped the dossier, news and knowledge readers at the start.
+
+## One model, two tiers
+
+Branch `core/one-model-two-tiers`, draft PR #4172 to `main`. Design: `docs/design/one-model-two-tiers.md`.
+
+### What the owner can play now
+
+A town opens at its real Census size when it is smaller than 10,000 people: Cade, Louisiana opens with its 1,710. A law reaches the town's people by the hundreds: a state income tax act in Cade reaches 757 working adults, 713 of them counted, and their withholding follows it. People leave a state that raises its taxes; Louisiana ends that year 13,431 people smaller than without the act. Someone the player meets is built from their group and the employer's books, and returns to the counts after 180 days out of the player's life. A small town's year runs in 42 to 75 seconds instead of 130 to 190.
+
+### Checklist
+
+- [x] Counted groups (place, district, household kind, income band, housing, age band, work) replace per-person counted records; members are packed columns (`counted-groups.ts`).
+- [x] Same reads, scaled: withholding from the law in force, rent and mortgage from each group's account with arrears, retirement at the Social Security level in force (`counted-money.ts`, `residents.ts`).
+- [x] `reachOf`: people and dollars a rule touches, both tiers, by group (`counted-reach.ts`), read by law reach.
+- [x] Districts: households placed into the state House districts the town splits into.
+- [x] Moves from causes: every group weighs every state monthly; other states at a coarse grain by age (`modules/counted-moves.ts`); regional population follows.
+- [x] Fill-in from the group and the employer's books; demotion after a long while out of the player's life (`modules/counted-demotion.ts`).
+- [x] A town opens at its Census size below 10,000; relatives of a town with no county record live elsewhere in the state.
+- [x] Proof year (Cade, Louisiana, seed `549bdf97…`), speed and heap before and after, golden path green.
+
+### Needs from other sessions
+
+- **OPUS-GOV:** confirm the hooks in `budgets.ts` and `budgets-treasury.ts`; whether a state act enacted in play should override a rate scheduled in the data for a later date; the County treasurer candidate in Dennisville, New Jersey is a Maryland state senate sample id.
+- **OPUS-WORLD:** confirm the hooks in `housing.ts`, `regional.ts` and `world-transfer.ts`; counted workers' quits and hires read the groups (business audit defects 2, 4, 7, 8).
+- **OPUS-PEOPLE:** confirm the `births-counted.ts` hook and the notable-only facet change in the generator.
+- **CTO:** carry the four owner questions in the PR body into `OWNER-DECISIONS.md`; rule on keeping packed counted rows against the MEMORY-FLAT regenerate-from-seed ruling.
+
+### Open stopgaps
+
+`SG-CORE-counted-person-views`, `SG-CORE-counted-unkeyed-money`, `SG-CORE-district-placement`, `SG-CORE-filled-unplaced-income`, and the owner decisions `SG-CORE-owner-decision-town-size`, `-town-districts`, `-fill-in-outside-kin`, `-demotion-days`.
+
+### Next
+
+(7) A kept approval measure per official, read from the groups like any view; (10) records indexed by person across both tiers; re-amounting the opening's retirement awards to full people (`SG-GOV-opening-award-level`).
+
+### Sub-agents
+
+One Haiku Explore agent (read-only) searched for place-level age tables. No sub-agent wrote code.
