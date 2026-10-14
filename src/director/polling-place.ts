@@ -16,7 +16,11 @@ import {
   ballot,
   type ContestRow,
 } from "../core2/modules/elections";
-import { castBallot } from "../core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  castBallot,
+  pollingPlaceOf,
+} from "../core2/modules/voting";
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { IsoDate } from "../simulation/types";
@@ -56,6 +60,9 @@ export interface PollingVisit {
   readonly contests: readonly PollingContest[];
   /** Household members who may vote too, who go along. */
   readonly withIds: readonly PersonId[];
+  /** The voting engine's polling place for the voter's precinct, and who works it that day. */
+  readonly pollingPlaceId: string | null;
+  readonly pollWorkerIds: readonly PersonId[];
 }
 
 const visitId = (personId: PersonId, date: IsoDate) => `${personId}:${date}`;
@@ -160,6 +167,20 @@ export function pollingVisitDue(
     withIds: (household?.memberIds ?? []).filter(
       (id) => id !== personId && mayVote(core, place.townPlaceId, id, date),
     ),
+    ...pollingPlaceFields(api, personId, date),
+  };
+}
+
+/** The voting engine's polling place and poll workers, where it keeps them. */
+function pollingPlaceFields(api: CoreAPI, personId: PersonId, date: IsoDate) {
+  const row = api.state.modules.has(VOTING_MODULE_ID)
+    ? pollingPlaceOf(api, personId, date)
+    : null;
+  return {
+    pollingPlaceId: row?.id ?? null,
+    pollWorkerIds: (row?.pollWorkers?.ids ?? []).filter(
+      (id) => id !== personId,
+    ) as PersonId[],
   };
 }
 

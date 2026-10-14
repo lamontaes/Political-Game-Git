@@ -28,7 +28,6 @@ import {
   openVoting,
   resultOf,
 } from "./modules/voting";
-import { campaignParameter } from "./campaign-views";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { countedChoice, countedResidents } from "./electorate";
@@ -119,14 +118,12 @@ describe("elections in the two-level world", () => {
       const kept = countedBallotsOf(api, contest.id);
       expect(kept.length, contest.title).toBeGreaterThan(0);
       for (const b of kept) {
-        expect(b.choice, b.id).toBe(b.voted ? countedChoice(b.appeal) : null);
-        if (b.voted)
-          expect(
-            b.turnoutReasons.duty +
-              b.turnoutReasons.interest +
-              campaignParameter("turnoutBase"),
-            b.id,
-          ).toBeGreaterThan(b.turnoutReasons.cost);
+        // Each stands for the town's people like them: their choice counts
+        // at their turnout propensity, which slides strictly between never
+        // and always (turnout.ts).
+        expect(b.choice, b.id).toBe(countedChoice(b.appeal));
+        expect(b.turnout, b.id).toBeGreaterThan(0);
+        expect(b.turnout, b.id).toBeLessThan(1);
       }
       const sides = filings.map((f) => partySide(f.party ?? null));
       const contested =

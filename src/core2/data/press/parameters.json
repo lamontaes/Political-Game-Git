@@ -55,6 +55,48 @@
       "source": "How far one interview read or watched moves a person's view of the candidate, between an ad (secondhand, paid) and a speech heard in person.",
       "spread": [0.1, 0.4]
     },
+    "brokenPromiseNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly a promise the candidate broke draws a reporter's question, against the other reasons to ask (accountability questions lead candidate interviews: Ballotpedia and League of Women Voters candidate questionnaires).",
+      "spread": [0.5, 2]
+    },
+    "recordVoteNewsWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How strongly each of an incumbent's recent recorded votes draws a question about it (local coverage of officeholders centers on their votes: Arnold 2004, Congress, the Press, and Political Accountability).",
+      "spread": [0.2, 1]
+    },
+    "recordVotesConsidered": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many of an incumbent's most recent recorded votes a reporter looks over before an interview.",
+      "spread": [3, 10]
+    },
+    "partyGapNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly the distance between two candidates' positions on a question (0 to 2, halved) draws a question: reporters frame races by where the candidates differ (Patterson 1993, Out of Order).",
+      "spread": [0.5, 2]
+    },
+    "townConcernNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly the town's own concern (the summed strength of its people's stances on a question over its adults, 0 to 1) draws a question; local outlets cover what their audience cares about (Hamilton 2004, All the News That's Fit to Sell).",
+      "spread": [0.5, 2]
+    },
+    "divisiveNewsWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How strongly a question's national divisiveness (how partisan and how evenly split, 0 to about 1) draws a question beside the race's own record.",
+      "spread": [0.2, 1]
+    },
+    "askedAgainPenalty": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much less a question draws each time this candidate has already answered it on the record: a reporter looks for what the candidate hasn't said yet.",
+      "spread": [0.5, 2]
+    },
     "interviewShyness": {
       "value": -1,
       "tag": "TUNABLE",
@@ -385,6 +427,24 @@
       "tag": "TUNABLE",
       "source": "Stories a week a national outlet runs that bear on one town's state or the nation as its readers there follow it (a national outlet's few daily political stories are mostly about the capital and other states).",
       "spread": [1, 3]
+    },
+    "partyBreakNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight on a question where a candidate's own recorded vote broke with their party's side, on the scale of a broken promise (reporters ask about party defections: Groeling 2010).",
+      "spread": [0.3, 2]
+    },
+    "outletReadersNewsWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight on how far a candidate stands from the asking outlet's line on a question its readers care about (outlets ask what their audience cares about: Gentzkow and Shapiro 2010; hostile interviews probe weak points).",
+      "spread": [0.3, 2]
+    },
+    "reporterCauseNewsWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight on a policy question the asking reporter holds a cause on, at full strength.",
+      "spread": [0.2, 1]
     }
   }
 }

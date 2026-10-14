@@ -100,5 +100,67 @@
       "low": 0.1,
       "high": 0.6
     }
+  },
+  "movesDaysPerYear": {
+    "value": 365,
+    "tag": "SOURCED",
+    "citation": "Days in a calendar year: a job's daily wage times this, over the months in a year, is the household's monthly pay that its rent or mortgage is weighed against."
+  },
+  "movesHousingCostWeight": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How much what a home costs, as a share of the household's income, pushes a person toward leaving town (at a share of 0.3 the push is 0.24 on the scale of the holds; at the cap it is 0.8). Renters paying more of their income for housing move more, and 'wanted cheaper housing' is one of the housing reasons movers give (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.3,
+      "high": 1.5
+    }
+  },
+  "movesHousingCostShareCap": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The largest share of income a home's cost counts as when it pushes toward leaving; a household with no income at all reads as this share.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.6,
+      "high": 1.5
+    }
+  },
+  "movesJobElsewherePush": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The push a job paid from another place adds toward moving nearer to it. 'New job or job transfer' and 'to be closer to work / easier commute' are among the work reasons movers give (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.1,
+      "high": 0.6
+    }
+  },
+  "movesCloseElsewherePull": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The push toward leaving from a partner, parent or child living elsewhere, times how close the person is to them now (0 to 1 each, faded since their last contact; up to movesKinHoldCap of closeness). People move toward close kin (Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304), and family reasons are the largest group of movers' reasons (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.2,
+      "high": 1
+    }
+  },
+  "movesHouseholdLossPull": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "The push a death at home (a partner or someone they live with) adds toward leaving town. 'Change in marital status' and other family reasons are a share of movers' reasons (Census, CPS ASEC 2023, Table 13); most widowed people stay, so the push is a quarter of the way to leaving.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5
+    }
+  },
+  "movesUnemploymentGapWeight": {
+    "value": 0.043,
+    "tag": "ESTIMATED",
+    "citation": "How much each point of the region's unemployment above the nation's, beyond the gap it opened with, speeds everyone's pull to leave (and each point below slows it), as a share of the rate on the log scale. Net out-migration of about 0.25% of the population a year per point of relative unemployment (Blanchard and Katz 1992, BPEA; the regional engine's regionalMigrationPerUnemploymentPoint) over adults' county departure rate of about 5.8% a year (ACS 2024, data/research/migration/mover-rates-acs-2024.json): 0.25 / 5.8 = 0.043.",
+    "estimatedFrom": "Blanchard and Katz 1992; Dao, Furceri and Loungani 2017 put the migration response at a quarter to a half of a local shock; spread 0.02 to 0.09",
+    "stopgapId": "SG-P15-moves-weights"
   }
 }

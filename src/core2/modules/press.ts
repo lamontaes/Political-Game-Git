@@ -41,6 +41,7 @@ import {
 import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
+  campaignRecognition,
   makeStatements,
   touchImpression,
   registerAdOutlet,
@@ -52,15 +53,15 @@ import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
+import { type Stance as ViewStance } from "./views";
+import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
-  personLean,
-  personStance,
+  PLATFORM_QUESTIONS,
   publicOffset,
   questionAxis,
   type Stance,
 } from "../campaign-views";
-import { POLICY_QUESTIONS } from "../policy-answers";
 import {
   hireStaffMember,
   nationalOutletName,
@@ -767,13 +768,19 @@ export function newsworthiness(api: CoreAPI, filing: FilingRow): number {
   const campaigns = api.state.modules.has(CAMPAIGNS_MODULE_ID)
     ? api.moduleState(CAMPAIGNS_MODULE_ID)
     : null;
-  const known = campaigns
-    ? (
-        campaigns
-          .table("impressions")
-          .query("byCandidate", [filing.personId]) as unknown as ImpressionRow[]
-      ).filter((i) => i.heardOf).length
-    : 0;
+  // How much of the town knows them: the people who've heard of them and
+  // the counted households their mail reached (`campaignRecognition`).
+  const known = !campaigns
+    ? 0
+    : campaigns.table("campaigns").get(filing.id)
+      ? campaignRecognition(api, filing.id)
+      : (
+          campaigns
+            .table("impressions")
+            .query("byCandidate", [
+              filing.personId,
+            ]) as unknown as ImpressionRow[]
+        ).filter((i) => i.heardOf).length / adults;
   const raised = (f: FilingRow) =>
     (
       campaigns?.table("campaigns").get(f.id) as unknown as
@@ -781,7 +788,7 @@ export function newsworthiness(api: CoreAPI, filing: FilingRow): number {
     )?.raisedMinor ?? 0;
   const total = ballot(api, contest.id).reduce((s, f) => s + raised(f), 0);
   return (
-    Math.min(1, known / adults) +
+    Math.min(1, known) +
     (isIncumbent(api, contest, filing.personId)
       ? pressParameter("incumbentNewsworthiness")
       : 0) +
@@ -791,10 +798,29 @@ export function newsworthiness(api: CoreAPI, filing: FilingRow): number {
   );
 }
 
+/** A candidate's public position on a question: what they've stated, else where they stand. */
+function statedPosition(
+  api: CoreAPI,
+  filing: FilingRow,
+  platform: readonly Stance[],
+  question: string,
+): number {
+  return (
+    platform.find((s) => s.question === question)?.position ??
+    candidateStance(api, filing.personId, filing.party ?? null, question) ??
+    0
+  );
+}
+
+const concernCache = new WeakMap<
+  object,
+  { date: string; map: Map<string, number> }
+>();
+
 /**
  * Where a candidate stands on a question, as a reporter reads it: what they
- * said in the campaign, else how they last voted on it, else their party's
- * side of it, else the side their own lean puts them on; 0 where none says.
+ * said in the campaign, else how they last voted on it, else their own view
+ * blended with their party's; 0 where none says.
  */
 export function standingOn(
   api: CoreAPI,
@@ -802,7 +828,7 @@ export function standingOn(
   question: string,
 ): {
   position: number;
-  from: "platform" | "vote" | "party" | "lean" | "none";
+  from: "platform" | "vote" | "party" | "none";
   recordId: string | null;
 } {
   const stated = platformOf(api, filing).find((s) => s.question === question);
@@ -813,23 +839,58 @@ export function standingOn(
     .at(-1);
   if (vote)
     return { position: vote.stance.position, from: "vote", recordId: vote.id };
-  const side = partySide(filing.party) * Math.sign(questionAxis(question));
-  if (side) return { position: side, from: "party", recordId: null };
-  const person = api.state.people.get(filing.personId);
-  const lean = person
-    ? Math.sign(personStance(personLean(api.state.people, person, 0), question))
-    : 0;
-  return { position: lean, from: lean ? "lean" : "none", recordId: null };
+  // Their own view blended with their party's (GOV's campaign stances).
+  const stance = candidateStance(
+    api,
+    filing.personId,
+    filing.party ?? null,
+    question,
+  );
+  return stance === null
+    ? { position: 0, from: "none", recordId: null }
+    : { position: stance, from: "party", recordId: null };
 }
 
 /**
- * What the reporter asks, in order: a promise the candidate broke; where
- * their own votes broke with their party; where they stand furthest from what
- * the outlet's readers want, weighted by how much the readers care (so a
- * hostile outlet asks where the candidate is weakest with its audience); the
- * policy the asking reporter is driven on; the question on which they differ
- * most from a rival; and the most divisive
- * question in play (most partisan and most evenly split nationally).
+ * How much the town cares about a question, 0 to 1: the summed strength of
+ * the stances its people hold on it (PEOPLE's views engine) over the town's
+ * adults, read once a day.
+ */
+function townConcern(api: CoreAPI, question: string): number {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return 0;
+  const held = concernCache.get(api.state);
+  const map =
+    held?.date === api.state.date ? held.map : new Map<string, number>();
+  if (held?.date !== api.state.date)
+    concernCache.set(api.state, { date: api.state.date, map });
+  const hit = map.get(question);
+  if (hit !== undefined) return hit;
+  const adults =
+    api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
+  const strength = (
+    api
+      .moduleState(VIEWS_MODULE_ID)
+      .table("stances")
+      .query("byTopic", [question]) as unknown as ViewStance[]
+  ).reduce((sum, row) => sum + row.strength, 0);
+  const share = Math.min(1, strength / adults);
+  map.set(question, share);
+  return share;
+}
+
+/**
+ * What the reporter asks: the questions the race's record puts in play,
+ * scored by every reason a reporter has to ask each one: a promise the
+ * candidate broke; the incumbent's recent recorded votes; how far apart the
+ * candidates (their stated positions, else their own and their party's)
+ * stand; how much the town cares (the stances its people hold); and how
+ * divisive the question is nationally. A question this candidate has
+ * already been asked on the record counts for less each time, so outlets
+ * and weeks ask different things. The press adds its own reads: a vote
+ * that broke with the candidate's party, how far the candidate stands from
+ * the asking outlet's line on what its readers care about (a hostile outlet
+ * asks where the candidate is weakest with its audience), and the cause the
+ * asking reporter is driven on.
  */
 export function interviewQuestions(
   api: CoreAPI,
@@ -838,105 +899,105 @@ export function interviewQuestions(
     | (Pick<OutletRow, "id" | "lean"> & Partial<Pick<OutletRow, "reporterIds">>)
     | null,
 ): readonly string[] {
-  const out: string[] = [];
-  const add = (q: string | undefined) => {
-    if (q && !out.includes(q)) out.push(q);
+  const score = new Map<string, number>();
+  const add = (q: string | undefined, weight: number) => {
+    if (q) score.set(q, (score.get(q) ?? 0) + weight);
   };
-  const broken = promisesOf(api, filing.personId)
-    .filter((p) => p.status === "broken")
-    .sort((a, b) => b.promise.date.localeCompare(a.promise.date));
-  add(broken[0]?.promise.stance.question);
-  // The candidate's party: a vote against their party's side is news.
+  for (const p of promisesOf(api, filing.personId))
+    if (p.status === "broken")
+      add(p.promise.stance.question, pressParameter("brokenPromiseNewsWeight"));
+  const contest = contestOf(api, filing.contestId);
+  if (isIncumbent(api, contest, filing.personId))
+    for (const vote of votesOf(api, filing.personId).slice(
+      -pressParameter("recordVotesConsidered"),
+    ))
+      add(vote.stance.question, pressParameter("recordVoteNewsWeight"));
+  // The candidate's party: a recorded vote against their party's side.
   const side = partySide(filing.party);
-  if (side) {
-    const breaks = votesOf(api, filing.personId)
-      .filter(
-        (v) =>
-          Math.sign(v.stance.position) ===
-          -side * Math.sign(questionAxis(v.stance.question)),
+  if (side)
+    for (const v of votesOf(api, filing.personId))
+      if (
+        Math.sign(v.stance.position) ===
+        -side * Math.sign(questionAxis(v.stance.question))
       )
-      .sort(
-        (a, b) =>
-          Math.abs(questionAxis(b.stance.question)) -
-            Math.abs(questionAxis(a.stance.question)) ||
-          b.date.localeCompare(a.date),
-      );
-    add(breaks[0]?.stance.question);
-  }
+        add(v.stance.question, pressParameter("partyBreakNewsWeight"));
   const own = platformOf(api, filing);
-  const position = (platform: readonly Stance[], q: string) =>
-    platform.find((s) => s.question === q)?.position ?? 0;
   const rivals = ballot(api, filing.contestId).filter(
     (f) => f.id !== filing.id && f.status === "on-ballot",
   );
-  const inPlay = [
-    ...new Set(
-      [filing, ...rivals].flatMap((f) =>
-        platformOf(api, f).map((s) => s.question),
-      ),
-    ),
-  ];
-  const pool = inPlay.length ? inPlay : Object.keys(POLICY_QUESTIONS);
-  // The outlet's readers: where the candidate stands furthest from the side
+  const questions = [
+    ...new Set([
+      ...PLATFORM_QUESTIONS,
+      ...own.map((s) => s.question),
+      ...rivals.flatMap((r) => platformOf(api, r).map((s) => s.question)),
+    ]),
+  ].sort();
+  const mine = new Map(
+    questions.map((q) => [q, statedPosition(api, filing, own, q)]),
+  );
+  // The asking outlet's readers: how far the candidate stands from the side
   // the outlet's line takes, on what its followers care about.
   if (outlet) {
     const followers = followersOf(api, outlet.id);
-    const care = (q: string) =>
-      followers.length
+    for (const q of questions) {
+      const care = followers.length
         ? followers.reduce(
             (s, id) => s + Math.abs((leanOf(api, id) / 2) * questionAxis(q)),
             0,
           ) / followers.length
         : 0;
-    const candidates = [
-      ...new Set([
-        ...pool,
-        ...votesOf(api, filing.personId).map((v) => v.stance.question),
-      ]),
-    ];
-    const scored = candidates
-      .map((q) => {
-        const line = Math.sign((outlet.lean / 2) * questionAxis(q));
-        const theirs = standingOn(api, filing, q).position;
-        return { q, score: care(q) * Math.abs(line - theirs) };
-      })
-      .filter((row) => row.score > 0)
-      .sort((a, b) => b.score - a.score || a.q.localeCompare(b.q));
-    add(scored[0]?.q);
+      const line = Math.sign((outlet.lean / 2) * questionAxis(q));
+      add(
+        q,
+        (pressParameter("outletReadersNewsWeight") *
+          care *
+          Math.abs(line - standingOn(api, filing, q).position)) /
+          2,
+      );
+    }
   }
-  // The reporter's own cause: a policy question they are driven on.
+  // The asking reporter's own causes on a policy question.
   const reporterId = outlet?.reporterIds
     ? reporterFor(api, outlet as OutletRow, filing.personId)
     : null;
   const reporter = reporterId ? api.state.people.get(reporterId) : undefined;
   if (reporter)
-    add(
-      [...reporter.drives.values()]
-        .filter((d) => d.kind === "cause" && isPolicyTopic(d.topic))
-        .sort(
-          (a, b) => b.strength - a.strength || a.topic.localeCompare(b.topic),
-        )[0]?.topic,
-    );
-  let widest: { q: string; gap: number } | null = null;
+    for (const d of reporter.drives.values())
+      if (d.kind === "cause" && isPolicyTopic(d.topic))
+        add(d.topic, pressParameter("reporterCauseNewsWeight") * d.strength);
   for (const rival of rivals) {
     const theirs = platformOf(api, rival);
-    for (const q of [
-      ...new Set([...own, ...theirs].map((s) => s.question)),
-    ].sort()) {
-      const gap = Math.abs(position(own, q) - position(theirs, q));
-      if (gap > 0 && (!widest || gap > widest.gap)) widest = { q, gap };
-    }
+    for (const q of questions)
+      add(
+        q,
+        (pressParameter("partyGapNewsWeight") *
+          Math.abs(mine.get(q)! - statedPosition(api, rival, theirs, q))) /
+          2,
+      );
   }
-  add(widest?.q);
-  const divisive = (q: string) =>
-    Math.abs(questionAxis(q)) - Math.abs(publicOffset(q));
-  for (const q of pool
-    .slice()
-    .sort((a, b) => divisive(b) - divisive(a) || a.localeCompare(b))) {
-    if (out.length >= pressParameter("questionsPerInterview")) break;
-    add(q);
+  for (const q of questions) {
+    add(q, pressParameter("townConcernNewsWeight") * townConcern(api, q));
+    add(
+      q,
+      pressParameter("divisiveNewsWeight") *
+        Math.max(0, Math.abs(questionAxis(q)) - Math.abs(publicOffset(q))),
+    );
   }
-  return out.slice(0, pressParameter("questionsPerInterview"));
+  // Asked before, on the record: less to learn from asking again.
+  const asked = new Map<string, number>();
+  for (const row of table(api, "interviews").query("byCandidate", [
+    filing.personId,
+  ]) as unknown as InterviewRow[])
+    if (row.status !== "declined")
+      for (const q of row.questions) asked.set(q, (asked.get(q) ?? 0) + 1);
+  for (const [q, times] of asked)
+    if (score.has(q))
+      score.set(q, score.get(q)! - pressParameter("askedAgainPenalty") * times);
+  return [...score]
+    .filter(([, v]) => v > 0)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, pressParameter("questionsPerInterview"))
+    .map(([q]) => q);
 }
 
 function weekCount(api: CoreAPI, outletId: string): number {
@@ -1379,7 +1440,8 @@ function checkClaim(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 
 /**
  * How a candidate who isn't the player answers: their platform's position,
- * else the side their own lean puts them on, else they decline.
+ * else where their own view and their party's put them (`candidateStance`),
+ * else (no view and no party) they decline.
  */
 export function candidateAnswers(
   api: CoreAPI,
@@ -1387,18 +1449,19 @@ export function candidateAnswers(
   filing: FilingRow,
 ): readonly InterviewAnswer[] {
   const platform = platformOf(api, filing);
-  const person = api.state.people.get(filing.personId);
   return questions.map((question) => {
     const stated = platform.find((s) => s.question === question);
     if (stated) return { question, position: stated.position, move: "plain" };
-    if (!person) return { question, position: null };
-    const view = personStance(
-      personLean(api.state.people, person, 0),
+    // Their own view blended with their party's; none only with neither.
+    const stance = candidateStance(
+      api,
+      filing.personId,
+      filing.party ?? null,
       question,
     );
     return {
       question,
-      position: view === 0 ? null : Math.sign(view),
+      position: stance === null ? null : Math.round(stance * 1000) / 1000,
       move: "plain",
     };
   });
