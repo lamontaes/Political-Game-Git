@@ -7,14 +7,14 @@
  *
  * The rate, the cap and who's paid come from the law in force (OPUS-GOV's
  * `lawInForce(api, "property-tax")` and the county's treasury), registered
- * with `registerPropertyTax`. Until that's on this branch, each state's
- * average effective rate stands in, paid outside the town, where the core's
- * living cost already sent owners' taxes.
+ * with `registerPropertyTax` by the budgets module. Where the law in force
+ * records no rate, the state's average effective rate is the estimate, paid
+ * outside the town. The levy is paid monthly, as through escrow: the budgets
+ * read the year's total, and no county's due dates are in the law data.
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { residentsRuntime } from "./modules/residents";
 import type { ModuleTable } from "./module-state";
-import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -48,7 +48,6 @@ export function stateEffectiveRate(usps: string): number {
 function terms(api: CoreAPI, placeId: string): PropertyTaxTerms {
   const registered = termsSource?.(api, placeId);
   if (registered) return registered;
-  stopgap("SG-WORLD-property-tax-rate");
   return {
     rate: stateEffectiveRate(api.state.placeMetadata?.housingState ?? ""),
     source: {
@@ -56,7 +55,7 @@ function terms(api: CoreAPI, placeId: string): PropertyTaxTerms {
       asOf: api.state.date,
       citation: taxData.source.citation,
       estimatedFrom:
-        "The state's average effective rate on owner-occupied homes, until the county's rate in force is read.",
+        "The state's average effective rate on owner-occupied homes, where the law in force records no rate.",
     },
   };
 }
@@ -81,8 +80,6 @@ export function billPropertyTax(
   const c = api.state as CoreState,
     year = Number(c.date.slice(0, 4)),
     months = api.parameter("macroMonthsPerYear");
-  // Monthly, as escrow pays it; a county's own due dates (once or twice a year) come with its law.
-  stopgap("SG-WORLD-property-tax-monthly");
   const pooled = new Map<string, number>();
   const byPlace = new Map<string, PropertyTaxTerms>();
   const termsFor = (placeId: string) => {

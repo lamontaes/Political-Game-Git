@@ -2516,7 +2516,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerPropertyTax with the county's rate, cap and treasury from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The budgets module registers the county's rate in force and tax collector (registerPropertyTax); only where the law records no rate does the state's sourced average effective rate stand as the estimate. Marker removed."
   },
   {
     "id": "SG-WORLD-property-tax-monthly",
@@ -2528,7 +2529,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Bills on the county's due dates from the law in force, with escrow monthly only for owners with a mortgage.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept monthly payment as the design (escrow-style; budgets read the year's levy, and the law data carries no county due dates); marker removed."
   },
   {
     "id": "SG-WORLD-business-compliance-cost",
@@ -2732,7 +2734,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Stale: unemployment insurance already runs (jobs-benefits.ts fileClaim/payClaims, paid from the state's fund through the ledger); no marker left."
   },
   {
     "id": "SG-PLAY-opening-without-speech",
@@ -2779,7 +2782,9 @@
     "why": "The core closes a business only when it can't pay (closeEmployer); there is no voluntary closure for a solvent business yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling."
+    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling.",
+    "status": "resolved",
+    "resolution": "Stale: a business with no successor is closed by its owner (or heir) through the core's closeBusinessByChoice in business.ts succeed(); no marker left."
   },
   {
     "id": "SG-PLAY-act-control-names",
