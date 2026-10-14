@@ -8,7 +8,7 @@ The rest works. Every government treasury now pays its adopted budget each month
 
 Before: each month every state, county and town treasury received a twelfth of its yearly revenue from outside the town and paid almost nothing out. The U.S. treasury collected withholding and paid nothing. A federal budget cut changed no one's payment.
 
-After: each treasury pays every line of its budget each month, to people and businesses in town first and the rest outside the town, line by line. A federal cut to Social Security lowers the next check of a retiree the game tracks one by one who claimed during play, and turns their view against the law that did it.
+After: each treasury pays every line of its budget each month, to people and businesses in town first and the rest outside the town, line by line. A federal cut to Social Security lowers the next check of a retiree the game tracks one by one who claimed during play. They feel it at once, and blame the law only once a story they hear tells them it did it.
 
 ## What a treasury does each month
 
@@ -52,8 +52,9 @@ Measured in the Lydia run, in order:
 3. **The budget line.** It cut the federal Social Security line to 70.6% of its base (`budget-line-changed:budget:US:2025:socialSecurity:...#balance#2025-12-15`). Interest on the debt was not cut.
 4. **The smaller payment.** `person_6ee8931cace2b343`, a retiree in Lydia who claimed during play, was paid $1,796.49 on November 27 and $1,268.59 on December 27. `person_52106326559861a5` was paid $1,616.47 on December 2 and $1,141.47 on January 2.
 5. **Their money.** Each payment is a journal entry on their own cash account; the retiree held $22,298.57 at the end of the run.
-6. **Their view.** The cut landed on them as an event naming the law (`event:law.effect-landed:2025-12-15:retirement-claim:person_6ee8931cace2b343`). The views engine read it: their stance on the balanced-budget act now wants it repealed, strength 0.043, with that event as its cause (`person_6ee8931cace2b343:us-policy-positions:fiscal.balanced-operating-budget`). Their mood fell to -0.40 and their stress rose to 0.65 that day.
-7. **What did not read it.** No choice they made changed: the game records choices only for the player and the people around them, and this retiree recorded none in 400 days. No drive appears in their records. The story director counts only job wages as household money, so no scene or journal line followed (`src/director/ledger.ts:143`); that part is OPUS-PEOPLE's.
+6. **What they felt.** The cut landed on them as an event with no cause attached (`event:law.effect-landed:2025-12-15:retirement-claim:person_6ee8931cace2b343`). Their mood fell to -0.40 and their stress rose to 0.65 that day; `person_52106326559861a5` fell to -0.39 and rose to 0.64.
+7. **Why their view did not move.** Someone ties a smaller check to the law only after learning of it: a story they heard about the law taking effect, or about the Social Security line it changed (`src/core2/budgets-treasury.ts`, `attribute`). Then a `law.effect-learned` event names the law, and their stance on it cites that story. In 400 days none of the 29 recipients heard such a story (measured: 29 changes landed, 0 learned). This retiree heard 5 stories, all about county board votes and a business closing. So the retiree knows the check is smaller but not why, and holds no view on the act. The learned step has not yet been seen in a run.
+8. **What else did not read it.** No choice they made changed: the game records choices only for the player and the people around them, and this retiree recorded none in 400 days. No drive appears in their records. The story director counts only job wages as household money, so no scene or journal line followed (`src/director/ledger.ts:143`); that part is OPUS-PEOPLE's.
 
 Everyone else in town kept their Social Security amount: 5 retirees from the opening and 832 tracked as counts (see What happens next). The other 27 people who claimed during play and are tracked one by one live outside the town.
 
