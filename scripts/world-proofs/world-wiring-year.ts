@@ -6,35 +6,23 @@
  * wage shortfalls an employer's credit line would have covered (registered
  * stopgap), and voucher eligibility rows ended by a closure.
  *
- * node --import tsx src/core2/tooling/world-wiring-year.ts <seed> [placeKey] [days]
+ * node --import tsx scripts/world-proofs/world-wiring-year.ts <seed> [placeKey] [days]
  */
 import { performance } from "node:perf_hooks";
-import { buildBenchWorld } from "../../bench/world";
-import { createHash } from "node:crypto";
-import { placeLocalities, placeStateKeys } from "../places";
-import { gameStartDate } from "../game-start";
-import { advanceCore } from "../life";
-import { coreAPI } from "../state";
-import { departuresOf } from "../modules/moves";
-import { lawChain } from "../modules/laws";
-import { withholdingOf } from "../modules/budgets";
-import type { StafferRow } from "../modules/staff";
-import { REACH_B_MODULE_ID } from "../law-reach/group-b-store";
+import { buildBenchWorld } from "../../src/bench/world";
+import { gameStartDate } from "../../src/core2/game-start";
+import { advanceCore } from "../../src/core2/life";
+import { coreAPI } from "../../src/core2/state";
+import { departuresOf } from "../../src/core2/modules/moves";
+import { lawChain } from "../../src/core2/modules/laws";
+import { withholdingOf } from "../../src/core2/modules/budgets";
+import type { StafferRow } from "../../src/core2/modules/staff";
+import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
+import { drawPlace } from "../../tests/golden-path/place";
 
 const seed = process.argv[2] ?? `${Date.now()}`;
-/** A place drawn from all 56 by the seed, as the golden-path runner draws. */
-function drawPlace(from: string): string {
-  const hash = createHash("sha256")
-    .update(`${from}:world-wiring`)
-    .digest("hex");
-  const states = [...placeStateKeys()].sort((a, b) => a.localeCompare(b));
-  const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
-  const places = [...placeLocalities(state)].sort((a, b) =>
-    a.key.localeCompare(b.key),
-  );
-  return places[parseInt(hash.slice(8, 16), 16) % places.length]!.key;
-}
-const placeKey = process.argv[3] || drawPlace(seed);
+// A place drawn from all 56 by the seed, as the golden-path runner draws.
+const placeKey = process.argv[3] || drawPlace(seed, "world-wiring").key;
 const days = Number(process.argv[4] ?? 365);
 const start = gameStartDate();
 
