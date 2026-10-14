@@ -121,7 +121,9 @@ function employers(api: CoreAPI, classifications: readonly string[]): string[] {
   for (const org of api.state.organizations.values())
     if (
       org.placeId === town &&
-      classifications.includes(org.classification ?? "")
+      classifications.includes(org.classification ?? "") &&
+      // A closed organization is no longer bound; the review must not re-add it.
+      !api.state.finance.businesses.get(org.id)?.closedAt
     )
       out.push(org.id);
   return out.sort();
