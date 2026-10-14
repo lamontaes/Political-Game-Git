@@ -1,12 +1,41 @@
 /** M1-04 checks on a recorded fixture; the generated-world year is tooling's job. */
 import { describe, expect, it } from "vitest";
+import { createHash } from "node:crypto";
+import { openLaws, lawInForce } from "./modules/laws";
+import { unemploymentTerms } from "./jobs-benefits";
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
 import { advanceCore, createLifeCore } from "./life";
 import { JOBS_MODULE } from "./modules/jobs";
 import { macroCoreData } from "./modules/macro";
 import { parameter } from "./parameters";
+import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
 import { coreAPI } from "./state";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, PersonInput, Source } from "./types";
+
+// A random place from all 56 (the golden-path seed when the suite runs it).
+const seed =
+  process.env.GOLDEN_PATH_SEED ??
+  createHash("sha256").update(`jobs-benefits:${Date.now()}`).digest("hex");
+function drawPlace(): { key: string; state: string } {
+  const states = [...lifePlaceStateIdentities()]
+    .map((s) => s.jurisdictionKey)
+    .sort();
+  const hash = createHash("sha256").update(`${seed}:benefits`).digest("hex");
+  const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
+  const places = [
+    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    }),
+  ].sort((a, b) => a.key.localeCompare(b.key));
+  const place = places[parseInt(hash.slice(8, 16), 16) % places.length]!;
+  return { key: place.key, state };
+}
 
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
@@ -213,6 +242,7 @@ describe("jobs", () => {
     expect(money(core)).toBe(total);
   });
   it("pays a laid-off worker unemployment insurance from the state's fund after the waiting week", () => {
+    const drawn = drawPlace();
     const opening = input();
     const outside = "organization:outside";
     const core = createLifeCore(
@@ -230,21 +260,37 @@ describe("jobs", () => {
               source: src(),
             },
           ],
+          placeMetadata: { placeKey: drawn.key },
         } as CoreInput,
         { data, modules: [JOBS_MODULE] },
       ),
       api = coreAPI(core);
+    openLaws(core);
     withBooks(core, 0.25);
     advanceCore(core, "2021-06-30");
     const claims = api.moduleState("jobs").table("claims").rows();
     const w1 = claims.find((row) => row.personId === "w1");
-    // Half of $840 a week, under the $611 maximum; the waiting week unpaid.
+    // The drawn state's own law sets the claim: the terms read from its row.
+    const terms = unemploymentTerms(api);
+    const row = lawInForce(api, "unemployment-insurance").governing!;
+    expect(row.jurisdiction).toBe(drawn.state);
+    if (!terms.hasProgram) {
+      // A territory whose law records no program: nobody can claim.
+      expect(claims).toEqual([]);
+      return;
+    }
     expect(w1).toMatchObject({
-      weeklyMinor: 42_000,
+      weeklyMinor: Math.round(
+        Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * 84_000),
+      ),
       reasonKey: "demand-below-staff",
+      lawId: row.id,
     });
+    expect(terms.lawId).toBe(row.id);
+    expect(terms.source.citation).toContain(row.id);
+    expect(w1!.weeksLeft as number).toBeLessThanOrEqual(terms.maxWeeks);
     expect(Number(w1!.paidMinor)).toBeGreaterThan(0);
-    expect(Number(w1!.paidMinor) % 42_000).toBe(0);
+    expect(Number(w1!.paidMinor) % Number(w1!.weeklyMinor)).toBe(0);
     expect(String(w1!.nextPayAt) > String(w1!.filedAt)).toBe(true);
     // Nobody who kept their job has a claim.
     const laidOff = new Set(
@@ -429,5 +475,25 @@ describe("jobs", () => {
       (row) => row.jobId === job.id,
     )!;
     expect(schedule.slots).toEqual(commitment.slots);
+  });
+  it("every program in the starting law carries the terms a claim reads, and the places without one say so", () => {
+    const rows = Object.entries(startingLaw.jurisdictions).flatMap(
+      ([key, list]) =>
+        (list as { series: string; terms?: Record<string, unknown> }[])
+          .filter((r) => r.series === "unemployment-insurance")
+          .map((r) => ({ key, terms: r.terms! })),
+    );
+    expect(rows).toHaveLength(56);
+    for (const { key, terms } of rows) {
+      const list = startingLaw.jurisdictions[
+        key as keyof typeof startingLaw.jurisdictions
+      ] as { series: string; value: number | null }[];
+      if (terms.hasProgram !== true) continue;
+      expect(typeof terms.maxWeeks).toBe("number");
+      expect(
+        list.find((r) => r.series === "unemployment-weekly-maximum")?.value,
+      ).toBeGreaterThan(0);
+    }
+    expect(rows.filter((r) => r.terms.hasProgram === true)).toHaveLength(53);
   });
 });

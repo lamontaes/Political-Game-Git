@@ -1,29 +1,195 @@
 /**
- * What the simulated electorate reads from the world before it counts a race
- * (`electorate-blocks.ts`): each candidate's record (incumbency, offices held,
- * a public scandal, the campaign's books, the officeholder's votes) and the
- * race's conditions (the cycle, the national economy against the opening,
- * the town's jobs and crime, the election laws in force against the
- * opening's). Pure readings: nothing here changes the world.
+ * What the electorate the world doesn't name reads from the world before it
+ * votes (`electorate.ts`): each candidate's public standing (incumbency,
+ * offices held, a public scandal, the campaign's books, the officeholder's
+ * votes) and the race's conditions (the cycle, the national economy against
+ * the opening, the town's jobs and crime). Every effect is sized in research
+ * terms (two-party vote share in an evenly split electorate) and turned into
+ * appeal on the lean scale once. Pure readings: nothing here changes the
+ * world.
  */
+import data from "./data/electorate/parameters.json" with { type: "json" };
 import { partySide } from "./appointments";
-import {
-  electorateParameter,
-  nationalEconomyChange,
-  typicalSpendPerVote,
-  type CandidateInputs,
-  type RaceConditions,
-} from "./electorate-blocks";
+import { campaignParameter } from "./campaign-views";
 import {
   electionLawTurnoutCost,
   felonyDisenfranchisedShare,
 } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
 import { CORRUPTION_MODULE_ID } from "./modules/corruption";
+import { convictionsOf } from "./modules/justice";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
 import type { CoreAPI, PersonState } from "./types";
+
+const PARAMS = (
+  data as unknown as { parameters: Record<string, { value: number }> }
+).parameters;
+
+/** One number from the electorate's parameter table. */
+export function electorateParameter(key: string): number {
+  const row = PARAMS[key];
+  if (!row) throw new Error(`Unknown electorate parameter: ${key}`);
+  return row.value;
+}
+
+const TYPICAL_SPEND = (
+  data as unknown as {
+    typicalSpendPerVoteMinor: { byFamily: Record<string, number> };
+  }
+).typicalSpendPerVoteMinor.byFamily;
+
+/** Typical spending per two-party vote for an office family, cents. */
+export function typicalSpendPerVote(family: string): number {
+  return TYPICAL_SPEND[family] ?? TYPICAL_SPEND.stateLegislative ?? 0;
+}
+
+/** Appeal on the lean scale for a share of the two-party vote. */
+export function appealOfShare(share: number): number {
+  return share * electorateParameter("appealPerShare");
+}
+
+/** What the voters know of one candidate, from the records. */
+export interface CandidateInputs {
+  readonly id: string;
+  readonly party: string | null;
+  /** -1 the Democratic family, +1 Republican, 0 otherwise. */
+  readonly side: number;
+  readonly incumbent: boolean;
+  /** Has held elected office (another seat, or this one before). */
+  readonly experienced: boolean;
+  /** A public scandal on the record before election day. */
+  readonly scandal: boolean;
+  /** What the campaign's books show it spent; null where the world records no campaign (the typical race). */
+  readonly spentMinor: number | null;
+  /** The officeholder's recorded votes and promises, weighed at the race's lean (record.ts units). */
+  readonly record: number;
+  /** Of the party holding the presidency. */
+  readonly presidentsParty: boolean;
+  /** Of the party holding this seat. */
+  readonly seatPartyHolder: boolean;
+}
+
+/** The conditions every voter in the race sees. */
+export interface RaceConditions {
+  readonly cycle: "presidential" | "midterm" | "off-cycle";
+  /** Federal offices feel the national economy whole; state offices in part. */
+  readonly federal: boolean;
+  /** Typical spending per two-party vote for the race's office, cents. */
+  readonly typicalSpendPerVote: number;
+  /** The race's two-party voters at the opening (sizes the typical campaign). */
+  readonly raceVotes: number;
+  readonly national: {
+    readonly unemploymentChange: number;
+    readonly inflationChange: number;
+  };
+  /** The town, whose voters (and the place around it) feel its jobs and crime. */
+  readonly town: {
+    readonly placeId: string;
+    readonly unemploymentChange: number;
+    readonly crimeChange: number;
+  } | null;
+}
+
+/** One candidate's public standing, as vote shares in an evenly split electorate. */
+export interface CandidateReasons {
+  readonly id: string;
+  readonly party: string | null;
+  readonly side: number;
+  readonly incumbency: number;
+  readonly experience: number;
+  readonly scandal: number;
+  readonly spending: number;
+  readonly record: number;
+  readonly economy: number;
+  readonly midterm: number;
+  /** Felt by the town's own voters (and the place around it) only. */
+  readonly local: number;
+  /** Everything but `local`. */
+  readonly total: number;
+}
+
+/** Each candidate's public standing, from their inputs and the race's conditions. */
+export function candidateReasons(
+  candidate: CandidateInputs,
+  conditions: RaceConditions,
+): CandidateReasons {
+  const p = electorateParameter;
+  const typical =
+    conditions.typicalSpendPerVote * Math.max(1, conditions.raceVotes);
+  const spending =
+    candidate.spentMinor === null || !typical
+      ? 0
+      : p("spendingSharePerLogUnit") *
+        Math.log(
+          Math.max(
+            candidate.spentMinor,
+            p("spendingFloorShareOfTypical") * typical,
+          ) / typical,
+        );
+  const economy = candidate.presidentsParty
+    ? -(conditions.federal ? 1 : p("downBallotNationalShare")) *
+      (p("unemploymentShare") * conditions.national.unemploymentChange +
+        p("inflationShare") * conditions.national.inflationChange)
+    : 0;
+  const midterm =
+    candidate.presidentsParty && conditions.cycle === "midterm"
+      ? -campaignParameter("midtermSwing")
+      : 0;
+  const local =
+    candidate.seatPartyHolder && conditions.town
+      ? -(
+          p("localUnemploymentShare") * conditions.town.unemploymentChange +
+          p("localCrimeShare") *
+            (conditions.town.crimeChange / p("crimeChangeUnit"))
+        )
+      : 0;
+  const parts = {
+    incumbency: candidate.incumbent ? campaignParameter("incumbencyShare") : 0,
+    experience:
+      !candidate.incumbent && candidate.experienced
+        ? p("experiencedCandidateShare")
+        : 0,
+    scandal: candidate.scandal ? -p("scandalShare") : 0,
+    spending,
+    record: p("recordShareWeight") * candidate.record,
+    economy,
+    midterm,
+  };
+  const total = Object.values(parts).reduce((a, b) => a + b, 0);
+  return {
+    id: candidate.id,
+    party: candidate.party,
+    side: candidate.side,
+    ...parts,
+    local,
+    total,
+  };
+}
+
+/** The national economy against the opening: unemployment and inflation, in points. */
+export function nationalEconomyChange(api: CoreAPI): {
+  unemploymentChange: number;
+  inflationChange: number;
+} {
+  if (!api.state.modules.has("macro"))
+    return { unemploymentChange: 0, inflationChange: 0 };
+  const store = api.moduleState("macro");
+  const state = store.table("state").get("macro:state") as unknown as
+    { openingMonth: string; latestMonth: string } | undefined;
+  if (!state) return { unemploymentChange: 0, inflationChange: 0 };
+  const month = (m: string) =>
+    store.table("months").get(`macro-month:${m}`) as unknown as
+      { unemploymentPct: number; inflationPct: number } | undefined;
+  const opening = month(state.openingMonth),
+    latest = month(state.latestMonth);
+  if (!opening || !latest) return { unemploymentChange: 0, inflationChange: 0 };
+  return {
+    unemploymentChange: latest.unemploymentPct - opening.unemploymentPct,
+    inflationChange: latest.inflationPct - opening.inflationPct,
+  };
+}
 
 /** The election laws' cost and the barred share at the opening, per world. */
 const openings = new WeakMap<object, { lawCost: number; barred: number }>();
@@ -55,6 +221,25 @@ export function rememberOpeningElectorate(api: CoreAPI): void {
   });
 }
 
+/**
+ * Against the opening's election laws (which the 2024 turnout every place is
+ * sized from already reflects): how much more voting costs a typical voter
+ * in the town's state today, and the share barred today and at the opening.
+ */
+export function electorateChange(api: CoreAPI): {
+  readonly lawCost: number;
+  readonly barred: number;
+  readonly openingBarred: number;
+} {
+  rememberOpeningElectorate(api);
+  const opening = openings.get(api.state)!;
+  return {
+    lawCost: lawCostToday(api) - opening.lawCost,
+    barred: felonyDisenfranchisedShare(api),
+    openingBarred: opening.barred,
+  };
+}
+
 /** The party holding the presidency, from the seated president. */
 export function presidentSide(api: CoreAPI): number {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return 0;
@@ -71,55 +256,36 @@ export function presidentSide(api: CoreAPI): number {
 }
 
 /**
- * The race's conditions. `town` names the town's own block (its voters are
- * counted apart) and, where it is a county, the county whose voters feel the
- * town's jobs and crime; `townsState` is whether the town's election laws
- * govern the race.
+ * The race's conditions. `townPlaceId` names the town whose voters (and the
+ * place around it) feel its jobs and crime; `raceVotes` sizes the race.
  */
 export function raceConditions(
   api: CoreAPI,
   input: {
-    readonly date: string;
     readonly federal: boolean;
     readonly family: string;
     readonly cycle: RaceConditions["cycle"];
-    readonly cycleShare: number;
-    readonly townsState: boolean;
-    readonly town: {
-      readonly blockId: string | null;
-      readonly localBlockId: string | null;
-      readonly placeId: string;
-      readonly votersCounted: number;
-    } | null;
+    readonly raceVotes: number;
+    readonly townPlaceId: string | null;
   },
 ): RaceConditions {
   rememberOpeningElectorate(api);
-  const opening = openings.get(api.state)!;
   // The national mood is the economy and the midterm penalty; no record of
   // the president's approval exists to read it from.
   // stopgapId: SG-GOV-electorate-approval
   api.stopgap("SG-GOV-electorate-approval");
-  const local = input.town?.localBlockId
-    ? townConditions(api, input.town.placeId)
-    : { unemploymentChange: 0, crimeChange: 0 };
   return {
     cycle: input.cycle,
-    cycleShare: input.cycleShare,
     federal: input.federal,
     typicalSpendPerVote: typicalSpendPerVote(input.family),
+    raceVotes: input.raceVotes,
     national: nationalEconomyChange(api),
-    town: input.town
+    town: input.townPlaceId
       ? {
-          blockId: input.town.blockId,
-          localBlockId: input.town.localBlockId,
-          votersCounted: input.town.votersCounted,
-          ...local,
+          placeId: input.townPlaceId,
+          ...townConditions(api, input.townPlaceId),
         }
       : null,
-    lawCostChange: input.townsState ? lawCostToday(api) - opening.lawCost : 0,
-    barredChange: input.townsState
-      ? felonyDisenfranchisedShare(api) - opening.barred
-      : 0,
   };
 }
 
@@ -161,8 +327,9 @@ function heldOffice(api: CoreAPI, personId: string): boolean {
   );
 }
 
-/** Whether a taken bribe of the person's has surfaced by the date: a public scandal. */
+/** Whether a taken bribe of the person's has surfaced, or they were convicted, by the date: a public scandal. */
 function scandalOf(api: CoreAPI, personId: string, date: string): boolean {
+  if (convictionsOf(api, personId, date).length) return true;
   if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return false;
   const store = api.moduleState(CORRUPTION_MODULE_ID);
   for (const crime of store
@@ -235,14 +402,10 @@ export function candidateInputs(
     incumbent: input.incumbent,
     experienced: input.incumbent || (named && heldOffice(api, input.id)),
     scandal: scandalOf(api, input.id, api.state.date),
-    // A named candidate's campaign books (none kept: nothing spent); an
-    // official the world doesn't name runs the typical campaign unless their
-    // books show spending.
-    spentMinor: named
-      ? (campaign?.spentMinor ?? 0)
-      : campaign?.spentMinor
-        ? campaign.spentMinor
-        : null,
+    // The campaign's books, by one rule for every candidate, named or not:
+    // a campaign the world runs is read as it spent; a candidate with no
+    // campaign in the world runs the typical race's.
+    spentMinor: campaign ? campaign.spentMinor : null,
     record,
     presidentsParty: side !== 0 && side === president,
     seatPartyHolder:

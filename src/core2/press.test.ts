@@ -104,7 +104,9 @@ describe("campaign interviews", () => {
       const outlets = openPress(core);
       const api = coreAPI(core);
       // A town with no local newspaper or news radio is a news desert; draw again.
-      const print = outlets.find((o) => o.kind !== "television");
+      const print = outlets.find(
+        (o) => o.tier !== "national" && o.kind !== "television",
+      );
       if (!print) continue;
       // Followers are the town's adults, by their age band's real habits.
       const town = [

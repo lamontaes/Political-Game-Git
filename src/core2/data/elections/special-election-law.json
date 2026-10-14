@@ -1,0 +1,22 @@
+{
+  "about": "When a state's law schedules the special election for a vacancy, by office family. kind: days-after-vacancy (days, a nominal value inside the statutory window), next-general (no special election; the seat waits for the next general election, an appointee serving), unread (the estimate in parameters.json stands in: SG-GOV-special-election-timing). The method (special election, appointment, succession) is read from data/research/offices/state-offices.json by offices-state.ts; this table is only the date. Read by src/core2/elections-calendar.ts specialElectionDate.",
+  "stopgap": "SG-GOV-special-election-timing",
+  "states": {
+    "US-CA": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 147,
+        "tag": "ESTIMATED",
+        "citation": "Cal. Elec. Code sec. 10703 (election on a Tuesday 126 to 140 days after the governor's proclamation, which comes within 14 days of the vacancy); Cal. Const. art. IV sec. 2(d)",
+        "spread": [140, 154]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 147,
+        "tag": "ESTIMATED",
+        "citation": "Cal. Const. art. IV sec. 2(d); Cal. Elec. Code sec. 10703",
+        "spread": [140, 154]
+      }
+    }
+  }
+}

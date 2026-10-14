@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, Image, window, localStorage, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -89,6 +89,7 @@ function drawPeople(people, onClick) {
       // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure" }, img);
+      box.dataset.person = person.personId ?? "";
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
@@ -104,36 +105,182 @@ function drawPeople(people, onClick) {
   );
 }
 
-// The opening: each level of government over the player's town, then home.
-const SHOT_MS = 4500;
+// ---- The opening (owner, Oct 14, 2026) ----
+// The President's address, full screen, sentence by sentence in the speech
+// box, the picture cutting when what the sentence is about changes; then
+// home that evening, where the night's news can be picked up, and the first
+// controls pointed out. Every word is the director's opening story.
 let skipOpening;
-// The opening's shots, fetched and their pictures loaded during loading.
-let openingShotsReady;
+// The opening, fetched and its pictures loaded during loading.
+let openingReady;
+/** How long a spoken line stays up: a beat plus reading time. */
+const lineMs = (text) => 1800 + text.length * 45;
+/** How long the camera stays on each person it points out. */
+const POINT_MS = 2400;
+/** Wait, cut short by a click; resolves true when Skip ends the address. */
+function holdOpening(ms) {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(false), ms);
+    skipOpening = () => {
+      clearTimeout(timer);
+      resolve(true);
+    };
+    $("opening-box").onclick = () => {
+      clearTimeout(timer);
+      resolve(false);
+    };
+  });
+}
+/** The camera passes the people on a stage, pointing each out by name and office. */
+function pointOut(figures) {
+  let timer;
+  const step = (index) => {
+    for (const node of document.querySelectorAll("#people .figure.pointed"))
+      node.classList.remove("pointed");
+    const figure = figures[index];
+    show("opening-point", Boolean(figure));
+    if (!figure) return;
+    $("opening-point-name").textContent = figure.name;
+    $("opening-point-role").textContent = [
+      figure.post,
+      figure.office,
+      figure.state,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    const box = $("opening-point");
+    box.style.animation = "none";
+    void box.offsetWidth;
+    box.style.animation = "";
+    for (const node of document.querySelectorAll("#people .figure"))
+      if (node.dataset.person === figure.id) node.classList.add("pointed");
+    timer = setTimeout(() => step(index + 1), POINT_MS);
+  };
+  step(0);
+  const endsAt = Date.now() + figures.length * POINT_MS;
+  return {
+    left: () => Math.max(0, endsAt - Date.now()),
+    stop: () => {
+      clearTimeout(timer);
+      step(figures.length);
+    },
+  };
+}
 async function playOpening() {
-  const shots =
-    openingShotsReady ??
-    (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
-  openingShotsReady = undefined;
-  show("caption", true);
-  $("game").classList.add("letterbox");
-  for (const shot of shots) {
-    $("backdrop").src = shot.backdrop.url;
-    drawPeople(shot.people);
+  const opening =
+    openingReady ?? (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
+  openingReady = undefined;
+  if (!opening?.frames?.length) return opening;
+  const { speaker } = opening;
+  $("opening-bust").style.backgroundImage = speaker.figureUrl
+    ? `url("${speaker.figureUrl}")`
+    : "";
+  $("opening-name").textContent = speaker.name;
+  $("opening-role").textContent = [speaker.title, ...speaker.detail]
+    .filter(Boolean)
+    .join(" · ");
+  show("opening-box", true);
+  $("game").classList.add("letterbox", "cinema");
+  frames: for (const frame of opening.frames) {
+    $("backdrop").src = frame.backdrop.url;
+    drawPeople(frame.people);
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    const titles = [...new Set(shot.cast.map((c) => c.title).filter(Boolean))];
-    $("caption-title").textContent = titles.join(" · ");
-    $("caption-names").textContent = shot.cast.map((c) => c.name).join(" · ");
-    const skipped = await new Promise((resolve) => {
-      skipOpening = () => resolve(true);
-      setTimeout(() => resolve(false), SHOT_MS);
-    });
+    const camera = pointOut(frame.pointOut ?? []);
+    // A stage the President says nothing over shows without the speech box.
+    show("opening-box", frame.lines.length > 0);
+    // A click moves on to the next sentence; Skip ends the address. The
+    // picture holds until the camera has passed everyone on it.
+    for (const line of frame.lines) {
+      $("opening-speech").textContent = line.text;
+      if (await holdOpening(lineMs(line.text))) {
+        camera.stop();
+        break frames;
+      }
+    }
+    const left = camera.left();
+    const skipped = left > 0 && (await holdOpening(left));
+    camera.stop();
     if (skipped) break;
   }
   skipOpening = undefined;
-  show("caption", false);
-  $("game").classList.remove("letterbox");
+  $("opening-box").onclick = null;
+  show("opening-box", false);
+  $("game").classList.remove("letterbox", "cinema");
+  return opening;
+}
+
+/** That night's news at home: on the table, picked up to read. */
+function showNewsSurface(news) {
+  const story = news?.stories?.[0];
+  if (!story) return;
+  $("news-surface-label").textContent = controls.opening?.news ?? "";
+  $("news-surface-headline").textContent =
+    story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
+  $("news-surface").onclick = () => openNewsReader(news);
+  show("news-surface", true);
+  // The paper stays on the table for the evening; living on clears it.
+  $("day").addEventListener("click", () => show("news-surface", false), {
+    once: true,
+  });
+}
+function openNewsReader(news) {
+  const [lead, ...rest] = news.stories;
+  $("news-reader-headline").textContent =
+    lead.headline ?? lead.lede ?? lead.broadcast[0]?.text ?? "";
+  $("news-reader-body").replaceChildren(
+    ...lead.broadcast.map((line) =>
+      el("p", { className: "prose", textContent: line.text }),
+    ),
+    // The address itself, as the record quotes it.
+    ...news.address.map((text) =>
+      el("p", { className: "speech quote", textContent: text }),
+    ),
+  );
+  $("news-reader-more").replaceChildren(
+    ...rest.map((item) =>
+      el("p", {
+        className: "prose",
+        textContent:
+          item.headline ??
+          item.lede ??
+          item.broadcast.map((line) => line.text).join(" "),
+      }),
+    ),
+  );
+  show("news-reader", true);
+}
+$("news-reader-close").addEventListener("click", () =>
+  show("news-reader", false),
+);
+
+/**
+ * The first choices, pointed out one at a time: the news, the people you
+ * know, then living the day. Each glows until it is used; nothing to read.
+ */
+function coachFirstChoices() {
+  const steps = ["news-surface", "people-tab", "day"]
+    .map((id) =>
+      id === "people-tab"
+        ? document.querySelector('#rings [data-tab="people"]')
+        : $(id),
+    )
+    .filter((node) => node && !node.hidden);
+  const next = () => {
+    const node = steps.shift();
+    if (!node) return;
+    node.classList.add("coach");
+    node.addEventListener(
+      "click",
+      () => {
+        node.classList.remove("coach");
+        next();
+      },
+      { once: true },
+    );
+  };
+  next();
 }
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
@@ -159,7 +306,7 @@ async function renderCard() {
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: me.date, minuteOfDay: 0 });
+  setClock(packet?.at ?? { date: me.date, minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
@@ -254,9 +401,7 @@ api("/api/controls").then((value) => (controls = value));
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet && packet.kind !== "complete";
-  for (const id of ["day", "week"]) $(id).disabled = busy || open;
-  $("skip").disabled =
-    !skipping && (busy || (open && packet.kind !== "choice"));
+  $("day").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   show("choices", packet?.kind === "choice" && !talk);
   if (packet?.kind === "choice")
@@ -338,10 +483,19 @@ async function act(path) {
   busy = true;
   renderPacket();
   try {
+    // Polls still open (the page reloaded at the polls): vote first.
+    const polls = await api("/api/polling-place");
+    if (polls) await atThePolls(polls);
     const result = await post(path);
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
+    if (result.pollingPlace) {
+      // The day stopped at the polls: vote, then the day goes on.
+      await atThePolls(result.pollingPlace);
+      busy = false;
+      return act(path);
+    }
     await refresh();
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
@@ -352,12 +506,80 @@ async function act(path) {
     renderPacket();
   }
 }
-for (const mode of ["day", "week"])
-  $(mode).addEventListener("click", () => act(`/api/advance?mode=${mode}`));
-// Until needed runs in week-long legs so the clock is seen moving; pressing
-// it again stops after the current leg. A stop, choice or day's end that
-// needs you ends it at once.
-let skipping = false;
+
+// ---- Election day (owner, Oct 14, 2026: election day is a scene) ----
+// The polling place's picture with the voter and the household members who
+// may vote, and the ballot: each race as the elections engine lists it, each
+// candidate by name and party. A click marks the race; Leave blank and Leave
+// are control names. The voting engine counts what is marked.
+function atThePolls(scene) {
+  return new Promise((resolve) => {
+    const draw = (value) => {
+      scene = value;
+      $("backdrop").src = scene.backdrop.url;
+      drawPeople(scene.people);
+      $("ballot-races").replaceChildren(
+        ...scene.contests.map((contest) => {
+          const mark = (candidateId) => async () => {
+            const result = await post(
+              `/api/polling-place/mark?${new URLSearchParams({
+                contestId: contest.id,
+                candidateId: candidateId ?? "",
+              })}`,
+            );
+            if (result.pollingPlace) draw(result.pollingPlace);
+            else finish();
+          };
+          const chosen = contest.marked;
+          const button = (text, candidateId) => {
+            const node = el("button", {
+              className: "action",
+              type: "button",
+              textContent: text,
+            });
+            if (chosen) {
+              node.disabled = true;
+              if (chosen.candidateId === candidateId)
+                node.classList.add("primary");
+            } else node.addEventListener("click", mark(candidateId));
+            return node;
+          };
+          return el(
+            "div",
+            { className: "race" },
+            el("h3", { className: "heading", textContent: contest.title }),
+            el(
+              "div",
+              { className: "acts" },
+              ...contest.candidates.map((candidate) =>
+                button(
+                  [candidate.name, candidate.party].filter(Boolean).join(" · "),
+                  candidate.personId,
+                ),
+              ),
+              button(controls.polling?.leaveBlank ?? "", null),
+            ),
+          );
+        }),
+      );
+    };
+    const finish = () => {
+      show("ballot", false);
+      $("game").classList.remove("cinema");
+      resolve();
+    };
+    $("ballot-leave").textContent = controls.polling?.leave ?? "";
+    $("ballot-leave").onclick = async () => {
+      await post("/api/polling-place/leave");
+      finish();
+    };
+    $("game").classList.add("cinema");
+    draw(scene);
+    show("ballot", true);
+  });
+}
+// The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
+$("day").addEventListener("click", () => act("/api/advance?mode=day"));
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -368,47 +590,6 @@ async function changeCount() {
 }
 const newChanges = (now) =>
   now.took > seenChanges.took || now.ahead > seenChanges.ahead;
-const SKIP_LEG_DAYS = 7;
-const SKIP_MAX_LEGS = 52;
-$("skip").addEventListener("click", async () => {
-  if (skipping) {
-    skipping = false;
-    return;
-  }
-  skipping = true;
-  $("skip").classList.add("active");
-  try {
-    for (let leg = 0; skipping && leg < SKIP_MAX_LEGS; leg++) {
-      const result = await post(`/api/advance?mode=skip&days=${SKIP_LEG_DAYS}`);
-      me.names = { ...me.names, ...result.names };
-      renderPacket(result.packet);
-      setClock(result.packet.at);
-      if (result.packet.kind !== "complete") break;
-      // Election day needs you: a skip ends when new results are in.
-      const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
-      if (races.length > seenResults) {
-        $("card-why").textContent = controls.endedBy?.results ?? "";
-        break;
-      }
-      // A law taking effect is shown too: the town changes.
-      if (newChanges(await changeCount())) {
-        $("card-why").textContent = controls.endedBy?.law ?? "";
-        await openSheet("changes");
-        break;
-      }
-      await renderScene();
-    }
-  } catch (error) {
-    $("card-place").textContent = error.message;
-  } finally {
-    skipping = false;
-    $("skip").classList.remove("active");
-    renderPacket();
-    await refresh();
-    const moment = storyStop(packet);
-    if (moment) await showStory(moment.recordId);
-  }
-});
 $("continue").addEventListener("click", () => {
   show("talk", false);
   return act(
@@ -1528,6 +1709,42 @@ const sheets = {
       });
       rows.push(skip);
     }
+    // Which kinds of scene may stop your day (a record the director reads).
+    const filter = await api("/api/scene-filter").catch(() => null);
+    if (filter) {
+      const allowed = new Set(filter.allowed ?? filter.kinds);
+      const save = () =>
+        post(
+          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
+        );
+      rows.push(
+        el("p", {
+          className: "label",
+          textContent: controls.sceneFilter ?? "",
+        }),
+        el(
+          "div",
+          { className: "scene-filter" },
+          ...filter.kinds.map((kind) => {
+            const box = el("input", {
+              type: "checkbox",
+              checked: allowed.has(kind),
+            });
+            box.addEventListener("change", () => {
+              if (box.checked) allowed.add(kind);
+              else allowed.delete(kind);
+              save();
+            });
+            return el(
+              "label",
+              {},
+              box,
+              ` ${controls.sceneKinds?.[kind] ?? kind}`,
+            );
+          }),
+        ),
+      );
+    }
     rows.push(
       el("p", { className: "version", textContent: await displayVersion() }),
     );
@@ -1775,14 +1992,14 @@ $("new-life").addEventListener("click", async () => {
       clearInterval(poll);
     }
     // Every picture the opening shows is loaded before it plays.
-    const shots = await api(
+    const opening = await api(
       `/api/opening?id=${encodeURIComponent(life.personId)}`,
     );
     const urls = [
       ...new Set(
-        shots.flatMap((shot) => [
-          shot.backdrop.url,
-          ...shot.people.map((person) => person.figureUrl),
+        (opening?.frames ?? []).flatMap((frame) => [
+          frame.backdrop.url,
+          ...frame.people.map((person) => person.figureUrl),
         ]),
       ),
     ];
@@ -1803,7 +2020,7 @@ $("new-life").addEventListener("click", async () => {
           }),
       ),
     );
-    openingShotsReady = shots;
+    openingReady = opening;
     me = {
       id: life.personId,
       placeName: life.placeName,
@@ -1814,10 +2031,15 @@ $("new-life").addEventListener("click", async () => {
     seenChanges = await changeCount();
     show("front", false);
     await playOpening();
+    if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
+    // Home that evening (the server's rule for the opening day), with the
+    // night's news to pick up, then the first choices pointed out.
     for (const id of ["rings", "card", "journal-note"]) show(id, true);
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh();
+    showNewsSurface(opening?.news);
+    coachFirstChoices();
   } catch (error) {
     $("front-status").textContent = error.message;
     $("new-life").disabled = false;

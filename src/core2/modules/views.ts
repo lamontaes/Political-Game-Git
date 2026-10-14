@@ -10,14 +10,25 @@
  * their stance on that topic, less for people who follow politics closely,
  * and each change records its cause. Nothing drifts on a schedule.
  *
+ * When someone makes the case to the person (a speech, a hearing statement, a
+ * constituent's case, a lobbying visit, a candidate's stated position), the
+ * event names the speaker, and how far it moves the listener slides with the
+ * speaker's standing with them: how near their views are (whom they trust),
+ * how close the two are today, whether they share a party, and how the
+ * speaker has voted on the question before. `viewOn` is the person's current
+ * view on a question, which every vote reads.
+ *
  * Views form when first read, so a person filled in later gets theirs too.
  */
 import { stableHash } from "../../simulation/ids";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
+import { personStance } from "../campaign-views";
+import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
+import drivesJson from "../data/drives.json" with { type: "json" };
 import type { CoreAPI, CoreModule, PersonId, PersonState } from "../types";
 
 interface CellKey {
@@ -72,8 +83,30 @@ const v = (key: string): number => {
 };
 
 export const VIEWS_MODULE_ID = "views";
-/** The fact a speech event carries: the speaker's lean, -2 to +2. */
-export const VIEWS_SPEECH_LEAN_KEY = "speech:lean";
+const DRIVE_MOMENTS = new Set<string>(
+  Object.entries(
+    (drivesJson as { eventKinds: Record<string, string> }).eventKinds,
+  )
+    .filter(([key]) => key === "formed" || key === "strengthened")
+    .map(([, kind]) => kind),
+);
+/** Facts by which an event cites a law, a vote or a bill. */
+const CITED_RECORDS = ["lawId", "voteId", "billId"] as const;
+
+/** The drives engine's acts (sharing a cause, donating, volunteering, going to an office, ...). */
+const DRIVE_ACTS = new Set<string>([
+  ...Object.values(
+    (drivesJson as { eventKinds: Record<string, string> }).eventKinds,
+  ),
+  ...((
+    drivesJson as { civicActEvents?: readonly { eventKind: string }[] }
+  ).civicActEvents?.map((row) => row.eventKind) ?? []),
+]);
+/** The fact an event that makes a case carries: who made it. */
+export const VIEWS_SPEAKER_KEY = "views:speaker";
+/** The parties and record engines' tables, read by id (they import this one). */
+const PARTIES_STORE = "core2-parties-v1";
+const RECORD_STORE = "core2-record-v1";
 
 export interface PersonView {
   id: PersonId;
@@ -95,7 +128,15 @@ export interface Stance {
   /** The change the person wants, and how strongly (0 to 1). */
   desiredChange: string;
   strength: number;
-  causes: readonly { eventId: string; date: string; change: number }[];
+  causes: readonly {
+    eventId: string;
+    date: string;
+    change: number;
+    /** Who made the case, when someone did. */
+    speakerId?: string;
+    /** The record (a story heard, a notice) by which they learned of the law, vote or bill the event cites. */
+    learnedFrom?: string;
+  }[];
 }
 
 /** A stable uniform value in (0, 1) for a key. */
@@ -239,6 +280,148 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   return view;
 }
 
+/** Which way a wanted change points on a policy question: +1 for, -1 against. */
+function direction(desiredChange: string): number {
+  return desiredChange === "enact"
+    ? v("one")
+    : desiredChange === "repeal"
+      ? -v("one")
+      : v("zero");
+}
+
+/**
+ * A speaker's standing with a listener on a question, 0 to 1: how near their
+ * views are (people trust those who think as they do), how close the two are
+ * today, whether they share a party (half for anyone not tied to one), and
+ * how the speaker has voted on the question before (half with no record).
+ * Each part slides; the weights are the views table's.
+ */
+export function standingWith(
+  api: CoreAPI,
+  listener: PersonView,
+  speakerId: string,
+  topic: string,
+  desiredChange: string,
+): number {
+  const speaker = viewOf(api, speakerId);
+  const half = v("one") / v("two");
+  const trust = speaker
+    ? Math.max(
+        v("zero"),
+        v("one") -
+          Math.abs(listener.lean - speaker.lean) /
+            (v("leanMax") - v("leanMin")),
+      )
+    : half;
+  const tie = api.state.relationships.get(
+    [listener.id, speakerId].sort().join(":"),
+  );
+  const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
+  const partyOf = (id: string) =>
+    api.state.modules.has(PARTIES_STORE)
+      ? ((
+          api.moduleState(PARTIES_STORE).table("ties").get(id) as unknown as
+            { partyId: string | null } | undefined
+        )?.partyId ?? null)
+      : null;
+  const mine = partyOf(listener.id);
+  const theirs = partyOf(speakerId);
+  const party =
+    mine && theirs ? (mine === theirs ? v("one") : v("zero")) : half;
+  const want = direction(desiredChange);
+  const votes = api.state.modules.has(RECORD_STORE)
+    ? (
+        api
+          .moduleState(RECORD_STORE)
+          .table("votes")
+          .query("byPerson", [speakerId]) as unknown as {
+          stance: { question: string; position: number };
+        }[]
+      ).filter((row) => row.stance.question === topic)
+    : [];
+  const record =
+    votes.length && want !== v("zero")
+      ? (v("one") +
+          votes.reduce(
+            (sum, row) => sum + Math.sign(row.stance.position) * want,
+            v("zero"),
+          ) /
+            votes.length) /
+        v("two")
+      : half;
+  return (
+    v("standingTrustWeight") * trust +
+    v("standingClosenessWeight") * closeness +
+    v("standingPartyWeight") * party +
+    v("standingRecordWeight") * record
+  );
+}
+
+/**
+ * How far the person's stance on a policy question has moved since the
+ * opening, -1 to 1: positive toward enacting it, negative toward repealing.
+ */
+export function stanceOn(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return v("zero");
+  const stance = stancesTable(api).get(`${personId}:${question}`) as unknown as
+    Stance | undefined;
+  return stance ? direction(stance.desiredChange) * stance.strength : v("zero");
+}
+
+/**
+ * The person's current view on a policy question, -1 to 1: where their
+ * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
+ * question's axis, plus how far what they have heard since has moved them.
+ */
+export function viewOn(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+  lean: number,
+): number {
+  return Math.max(
+    -v("one"),
+    Math.min(
+      v("one"),
+      personStance(lean, question) +
+        v("stanceViewWeight") * stanceOn(api, personId, question),
+    ),
+  );
+}
+
+/**
+ * How much a person agrees with a platform, -1 to 1: the mean, over its
+ * stated positions, of their current view times the position (the views
+ * engine's version of `platformAgreement`).
+ */
+export function agreementWith(
+  api: CoreAPI,
+  personId: PersonId,
+  lean: number,
+  platform: readonly { question: string; position: number }[],
+): number {
+  if (!platform.length) return v("zero");
+  let sum = v("zero");
+  for (const stance of platform)
+    sum += viewOn(api, personId, stance.question, lean) * stance.position;
+  return Math.max(-v("one"), Math.min(v("one"), sum / platform.length));
+}
+
+type StanceListener = (api: CoreAPI, personId: PersonId, topic: string) => void;
+const stanceListeners: StanceListener[] = [];
+
+/**
+ * Engines that act on the day a stance moves (interest-group membership
+ * follows the view) register here; each is called after the move is stored.
+ */
+export function registerStanceListener(listener: StanceListener): void {
+  if (!stanceListeners.includes(listener)) stanceListeners.push(listener);
+}
+
 export function stancesOf(api: CoreAPI, personId: PersonId): Stance[] {
   return stancesTable(api).query("byPerson", [personId]) as unknown as Stance[];
 }
@@ -259,8 +442,11 @@ export const viewsModule: CoreModule = {
   },
   eventKinds: ["*"],
   onEvent(api, event, learnedBy) {
-    // Only an event with a topic and a wanted change carries a stance.
+    // Only an event with a topic and a wanted change carries a stance. A
+    // drive forming or growing restates a change the event behind it already
+    // made, so it moves nothing again.
     if (!event.topic || !event.desiredChange) return;
+    if (DRIVE_MOMENTS.has(event.kind)) return;
     const impulse =
       Math.abs(event.moodImpulse ?? v("zero")) +
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
@@ -270,21 +456,47 @@ export const viewsModule: CoreModule = {
       if (!view) continue;
       const id = `${personId}:${event.topic}`;
       const prior = stancesTable(api).get(id) as unknown as Stance | undefined;
-      // A speech persuades listeners in proportion to how near their lean is
-      // to the speaker's; one far away is not moved.
-      const speechLean = Number(event.facts?.[VIEWS_SPEECH_LEAN_KEY]);
-      const nearness = Number.isFinite(speechLean)
-        ? Math.max(
-            v("zero"),
-            v("one") -
-              Math.abs(view.lean - speechLean) / (v("leanMax") - v("leanMin")),
-          )
+      // A case made by a speaker moves the listener by the speaker's
+      // standing with them: the speaker the event names, or for someone who
+      // only witnessed it, the person whose act it was (a cause shared with
+      // them). An event about the person themselves reaches them in full.
+      // A person's own act for their cause is their drive at work (the drives
+      // engine strengthens it); it moves only those it reaches.
+      if (DRIVE_ACTS.has(event.kind) && event.personIds.includes(personId))
+        continue;
+      const speakerId =
+        event.facts?.[VIEWS_SPEAKER_KEY] ??
+        (event.personIds.includes(personId) ? undefined : event.personIds[0]);
+      if (speakerId === personId) continue;
+      // Knowing is a read (owner, Oct 14, 2026): an event citing a law, a
+      // vote or a bill moves a stance only for someone who learned of it,
+      // from the case made to them or from a record they hold (a story they
+      // heard, a notice), and the stance cites how they learned.
+      const learnedFrom = speakerId
+        ? undefined
+        : typeof event.facts?.learnedFrom === "string"
+          ? event.facts.learnedFrom
+          : undefined;
+      if (
+        CITED_RECORDS.some((key) => event.facts?.[key] !== undefined) &&
+        !speakerId &&
+        !(learnedFrom && api.knows(personId, learnedFrom))
+      )
+        continue;
+      const nearness = speakerId
+        ? standingWith(api, view, speakerId, event.topic, event.desiredChange)
         : v("one");
+      // The same case from the same speaker again persuades less each time.
+      const heard = speakerId
+        ? (prior?.causes.filter((c) => c.speakerId === speakerId).length ??
+          v("zero"))
+        : v("zero");
       const change =
-        v("stanceStep") *
-        size *
-        nearness *
-        (v("one") - v("tightness") * view.engagement);
+        (v("stanceStep") *
+          size *
+          nearness *
+          (v("one") - v("tightness") * view.engagement)) /
+        (v("one") + v("repeatWearOut") * heard);
       if (change <= v("zero")) continue;
       const same = prior?.desiredChange === event.desiredChange;
       const strength = Math.min(
@@ -307,10 +519,18 @@ export const viewsModule: CoreModule = {
         strength: Math.abs(strength),
         causes: [
           ...(prior?.causes ?? []),
-          { eventId: event.id, date: event.date, change },
+          {
+            eventId: event.id,
+            date: event.date,
+            change,
+            ...(speakerId ? { speakerId } : {}),
+            ...(learnedFrom ? { learnedFrom } : {}),
+          },
         ],
       };
       stancesTable(api).put(stance as unknown as { id: string });
+      for (const listener of stanceListeners)
+        listener(api, personId, event.topic);
     }
   },
 };

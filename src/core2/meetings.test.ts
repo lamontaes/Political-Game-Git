@@ -6,6 +6,8 @@
  * the town's widest-reaching outlet (it waits for your answers).
  */
 import { createHash } from "node:crypto";
+import { stancesOf, viewsModule } from "./modules/views";
+import { speechModule } from "./modules/speech";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -86,6 +88,7 @@ function world(
         startedAt: START,
         minimumPeople: 300,
       }),
+      { modules: [viewsModule, speechModule] },
     );
     openLaws(core);
     openOffices(core, seed);
@@ -274,6 +277,16 @@ describe("public meetings", () => {
       expect(rivalPromises.length).toBe(
         held.answers[rival.personId]!.filter((a) => a.position !== null).length,
       );
+      // The debate's audience hears each candidate as a speaker: the views
+      // engine moves stances by the same read as a speech (owner, Oct 14).
+      {
+        const heard = [...core.people.keys()].filter((id) =>
+          stancesOf(api, id).some((st) =>
+            st.causes.some((c) => c.eventId.includes(`:debate:${held.id}`)),
+          ),
+        );
+        expect(heard.length, where).toBeGreaterThan(0);
+      }
     }
     govReport(
       "meetings-debate",

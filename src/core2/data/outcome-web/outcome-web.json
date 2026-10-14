@@ -1,5 +1,5 @@
 {
-  "about": "How the outcome web runs on the new core (src/core2/modules/outcome-web.ts). The links themselves, their sizes, shapes, lags and sources are data/research/outcome-web/links.json; each place outcome's real starting level is data/research/outcome-web/place-outcome-bases-2024.json; who each link reaches is data/research/outcome-web/landing-plan.json with the age cohorts in person-recipient-age-cohorts.json. This file holds only what those leave open: when the web runs each month, the outcomes it keeps that have no per-state base file, the records the engines already keep that it reads, the recipient rules as selectors over core2 records, and who must provide each missing measure.",
+  "about": "How the outcome web runs on the new core (src/core2/modules/outcome-web.ts). The links themselves, their sizes, shapes, lags and sources are data/research/outcome-web/links.json; each place outcome's real starting level is data/research/outcome-web/place-outcome-bases-2024.json. This file holds only what those leave open: when the web runs each month, the outcomes it keeps that have no per-state base file, the records the engines already keep that it reads, and who must provide each missing measure.",
   "schedule": {
     "dayOfMonth": 3,
     "why": "World-metrics writes the town's economic row on the 2nd of each month; the web reads it the next day.",
@@ -73,88 +73,6 @@
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.unemploymentRate, as a percent",
       "unitScale": 100
-    }
-  },
-  "landing": {
-    "about": "Every wired link lands on the people it reaches, even at zero: one row per person and link on the web's landings table, updated when the effect on them changes. The recipient rule is the landing plan's (data/research/outcome-web/landing-plan.json); a link it does not cover uses its group's rule below.",
-    "groupRules": {
-      "place": "jurisdiction-resident-estimate",
-      "households": "household-resident-estimate",
-      "every group": "voting-age-resident-estimate",
-      "able adults without dependents": "able-adult-without-dependents"
-    },
-    "rules": {
-      "jurisdiction-resident-estimate": { "kind": "everyone" },
-      "household-resident-estimate": { "kind": "everyone" },
-      "voting-age-resident-estimate": { "kind": "cohort" },
-      "recorded-school-enrollment-or-compulsory-age-estimate": {
-        "kind": "ages",
-        "minimumAge": 5,
-        "maximumAge": 17,
-        "estimatedFrom": "School-age children: ages 5 through 17, the span of compulsory attendance most states set (NCES, State Education Reforms, Table 5.1). Enrollment itself is not yet a core2 record."
-      },
-      "infant-mortality-cohort-estimate": { "kind": "cohort" },
-      "working-age-adult-cohort-estimate": { "kind": "cohort" },
-      "adult-substance-use-condition-estimate": { "kind": "cohort" },
-      "adult-school-completer-estimate": { "kind": "cohort" },
-      "youth-cannabis-cohort-estimate": { "kind": "cohort" },
-      "retirement-policy-age-cohort-estimate": { "kind": "cohort" },
-      "older-adult-medicare-cohort-estimate": { "kind": "cohort" },
-      "retirement-age-adult-cohort-estimate": { "kind": "cohort" },
-      "child-asthma-cohort-estimate": { "kind": "cohort" },
-      "age-13-to-17-active-school-proxy": {
-        "kind": "ages",
-        "minimumAge": 13,
-        "maximumAge": 17,
-        "estimatedFrom": "The landing plan's own proxy: ages 13 through 17 stand for teenagers in school."
-      },
-      "recorded-parent-of-young-child-estimate": { "kind": "parent" },
-      "recorded-parent-of-infant-estimate": { "kind": "parent" },
-      "active-renter-household-member-estimate": { "kind": "renter" },
-      "recorded-payday-loan-borrower-estimate": { "kind": "borrower" },
-      "able-adult-without-dependents": {
-        "kind": "ages",
-        "minimumAge": 18,
-        "maximumAge": 54,
-        "noChildUnder": 18,
-        "estimatedFrom": "SNAP's able-bodied adults without dependents: ages 18 through 54 with no child under 18 in the household (7 CFR 273.24, as amended by the Fiscal Responsibility Act of 2023). Disability is not yet a core2 record."
-      },
-      "recorded-wage-family-member-estimate": {
-        "kind": "waiting",
-        "waitingOn": "household.wage-at-minimum"
-      },
-      "snap-enrolled-household-member-estimate": {
-        "kind": "waiting",
-        "waitingOn": "program.snap-enrollment"
-      },
-      "snap-enrolled-renter-household-member-estimate": {
-        "kind": "waiting",
-        "waitingOn": "program.snap-enrollment"
-      },
-      "recorded-married-woman-estimate": {
-        "kind": "waiting",
-        "waitingOn": "person.marital-status"
-      },
-      "recorded-medicaid-expansion-recipient-estimate": {
-        "kind": "waiting",
-        "waitingOn": "health.medicaid-coverage"
-      },
-      "recorded-restored-voting-right-estimate": {
-        "kind": "waiting",
-        "waitingOn": "justice.voting-right-restored"
-      },
-      "evicted-household-without-home-member-estimate": {
-        "kind": "waiting",
-        "waitingOn": "housing.without-home"
-      },
-      "recorded-farm-operator-resource-estimate": {
-        "kind": "waiting",
-        "waitingOn": "business.farm-operator"
-      },
-      "recorded-farm-operator-land-value-estimate": {
-        "kind": "waiting",
-        "waitingOn": "business.farm-operator"
-      }
     }
   },
   "measureOwners": {

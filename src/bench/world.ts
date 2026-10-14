@@ -21,6 +21,7 @@ import { openParties } from "../core2/modules/parties";
 import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
+import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
 import { openLawEffects } from "../core2/modules/law-effects";
@@ -36,6 +37,8 @@ import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { openCases } from "../core2/modules/constituent-cases";
+import { openJustice } from "../core2/modules/justice";
+import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
@@ -44,10 +47,10 @@ import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
 import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
 import { initialFocusPeople } from "../core2/focus";
-import { withCountedVoterGroups } from "../core2/opening-voter-groups";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { recordOpeningStory } from "../director/opening-story";
 import {
   applyWorldSettings,
   checkWorldSettings,
@@ -140,7 +143,7 @@ function familyClosure(input: CoreInput): Set<string> {
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "done";
+  "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
 type BuildOptions = {
   placeKey?: string;
   minimumPeople?: number;
@@ -266,10 +269,8 @@ function* benchWorldStages(
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
     opening = scaleOutsideDemand(
-      withCountedVoterGroups(
-        withWorldEconomy(
-          collapseToTwoLevels(economy, { keep: familyClosure(economy) }),
-        ),
+      withWorldEconomy(
+        collapseToTwoLevels(economy, { keep: familyClosure(economy) }),
       ),
       settings,
     );
@@ -311,6 +312,7 @@ function* benchWorldStages(
   openVoting(core);
   openRecord(core);
   openBudgets(core);
+  openEmployerTaxes(core);
   openLegislature(core);
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
@@ -331,7 +333,18 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // Prosecutors, trials and prisons: reads the corruption engine's records.
+  openJustice(core);
+  // The world has a past (OPUS-CORE): prior elections, voting records, law
+  // histories, the year's news and what the public knows, before day one.
+  openThePast(core, seed);
   director.start(core);
+  yield "opening";
+  // The opening, told as a story from the records (owner, Oct 14, 2026): the
+  // President's address and that night's news, composed once while the
+  // world loads and kept on the director's ledger for the screens.
+  if (playerId)
+    director.ledger.opening = recordOpeningStory(core, playerId) ?? undefined;
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
     .filter((person) => person.placeId === placeId)
