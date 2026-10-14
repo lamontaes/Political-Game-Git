@@ -1820,21 +1820,8 @@
       "high": 0.84,
       "unit": "share of adult years with covered earnings",
       "citation": "SSA Bulletin 65(1): women 0.66, men 0.84."
-    }
-  },
-  "openingRetirementCoveredTraitPull": {
-    "value": 0.04,
-    "tag": "TUNABLE",
-    "citation": "Authored signed reliability-context contribution to the fictional covered-career fraction, smoothly bounded to its possible span; not an empirically measured work history effect.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
     },
-    "stopgapId": "SG-P8-param-openingRetirementCoveredTraitPull",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    "stopgapId": "SG-P8-param-openingRetirementCoveredFraction"
   },
   "openingRetirementMinimumCoveredMonths": {
     "value": 120,
@@ -1871,52 +1858,10 @@
     "tag": "SOURCED",
     "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (December 2020), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 95th percentile benefit, computed from the published bins, is 1.88 times the mean."
   },
-  "openingRetirementPayerReserveMonths": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Deprecated compatibility parameter. CTO REVIEW 15 rejects prepaid retirement reserve stocks: new paying views and the outside-flow owner start at zero independent of this key. Dated genuine obligations, not annual outlays or survival targets, authorize later outside payments. Zero is the accounting policy, not an unobserved Treasury/program cash value.",
-    "estimatedFrom": "Retired stock-generation control; it is retained only for compatibility and supplies no new opening cash.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; active outside-due flows do not read it. No observed payer cash-stock dispersion is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementPayerReserveMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
-  },
   "openingRetirementPeriodMonths": {
     "value": 1,
     "tag": "SOURCED",
     "citation": "Sourced monthly benefit cadence only. The first bill on the first day of the next month and later fixed-day successors in opening-income.ts remain an explicitly ESTIMATED calendar prior. They do not implement 20 CFR 404.1807 insured-worker cycling, exceptions or holiday/early-payment rules; see src/core2/data/research/retirement-opening-2021.json observations.ssaPaymentDayRule2020."
-  },
-  "openingRetirementFundingEnvelopeShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingEnvelopeShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
-  },
-  "openingRetirementFundingLiquidShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; exact recorded due-income flows replace stock allocation. No observed program liquid-stock interval is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingLiquidShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
   },
   "openingRetirementFundingPublicAnnualOutlayMinor": {
     "value": 95236200000000,

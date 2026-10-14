@@ -678,7 +678,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Stale: no marker remained. Kept as a TUNABLE dial checked against SSA claim ages (mean 64.08 against 63.4 to 65.0), since traits deciding the claim age is the no-dice rule."
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredFraction",
@@ -690,7 +691,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Stale: no stand-in remained. A labeled ESTIMATED share from the SSA Bulletin, checked against EMPIRICAL-OPENING-RETIREMENT-INCOME."
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredTraitPull",
@@ -702,7 +704,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted (owner, Oct 14, 2026): covered work is the SSA share for everyone; the reliability pull and its parameter are gone."
   },
   {
     "id": "SG-P8-param-openingRetirementMinimumCoveredMonths",
@@ -738,7 +741,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Stale: no stand-in remained. SOURCED from SSA Annual Statistical Supplement 2021, Table 5.B6."
   },
   {
     "id": "SG-P8-param-openingRetirementBenefitFactorMaximum",
@@ -750,7 +754,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Stale: no stand-in remained. SOURCED from SSA Annual Statistical Supplement 2021, Table 5.B6."
   },
   {
     "id": "SG-P8-param-openingRetirementPayerReserveMonths",
@@ -762,7 +767,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Remove the legacy parameter after root callers/saved evidence are migrated; genuine due-source and signed-flow accounting remain separate obligations.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: the unused compatibility key and its check are removed."
   },
   {
     "id": "SG-P8-opening-retirement-funding",
@@ -786,7 +792,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Retain historical source records; remove unused compatibility key in a separately reviewed save migration.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: the unused compatibility key is removed."
   },
   {
     "id": "SG-P8-param-openingRetirementFundingLiquidShare",
@@ -798,7 +805,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Retain historical source records; remove unused compatibility key in a separately reviewed save migration.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: the unused compatibility key is removed."
   },
   {
     "id": "SG-P8-family-network-coverage",

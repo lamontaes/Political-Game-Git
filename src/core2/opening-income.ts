@@ -78,14 +78,12 @@ export interface OpeningIncomeData {
     claimNeedPullYears: string;
     claimFullBufferMonths: string;
     coveredFraction: string;
-    coveredTraitPull: string;
     minimumCoveredMonths: string;
     benefitMonthlyMinor: string;
     benefitReferenceCoveredMonths: string;
     benefitFactorMinimum: string;
     benefitFactorMaximum: string;
     /** Deprecated compatibility key; new payers have no prepaid stock. */
-    payerReserveMonths: string;
     periodMonths: string;
   };
   labels: { coverage: string; claim: string; award: string };
@@ -248,7 +246,6 @@ export function buildOpeningRetirementIncome(
     values.periodMonths !== one ||
     values.coveredFraction! <= zero ||
     values.coveredFraction! > one ||
-    values.payerReserveMonths! < zero ||
     values.benefitFactorMinimum! <= zero ||
     values.benefitFactorMaximum! < values.benefitFactorMinimum!
   )
@@ -612,7 +609,6 @@ export function buildOpeningRetirementIncome(
       if (traitValue !== undefined && !Number.isFinite(traitValue))
         throw new Error("Nonfinite retirement context trait.");
       if (traitSource) source(traitSource, `${person.id}:${data.contextTrait}`);
-      const trait = traitValue ?? zero;
       // Claiming is their own decision inside the law: savings and patience.
       const dailyCost = person.livingCostDailyMinor;
       const claimMonths = retirementClaimAgeMonths(
@@ -660,13 +656,7 @@ export function buildOpeningRetirementIncome(
         continue;
       }
       if (!coverage) {
-        const fraction = Math.max(
-          zero,
-          Math.min(
-            one,
-            values.coveredFraction! + trait * values.coveredTraitPull!,
-          ),
-        );
+        const fraction = values.coveredFraction!;
         const coveredMonths = Math.floor(
           (daysBetween(makeIsoDate(startAt), makeIsoDate(claimAt)) /
             p("daysPerMeanYear")) *

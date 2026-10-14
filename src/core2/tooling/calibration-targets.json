@@ -1202,14 +1202,6 @@
       "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
     },
     {
-      "parameter": "openingRetirementCoveredTraitPull",
-      "checkRange": {
-        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
       "parameter": "openingRetirementMinimumCoveredMonths",
       "checkRange": {
         "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
@@ -1240,30 +1232,6 @@
       },
       "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
       "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementPayerReserveMonths",
-      "checkRange": {
-        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementFundingEnvelopeShare",
-      "checkRange": {
-        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
-    },
-    {
-      "parameter": "openingRetirementFundingLiquidShare",
-      "checkRange": {
-        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-      },
-      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
-      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
     },
     {
       "parameter": "openingCustomerPeriodMonths",
@@ -7615,11 +7583,6 @@
       "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
     },
     {
-      "parameter": "openingRetirementCoveredTraitPull",
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
-      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
       "parameter": "openingRetirementMinimumCoveredMonths",
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
       "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
@@ -7638,21 +7601,6 @@
       "parameter": "openingRetirementBenefitFactorMaximum",
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
       "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementPayerReserveMonths",
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
-      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
-    },
-    {
-      "parameter": "openingRetirementFundingEnvelopeShare",
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
-      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
-    },
-    {
-      "parameter": "openingRetirementFundingLiquidShare",
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
-      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
     },
     {
       "parameter": "openingCustomerPeriodMonths",
@@ -7699,6 +7647,22 @@
     {
       "parameter": "eventStressImpulse",
       "cleanup": "Row and matching open stopgap removed; no production reader existed. Former test-only stimuli are retained only in src/core2/tooling/fixtures/event-inputs.json with synthetic developer-fixture provenance."
+    },
+    {
+      "parameter": "openingRetirementCoveredTraitPull",
+      "cleanup": "Row removed with its stopgap (owner, Oct 14, 2026): no measured coefficient or no production reader."
+    },
+    {
+      "parameter": "openingRetirementPayerReserveMonths",
+      "cleanup": "Row removed with its stopgap (owner, Oct 14, 2026): no measured coefficient or no production reader."
+    },
+    {
+      "parameter": "openingRetirementFundingEnvelopeShare",
+      "cleanup": "Row removed with its stopgap (owner, Oct 14, 2026): no measured coefficient or no production reader."
+    },
+    {
+      "parameter": "openingRetirementFundingLiquidShare",
+      "cleanup": "Row removed with its stopgap (owner, Oct 14, 2026): no measured coefficient or no production reader."
     }
   ],
   "contentMetadataCleanup": {

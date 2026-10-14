@@ -205,14 +205,7 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
     (Date.parse(`${core.date}T00:00:00Z`) -
       Date.parse(`${person.birthDate}T00:00:00Z`)) /
     (p("daysPerMeanYear") * 86_400_000);
-  const reliability = person.traits["people-mind-v1:reliability"] ?? 0;
-  const fraction = Math.max(
-    0,
-    Math.min(
-      1,
-      p(keys.coveredFraction) + reliability * p(keys.coveredTraitPull),
-    ),
-  );
+  const fraction = p(keys.coveredFraction);
   const coveredMonths = Math.floor(
     Math.max(0, age - p(keys.careerStartAgeYears)) * 12 * fraction,
   );
