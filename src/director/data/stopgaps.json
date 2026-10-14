@@ -9,7 +9,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorMomentFloor); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorInterruptImpact",
@@ -21,7 +22,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorInterruptImpact); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorScaleHealth",
@@ -33,7 +35,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorScaleHealth); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorWeightTieSociability",
@@ -45,7 +48,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorWeightTieSociability); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorWeightMoneyRisk",
@@ -57,7 +61,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorWeightMoneyRisk); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorRenewedFading",
@@ -69,7 +74,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorRenewedFading); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorTies",
@@ -81,7 +87,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A calibration of thread importance against recorded closeness in replayed lives.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorTieParent, directorTieChild, directorTieSibling, directorTieGrandparent, directorTieGrandchild, directorTiePartner and 2 more); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorHalfLives",
@@ -93,7 +100,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A half-life calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorFriendHalfLifeDays, directorKinHalfLifeDays); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-appraisal-recompute",
@@ -141,7 +149,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A calibration against when people recall shared events.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorAnniversaryHalfDays); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-past-fact-estimates",
@@ -165,7 +174,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorMemoryRecentDays, directorMemoryKeptMoments); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P15-journal-banks",

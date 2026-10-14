@@ -16,10 +16,16 @@
       "value": 0.5,
       "tag": "TUNABLE",
       "citation": "Owner ruling on answer 2, October 9, 2026: the scale's anchor event, 'Marriage', 50 life-change units divided by 100 (Holmes and Rahe 1967), so losing a household's only pay takes over the screen.",
-      "stopgapId": "SG-P13-param-directorInterruptImpact",
       "checkRange": {
         "ref": "P13-OWNER-INTERRUPT-LINE"
-      }
+      },
+      "spread": {
+        "low": 0.25,
+        "high": 1,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-OWNER-INTERRUPT-LINE and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorScaleFeeling": {
       "value": 1,
@@ -63,28 +69,44 @@
       "value": 1,
       "tag": "TUNABLE",
       "citation": "The watched person's own death ends the watched life; scale 1 places it at the top of the life-change scale. No direct source for the director's weighting.",
-      "stopgapId": "SG-P13-param-directorScaleHealth",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.5,
+        "high": 2,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorWeightTieSociability": {
       "value": 0.25,
       "tag": "TUNABLE",
       "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), reused for sociability on the tie channel. No direct source.",
-      "stopgapId": "SG-P13-param-directorWeightTieSociability",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.125,
+        "high": 0.5,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorWeightMoneyRisk": {
       "value": -0.25,
       "tag": "TUNABLE",
       "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), signed so that a person who avoids risk weighs a money loss more. No direct source.",
-      "stopgapId": "SG-P13-param-directorWeightMoneyRisk",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "status": "unmeasured",
+        "reason": "A zero or signed tuning dial; it is checked by direction and size against its check, not by a fixed range."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorCostHorizonDays": {
       "value": 30.436875,
@@ -95,46 +117,76 @@
       "value": 0.5,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.25,
+        "high": 1,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorTieChild": {
       "value": 0.5,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.25,
+        "high": 1,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorTieSibling": {
       "value": 0.35,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.175,
+        "high": 0.7,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorTieGrandparent": {
       "value": 0.2,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.1,
+        "high": 0.4,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorTieGrandchild": {
       "value": 0.2,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.1,
+        "high": 0.4,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorTiePartner": {
       "value": 0.5,
@@ -147,55 +199,91 @@
       "value": 0.3,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.15,
+        "high": 0.6,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorFadingDiscount": {
       "value": 0.75,
       "tag": "TUNABLE",
       "citation": "Story director design, part 2, October 8, 2026 calibration: fading discounts a pair's moments by up to three quarters.",
-      "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.375,
+        "high": 1,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorFriendHalfLifeDays": {
       "value": 548,
       "tag": "TUNABLE",
       "citation": "Owner question 4 (P13 design note): about 18 months, the same value P15 uses for closeness between people who are not relatives. No study reports a half-life for closeness without contact: Roberts and Dunbar (2015), Human Nature 26(4):426-450, report only that friends' closeness fell over their 18-month study, and 18 months is the study's length, not a half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-      "stopgapId": "SG-P13-param-directorHalfLives",
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
-      }
+      },
+      "spread": {
+        "low": 274,
+        "high": 1096,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until the P9 whole-life replay (44 sourced, dated checks across three public biographies; src/core2/tooling/calibration-targets.json) and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorKinHalfLifeDays": {
       "value": 1096,
       "tag": "TUNABLE",
       "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, the same value P15 uses for relatives. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-      "stopgapId": "SG-P13-param-directorHalfLives",
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
-      }
+      },
+      "spread": {
+        "low": 548,
+        "high": 2192,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until the P9 whole-life replay (44 sourced, dated checks across three public biographies; src/core2/tooling/calibration-targets.json) and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorRenewedFading": {
       "value": 0.5,
       "tag": "TUNABLE",
       "citation": "Labeling only: a contact is labeled a renewal when at least half of the pair's closeness had faded, one half-life. Decides no outcome.",
-      "stopgapId": "SG-P13-param-directorRenewedFading",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
-      }
+      },
+      "spread": {
+        "low": 0.25,
+        "high": 1,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-CALIBRATION-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorAnniversaryHalfDays": {
       "value": 7,
       "tag": "TUNABLE",
       "citation": "Owner answer 7, October 9, 2026: a weight highest on the anniversary that falls smoothly over two weeks either side; it halves every 7 days from the date, with no cut-off. No direct source.",
-      "stopgapId": "SG-P13-param-directorAnniversaryHalfDays",
       "checkRange": {
         "ref": "P13-OWNER-ANNIVERSARY"
-      }
+      },
+      "spread": {
+        "low": 3.5,
+        "high": 14,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P13-OWNER-ANNIVERSARY and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorPastChildBorn": {
       "value": 0.39,
@@ -257,19 +345,31 @@
       "value": 91,
       "tag": "TUNABLE",
       "citation": "No study sets how long a person keeps every moment in full. A season (91 days) keeps the recent past whole for scenes, callbacks and the journal; older moments keep only the strongest by hindsight. Checked by a watched person's stored moments staying about the same size across a year (P15 two-level population).",
-      "stopgapId": "SG-P15-memory-forgetting",
       "checkRange": {
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
-      }
+      },
+      "spread": {
+        "low": 45.5,
+        "high": 182,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P15-MEMORY-SIZE-FLAT-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorMemoryKeptMoments": {
       "value": 24,
       "tag": "TUNABLE",
       "citation": "No study sets how many older moments a person keeps one by one. Two a month over a year, matching the Social Readjustment Rating Scale's twelve-month window (Holmes and Rahe 1967); the rest stay as monthly summaries and as each pair's summed impact. Checked by stored moments staying about the same size across a year.",
-      "stopgapId": "SG-P15-memory-forgetting",
       "checkRange": {
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
-      }
+      },
+      "spread": {
+        "low": 12,
+        "high": 48,
+        "unit": "same unit as the value",
+        "citation": "Tuning range: half to twice the current value."
+      },
+      "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until its check range P15-MEMORY-SIZE-FLAT-YEAR and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
     },
     "directorFilingImpact": {
       "value": 0.28,

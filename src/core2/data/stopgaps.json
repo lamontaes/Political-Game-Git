@@ -93,7 +93,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (stressBaseline); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-moodBaseline",
@@ -105,7 +106,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (moodBaseline); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-moodHalfLifeDays",
@@ -129,7 +131,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (stressHalfLifeDays); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-needWeight",
@@ -141,7 +144,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (needWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-goalWeight",
@@ -153,7 +157,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (goalWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-driveWeight",
@@ -165,7 +170,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (driveWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-traitWeight",
@@ -177,7 +183,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (traitWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-emotionWeight",
@@ -189,7 +196,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (emotionWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-effortWeight",
@@ -201,7 +209,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (effortWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-restEffect",
@@ -213,7 +222,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (restEffect); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-careEffect",
@@ -225,7 +235,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (careEffect); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-companyHorizonDays",
@@ -237,7 +248,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (companyHorizonDays); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-moneyBufferDays",
@@ -273,7 +285,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (appraisalRelationshipWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-appraisalDistressTraitWeight",
@@ -285,7 +298,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (appraisalDistressTraitWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-appraisalBroodingTraitWeight",
@@ -297,7 +311,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (appraisalBroodingTraitWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-param-relationInitial",
@@ -333,7 +348,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "A source-calibrated actor-specific affect model checked against documented adult trajectories.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A tuning structure with no real-world measure (owner, Oct 14, 2026); its dials are TUNABLE rows in the parameter table with spreads and checks: stressBaseline, moodBaseline, stressHalfLifeDays and the appraisal weights."
   },
   {
     "id": "SG-P8-life-utility",
@@ -345,7 +361,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A tuning structure with no real-world measure (owner, Oct 14, 2026); its dials are TUNABLE rows in the parameter table with spreads and checks: needWeight, goalWeight, driveWeight, traitWeight, emotionWeight, effortWeight, restEffect, careEffect and companyHorizonDays."
   },
   {
     "id": "SG-P8-civic-progress",
@@ -489,7 +506,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Empirical attendance/absence evidence and causal counterfactual checks, without percentage rolls or desired outcomes.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (workCommitmentUrgency); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-work-pay-terms",
@@ -561,7 +579,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched dated town income, market sales, prices/capacity and within-market shares with identified coefficient ranges and executed calibration; review cadence also requires evidence.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (businessIncomeElasticity, businessIncomeHalfLifeDays, businessCrowdingResponse, businessPriceStepMaximum, businessRivalPriceElasticity, businessOwnPriceElasticity and 1 more); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-business-books-credit-policy",
@@ -573,7 +592,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Recorded facility terms and generic conserving credit/repayment/closure writers with dated obligations, sources, claim priority and meaningful failure/reload checks.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (businessRepaymentShare); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P8-finance-settlement-policy",
@@ -585,7 +605,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Recorded household contracts and institution accounts, tested bankruptcy/closure policy and matched economic observables.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The settlement order (monthly standing budgets, pay before purchases, the review period) is the game's own bookkeeping convention with no real-world measure (owner, Oct 14, 2026); it is checked by every dollar balancing in the money guard."
   },
   {
     "id": "SG-P8-opening-finance-bindings",
@@ -1802,7 +1823,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "Coefficients sourced from NSFG, natality and NEO-PI-R facet tables and checked against the P15 answer keys.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (closenessHoursAtHalf, closenessKinHalfLifeDays, closenessOtherHalfLifeDays, householdOtherMinutesPerDay, schoolHoursFriendshipWeight, extendedKinVisitShare and 9 more); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P15-kin-generation",
@@ -1838,7 +1860,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "Closeness calibrated against a panel of measured tie strength and contact (for example, the Roberts and Dunbar network data or a US panel), with per-pair opening histories from the shared past.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A tuning structure with no real-world measure (owner, Oct 14, 2026); its dials are TUNABLE rows in the parameter table with spreads and checks: closenessHoursAtHalf and the closeness half-lives."
   },
   {
     "id": "SG-P15-partnership-model",
@@ -1898,7 +1921,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "A grief measure matched to a bereavement instrument (for example the grief items Bonanno et al. used), choice weights checked against observed behavior after a loss, and losses saved with the world.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (griefResilientShare, griefChronicShare, griefLittleFraction, griefPullWeight, griefHoldWeight); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P15-falling-outs",
@@ -2006,7 +2030,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Weights checked against candidate counts per seat across drawn places once GOV's contests run every cycle (M2-04).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (candidacyEngagementWeight, candidacyCauseWeight, candidacyTemperamentWeight, candidacyTimeWeight, candidacyAgeWeight, candidacyAgeSpread and 7 more); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P10-params-uncalibrated",
@@ -2018,7 +2043,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "Coefficients checked against P9 life replays and real bereaved/harmed-cohort spreads of civic action.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (lifeEventStressScale, lifeEventMoodScale, driveCauseHalfLifeDays, driveGrudgeHalfLifeDays, driveProtectFamilyHalfLifeDays, driveStatusHalfLifeDays and 30 more); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P10-response-model",
@@ -2030,7 +2056,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "Response rows and pressures calibrated against documented responses to bereavement, job loss and injustice (P9 lives, panel studies).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A tuning structure with no real-world measure (owner, Oct 14, 2026); its dials are TUNABLE rows in the parameter table with spreads and checks: the response fit and lean rows (responseCarryOnFit, responseTraitLeanGain and the rest)."
   },
   {
     "id": "SG-P10-perception-model",
@@ -2042,7 +2069,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "Channel rows and weights validated against appraisal research and P9 replays.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A tuning structure with no real-world measure (owner, Oct 14, 2026); its dials are TUNABLE rows in the parameter table with spreads and checks: perceptionTraitWeight, perceptionClosenessWeight and the role weights."
   },
   {
     "id": "SG-P10-drive-acts",
@@ -2054,7 +2082,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "Group, charity and civic engines whose procedures decide outcomes, with durations from ATUS.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A tuning structure with no real-world measure (owner, Oct 14, 2026); its dials are TUNABLE rows in the parameter table with spreads and checks: driveShareHours, donateHours, volunteerHours, driveConfrontHours and the act impulses."
   },
   {
     "id": "SG-P10-cause-group-founding",
@@ -2126,7 +2155,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "A calibrated appraisal model checked against bereavement and illness affect trajectories.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A tuning structure with no real-world measure (owner, Oct 14, 2026); its dials are TUNABLE rows in the parameter table with spreads and checks: lifeEventStressScale and lifeEventMoodScale over the sourced Holmes and Rahe rows."
   },
   {
     "id": "SG-P10-resilience-scale",
@@ -2138,7 +2168,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "A cohort calibration of base scale and condition weights together, checked across many places and ages against the life table.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (resilienceBaseRateScale); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P10-group-name-key",
@@ -2186,7 +2217,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports), with audits and the news surfacing records.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (bribeShareOfStake, corruptionTraitWeight, corruptionNeedWeight, corruptionTieWeight, corruptionHonestPull, corruptionTellWeight and 1 more); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P15-opening-profile",

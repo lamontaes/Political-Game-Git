@@ -12,6 +12,8 @@ export interface Parameter {
   stopgapId?: string;
   /** Developer-only calibration target; numeric lookup and snapshots ignore it. */
   checkRange?: Readonly<{ ref: string }>;
+  /** What a TUNABLE dial is tuned against (owner, Oct 14, 2026). */
+  checkedAgainst?: string;
 }
 
 export const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
