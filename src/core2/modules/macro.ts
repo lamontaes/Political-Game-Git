@@ -420,7 +420,12 @@ function takeEffect(api: CoreAPI, meetingId: string): void {
     .table("lines")
     .query("byIndex", ["prime"]) as unknown as LinkedLineRow[]) {
     const before = api.state.finance.facilities.get(row.facilityId);
-    if (!before || !before.active) continue;
+    if (
+      !before ||
+      !before.active ||
+      api.state.finance.businesses.get(before.borrowerId)?.closedAt
+    )
+      continue;
     const fromRate =
       before.annualInterestRate ??
       api.parameter(before.annualInterestParameter);
