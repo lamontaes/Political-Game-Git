@@ -742,6 +742,10 @@ input[type="range"]::-moz-range-thumb {
 .seed-row input {
   width: 150px;
 }
+#front.loading {
+  top: 56px;
+  transform: none;
+}
 /* The title's build version, bottom right (#4014). */
 .title-version {
   display: block;

@@ -2186,6 +2186,8 @@ const FRONT_PANELS = [
 ];
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
+  // The loading card (no panel) sits in the top-left corner (owner, Oct 14).
+  $("front").classList.toggle("loading", name === null);
 }
 // What the creator has chosen so far (the Oct 12 SetupScreen's setup).
 const setup = {
