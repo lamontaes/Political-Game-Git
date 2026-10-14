@@ -51,7 +51,8 @@ export interface WorldSettings {
   };
 }
 
-function checkSettings(settings: WorldSettings): void {
+/** Refuses settings outside the new-game screen's bounds (M6-04). */
+export function checkSettings(settings: WorldSettings): void {
   const multiplier = (value: number | undefined, name: string) => {
     if (value !== undefined && !(value >= 0.25 && value <= 4))
       throw new Error(`World setting ${name} must be between 0.25 and 4.`);
@@ -226,8 +227,11 @@ function buildOpening(
   return { ...two, residents: { ...two.residents!, cohortSizes } };
 }
 
-/** Wages and household cash, applied before the economy is built from them. */
-function applyOpeningSettings(
+/**
+ * Wages and household cash, applied before the economy is built from them,
+ * and the settings recorded on the world (M6-04; the bench calls it too).
+ */
+export function applyOpeningSettings(
   input: CoreInput,
   settings: WorldSettings,
 ): CoreInput {
@@ -274,7 +278,8 @@ function applyOpeningSettings(
   };
 }
 
-function scaleOutsideSales(factor: number, input: CoreInput): CoreInput {
+/** Scales buyers from outside the town by the custom world's outside demand. */
+export function scaleOutsideSales(factor: number, input: CoreInput): CoreInput {
   if (factor === 1 || !input.residents) return input;
   return {
     ...input,
