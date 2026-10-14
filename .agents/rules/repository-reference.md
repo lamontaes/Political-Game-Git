@@ -52,9 +52,8 @@ A lower-authority document or implementation cannot silently override a higher-a
 
 ## Working Rules
 
-- Keep `src/simulation/` pure TypeScript and runnable without React, DOM, or external APIs.
-- Keep jurisdiction rules and sourced facts data-driven.
-- Treat Lexington content as an explicit placeholder until sourced snapshots exist.
+- Keep `src/core2/` pure TypeScript and runnable without React, DOM, or external APIs. The old core under `src/simulation/` gets no new work and goes once each piece is ported.
+- Keep jurisdiction rules and sourced facts data-driven; never name a state, city or GEOID in logic.
 - Preserve stable IDs, seeded behavior, established facts, and append-oriented history.
 - Update affected documentation and tests with behavioral changes.
 - Run the Architecture Integrity Audit at major scope boundaries and whenever a new rule could affect completed work; earlier work is not grandfathered.
