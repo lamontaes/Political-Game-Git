@@ -949,11 +949,20 @@ function visitorLodgingRecords(
     throw new Error(
       "Actual visitor identity, visit and market contradict their owner or geography.",
     );
+  // The visitors come from a place the world doesn't live in: not one of the
+  // town's own places. Full people elsewhere (officials in their states,
+  // residents who moved away) don't make it simulated geography. A world
+  // with no town places named falls back to anyone living there.
+  const visible = r.field(session.core, "visiblePlaceIds");
   const residents = r.mapGet(
     r.field(session.core, "peopleByPlace"),
     market.originPlaceId,
   );
-  if (residents && r.size(residents) > session.zero)
+  if (
+    r.size(visible) > session.zero
+      ? r.member(visible, market.originPlaceId)
+      : residents && r.size(residents) > session.zero
+  )
     throw new Error(
       "Actual outside visitor origin overlaps admitted resident geography.",
     );

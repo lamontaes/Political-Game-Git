@@ -260,3 +260,11 @@ Engine gaps the panels name (file these against the engine, not here):
 - **Work engine (OPUS-WORLD):** weekly rollups cover only the weeks still kept, so hours cannot cover a full year; the panel prints how many weeks it counted.
 - **Business engine (OPUS-WORLD):** a closing by insolvency, retirement or no successor writes the book's reason only, with no choice row and so no recorded values.
 - **Budgets engine (OPUS-GOV):** a starting line's change event names the law that set it, not a bill; the panel shows the law, and the history of the line starts there.
+
+## Kit 13 controls (branch `play/kit13-controls`)
+
+The play page now uses Kit 13's approved control set (`docs/ui/kit13/APPROVED-2026-10-04.md`), replacing Kit 12: brass corner ornaments on the panel (four SVG files, `public/ui/kit13/corner-*.svg`); buttons as dark glass with fine grain, Continue (`.primary`) and Back (plain) in two sizes, the brass corner mark only while a button is `.active`, `aria-pressed` or held down; tabs with the open one a raised glass box; gold line icons for calendar, money and people; search (icon and text at rest, thin box on hover, solid box with caret clicked); dropdown with no chevron; gold-outline checkboxes with a gold check; brass-handle slider; brass-frame progress bar with a dark-to-light gold fill; thin light close X. Removed: the red underline on primary actions, the underlined tabs, every thin gold rule above or below a section, the brass inset bars, the round brass ring icons. **No scrolling inside a menu:** the sheet, the polling-place ballot and the news reader page (`pageIn` in `play.mjs`: Back and Continue turn pages; columns page sideways, a plain list pages at a row).
+
+Before and after screenshots per control, from a played new game, are in `docs/reports/kit13-controls-2026-10-14/`. The slider has no use on the play page today, so its screenshot is a specimen on a panel. The dev bench (`/` and `/dev`) is a developer tool and keeps its own plain look.
+
+Not done: the Pin icon and Return-to-character icon have no place on the page yet; the politics and travel ring icons keep the old line style (no approved icon exists for them); the lie scales keep their Kit 12 art; the opening's letterbox and the glossary tip were restyled only through the shared panel and button classes.

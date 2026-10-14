@@ -5,8 +5,8 @@
  * alternatives that differ on one axis. Development tooling; grading never
  * blocks a merge, and nothing here words anything.
  *
- *   npm run dialogue:coverage -- [--id batch-7] [--seed batch-7] [--places 5] \
- *     [--days 120] [--cache <file>] [--only conversation] \
+ *   npm run dialogue:coverage -- [--id batch-8] [--seed batch-8] [--places 5] \
+ *     [--days 365] [--cache <file>] [--only conversation] \
  *     [--mix journal=14,legislation=12,...]
  *
  * Per place (`drawPlace("<seed>:<life>", "dialogue-report")`, the same draw as
@@ -21,7 +21,7 @@
  *   speeches         composeAddress over address.json (campaign, public
  *                    comment, victory, concession, house honors, chair)
  *   bills, notices,  composeFromBank over legislation / notices / minutes /
- *   minutes, hearing hearing / meeting / tribute / interview.json
+ *   minutes, hearing hearing / meeting / interview.json
  *   conversation     openConversation and say (play-lives.ts), true replies
  *                    and the scales' false set
  *
@@ -40,8 +40,8 @@ import { coreAPI } from "../../src/core2/state";
 import type { CoreState } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
 import { properName } from "../../src/director/words";
-import { composeFromBank } from "../../src/presentation/bank-english";
-import type { EnglishBank } from "../../src/presentation/bank-english";
+import { composeFromBank } from "./bank-compose";
+import type { EnglishBank } from "./bank-compose";
 import { composeAddress } from "../../src/presentation/english-composition";
 import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
 import { REGISTER_CARDS } from "../../src/presentation/speech-registers";
@@ -51,7 +51,15 @@ import {
   addressMoves,
   ADDRESS_REGISTERS,
 } from "../english-corpus/address-bank";
+import lexicon from "./verb-lexicon.json" with { type: "json" };
 import { candidatesOf } from "./grading-batch";
+import {
+  checkBatch,
+  loadThresholds,
+  selectPassing,
+  type GuardLine,
+  type Rejection,
+} from "./repetition-guard";
 import {
   AXES,
   minedParts,
@@ -67,32 +75,35 @@ import legislationJson from "../../data/english/parts/legislation.json" with { t
 import meetingJson from "../../data/english/parts/meeting.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
 import noticesJson from "../../data/english/parts/notices.json" with { type: "json" };
-import tributeJson from "../../data/english/parts/tribute.json" with { type: "json" };
+
+const VERB_LEADS = new Set<string>(lexicon.verbs);
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
   const at = args.indexOf(`--${name}`);
   return at >= 0 && args[at + 1] !== undefined ? args[at + 1]! : fallback;
 };
-const id = option("id", "batch-7");
+const id = option("id", "batch-8");
 const seed = option("seed", id);
 const places = Number(option("places", "5"));
-const days = Number(option("days", "120"));
+const days = Number(option("days", "365"));
 const cachePath = option("cache", "");
+/** How many candidate lines per kind are put in front of the repetition guard. */
+const CANDIDATES = 400;
 const only = option("only", "");
 
 /** The order of the page, and how many lines each kind gets. Conversation is last. */
 export const DEFAULT_MIX: Record<string, number> = {
-  journal: 14,
+  journal: 20,
   legislation: 12,
-  notices: 4,
+  notices: 2,
   minutes: 4,
   hearing: 4,
-  meeting: 10,
+  meeting: 12,
   campaign: 8,
   interview: 8,
   emotion: 18,
-  conversation: 18,
+  conversation: 12,
 };
 const mix: Record<string, number> = { ...DEFAULT_MIX };
 for (const pair of option("mix", "").split(",").filter(Boolean)) {
@@ -120,6 +131,8 @@ export interface Raw {
   sourceRecordIds: string[];
   /** Refuses alternatives that change what the line means (for example for/against). */
   forbid?: string;
+  /** What the repetition guard needs: names to mask, institutions of record and bill titles in the line. */
+  guard?: { masks: string[]; institutions: string[]; titles: string[] };
 }
 
 const all = minedParts();
@@ -160,6 +173,11 @@ const longDate = (iso: string) =>
   });
 const lowerFirst = (text: string) =>
   text.charAt(0).toLowerCase() + text.slice(1);
+/** A bill's title as a name: policy titles are authored as noun or command phrases, and a name in quotation marks is a noun phrase either way. */
+const quoted = (title: string) => `"${title}"`;
+/** A title that reads as a noun phrase, so a long title can say "To provide for" it. */
+const isNounTitle = (title: string) =>
+  !VERB_LEADS.has(title.split(/\s+/)[0]!.toLowerCase());
 const nameList = (names: readonly string[]) =>
   names.length <= 1
     ? (names[0] ?? "")
@@ -233,7 +251,7 @@ function readWorld(place: Place): {
   const me = core.people.get(world.playerId!)!;
   const circle = [
     ...new Set([world.playerId!, ...me.familyIds, ...me.knownIds]),
-  ].slice(0, 12);
+  ].slice(0, 24);
   for (const person of circle) world.director.watch(core, person);
   advanceCore(core, addDays(makeIsoDate(core.date), days));
   const town = place.name.split(",")[0]!;
@@ -377,19 +395,33 @@ function readWorld(place: Place): {
     const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: it ${support ? "adopts" : "repeals"} "${title}" on the bill's own provision record.`;
     const pieces: [string, ReturnType<typeof keyed>][] = [
       [
-        "The ordinance's title",
-        composeFromBank(legBank, "local-title", { title }, bill.id),
+        "Its short title",
+        composeFromBank(
+          legBank,
+          "short-title",
+          { act: quoted(title) },
+          bill.id,
+        ),
       ],
       [
-        "Its short title",
-        composeFromBank(legBank, "short-title", { act: `"${title}"` }, bill.id),
+        "Its long title",
+        // A long title is a verb phrase the bank leads with "To provide for"; only a noun title fits it.
+        isNounTitle(title)
+          ? composeFromBank(
+              legBank,
+              "long-title",
+              { purpose: lowerFirst(title) },
+              bill.id,
+              /^(?!To provide for)/,
+            )
+          : null,
       ],
       [
         "Its repeal clause",
         support
           ? null
           : keyed(legBank, "legislation.clause.provision-is-repealed", {
-              provision: title,
+              provision: quoted(title),
             }),
       ],
     ];
@@ -446,12 +478,12 @@ function readWorld(place: Place): {
     for (const [move, facts, what] of [
       [
         "hearing",
-        { title, date: longDate(bill.introduced) },
+        { title: quoted(title), date: longDate(bill.introduced) },
         "A hearing notice",
       ],
       [
         "ordinance",
-        { designation: bill.number, title },
+        { designation: bill.number, title: quoted(title) },
         "An ordinance listing",
       ],
     ] as const) {
@@ -582,9 +614,10 @@ function readWorld(place: Place): {
       const made = composeFromBank(
         minutesBank,
         move,
-        { topic: lowerFirst(title) },
+        { topic: quoted(title) },
         bill.id,
-        /view|extent|Against this background|judged/,
+        // A manager does not turn to an item (the chair takes it up), so those sentences are left out (owner, batch 7).
+        /view|extent|Against this background|judged|manager/,
       );
       if (made)
         raws.push({
@@ -848,40 +881,6 @@ function readWorld(place: Place): {
       });
   }
 
-  // Tribute lines from tribute.json for a living official.
-  const tributeBank = tributeJson as unknown as EnglishBank;
-  for (const personId of honored.slice(0, 3)) {
-    const row = personOf(personId)!;
-    const school = schoolsOf(core, personId)[0];
-    const facts = {
-      chair: row.looks?.gender === "female" ? "Madam Speaker" : "Mr. Speaker",
-      honoree: nameOf(personId),
-      community: `the people of ${town}`,
-      ...(school ? { school: school.name } : {}),
-    };
-    for (const move of ["opener", "praise", "closer"]) {
-      const made = composeFromBank(
-        tributeBank,
-        move,
-        facts,
-        `${personId}:${move}`,
-        /missed|survived|heavy heart|condolences|legacy|birthday|retirement|born in|served in/,
-      );
-      if (made)
-        raws.push({
-          ...base,
-          category: "emotion",
-          speaker: "A colleague",
-          context: `A colleague honors ${nameOf(personId)}, a sitting official in ${town} (${move}).`,
-          prior: "",
-          text: made.text,
-          parts: [made.partKey],
-          composer: "composeFromBank over data/english/parts/tribute.json",
-          sourceRecordIds: [personId],
-        });
-    }
-  }
-
   /* ---- interviews the press engine ran ---- */
   const interviewBank = interviewJson as unknown as EnglishBank;
   const interviews = (
@@ -893,7 +892,7 @@ function readWorld(place: Place): {
     for (const answer of interview.answers as any[]) {
       const topic = names[answer.question as string];
       if (!topic) continue;
-      const issue = lowerFirst(topic);
+      const issue = quoted(topic);
       const asked = composeFromBank(
         interviewBank,
         "reporter-issue",
@@ -963,6 +962,42 @@ function readWorld(place: Place): {
     gaps.push(
       "no race was decided by the end of the run, so victory and concession lines (which need a recorded winner and loser) cannot be produced",
     );
+  // What the repetition guard reads: the world's own names to mask, the schools,
+  // workplaces and offices of record, and the bill titles.
+  const institutions = new Set<string>();
+  for (const personId of circle) {
+    for (const school of schoolsOf(core, personId))
+      institutions.add(school.name);
+    const employer = employerOf(personId);
+    if (employer) institutions.add(employer.text);
+  }
+  for (const org of core.organizations.values()) {
+    const orgName = properName((org as any).name as string);
+    if (/clerk|registrar|board of elections/i.test(orgName))
+      institutions.add(orgName);
+  }
+  const maskPool = new Set<string>([
+    town,
+    ...circle.map(nameOf),
+    ...[...offices.values()].flatMap((o) => [
+      String(o.title),
+      bodyName(o.id as string),
+    ]),
+    ...bills.map((b) => String(b.number)),
+    ...contests.map((c) => String(c.title)),
+    ...institutions,
+  ]);
+  const titlePool = [...new Set(Object.values(names))];
+  for (const raw of raws) {
+    const text = `${raw.text}`;
+    raw.guard = {
+      masks: [...maskPool, ...titlePool].filter((m) => m && text.includes(m)),
+      institutions: [...institutions].filter((m) => text.includes(m)),
+      titles: titlePool.filter((m) =>
+        text.toLowerCase().includes(m.toLowerCase()),
+      ),
+    };
+  }
   stood.push(
     `${town}: ${decided} decided races, office levels ${[...new Set([...offices.values()].map((o) => o.level))].join("/")};  bills and roll calls are the legislature module's own rows (${localBills.length} local bills, ${voteRows.length} recorded votes); interviews are the press module's`,
   );
@@ -1149,26 +1184,48 @@ function main() {
   const items: Item[] = [];
   const counts: Record<string, number> = {};
   const emotionsSeen: Record<string, number> = {};
-  for (const kind of Object.keys(mix)) {
+  const kinds = Object.keys(mix);
+  const thresholds = loadThresholds(kinds);
+  const rejections: Rejection[] = [];
+  const triedBy: Record<string, number> = {};
+  const poolBy: Record<string, number> = {};
+  const shortGaps: string[] = [];
+  const guardOf = (item: Item): GuardLine => ({
+    kind: item.category,
+    text: item.text,
+    parts: item.parts,
+    masks: [...(item.guard?.masks ?? []), item.speaker.split(" (")[0]!],
+    institutions: item.guard?.institutions,
+    titles: item.guard?.titles,
+    sourceRecordIds: item.sourceRecordIds,
+  });
+  for (const kind of kinds) {
     const pool =
       kind === "conversation"
         ? conversation.raws
         : cached.raws.filter((raw) => raw.category === kind);
-    let picked: Item[];
+    // Every candidate in a stable order (places in turn, lines with alternatives first),
+    // far more than the page needs; the guard keeps the first ones that pass.
+    let ordered: Item[];
     if (kind === "conversation") {
       const lies = choose(
         pool.filter((raw) => raw.lie),
-        Math.min(4, mix[kind]!),
+        CANDIDATES,
         "lie",
       );
       const truths = choose(
         pool.filter((raw) => !raw.lie),
-        mix[kind]! - lies.length,
+        CANDIDATES,
         "talk",
       );
-      picked = [...truths, ...lies];
+      // About one false version in four, as the scales offer them.
+      ordered = [];
+      for (let at = 0; at < truths.length || at < lies.length; at += 1) {
+        for (const item of truths.slice(at * 3, at * 3 + 3)) ordered.push(item);
+        if (lies[at]) ordered.push(lies[at]!);
+      }
     } else if (kind === "emotion") {
-      // Emotional register: lines whose own words carry a feeling, a spread of feelings.
+      // Lines whose own words carry a feeling, a spread of feelings in turn.
       const tagged = cached.raws.filter(
         (raw) => raw.category === "emotion" && emotionsOf(raw.text).length > 0,
       );
@@ -1176,29 +1233,36 @@ function main() {
       for (const raw of tagged)
         for (const emotion of emotionsOf(raw.text))
           byFeeling.set(emotion, [...(byFeeling.get(emotion) ?? []), raw]);
-      const share = Math.max(
-        1,
-        Math.ceil(mix[kind]! / Math.max(1, byFeeling.size)),
+      const lanes = [...byFeeling.entries()]
+        .sort()
+        .map(([emotion, rows]) =>
+          choose(rows, CANDIDATES, `emotion:${emotion}`),
+        );
+      ordered = [];
+      for (let at = 0; lanes.some((lane) => lane[at]); at += 1)
+        for (const lane of lanes)
+          if (lane[at] && !ordered.some((row) => row.text === lane[at]!.text))
+            ordered.push(lane[at]!);
+    } else ordered = choose(pool, CANDIDATES, kind);
+    const candidates = ordered.map((item) => ({ ...guardOf(item), item }));
+    const picked = selectPassing(kind, candidates, mix[kind]!, thresholds);
+    poolBy[kind] = candidates.length;
+    triedBy[kind] = picked.tried;
+    rejections.push(...picked.rejections);
+    if (picked.short)
+      shortGaps.push(
+        `${kind}: the world held ${candidates.length} candidate lines, and only ${picked.chosen.length} of the ${mix[kind]} wanted passed the repetition guard (${picked.rejections.length} rejected). The records do not yet give this kind enough different openers, sentence shapes and verbs.`,
       );
-      picked = [];
-      for (const [emotion, rows] of [...byFeeling.entries()].sort()) {
-        for (const item of choose(rows, share, `emotion:${emotion}`))
-          if (
-            !picked.some((row) => row.text === item.text) &&
-            picked.length < mix[kind]!
-          )
-            picked.push(item);
-      }
-      // Top up to the wanted count from the unused tagged lines, a feeling at a time.
-      for (const item of choose(tagged, mix[kind]! * 3, "emotion:rest"))
-        if (
-          picked.length < mix[kind]! &&
-          !picked.some((row) => row.text === item.text)
-        )
-          picked.push(item);
-    } else picked = choose(pool, mix[kind]!, kind);
-    counts[kind] = picked.length;
-    items.push(...picked);
+    counts[kind] = picked.chosen.length;
+    items.push(...picked.chosen.map((row) => row.item));
+  }
+  const guardLines = items.map(guardOf);
+  const guarded = checkBatch(guardLines, thresholds);
+  if (guarded.failures.length) {
+    console.error(
+      `the repetition guard fails the batch:\n${guarded.failures.join("\n")}`,
+    );
+    process.exit(1);
   }
   items.forEach((item, at) => {
     item.i = at;
@@ -1224,6 +1288,9 @@ function main() {
       "Interviews: a recorded answer that opposes a policy has no wording (the bank only commits or deflects), and the 'record' move needs the candidate's recorded vote on the same question, which the press and record modules do not join.",
       "Minutes: only roll-call lines and a discussion line; 'the next meeting would be held on' needs a recorded next meeting date and 'dissented because' needs a recorded reason, which the legislature module does not keep.",
       "Meeting agendas and the speech of a real council meeting come only from bills of the town's bodies; a posted agenda record (items in order, with times) is not in the world yet.",
+      "Bill titles in the real form: a bill's title should read 'A bill to ...' (a verb phrase after 'To'), but the bill catalog names each policy as a bare phrase, some a noun ('Paid family leave') and some a command ('Shift highway funds to transit'). Until each policy carries its own purpose phrase, notices, minutes, interviews and the repeal clause carry the title as a name in quotation marks, the short title carries it as before, and the long title ('To provide for ...') is made only for noun titles. Owner decision needed: who writes a purpose phrase per policy, or whether a quoted name is the form.",
+      "Workplaces and schools are settings, never entries: the guard fails any line whose event is a school, a workplace, a filing office or an institution. Business names (for example 'Farmer's General Store') are another engine's work and are not fixed here.",
+      ...shortGaps,
     ]),
   ];
 
@@ -1234,9 +1301,18 @@ function main() {
     head: execSync("git rev-parse HEAD").toString().trim(),
     shortHead: headCommit(),
     seed,
+    days,
     status: "open" as const,
     axes: AXES,
     mix: counts,
+    guard: {
+      thresholds,
+      measured: guarded.measures,
+      candidates: poolBy,
+      tried: triedBy,
+      rejected: rejections.length,
+      rejections,
+    },
     variety: {
       items: items.length,
       places: conversation.placeList.length || placeList.length,
@@ -1267,6 +1343,7 @@ function main() {
       emotion: emotionsOf(item.text),
       parts: [item.varied],
       lineParts: item.parts,
+      guard: item.guard,
       composer: item.composer,
       sourceRecordIds: item.sourceRecordIds,
       variants: item.variants,
@@ -1321,11 +1398,63 @@ type PageBatch = {
     variants: { n: number; axis: string; text: string }[];
   }[];
   variety: { placeList: { name: string }[]; items: number };
+  days: number;
+  guard: {
+    thresholds: Record<string, Record<string, number>>;
+    measured: {
+      kind: string;
+      lines: number;
+      openers: number;
+      shapes: number;
+      verbs: number;
+    }[];
+    candidates: Record<string, number>;
+    tried: Record<string, number>;
+    rejected: number;
+    rejections: { rule: string; kind: string; text: string }[];
+  };
   emotionCoverage: Record<string, number>;
   stoodIn: string[];
   gaps: string[];
   seed: string;
 };
+function guardSection(batch: PageBatch): string {
+  const g = batch.guard;
+  const rows = g.measured.map((m) => {
+    const t = g.thresholds[m.kind]!;
+    return `| ${KIND_TITLES[m.kind] ?? m.kind} | ${m.lines} | ${m.openers.toFixed(2)} (${t.openers}) | ${m.shapes.toFixed(2)} (${t.shapes}) | ${m.verbs.toFixed(2)} (${t.verbs}) | ${g.candidates[m.kind]} | ${g.tried[m.kind]} |`;
+  });
+  const byRule = new Map<string, Map<string, number>>();
+  for (const row of g.rejections) {
+    const kinds2 = byRule.get(row.rule) ?? new Map<string, number>();
+    kinds2.set(row.kind, (kinds2.get(row.kind) ?? 0) + 1);
+    byRule.set(row.rule, kinds2);
+  }
+  const ruleRows = [...byRule.entries()].map(
+    ([rule, kinds2]) =>
+      `| ${rule} | ${[...kinds2.values()].reduce((a, b) => a + b, 0)} | ${[...kinds2.entries()].map(([k, n]) => `${k} ${n}`).join(", ")} |`,
+  );
+  const examples = [...byRule.keys()].flatMap((rule) =>
+    g.rejections
+      .filter((row) => row.rule === rule)
+      .slice(0, 3)
+      .map((row) => `- ${rule} (${row.kind}): ${cell(row.text.slice(0, 120))}`),
+  );
+  return `Before this page was written, every kind was checked for repetition (owner, Oct 14: batch 7 was "still super repetitive"). Each kind is measured on the share of distinct openers (first two words), distinct sentence shapes (names, titles, numbers and dates masked) and distinct main verbs; a kind under its threshold, or any line whose event is a school, a workplace, an institution or a filing office, or a bill title worded as a bare command, fails. The thresholds are estimated from real samples of the same size (\`src/director/data/director.json\`, \`dialogueGuard*\` rows). The worlds were played ${batch.days} days each.
+
+| Kind | Lines | Openers (threshold) | Shapes (threshold) | Verbs (threshold) | Candidates | Looked at before it passed |
+| --- | --- | --- | --- | --- | --- | --- |
+${rows.join("\n")}
+
+Rejected: ${g.rejected} candidates.
+
+| Rule | Rejected | By kind |
+| --- | --- | --- |
+${ruleRows.join("\n") || "| (none) | 0 | |"}
+
+${examples.join("\n")}`;
+}
+
 function buildForPage(batch: PageBatch): string {
   const placeNames = batch.variety.placeList.map((row) => row.name);
   const sections: string[] = [];
@@ -1376,7 +1505,7 @@ function buildForPage(batch: PageBatch): string {
   );
   return `# Words across the game, graded on five axes: grading batch ${batch.id}
 
-These ${batch.variety.items} lines are what the game's English engine produces today for each kind of text, not quotations: a journal entry, the title of a bill, a notice, a roll call in the minutes, a hearing, a chair calling a vote, a campaign speech, an interview answer, a feeling, and a conversation. Each sentence was said in a public-domain federal record, with the names, towns, offices and bills filled from a generated world's own records. Under each line are up to five other real sentences from the same bank, usable at the same moment, each one different on a single axis. Nothing here is invented or reworded. The worlds are ${placeNames.length} places drawn at random from all 56 (seed \`${batch.seed}\`): ${placeNames.join("; ")}.
+These ${batch.variety.items} lines are what the game's English engine produces today for each kind of text, not quotations: a journal entry, the title of a bill, a notice, a roll call in the minutes, a hearing, a chair calling a vote, a campaign speech, an interview answer, a feeling, and a conversation. Each sentence was said in a public-domain federal record, with the names, towns, offices and bills filled from a generated world's own records. Under each line are up to five other real sentences from the same bank, usable at the same moment, each one different on a single axis. Nothing here is invented or reworded. The worlds are ${placeNames.length} places drawn at random from all 56 (seed \`${batch.seed}\`), each played ${batch.days} days from 2026-10-12: ${placeNames.join("; ")}.
 
 ## What is in this batch
 
@@ -1385,6 +1514,10 @@ These ${batch.variety.items} lines are what the game's English engine produces t
 ${mixRows.join("\n")}
 
 Every line shows its scenario, the line before it and the speaker. The scenario is what the played world held when the line was made (a filed bill and its roll call, a candidate's filing, an interview the press engine ran, a journal entry the director recorded). Where the world held no record for a scenario, nothing was made up; it is listed under "OWNER DECISIONS NEEDED".
+
+## What the repetition guard did
+
+${guardSection(batch)}
 
 ## Feelings: what the banks have and lack
 

@@ -1994,7 +1994,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           : 0;
       if (amount > 0)
         accounts.transfer({
-          id: `fill-in:${row.id}:cash`,
+          id: `fill-in:${row.id}:${released.sequence}:cash`,
           from,
           to: accounts.main(row.id),
           amountMinor: amount,
