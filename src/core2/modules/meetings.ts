@@ -60,6 +60,7 @@ import {
   questionAxis,
   type Stance,
 } from "../campaign-views";
+import { viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
@@ -252,7 +253,7 @@ function publicComment(api: CoreAPI, billId: string): void {
     )
     .map((p) => {
       const view =
-        personStance(personLean(api.state.people, p, 0), stance.question) *
+        viewOn(api, p.id, stance.question, personLean(api.state.people, p, 0)) *
         stance.position;
       return { p, view, drive: Math.abs(view) * (1 + civic(p, api.state)) };
     })

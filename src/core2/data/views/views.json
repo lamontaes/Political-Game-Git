@@ -45,6 +45,36 @@
       "tag": "TUNABLE",
       "citation": "How far one event that reaches a person moves their stance on its topic, per unit of the event's appraised impulse. No study sets the size; checked by a big event moving the people it touched and no one else. Spread 0.05 to 0.2.",
       "stopgapId": "SG-P15-views-first-version"
+    },
+    "standingTrustWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "citation": "Share of a speaker's standing that comes from how near the listener's views are to theirs: people credit messages from those who share their predispositions (Zaller 1992, ch. 3; Lupia and McCubbins 1998, The Democratic Dilemma). No study sets the share; the four standing weights sum to 1. Spread 0.25 to 0.55.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "standingClosenessWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "citation": "Share of a speaker's standing that comes from how close the two are today: political discussion with close ties moves views more than with acquaintances (Huckfeldt and Sprague 1995, Citizens, Politics and Social Communication). No study sets the share. Spread 0.15 to 0.45.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "standingPartyWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Share of a speaker's standing that comes from a shared party: party cues move opinion toward one's own side's leaders (Cohen 2003, Journal of Personality and Social Psychology 85(5):808-822). No study sets the share. Spread 0.05 to 0.3.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "standingRecordWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "citation": "Share of a speaker's standing that comes from how they have voted on the question before: a record that matches the case lends it credibility, one that contradicts it costs credibility (Lupia and McCubbins 1998). No study sets the share. Spread 0.05 to 0.3.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "stanceViewWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "How much a fully formed stance (strength 1) moves a person's current view on its question, on the same -1 to 1 scale as the opening lean along the question's axis: a stance held at full strength can carry someone from one side of a question to the other. No study sets the size; checked by votes moving only for members who heard a case. Spread 0.5 to 1.5.",
+      "stopgapId": "SG-P15-views-first-version"
     }
   },
   "labels": [

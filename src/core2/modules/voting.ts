@@ -72,7 +72,7 @@ import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
 import { countedVoterGroupId } from "../opening-voter-groups";
-import { VIEWS_DATA, VIEWS_MODULE_ID, viewOf } from "./views";
+import { agreementWith, VIEWS_DATA, VIEWS_MODULE_ID, viewOf } from "./views";
 import {
   countBlocks,
   countyBlockIdOf,
@@ -386,7 +386,7 @@ function appealFor(
     const impression = impressionOf(api, voter.id, filing.personId);
     const warmth = impression?.warmth ?? 0;
     const agreement = impression?.knowsPlatform
-      ? platformAgreement(lean, facts.platform)
+      ? agreementWith(api, voter.id, lean, facts.platform)
       : null;
     if (agreement !== null) heardPlatform = true;
     const tie = partyTie(api, voter.id);
