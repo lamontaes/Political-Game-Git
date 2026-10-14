@@ -353,6 +353,9 @@ select:focus-visible {
   border-bottom: 1px solid var(--rule);
   break-inside: avoid;
 }
+.row span b {
+  font-weight: 500;
+}
 .row > b:first-child {
   flex: none;
   max-width: 48%;
@@ -589,14 +592,8 @@ select optgroup {
 }
 
 /* Developer and debug controls: one faint ring, off unless switched on. */
-.dev-only {
+body:not(.dev) .dev-only {
   display: none !important;
-}
-body.dev .dev-only {
-  display: revert !important;
-}
-body.dev #custom.dev-only {
-  display: block !important;
 }
 .dev-ring {
   position: absolute;
@@ -725,6 +722,9 @@ body.dev .dev-ring {
   font: 400 13px/1.35 var(--ui);
   color: var(--text-3);
 }
+#talk-lines .said.lying {
+  color: var(--lying);
+}
 #talk-lines .narration {
   font-style: italic;
 }
@@ -825,10 +825,15 @@ body.dev .dev-ring {
   flex: 1;
   min-height: 0;
   overflow: hidden auto;
-  columns: 2 420px;
-  column-gap: 48px;
+  max-width: 760px;
   scrollbar-width: thin;
   scrollbar-color: var(--brass) transparent;
+}
+/* A long screen reads in two columns. */
+#sheet-body.cols {
+  max-width: none;
+  columns: 2 420px;
+  column-gap: 48px;
 }
 #sheet-body > * {
   break-inside: avoid;
@@ -949,6 +954,7 @@ body.dev .dev-ring {
 
 /* Family: each member where they are now. */
 #sheet-body:has(.family-card) {
+  max-width: none;
   columns: 4 220px;
 }
 .family-card {
@@ -986,6 +992,9 @@ body.dev .dev-ring {
 }
 
 /* The map of who represents you. */
+#sheet-body:has(.map) {
+  max-width: none;
+}
 #sheet-body .row.map {
   display: block;
   column-span: all;

@@ -997,6 +997,10 @@ async function seatRows() {
   return rows;
 }
 
+/** A record kind as words: "filing-deadline" reads "Filing deadline". */
+const kindName = (kind) =>
+  `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
+
 // ---- Menus ----
 const sheets = {
   async people() {
@@ -1340,8 +1344,8 @@ const sheets = {
               className: "entry",
               textContent:
                 names.length > 2
-                  ? `${kind} (${names.length})`
-                  : `${kind}: ${names.join(", ")}`,
+                  ? `${kindName(kind)} (${names.length})`
+                  : `${kindName(kind)}: ${names.join(", ")}`,
               title: names.join("\n"),
             }),
           );
@@ -1358,7 +1362,16 @@ const sheets = {
     );
     return [
       ...months,
-      ...later.slice(0, 8).map((i) => row(i.date, `${i.kind}: ${i.title}`)),
+      ...later
+        .slice(0, 8)
+        .map((i) =>
+          el(
+            "div",
+            { className: "row" },
+            el("b", { textContent: i.date }),
+            el("span", {}, termLabel(kindName(i.kind)), ` · ${i.title}`),
+          ),
+        ),
     ];
   },
   async news() {
@@ -1646,6 +1659,10 @@ async function openSheet(tab) {
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
   $("sheet-body").replaceChildren(...body);
+  $("sheet-body").classList.toggle(
+    "cols",
+    tab === "calendar" || body.length > 12,
+  );
   $("sheet-body").scrollTop = 0;
   show("sheet", true);
   show("menu", Boolean(me));
