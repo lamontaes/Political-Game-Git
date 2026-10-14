@@ -58,6 +58,7 @@ import {
   type PriceLevel,
 } from "../housing-prices";
 import { residentsRuntime } from "./residents";
+import { settleOccupancy } from "../housing-occupancy";
 import type {
   ActOffer,
   CoreAPI,
@@ -723,8 +724,12 @@ function renewedRent(
   regionPay: number,
   placeId: string,
 ): number {
-  const vacancy = rentalVacancy(store(api).table("stock"), placeId);
-  const before = last.vacancy ?? vacancy;
+  // A town with every unit taken is as tight as the tightest real markets, not infinitely so.
+  const floor = api.parameter("housingRentVacancyFloor");
+  const now = rentalVacancy(store(api).table("stock"), placeId);
+  const vacancy = now === undefined ? undefined : Math.max(floor, now);
+  const before =
+    last.vacancy === undefined ? vacancy : Math.max(floor, last.vacancy);
   const vacancyFactor =
     vacancy && before
       ? (vacancy / before) ** -api.parameter("housingRentVacancyElasticity")
@@ -754,8 +759,6 @@ function monthsBetween(from: string, to: string): number {
 function renew(api: CoreAPI): void {
   const c = core(api);
   if (!regionalRegistered(api)) return;
-  // Vacancy moves rents, but nobody new arrives to fill vacant homes yet; see the stopgap.
-  stopgap("SG-WORLD-housing-vacancy");
   const renewals = store(api).table("renewals"),
     year = api.parameter("macroMonthsPerYear");
   for (const [id, row] of c.finance.contracts) {
@@ -835,6 +838,39 @@ function renew(api: CoreAPI): void {
       ...vacancyNow(api, flow.placeId),
     });
   });
+}
+
+/** Households gone leave their rentals and households that moved in rent one; each newcomer's lease renews a year from its start. */
+function moveInAndOut(api: CoreAPI): void {
+  const tables = store(api);
+  const typical = new Map<string, number>();
+  const { housed } = settleOccupancy(
+    api,
+    {
+      dwellings: tables.table("dwellings"),
+      stock: tables.table("stock"),
+      vacated: tables.table("vacated"),
+    },
+    (placeId) => {
+      if (!typical.has(placeId))
+        typical.set(placeId, townFigures(api, placeId).rentMinor);
+      return typical.get(placeId)!;
+    },
+    housingData.source.citation,
+  );
+  const rt = residentsRuntime(core(api));
+  for (const householdId of housed) {
+    const flow = rt?.flows.get(`rent:${householdId}`);
+    const level = flow ? regionalLevel(api, flow.placeId) : undefined;
+    if (!flow || !level) continue;
+    tables.table("renewals").put({
+      id: flow.id,
+      regionPay: level.hourlyEarnings,
+      renewedAt: api.state.date.slice(0, "YYYY-MM".length) + "-01",
+      rentMinor: flow.amountMinor,
+      ...vacancyNow(api, flow.placeId),
+    });
+  }
 }
 
 /** Rent owed past the grace period starts a case: the landlord serves the notice the law requires. */
@@ -1382,6 +1418,7 @@ function buyCountedHomes(api: CoreAPI): void {
 function review(api: CoreAPI): void {
   const c = core(api),
     law = steps(api);
+  moveInAndOut(api);
   renew(api);
   amortize(api);
   refinance(api);
@@ -2158,6 +2195,7 @@ export const HOUSING_MODULE: CoreModule = {
       stock: {},
       projects: { indexes: { all: { fields: ["isProject"] } } },
       affordable: {},
+      vacated: {},
     },
   },
   reasonProviders: {

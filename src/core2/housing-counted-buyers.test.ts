@@ -65,7 +65,6 @@ describe(`counted renters buy new houses (${drawn.name}, ${drawn.state}, seed ${
       isProject: true,
     });
     housing.table("stock").put({ ...stock, newHomesForSale: 2 });
-    const before = rents();
     const builderCash = builder.liquidMinor;
     advanceCore(core, `${year}-08-03`);
     const sold = (
@@ -81,7 +80,12 @@ describe(`counted renters buy new houses (${drawn.name}, ${drawn.state}, seed ${
     );
     // No more than the houses for sale; where renters' pay can't carry a new house, none sell.
     expect(sold.length).toBeLessThanOrEqual(2);
-    expect(rents()).toBeLessThanOrEqual(before - sold.length);
+    // Each buyer's rent ended with the purchase (households moving in may have started new ones).
+    expect(
+      [...rt.flows.values()].filter(
+        (f) => f.id.startsWith("rent:") && f.endedReason === "housing.purchase",
+      ).length,
+    ).toBe(sold.length);
     // Every sale pays the house's price: the down payment and the loan.
     for (const row of sold) {
       expect(row.downMinor).toBeGreaterThan(0);

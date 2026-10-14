@@ -167,6 +167,17 @@
       "citation": "Natural-vacancy rent adjustment (Gabriel and Nothaft 1988, 2001); no readable U.S. estimate, kept small; new 50+ unit buildings lower nearby rents about 6% (Asquith, Mast and Reed 2023)."
     }
   },
+  "housingRentVacancyFloor": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "Census Housing Vacancy Survey (CPS/HVS), Table 5, 2023-2024: the tightest of the 75 largest metro areas run rental vacancy of about 1 to 3 percent.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.03,
+      "unit": "share of rental units",
+      "citation": "Census Housing Vacancy Survey (CPS/HVS), Table 5, 2023-2024: the tightest of the 75 largest metro areas run rental vacancy of about 1 to 3 percent."
+    }
+  },
   "housingNewHomeSupplyMonths": {
     "value": 9,
     "tag": "TUNABLE",
