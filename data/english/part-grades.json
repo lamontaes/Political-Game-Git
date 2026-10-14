@@ -1,8 +1,16 @@
 {
   "schema": "english-part-grades/1",
-  "batches": ["batch-1", "batch-2", "batch-7", "batch-9"],
+  "batches": ["batch-1", "batch-2", "batch-7", "batch-9-relayed", "batch-9"],
   "parts": {
     "address.campaign-thanks.its-great-to-be-back-in-place": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "address.chair-run-meeting.is-there-a-motion": {
       "good": 0,
       "bad": 1,
       "fix": 0,
@@ -546,6 +554,14 @@
       "sharedBad": 0,
       "sharedFix": 1
     },
+    "meeting.procedural.i-could-not-make-today-s-vote": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "meeting.procedural.i-move-to-proceed-to-legislative-session": {
       "good": 0,
       "bad": 1,
@@ -554,7 +570,47 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "meeting.procedural.i-was-unavoidably-absent-and-unable-to-vote": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.i-was-unavoidably-detained": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "meeting.procedural.i-withdraw-my-motion-to-proceed": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.may-i-inquire-as-to-how-much-time-i-have-remaining": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.may-i-inquire-as-to-how-much-time-is-remaining": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "meeting.procedural.may-i-inquire-as-to-the-time-remaining": {
       "good": 0,
       "bad": 1,
       "fix": 0,

@@ -1052,15 +1052,15 @@ export const SCENES = 30;
 
 /** How many scenes of each kind a batch may hold, so thirty are thirty different scenes. */
 const SCENE_CAPS: Record<string, number> = {
-  journal: 5,
-  conversation: 6,
-  meeting: 3,
-  hearing: 2,
-  minutes: 2,
-  legislation: 2,
-  notices: 1,
-  campaign: 3,
-  emotion: 3,
+  journal: 6,
+  conversation: 8,
+  meeting: 5,
+  hearing: 4,
+  minutes: 3,
+  legislation: 3,
+  notices: 2,
+  campaign: 4,
+  emotion: 5,
   interview: 3,
 };
 
@@ -1101,19 +1101,21 @@ function conversationScenes(placeLife: number): {
   scenes: SceneItem[];
   place: Place | null;
 } {
-  const played = playLives({ seed, lives: placeLife + 1, days: 6 }).at(-1)!;
+  // Two weeks of days, so the talks are with different people.
+  const played = playLives({ seed, lives: placeLife + 1, days: 14 }).at(-1)!;
   const scenes: SceneItem[] = [];
   for (const talk of played.conversations) {
+    let fromTalk = 0;
     talk.turns.forEach((turn, at) => {
-      if (turn.choices.length < 2) return;
-      const said = talk.turns
-        .slice(0, at + 1)
-        .flatMap((row) => row.said)
-        .map((line) => ({
-          speaker: line.speaker,
-          text: line.text,
-          parts: line.wording?.parts ?? [],
-        }));
+      // Two turns at most from one talk, so the sets come from different people.
+      if (turn.choices.length < 2 || fromTalk >= 2) return;
+      fromTalk += 1;
+      // What was said since the player last spoke: the turn the replies answer.
+      const said = turn.said.map((line) => ({
+        speaker: line.speaker,
+        text: line.text,
+        parts: line.wording?.parts ?? [],
+      }));
       const reach = talk.reachesOut[talk.playerId];
       scenes.push({
         i: -1,
@@ -1347,6 +1349,17 @@ function main() {
   const order = Object.keys(SCENE_CAPS);
   const taken: Record<string, number> = {};
   const items: SceneItem[] = [];
+  // What a scene puts in front of the owner to grade: a choice set's asked
+  // line and its replies that are new to the batch (an "All right." in every
+  // set is graded once), and everything else in any other scene.
+  const tested = (item: SceneItem): string[] | null => {
+    if (!item.choices) return phrases(item);
+    const asked = item.lines.at(-1)?.parts ?? [];
+    const newReplies = item.choices.filter((choice) => fresh(choice.parts));
+    return newReplies.length >= 3
+      ? [...asked, ...newReplies.flatMap((choice) => choice.parts)]
+      : null;
+  };
   const phrases = (item: SceneItem) => [
     ...item.lines.flatMap((line) => line.parts),
     ...item.variants.flatMap((variant) => variant.parts),
@@ -1358,11 +1371,12 @@ function main() {
       if (items.length >= SCENES) break;
       if ((taken[kind] ?? 0) >= SCENE_CAPS[kind]!) continue;
       const pool = sceneItems.get(kind) ?? [];
-      const next = pool.find(
-        (item) => !items.includes(item) && fresh(phrases(item)),
-      );
+      const next = pool.find((item) => {
+        const keys = tested(item);
+        return !items.includes(item) && keys !== null && fresh(keys);
+      });
       if (!next) continue;
-      for (const key of phrases(next)) used.add(key);
+      for (const key of tested(next) ?? []) used.add(key);
       items.push(next);
       taken[kind] = (taken[kind] ?? 0) + 1;
       added = true;
