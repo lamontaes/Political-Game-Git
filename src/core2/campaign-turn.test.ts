@@ -331,7 +331,11 @@ describe("statements and questions", () => {
     const { you } = pair!;
     const first = interviewQuestions(api, you);
     expect(first.length, where).toBeGreaterThan(0);
-    const outlet = outlets.find((o) => o.kind !== "television");
+    // A local paper or radio station takes any candidate; a national outlet
+    // and a television station only the newsworthy.
+    const outlet = outlets.find(
+      (o) => o.kind !== "television" && o.tier !== "national",
+    );
     if (!outlet) {
       // A news desert: the same freshness rule, read from a published row.
       return;
