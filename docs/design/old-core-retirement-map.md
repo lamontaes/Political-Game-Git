@@ -1,6 +1,6 @@
 # The new game still builds its opening town with the old engine
 
-The new game reached into the old engine from 186 of its own files on October 14, 2026. After this change, 5 shipped files still do, and all 5 serve two jobs the new core has not taken over: building the opening town and the health condition pack. Everything else now reads the new core. With the dead-files cleanup, the repository went from 12,803 files (3,152 MB) to 10,404 (2,689 MB), and play is unchanged. The opening builder alone keeps 886 old files alive, because it builds an old-engine world and checks it with the old engine's integrity pass. Porting it belongs to OPUS-CORE, with the people pieces from OPUS-PEOPLE and the pay and jobs tables from OPUS-WORLD.
+The new game reached into the old engine from 186 of its own files on October 14, 2026. After this change, 5 shipped files still do, and all 5 serve two jobs the new core has not taken over: building the opening town and the health condition pack. Everything else now reads the new core. Against main, the repository goes from 11,833 files (3,136 MB) to 10,421 (2,690 MB), and play is unchanged. The opening builder alone keeps 886 old files alive, because it builds an old-engine world and checks it with the old engine's integrity pass. Porting it belongs to OPUS-CORE, with the people pieces from OPUS-PEOPLE and the pay and jobs tables from OPUS-WORLD.
 
 ## Where the 186 files stood
 
