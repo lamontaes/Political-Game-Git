@@ -10,7 +10,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
-import { advanceCore, createLifeCore } from "./life";
+import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import {
   OFFICES_MODULE_ID,
@@ -140,9 +140,9 @@ describe("M2-01 offices and seats, every level", () => {
       .table("terms")
       .query("byPerson", [holder!.personId!]) as unknown as TermRow[];
     expect(ended.every((t) => t.status === "ended")).toBe(true);
-    if (vacancy.status === "awaiting-election") {
-      advanceCore(core, vacancy.electionDate!);
-    }
+    // A special election is a real race run by the elections engine
+    // (special-elections.test.ts); this world runs offices alone.
+    if (vacancy.status === "awaiting-election") return;
     const now = townSeats(api).find((s) => s.seat.id === seat.id)!.holder!;
     expect(now.personId).not.toBe(holder!.personId);
     if (office.vacancyRule.method === "appointment")

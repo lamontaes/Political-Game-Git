@@ -48,11 +48,11 @@ import {
   VIEWS_DATA,
   VIEWS_KEYS,
   VIEWS_MODULE_ID,
+  engagementOf,
   viewCell,
   viewOf,
 } from "./views";
 import { residentPerson } from "./residents";
-import { stableHash } from "../../simulation/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 
@@ -191,32 +191,20 @@ export function countedCandidacyReasons(
 }
 
 /**
- * How closely a counted resident follows politics: the same value the views
- * engine gives them when they are filled in (their own key spread around the
- * CES cell's average for their state and age), so the screen and their full
- * decision agree. A copy of the views engine's formula until it exports one
- * (stopgap SG-PW3-counted-engagement-copy).
+ * How closely a counted resident follows politics: the views engine's own
+ * value for them (their key spread around the CES cell's average for their
+ * state and age), so the screen and their full decision agree.
  */
 function countedEngagement(
   api: CoreAPI,
   voter: CountedVoter,
   record: PersonInput | undefined,
 ): number {
-  // stopgapId: SG-PW3-counted-engagement-copy
-  api.stopgap("SG-PW3-counted-engagement-copy");
-  const mean = cellEngagement(api, voter, record);
-  const one = api.parameter("one");
-  const digits = VIEWS_DATA.parameters.hashDigits!.value;
-  const radix = VIEWS_DATA.parameters.hashRadix!.value;
-  const draw = Number.parseInt(
-    stableHash(`${api.state.seed}:views:engagement:${voter.id}`).slice(
-      0,
-      digits,
-    ),
-    radix,
+  return engagementOf(
+    api.state.seed,
+    voter.id,
+    cellEngagement(api, voter, record),
   );
-  const uniform = (draw + one / api.parameter("two")) / radix ** digits;
-  return uniform ** (one / mean - one);
 }
 
 /** The CES cell's average engagement for a counted resident's state and age. */

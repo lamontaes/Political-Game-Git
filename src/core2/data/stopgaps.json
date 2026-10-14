@@ -1043,7 +1043,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each office's special-election timing from its law (many fill at the next general election).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the no-voting path: a special election is only ever the voting engine's real race; without it the seat waits."
   },
   {
     "id": "SG-GOV-voter-registration-assumed",
@@ -1055,7 +1056,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "A registration record per person (registered, where, party where a state records it), written when people register; filing and signing read it.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the registration rule: an adult resident is an eligible voter, checked by the filing's age and residency rules."
   },
   {
     "id": "SG-GOV-views-stand-in",
@@ -1067,7 +1069,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Per-question stances from PEOPLE's views engine, once it holds stances by question at the opening.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "In play each person's lean is their own view from the views engine; a stance is that lean along the question's measured axis, the game's depth; marker removed."
   },
   {
     "id": "SG-GOV-ad-reach-media-habits",
@@ -1079,7 +1082,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each person's media habits and real outlets (PEOPLE and the news engine); ads bought from those outlets.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Ads are bought only from the town's best-followed news outlet (press engine) and reach its followers; the stand-in seller and the fewest-work-hours audience are deleted."
   },
   {
     "id": "SG-GOV-voter-groups-stand-in",
@@ -1091,7 +1095,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "CORE's populated voter groups (counts by place, age, job and household, with lean and turnout), each voting as a group.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the local lean bands: a local race's electorate is the town's named people and counted residents, each voting from their own record and kept by voter group."
   },
   {
     "id": "SG-GOV-who-runs-stand-in",
@@ -1103,7 +1108,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE's who-runs decisions file each candidate through fileCandidacy with recorded reasons; incumbents decide the same way.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Who runs is the candidacy engine's recorded decisions (it runs in play); an incumbent it never weighed decides from their own traits, and distant state or federal races get their parties' nominees."
   },
   {
     "id": "SG-GOV-local-fiscal-year",
@@ -1140,7 +1146,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "The council's or legislature's budget vote (M3-05) and the executive's priorities.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Each fiscal year's budget is the council's or legislature's vote (legislature engine); only where no body is seated does the prior year's budget continue, as the law does."
   },
   {
     "id": "SG-GOV-veto-override-rule",
@@ -1165,7 +1172,8 @@
     "replacement": "Leadership appoints committee members (leadership races and chamber leadership research, #3788's chamber-leadership.json).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Committees are the ones the chamber's leadership seats (members and chair, leadership engine); the seniority-by-party-ratio stand-in is deleted, and an unseated committee sends the bill straight to the floor."
   },
   {
     "id": "SG-GOV-measure-groups-stand-in",
@@ -1177,7 +1185,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "CORE's populated voter groups across the state, each voting from PEOPLE's views of the question.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The rest of the state votes on a measure by its counties (the electorate's researched blocks, each its 2024 vote and lean), not even bands around the state lean."
   },
   {
     "id": "SG-GOV-recall-signature-groups",
@@ -1189,7 +1198,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Signatures gathered by the organizer's and volunteers' real contacts, plus CORE's voter groups, counted against the rule's own base (registered voters or last vote cast).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Signatures and recall votes come from every adult in town, named and counted residents each from their own record; the scaled-up share of the estimated electorate is deleted."
   },
   {
     "id": "SG-GOV-group-lobbyist-stand-in",
@@ -1201,7 +1211,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "The business owners decide to join, and the group hires a lobbyist (a person with a job, a record and memory of each member's votes).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the lobbyist rule: an employers' association meets members as itself, with no named lobbyist."
   },
   {
     "id": "SG-GOV-staff-unpaid",
@@ -1213,7 +1224,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the unpaid path: a staffer is hired only onto the payroll of the government their official serves; with no payroll there is no post."
   },
   {
     "id": "SG-GOV-world-race-lean",
@@ -1778,7 +1790,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
     "replacement": "The owner's ruling: either a lot drawn as the law requires (a visible procedure, recorded), or keep the second election.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruled Oct 14: where the state's law settles an exact tie by lot, the lot is drawn as the law says (seeded from the world and contest), recorded with who draws, the rule cited and the name drawn, and the result carries it; no second election there."
   },
   {
     "id": "SG-GOV-press-outlet-names",
@@ -2832,7 +2845,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
     "replacement": "The appointee's post becomes a public job paid from the government's treasury through CORE's public payroll.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the no-treasury path: budgets always run, so a town department head goes on the city or county payroll."
   },
   {
     "id": "SG-GOV-executive-powers-research",
@@ -2916,7 +2930,8 @@
     "addedBy": "PW-3",
     "addedAt": "2026-10-13",
     "replacement": "OPUS-PEOPLE exports an engagement function from views.ts that takes a counted record; candidacy calls it and this copy is removed.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "views.ts exports engagementOf (viewOf uses it); candidacy calls it for counted residents and the copied formula is deleted."
   },
   {
     "id": "SG-CORE-territory-places",
@@ -3000,7 +3015,8 @@
     "addedBy": "SIM-ELECTORATE",
     "addedAt": "2026-10-13",
     "replacement": "Presidential approval read from the president's own record and the public's views (the executive engine and the views engine), moving the president's party's candidates by its measured effect on the vote.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The national mood is read from its measured fundamentals (the economy since the opening and the midterm penalty); no separate approval engine is built."
   },
   {
     "id": "SG-GOV-township-law-level",
@@ -3012,7 +3028,8 @@
     "addedBy": "FIXER-LAWMAKING-VOLUME-CAPS",
     "addedAt": "2026-10-13",
     "replacement": "A township level in the law chain (laws-starting.ts) with its own starting law and enactments, so a township board and a village council inside it each legislate for their own jurisdiction.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Townships fold into the place level: a township board is the town's local body where no council sits; the separate township marker is gone."
   },
   {
     "id": "SG-OFFICIALS-unrecorded-party",

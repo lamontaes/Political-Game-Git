@@ -21,15 +21,13 @@
  * jurisdiction (`person.moved-away`), resignation or removal opens a vacancy
  * filled by the office's real rule: a successor in line takes the
  * office; an appointment is made by the appointing authority; a special
- * election is put on the calendar (stand-in until M2's elections:
- * SG-GOV-special-election-appointee).
+ * election is opened as a real race by the elections engine.
  */
 import { registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
 import { decisionLean } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
-import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import municipalBaseline from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
 import {
@@ -143,7 +141,6 @@ export const OFFICES_MODULE: CoreModule = {
           vacateSeat(api, term.seatId, "moved away");
       }
   },
-  onCalendarWork: officesCalendarWork,
 };
 
 const source = (citation: string, date: string, estimate: boolean): Source =>
@@ -849,23 +846,14 @@ function fillVacancy(
           `appointed by ${rule.appointedBy ?? "the appointing authority"} until a special election`,
         )
       : null;
-  // Where the elections engine runs, the special election is a real race
-  // (filing, residents deciding to run, the vote); else a stand-in.
-  const opened =
-    specialElections?.(api, {
-      vacancyId: vacancy.id,
-      seatId: seat.id,
-      electionDate: scheduled.electionDate!,
-      termEnd: previous.endDate,
-    }) ?? false;
-  if (!opened)
-    api.moduleCalendar(OFFICES_MODULE_ID).schedule({
-      key: `special:${seat.id}:${date}`,
-      date: scheduled.electionDate!,
-      kind: "special-election",
-      source: source(rule.citation ?? office.source, date, true),
-      sourceRecordIds: [vacancy.id],
-    });
+  // The elections engine opens the special election as a real race (filing,
+  // residents deciding to run, the vote).
+  specialElections?.(api, {
+    vacancyId: vacancy.id,
+    seatId: seat.id,
+    electionDate: scheduled.electionDate!,
+    termEnd: previous.endDate,
+  });
   return interim
     ? {
         ...interim,
@@ -913,58 +901,4 @@ function addMonths(date: string, months: number): string {
   const d = new Date(`${date}T00:00:00Z`);
   d.setUTCMonth(d.getUTCMonth() + months);
   return d.toISOString().slice(0, 10);
-}
-
-function officesCalendarWork(
-  api: CoreAPI,
-  work: Readonly<ModuleCalendarWork>,
-): void {
-  if (work.kind !== "special-election") return;
-  const vacancy = table(api, "vacancies").get(
-    work.sourceRecordIds[0]!,
-  ) as unknown as VacancyRow | undefined;
-  if (!vacancy || vacancy.status !== "awaiting-election") return;
-  // stopgapId: SG-GOV-special-election-appointee
-  api.stopgap("SG-GOV-special-election-appointee");
-  const office = table(api, "offices").get(
-    vacancy.officeId,
-  ) as unknown as OfficeInput & { vacancyRule: VacancyRule };
-  const seat = table(api, "seats").get(vacancy.seatId) as unknown as SeatInput;
-  const interim = table(api, "terms").query("bySeatStatus", [
-    seat.id,
-    "serving",
-  ])[0] as TermRow | undefined;
-  if (interim)
-    table(api, "terms").put({
-      ...interim,
-      status: "ended",
-      endDate: api.state.date,
-      endEstimated: false,
-      endedBy: "special election",
-    } as unknown as ModuleRow);
-  const previous =
-    interim ??
-    ({
-      endDate: null,
-      endEstimated: true,
-      party: partyName(seat.party),
-    } as unknown as TermRow);
-  const filled = fillVacancy(
-    api,
-    {
-      ...office,
-      vacancyRule: {
-        ...office.vacancyRule,
-        method: "appointment",
-        appointedBy: "the special election (stand-in)",
-      },
-    },
-    seat,
-    vacancy,
-    previous,
-  );
-  table(api, "vacancies").put({
-    ...filled,
-    status: "filled",
-  } as unknown as ModuleRow);
 }

@@ -190,6 +190,13 @@ function stancesTable(api: CoreAPI) {
   return api.moduleState(VIEWS_MODULE_ID).table("stances");
 }
 
+/** How closely someone follows politics: their own key spread around the cell's average (a counted resident's too). */
+export function engagementOf(seed: string, id: string, mean: number): number {
+  return (
+    uniform(`${seed}:views:engagement:${id}`) ** (v("one") / mean - v("one"))
+  );
+}
+
 /** A person's view, formed from their record the first time it is read. */
 export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const table = viewsTable(api);
@@ -217,9 +224,7 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   // Following politics: the cell's average, spread by the person's own key
   // (u to the power a has mean 1 / (a + 1)).
   const mean = cell.engagement ?? VIEWS_KEYS.national.engagement!;
-  const engagement =
-    uniform(`${seed}:views:engagement:${person.id}`) **
-    (v("one") / mean - v("one"));
+  const engagement = engagementOf(seed, person.id, mean);
   // People who do not place themselves are the least engaged, in the state's
   // own share.
   const notSure = shares.notSure ?? v("zero");

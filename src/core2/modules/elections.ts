@@ -5,7 +5,8 @@
  * election date, the primary and the filing deadline from
  * `elections-calendar.ts`. A person files at the office that takes that
  * contest's filings (`filingOfficeFor`), once, if they meet what that place's
- * rules require: age, residency and registration, read from
+ * rules require: age and residency (an adult resident is an eligible
+ * voter; there is no separate registration record), read from
  * `data/research/elections/filing-requirements.json` (or the estimated terms
  * in `candidate-filing-terms.json` where a place isn't read yet). No one pays
  * a fee or gathers petition signatures to file (owner, Oct 13: the
@@ -56,7 +57,6 @@ export interface FilingRequirements {
   readonly filedWith: string;
   readonly minimumAge: number;
   readonly residency: string | null;
-  readonly registeredVoter: boolean;
   readonly source: string;
   readonly estimate: boolean;
   /** The side's own filing deadline where the law sets one apart (independents). */
@@ -73,7 +73,6 @@ export interface RequirementCheck {
     | "already-filed"
     | "minimum-age"
     | "residency"
-    | "registered-voter"
     | "term-limit";
   readonly met: boolean;
   readonly required: string;
@@ -218,7 +217,6 @@ export function filingRequirements(
     filedWith: read?.filedWith ?? localFilingOfficer(usps, family),
     minimumAge: read?.minimumAge ?? 18,
     residency: read?.residency ?? null,
-    registeredVoter: read?.registeredVoterRequired ?? true,
     source:
       source ||
       `data/research/elections/candidate-filing-terms.json: ${fallback?.estimatedFrom ?? "estimated"}`,
@@ -516,17 +514,6 @@ export function checkEligibility(
       source: rules.source,
     },
   ];
-  if (rules.registeredVoter) {
-    // stopgapId: SG-GOV-voter-registration-assumed
-    api.stopgap("SG-GOV-voter-registration-assumed");
-    checks.push({
-      rule: "registered-voter",
-      met: age >= 18 && resident,
-      required: "registered to vote here",
-      actual: age >= 18 && resident ? "registered" : "not registered here",
-      source: rules.source,
-    });
-  }
   // A legislative term limit in force (law-reach, group A).
   if (termLimitReached(api, personId, contest.officeId))
     checks.push({

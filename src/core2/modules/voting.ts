@@ -11,9 +11,9 @@
  * doesn't name votes in counted blocks (the state's counties, the House or
  * legislative district: `electorate-blocks.ts`), each turning out and
  * choosing from its party mix and every candidate's record, campaign and
- * conditions. A local race's wider electorate votes as groups by lean around
- * the town, each recognizing candidates as the named people of its lean do
- * (SG-GOV-voter-groups-stand-in). Nothing is rolled. The winner takes the seat on the term's start date. Exit polls ask
+ * conditions. A local race's electorate is the town's own voters: the named
+ * people and the counted residents, each voting from their own record and
+ * kept by voter group. Nothing is rolled. The winner takes the seat on the term's start date. Exit polls ask
  * named voters leaving the polls and report what they said.
  */
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
@@ -67,6 +67,7 @@ import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
+import { SeededRng } from "../kernel/rng";
 export { candidateIdentity } from "../candidate-identity";
 import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
@@ -163,6 +164,25 @@ export interface ResultRow {
   readonly electorateReasons?: readonly CandidateReasons[];
   /** Votes the counted blocks cast (the rest of the race's electorate). */
   readonly blocksCast?: number;
+  /** The lot the law drew to settle an exact tie, where it did. */
+  readonly tieLot?: TieLotRow;
+}
+
+/**
+ * A tie settled by lot, as the state's law directs: a public procedure on
+ * the record (who draws, under which rule, among whom, and whose name came
+ * out), not a choice anyone made.
+ */
+export interface TieLotRow {
+  readonly id: string;
+  readonly contestId: string;
+  readonly date: string;
+  readonly tied: readonly string[];
+  /** Who draws and how, in the law's own terms. */
+  readonly procedure: string;
+  readonly citation: string;
+  readonly estimate: boolean;
+  readonly winnerId: string;
 }
 
 export const VOTING_MODULE: CoreModule = {
@@ -180,6 +200,8 @@ export const VOTING_MODULE: CoreModule = {
       results: { indexes: { byContest: { fields: ["contestId"] } } },
       /** Each counted block's votes in a contest, by party-identification group. */
       blocks: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** Exact ties the law settled by lot, one per contest. */
+      lots: {},
     },
   },
   onCalendarWork: votingCalendarWork,
@@ -565,11 +587,12 @@ export function turnout(
 }
 
 /**
- * When filing closes: the incumbent stands again if they're alive and holding
- * the seat, and a state or federal race the town only sees from afar gets a
- * challenger from the other major party, a named official drawn from the
- * world seed. Stand-in until OPUS-PEOPLE's "who runs" decides each from their
- * own drives (M2-04): SG-GOV-who-runs-stand-in.
+ * When filing closes. Who runs is each resident's own decision, filed with
+ * its reasons by the candidacy engine when the filing window opened; an
+ * incumbent that engine never weighed decides from their own traits whether
+ * to stand again. A state or federal race the town only sees from afar gets
+ * its parties' nominees: the other major party's challenger, a named official
+ * (SG-GOV-official-identity-only).
  */
 export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   const contest = api
@@ -578,8 +601,6 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     .get(contestId) as unknown as ContestRow;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
-  // stopgapId: SG-GOV-who-runs-stand-in
-  api.stopgap("SG-GOV-who-runs-stand-in");
   // Whoever holds the seat when filing closes stands as its incumbent: an
   // appointee to a vacancy, never a holder who died or moved away.
   const incumbent =
@@ -612,7 +633,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     incumbent.status === "serving" &&
     (!incumbent.personId || api.state.people.get(incumbent.personId)?.alive);
   // An incumbent who weighed running (candidacy, PW-3) already filed or
-  // chose to stay out; the stand-in files only those who never weighed it.
+  // chose to stay out; this files only those who never weighed it.
   const weighed = incumbent?.personId
     ? decisionOf(api, contestId, incumbent.personId)
     : null;
@@ -1011,7 +1032,18 @@ function atThePolls(
 
 const tieRules = (
   ties as unknown as {
-    states: Record<string, Record<string, { method: string; detail?: string }>>;
+    states: Record<
+      string,
+      Record<
+        string,
+        {
+          method: string;
+          detail?: string;
+          citation?: string;
+          estimate?: boolean;
+        }
+      >
+    >;
   }
 ).states;
 
@@ -1020,7 +1052,8 @@ const tieRules = (
  * (`data/research/elections/tie-rules-2026.json`): by lot, by a second
  * election between the tied candidates, or by the legislature (statewide
  * offices) or local governing body choosing, each member for their own
- * reasons. Returns the winner, or null when a second election will decide.
+ * reasons. A lot is drawn and recorded (`lots`). Returns the winner, or
+ * null when a second election will decide.
  */
 export function breakElectionTie(
   api: CoreAPI,
@@ -1036,7 +1069,8 @@ export function breakElectionTie(
             contest.family === "municipalOffice"
           ? "localTie"
           : "generalElectionTie";
-  const rule = tieRules[town(api).stateKey]?.[field]?.method ?? "lot";
+  const law = tieRules[town(api).stateKey]?.[field];
+  const rule = law?.method ?? "lot";
   const sorted = [...tied].sort();
   if (rule === "new-election" || rule === "runoff") {
     secondElection(api, contest, sorted);
@@ -1086,13 +1120,35 @@ export function breakElectionTie(
     if (best.length && (best.length === 1 || best[0]![1] > best[1]![1]))
       return best[0]![0];
   }
-  // By lot, where the law says so: the game holds a second election between
-  // the tied candidates instead, since no draw decides an outcome (owner's
-  // no-dice rule; the question is in gov.md): SG-GOV-tie-by-lot.
-  // stopgapId: SG-GOV-tie-by-lot
-  api.stopgap("SG-GOV-tie-by-lot");
-  secondElection(api, contest, sorted);
-  return null;
+  // A body that can't settle it, or a rule the data doesn't name: a second
+  // election between the tied candidates.
+  if (rule !== "lot") {
+    secondElection(api, contest, sorted);
+    return null;
+  }
+  // By lot, where the law says so (owner, Oct 14: a lot is drawn as the law
+  // says): a lawful, recorded procedure, not a decision. The draw is seeded
+  // from the world and the contest, so the same world draws the same name.
+  const worldSeed =
+    (
+      api.moduleState(OFFICES_MODULE_ID).table("loaded").get("town") as
+        { worldSeed?: string } | undefined
+    )?.worldSeed ?? "";
+  const winnerId = new SeededRng(`${worldSeed}:tie-lot:${contest.id}`).pick(
+    sorted,
+  );
+  const lot: TieLotRow = {
+    id: contest.id,
+    contestId: contest.id,
+    date: api.state.date,
+    tied: sorted,
+    procedure: law?.detail ?? "drawn by lot",
+    citation: law?.citation ?? "data/research/elections/tie-rules-2026.json",
+    estimate: law?.estimate ?? true,
+    winnerId,
+  };
+  table(api, "lots").put(lot as unknown as ModuleRow);
+  return winnerId;
 }
 
 /** A second election between the tied candidates, a tunable number of weeks on. */
@@ -1399,6 +1455,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     ...(counted
       ? { electorateReasons: counted.candidates, blocksCast: counted.cast }
       : {}),
+    ...(tied && table(api, "lots").get(contestId)
+      ? {
+          tieLot: table(api, "lots").get(contestId) as unknown as TieLotRow,
+        }
+      : {}),
   };
   table(api, "results").put(result as unknown as ModuleRow);
   api.emit({
@@ -1520,14 +1581,10 @@ function presidentialElectorate(
     const districts = new Set(seats.map((s) => s.district)).size;
     return state ? Math.round(state / Math.max(1, districts)) : namedCount;
   }
-  // stopgapId: SG-GOV-voter-groups-stand-in
-  api.stopgap("SG-GOV-voter-groups-stand-in");
-  const population = Number(api.state.placeMetadata.referencePopulation);
-  return Number.isFinite(population) && population > 0
-    ? Math.round(
-        population * campaignParameter("localElectorateShareOfPopulation"),
-      )
-    : namedCount;
+  // A local race: its electorate is the town's own voters, the named people
+  // and the counted residents, who vote from their own records and are
+  // kept by CORE's voter groups; no one else is added.
+  return namedCount;
 }
 
 /** The Republican two-party share of the race's whole electorate in 2024, where read. */

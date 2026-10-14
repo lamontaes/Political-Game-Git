@@ -10,8 +10,9 @@
  * canvasser, who told them. Every change is a recorded cause; nothing moves
  * support without one. Polls ask real people and report what they said.
  *
- * Views come from a stand-in until OPUS-PEOPLE's views engine lands
- * (`campaign-views.ts`, SG-GOV-views-stand-in).
+ * A person's view of a question is their own lean (the views engine: their
+ * CES cell and household) along the question's measured left-right axis
+ * (`campaign-views.ts`).
  */
 import { candidateIdentity } from "../candidate-identity";
 import { registerElectorate } from "../electorate";
@@ -223,7 +224,7 @@ export function parsePlatform(platform: readonly string[]): readonly Stance[] {
   });
 }
 
-/** Register the module and note the town's starting lean (stand-in for views). */
+/** Register the module and note the town's area lean (its district's 2024 vote). */
 export function openCampaigns(core: CoreState): void {
   registerElectorate(core);
   if (!core.modules.has(CAMPAIGNS_MODULE_ID))
@@ -240,8 +241,6 @@ export function openCampaigns(core: CoreState): void {
     "congressional",
     core.date,
   );
-  // stopgapId: SG-GOV-views-stand-in
-  api.stopgap("SG-GOV-views-stand-in");
   table(api, "town").put({
     id: "town",
     ...town,
@@ -1038,9 +1037,9 @@ export function registerAdOutlet(fn: typeof adOutlet): void {
 }
 
 /**
- * Run an ad: spend from the campaign's account; the people it reaches are the
- * ones who see the most media (stand-in: adults with the fewest work hours,
- * SG-GOV-ad-reach-media-habits). An attack ad carries a rival's public record
+ * Run an ad: ad time is bought from the town's best-followed news outlet (the
+ * press engine), and it reaches that outlet's followers; with no outlet to
+ * buy from, there is no ad. An attack ad carries a rival's public record
  * and moves warmth toward the rival down for people who disagree with it.
  */
 export function runAd(
@@ -1061,25 +1060,11 @@ export function runAd(
   const amount = Math.min(input.amountMinor, available);
   void account;
   if (amount <= 0) return [];
-  // Ad time from the town's own outlets where the press is open: the buyer's
-  // audience is the outlet's followers.
+  // Ad time from the town's own outlets: the buyer's audience is the
+  // outlet's followers.
   const outlet = adOutlet?.(api) ?? null;
-  const media =
-    outlet?.organizationId ?? `organization:media:${townRow(api).townPlaceId}`;
-  if (!api.state.organizations.has(media))
-    api.addOrganization({
-      id: media,
-      placeId: townRow(api).townPlaceId,
-      name: "Local media",
-      kind: "media",
-      liquidMinor: 0,
-      source: {
-        tag: "ESTIMATED",
-        citation: "Stand-in seller of ad time",
-        asOf: api.state.date,
-        estimatedFrom: "SG-GOV-ad-reach-media-habits",
-      },
-    });
+  if (!outlet) return [];
+  const media = outlet.organizationId;
   postMoney(
     api,
     AD_KIND,
@@ -1097,38 +1082,11 @@ export function runAd(
   const contacts = Math.floor(
     (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
   );
-  const town = townRow(api).townPlaceId;
-  if (!outlet)
-    // stopgapId: SG-GOV-ad-reach-media-habits
-    api.stopgap("SG-GOV-ad-reach-media-habits");
-  const followers = outlet
-    ? outlet.followerIds
-        .map((id) => api.state.people.get(id))
-        .filter((p): p is PersonState => p !== undefined)
-        .slice(0, contacts)
-        .map((p) => ({ p, work: 0 }))
-    : null;
-  const viewers =
-    followers ??
-    [...api.state.people.values()]
-      .filter(
-        (p) => p.alive && p.placeId === town && ageOn(p, api.state.date) >= 18,
-      )
-      .map((p) => ({
-        p,
-        work: [
-          ...((api.state as CoreState).work.commitmentsByPerson.get(p.id) ??
-            []),
-        ].reduce(
-          (s, id) =>
-            s +
-            ((api.state as CoreState).work.commitments.get(id)
-              ?.expectedWeeklyMinutes ?? 0),
-          0,
-        ),
-      }))
-      .sort((a, b) => a.work - b.work || a.p.id.localeCompare(b.p.id))
-      .slice(0, contacts);
+  const viewers = outlet.followerIds
+    .map((id) => api.state.people.get(id))
+    .filter((p): p is PersonState => p !== undefined)
+    .slice(0, contacts)
+    .map((p) => ({ p }));
   const target = input.attackFilingId
     ? campaignFor(api, input.attackFilingId)
     : campaign;

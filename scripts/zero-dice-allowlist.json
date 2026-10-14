@@ -1436,6 +1436,17 @@
       "replacement": null
     },
     {
+      "file": "src/core2/modules/voting.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const winnerId = new SeededRng(`${worldSeed}:tie-lot:${contest.id}`).pick( sorted, );",
+      "class": "GENERATION",
+      "keyedBy": "contest id (world seed and contest)",
+      "reason": "a lawful lot, a recorded procedure, not a decision (owner, Oct 14: ties settled by lot are drawn as the law says)",
+      "replacement": null
+    },
+    {
       "file": "src/core2/population.ts",
       "kind": "list-pick",
       "build": null,

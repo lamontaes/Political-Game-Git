@@ -22,7 +22,13 @@ import {
 } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
-import { breakElectionTie, openVoting, resultOf } from "./modules/voting";
+import {
+  breakElectionTie,
+  openVoting,
+  resultOf,
+  VOTING_MODULE_ID,
+  type TieLotRow,
+} from "./modules/voting";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { countedResidents } from "./electorate";
@@ -166,8 +172,9 @@ describe("elections in the two-level world", () => {
         ),
         `${c.title} ${c.seatId}`,
       ).toBe(true);
-    // A tie is settled the state's way (audit 3, item 10): a legislature or
-    // board choosing, or a second election between the tied candidates.
+    // A tie is settled the state's way (audit 3, item 10): a recorded lot, a
+    // legislature or board choosing, or a second election between the tied
+    // candidates.
     const rules = (
       tieRules as unknown as {
         states: Record<string, Record<string, { method: string }>>;
@@ -195,7 +202,12 @@ describe("elections in the two-level world", () => {
               : "generalElectionTie";
       const winner = breakElectionTie(api, contest, tied);
       const method = rules[field]?.method ?? "lot";
-      if (winner === null)
+      if (method === "lot") {
+        expect(tied, `${contest.title} lot`).toContain(winner);
+        expect(
+          api.moduleState(VOTING_MODULE_ID).table("lots").get(contest.id),
+        ).toMatchObject({ winnerId: winner, tied: [...tied].sort() });
+      } else if (winner === null)
         expect(
           api
             .moduleState(ELECTIONS_MODULE_ID)
@@ -216,6 +228,97 @@ describe("elections in the two-level world", () => {
         named: core.people.size,
         report,
       }),
+    );
+  });
+
+  it("an exact tie in a lot state is settled by the recorded lot, the same for the same seed", () => {
+    // A random state whose law settles a local or general tie by lot.
+    const lotStates = states.filter((k) => {
+      const r = (
+        tieRules as unknown as {
+          states: Record<string, Record<string, { method: string }>>;
+        }
+      ).states[k];
+      return (
+        r?.localTie?.method === "lot" || r?.generalElectionTie?.method === "lot"
+      );
+    });
+    const state = pick(lotStates, "lot-state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "lot-place").key;
+    const draw = (): readonly TieLotRow[] => {
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: key,
+          startedAt: START,
+          minimumPeople: 200,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openVoting(core);
+      const api = coreAPI(core);
+      const rules = (
+        tieRules as unknown as {
+          states: Record<string, Record<string, { method: string }>>;
+        }
+      ).states[state]!;
+      const lots: TieLotRow[] = [];
+      for (const contest of [
+        ...(api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as ContestRow[]),
+      ].sort((a, b) => a.id.localeCompare(b.id))) {
+        const field =
+          contest.family === "statewideExecutive"
+            ? "statewideExecutiveTie"
+            : contest.family === "stateLegislative"
+              ? "legislativeTie"
+              : contest.family === "countyOffice" ||
+                  contest.family === "municipalOffice"
+                ? "localTie"
+                : "generalElectionTie";
+        if ((rules[field]?.method ?? "lot") !== "lot") continue;
+        // Two residents tied exactly (the count's result, set up here).
+        const tied = [...core.people.keys()].sort().slice(0, 2);
+        const winner = breakElectionTie(api, contest, tied);
+        const lot = api
+          .moduleState(VOTING_MODULE_ID)
+          .table("lots")
+          .get(contest.id) as unknown as TieLotRow;
+        // The law's own procedure decided it, on the record; no second
+        // election was called.
+        expect(winner, contest.title).not.toBeNull();
+        expect(lot.winnerId).toBe(winner);
+        expect(lot.procedure.length).toBeGreaterThan(0);
+        expect(lot.citation.length).toBeGreaterThan(0);
+        expect(
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("contests")
+            .get(`${contest.id}:second`),
+        ).toBeUndefined();
+        lots.push(lot);
+      }
+      return lots;
+    };
+    const first = draw();
+    expect(first.length, `seed ${seed}, ${state} ${key}`).toBeGreaterThan(0);
+    // The same world draws the same names.
+    expect(draw().map((l) => [l.contestId, l.winnerId])).toEqual(
+      first.map((l) => [l.contestId, l.winnerId]),
+    );
+    govReport(
+      "two-level-elections",
+      JSON.stringify({ seed, state, place: key, lots: first.length }),
     );
   });
 });
