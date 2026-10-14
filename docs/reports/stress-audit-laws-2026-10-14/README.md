@@ -6,21 +6,23 @@ In a 400-day world in Lydia, South Carolina, the county board passed and repeale
 
 ## The bill's life
 
+In the sections that follow, every number and date is measured in the run's records. A statement about what the code does is marked "read in the code".
+
 On February 4, 2025, board member Aiko Rodriquez filed ordinance 2025-001, joining Darlington County to federal immigration enforcement. The board has seven members, under the size that needs committees, so the bill went straight to a vote. It passed 5 to 2. The county has no elected executive, so nobody signed it, and it took effect 30 days later, on March 6.
 
 Fifteen days after passage, member Richard Simpson filed 2025-018 to repeal it. The repeal passed 4 to 3 on February 19 and took effect March 21. Aiko Rodriquez voted yes on the repeal of Rodriquez's own ordinance.
 
 Each vote is a sum of parts the game records. For Rodriquez on the repeal, the parts were: views −0.114, district −0.017, tie to the sponsor +0.001, and personality +0.248, for a total of +0.118, a yes. The personality part measures a taste for change over keeping things the same, and it is the same number whichever way a bill points. A repeal is a change too, so it outweighed Rodriquez's views. This is measured in the run.
 
-The board files about 15 bills a meeting, which is why the numbers climb fast. The cycle repeated every meeting for the immigration partnership, a Medicaid work requirement and universal preschool. Over 400 days the board voted 26 times on the immigration question alone, alternating sponsors, and every one of those bills passed.
+Over 26 meetings the board filed 200 policy bills, from 3 to 15 a meeting: 96 passed, 19 failed on the floor, and 85 ran out of agenda time. The cycle repeated every meeting for the immigration partnership, a Medicaid work requirement and universal preschool. Over 400 days the board voted 26 times on the immigration question alone, alternating sponsors, and every one of those bills passed.
 
 ## The day-one laws
 
 Paycheck taxes are the only day-one laws that reached a household's money. Megan Mullen, in the player's household, was paid $634.40 on September 25, 2025 (`work-payroll:2025-09-25:…:person_ed8f77123a57b31b:18`). The paycheck withheld $1.69 of federal income tax, $5.24 of state income tax, $39.33 of Social Security and $9.20 of Medicare. Those amounts follow the withholding tables for a low monthly wage (`src/core2/modules/budgets.ts:924`). The net $578.94 reached Megan Mullen's account in full, and the federal line checks by hand. Employers paid no Social Security or Medicare of their own (defect 19).
 
-South Carolina's $350 weekly unemployment maximum is never read. A worker laid off when their employer closed drew $479.47 a week (`claim:person_1592eab735097b75:2025-05-01`). The benefit uses a national stand-in, a registered stopgap (`src/core2/jobs-benefits.ts:56`). SNAP's maximum appears on the bench's law list (`src/core2/modules/laws.ts:421`), and no other code reads it.
+South Carolina's $350 weekly unemployment maximum is never read. A worker laid off when their employer closed drew $479.47 a week (`claim:person_1592eab735097b75:2025-05-01`). The benefit uses a national stand-in, a registered stopgap (read in the code, `src/core2/jobs-benefits.ts:56`). SNAP's maximum appears on the bench's law list, and no other code reads it (read in the code, `src/core2/modules/laws.ts:421`).
 
-The $7.25 minimum wage never bound. Hiring sets pay from the median of peers in the same role (`src/core2/modules/jobs.ts:553`) and does not read the floor.
+The $7.25 minimum wage never bound. Hiring sets pay from the median of peers in the same role and does not read the floor (read in the code, `src/core2/modules/jobs.ts:553`).
 
 Nine laws scheduled for January 1, 2026 took effect, including federal and state income tax, state sales tax and unemployment. Each carried the same value as the row already in force, so no number moved.
 
@@ -28,7 +30,7 @@ Nine laws scheduled for January 1, 2026 took effect, including federal and state
 
 The South Carolina legislature passed no policy law in 400 days. The session data holds only 2026 sessions, and South Carolina's ends May 7, 2026, after the run. The state's one legislative act was its budget, which runs on its own fiscal-year path. It was adopted July 1, 2025 by votes of 89 to 35 and 34 to 11. It followed the governor's cuts: Medicaid and welfare fell $414 million from $11.5 billion. That cut is 5% of the line times the governor's lean (`src/core2/modules/legislature.ts:427`).
 
-At the macro level, the national, regional, jobs, housing and business engines never ask what law is in force; a search of their five files finds no such call (for example `src/core2/modules/macro.ts`). So no unemployment, price or wage number moved because of state law. At the micro level, state income tax reached Megan Mullen's paycheck as shown above. The state's 6% sales tax and 1.49% local average enter prices through `src/core2/modules/budgets.ts:523`. The state treasury took in $55.3 billion over the run, mostly the state's outside revenue, and paid out $444,000.
+At the macro level, the national, regional, jobs, housing and business engines never ask what law is in force (read in the code: none of their five files makes that call, for example `src/core2/modules/macro.ts`). So no unemployment, price or wage number moved because of state law. At the micro level, state income tax reached Megan Mullen's paycheck as shown above. The state's 6% sales tax and 1.49% local average enter prices through `src/core2/modules/budgets.ts:523`. The state treasury took in $55.3 billion over the run, nearly all of it 13 monthly receipts of outside revenue, and paid out $444,000. That one account is most of the journal's $56.6 billion.
 
 ## The federal law's effects
 
@@ -42,7 +44,7 @@ Congress also passed "adopt an income tax." It wrote nothing, because a federal 
 
 Darlington County's 2025 budget passed 7 to 0 on July 1, 2025, as bill 2025-068, and the bill had no lines. A county budget bill gets its lines from the county executive, and Darlington has none, so the board adopted last year's budget unchanged. The budget is built once at the opening from Census spending per resident (`src/core2/modules/budgets.ts:221`). It does not change with prices, population or the county's laws.
 
-The journal balances: across 24,524 entries, debits and credits are both $56.6 billion. The county treasury took in $176.0 million over 13 months and paid out $395,000. The adopted spending, about $154 million for the period, never left the treasury. Of the $176.0 million, $170.1 million is outside revenue on a fixed monthly schedule, and at most $4.6 million is property tax. The last $1.3 million has no posting in the records kept.
+The journal balances: across 24,524 entries, debits and credits are both $56.6 billion. The county treasury took in $176.0 million in the 13 months it collected and paid out $395,000. The adopted spending, about $154 million for the period, never left the treasury. Of the $176.0 million, $170.1 million is outside revenue on a fixed monthly schedule, and at most $4.6 million is property tax. The last $1.3 million has no posting in the records kept.
 
 ## Confirmed defects
 
@@ -62,7 +64,7 @@ Each row was opened in the file named. "Run" means the defect showed in the run'
 | 10 | An effect is a read | run | `src/core2/law-reach/group-b-money.ts:404`, `balancePlan` | `budget:US:2025` | A balanced-budget law cuts Social Security and every other line by one ratio on one day, and nothing pays anyone less. |
 | 11 | An effect is a read | run | `src/core2/modules/budgets.ts:195`, `government` | `organization:treasury:county:45031` | Adopted spending is never paid from a treasury: $176.0 million in, $395,000 out; no stopgap. |
 | 12 | An effect is a read | run | `src/core2/modules/legislature.ts:439`; `src/core2/modules/budgets.ts:864` | `budget:county:45031:2025` | With no county executive the budget bill has no lines, last year's budget is adopted, and the notice cites the "adopted by rule" stopgap for a voted budget. |
-| 13 | An effect is a read | run | `src/core2/modules/outcome-web.ts:629`, `outcomesOn` | `landing:work-requirement-to-coverage:person_b380e76578a5c9ab` | 5,418 outcome landings over 14 months, 452 of them nonzero, are written and nothing reads them. |
+| 13 | An effect is a read | run | `src/core2/modules/outcome-web.ts:629`, `outcomesOn` | `landing:work-requirement-to-coverage:person_b380e76578a5c9ab` | 5,418 outcome landings in 14 monthly readings, 452 of them nonzero, are written and nothing reads them. |
 | 14 | An effect is a read | run | `src/core2/law-reach/group-a-records.ts:440`, `reachOn`; `src/core2/law-reach/group-b-store.ts:233` | reach rows for ordinance 2025-001 | The ordinance's duty on a county department and every law fact a person learns are read by nothing. |
 | 15 | An effect is a read | run | `src/core2/law-reach/group-b-people.ts:213`, `selectResidents` | 17 Medicaid work-requirement rows | The work requirement reaches adults by the Medicaid expansion income line without reading whether the state expanded; South Carolina has not. |
 | 16 | An effect is a read | run | `src/core2/law-reach/group-b.ts:322` | federal act 2025-010 | "Adopt an income tax" writes no tax, because one exists, yet records 1,426 people as reached. |
@@ -87,9 +89,9 @@ These laws took effect or ended in the run and no engine reads them at the momen
 5. Federal "adopt an income tax" (defect 16).
 6. Federal balanced operating budget for any person (defects 9 and 10); the national economy ignores it by registered stopgap SG-WORLD-macro-public-budget.
 7. State unemployment weekly maximum (registered stopgap SG-WORLD-jobs-benefits-terms).
-8. State unemployment insurance row.
-9. Federal SNAP maximum.
-10. Federal Medicaid matching rate.
+8. State unemployment insurance row (read only by the bench's law list, `src/core2/modules/laws.ts:423`).
+9. Federal SNAP maximum (read only by the same list, `src/core2/modules/laws.ts:421`).
+10. Federal Medicaid matching rate (read only by the same list, `src/core2/modules/laws.ts:424`).
 
 ## Paths that came back clean
 
@@ -98,7 +100,7 @@ These laws took effect or ended in the run and no engine reads them at the momen
 - **Withholding is sourced.** The federal and state income tax, the Social Security wage base and the Medicare rate come from cited rows.
 - **No state, city or GEOID in the law logic** apart from defects 7 and 17. Lydia, South Carolina and county 45031 appear only in data.
 - **Starting-law budget changes are applied once a year.** A pension and a highway-to-transit law at the opening each changed the state budget once per fiscal year, at their recorded size.
-- **Three suspected defects were checked and are not defects.** Every place whose effective-date rule needs session end dates has them. The county's 8,253 owned homes are not missing owners. The balanced budget cut 13 lines once each, not one line 13 times.
+- **Three suspected defects were checked and are not defects.** Every place whose effective-date rule needs session end dates has them. One agent thought the county's 8,253 owned homes had no owners among the people; it had read a file holding only voters and the player's household. The balanced budget cut 13 lines once each, not one line 13 times.
 
 ## Not reached
 
