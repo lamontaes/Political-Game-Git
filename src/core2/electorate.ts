@@ -259,8 +259,9 @@ export function countedAppeal(
 
 /**
  * The candidate a voter backs: the one they rank first, where something
- * separates them from the next; a lone candidate only where the voter is
- * for them. With nothing to separate the candidates, the race is left blank.
+ * separates them from the next; a lone candidate unless the voter is against
+ * them (the named voters' rule in voting.ts). With nothing to separate the
+ * candidates, the race is left blank.
  */
 export function countedChoice(
   appeal: Readonly<Record<string, { readonly total: number }>>,
@@ -269,7 +270,7 @@ export function countedChoice(
     (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
   );
   if (ranked.length === 1)
-    return ranked[0]![1].total > 0 ? ranked[0]![0] : null;
+    return ranked[0]![1].total >= 0 ? ranked[0]![0] : null;
   return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
     ? ranked[0]![0]
     : null;
