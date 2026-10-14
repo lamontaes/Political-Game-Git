@@ -38,6 +38,7 @@ import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
 import { ELECTIONS_MODULE_ID, checkEligibility } from "./modules/elections";
 import {
   resultOf,
+  cycleTurnout,
   turnoutReasons,
   VOTING_MODULE_ID,
   type BallotRow,
@@ -366,9 +367,16 @@ describe("59 policies in the played world, 90 days or the next required event", 
         );
         if (observed) {
           const person = core.people.get(observed.voterId)!;
-          const withRule = turnoutReasons(api, person).cost;
+          // The election adds its own cost (a midterm's, an off-cycle date's).
+          const extra = cycleTurnout(observed.date).cost;
+          const withRule = turnoutReasons(api, person, undefined, extra).cost;
           enact(question, 0);
-          const withoutRule = turnoutReasons(api, person).cost;
+          const withoutRule = turnoutReasons(
+            api,
+            person,
+            undefined,
+            extra,
+          ).cost;
           if (
             withRule !== withoutRule &&
             observed.turnoutReasons.cost === withRule
