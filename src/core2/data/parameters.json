@@ -290,14 +290,14 @@
     "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until the P9 whole-life replay (44 sourced, dated checks across three public biographies; src/core2/tooling/calibration-targets.json) and a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
   },
   "traitWeight": {
-    "value": 0.2,
+    "value": 1,
     "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "citation": "Set equal to need, goal and drive on the owner's ruling Oct 14, 2026, from the traits-in-play audit (2.3% of choices changed at 0.2; about 15% of daily and 25% of drive choices at 1.0). Tunable, checked against the spread 0.2 to 1.0.",
     "spread": {
-      "low": 0.1,
-      "high": 0.4,
+      "low": 0.2,
+      "high": 1,
       "unit": "same unit as the value",
-      "citation": "Tuning range: half to twice the current value."
+      "citation": "Tuning range named in this row's citation (0.2 to 1.0)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

@@ -303,6 +303,12 @@ const server = createServer(async (request, response) => {
       );
       return;
     }
+    if (request.method === "GET" && url.pathname === "/api/version") {
+      // Source runs have no bundler define; the package's release number is the record.
+      const { version } = JSON.parse(await readFile("package.json", "utf8"));
+      send(200, { version });
+      return;
+    }
     if (request.method === "GET" && url.pathname === "/api/places") {
       // Engineering list length for the place picker, not a model value.
       const rows = lifePlaceSearch(url.searchParams.get("q") ?? "", 8, {
@@ -658,7 +664,13 @@ const server = createServer(async (request, response) => {
       const size = Number(url.searchParams.get("size") ?? "") || undefined;
       building = true;
       try {
-        const world = buildBenchWorld(seed, date, { minimumPeople: size });
+        // Two-level, as "New life" builds it (MEMORY-FLAT): a month of the
+        // full population ran the bench out of memory. Tests that need every
+        // resident as a full person ask for it with full=1.
+        const world = buildBenchWorld(seed, date, {
+          minimumPeople: size,
+          twoLevel: url.searchParams.get("full") !== "1",
+        });
         opening = undefined;
         const { place, residents } = world;
         const next = world.core,
