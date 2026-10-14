@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Our Civic Duty</title>
     <link rel="stylesheet" href="play.css" />
+    <link rel="preload" as="image" href="/ui/kit13/progress-frame.svg" />
   </head>
   <body>
     <main id="game">
@@ -36,6 +37,10 @@
       <!-- Election day at the polls: the ballot, from the elections engine's records. -->
       <section id="ballot" class="panel" hidden>
         <div id="ballot-races"></div>
+        <div id="ballot-pager" class="acts" hidden>
+          <button type="button" class="action small">Back</button>
+          <button type="button" class="action primary small">Continue</button>
+        </div>
         <div class="acts">
           <button id="ballot-leave" class="action" type="button"></button>
         </div>
@@ -44,12 +49,19 @@
         <div class="news-reader-main">
           <h2 id="news-reader-headline" class="heading"></h2>
           <div id="news-reader-body"></div>
+          <div id="news-reader-pager" class="acts" hidden>
+            <button type="button" class="action small">Back</button>
+            <button type="button" class="action primary small">Continue</button>
+          </div>
         </div>
         <div>
           <div class="acts">
-            <button id="news-reader-close" class="action primary" type="button">
-              Close
-            </button>
+            <button
+              id="news-reader-close"
+              class="glyph close"
+              type="button"
+              aria-label="Close"
+            ></button>
           </div>
           <div id="news-reader-more"></div>
         </div>
@@ -211,8 +223,10 @@
           aria-label="Calendar"
         >
           <svg viewBox="0 0 24 24">
-            <rect x="4" y="5.5" width="16" height="14" rx="1" />
-            <path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" />
+            <rect x="3.5" y="5" width="17" height="15" rx="1.2" />
+            <path
+              d="M3.5 9.5h17M8 3v4M16 3v4M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 16.5h.01M12 16.5h.01M16.5 16.5h.01"
+            />
           </svg>
         </button>
         <button
@@ -222,8 +236,9 @@
           aria-label="Money and property"
         >
           <svg viewBox="0 0 24 24">
+            <ellipse cx="12" cy="6.5" rx="6" ry="2.6" />
             <path
-              d="M12 3.5v17M16 7.5c-.8-1.3-2.2-2-4-2-2.3 0-4 1.2-4 3s1.7 2.6 4 3.1 4 1.3 4 3.2-1.7 3.2-4 3.2c-1.9 0-3.4-.8-4.2-2.2"
+              d="M6 6.5v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6V6.5M6 10.1v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6M6 13.7v3.6c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-3.6"
             />
           </svg>
         </button>
@@ -245,10 +260,11 @@
           aria-label="People"
         >
           <svg viewBox="0 0 24 24">
-            <circle cx="8.5" cy="8.5" r="3" />
-            <circle cx="16" cy="9" r="2.5" />
+            <circle cx="12" cy="7.5" r="3.2" />
+            <circle cx="5.8" cy="9.5" r="2.3" />
+            <circle cx="18.2" cy="9.5" r="2.3" />
             <path
-              d="M3 19c.6-3.4 2.8-5.2 5.5-5.2s4.9 1.8 5.5 5.2M14.5 14c2.6-.4 5 1.1 6 4.5"
+              d="M6.5 19c.5-3.6 2.6-5.4 5.5-5.4s5 1.8 5.5 5.4zM1.8 17c.3-2.4 1.7-3.8 4-4M22.2 17c-.3-2.4-1.7-3.8-4-4"
             />
           </svg>
         </button>
@@ -270,13 +286,20 @@
         <header class="sheet-head">
           <h2 id="sheet-title" class="heading"></h2>
           <div class="acts">
-            <button id="sheet-close" class="action primary" type="button">
-              Close
-            </button>
+            <button
+              id="sheet-close"
+              class="glyph close"
+              type="button"
+              aria-label="Close"
+            ></button>
           </div>
         </header>
         <nav id="sheet-tabs" class="tabs"></nav>
         <div id="sheet-body"></div>
+        <div id="sheet-pager" class="acts" hidden>
+          <button type="button" class="action small">Back</button>
+          <button type="button" class="action primary small">Continue</button>
+        </div>
       </section>
 
       <section id="choices" class="panel chat" hidden>
@@ -336,9 +359,12 @@
             <button id="person-talk" class="action primary" type="button">
               Talk
             </button>
-            <button id="person-close" class="action" type="button">
-              Close
-            </button>
+            <button
+              id="person-close"
+              class="glyph close"
+              type="button"
+              aria-label="Close"
+            ></button>
           </div>
         </div>
       </section>
