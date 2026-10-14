@@ -42,7 +42,13 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
       }),
       { modules: [listener] },
     );
-    advanceCore(core, "2021-01-10");
+    // Days from the world's own opening (every opening reads gameStartDate).
+    const after = (days: number) => {
+      const at = new Date(`${core.startedAt}T00:00:00Z`);
+      at.setUTCDate(at.getUTCDate() + days);
+      return at.toISOString().slice(0, 10);
+    };
+    advanceCore(core, after(9));
     const api = coreAPI(core);
     const local = [...core.organizations.values()].filter(
       (row) => row.outsideFlow === undefined && row.kind === "employer",
@@ -56,7 +62,7 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     // Exempt the classification with the smallest sales, as a grocery
     // exemption exempts food stores, so the taxed sales carry most of the
     // town's purchases (none exempt where only one kind of seller sells).
-    advanceCore(core, "2021-01-20");
+    advanceCore(core, after(19));
     const byClass = new Map<string, number>();
     for (const sale of sales) {
       const row = core.organizations.get(sale.sellerId)?.classification;
@@ -87,7 +93,7 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
       ...(exempt ? { exemptClassificationPrefixes: [exempt] } : {}),
       source: government.source,
     });
-    advanceCore(core, "2021-02-20");
+    advanceCore(core, after(50));
     const taxed = sales.filter((sale) => {
       const seller = core.organizations.get(sale.sellerId)!;
       return seller.placeId === taxPlace && seller.classification !== exempt;
@@ -110,7 +116,7 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
 
     // Ended, it collects nothing more.
     api.endPurchaseTax("tax:sales:test");
-    advanceCore(core, "2021-03-10");
+    advanceCore(core, after(68));
     expect(api.accounts().balance(treasury)).toBe(expected);
   }, 300_000);
 });
