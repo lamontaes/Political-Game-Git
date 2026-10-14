@@ -208,8 +208,12 @@ describe(`the player's own act leads to a trial and a term served (seed ${seed},
       offers.some((o) => o.id === c.crimeId),
     );
     expect(complaints.length).toBeGreaterThan(0);
-    const investigation = rows<InvestigationRow>("investigations").find((i) =>
-      i.complaintIds.some((id) => complaints.some((c) => c.id === id)),
+    // Each complaint is weighed on its own: the prosecutor may decline one
+    // member's report and open on another's.
+    const investigation = rows<InvestigationRow>("investigations").find(
+      (i) =>
+        i.opened &&
+        i.complaintIds.some((id) => complaints.some((c) => c.id === id)),
     );
     expect(investigation?.opened).toBe(true);
     expect(investigation?.targets.map((t) => t.personId)).toContain(playerId);
