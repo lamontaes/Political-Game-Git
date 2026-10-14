@@ -33,6 +33,10 @@ const t0 = performance.now();
 const world = buildBenchWorld(seed, start, { twoLevel: true, placeKey });
 const core = world.core;
 const api = coreAPI(core);
+// The director watches every full person, so a removal's journal line can be read.
+for (const person of core.people.values())
+  if (person.alive && person.tier !== "husk")
+    world.director.watch(core, person.id);
 const end = new Date(`${start}T00:00:00Z`);
 end.setUTCDate(end.getUTCDate() + days);
 advanceCore(core, end.toISOString().slice(0, 10));
@@ -112,6 +116,7 @@ console.log(
           return n;
         }, {}),
       },
+      foreclosures: housing.table("foreclosures").rows(),
       statuses: statuses.map((row) => ({
         id: row.id,
         status: row.status,
