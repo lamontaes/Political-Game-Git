@@ -2524,11 +2524,11 @@
     "kind": "assumed-data",
     "file": "src/core2/data/business/parameters.json",
     "line": 225,
-    "whatItFakes": "A compliance duty costs every bound business twice the manufacturing average pollution-abatement share of its operating costs.",
-    "why": "No per-industry abatement cost data is loaded yet.",
+    "whatItFakes": "A compliance duty costs every bound business 0.8% of its other operating costs, between PACE 2005's air-abatement average (0.18% of shipments) and the 2.6% productivity loss Greenstone, List and Syverson measure at polluting plants in nonattainment counties.",
+    "why": "The game's manufacturers are one kind, so PACE's industry shares (0.10% to 1.14%) can't be matched, and which plants emit the county's pollutant isn't recorded.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Census PACE abatement operating costs by industry (NAICS), scaled by the standard the county misses.",
+    "replacement": "Manufacturing kinds by NAICS subsector with PACE's own shares, and the emitting plants by pollutant, at Greenstone, List and Syverson's nonattainment effect.",
     "status": "open"
   },
   {
@@ -3126,7 +3126,7 @@
     "kind": "assumed-data",
     "file": "src/core2/jobs-unions.ts",
     "line": 84,
-    "whatItFakes": "Union membership and representation in Puerto Rico (a 2014 island labor department figure seen in a summary), Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands (estimated from each one's public-sector share and its public-employee bargaining law).",
+    "whatItFakes": "Union membership and representation in Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands are estimated from each one's public-sector share and its public-employee bargaining law; Puerto Rico's are its labor department's 2014 survey (members 6.2%, any labor organization 10.0%, standing in for representation).",
     "why": "BLS's Current Population Survey covers only the states and D.C.; no official survey of the island areas' union membership was found.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",

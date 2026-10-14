@@ -220,14 +220,14 @@
   "businessComplianceShareOfCosts": {
     "value": 0.008,
     "tag": "ESTIMATED",
-    "citation": "U.S. Census Bureau, Pollution Abatement Costs and Expenditures: 2005 (MA200(05)): manufacturers spent $20.7 billion operating pollution abatement, about 0.4% of their costs; stricter nonattainment rules weigh more (Greenstone 2002, JPE).",
-    "estimatedFrom": "Twice the manufacturing average abatement operating share, for a binding plan in a nonattainment county.",
+    "citation": "U.S. Census Bureau, Pollution Abatement Costs and Expenditures: 2005 (MA200(05)), Table 1 (EPA-hosted copy, https://www.epa.gov/system/files/documents/2022-03/2005-pace-report.pdf): manufacturers' abatement operating costs were $20.68 billion, 0.437% of shipments, and 0.182% for air alone (primary metals 1.14%, paper 1.10%, chemicals 0.86%, machinery 0.10%). Greenstone, List and Syverson 2012 (NBER w18392): a county's nonattainment designation lowers polluting plants' productivity 2.6% (4.8% with price and survival corrections).",
+    "estimatedFrom": "A binding clean air plan for the average manufacturer (the game has one manufacturing kind): about twice the all-media abatement share, between the air-only average (0.18%) and the productivity loss at polluting plants (2.6%), since which plants emit the pollutant isn't recorded.",
     "stopgapId": "SG-WORLD-business-compliance-cost",
     "spread": {
-      "low": 0.004,
-      "high": 0.02,
+      "low": 0.0018,
+      "high": 0.026,
       "unit": "share of other operating costs",
-      "citation": "U.S. Census Bureau, Pollution Abatement Costs and Expenditures: 2005 (MA200(05)): manufacturers spent $20.7 billion operating pollution abatement, about 0.4% of their costs; stricter nonattainment rules weigh more (Greenstone 2002, JPE)."
+      "citation": "U.S. Census Bureau, Pollution Abatement Costs and Expenditures: 2005 (MA200(05)), Table 1 (EPA-hosted copy, https://www.epa.gov/system/files/documents/2022-03/2005-pace-report.pdf): manufacturers' abatement operating costs were $20.68 billion, 0.437% of shipments, and 0.182% for air alone (primary metals 1.14%, paper 1.10%, chemicals 0.86%, machinery 0.10%). Greenstone, List and Syverson 2012 (NBER w18392): a county's nonattainment designation lowers polluting plants' productivity 2.6% (4.8% with price and survival corrections)."
     }
   },
   "businessCloseBaseline": {
