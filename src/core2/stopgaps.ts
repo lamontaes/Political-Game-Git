@@ -11,6 +11,8 @@ export interface StopgapEntry {
   addedAt: string;
   replacement: string;
   status: "open" | "resolved";
+  /** How a resolved row was closed, in one line. */
+  resolution?: string;
 }
 
 export const STOPGAPS = registry as readonly StopgapEntry[];
