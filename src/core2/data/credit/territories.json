@@ -1,0 +1,14 @@
+{
+  "version": "credit-territories-v1",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-14",
+    "citation": "U.S. Census Bureau ANSI/FIPS state and island-area codes (American Samoa 60, Guam 66, Northern Mariana Islands 69, U.S. Virgin Islands 78); the county deposit table's keys begin with these codes."
+  },
+  "territories": [
+    { "stateJurisdictionKey": "US-AS", "stateFips": "60" },
+    { "stateJurisdictionKey": "US-GU", "stateFips": "66" },
+    { "stateJurisdictionKey": "US-MP", "stateFips": "69" },
+    { "stateJurisdictionKey": "US-VI", "stateFips": "78" }
+  ]
+}
