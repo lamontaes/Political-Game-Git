@@ -26,6 +26,7 @@ import ownership from "../data/business/ownership.json" with { type: "json" };
 import openingFinance from "../data/opening-finance.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
+import { businessName, businessNameContext } from "../business-names";
 import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
@@ -1520,11 +1521,20 @@ function found(
   api.addOrganization({
     id,
     placeId: market.placeId,
+    // A location carries its business's name; a new business takes the first
+    // of its kind's name styles that no business in town already carries.
     name:
       parentName ??
-      businessData.namePattern
-        .replace("{founder}", founder.familyName)
-        .replace("{kind}", kindId),
+      businessName(
+        kindId,
+        businessNameContext(market.placeId, founder.familyName),
+        new Set(
+          [...c.organizations.values()]
+            .filter((row) => row.placeId === market.placeId)
+            .map((row) => row.name),
+        ),
+      ) ??
+      founder.familyName,
     kind: "employer",
     liquidMinor: 0,
     source,

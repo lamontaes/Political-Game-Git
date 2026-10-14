@@ -34,6 +34,7 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
 - **Paychecks (Oct 14):** taxes come out by the law where the worker lives, and each paycheck's record says when the tax figures are estimates.
 - **Laws reach the economy (Oct 14, #4184):** new openings never pay below the minimum wage in force; a federal budget cut or raise pushes the national economy that month; employers pay their Social Security and Medicare share; unpaid property tax and sales tax become arrears; movers take their cash with them.
 - **Businesses (Oct 14, #4197):** businesses close from months of operating losses or their owner's reasons, not a yearly chance; workers quit for better pay or a better job; every payday carries federal and state unemployment tax, and company-owned businesses pay profit tax each quarter, all from the law in force; supplies bought outside the town leave its books.
+- **Replacements and names (Oct 14, #4224):** a worker who dies, moves away, quits or retires leaves an opening for the same job, and the employer fills it; an official whose aide dies or leaves hires another. Businesses carry names like Morton's Market, Gill Foods or Kauai County Diner, never "general store".
 - **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
@@ -66,8 +67,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Open work taken
 
-- **Stack, Oct 14 (all merged up to main through #4173):** #4166 (stress-audit wiring) → #4184 (laws reach the economy, money audit) → #4197 (business audit). #4166 carries a port that restores three English files the dead-files cleanup removed while the opening still imports them.
-- **Stress audit wiring (CTO, Oct 14), PR #4166, done:** defects 23 (moves read records, no draw), 16 (aides the records can place), 12–14 (withholding), 7 (wage credit line: registered stopgap), 11 (voucher rows end on closure).
+- **Oct 14, afternoon:** #4166, #4184 and #4197 merged. #4224 (replacements in every role, business names) is open against main; it replaces #4215, which merged into a stale base.
+- **Stress audit wiring (CTO, Oct 14), PR #4166, merged:** defects 23, 16, 12–14, 7 (stopgap) and 11.
 - **Next, from the CTO (Oct 14), in this order after #4166:**
   - Laws reach the economy: hiring pay reads the wage floor in force; the macro engine reads the federal budget (`SG-WORLD-macro-public-budget`); employers pay their Social Security and Medicare share on the journal.
   - Money audit (#4162) defects 5, 12, 13, 14: mortgage balances fall only when paid; unpaid property tax and unremittable sales tax become arrears records; a short down payment can't get the full mortgage.
@@ -94,6 +95,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - Construction research (general-purpose, read-only): building costs and times, zoning, supply and vacancy effects on rents, inclusionary rules, all-electric costs, farmland.
 
 ## Needs from other sessions
+
+- **OPUS-CORE: counted workers never die or move away.** With the renewal engine, a Hawaii town's 109 deaths and 338 departing households in three months included nobody with a job, and none over the year (seed `ca545ed9…`). Who dies or leaves (`births-counted.ts`) leans so hard on work that working people never go. Jobs replaces them once they do (#4224).
 
 - **OPUS-CORE / CTO, speed after #4067 (trait-based job choices in `jobs.ts`):** three years of Absecon went from about 100 s to 136 s on the merged head while the core alone stayed at 53 s; I took back 24 s in my own code (counted hiring's per-hire scan, now 112 s). What's left is mostly `traitLean`/`kindLean` (`choice.ts`, about 8% of a run) called per counted seeker each week; caching per person on my side gained nothing measurable, so the cost is inside those functions.
 
