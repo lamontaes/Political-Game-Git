@@ -162,7 +162,7 @@ export interface ResidentsRuntime {
   /** The month the groups' money was last closed for. */
   lastMonth?: string;
   /** A household being filled in: its share of its group's money, paid to its people on release. */
-  fillInCash: Map<string, { group: number; amount: number }>;
+  fillInCash: Map<string, { group: number; amount: number; unplaced: number }>;
 }
 
 interface ResidentMonth {
@@ -347,6 +347,15 @@ export function regroupHousehold(
     moveShare(rt.api, rt, before, h.group, people, groupBefore);
 }
 
+/** A household's share of its place's unplaced workers (their pay follows them out of the counts). */
+function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
+  if (h.unplacedWorkers <= 0) return 0;
+  let total = 0;
+  for (const x of rt.store.liveHouseholds())
+    if (x.placeId === h.placeId) total += x.unplacedWorkers;
+  return total > 0 ? h.unplacedWorkers / total : 0;
+}
+
 /**
  * A counted household's share of its group's money: the group's account
  * times its people over the group's people.
@@ -381,6 +390,7 @@ function jobless(
 }
 
 export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
+const FILLED_UNPLACED_STOPGAP = "SG-CORE-filled-unplaced-income";
 
 /** The town's districts and their people (state House, else state Senate), by GEOID. */
 export function townDistricts(core: CoreState): [string, number][] {
@@ -1469,6 +1479,36 @@ export function releaseResidentHousehold(
   );
   // The household now pays its own outside living costs from its payer.
   const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
+  // Its workers without a recorded job keep their pay: its share of the
+  // place's unplaced workers' flow becomes a flow of its own, to its
+  // working-age people (SG-CORE-filled-unplaced-income).
+  if (ownFlows && cash && cash.unplaced > 0) {
+    const unplaced = [...rt.flows.values()].find(
+      (flow) =>
+        !flow.endedAt &&
+        flow.financeKind === "work.unplaced-residents" &&
+        flow.placeId === placeId,
+    );
+    const worker = record.people.find(
+      (row) => row.livingCostDailyMinor > 0 && core.people.has(row.id),
+    );
+    if (unplaced && worker) {
+      const amount = Math.round(unplaced.amountMinor * cash.unplaced);
+      if (amount > 0) {
+        stopgap(FILLED_UNPLACED_STOPGAP);
+        unplaced.amountMinor -= amount;
+        const flow: FlowState = {
+          ...unplaced,
+          id: `${unplaced.id}:${householdId}`,
+          payeeId: worker.id,
+          amountMinor: amount,
+          arrearsMinor: 0,
+        };
+        rt.flows.set(flow.id, flow);
+        schedule(rt, flow);
+      }
+    }
+  }
   // Its bills to someone outside the town (a mortgage held outside, outside
   // purchases) are paid from its payer as flows of its own.
   for (const own of ownFlows && payer ? ownOutside : []) {
@@ -1541,7 +1581,11 @@ export function takeResidentHousehold(
       payers.length ? payers : people.slice(0, 1).map((row) => row.id),
     ),
   };
-  rt.fillInCash.set(h.id, { group: h.group, amount: householdCash(rt, h) });
+  rt.fillInCash.set(h.id, {
+    group: h.group,
+    amount: householdCash(rt, h),
+    unplaced: unplacedShare(rt, h),
+  });
   store.retire(h, MemberState.Filled);
   rt.filledIn.add(h.id);
   rt.filledAt.set(h.id, makeIsoDate(core.date));
@@ -2207,4 +2251,30 @@ export function keepCalendar(
   const calendars = rt.input.calendars ?? [];
   if (calendars.some((row) => row.id === calendar.id)) return;
   rt.input = { ...rt.input, calendars: [...calendars, calendar] };
+}
+
+/**
+ * A household returning to the counts brings its unplaced workers' pay back
+ * to its place's flow, and its share of those workers with it.
+ */
+export function returnUnplacedPay(
+  core: CoreState,
+  householdId: string,
+  ownFlowId: string,
+): void {
+  const rt = runtimes.get(core);
+  const own = rt?.flows.get(ownFlowId);
+  const ix = rt?.store.householdOf.get(householdId);
+  if (!rt || !own || own.endedAt || ix === undefined) return;
+  const base = rt.flows.get(ownFlowId.slice(0, -`:${householdId}`.length));
+  end(own, makeIsoDate(core.date), "returned-to-counts");
+  if (!base || base.endedAt) return;
+  const h = rt.store.households[ix]!;
+  let others = 0;
+  for (const x of rt.store.liveHouseholds())
+    if (x.placeId === h.placeId && x !== h) others += x.unplacedWorkers;
+  const share = own.amountMinor / (base.amountMinor + own.amountMinor);
+  base.amountMinor += own.amountMinor;
+  h.unplacedWorkers = share < 1 ? (share * others) / (1 - share) : 0;
+  regroupHousehold(rt, h, core.date);
 }

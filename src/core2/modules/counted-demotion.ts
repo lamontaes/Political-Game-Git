@@ -26,6 +26,7 @@ import {
   keepCalendar,
   residentsRuntime,
   returnToCounts,
+  returnUnplacedPay,
 } from "./residents";
 import type { ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
@@ -250,6 +251,14 @@ export function demoteHousehold(
     parts,
     ...(rent ? { rent } : {}),
   });
+  // Its workers without a recorded job are the place's unplaced workers again.
+  for (const flow of [...rt.flows.values()])
+    if (
+      !flow.endedAt &&
+      flow.financeKind === "work.unplaced-residents" &&
+      members.has(flow.payeeId)
+    )
+      returnUnplacedPay(core, householdId, flow.id);
   for (const job of jobs) addCountedJob(core, job);
   // Its money goes to its group's account.
   const fund = countedFundOf(core, householdId);
