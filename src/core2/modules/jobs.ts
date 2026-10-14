@@ -522,6 +522,10 @@ function open(api: CoreAPI): void {
   for (const [organizationId] of c.finance.businesses)
     for (const job of countedJobsOf(c, organizationId))
       link(residentPerson(c, job.personId)?.placeId, organizationId);
+  // Work elsewhere too: a place whose people hold jobs outside the town looks for work where those jobs are recorded.
+  if (elsewhere)
+    for (const job of countedJobsOf(c, elsewhere.organizationId))
+      link(residentPerson(c, job.personId)?.placeId, elsewhere.organizationId);
   for (const list of Object.values(links)) list.sort();
   store(api).table("state").put({ id: "jobs:commutes", links });
   scheduleReview(api);
@@ -1232,6 +1236,38 @@ function runWeek(api: CoreAPI): void {
       )
         apply(position.id, seeker);
   }
+  // Matching takes time (Petrongolo and Pissarides 2001): each place fills no
+  // more of its openings with counted applicants this week than its matching
+  // function gives, efficiency x applicants^(1-a) x openings^a; the fraction
+  // left carries to next week.
+  const applicantsAt = new Map<string, Set<string>>();
+  for (const position of positions)
+    for (const row of applications.get(position.id) ?? [])
+      if (isCounted(api, row.personId)) {
+        const set = applicantsAt.get(position.placeId) ?? new Set<string>();
+        set.add(row.personId);
+        applicantsAt.set(position.placeId, set);
+      }
+  const vacancyShare = p("jobsMatchingVacancyElasticity");
+  const weekOfMonth =
+    DAYS_PER_WEEK / (p("jobsDaysPerYear") / p("macroMonthsPerYear"));
+  const matchesLeft = new Map<string, number>();
+  for (const [placeId, open] of inPlace) {
+    const carry =
+      (
+        store(api).table("state").get(`matches:${placeId}`) as
+          { carry: number } | undefined
+      )?.carry ?? 0;
+    const applicants = applicantsAt.get(placeId)?.size ?? 0;
+    matchesLeft.set(
+      placeId,
+      carry +
+        p("jobsMatchingEfficiencyPerMonth") *
+          weekOfMonth *
+          applicants ** (1 - vacancyShare) *
+          open.length ** vacancyShare,
+    );
+  }
   // Each seeker's fit for an occupation, worked out once a week.
   const fits = new Map<string, number>();
   for (const position of positions) {
@@ -1269,6 +1305,8 @@ function runWeek(api: CoreAPI): void {
     let pool = [...applicants];
     let best = pick(pool);
     while (isCounted(api, best.personId)) {
+      // No match left in this place this week: its counted applicants wait.
+      if ((matchesLeft.get(position.placeId) ?? 0) < 1) break;
       // A counted seeker answers the offer by the same reasons a full person
       // weighs, every trait included.
       const person = actorOf(api, best.personId);
@@ -1286,6 +1324,10 @@ function runWeek(api: CoreAPI): void {
               traitLean(c, person, jobsData.actions.decline.actKinds)) >
         0;
       if (accepts && hireCounted(api, position, best, fit(best))) {
+        matchesLeft.set(
+          position.placeId,
+          (matchesLeft.get(position.placeId) ?? 0) - 1,
+        );
         for (const row of applications.values())
           for (let i = row.length - 1; i >= 0; i--)
             if (row[i]!.personId === best.personId) row.splice(i, 1);
@@ -1314,6 +1356,11 @@ function runWeek(api: CoreAPI): void {
       if (i >= 0) row.splice(i, 1);
     }
   }
+  // What's left of each place's matches carries to next week, never more than one.
+  for (const [placeId, left] of matchesLeft)
+    store(api)
+      .table("state")
+      .put({ id: `matches:${placeId}`, carry: Math.max(0, Math.min(1, left)) });
 }
 
 /** A counted seeker joins the employer's wage flow at the position's pay. */

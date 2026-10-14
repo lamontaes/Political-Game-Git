@@ -404,5 +404,27 @@
     "value": 16,
     "tag": "SOURCED",
     "citation": "BLS Current Population Survey: the labor force and the employment-population ratio count the civilian noninstitutional population 16 years and over."
+  },
+  "jobsMatchingEfficiencyPerMonth": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "A matching function's efficiency: unemployed workers find jobs at about 0.3 a month with roughly 0.6 openings per unemployed worker (CPS flows and JOLTS, 2001-2019; Shimer 2005 gives 0.45 a month for 1951-2003), so 0.3 / 0.6^0.5.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.6,
+      "unit": "matches per month at one opening per applicant",
+      "citation": "Monthly job-finding rates of 0.25 to 0.45 at observed tightness (Shimer 2005, AER; BLS CPS labor force flows)."
+    }
+  },
+  "jobsMatchingVacancyElasticity": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The matching function's elasticity with respect to openings, 0.3 to 0.5 (Petrongolo and Pissarides 2001, Journal of Economic Literature); 0.5 is the symmetric case.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.5,
+      "unit": "elasticity",
+      "citation": "Petrongolo and Pissarides 2001, Journal of Economic Literature: vacancy elasticities of 0.3 to 0.5 in aggregate matching functions."
+    }
   }
 }
