@@ -1,6 +1,6 @@
 /**
- * Shelter is paid once. The core's stand-in living cost (SG-CORE-outside-
- * living-costs) sends each household's HUD Fair Market Rent outside the town
+ * Shelter is paid once. The core's outside living cost sends each
+ * household's HUD Fair Market Rent outside the town
  * every month; with the housing engine, renters pay their landlord and owners
  * their mortgage holder, so what each household now pays for its home comes
  * out of that rent, up to the rent. The rest (an owner's taxes, insurance and

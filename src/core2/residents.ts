@@ -11,7 +11,6 @@
  * balanced journal on recorded dates.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { stopgap } from "./stopgaps";
 import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
@@ -39,7 +38,6 @@ import type {
 } from "./types";
 import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
 
-export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
@@ -232,9 +230,9 @@ export function fullPeople(input: CoreInput): Set<PersonId> {
  */
 export interface CollapseOptions {
   keep?: ReadonlySet<PersonId>;
-  /** Stand-in (SG-CORE-outside-living-costs): living costs not bought locally leave the town. Off when a housing/outside-spending engine is installed. */
+  /** Living costs not bought from a town seller leave the town (CEX basket and HUD rent; the housing engine takes the shelter part). */
   outsideLivingCosts?: boolean;
-  /** Stand-in (SG-CORE-unplaced-workers-income): pay for workers the opening couldn't place. Off when a jobs engine places them. */
+  /** Counted residents employed outside the town's recorded firms earn the place's ACS median earnings. */
   unplacedWorkerIncome?: boolean;
 }
 
@@ -242,7 +240,6 @@ export function collapseToTwoLevels(
   input: CoreInput,
   options: CollapseOptions = {},
 ): CoreInput {
-  stopgap(RESIDENTS_STOPGAP);
   const keep = new Set(options.keep ?? fullPeople(input));
   const start = makeIsoDate(input.startedAt);
   const peopleById = new Map(input.people.map((row) => [row.id, row]));
@@ -638,7 +635,7 @@ export function collapseToTwoLevels(
     citation:
       "Each household's assigned living cost (BLS CEX basket plus HUD Fair Market Rent) less what it buys from recorded local sellers.",
     estimatedFrom:
-      "Paid on the 1st to landlords, lenders and sellers outside the town; no local landlord or housing market is modeled yet.",
+      "Paid on the 1st to sellers outside the town; with the housing engine, the shelter part goes to the household's landlord or lender instead (housing-shelter.ts).",
   };
   const countedOutside = new Map<
     PlaceId,
@@ -649,7 +646,6 @@ export function collapseToTwoLevels(
     : input.households) {
     const members = home.memberIds.map((id) => peopleById.get(id)!);
     const payer = members.find((row) => row.livingCostDailyMinor > 0);
-    stopgap("SG-CORE-outside-living-costs");
     if (!payer) continue;
     const assigned = Math.round(
       (sum(members.map((row) => row.livingCostDailyMinor)) * DAYS_PER_YEAR) /
@@ -728,7 +724,6 @@ export function collapseToTwoLevels(
     accountByPlace.size
   ) {
     const placeId = [...accountByPlace.keys()][0]!;
-    stopgap("SG-CORE-unplaced-workers-income");
     flows.push({
       id: `residents:unplaced-wages:${placeId}`,
       kind: "wages",
@@ -748,7 +743,7 @@ export function collapseToTwoLevels(
         citation: placeEarnings
           ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings. ${PLACE_EARNINGS.citation}`
           : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
-        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; stopgap SG-CORE-unplaced-workers-income.`,
+        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}.`,
       },
     });
   }

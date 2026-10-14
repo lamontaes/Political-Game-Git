@@ -1278,7 +1278,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Wider-population spending timed from the counts' pay dates and income, with absence and turnover rates by industry checked against BLS JOLTS and CPS.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the row: merging the wider population's purchases monthly per seller and kind is the two-level design (owner, Oct 11), not a stand-in."
   },
   {
     "id": "SG-CORE-fill-in-pooled-money",
@@ -1327,7 +1328,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in other places (LEHD LODES origin-destination flows), with their own pay.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Counted residents working outside the town's recorded firms are the modeled wider population (owner, Oct 11): they earn the place's ACS median earnings as a labeled estimate, filled in with a real job only when met; the marker is removed."
   },
   {
     "id": "SG-CORE-voluntary-closure-final-pay",
@@ -1351,7 +1353,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD's housing engine (rent and mortgages to owners and lenders) and outside-spending model (category location-quotient leakage); turn this off with collapseToTwoLevels(input, { outsideLivingCosts: false }).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "In play the housing engine pays each household's rent or mortgage to its landlord or lender (withoutOutsideShelter); what remains is spending at sellers outside the town, a labeled CEX estimate, so the marker is removed."
   },
   {
     "id": "SG-CORE-identity-fill-in-traits",

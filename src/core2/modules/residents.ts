@@ -6,7 +6,6 @@
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
-  RESIDENTS_STOPGAP,
   type ResidentFlowInput,
   type ResidentHouseholdRecord,
   type ResidentsInput,
@@ -628,7 +627,6 @@ function runResidentsDay(api: CoreAPI): void {
   if (!ids) return;
   rt.due.delete(core.date);
   rt.shortfalls.clear();
-  api.stopgap(RESIDENTS_STOPGAP);
   rt.outlayShare = api.parameter("residentsOutlayShareOfIncome");
   rt.incomeWindow = api.parameter("residentsIncomeWindowMonths");
   // A new month closes each account's last one first.
