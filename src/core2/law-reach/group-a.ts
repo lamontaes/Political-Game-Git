@@ -6,10 +6,7 @@
  * a mechanic runs (minimum wages, the leave premium, budget lines' staff and
  * money, election costs) it runs through the engine that owns the thing.
  */
-import {
-  registerPolicyHandler,
-  type PolicyHandler,
-} from "./host";
+import { registerPolicyHandler, type PolicyHandler } from "./host";
 import { applyRecords, POLICIES } from "./group-a-records";
 import {
   federalMinimumWage,
