@@ -1,3 +1,4 @@
+import { addDays } from "../simulation/dates";
 import { describe, expect, it } from "vitest";
 import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "json" };
 import { DEFAULT_DATA, extendData } from "./data";
@@ -639,7 +640,7 @@ describe("learned civic cause and honest requests", () => {
     expect(core.pendingCallbacks.size).toBe(p("one"));
     const callback = [...core.pendingCallbacks.values()][0]!;
     expect(callback).toMatchObject({
-      date: "2021-01-04",
+      date: addDays("2021-01-04", p("officeReplyDays")),
       kind: "office.approached",
       personIds: [actorId],
       witnessIds: [staffId],
@@ -647,6 +648,7 @@ describe("learned civic cause and honest requests", () => {
       desiredChange: drive.desiredChange,
       facts: { organizationId: institution, sourceEventId: event.id },
     });
+    const callbackId = [...core.pendingCallbacks.keys()][0]!;
     expect(core.jobs.get("job:staff")!.personId).toBe(staffId);
     const approachEvents = [
       ...(core.logByKind.get("office.approached") ?? []),
@@ -664,6 +666,39 @@ describe("learned civic cause and honest requests", () => {
       ),
     ).toBe(false);
     expect(money(core)).toBe(openingMoney);
+    assertCoreIntegrity(core);
+
+    // Defect 1: the office answers on its reply day and the gate reopens.
+    advanceCore(core, addDays("2021-01-04", p("officeReplyDays") - p("one")));
+    expect(core.pendingCallbacks.size).toBe(p("one"));
+    advanceCore(core, addDays("2021-01-04", p("officeReplyDays")));
+    // Answered; any callback still pending is a new visit, due a week on.
+    for (const pending of core.pendingCallbacks.values())
+      expect(pending.date).toBe(
+        addDays(
+          addDays("2021-01-04", p("officeReplyDays")),
+          p("officeReplyDays"),
+        ),
+      );
+    const replies = [...(core.logByKind.get("office.replied") ?? [])].map(
+      (id) => core.durableLog.get(id)!,
+    );
+    expect(replies).toHaveLength(p("one"));
+    expect(replies[0]).toMatchObject({
+      date: addDays("2021-01-04", p("officeReplyDays")),
+      personIds: [actorId],
+      witnessIds: [staffId],
+      topic: drive.topic,
+      facts: {
+        organizationId: institution,
+        responderId: staffId,
+        callbackId,
+        approachEventId: approachEvents[0]!.id,
+      },
+    });
+    expect(
+      api.knows(actorId, `event:${replies[0]!.id}:experienced`),
+    ).toBeDefined();
     assertCoreIntegrity(core);
   });
 

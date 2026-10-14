@@ -1,7 +1,8 @@
 import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays } from "../../simulation/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
-import { currentCloseness } from "../closeness";
+import { closenessBetween } from "../closeness";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import type {
@@ -107,9 +108,70 @@ const eventConditions: Readonly<
 
 /** Available acts and consequences are registered operations; content identities remain data. */
 /** P15: closeness today, faded since the last contact; zero for strangers. */
-function relationAt(api: CoreAPI, id: string): number {
-  const row = api.state.relationships.get(id);
-  return row ? currentCloseness(api.state, row) : zero(api);
+function relationAt(api: CoreAPI, a: string, b: string): number {
+  return closenessBetween(api.state, a, b);
+}
+
+/**
+ * The office answers a resident who came about a cause: the staff member
+ * closest to them (by today's closeness, then by id) replies, the reply is an
+ * event the story director and the journal read, and the approach gate reopens.
+ * A resident who died meanwhile closes the callback unanswered; an office with
+ * no one left on staff answers once someone is.
+ */
+function answerCallback(
+  api: CoreAPI,
+  callbackId: string,
+  callback: CoreEventInput,
+): void {
+  const [residentId] = callback.personIds;
+  const resident = residentId ? api.state.people.get(residentId) : undefined;
+  if (!resident?.alive) {
+    api.resolveCallback(callbackId);
+    return;
+  }
+  const officeId = callback.facts?.organizationId;
+  const office = officeId
+    ? api.state.publicOrganizations.get(officeId)
+    : undefined;
+  const responder = (office?.staff ?? [])
+    .filter((staff) => api.state.people.get(staff.personId)?.alive)
+    .map((staff) => ({
+      staff,
+      closeness: closenessBetween(api.state, resident.id, staff.personId),
+    }))
+    .sort(
+      (a, b) =>
+        b.closeness - a.closeness ||
+        a.staff.personId.localeCompare(b.staff.personId),
+    )[0]?.staff;
+  if (!office || !responder) return;
+  api.emit({
+    id: `office.replied:${api.state.date}:${resident.id}:${office.id}`,
+    date: api.state.date,
+    kind: "office.replied",
+    personIds: [resident.id],
+    witnessIds: [responder.personId],
+    placeId: office.placeId,
+    ...(callback.topic ? { topic: callback.topic } : {}),
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `${office.name} answers ${callback.facts?.approachEventId ?? callbackId} within its response time.`,
+      estimatedFrom: "officeReplyDays",
+    },
+    facts: {
+      organizationId: office.id,
+      office: office.name,
+      responderId: responder.personId,
+      responderTitle: responder.title,
+      callbackId,
+      ...(callback.facts?.approachEventId
+        ? { approachEventId: callback.facts.approachEventId }
+        : {}),
+    },
+  });
+  api.resolveCallback(callbackId);
 }
 
 export const LIFE_MODULE: CoreModule = {
@@ -331,11 +393,19 @@ export const LIFE_MODULE: CoreModule = {
       const event = civicEvent(api, actorId, chosen, "office.approached");
       event.witnessIds = row.staff.map((staff) => staff.personId);
       api.emit(event);
+      // The office answers within its response time (stress audit defect 1).
       api.requestCallback({
         ...event,
         id: `callback:${actorId}:${chosen.targetId}:${drive.id}`,
+        date: addDays(makeIsoDate(api.state.date), p(api, "officeReplyDays")),
+        facts: { ...event.facts, approachEventId: event.id },
       });
     },
+  },
+  onDay(api) {
+    for (const [id, callback] of api.state.pendingCallbacks)
+      if (callback.date <= api.state.date) answerCallback(api, id, callback);
+    return undefined;
   },
   onEvent(api, event, learnedBy) {
     const params = parameterValues(api.state.data.parameters);
@@ -343,8 +413,7 @@ export const LIFE_MODULE: CoreModule = {
     for (const id of learnedBy) {
       const actor = api.state.people.get(id)!;
       const relation = event.personIds.reduce(
-        (level, subject) =>
-          Math.max(level, relationAt(api, [id, subject].sort().join(":"))),
+        (level, subject) => Math.max(level, relationAt(api, id, subject)),
         zero(api),
       );
       const appraisal = appraiseEvent(
