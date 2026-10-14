@@ -79,6 +79,9 @@ const GRADE_WORDS: Readonly<Record<string, OwnerGrade>> = {
   pass: "good",
   fix: "fix",
   rewrite: "fix",
+  // Good only with its referent from the life ("That's how it started."):
+  // held until rewritten, as a FIX is.
+  conditional: "fix",
 };
 
 /** A grade file's rows: `{ grades: [...] }`, `{ items: [...] }`, a list, or rows keyed by number. */
@@ -289,16 +292,27 @@ export function readGradedBatches(
 export function withKept(
   fresh: PartGradeLedger,
   existing: PartGradeLedger | undefined,
+  /** Folds the named batches still on disk, to take their share out of `existing`. */
+  refold?: (ids: readonly string[]) => PartGradeLedger,
 ): PartGradeLedger {
   const kept = (existing?.batches ?? []).filter(
     (id) => !fresh.batches.includes(id),
   );
   if (!existing || !kept.length) return fresh;
-  if (kept.length !== existing.batches.length)
-    throw new Error(
-      `${LEDGER_FILE}: some of its batches are on disk and some are not (${kept.join(", ")} missing); restore their files or fold them together`,
+  let base = existing;
+  if (kept.length !== existing.batches.length) {
+    // Some of the ledger's batches are still on disk: their share comes out
+    // of the ledger, and the fresh fold adds it back once.
+    if (!refold)
+      throw new Error(
+        `${LEDGER_FILE}: some of its batches are on disk and some are not (${kept.join(", ")} missing); restore their files or fold them together`,
+      );
+    base = without(
+      existing,
+      refold(existing.batches.filter((id) => !kept.includes(id))),
     );
-  const parts: Record<string, PartGradeCounts> = { ...existing.parts };
+  }
+  const parts: Record<string, PartGradeCounts> = { ...base.parts };
   for (const [key, add] of Object.entries(fresh.parts)) {
     const was = parts[key] ?? EMPTY;
     const axes: Record<string, AxisGradeCounts> = { ...(was.axes ?? {}) };
@@ -328,6 +342,57 @@ export function withKept(
   return { ...fresh, batches: [...kept, ...fresh.batches], parts: sorted };
 }
 
+/** A ledger with another ledger's counts taken out. */
+function without(
+  ledger: PartGradeLedger,
+  share: PartGradeLedger,
+): PartGradeLedger {
+  const parts: Record<string, PartGradeCounts> = { ...ledger.parts };
+  for (const [key, out] of Object.entries(share.parts)) {
+    const was = parts[key];
+    if (!was) continue;
+    const axes: Record<string, AxisGradeCounts> = { ...(was.axes ?? {}) };
+    for (const [axis, counts] of Object.entries(out.axes ?? {}) as [
+      string,
+      AxisGradeCounts,
+    ][]) {
+      const prior = axes[axis];
+      if (!prior) continue;
+      axes[axis] = {
+        good: prior.good - counts.good,
+        bad: prior.bad - counts.bad,
+        fix: prior.fix - counts.fix,
+      };
+      if (!axes[axis]!.good && !axes[axis]!.bad && !axes[axis]!.fix)
+        delete axes[axis];
+    }
+    const left: PartGradeCounts = {
+      good: was.good - out.good,
+      bad: was.bad - out.bad,
+      fix: was.fix - out.fix,
+      sharedGood: was.sharedGood - out.sharedGood,
+      sharedBad: was.sharedBad - out.sharedBad,
+      sharedFix: was.sharedFix - out.sharedFix,
+      ...(Object.keys(axes).length ? { axes } : {}),
+    };
+    const empty =
+      !left.good &&
+      !left.bad &&
+      !left.fix &&
+      !left.sharedGood &&
+      !left.sharedBad &&
+      !left.sharedFix &&
+      !left.axes;
+    if (empty) delete parts[key];
+    else parts[key] = left;
+  }
+  return {
+    ...ledger,
+    batches: ledger.batches.filter((id) => !share.batches.includes(id)),
+    parts,
+  };
+}
+
 function main() {
   const graded = readGradedBatches();
   const ledger = withKept(
@@ -335,6 +400,12 @@ function main() {
     existsSync(LEDGER_FILE)
       ? (JSON.parse(readFileSync(LEDGER_FILE, "utf8")) as PartGradeLedger)
       : undefined,
+    (ids) =>
+      foldGrades(
+        graded.filter((row) =>
+          ids.includes(row.batch?.id ?? row.grades.batch ?? ""),
+        ),
+      ),
   );
   // The coverage file keeps what batches asked (byKind, cells) beside what the
   // owner has graded, axis by kind.

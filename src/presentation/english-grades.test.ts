@@ -269,4 +269,26 @@ describe("grades from batches whose files were removed", () => {
     // A ledger whose batches are all still on disk is simply refolded.
     expect(withKept(old, old)).toBe(old);
   });
+
+  it("takes back out the share of a batch still on disk, so it is not counted twice", () => {
+    const old = ledgerOf([{ i: 0, grade: "BAD" }]);
+    const kept = foldGrades([
+      {
+        batch: { ...batch, id: "batch-gone" },
+        grades: { batch: "batch-gone", grades: [{ i: 1, grade: "BAD" }] },
+      },
+    ]);
+    // The ledger holds batch-test (on disk) and batch-gone (removed).
+    const both = withKept(old, kept);
+    const fresh = foldGrades([
+      {
+        batch,
+        grades: { batch: "batch-test", grades: [{ i: 0, grade: "BAD" }] },
+      },
+    ]);
+    const merged = withKept(fresh, both, () => old);
+    expect(merged.batches).toEqual(["batch-gone", "batch-test"]);
+    expect(merged.parts["bank:meeting.opener.a"]).toMatchObject({ bad: 1 });
+    expect(merged.parts["bank:meeting.opener.b"]).toMatchObject({ bad: 1 });
+  });
 });
