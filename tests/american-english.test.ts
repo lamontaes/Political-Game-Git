@@ -302,6 +302,12 @@ const ALLOWED_FILES: readonly {
     reason: "Ward is a family name in the census surname list",
   },
   {
+    file: /^data\/english\/batches\/batch-\d+\.json$/,
+    words: /^Ward$/,
+    reason:
+      "grading batches quote generated people by name, and Ward is a family name in the census surname list; a lowercase ward is still flagged",
+  },
+  {
     file: /^src\/simulation\/judiciary\/generated\/federal-courts\.ts$/,
     reason: "federal court division and county names",
   },
