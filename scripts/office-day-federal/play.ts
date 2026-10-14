@@ -32,6 +32,7 @@ import {
 import {
   actsOf,
   askForInterview,
+  committeeSeats,
   federalDay,
   holderRow,
   giveInterview,
@@ -181,6 +182,7 @@ for (let i = 0; i < 10; i++) {
 out.days = days;
 
 out.acts = actsOf(api, me.id);
+out.committees = committeeSeats(api, me.id);
 out.interviews = interviewsFor(api, me.id).map((i) => ({
   id: i.id,
   status: i.status,
