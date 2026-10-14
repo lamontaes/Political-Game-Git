@@ -1173,7 +1173,7 @@ const median = (values: number[]) => {
 };
 
 /** A town's typical home value, monthly rent and monthly pay today, and its renters. */
-function townFigures(
+export function townFigures(
   api: CoreAPI,
   placeId: string,
 ): {

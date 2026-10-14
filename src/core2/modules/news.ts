@@ -105,6 +105,11 @@ export function trustOf(api: CoreAPI, lean: number): number {
     : center + (n(api, "newsTrustConservative") - center) * x;
 }
 
+/** How much a person's trust in the media weighs what the news told them, against the average reader (1). */
+export function trustWeight(api: CoreAPI, lean: number): number {
+  return trustOf(api, lean) / n(api, "newsTrustAverage");
+}
+
 /**
  * Who reads a story recorded for a place: its residents, and for a county or
  * state, the residents of the places inside it.
