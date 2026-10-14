@@ -22,7 +22,6 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import {
   followersOf,
-  interviewsFor,
   outletsHere,
   storiesPrinted,
   PRESS_MODULE_ID,
