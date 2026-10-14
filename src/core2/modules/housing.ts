@@ -1161,6 +1161,8 @@ function townFigures(
   rentMinor: number;
   monthlyPayMinor: number;
   renters: number;
+  /** True when the town has no rented or no owned homes and the county's ACS medians stand in. */
+  countyFallback: boolean;
 } {
   const c = core(api);
   const values = ownedHomes(api)
@@ -1194,11 +1196,32 @@ function townFigures(
         (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) /
           api.parameter("macroMonthsPerYear"),
       );
+  let homeValueMinor = median(values);
+  let rentMinor = median(rents);
+  // A town with no recorded renters (or owners) still has a market: the county's ACS
+  // medians, moved to today by the state's house price index as the buy decision does.
+  const countyFallback = !homeValueMinor || !rentMinor;
+  if (countyFallback) {
+    const [countyRent, countyValue] = rentValueOf(
+      c.placeMetadata?.housingCounty ?? "",
+    );
+    const prices = homePriceRatio(
+      c.placeMetadata?.housingState ?? "",
+      ACS_VALUE_DATE,
+      c.date,
+      macroPrices(api),
+    );
+    if (!rentMinor && countyRent)
+      rentMinor = Math.round(countyRent * 100 * prices);
+    if (!homeValueMinor && countyValue)
+      homeValueMinor = Math.round(countyValue * 100 * prices);
+  }
   return {
-    homeValueMinor: median(values),
-    rentMinor: median(rents),
+    homeValueMinor,
+    rentMinor,
     monthlyPayMinor: median(pay),
     renters,
+    countyFallback,
   };
 }
 
@@ -1217,7 +1240,6 @@ function build(api: CoreAPI): void {
   for (const landlord of c.organizations.values()) {
     if (!landlord.id.startsWith("organization:landlord:")) continue;
     const town = townFigures(api, landlord.placeId);
-    if (!town.homeValueMinor || !town.rentMinor) continue;
     if (
       c.modules.has(LAWS_MODULE_ID) &&
       landlord.placeId === lawChain(api).townPlaceId
@@ -1246,6 +1268,8 @@ function build(api: CoreAPI): void {
         allElectric: gas.value === 1,
       });
     }
+    // Only the construction decision needs market figures; the zoning above always follows the law.
+    if (!town.homeValueMinor || !town.rentMinor) continue;
     buildMonth(
       api,
       {
@@ -1264,8 +1288,9 @@ function build(api: CoreAPI): void {
           tag: "ESTIMATED",
           asOf: c.date,
           citation: housingData.source.citation,
-          estimatedFrom:
-            "A month's share of a new home's construction cost, from Census and NAHB 2024 cost figures.",
+          estimatedFrom: town.countyFallback
+            ? "A month's share of a new home's construction cost, from Census and NAHB 2024 cost figures; the town has no recorded renters or owners, so the county's ACS median gross rent and home value, moved by the state house price index, stand in."
+            : "A month's share of a new home's construction cost, from Census and NAHB 2024 cost figures.",
         },
       },
       (project) => finish(api, project, town.monthlyPayMinor),
