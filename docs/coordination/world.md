@@ -61,6 +61,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Open work taken
 
+- **Stress audit wiring (CTO, Oct 14), PR #4166, in progress:** defects 23 (moves read records, no draw), 16 (aides the records can place), 12–14 (withholding), 7 (wage credit line: registered stopgap), 11 (voucher rows end on closure).
+- **Next, from the CTO (Oct 14), in this order after #4166:**
+  - Laws reach the economy: hiring pay reads the wage floor in force; the macro engine reads the federal budget (`SG-WORLD-macro-public-budget`); employers pay their Social Security and Medicare share on the journal.
+  - Money audit (#4162) defects 5, 12, 13, 14: mortgage balances fall only when paid; unpaid property tax and unremittable sales tax become arrears records; a short down payment can't get the full mortgage.
+  - Money audit defects 7 and 8: no closing proceeds to a dead owner (proceeds path only); one rule for movers' cash in both tiers.
+  - Business audit (#4164), all 23 defects, with the owner's five rulings (business taxes as flows from the law in force; outside costs paid to a town seller where one exists; counted quits keep no reasons; new openings' pay from the region's pay and the wage floor; a business's books on screen is an owner decision, registered as such).
+
 - **GOV's law reach, WORLD's 14 (CTO, 1:36 p.m.):** in progress. Ready on this branch for GOV's handlers to call: `setRightToCounsel` (eviction cases, closes `SG-GOV-REACH-A-eviction-cases` once a county funds it), `setBusinessOperatingLimit`, `addBusinessComplianceCost` and `countyNonattainment` (EPA Green Book, 675 counties; closes `-business-cost` and `-nonattainment-data`). Also ready: `registerPropertyTax` (closes `-property-tax-bills`), and in `place-prices.ts` `setPlacePrice` (`-transit-fare-price`), `setPlaceTax` (`-mileage-fee-price`), `offerHouseholdService` (`-broadband-bill`), `adjustPrice` (`-energy-price`), `addPerUnitCharge` (`-retail-price`), `setRoadCondition` (`-road-condition`). Construction and zoning: `setHousingZoning(api, placeId, { multifamilyLandShare, inclusionaryShare, allElectric, farmlandProtected })` (`src/core2/modules/housing.ts`) closes `-housing-supply`, `-affordable-units`, `-building-cost` and `-land-use`. All 14 have an API on this branch now.
 
 - **Taking M1-13, the economy's part (other places, coarser):** all 132 regions move each month; their populations move with relative unemployment; each state's monthly jobs report is an `economy.state-jobs-report` public event for the news. Built on #3996. Views and events beyond the economy stay with OPUS-PEOPLE.
