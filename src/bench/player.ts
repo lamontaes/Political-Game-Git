@@ -105,6 +105,20 @@ export class BenchPlayer {
     this.packet = packet;
   }
 
+  /**
+   * Dev mode takes the clock: the character lives out the rest of its day on
+   * its own choices and the core's player clock is retired. The character
+   * stays selected; the next play-screen advance binds the clock again.
+   */
+  release() {
+    if (!this.clockBound) return;
+    this.finishDay();
+    retirePlayerV1(this.core);
+    this.clockBound = false;
+    this.packet = undefined;
+    this.destination = undefined;
+  }
+
   /** The character makes the core's own pick, saved as its own decision. */
   private answerForSelf(packet: ChoicePacket, why: SelfChosenAnswer["why"]) {
     const offer = ownPick(packet);

@@ -46,7 +46,16 @@ import {
   type PastCandidate,
   type PastElectionRow,
 } from "./past-module";
-import type { CoreAPI } from "./types";
+import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { countedResidents } from "./electorate";
+import { cpsAgeBand, cpsTurnout } from "./electorate-places";
+import { viewOf } from "./modules/views";
+import viewsData from "./data/views/views.json" with { type: "json" };
+import type { CoreAPI, CoreState } from "./types";
+
+const viewsLeanMax = (): number =>
+  (viewsData as unknown as { parameters: Record<string, { value: number }> })
+    .parameters.leanMax!.value;
 
 type Corpus = {
   house: {
@@ -186,10 +195,78 @@ function stateBallots(town: PastTown): number {
   );
 }
 
-/** The town's ballots in a presidential year: its voter groups and named adults. */
-function townBallots(api: CoreAPI, town: PastTown): number {
-  const groups = api.voterGroups().atPlace(town.townPlaceId);
-  return groups.reduce((sum, g) => sum + g.size * g.turnout, 0);
+/**
+ * The town's voters by the census age bands the electorate engine reads, on
+ * a date: its counted residents and its full people old enough to vote, and
+ * each band's lean from the full people's own views where the town has them.
+ */
+interface TownBand {
+  readonly band: string;
+  readonly adults: number;
+  readonly turnout: number;
+  readonly lean: number;
+}
+
+const bandCache = new WeakMap<object, Map<string, readonly TownBand[]>>();
+
+function townBands(
+  api: CoreAPI,
+  town: PastTown,
+  date: string,
+): readonly TownBand[] {
+  let byDate = bandCache.get(api.state);
+  if (!byDate) bandCache.set(api.state, (byDate = new Map()));
+  const hit = byDate.get(date);
+  if (hit) return hit;
+  const at = makeIsoDate(date);
+  const voting = pastParameter(api, "pastVotingAge");
+  const counts = new Map<
+    string,
+    { adults: number; lean: number; leans: number }
+  >();
+  const count = (birthDate: string, lean: number | null) => {
+    const age = ageOnDate(makeIsoDate(birthDate), at);
+    if (age < voting) return;
+    const band = cpsAgeBand(age);
+    if (!band) return;
+    const row = counts.get(band) ?? { adults: 0, lean: 0, leans: 0 };
+    row.adults += 1;
+    if (lean !== null) {
+      row.lean += lean;
+      row.leans += 1;
+    }
+    counts.set(band, row);
+  };
+  for (const voter of countedResidents(api.state as CoreState))
+    if (voter.placeId === town.townPlaceId) count(voter.birthDate, null);
+  const leanMax = viewsLeanMax();
+  for (const id of api.state.peopleByPlace.get(town.townPlaceId) ?? []) {
+    const person = api.state.people.get(id);
+    if (!person?.alive) continue;
+    const view = viewOf(api, id);
+    count(person.birthDate, view ? view.lean / leanMax : null);
+  }
+  const all = cpsTurnout(town.usps);
+  const citizens = all?.citizenShare ?? 1;
+  const rows = [...counts]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([band, row]) => ({
+      band,
+      adults: row.adults,
+      turnout:
+        (cpsTurnout(town.usps, band)?.turnout ?? all?.turnout ?? 0) * citizens,
+      lean: row.leans ? row.lean / row.leans : 0,
+    }));
+  byDate.set(date, rows);
+  return rows;
+}
+
+/** The town's ballots in a presidential year (CPS November 2024 turnout by age). */
+function townBallots(api: CoreAPI, town: PastTown, date: string): number {
+  return townBands(api, town, date).reduce(
+    (sum, b) => sum + b.adults * b.turnout,
+    0,
+  );
 }
 
 /** Turnout against a presidential year, by when the election falls. */
@@ -209,12 +286,13 @@ function electorateBallots(
   api: CoreAPI,
   town: PastTown,
   office: PastOffice,
+  date: string,
 ): number {
   // A territory casts no presidential vote: its own town's ballots stand in
   // for the territory's electorate.
   const reported = stateBallots(town);
   if (!reported) api.stopgap("SG-CORE-past-territory-ballots");
-  const state = reported || townBallots(api, town);
+  const state = reported || townBallots(api, town, date);
   switch (office.level) {
     case "federal":
       if (office.kind.startsWith("us-house"))
@@ -227,11 +305,11 @@ function electorateBallots(
         : state;
     case "county": {
       const row = COUNTY.byStateCounty[`${town.usps}|${office.governmentName}`];
-      const county = row ? row[0] + row[1] : townBallots(api, town);
+      const county = row ? row[0] + row[1] : townBallots(api, town, date);
       return office.districted ? county / Math.max(1, office.seats) : county;
     }
     default:
-      return townBallots(api, town);
+      return townBallots(api, town, date);
   }
 }
 
@@ -264,13 +342,14 @@ export function strongestQuestions(
 }
 
 /**
- * Each town voter group's share for the winner: the seat's share moved by
- * how much nearer the group's lean sits to the winner's than the
+ * Each of the town's age bands' share for the winner: the seat's share moved
+ * by how much nearer the band's lean sits to the winner's than the
  * challenger's, centered on the town where the race is the town's own.
  */
 function groupSplit(
   api: CoreAPI,
   town: PastTown,
+  date: string,
   share: number,
   winnerLean: number,
   challengerLean: number,
@@ -278,11 +357,10 @@ function groupSplit(
   ratio: number,
 ): PastElectionRow["townGroups"] {
   const slope = pastParameter(api, "pastGroupSplitSlope");
-  const groups = api.voterGroups().atPlace(town.townPlaceId);
-  const rows = groups.map((g) => ({
-    groupId: g.id,
-    ballots: g.size * g.turnout * ratio,
-    x: Math.abs(g.lean - challengerLean) - Math.abs(g.lean - winnerLean),
+  const rows = townBands(api, town, date).map((b) => ({
+    groupId: `${town.townPlaceId}:${b.band}`,
+    ballots: b.adults * b.turnout * ratio,
+    x: Math.abs(b.lean - challengerLean) - Math.abs(b.lean - winnerLean),
   }));
   const weight = rows.reduce((sum, r) => sum + r.ballots, 0);
   const mean =
@@ -355,7 +433,7 @@ export function buildPriorElections(
         );
         const ratio = turnoutRatio(date);
         const total = Math.round(
-          real?.total ?? electorateBallots(api, town, office) * ratio,
+          real?.total ?? electorateBallots(api, town, office, date) * ratio,
         );
         const winnerLean = leanOf(api, winnerId);
         const side = partySide(term.party);
@@ -419,6 +497,7 @@ export function buildPriorElections(
           townGroups: groupSplit(
             api,
             town,
+            date,
             share,
             winnerLean,
             challengerLean,

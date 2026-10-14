@@ -141,7 +141,7 @@ Binds: the same generated-range principle as R18.
 
 ### R20. 2026-09-22, OWNER RECORD B and the project chat, relaying a standing rule on routing (read in full)
 
-> "A judgement about how the world should feel ... A research brief for ChatGPT, which comes back to him. Not to him from us."
+> "A judgment about how the world should feel ... A research brief for ChatGPT, which comes back to him. Not to him from us."
 
 Binds: questions about how the economy should feel go to research, not to the owner directly.
 

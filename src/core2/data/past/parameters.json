@@ -279,5 +279,10 @@
     "value": 365.25,
     "tag": "SOURCED",
     "citation": "Mean days in a Julian year (365 days plus a leap day every fourth year), for turning years into days."
+  },
+  "pastVotingAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Voting age in federal, state and local elections: U.S. Const. amend. XXVI."
   }
 }
