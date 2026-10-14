@@ -1,21 +1,14 @@
-/* global console, process, setTimeout, document */
+/* global console, process, setTimeout, document, URL */
 /**
- * Bounded packaged-client smoke: launch → title menu → New game → the loading
- * line appears → Options opens and closes → Quit to title → clean quit. One
- * binary, one isolated disposable profile; this is the per-OS runtime proof
- * used on CI runners (a build that merely compiles is not runtime-tested).
+ * Bounded packaged-client smoke: launch → title menu → Options opens and
+ * closes → New game → the play server (run in-process by the shell) builds
+ * the town and the opening plays → Options and Quit to title from inside play
+ * → clean quit. One binary, one isolated disposable profile; this is the
+ * per-OS runtime proof used on CI runners (a build that merely compiles is
+ * not runtime-tested).
  *
  * With --shell it additionally exercises the window contract on the same
  * packaged build: resize, fullscreen on/off, minimize/restore.
- *
- * NOT YET COVERED: the play screen and its menus (People and the rest). The
- * play page talks to the game through /api/* routes that only the bench
- * server (src/bench/server.ts) serves; the desktop shell serves static files
- * only (desktop/app-protocol.mjs), so New game cannot get past its loading
- * line in a packaged client today. When the shell runs the play server, add
- * after New game: wait for the play screen, open People from the menu, close
- * it, then Options and Quit to title from inside play, with data-testid
- * attributes on those controls in src/bench/play.html and play.mjs.
  *
  * Usage: node scripts/smoke-test.mjs --app <executable> [--shell] [--screenshot <png>]
  */
@@ -160,6 +153,10 @@ async function launch() {
   check("options: the sheet closes", true);
 
   // New game starts loading: the loading line appears with words in it.
+  const built = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === "/api/newlife",
+    { timeout: 240000 },
+  );
   await page.getByTestId("new-game").click();
   await page.waitForFunction(
     () => {
@@ -171,12 +168,44 @@ async function launch() {
   );
   check("new game: the loading line appears", true);
 
-  // Quit to title returns to a fresh title menu.
-  await page.getByTestId("title-options").click();
+  // The in-process play server builds the town, and the opening plays.
+  const life = await built;
+  check(
+    "new game: the play server builds the town",
+    life.status() === 200,
+    `${life.status()} ${(await life.text()).slice(0, 200)}`,
+  );
+  await page.waitForFunction(
+    () => document.getElementById("front")?.hidden === true,
+    undefined,
+    { timeout: 120000 },
+  );
+  check("new game: the title menu gives way to play", true);
+  const art = await page.evaluate(() =>
+    [...document.images]
+      .filter((img) => img.src.includes("/art/") && img.complete)
+      .map((img) => img.naturalWidth),
+  );
+  check(
+    "new game: the opening's pictures load from the packaged art",
+    art.length > 0 && art.every((width) => width > 0),
+    JSON.stringify(art),
+  );
+
+  // Options from inside play, then Quit to title returns to the title menu.
+  await page.keyboard.press("Escape");
   await page.getByTestId("quit-to-title").click();
   await page.waitForLoadState("domcontentloaded");
   await page.getByTestId("title-menu").waitFor();
   check("options: Quit to title returns to the title menu", true);
+  const title = await app.evaluate(({ BrowserWindow }) =>
+    BrowserWindow.getAllWindows()[0].getTitle(),
+  );
+  check(
+    "identity: the window title names the version and the commit",
+    /^Our Civic Duty \d+\.\d+\.\d+\S* \([0-9a-f]{7}\)$/.test(title),
+    title,
+  );
   check(
     "offline: no request left the packaged origin",
     foreign.length === 0,

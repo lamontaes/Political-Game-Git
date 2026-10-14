@@ -446,6 +446,9 @@ jobs:
     permissions:
       actions: read
       contents: write
+    outputs:
+      published: ${{ steps.publish.outputs.published }}
+      published_sha: ${{ steps.publish.outputs.published_sha }}
     steps:
       # Deliberately no checkout, setup-node, npm, dependency hooks, or call to
       # repository scripts. The write token sees only the validated Git bundle.
@@ -456,6 +459,7 @@ jobs:
           path: ${{ runner.temp }}/release-candidate
 
       - name: Verify the candidate and publish it onto main
+        id: publish
         env:
           GITHUB_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
@@ -583,6 +587,7 @@ jobs:
 
             if git push origin "${target}:refs/heads/main"; then
               echo "Published release ${NEXT_VERSION} as $target (validated candidate $CANDIDATE_SHA)."
+              printf 'published=true\npublished_sha=%s\n' "$target" >> "$GITHUB_OUTPUT"
               exit 0
             fi
             remote_after="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
@@ -594,3 +599,151 @@ jobs:
           done
           echo "::warning::main kept moving through five attempts. Nothing was published; the next push releases what is pending."
           exit 0
+
+  # Every release the machinery publishes onto main is packaged for macOS and
+  # Windows from that exact commit, launched and played once, and published to
+  # this repository's GitHub Releases, which the installed app's Check for
+  # Updates reads (desktop/scripts/stage.mjs, electron-builder.yml).
+  desktop_package:
+    name: Package desktop release (read only)
+    needs:
+      - build_candidate
+      - publish_candidate
+    if: needs.publish_candidate.outputs.published == 'true'
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - os: macos-latest
+            command: "node scripts/package.mjs --mac --arm64"
+            name: mac-arm64
+          - os: windows-latest
+            command: "node scripts/package.mjs --win --x64"
+            name: win-x64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    env:
+      PUBLISHED_SHA: ${{ needs.publish_candidate.outputs.published_sha }}
+      NEXT_VERSION: ${{ needs.build_candidate.outputs.next_version }}
+    steps:
+      - name: Check out the published release commit without write credentials
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.publish_candidate.outputs.published_sha }}
+          persist-credentials: false
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install game dependencies
+        run: npm ci
+
+      - name: Build the game
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+          PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
+        run: npm run build
+
+      - name: Install desktop shell dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: desktop
+
+      - name: Stage the compiled game and its play server
+        shell: bash
+        working-directory: desktop
+        run: |
+          set -euo pipefail
+          node scripts/stage.mjs
+          [[ "$(jq -er '.version' staged/build-identity.json)" == "$NEXT_VERSION" ]]
+          [[ "$(jq -er '.revision' staged/build-identity.json)" == "$PUBLISHED_SHA" ]]
+
+      - name: Package (unsigned, never uploads)
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: ${{ matrix.command }}
+        working-directory: desktop
+
+      - name: Install and play the packaged app (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: desktop
+        run: |
+          $setup = Get-ChildItem "release-artifacts" -Filter "*Setup*.exe" | Select-Object -First 1
+          if (-not $setup) { throw "No NSIS installer found" }
+          $dest = Join-Path $env:RUNNER_TEMP "ocd-install"
+          $proc = Start-Process -FilePath $setup.FullName -ArgumentList "/S","/D=$dest" -PassThru -Wait
+          if ($proc.ExitCode -ne 0) { throw "Installer exited $($proc.ExitCode)" }
+          node scripts/smoke-test.mjs --app (Join-Path $dest "Our Civic Duty.exe")
+
+      - name: Play the packaged app (macOS)
+        if: runner.os == 'macOS'
+        working-directory: desktop
+        run: node scripts/smoke-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty"
+
+      - name: Keep only the files a release carries
+        shell: bash
+        working-directory: desktop/release-artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p ../release-upload
+          shopt -s nullglob
+          files=(*.dmg *.zip *.exe *.blockmap latest*.yml)
+          (( ${#files[@]} > 0 ))
+          ls latest*.yml
+          mv "${files[@]}" ../release-upload/
+          ls -la ../release-upload
+
+      - name: Hand the files to the publisher
+        uses: actions/upload-artifact@v7
+        with:
+          name: desktop-release-${{ matrix.name }}
+          path: desktop/release-upload/*
+          if-no-files-found: error
+          retention-days: 14
+
+  desktop_publish:
+    name: Publish desktop release (minimal write authority)
+    needs:
+      - build_candidate
+      - publish_candidate
+      - desktop_package
+    if: needs.publish_candidate.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      # No checkout and no repository scripts: the write token sees only the
+      # packaged files.
+      - name: Download the packaged files
+        uses: actions/download-artifact@v7
+        with:
+          pattern: desktop-release-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/desktop-release
+
+      - name: Create the release, upload every file, then make it visible
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUBLISHED_SHA: ${{ needs.publish_candidate.outputs.published_sha }}
+          NEXT_VERSION: ${{ needs.build_candidate.outputs.next_version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/desktop-release"
+          ls -la
+          [[ -f latest.yml && -f latest-mac.yml ]]
+          tag="v${NEXT_VERSION}"
+          # A draft first, so the updater never sees a half-uploaded release.
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" \
+            --target "$PUBLISHED_SHA" --title "$tag" --draft \
+            --notes "Built from ${PUBLISHED_SHA}."
+          gh release upload "$tag" --repo "$GITHUB_REPOSITORY" --clobber -- *
+          gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --latest
+          echo "Published desktop release $tag from $PUBLISHED_SHA." >> "$GITHUB_STEP_SUMMARY"

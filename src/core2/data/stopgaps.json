@@ -3912,5 +3912,17 @@
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-desktop-update-dialog-text",
+    "kind": "player-text-gap",
+    "file": "desktop/main.mjs",
+    "line": 244,
+    "whatItFakes": "The desktop shell's update dialogs (Check for Updates, and the Mac note on what installing does) are written in the shell, not by the English engine.",
+    "why": "The shell runs outside the game, where the English engine is not loaded; the owner ordered a plain dialog telling the player what the Mac install does (Oct 14, 2026).",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "Shell lines drawn from an English-engine bank shipped beside the client, read by main.mjs.",
+    "status": "open"
   }
 ]
