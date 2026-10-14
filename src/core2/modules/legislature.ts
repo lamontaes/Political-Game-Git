@@ -2460,6 +2460,10 @@ function committeeStage(
           audienceIds: room.filter((id) => id !== w.personId),
         });
   }
+  // Markup: the committee's holdouts trade for sections of their own, and
+  // its most opposed member may move a pill, as on the floor.
+  if (heard)
+    floorAmendments(api, bill, chamber, "committee", roster.map(memberKey));
   let yes = 0;
   let no = 0;
   if (heard)
@@ -2571,8 +2575,8 @@ function ownSections(
 }
 
 /**
- * The floor before a chamber votes (the owner's ruling, Oct 14, 2026,
- * afternoon). A sponsor short of a majority works the holdouts nearest even:
+ * The floor before a chamber votes, and a committee's markup before it
+ * reports (the owner's ruling, Oct 14, 2026, afternoon). A sponsor short of a majority works the holdouts nearest even:
  * each asks for a section of their own in return for their vote, and the
  * sponsor gives it where they still back the bill with it. Then the member
  * most against a bill that would pass may move a poison pill: a section of
@@ -2584,14 +2588,18 @@ function floorAmendments(
   api: CoreAPI,
   bill: BillRow,
   chamber: string,
+  stage: "committee" | "floor" = "floor",
+  seats: readonly string[] = members(api, chamber).map(memberKey),
 ): BillRow {
   const playerId = (api.state as CoreState).playerId;
-  const roll = members(api, chamber)
-    .map(memberKey)
-    .filter((k) => k !== playerId);
-  if (roll.length < 3) return bill;
+  const roll = seats.filter((k) => k !== playerId);
+  // The bill as the last stage left it (a markup may have amended it).
+  const start =
+    (table(api, "bills").get(bill.id) as unknown as BillRow | undefined) ??
+    bill;
+  if (roll.length < 3) return start;
   const need = Math.floor(roll.length / 2) + 1;
-  let current = bill;
+  let current = start;
   const totals = new Map(
     roll.map((k) => [k, positionOn(api, current, k).total] as const),
   );
@@ -2616,7 +2624,7 @@ function floorAmendments(
       ],
     };
     api.emit({
-      id: `bill-amendment:${current.id}:${chamber}:${current.provisions.length - 1}`,
+      id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
       date: api.state.date,
       kind: "bill-amendment",
       personIds: [memberId, current.sponsorId].filter((id) =>
@@ -2634,6 +2642,7 @@ function floorAmendments(
         billId: current.id,
         number: current.number,
         chamber,
+        stage,
         movedBy: memberId,
         kind,
         question: section.question!,
@@ -2710,7 +2719,7 @@ function floorAmendments(
       }
     }
   }
-  if (current !== bill)
+  if (current !== start)
     table(api, "bills").put(current as unknown as ModuleRow);
   return current;
 }
@@ -2758,6 +2767,8 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
   const tallies: { yes: number; no: number; members: number }[] = [];
   for (const chamber of chambersOf(api, bill)) {
     const committee = committeeStage(api, bill, chamber);
+    // The bill as its markup left it.
+    bill = table(api, "bills").get(bill.id) as unknown as BillRow;
     if (committee && !committee.reported) {
       const held: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(held as unknown as ModuleRow);

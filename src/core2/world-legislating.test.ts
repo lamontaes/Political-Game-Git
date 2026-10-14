@@ -134,6 +134,7 @@ describe("M3-10 other governments legislate", () => {
         .table("bills")
         .rows() as unknown as {
         id: string;
+        status: string;
         provisions: { question?: string }[];
         deals: { memberId: string; kind: string; terms: string }[];
       }[])
@@ -145,18 +146,23 @@ describe("M3-10 other governments legislate", () => {
             bill.provisions.some((p) => p.question === question),
             `${bill.id}: ${deal.terms} not in the bill`,
           ).toBe(true);
-          expect(
-            amendments.some(
-              (e) =>
-                e.facts?.billId === bill.id &&
-                e.facts?.movedBy === deal.memberId,
-            ),
-            `${bill.id}: no amendment record`,
-          ).toBe(true);
+          const record = amendments.find(
+            (e) =>
+              e.facts?.billId === bill.id && e.facts?.movedBy === deal.memberId,
+          );
+          expect(record, `${bill.id}: no amendment record`).toBeDefined();
           const vote = (
             votes.get(`vote:${bill.id}:${deal.memberId}`) as unknown as
               { vote: string } | undefined
           )?.vote;
+          // A section taken in markup on a bill that died before its floor
+          // vote has no floor vote to check.
+          if (
+            vote === undefined &&
+            record!.facts?.stage === "committee" &&
+            bill.status === "failed"
+          )
+            continue;
           // A pill adopted after a trade may break it.
           const pilled = bill.deals.some((d) => d.kind === "poison-pill");
           expect(
