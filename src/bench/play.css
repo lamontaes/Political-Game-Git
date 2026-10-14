@@ -974,7 +974,8 @@ body.dev .dev-ring {
 #rings {
   position: absolute;
   left: var(--gutter);
-  bottom: 108px;
+  /* Above the player card even when its place line runs to three lines. */
+  bottom: 142px;
   display: flex;
   gap: 8px;
 }
@@ -1037,7 +1038,7 @@ body.dev .dev-ring {
 #menu {
   left: var(--gutter);
   top: var(--gutter);
-  bottom: 162px;
+  bottom: 196px;
   width: 284px;
   padding: 18px 0;
 }
@@ -1342,6 +1343,12 @@ body.dev .dev-ring {
 #person-role:empty {
   display: none;
 }
+/* The close X sits in the card's top right corner, the same place on every card. */
+.dossier .glyph.close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+}
 .dossier .acts {
   margin-top: 16px;
 }
@@ -1476,6 +1483,14 @@ body.dev .dev-ring {
   align-items: center;
   font: 400 13.5px var(--ui);
   color: var(--text-2);
+}
+/* The People tab, when someone new is in the player's life. */
+.ring.new:not(.active),
+.nav-item.new:not(.active) {
+  box-shadow:
+    0 0 0 1px var(--iron),
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(214, 189, 132, 0.4);
 }
 .coach {
   box-shadow:

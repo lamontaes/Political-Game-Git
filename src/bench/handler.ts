@@ -62,6 +62,7 @@ import {
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
 import { fileForOffice, governmentView } from "./government";
+import { committeesView, pollsView } from "./committees";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -832,6 +833,17 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/card") {
         send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/committees") {
+        send(
+          200,
+          committeesView(requireCore(), url.searchParams.get("id") ?? ""),
+        );
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/polls") {
+        send(200, pollsView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/government") {

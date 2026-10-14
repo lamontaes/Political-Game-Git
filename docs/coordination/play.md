@@ -268,3 +268,29 @@ The play page now uses Kit 13's approved control set (`docs/ui/kit13/APPROVED-20
 Before and after screenshots per control, from a played new game, are in `docs/reports/kit13-controls-2026-10-14/`. The slider has no use on the play page today, so its screenshot is a specimen on a panel. The dev bench (`/` and `/dev`) is a developer tool and keeps its own plain look.
 
 Not done: the Pin icon and Return-to-character icon have no place on the page yet; the politics and travel ring icons keep the old line style (no approved icon exists for them); the lie scales keep their Kit 12 art; the opening's letterbox and the glossary tip were restyled only through the shared panel and button classes.
+
+## Screens, October 14 night (branch `play/screens-night`)
+
+From the owner's playthrough, relayed by the CTO. Done: (1) the People ring and menu item glow only when someone new is in the player's life (a tie the player has not seen on that tab; `tieKey` in `play.mjs`), never at the start of a life, and the tutorial glow no longer targets People; (2) the person card's close X sits in its top-right corner, and the rings now sit above the player card instead of under it (they were cut off); the layout sketch with the free space marked is `docs/reports/screens-night-2026-10-14/layout-sketch-person-card.png` (and `-talk-card.png`); (3) the Politics menu opens on the government map, which is the first tab.
+
+**The Political Process baseline, screen by screen** (`docs/roadmap/political-process-baseline.md`, left column):
+
+| Its screen                     | Ours                                                                                                                     | State                                                                      |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| Game setup, advanced options   | Title: New game (Start a life, Custom world, New world), the Custom world panel, the creator                             | Exists                                                                     |
+| Candidate profile and platform | Who you are; the filing office's rules, platform stances and party                                                       | Exists                                                                     |
+| Campaign menu                  | Politics: Knock doors, Volunteers, Donations, Endorsements, Ad, Poll, Speech                                             | Exists (no staff or interviews screen)                                     |
+| Polls                          | **Polls** tab: every poll taken in the races the player is in, with answers                                              | Built tonight; empty until the player files                                |
+| Exit polls                     | none                                                                                                                     | Missing: the elections engine keeps no exit-poll record (M2-07)            |
+| Elections and results          | Election night sheet; the polling place ballot                                                                           | Exists                                                                     |
+| Legislate                      | The meeting, the desk, bill drafting from Politics                                                                       | Exists                                                                     |
+| Amendments                     | none found                                                                                                               | Missing: no amendment screen; confirm the legislature keeps amendment rows |
+| Committees                     | **Committees** tab: the committee on each bill before the bodies over you, its chair, size, vote and whether it reported | Built tonight                                                              |
+| Hearings                       | **Hearings** tab: each hearing's date and witnesses with their stakes                                                    | Built tonight                                                              |
+| Budgets                        | Budgets tab                                                                                                              | Exists                                                                     |
+| News                           | News tab and the news reader                                                                                             | Exists                                                                     |
+| Contacts                       | People and Family tabs                                                                                                   | Exists (no trust figure shown)                                             |
+| Office menu                    | The desk scene; seat acts under Politics                                                                                 | Missing as a screen: needs the executive engine's records                  |
+| Maps                           | Map tab, now the first thing Politics opens                                                                              | Exists                                                                     |
+
+Proof in a generated world (Norwood, Oklahoma, seed `committees-proof-mv8lug29`, one year): 102 committee rows in the world, 51 heard, 70 on the bills before the bodies over the player. `src/bench/committees.test.ts` repeats it in a random place and seed. Engine gaps found: no exit-poll record (elections), no amendment screen data confirmed (legislature), no office-menu record (executive).

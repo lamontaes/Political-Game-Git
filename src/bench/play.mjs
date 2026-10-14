@@ -306,12 +306,8 @@ $("news-reader-close").addEventListener("click", () =>
  * know, then living the day. Each glows until it is used; nothing to read.
  */
 function coachFirstChoices() {
-  const steps = ["news-surface", "people-tab", "day"]
-    .map((id) =>
-      id === "people-tab"
-        ? document.querySelector('#rings [data-tab="people"]')
-        : $(id),
-    )
+  const steps = ["news-surface", "day"]
+    .map((id) => $(id))
     .filter((node) => node && !node.hidden);
   const next = () => {
     const node = steps.shift();
@@ -349,9 +345,28 @@ async function renderScene() {
   );
 }
 
+/**
+ * The People tab lights only when it has something new: a tie (a person in
+ * your life) the player has not seen on that tab yet. Nothing glows at the start
+ * of a life, and opening People marks every current tie seen.
+ */
+const tieKey = (tie) => tie.recordId;
+let seenTies;
+function lightPeopleTab() {
+  const ties = me.card?.ties ?? [];
+  seenTies ??= new Set(ties.map(tieKey));
+  const fresh = ties.some((tie) => !seenTies.has(tieKey(tie)));
+  for (const node of document.querySelectorAll('[data-tab="people"]'))
+    node.classList.toggle("new", fresh);
+}
+function markPeopleSeen() {
+  seenTies = new Set((me.card?.ties ?? []).map(tieKey));
+  lightPeopleTab();
+}
 async function renderCard() {
   const card = await api(`/api/card?id=${encodeURIComponent(me.id)}`);
   me.card = card;
+  lightPeopleTab();
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
@@ -1963,6 +1978,55 @@ const sheets = {
       );
     });
   },
+  /** Polls taken in the races you are in: each one's date, who was asked and the answers. */
+  async polls() {
+    const polls = await api(`/api/polls?id=${encodeURIComponent(me.id)}`);
+    return polls.map((poll) =>
+      el(
+        "div",
+        { className: "row narrative" },
+        el("b", { textContent: poll.date }),
+        el("div", { textContent: `${poll.contacted}` }),
+        ...poll.answers.map((answer) => row(answer.who, answer.count)),
+      ),
+    );
+  },
+  /** Committees on the bills before the bodies over you: chair, members, vote, whether it reported. */
+  async committees() {
+    const committees = await api(
+      `/api/committees?id=${encodeURIComponent(me.id)}`,
+    );
+    return committees.map((c) =>
+      el(
+        "div",
+        { className: "row narrative" },
+        el("b", { textContent: `${c.body} · ${c.bill}` }),
+        row(c.committee, c.chair),
+        row(`${c.members}`, `${c.yes} · ${c.no}`),
+        row(c.chamber, c.reported ? "reported" : ""),
+      ),
+    );
+  },
+  /** Hearings held on those bills: the date and each witness with their stake. */
+  async hearings() {
+    const committees = await api(
+      `/api/committees?id=${encodeURIComponent(me.id)}`,
+    );
+    return committees
+      .filter((c) => c.heard)
+      .map((c) =>
+        el(
+          "div",
+          { className: "row narrative" },
+          el("b", { textContent: `${c.body} · ${c.bill}` }),
+          row(c.committee, c.heardOn ?? ""),
+          ...c.witnesses.map((w) => {
+            const line = row(w.name, w.stake);
+            return line;
+          }),
+        ),
+      );
+  },
   async politics() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const filings = v.filings.map((f) =>
@@ -2036,10 +2100,23 @@ const titles = {
   handoff: "Carry on as",
   map: "Map",
   news: "News",
+  polls: "Polls",
+  committees: "Committees",
+  hearings: "Hearings",
 };
 // Screens shown as tabs across the top of one menu screen.
 const groups = {
-  politics: ["politics", "results", "law", "changes", "budgets", "map"],
+  politics: [
+    "map",
+    "politics",
+    "polls",
+    "results",
+    "committees",
+    "hearings",
+    "law",
+    "changes",
+    "budgets",
+  ],
   people: ["people", "family"],
 };
 const groupOf = (tab) =>
@@ -2048,6 +2125,7 @@ async function openSheet(tab) {
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
+  if (group === "people") markPeopleSeen();
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
@@ -2077,13 +2155,15 @@ async function openSheet(tab) {
   show("menu", Boolean(me));
   $("game").classList.add("sheet-open");
 }
+// The Politics menu opens on the government map first (owner, Oct 14, 2026).
+const homeTab = { politics: "map" };
 pageWhenChanged($("sheet-body"), $("sheet-pager"));
 pageWhenChanged($("ballot-races"), $("ballot-pager"));
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
       ? closeSheet()
-      : openSheet(b.dataset.tab),
+      : openSheet(homeTab[b.dataset.tab] ?? b.dataset.tab),
   );
 function closeSheet() {
   openTab = undefined;
