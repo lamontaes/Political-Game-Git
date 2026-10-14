@@ -1,5 +1,7 @@
 # Caldwell, Idaho: a board whose visible votes all failed, and a mayor elected 10,283 to 1
 
+The visible board votes all failed, the mayor won 10,283 to 1, and the file records no deaths and no births. Several vote records, vacancies and counts do not match each other or the population, so this year needs checking before anyone relies on it.
+
 Seed `b6b680d034f8`, run January 20, 2025 to January 20, 2026.
 
 ## The year
@@ -56,7 +58,7 @@ The file holds 499 news items for the year, 37 of them federal.
 
 10. **Organizations grew by 48 with no matching creation record.** Organizations went from 128 at build to 176 at year end. The file records 3 business closures and 3 organization closures. The creation-like kinds are drive.formed=6, cause-group.founded=3, initiative.organizing-started=3 and housing.completed=5, which together do not account for 48 new organizations.
 
-11. **One business closed on January 1, 2026, with two different reasons.** For organization_63c82a4a04bf504a, the business.closed record (`event:business.closed:organization_63c82a4a04bf504a`) gives closing-reason=losses-kept. The organization.closed record (`employer-closed:2026-01-01:organization_63c82a4a04bf504a`) gives closure-source=owner-closed:2026-01-01:organization_63c82a4a04bf504a.
+11. **One business closed on January 1, 2026, with two different reasons.** For organization_63c82a4a04bf504a, the business.closed record (`event:business.closed:organization_63c82a4a04bf504a`, audit file line 253) gives closing-reason=losses-kept. The organization.closed record for the same organization (audit file lines 262 and 263, the id beginning with employer-closed) gives closure-source=owner-closed.
 
 12. **House leadership is blank, and the House seat count needs a check.** The January 20, 2025 chamber-organized record leaves the lower chamber's minority-leader and minority-whip as empty strings. The Senate record names an upper-chamber minority leader (`official:term:seat:US-ID:upper:019:0:2025-01-20`). Every state seat and term shown is Republican, yet a Democratic party meeting is recorded on January 15, 2026 (`speech:party-meeting:party:US-ID:democratic:2026-01-15`). The file lists office:US-ID:legislature-lower at 35 seats. Outside the file, Idaho's House is usually described as 70 members in 35 districts, so the seat count should be checked against the state's district records.
 
