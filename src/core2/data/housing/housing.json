@@ -38738,7 +38738,8 @@
   "reasons": {
     "notice": "rent-past-grace",
     "cured": "paid-within-notice",
-    "filed": "rent-still-owed"
+    "filed": "rent-still-owed",
+    "removal": "statutory-days-run"
   },
   "actions": {
     "buy": {

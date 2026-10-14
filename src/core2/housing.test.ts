@@ -1,4 +1,4 @@
-/** M1-05 checks on a recorded fixture: eviction notice only from unpaid rent, through the place's steps to filing. */
+/** M1-05 checks on a recorded fixture: eviction notice only from unpaid rent, through the place's steps to removal. */
 import { describe, expect, it } from "vitest";
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
@@ -83,7 +83,7 @@ function input(usps: string): CoreInput {
 }
 
 describe("eviction follows the place's steps", () => {
-  it("serves notice once rent owed outweighs the landlord's patience after the grace period and files after the cure deadline; with courts after early access, the case ends there and the household stays", () => {
+  it("serves notice once rent owed outweighs the landlord's patience after the grace period and files after the cure deadline; with no court scene, removal follows once the statute's hearing and stay days have run, the lease ends and the eviction is a public record", () => {
     const usps = "TX",
       law = housingData.eviction[usps];
     const core = createLifeCore(input(usps), {
@@ -98,7 +98,7 @@ describe("eviction follows the place's steps", () => {
       true,
     );
     const first = cases[0]!;
-    expect(first).toMatchObject({ stage: "filed", open: false });
+    expect(first).toMatchObject({ stage: "removed", open: false });
     const days = (a: unknown, b: unknown) =>
       (Date.parse(String(b)) - Date.parse(String(a))) / 86_400_000;
     // Rent first went unpaid February 1; notice only after the grace period, with rent still owed.
@@ -107,10 +107,13 @@ describe("eviction follows the place's steps", () => {
     );
     expect(Number(first.owedAtNoticeMinor)).toBeGreaterThan(0);
     expect(days(first.noticeAt, first.filedAt)).toBe(law.noticeDays);
-    expect(core.eventIds.has(`event:housing.eviction:${first.id}`)).toBe(false);
+    expect(days(first.filedAt, first.removedAt)).toBe(
+      Math.max(1, law.hearingDays + law.stayDays),
+    );
+    expect(core.eventIds.has(`event:housing.eviction:${first.id}`)).toBe(true);
     expect(
       core.finance.contracts.get("lease:household:broke")!.endedAt,
-    ).toBeUndefined();
+    ).toBeDefined();
     expect(
       core.finance.contracts.get("lease:household:payer")!.endedAt,
     ).toBeUndefined();

@@ -2,9 +2,11 @@
  * Housing, first cut: every household owns or rents its home, in the town's
  * real owner share; renters pay rent to a landlord through a monthly bill
  * that records arrears. An eviction starts only from rent owed past the
- * grace period and follows the place's own steps: notice, cure and filing,
- * each a dated step on the module calendar. Courts come after early access,
- * so a case ends at filing.
+ * grace period and follows the place's own steps: notice, cure, filing and
+ * removal, each a dated step on the module calendar. Courts come after early
+ * access: there is no hearing scene, so a filed case ends in removal once the
+ * statute's days from filing to possession have run (hearing and stay), and
+ * the household leaves through the moves engine.
  */
 import { countyPopulationSharesForPlace } from "../../simulation/government-units";
 import { lifePlaceByKey } from "../../simulation/life-places";
@@ -1044,20 +1046,102 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
         closedAt: c.date,
         reasonKey: housingData.reasons.cured,
       });
-    // The landlord files. Courts come after early access, so the case ends at
-    // filing: the household stays, its arrears stand, and a tenant's lawyer
-    // is paid where the law gives one.
+    // The landlord files; a tenant's lawyer is paid where the law gives one.
+    // With no court scene, removal follows once the statute's days from
+    // filing to possession (hearing and stay) have run.
     const placeId = c.households.get(row.householdId)?.placeId;
     if (placeId) payCounsel(api, caseId, placeId);
+    const removalAt = addDays(
+      makeIsoDate(c.date),
+      Math.max(1, row.law.hearingDays + row.law.stayDays),
+    );
     put({
-      open: false,
       stage: "filed",
       filedAt: c.date,
-      closedAt: c.date,
+      removalAt,
       owedAtFilingMinor: owed,
       reasonKey: housingData.reasons.filed,
     });
+    schedule(api, `removal:${caseId}`, removalAt, "housing-removal", caseId);
+  } else if (kind === "housing-removal") {
+    // Paid in full before the day: the landlord drops the case.
+    if (owed <= 0)
+      return put({
+        open: false,
+        stage: "cured",
+        closedAt: c.date,
+        reasonKey: housingData.reasons.cured,
+      });
+    remove(api, row, owed);
   }
+}
+
+/**
+ * Removal: the lease ends, the eviction is a public record, and the moves
+ * engine (moves.ts, reading housing.eviction) takes the household out of its
+ * home the way it moves any leaver.
+ */
+function remove(
+  api: CoreAPI,
+  row: {
+    id: string;
+    leaseId: string;
+    householdId: string;
+    landlordId: string;
+    law: Steps;
+    [key: string]: unknown;
+  },
+  owed: number,
+): void {
+  const c = core(api);
+  api.endStandingContract(row.leaseId);
+  store(api)
+    .table("cases")
+    .put({
+      ...row,
+      open: false,
+      stage: "removed",
+      removedAt: c.date,
+      closedAt: c.date,
+      owedAtRemovalMinor: owed,
+      reasonKey: housingData.reasons.removal,
+    });
+  const dwellingId = `dwelling:${row.householdId}`;
+  store(api)
+    .table("dwellings")
+    .put({
+      id: dwellingId,
+      householdId: row.householdId,
+      tenure: "removed",
+      kind:
+        (
+          store(api).table("dwellings").get(dwellingId) as
+            { kind?: string } | undefined
+        )?.kind ?? "house",
+      since: c.date,
+      basis: "eviction",
+    });
+  const household = c.households.get(row.householdId);
+  api.emit({
+    id: `event:housing.eviction:${row.id}`,
+    date: c.date,
+    kind: "housing.eviction",
+    personIds: (household?.memberIds ?? []).filter((id) => c.people.has(id)),
+    placeId:
+      household?.placeId ?? c.organizations.get(row.landlordId)?.placeId ?? "",
+    source: {
+      tag: row.law.confidence === "high" ? "SOURCED" : "ESTIMATED",
+      asOf: c.date,
+      citation: String(row.law.statute ?? housingData.source.citation),
+      ...(row.law.confidence === "high"
+        ? {}
+        : {
+            estimatedFrom: `Removal after ${row.leaseId}'s rent went unpaid: notice, filing, and the statute's hearing and stay days.`,
+          }),
+    },
+    publicRecord: true,
+    topic: row.landlordId,
+  });
 }
 
 function daysPerMonth(api: CoreAPI): number {

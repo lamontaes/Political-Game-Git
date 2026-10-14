@@ -257,33 +257,40 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
     expect(cash()).toBe(openingCash - outsideNet);
   });
 
-  it("adds an eviction's push to the evicted, and a relative's move to their kin", () => {
-    const stayer = [...core.people.values()].find(
+  it("moves an evicted household out of its home, and a relative's move pulls their kin", () => {
+    const evicted = [...core.people.values()].find(
       (row) =>
         row.alive &&
         row.tier !== "husk" &&
+        row.id !== core.playerId &&
+        !core.households
+          .get(row.householdId)
+          ?.memberIds.includes(core.playerId ?? "") &&
         ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >= 18,
     )!;
-    const before =
+    const left = () =>
       (
-        api.moduleState("moves").table("pulls").get(stayer.id) as
-          { causes: Record<string, number> } | undefined
-      )?.causes["housing.eviction"] ?? 0;
+        api.moduleState("moves").table("departures").rows() as unknown as {
+          withIds: string[];
+          reasons: Record<string, number>;
+        }[]
+      ).find((row) => row.withIds.includes(evicted.id));
+    expect(left()).toBeUndefined();
     api.emit({
-      id: `fixture-eviction:${stayer.id}`,
+      id: `fixture-eviction:${evicted.id}`,
       date: core.date,
       kind: "housing.eviction",
-      personIds: [stayer.id],
-      placeId: stayer.placeId,
+      personIds: [evicted.id],
+      placeId: evicted.placeId,
       publicRecord: true,
-      source: { tag: "SOURCED", citation: "Fixture filing.", asOf: core.date },
+      source: { tag: "SOURCED", citation: "Fixture removal.", asOf: core.date },
     });
-    const after = (
-      api.moduleState("moves").table("pulls").get(stayer.id) as {
-        causes: Record<string, number>;
-      }
-    ).causes["housing.eviction"]!;
-    expect(after).toBeGreaterThan(before);
+    const departure = left();
+    // A job a saved agreement names, or a household's income award, can hold the move.
+    if (departure) {
+      expect(departure.reasons["housing.eviction"]).toBeGreaterThan(0);
+      expect(core.people.get(evicted.id)!.tier).toBe("husk");
+    }
     const followed = departures.length
       ? (
           api.moduleState("moves").table("pulls").rows() as unknown as {

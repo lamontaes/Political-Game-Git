@@ -2422,7 +2422,7 @@
     "addedAt": "2026-10-12",
     "replacement": "The courts port: a judge deciding from the record, the tenant's defenses and any right to counsel in the law in force.",
     "status": "resolved",
-    "resolution": "Deleted the hearing, judgment, settlement plan and removal steps (courts come after early access): an eviction case now ends at filing after the cure deadline, the household stays with its arrears standing, and a right-to-counsel city still pays the tenant's lawyer at filing."
+    "resolution": "Hearing, judgment and payment-plan steps deleted (courts come after early access). Owner ruling Oct 14: a filed case ends in removal once the statute's hearing and stay days from the place's eviction row have run; the lease ends, housing.eviction is a public record, and the moves engine takes the household out the way it moves any leaver (the player's own moves stay theirs). Right-to-counsel pay stays at filing."
   },
   {
     "id": "SG-WORLD-business-opening-owners",

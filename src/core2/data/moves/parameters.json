@@ -51,13 +51,6 @@
     "citation": "How much a job holds a person in place: 3.66% of employed civilians moved to a different county in the year to March 2023 against 5.93% of the unemployed (Census, CPS ASEC 2023, Table 2 'General Mobility by Labor Force Status', mig_02_2023_1yr.xlsx, rows 9 and 11, column I); ln(5.93/3.66) = 0.48. The unemployed sample is small (6.2 million people).",
     "stopgapId": "SG-P15-moves-weights"
   },
-  "movesEvictedPull": {
-    "value": 0.35,
-    "tag": "ESTIMATED",
-    "citation": "The push an eviction adds toward leaving town. Most evicted families stay in their city, moving to poorer neighborhoods (Desmond and Shollenberger 2015, Demography 52(5):1751-1772), and 'foreclosure or eviction' is 0.7% of all movers' reasons (Census CPS ASEC 2023, Table 13). A third of the way to leaving.",
-    "estimatedFrom": "Desmond and Shollenberger 2015; spread 0.2 to 0.5",
-    "stopgapId": "SG-P15-moves-weights"
-  },
   "movesJobLostPull": {
     "value": 0.2,
     "tag": "ESTIMATED",
