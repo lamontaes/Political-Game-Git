@@ -25,6 +25,7 @@ import type { LawRowInput } from "../laws-starting";
 import {
   reachParameter,
   selectResidents,
+  forgetTownFacts,
   townFacts,
   type PeopleSelector,
   type ResidentFacts,
@@ -527,6 +528,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
 
 /** Re-run every policy in force: reach follows people's records month to month. */
 function review(api: CoreAPI): void {
+  forgetTownFacts(api);
   for (const row of rowsOf<ActiveRow>(api, "active")) {
     if (row.id.startsWith("budget-line:"))
       runBudgetLine(api, row.id.slice("budget-line:".length), row.lawId);
@@ -554,6 +556,7 @@ export function registerGroupB(): void {
   setReachReview(review);
   for (const key of Object.keys(data.policies))
     registerPolicyHandler(key, (api, change) => {
+      forgetTownFacts(api);
       const row = lawRow(api, change.lawId);
       const enacting = key.includes(":")
         ? row?.value === 1
@@ -567,7 +570,8 @@ export function registerGroupB(): void {
       });
     });
   for (const line of Object.keys(data.budgetLines))
-    registerPolicyHandler(`budget-line:${line}`, (api, change) =>
-      runBudgetLine(api, line, change.lawId),
-    );
+    registerPolicyHandler(`budget-line:${line}`, (api, change) => {
+      forgetTownFacts(api);
+      runBudgetLine(api, line, change.lawId);
+    });
 }
