@@ -1114,6 +1114,18 @@
       "tag": "TUNABLE",
       "source": "How much a member's own interest in a committee's subject (their signature issues, or for a town member whether it touches their own life) counts beside the assigning authority's rating of them (party, views, closeness, seniority; about -1 to 3). Members request the committees their interests and districts run to, and leaders grant most requests (Frisch and Kelly, 'Committee Assignment Politics in the U.S. House', 2006; Shepsle 1978). Checked against the spread so neither interest nor the leaders' favor alone decides.",
       "spread": [0.5, 2]
+    },
+    "sittingHours": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "How long a town council or county board's regular meeting runs, the time a member gives up to attend: most run two to four hours (National League of Cities, 'City Councils in a Changing Environment', 2018 member survey; ICMA meeting-length surveys). A member whose own day leaves fewer free hours than this misses the vote.",
+      "spread": [2, 4]
+    },
+    "sittingIndifference": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How near even a member must stand on a bill (their position's size, on the scale where a full stance is about 1) before the rest of their day can keep them from its vote. Members miss the votes that matter least to them; in recent Congresses the median member missed about 2 percent of roll calls and few missed more than 10 percent outside illness or a campaign (GovTrack missed-votes statistics, 117th and 118th Congresses). Checked against that: about 2 to 5 percent of votes missed in played years.",
+      "spread": [0.1, 0.5]
     }
   }
 }

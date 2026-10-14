@@ -28,29 +28,15 @@ A lower-authority document or implementation cannot silently override a higher-a
 ## Commands
 
 - `npm run dev` — player-facing React viewer (`?view=developer` retains diagnostics)
-- `npm run demo` — headless deterministic demo
 - `npm run test` — automated tests
-- `npm run test:run-a` — focused Stage 6.5 semantic tests
-- `npm run test:run-b` — focused Stage 6.5 conversation tests
-- `npm run test:run-c` — focused Stage 6.5 working-document tests
-- `npm run test:run-d-lite` — focused Stage 6.5 time/work tests
-- `npm run trace:export` — deterministic causal-trace export (development diagnostic)
-- `npm run compare:seeds` — multi-seed world comparison (development diagnostic)
 - `npm run test:e2e` — Playwright browser proof
 - `npm run lint` — lint
 - `npm run typecheck` — TypeScript validation
 - `npm run build` — production build
 - `npm run validate` — full validation suite
-- `npm run intake:environment` — environment master intake with declared source lineage
-- `npm run derive:tiers` — derive the runtime raster ladder from an approved master
-- `npm run scaffold:scene` — emit a scene authoring scaffold with explicit unknowns
-- `npm run bank:art` — validate or normalize an asset-bank QA manifest
 - `npm run release:declare -- <id>` — declare a change for the player-facing notes
 - `npm run release:check` — validate versions, notes and pending change declarations
 - `npm run release:preview` — show what the next push to `main` would release
-- `npm run coverage:state-legislatures` — regenerate the state elective-office identity coverage report
-- `npm run readiness:art` — reconcile the asset request queue against art the project already owns
-- `npm run corpus:prose` — build the development-time player-facing prose inventory, coverage, diagnostics, transcripts and review packet
 - `npm run storage -- status` — configured storage limits, registered workspaces, protected paths and live reservations
 - `npm run storage -- workspace --owner <owner>` — the owner's registered folder (reused; never a new directory)
 - `npm run storage -- run <operation> -- <command>` — hold the byte reservation until the command ends, fails or is signaled (exit 3, before starting it, when the headroom is not there). Use `test` for focused unit tests (1 GiB estimate), `build` for compilation, `e2e-capture` for browser runs, and `extract` for bounded art extraction.
@@ -66,9 +52,8 @@ A lower-authority document or implementation cannot silently override a higher-a
 
 ## Working Rules
 
-- Keep `src/simulation/` pure TypeScript and runnable without React, DOM, or external APIs.
-- Keep jurisdiction rules and sourced facts data-driven.
-- Treat Lexington content as an explicit placeholder until sourced snapshots exist.
+- Keep `src/core2/` pure TypeScript and runnable without React, DOM, or external APIs. The old core under `src/simulation/` gets no new work and goes once each piece is ported.
+- Keep jurisdiction rules and sourced facts data-driven; never name a state, city or GEOID in logic.
 - Preserve stable IDs, seeded behavior, established facts, and append-oriented history.
 - Update affected documentation and tests with behavioral changes.
 - Run the Architecture Integrity Audit at major scope boundaries and whenever a new rule could affect completed work; earlier work is not grandfathered.
