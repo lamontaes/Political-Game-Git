@@ -430,7 +430,7 @@
     "US-NE": {
       "primary": {
         "kind": "rotation",
-        "unit": "precinct or ward, starting from filing order"
+        "unit": "precinct or council district, starting from filing order"
       },
       "general": {
         "kind": "party",
