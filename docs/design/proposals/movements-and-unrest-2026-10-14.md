@@ -144,6 +144,24 @@ The story director reads all of it. Each action is a cause for moments in the li
 - **An overthrow.** An overthrow is a movement plus a security force that stops obeying, each officer reading their own records: pay, orders, the law, who they trust, what they saw. No security force exists as people who decide, so overthrow is a 1.0 question. Until then the game cannot produce one, and dev mode will say so.
 - **Drift toward war.** No war engine and no foreign governments exist. Your October 8, 2026 ruling says war waits on its own design with you. A movement can hold a cause about a foreign dispute, and that is all until that design exists.
 
+## What the real cases say
+
+The capability study written on October 14, 2026 (`docs/research/capability-cases-2026-10-14.md`) checked 40 real episodes against the engines. None of the 40 runs start to finish today. Two of its ten missing pieces are this proposal's subject: organized blocs and movements, needed by 14 cases, and crowds and violence from grievance, needed by 9. The study assigns both to OPUS-PEOPLE, as this proposal's build order does. The cases below test the design; none is a script.
+
+**Cases that support the design.**
+
+- **Huey Long's Share Our Wealth, 1928 to 1935 (case 24).** A governor turned mass anger at the Depression into a national movement of clubs. After his killing, the opposing president took in much of the program. This is the demagogue as a candidate whose standing comes from a movement, and the ending "absorbed by a party." The study also needs patronage (its gap U9) and family name (U17) for this case.
+- **Robert F. Kennedy in Indianapolis, 1968 (case 25).** The study's reading: a candidate who had lost a brother told a crowd of a leader's killing in plain words, the city stayed calm that night, and a coalition carried him to primary wins. After he was shot, the delegates went to party organizers. That last step supports the ending "the leader dies": without its leader, a movement loses ground to the party's own people.
+- **The Moral Majority and the 1980 evangelical vote (case 28).** Pastors registered their members around school, tax and moral questions. The study reports that the shift varied with how strongly local organizing reached people. That is the design's join rule: people act through the people and leaders they know, not from a national number.
+- **The Ohio collective-bargaining repeal, 2011 (case 13).** Citizens gathered about 1.3 million signatures and knocked on a million doors, and the referendum repealed the law. It supports the petition drive as an action, beyond recalls.
+
+**Cases that change the design.**
+
+- **The Scott Walker recall, 2012 (case 12).** Huge protests and over 900,000 signatures did not remove the governor; the voters who turned out matched the ones who elected him. A march must therefore be a cause that voters and officials read, never a score that decides the election. The proposal already says this. The case makes it a test: in a played year, a large march must be able to fail at the ballot box.
+- **Britain's Winter of Discontent, 1979 (case 30).** Public-sector strikes against a pay limit helped bring down a government. Strikes need the study's labor-disputes gap (U11) and a kept measure of how voters rate each official (U4). This raises the weight of question 3 below on strikes.
+- **The Poll Tax revolt, 1989 to 1990 (case 31).** Non-payment spread, a demonstration ended in riots, and the prime minister's own party removed her. Two pieces the proposal did not name are needed: a party or body removing its own leader (the study's U5), and the voters' rating of each official (U4). Mass refusal to pay a tax is a form of boycott aimed at a government, not a business; the proposal adds it to the boycott package as a 1.0 case.
+- **Movements need the vote to listen.** The study's gap U3 (voters weigh what they heard about an official, not an on-off scandal flag) and U4 (a rating for each official) are owned by OPUS-GOV and OPUS-CORE. Without them a movement can march, but no election reads what voters thought of it. Package 5 below depends on them.
+
 ## Early access and 1.0
 
 Your October 10, 2026 scope call put movements after early access. On October 14, 2026 you said you want to start getting them in. The proposal splits them. "1.0" means the full release after early access.
@@ -188,9 +206,9 @@ Each package ends with its proof: one year of the played world, every engine ins
 2. **The movement reader** (OPUS-PEOPLE). Cause groups gain a leader, demands and members. A reader names each movement's members, causes and people with standing, with no stored meter. The dev-mode page shows it. Proof: the reader lists a movement in a played year, with member ids and the cause records behind them.
 3. **Joining at both tiers** (OPUS-PEOPLE; OPUS-CORE for counted groups). People join when enough of the people they know have joined, and counted groups hold the cause as counts. Proof: a member's join reasons name the ids of the people they knew who joined first. A counted group's count traces to the cause records.
 4. **Marches and rallies** (a new collective-action engine under OPUS-PEOPLE; OPUS-GOV for officials' reasons). A gathering record with a turnout. Proof: a news story cites the march's record, and an official's vote cites it as a reason.
-5. **Movements in elections** (OPUS-GOV, with OPUS-PEOPLE for candidacy). Candidacy reads a movement as a cause and as name recognition, and recalls read a movement's organizer. Proof: a challenger's filing reasons name the movement's record.
+5. **Movements in elections** (OPUS-GOV, with OPUS-PEOPLE for candidacy; depends on the capability study's U3 and U4). Candidacy reads a movement as a cause and as name recognition, and recalls read a movement's organizer. Proof: a challenger's filing reasons name the movement's record.
 6. **The player's part** (OPUS-PEOPLE for scenes; OPUS-PLAY for screens). Asked to speak, asked to join, targeted, founding. Proof: in a played year, a movement's ask reaches the player, and the player's answer moves listeners' records.
-7. **Boycotts** (OPUS-WORLD). Proof: a business's lost sales cite the boycott record, and the owner's decision cites the books.
+7. **Boycotts** (OPUS-WORLD; mass refusal to pay a tax, as in case 31, is a 1.0 extension). Proof: a business's lost sales cite the boycott record, and the owner's decision cites the books.
 8. **1.0, each its own package once you rule:** strikes and unions (OPUS-WORLD), new parties (OPUS-GOV), lean that moves and realignment (OPUS-PEOPLE with OPUS-GOV), inheriting a movement (OPUS-PLAY with OPUS-PEOPLE), and the security forces with unrest (a new engine; owner unassigned until you rule). War waits on its own design.
 
 **Research the packages need.** Most questions are already filed in the research list: what builds to urban unrest and what calms it, Indianapolis included; preconditions of civil war and revolution; how rights movements grow and end; and real protest turnout and strike rates. Packages 3 and 4 need the turnout figures before their bars can be checked.
@@ -203,4 +221,4 @@ This proposal was written on October 14, 2026, on the main branch as of the even
 - public pages on the seven games;
 - a read of the new core's drives, views, interest-group, speech, press, news, campaign, party, candidacy, recall, ballot-measure and electorate engines, and of the director's scene types.
 
-No world was run, and no number in this proposal was measured in a world. "Exists" and "missing" come from reading the code. Two Sonnet helpers did the research split, one on Drive and the games and one on the engines.
+No world was run, and no number in this proposal was measured in a world. "Exists" and "missing" come from reading the code. The capability study of the same day was read afterward, and its cases are cited above. Two Sonnet helpers did the research split, one on Drive and the games and one on the engines.
