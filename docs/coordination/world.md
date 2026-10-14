@@ -202,6 +202,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-14: after the home equity lines, on the runner's places for that head: M1-06 passes in Franklin, Idaho, and M1-08 in Ethel, Mississippi (5 openings and 6 closings in three years, against 2 to 10 each).
 - 2026-10-14: the town bank's smallest personal loan ($1,000) is now a tunable figure cited to the FDIC's 2011 bank survey (43% of banks offering unsecured personal loans set no minimum, another 53% one of $2,500 or less), spread from nothing to $2,500. `SG-WORLD-credit-minimum-loan` is resolved.
 - 2026-10-14: the monthly rows carry real income growth: the median household's money income against the same month a year earlier, deflated by the nation's consumer prices (each row now records the price index). Conway, South Carolina, February 2021 to February 2022: real median household income fell 1.35%, in a year of 7% inflation.
 - 2026-10-14: a homeowner founder draws a real home equity line. The town bank lends the draw into the new business at prime plus 0.5 points, repaid over 20 years (CFPB's guide to home equity lines), within its capital room. The line is a lien that lowers the home's equity. Full founders can draw one now too. Before, a counted founder's home equity was taken from their place's pooled cash with no loan. One year: Caspar, California's founding drew $105,017, and Conway, South Carolina's $228,553. `SG-WORLD-business-founder-home-equity` is resolved.
