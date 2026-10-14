@@ -30,6 +30,7 @@ import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionLean } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { endLivingPlan } from "../cost-of-living";
+import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
 import { regionalLevel, regionalRegistered } from "./regional";
 import type { Parameter } from "../parameters";
@@ -90,6 +91,8 @@ export interface Departure {
   reasons: Readonly<Record<string, number>>;
   /** The records each reason read, by reason. */
   reads: Readonly<Record<string, readonly string[]>>;
+  /** Cash the leavers took out of the town's books, to the place's outside account (as a counted mover's does). */
+  cashLeftMinor?: number;
 }
 
 function m(api: CoreAPI, key: string): number {
@@ -633,6 +636,39 @@ function leave(
       ),
     ]),
   ].sort();
+  // Their cash leaves the town's books the way a counted mover's does: to the
+  // place's outside account, so the town's money isn't left holding it.
+  // (The place's own outside market; a leaver living elsewhere uses the world's.)
+  const markets = [...core.organizations.values()]
+    .filter((row) => row.kind === OUTSIDE_MARKET_KIND)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const outside = (
+    markets.find((row) => row.placeId === fromPlaceId) ?? markets[0]
+  )?.id;
+  if (outside) {
+    const accounts = api.accounts();
+    let left = 0;
+    for (const id of going) {
+      const from = accounts.main(id),
+        amount = accounts.balance(from);
+      if (amount <= 0) continue;
+      accounts.transfer({
+        id: `mover-departure:${id}:${api.state.date}`,
+        from,
+        to: accounts.main(outside),
+        amountMinor: amount,
+        reasonKey: "moves.departure.cash",
+        source: {
+          tag: "ESTIMATED",
+          asOf: api.state.date,
+          citation: `${id} moved away and took their cash out of town.`,
+          estimatedFrom: STOPGAP,
+        },
+      });
+      left += amount;
+    }
+    if (left > 0) departure.cashLeftMinor = left;
+  }
   for (const id of going) {
     const mover = core.people.get(id)!;
     if (mover.jobId) api.endJob(mover.jobId, departure.id);

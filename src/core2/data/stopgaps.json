@@ -2385,11 +2385,11 @@
     "kind": "estimated-parameter",
     "file": "src/core2/data/macro/parameters.json",
     "line": 309,
-    "whatItFakes": "Public budgets add no impulse to national output beyond their real average.",
-    "why": "M1-07 budgets have not landed; trend growth 1990-2019 already carries average public spending.",
+    "whatItFakes": "State and local budgets add no impulse to national output beyond their real average, and neither does the federal budget in a world without the budgets engine. Where the budgets engine runs, the federal budget's change from its base is read each month through macroFiscalMultiplier (Oct 14, OPUS-WORLD).",
+    "why": "Other states' and towns' budgets are not kept in the world, and one town's own budgets are too small a share of the nation to move it.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The national, state and local budgets' actual spending and taxes from M1-07, read as indexed totals each month.",
+    "replacement": "State and local budgets for every place read as indexed totals each month, at their own multiplier (below 1 for own-financed spending, Clemens and Miran 2012).",
     "status": "open"
   },
   {
@@ -3425,6 +3425,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "Resolve the workplace's local chain per paycheck and apply each row's nonresident rate to residents of other jurisdictions.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-employer-tax-counted-wages",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/employer-taxes.ts",
+    "line": 16,
+    "whatItFakes": "Employers pay no Social Security or Medicare share on wages paid to counted workers through the residents' merged wage flows; only full workers' paychecks carry the employer share.",
+    "why": "Counted wages are paid by the residents engine's merged flows, not the work payroll the employer-taxes module hooks, and that engine is OPUS-CORE's.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "A residents wage-flow payment hook (OPUS-CORE) that posts the same employer share from the law rows in force.",
     "status": "open"
   },
   {
