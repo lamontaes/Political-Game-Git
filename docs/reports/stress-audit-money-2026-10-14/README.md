@@ -109,7 +109,7 @@ The decision above comes first: paying budget lines out as cash to the outside w
 | ------ | --------------- | ------------------------------------------------------------ | ------------------------------------------ | ---------------------------------------------- |
 | Haiku  | 10, all at once | traced one money flow each, read-only                        | 1,344,955 in all (102,312 to 174,714 each) | 80 to 229 seconds each; about 4 minutes in all |
 | Sonnet | 1               | checked every claim against the code                         | 124,382                                    | 153 seconds                                    |
-| Sonnet | 1               | reviewed this report                                         | 25,004                                     | 31 seconds                                     |
+| Sonnet | 1               | reviewed this report                                         | 137,666 over 4 passes                      | 117 seconds over 4 passes                      |
 | Opus   | 1               | planned, ran both years, spot-checked 3 verdicts, wrote this | not visible                                | about 40 minutes                               |
 
 Of the verifier's verdicts, three were checked a second time by Opus (defect 1, defect 5, and the counted-death code described under "Where the money comes from"); all three held.
