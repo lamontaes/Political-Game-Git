@@ -72,11 +72,11 @@ ENGINE: beliefs (src/director/conversation.ts)
 ENGINE: core2-law-effects-v1
 (a) "on its effective date a policy reaches the specific named people it covers, as a record on each of them" (law-effects.ts:2-5); later-specs-draft.md:117 (M3-04).
 (b) laws.ts:390-398 schedules law-takes-effect; lawTookEffect (laws.ts:432-457) emits law-took-effect; budgets.ts:885-887 and :1037-1040 emit budget-line-changed. onEvent (law-effects.ts:72) -> applyLaw (:219): runHandlers (:220) first, then returns unless kind is law-took-effect (:221), series is a key in policy-effects.json (:224), the laws row exists (:225-229), inForceHere (:237), value === 1 (:251); then reaches() per person (:124-138, :254). openLawEffects (:75-117) applies opening rows that pass the same gates (:90-92).
-(c) policy-effects.json (:7-43) has five keys, all us-policy-positions:*. The laws taking effect in the window (starting-law.json, 2025-10-01 / 2026-01-01) are rate series (income-tax, sales-tax, snap-maximum, medicaid-match), none catalogued, so all 30 stop at :224. The five catalogued questions start "no" in Mississippi. The 42 budget events run their handlers (law-reach/group-b.ts:453 runBudgetLine writes other engines' tables) and then return at :221 by design.
+(c) policy-effects.json (:7-43) has five keys, all us-policy-positions:*. The laws taking effect in the window (starting-law.json, 2025-10-01 / 2026-01-01) are rate series (income-tax, sales-tax, snap-maximum, medicaid-match), none cataloged, so all 30 stop at :224. The five cataloged questions start "no" in Mississippi. The 42 budget events run their handlers (law-reach/group-b.ts:453 runBudgetLine writes other engines' tables) and then return at :221 by design.
 (d) [CORRECTED BY OPUS SPOT-CHECK] applied is read by the bench screens: src/bench/card.ts:110 (effectsOn on a person's card) and src/bench/changes.ts:45-46 (the applied table). No other engine reads it. Tests also read it.
-(e) No owner ruling. docs/coordination/play.md:72 "the law-effects records cover catalogued policies, not amounts". AGENTS.md "An effect is a read, not a record".
-(f) WAITS-ON-CAUSE (a catalogued policy question enacted or in force; all five start 'no' in Mississippi and none passed). Screens read it; no engine does.
-(g) Have the engine that enforces each catalogued question (jobs for employment rules, etc.) read applied when it decides, so the record becomes an effect.
+(e) No owner ruling. docs/coordination/play.md:72 "the law-effects records cover cataloged policies, not amounts". AGENTS.md "An effect is a read, not a record".
+(f) WAITS-ON-CAUSE (a cataloged policy question enacted or in force; all five start 'no' in Mississippi and none passed). Screens read it; no engine does.
+(g) Have the engine that enforces each cataloged question (jobs for employment rules, etc.) read applied when it decides, so the record becomes an effect.
 ```
 
 ```text
@@ -141,7 +141,7 @@ ENGINE: core2-officials-v1
 - Recalls: a removal is already reported, since `vacateSeat` emits a public "seat-vacated" event (`offices.ts:801-811`). Only the tally is missing. `electorate-inputs.ts:65` reads only the president's seat.
 - Constituent cases: the executive's desk holds bills awaiting signature, not an inbox, so a case list would be new.
 - Corruption: the electorate-inputs imports are at `voting.ts:87` and `world-races.ts:44`.
-- Law effects: at least one of the 30 laws was a council ordinance passed in play (immigration enforcement, March 6, 2025), not a starting rate. It is not catalogued either.
+- Law effects: at least one of the 30 laws was a council ordinance passed in play (immigration enforcement, March 6, 2025), not a starting rate. It is not cataloged either.
 - Races elsewhere: `worldSeatParty` is called at `legislature.ts:900`. `novemberGeneralElectionDay` is at `gov-rules/town-election-calendar.ts:43`.
 - Voting: only Mississippi and Alabama use the four-year rules, and Alabama's citation agrees with the code. `filing-requirements.json:342` says Alabama's next town filing is 2029, which conflicts. The code's June date is the first Tuesday of June; the statute says the first Tuesday after the first Monday. These differ when June 1 is a Tuesday (2021, 2027).
 - Meetings: the news engine stores every public event, so held town halls and debates would reach the news (`news.ts:337-352`).
