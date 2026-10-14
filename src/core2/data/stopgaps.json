@@ -3056,6 +3056,30 @@
     "status": "open"
   },
   {
+    "id": "SG-CORE-cause-group-ads-only",
+    "kind": "cause-group-spending",
+    "file": "src/core2/modules/drives.ts",
+    "line": 1,
+    "whatItFakes": "A cause group spends its money only on ad time, bought through the campaigns engine's ad purchase; it holds no events, sends no mailers and pays none of a cause's own costs.",
+    "why": "Stress audit defect 2 (Oct 14): groups took donations and never spent them. The ad purchase was the one existing way to buy reach.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "A group chooses among the reach it can buy (events, mailers, press) and a cause's costs (a lawyer, a petition drive where the golden path needs one), read from its members' plans.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-closeness-gov-raw-reads",
+    "kind": "closeness-read",
+    "file": "src/core2/closeness.ts",
+    "line": 1,
+    "whatItFakes": "candidacy.ts (incumbent tie) and legislature.ts (two member ties) still read a relationship's stored level, the closeness at the last contact, instead of today's faded closeness (closenessBetween).",
+    "why": "Stress audit defect 21 (Oct 14). Every other engine now reads closenessBetween; those two files belong to gov/wiring-votes-and-views this round and OPUS-CORE may not edit them.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-justice-weights",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/justice/parameters.json",

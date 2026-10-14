@@ -156,11 +156,12 @@ function qualification(
   api: CoreAPI,
   person: Readonly<PersonState>,
   post: string,
+  date: string,
 ): number {
   const temperament =
     ((person.traits["people-mind-v1:reliability"] ?? 0) +
-      (person.traits["people-mind-v1:deliberation"] ?? 0)) /
-    4;
+      (person.traits["people-mind-v1:deliberation"] ?? 0)) *
+    campaignParameter("appointmentTemperamentWeight");
   const core = api.state as CoreState;
   const worksThere = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
     .map((id) => core.work.commitments.get(id))
@@ -168,14 +169,35 @@ function qualification(
       const org = c ? core.organizations.get(c.organizationId) : undefined;
       return !!org && org.name.toLowerCase().includes(post.split("-")[0]!);
     });
+  // 0 and 1 bound the score, as they do for every 0..1 score in this file.
   return Math.max(
     0,
     Math.min(
       1,
-      0.5 +
+      campaignParameter("appointmentBaseQualification") +
         temperament +
+        experienceFromAge(person, date) +
         (worksThere ? campaignParameter("appointmentExperienceWeight") : 0),
     ),
+  );
+}
+
+/**
+ * What adult years add to a qualification: zero at the age of majority, then
+ * a saturating curve (no step at any age), so a young adult can be appointed
+ * but seldom beats an equally suited older resident.
+ */
+export function experienceFromAge(
+  person: Readonly<Pick<PersonState, "birthDate">>,
+  date: string,
+): number {
+  const years = Math.max(
+    0,
+    ageOn(person, date) - campaignParameter("appointmentAdulthoodAge"),
+  );
+  return (
+    (campaignParameter("appointmentExperienceAgeWeight") * years) /
+    (years + campaignParameter("appointmentExperienceHalfYears"))
   );
 }
 
@@ -208,7 +230,7 @@ function fillTownPost(
       (p): p is PersonState =>
         !!p &&
         p.alive &&
-        ageOn(p, date) >= 25 &&
+        ageOn(p, date) >= campaignParameter("appointmentAdulthoodAge") &&
         p.id !== appointer?.personId &&
         !holding.has(p.id) &&
         (!chosenId || p.id === chosenId) &&
@@ -224,7 +246,7 @@ function fillTownPost(
     candidates: pool.map((p) => ({
       id: p.id,
       lean: personLean(api.state.people, p, 0),
-      qualification: qualification(api, p, spec.key),
+      qualification: qualification(api, p, spec.key, date),
       known:
         !!appointer?.personId &&
         relationships.has([appointer.personId, p.id].sort().join(":")),
@@ -362,8 +384,13 @@ function appointStateCabinet(
         id: `official:cabinet:${state}:${spec.key}:${round}${n}`,
         // Candidates for a governor's cabinet come from the governor's side;
         // how far each sits from it is who they are.
-        lean: side * campaignParameter("identityLeanScale") * (1 - n * 0.25),
-        qualification: 0.6 + 0.1 * (2 - n),
+        lean:
+          side *
+          campaignParameter("identityLeanScale") *
+          (1 - n * campaignParameter("cabinetLeanSpread")),
+        qualification:
+          campaignParameter("cabinetQualificationBase") +
+          campaignParameter("cabinetQualificationStep") * (pool.length - 1 - n),
         known: n === 0,
       })),
       confirmingBody: /senate|legislature/.test(spec.confirmedBy)

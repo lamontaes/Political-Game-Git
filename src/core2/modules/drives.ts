@@ -6,6 +6,8 @@ import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
+import { closenessBetween } from "../closeness";
+import { adTimeForSale, buyAdTime } from "./campaigns";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
 import type {
@@ -196,6 +198,8 @@ interface DrivesRuntime {
   byPerson: Map<PersonId, Map<string, HeldDrive>>;
   groupsByTopic: Map<string, Set<string>>;
   groupFounder: Map<string, PersonId>;
+  /** The change each cause group was founded to win (its founder's drive). */
+  groupChange: Map<string, string>;
   formedByYearKind: Map<string, number>;
   responsesByRule: Map<string, number>;
   perceived: number;
@@ -232,6 +236,7 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       byPerson: new Map(),
       groupsByTopic: new Map(),
       groupFounder: new Map(),
+      groupChange: new Map(),
       formedByYearKind: new Map(),
       responsesByRule: new Map(),
       perceived: zero,
@@ -312,10 +317,7 @@ function closenessTo(
 ): number {
   let best = api.parameter("zero");
   for (const subject of subjects) {
-    const level =
-      api.state.relationships.get([actorId, subject].sort().join(":"))?.level ??
-      api.parameter("zero");
-    best = Math.max(best, level);
+    best = Math.max(best, closenessBetween(api.state, actorId, subject));
   }
   return best;
 }
@@ -814,6 +816,19 @@ function groupKnown(api: CoreAPI, actorId: PersonId, groupId: string) {
   );
 }
 
+/** A group meets where it was founded: a person reaches it only from their own place or county. */
+function groupNearby(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  groupId: string,
+): boolean {
+  const placeId = api.state.organizations.get(groupId)?.placeId;
+  return (
+    placeId !== undefined &&
+    (placeId === actor.placeId || placeId === actor.countyId)
+  );
+}
+
 function drivesOf(api: CoreAPI, actorId: PersonId, offer: ActOffer) {
   const drive = offer.driveId
     ? heldFor(api, actorId)?.get(offer.driveId)
@@ -1025,6 +1040,64 @@ function payDonation(
   return amount;
 }
 
+/**
+ * A cause group spends what it raised (stress audit defect 2): on the first
+ * of each month it spends a share of its balance on ad time through the
+ * campaigns engine's purchase, every dollar on the journal. The ad is a
+ * public record the news carries, and it reaches people with the group's
+ * cause, which the views engine reads. Stopgap SG-CORE-cause-group-ads-only:
+ * ads are the only thing a group buys yet.
+ */
+function spendGroupFunds(api: CoreAPI, runtime: DrivesRuntime): void {
+  if (!adTimeForSale(api)) return;
+  const accounts = api.accounts();
+  for (const [groupId, founderId] of [...runtime.groupFounder].sort()) {
+    const group = api.state.organizations.get(groupId);
+    const change = runtime.groupChange.get(groupId);
+    if (!group?.topic || !change) continue;
+    const balance = accounts.balance(accounts.main(groupId));
+    const amount = Math.floor(
+      balance * api.parameter("causeGroupMonthlySpendShare"),
+    );
+    if (amount <= api.parameter("zero")) continue;
+    api.stopgap("SG-CORE-cause-group-ads-only");
+    const id = `cause-group.ad:${groupId}:${api.state.date}`;
+    const reached = buyAdTime(api, {
+      buyerId: groupId,
+      amountMinor: amount,
+      recordId: id,
+      citation: `${groupId} spends ${amount} of its ${balance} on ad time`,
+    }).filter((person) => person.alive);
+    const founder = api.state.people.get(founderId)?.alive ? [founderId] : [];
+    api.emit({
+      id,
+      date: api.state.date,
+      kind: "cause-group.ad-ran",
+      personIds: founder,
+      witnessIds: reached
+        .map((person) => person.id)
+        .filter((personId) => !founder.includes(personId)),
+      placeId: group.placeId,
+      topic: group.topic,
+      desiredChange: change,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `Ad time bought by ${groupId}`,
+        estimatedFrom: "causeGroupMonthlySpendShare",
+      },
+      facts: {
+        organizationId: groupId,
+        spentMinor: `${amount}`,
+        balanceBeforeMinor: `${balance}`,
+        reached: `${reached.length}`,
+      },
+    });
+  }
+}
+
 function founderOf(api: CoreAPI, groupId: string) {
   return runtimeFor(api.state).groupFounder.get(groupId);
 }
@@ -1056,6 +1129,7 @@ export function createDrivesModule(
     ],
     onDay(api, _decide, refresh) {
       const runtime = runtimeFor(api.state);
+      if (api.state.date.endsWith("-01")) spendGroupFunds(api, runtime);
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
           runtime.byPerson.delete(personId);
@@ -1155,7 +1229,7 @@ export function createDrivesModule(
         const out: ActOffer[] = [];
         for (const drive of servingDrives(api, actor, action))
           for (const id of [...(groups.get(drive.topic) ?? [])].sort())
-            if (groupKnown(api, actor.id, id))
+            if (groupKnown(api, actor.id, id) && groupNearby(api, actor, id))
               out.push(driveOffer(api, action, id, drive));
         return out;
       },
@@ -1184,7 +1258,10 @@ export function createDrivesModule(
         const out: ActOffer[] = [];
         for (const drive of serving) {
           for (const id of [...(groups.get(drive.topic) ?? [])].sort())
-            if (api.state.memberships.has(`${actor.id}:${id}`))
+            if (
+              api.state.memberships.has(`${actor.id}:${id}`) &&
+              groupNearby(api, actor, id)
+            )
               out.push(driveOffer(api, action, id, drive));
           for (const id of associations)
             out.push(driveOffer(api, action, id, drive));
@@ -1298,6 +1375,7 @@ export function createDrivesModule(
         if (!set) runtime.groupsByTopic.set(drive.topic, (set = new Set()));
         set.add(id);
         runtime.groupFounder.set(id, actorId);
+        runtime.groupChange.set(id, drive.desiredChange);
         api.join(actorId, id, drive.id);
         api.observe(actorId, {
           key: `cause-group:${id}:known`,
