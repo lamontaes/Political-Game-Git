@@ -36,7 +36,7 @@ import {
   supplierBillsOwed,
 } from "./residents";
 import { openBuyers, openEntrantBuyers, renewBuyers } from "../business-buyers";
-import { foundingLoanLimit, lendForFounding } from "./credit";
+import { foundingLoanLimit, lendForFounding, lendHomeEquity } from "./credit";
 import { registerEmployer, strongestPulls, strongestPullsBy } from "./jobs";
 import { transferCash } from "../world-transfer";
 import { reviewCannabis } from "../business-cannabis";
@@ -279,28 +279,39 @@ function founderMoney(
     livingCostDailyMinor: number;
   },
 ): number {
+  const funds = founderFunds(api, founder);
+  return funds.savingsMinor + funds.homeEquityMinor;
+}
+
+/** A founder's savings above their reserve, and what a home equity line on their home would lend. */
+function founderFunds(
+  api: CoreAPI,
+  founder: {
+    id: string;
+    householdId: string;
+    liquidMinor: number;
+    livingCostDailyMinor: number;
+  },
+): { savingsMinor: number; homeEquityMinor: number } {
   const p = (key: string) => api.parameter(key);
-  const savings = Math.max(
+  const savingsMinor = Math.max(
     0,
     founder.liquidMinor -
       founder.livingCostDailyMinor *
         p("businessDaysPerMonth") *
         p("businessFounderReserveMonths"),
   );
-  // A full founder puts in their own cash; home equity counts only while counted, where the household's money is pooled (see the stopgap).
-  if (api.state.people.has(founder.id)) return savings;
+  // A homeowner can also draw a home equity line on their home.
   const home = homeOf(api, founder.householdId);
-  if (!home) return savings;
-  // The draw is paid from the household's pooled cash; no home-equity loan is recorded against it yet.
-  stopgap("SG-WORLD-business-founder-home-equity");
-  return (
-    savings +
-    Math.max(
+  if (!home) return { savingsMinor, homeEquityMinor: 0 };
+  return {
+    savingsMinor,
+    homeEquityMinor: Math.max(
       0,
       home.valueMinor * p("creditHomeEquityCombinedLoanToValue") -
         home.owedMinor,
-    )
-  );
+    ),
+  };
 }
 
 /** The owner as a full person, or as a counted person until they are filled in. */
@@ -1457,14 +1468,33 @@ function found(
     p("businessStartupMonthsOfCosts");
   // A location is funded first from its parent's spare cash, a new business
   // from its founder's savings; a loan covers the rest.
-  const funded = transferCash(
-    api,
-    `${location ? "location-funding" : "founder-equity"}:${id}`,
-    ownerFrom,
-    id,
-    Math.min(startup, equityMinor),
-    source,
-  );
+  // A counted homeowner's draw on a home equity line comes from the bank, and the household repays it.
+  const funds = location ? undefined : founderFunds(api, founder);
+  const fromEquityLine = funds
+    ? Math.min(
+        funds.homeEquityMinor,
+        Math.max(0, Math.min(startup, equityMinor) - funds.savingsMinor),
+      )
+    : 0;
+  const drawn =
+    fromEquityLine > 0
+      ? lendHomeEquity(api, {
+          householdId: founder.householdId,
+          borrowerId: ownerFrom,
+          payeeId: id,
+          principalMinor: fromEquityLine,
+        })
+      : 0;
+  const funded =
+    drawn +
+    transferCash(
+      api,
+      `${location ? "location-funding" : "founder-equity"}:${id}`,
+      ownerFrom,
+      id,
+      Math.min(startup, equityMinor) - fromEquityLine,
+      source,
+    );
   // Funding a location moves the parent's cash, not its profit.
   if (location && funded > 0) {
     const parent = store(api).table("owners").get(location.parentId) as

@@ -720,7 +720,7 @@ interface LoanRow {
   householdId: string;
   borrowerId: string;
   lenderId: string;
-  kind: "personal" | "startup" | "mortgage";
+  kind: "personal" | "startup" | "mortgage" | "home-equity";
   principalMinor: number;
   balanceMinor: number;
   annualRate: number;
@@ -1064,6 +1064,74 @@ function startupRate(api: CoreAPI): number | undefined {
       p("creditRiskSpreadPct")) /
     p("macroHundred")
   );
+}
+
+/**
+ * A home equity line drawn to found a business: the bank pays the draw into
+ * the new firm and the household repays it at prime plus the line's margin,
+ * as long as the bank's capital has room for it. Returns what was lent.
+ */
+export function lendHomeEquity(
+  api: CoreAPI,
+  input: {
+    householdId: string;
+    borrowerId: string;
+    payeeId: string;
+    principalMinor: number;
+  },
+): number {
+  const bank = bankOf(api);
+  if (!bank) return 0;
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const policy = (
+    api.moduleState("macro").table("state").get("macro:state") as
+      { policyRatePct: number } | undefined
+  )?.policyRatePct;
+  if (policy === undefined) return 0;
+  const rate =
+    (policy + p("macroPrimeSpreadPct") + p("creditHomeEquityMarginPct")) /
+    p("macroHundred");
+  const term = p("creditHomeEquityTermYears") * p("macroMonthsPerYear");
+  const book = equity(api, bank.organizationId);
+  const room = Math.max(
+    0,
+    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
+  );
+  const id = `home-equity-loan:${input.householdId}:${c.date}`;
+  const lent = transferCash(
+    api,
+    id,
+    bank.organizationId,
+    input.payeeId,
+    Math.min(Math.round(input.principalMinor), room),
+    {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: creditData.source.citation,
+      estimatedFrom: `A home equity line drawn to found a business, at prime plus ${p("creditHomeEquityMarginPct")} points, repaid over ${p("creditHomeEquityTermYears")} years.`,
+    },
+  );
+  if (lent <= 0) return 0;
+  store(api)
+    .table("loans")
+    .put({
+      id,
+      isLoan: true,
+      open: true,
+      householdId: input.householdId,
+      borrowerId: input.borrowerId,
+      lenderId: bank.organizationId,
+      kind: "home-equity",
+      principalMinor: lent,
+      balanceMinor: lent,
+      annualRate: rate,
+      paymentMinor: Math.round(amortizedPayment(lent, rate, term, p)),
+      openedAt: c.date,
+      pastDueMinor: 0,
+      standing: "current",
+    });
+  return lent;
 }
 
 /** What a new business brings to the bank: the owner's own money in it and the plan's monthly profit before the loan. */

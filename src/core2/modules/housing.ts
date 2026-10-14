@@ -2225,7 +2225,9 @@ export function inPlayMortgages(api: CoreAPI, householdId: string): number {
     open: boolean;
     balanceMinor: number;
   }[])
-    if (row.kind === "mortgage" && row.open) owed += row.balanceMinor;
+    // A home equity line is a lien on the home too.
+    if ((row.kind === "mortgage" || row.kind === "home-equity") && row.open)
+      owed += row.balanceMinor;
   return owed;
 }
 

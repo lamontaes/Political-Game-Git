@@ -2420,7 +2420,7 @@
     "id": "SG-WORLD-business-counted-owner-choice",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/business.ts",
-    "line": 326,
+    "line": 337,
     "whatItFakes": "An owner still in the wider population (not yet filled in) takes the option whose reasons sum highest instead of choosing through the shared chooser, and their draws go to their place's pooled residents account.",
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
@@ -3095,7 +3095,9 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "A home-equity line from the town bank to the founder's household, drawn into the business and repaid from the household's income.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-14",
+    "resolution": "A homeowner founder (full or counted) draws a home equity line from the town bank (credit.ts lendHomeEquity, kind home-equity, prime plus a margin, within the bank's capital room); the draw is paid into the new firm, the household repays it, and the line counts against the home's equity."
   },
   {
     "id": "SG-WORLD-property-tax-due-dates-unverified",

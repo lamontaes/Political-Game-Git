@@ -254,5 +254,27 @@
       "unit": "share of home value, all liens",
       "citation": "CFPB, What you should know about home equity lines of credit (2021): lenders typically limit combined borrowing to 80 to 90 percent of the home's value."
     }
+  },
+  "creditHomeEquityMarginPct": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "A home equity line's rate is the prime rate plus a margin, commonly zero to two points (CFPB, What you should know about home equity lines of credit, 2021; Federal Reserve G.19 notes HELOCs are variable-rate loans indexed to prime).",
+    "spread": {
+      "low": 0,
+      "high": 2,
+      "unit": "points over prime",
+      "citation": "CFPB, What you should know about home equity lines of credit (2021): the rate is an index, usually prime, plus a margin set by the lender."
+    }
+  },
+  "creditHomeEquityTermYears": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "A home equity line draws for about 10 years and repays over the next 10 to 20 (CFPB, What you should know about home equity lines of credit, 2021); repaid here as level payments from the start.",
+    "spread": {
+      "low": 10,
+      "high": 30,
+      "unit": "years",
+      "citation": "CFPB (2021): draw periods of about 10 years, repayment periods of 10 to 20 years."
+    }
   }
 }
