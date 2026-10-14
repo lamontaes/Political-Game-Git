@@ -165,6 +165,8 @@ export interface ResidentsRuntime {
   lastMonth?: string;
   /** A household being filled in: its share of its group's money, paid to its people on release. */
   fillInCash: Map<string, { group: number; amount: number; unplaced: number }>;
+  /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
+  fillIns: number;
 }
 
 interface ResidentMonth {
@@ -602,6 +604,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     incomeContractHousehold: new Map(),
     moneyCache: { serial: 0 },
     fillInCash: new Map(),
+    fillIns: 0,
   };
   const owners = packOpening(core, rt, input);
   for (const row of input.flows) {
@@ -1368,9 +1371,12 @@ export function releaseResidentHousehold(
   calendars: Map<string, WorkPayrollCalendarInput>;
   cashShare: number;
   accountId?: string;
+  /** This release's number, for naming its transfers. */
+  sequence: number;
 } {
   const rt = runtimes.get(core)!;
   const householdId = record.household.id;
+  const sequence = (rt.fillIns += 1);
   const jobIds = new Set(record.jobs.map((row) => row.id));
   const parts = partsOf(householdId);
   let outsideLiving: { amount: number; flow: FlowState } | undefined;
@@ -1487,7 +1493,7 @@ export function releaseResidentHousehold(
     }
     if (total > 0)
       transferSplit(core, rt.api, {
-        id: `fill-in:${householdId}:cash`,
+        id: `fill-in:${householdId}:${sequence}:cash`,
         lines: [
           { accountId: fundOf(rt.api, rt, cash.group), deltaMinor: -total },
           ...lines,
@@ -1558,6 +1564,7 @@ export function releaseResidentHousehold(
     schedule(rt, flow);
   }
   return {
+    sequence,
     calendars,
     // Paid from its group's account above; the pool's share is for a world
     // whose groups hold no money yet.
