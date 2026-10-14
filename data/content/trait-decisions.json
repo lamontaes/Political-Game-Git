@@ -1432,6 +1432,14 @@
     {
       "site": "src/core2/modules/retirement-claims.ts covered years",
       "why": "Covered work years estimated from reliability are a fact about the past; the claim age itself weighs traits (retirement.claim-age)."
+    },
+    {
+      "site": "src/core2/office-day-acts.ts",
+      "why": "Weighs constituent-cases.handle-case, the decision listed at its own site, for an office day's open cases (stopgap SG-OFFICE-case-rule-copy)."
+    },
+    {
+      "site": "src/core2/modules/office-day.ts",
+      "why": "Weighs legislature.sign-or-veto, the decision listed at its own site, for the player's own desk (stopgap SG-OFFICE-desk-rule-copy)."
     }
   ]
 }
