@@ -99,6 +99,13 @@ async function lane() {
     console.log(
       `${result.crash ? "CRASH" : "done "} ${result.place} (${result.state}, seed ${job.seed})`,
     );
+    if (result.crash)
+      console.log(
+        `  ${result.crash.date ?? "build"}: ${result.crash.stack ?? result.crash.message}`
+          .split("\n")
+          .slice(0, 8)
+          .join("\n  "),
+      );
   }
 }
 await Promise.all(Array.from({ length: Math.max(1, workers) }, lane));
@@ -119,7 +126,7 @@ for (const row of results) {
       ? mark(yearsRun.every((y) => y.checks[key] === true) || "fail")
       : "-";
   lines.push(
-    `| ${row.place} | ${row.state} | ${row.seed} | ${yearsRun.map((y) => y.seconds).join(", ") || "-"} | ${last?.heapGB ?? "-"} | ${all("moneyBalances")} | ${all("noEndedJobRerated")} | ${all("seatsFilled")} | ${all("contestsOnBallot")} | ${row.crash ? `${row.crash.date ?? ""} ${row.crash.message}`.replaceAll("|", "/") : ""} |`,
+    `| ${row.place} | ${row.state} | ${row.seed} | ${yearsRun.map((y) => y.seconds).join(", ") || "-"} | ${last?.heapGB ?? "-"} | ${all("moneyBalances")} | ${all("noEndedJobRerated")} | ${all("seatsFilled")} | ${all("contestsOnBallot")} (${yearsRun.reduce((n, y) => n + (y.ballotSeatsChecked ?? 0), 0)} seats) | ${row.crash ? `${row.crash.date ?? ""} ${row.crash.message}`.replaceAll("|", "/") : ""} |`,
   );
 }
 const crashes = results.filter((row) => row.crash);

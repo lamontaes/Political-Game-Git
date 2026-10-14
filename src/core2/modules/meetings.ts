@@ -27,6 +27,8 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
+import { residentsRuntime } from "./residents";
+import { isDemoted } from "../counted-groups";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -357,7 +359,6 @@ function roomTerm(api: CoreAPI, bill: BillRow): number {
  */
 export function concerns(api: CoreAPI, p: Readonly<PersonState>) {
   const date = api.state.date;
-  const age = ageOn(p, date);
   const working =
     ((api.state as CoreState).work.commitmentsByPerson.get(p.id)?.size ?? 0) >
     0;
@@ -365,17 +366,82 @@ export function concerns(api: CoreAPI, p: Readonly<PersonState>) {
     const kin = api.state.people.get(id);
     return kin?.alive && ageOn(kin, date) < 18 && kin.placeId === p.placeId;
   });
+  return concernsOf({ age: ageOn(p, date), working, children });
+}
+
+/** The one rule for whether a question touches a life, full person or counted alike. */
+function concernsOf(life: {
+  readonly age: number;
+  readonly working: boolean;
+  readonly children: boolean;
+}) {
   return (question: string) => {
     const topic = question.split(":")[1]?.split(".")[0] ?? "";
-    if (topic.startsWith("labor-") || topic === "fiscal") return working;
+    if (topic.startsWith("labor-") || topic === "fiscal") return life.working;
     if (topic === "education" || topic === "civil-family-community")
-      return children;
+      return life.children;
     if (topic === "health-human-services")
-      return age >= meetingParameter("healthConcernAge");
+      return life.age >= meetingParameter("healthConcernAge");
     if (topic === "housing-land-use")
-      return age < meetingParameter("housingConcernAgeBelow");
+      return life.age < meetingParameter("housingConcernAgeBelow");
     return false;
   };
+}
+
+const concernShares = new WeakMap<
+  CoreState,
+  { key: string; lives: ReturnType<typeof concernsOf>[] }
+>();
+
+/**
+ * The share of the town's adults whose own life a question touches, by the
+ * same rule for every resident: the full people and each counted resident,
+ * from their age, their work and the children in their household (one
+ * model, two tiers).
+ */
+export function townConcernShare(api: CoreAPI, question: string): number {
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const date = core.date;
+  const rt = residentsRuntime(core);
+  const key = `${date}|${core.people.size}|${rt?.store.membersVersion ?? 0}`;
+  let hit = concernShares.get(core);
+  if (!hit || hit.key !== key) {
+    const lives: ReturnType<typeof concernsOf>[] = [];
+    for (const p of core.people.values())
+      if (
+        p.alive &&
+        p.placeId === town &&
+        !isDemoted(p) &&
+        ageOn(p, date) >= 18
+      )
+        lives.push(concerns(api, p));
+    if (rt) {
+      const store = rt.store;
+      for (const h of store.liveHouseholds()) {
+        const members = store.countedMembers(h);
+        const ageOf = (m: number) => ageOn({ birthDate: store.born[m]! }, date);
+        const children = members.some((m) => ageOf(m) < 18);
+        for (const m of members) {
+          if (store.text(store.placeIx[m]!) !== town || ageOf(m) < 18) continue;
+          const id = store.ids[m]!;
+          const full = core.people.get(id);
+          if (full && !isDemoted(full)) continue;
+          const working = h.workCommitments.some(
+            (c) =>
+              c.personId === id && (c.endsAt === undefined || c.endsAt > date),
+          );
+          lives.push(concernsOf({ age: ageOf(m), working, children }));
+        }
+      }
+    }
+    hit = { key, lives };
+    concernShares.set(core, hit);
+  }
+  if (!hit.lives.length) return 0;
+  return (
+    hit.lives.filter((touches) => touches(question)).length / hit.lives.length
+  );
 }
 
 /** A host's answers: their stated platform, else their own lean, else no answer. */
