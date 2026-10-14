@@ -26,9 +26,13 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 | `county-commission`                    |    17 |     87 |
 | `county-commission-rural`              |    12 |     33 |
 | `public-meeting-room`                  |    15 |     74 |
-| `school-board-room`                    |     8 |     50 |
+| `school-board-room`                    |     7 |     27 |
 | `state-house-chamber`                  |    18 |    129 |
 | `state-legislative-chamber-bicameral`  |    13 |     70 |
 | `state-legislative-chamber-unicameral` |    14 |     80 |
 | `us-house-floor`                       |    26 |    126 |
 | `us-senate-floor`                      |    48 |    160 |
+
+## Rebuilt slots
+
+`school-board-room` now uses seven fixed chair anchors and 27 reviewed people, including four native-generated replacements. Its `chairs.json` records the empty-painting geometry; `report.json` records rejections. Each seat and variant includes `chair`, and variants also retain their own `head`. Other rooms retain their previous packed artwork until their replacement sheets pass visual review.

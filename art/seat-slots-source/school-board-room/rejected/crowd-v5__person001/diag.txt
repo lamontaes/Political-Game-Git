@@ -1,0 +1,13 @@
+{
+  "source": "crowd-v5.jpg",
+  "instance": 1,
+  "chair": "board-03",
+  "reasons": [
+    "visual_missing_arm"
+  ],
+  "room_pixel_share": 0.02809834420471651,
+  "shift": [
+    0,
+    1
+  ]
+}

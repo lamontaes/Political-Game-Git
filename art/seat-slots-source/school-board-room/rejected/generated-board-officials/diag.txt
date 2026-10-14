@@ -1,0 +1,4 @@
+Rejected source: ../../generated-board-officials.png
+Tool: native image_gen
+Reason: 21 requested separate people form only 15 connected alpha regions at alpha > 127; neighboring bodies touch. No repair, filtering, or splitting performed. Not eligible for packing.
+Prompt: ../../generated-board-officials.prompt.txt

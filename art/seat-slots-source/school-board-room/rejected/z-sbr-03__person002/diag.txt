@@ -1,0 +1,14 @@
+{
+  "source": "z-sbr-03.jpg",
+  "instance": 2,
+  "chair": "board-01",
+  "reasons": [
+    "disconnected",
+    "too_wide"
+  ],
+  "room_pixel_share": 0.0128622010260857,
+  "shift": [
+    0,
+    0
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source": "z-sbr-04.jpg",
+  "instance": 1,
+  "chair": "board-07",
+  "reasons": [
+    "visual_paper_or_missing_arm"
+  ],
+  "room_pixel_share": 0.022885060426844947,
+  "shift": [
+    0,
+    1
+  ]
+}

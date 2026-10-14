@@ -1,0 +1,21 @@
+{
+  "method": "Visual inspection of every cut-out in school-board-room.jpg from the first semantic-mask build. Rejected whole; no pixels repaired.",
+  "rejected": {
+    "crowd-v2__person002": "clipped_shoulder",
+    "x-sbr-05__person002": "paper_or_missing_arm",
+    "x-sbr-08__person003": "paper_or_missing_arm",
+    "crowd-v4__person005": "paper_or_missing_arm",
+    "x-sbr-03__person001": "paper",
+    "x-sbr-09__person003": "paper",
+    "x-sbr-09__person004": "headless_hair_fragment",
+    "crowd-v2__person016": "paper",
+    "crowd-v5__person001": "missing_arm",
+    "crowd-v5__person002": "paper",
+    "crowd-v4__person000": "clipped_shoulder",
+    "x-sbr-10__person000": "paper_or_missing_arm",
+    "x-sbr-09__person001": "paper_or_missing_arm",
+    "z-sbr-04__person001": "paper_or_missing_arm",
+    "x-sbr-07__person003": "occlusion_fragments",
+    "x-sbr-07__person000": "occlusion_fragments"
+  }
+}
