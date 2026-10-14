@@ -13,12 +13,11 @@ import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
 import bringJson from "./data/bring-it-up.json" with { type: "json" };
 import { renderLine, type Variant } from "./render";
-import { markWordsStopgap } from "./stopgaps";
+import { minedBringItUp } from "./mined-words";
 import { possessive, properName } from "./words";
 
 interface BringData {
   version: string;
-  stopgapId: string;
   toldEvent: string;
   heardKey: string;
   blameKey: string;
@@ -29,7 +28,10 @@ interface BringData {
   }[];
   blame: Readonly<Record<Attribution["how"], Variant[]>>;
 }
-export const BRING_IT_UP_DATA = bringJson as unknown as BringData;
+/** The structure, worded from the mined bring-it-up bank. */
+export const BRING_IT_UP_DATA = minedBringItUp(
+  bringJson as unknown as BringData,
+);
 
 export interface KnownChange {
   eventId: string;
@@ -187,7 +189,6 @@ export function bringItUp(
   const change = changesKnownTo(core, speakerId, data)[P.zero];
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
-  markWordsStopgap(data.stopgapId);
   const attribution = believedCause(core, speakerId, change, data);
   const words = data.changes.find((row) => row.eventKind === change.kind)!;
   const say = (

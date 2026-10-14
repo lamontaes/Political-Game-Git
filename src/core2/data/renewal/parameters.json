@@ -216,19 +216,6 @@
       "citation": "The model's middle half."
     }
   },
-  "renewalUnionAgeYears": {
-    "value": 23,
-    "tag": "ESTIMATED",
-    "citation": "PW-8: when a couple has no dated partner fact and no children, their start is estimated as the mother reaching the usual age of a first union. First unions for U.S. women mostly begin in the early twenties (CDC NCHS National Survey of Family Growth, first cohabitation and first marriage reports).",
-    "estimatedFrom": "NSFG first-union timing for women; registered as SG-PW8-partnership-start until partnerships carry their own start date.",
-    "spread": {
-      "low": 21,
-      "high": 25,
-      "unit": "years",
-      "citation": "Early-twenties range of first unions; the timing term's shape is checked against it."
-    },
-    "stopgapId": "SG-PW8-partnership-start"
-  },
   "renewalCountedBirthSpacingDays": {
     "value": 456,
     "tag": "ESTIMATED",

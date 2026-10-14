@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { piecesInput, piecesSource as source } from "./core-pieces-fixture";
 import { coreAPI } from "./state";
 import { createRenewalCore } from "./births-setup";
-import { birthCircumstances, partnershipStart } from "./births-plan";
+import { birthCircumstances } from "./births-plan";
 import { renewalParameter } from "./births-parameters";
 import type { CoreInput } from "./types";
 
@@ -110,22 +110,6 @@ describe("family-planning circumstances (PW-8)", () => {
     for (const { values } of circumstances)
       for (const value of Object.values(values))
         expect(Number.isFinite(value)).toBe(true);
-  });
-
-  it("estimates a missing partnership start from the couple's records, not the opening day", () => {
-    const core = createRenewalCore(couple(30_000, false), {
-      scheduledWork: false,
-    });
-    const api = coreAPI(core);
-    const start = partnershipStart(api, row(core), []);
-    expect(start < core.startedAt).toBe(true);
-    // The mother reaching the usual age of a first union.
-    expect(start.slice(0, 4)).toBe(
-      String(1996 + renewalParameter(api, "renewalUnionAgeYears")),
-    );
-    // A recorded start is kept as recorded.
-    const dated = createRenewalCore(couple(30_000), { scheduledWork: false });
-    expect(partnershipStart(coreAPI(dated), row(dated), [])).toBe("2023-07-01");
   });
 
   it("weighs a recent birth against another pregnancy, fading over about two years", () => {

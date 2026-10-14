@@ -49,7 +49,6 @@ export interface ResponseRow extends ActionDefinition {
 export interface DrivesData {
   version: string;
   stopgapId: string;
-  causeGroupKind: string;
   donationJournalSourceKind: string;
   volunteerAffordances: readonly string[];
   eventKinds: Readonly<Record<EventKindKey, string>>;
@@ -88,7 +87,6 @@ type EventKindKey =
   | "formed"
   | "shared"
   | "confronted"
-  | "founded"
   | "joined"
   | "donated"
   | "volunteered"
@@ -195,7 +193,6 @@ interface DrivesRuntime {
   drives: Map<string, HeldDrive>;
   byPerson: Map<PersonId, Map<string, HeldDrive>>;
   groupsByTopic: Map<string, Set<string>>;
-  groupFounder: Map<string, PersonId>;
   formedByYearKind: Map<string, number>;
   responsesByRule: Map<string, number>;
   perceived: number;
@@ -231,7 +228,6 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       drives: new Map(),
       byPerson: new Map(),
       groupsByTopic: new Map(),
-      groupFounder: new Map(),
       formedByYearKind: new Map(),
       responsesByRule: new Map(),
       perceived: zero,
@@ -1025,10 +1021,6 @@ function payDonation(
   return amount;
 }
 
-function founderOf(api: CoreAPI, groupId: string) {
-  return runtimeFor(api.state).groupFounder.get(groupId);
-}
-
 export function createDrivesModule(
   data: DrivesData = DEFAULT_DRIVES_DATA,
 ): CoreModule {
@@ -1209,18 +1201,8 @@ export function createDrivesModule(
               out.push(driveOffer(api, action, id, drive));
         return out;
       },
-      "unbuilt-system": () => [],
     },
     eligibilityRules: {
-      "no-known-group-on-topic": (api, actor, offer) => {
-        const drive = offer.driveId
-          ? heldFor(api, actor.id)?.get(offer.driveId)
-          : undefined;
-        if (!drive) return false;
-        return ![
-          ...(runtimeFor(api.state).groupsByTopic.get(drive.topic) ?? []),
-        ].some((id) => groupKnown(api, actor.id, id));
-      },
       "can-afford-donation": (api, actor, offer) => {
         const amount = Math.round(
           actor.livingCostDailyMinor *
@@ -1273,59 +1255,10 @@ export function createDrivesModule(
           ),
         );
       },
-      "found-cause-group": (api, actorId, offer) => {
-        const drive = drivesOf(api, actorId, offer);
-        const actor = api.state.people.get(actorId)!;
-        traceAct(api, actorId, offer, drive);
-        const id = `organization:${data.causeGroupKind}:${actorId}:${drive.id}`;
-        api.stopgap("SG-P10-group-name-key");
-        api.addOrganization({
-          id,
-          placeId: actor.placeId,
-          name: id,
-          kind: data.causeGroupKind,
-          topic: drive.topic,
-          liquidMinor: api.parameter("zero"),
-          source: {
-            tag: "SOURCED",
-            asOf: api.state.date,
-            citation:
-              "Founded in the simulation by a resident acting on a recorded drive; no registration or charter process is modeled.",
-          },
-        });
-        const runtime = runtimeFor(api.state);
-        let set = runtime.groupsByTopic.get(drive.topic);
-        if (!set) runtime.groupsByTopic.set(drive.topic, (set = new Set()));
-        set.add(id);
-        runtime.groupFounder.set(id, actorId);
-        api.join(actorId, id, drive.id);
-        api.observe(actorId, {
-          key: `cause-group:${id}:known`,
-          value: drive.topic,
-          learnedAt: api.state.date,
-          sourceId: id,
-          access: "self",
-        });
-        api.emit(
-          actEvent(api, data, data.eventKinds.founded, actorId, drive, id, []),
-        );
-      },
       "join-cause-group": (api, actorId, offer) => {
         const drive = drivesOf(api, actorId, offer);
         traceAct(api, actorId, offer, drive);
         api.join(actorId, offer.targetId, drive.id);
-        const founder = founderOf(api, offer.targetId);
-        if (
-          founder &&
-          founder !== actorId &&
-          api.state.people.get(founder)?.alive
-        )
-          api.relationship(
-            actorId,
-            founder,
-            "group",
-            api.parameter("relationContactGain"),
-          );
         api.emit(
           actEvent(
             api,
@@ -1334,7 +1267,7 @@ export function createDrivesModule(
             actorId,
             drive,
             offer.targetId,
-            founder && founder !== actorId ? [founder] : [],
+            [],
           ),
         );
       },
@@ -1367,18 +1300,6 @@ export function createDrivesModule(
       volunteer: (api, actorId, offer) => {
         const drive = drivesOf(api, actorId, offer);
         traceAct(api, actorId, offer, drive);
-        const founder = founderOf(api, offer.targetId);
-        if (
-          founder &&
-          founder !== actorId &&
-          api.state.people.get(founder)?.alive
-        )
-          api.relationship(
-            actorId,
-            founder,
-            "group",
-            api.parameter("relationContactGain"),
-          );
         api.emit(
           actEvent(
             api,
@@ -1387,7 +1308,7 @@ export function createDrivesModule(
             actorId,
             drive,
             offer.targetId,
-            founder && founder !== actorId ? [founder] : [],
+            [],
           ),
         );
       },
@@ -1443,11 +1364,6 @@ export function createDrivesModule(
           ),
         );
       },
-      "unbuilt-system": () => {
-        throw new Error(
-          "No core2 system exists for this act; it is never offered.",
-        );
-      },
     },
   };
 }
@@ -1471,8 +1387,5 @@ export function drivesReport(core: Readonly<CoreState>) {
     responsesByRule: Object.fromEntries(runtime?.responsesByRule ?? []),
     perceived: runtime?.perceived,
     decisions: runtime?.decisions ?? [],
-    groups: runtime
-      ? [...runtime.groupFounder].map(([id, founderId]) => ({ id, founderId }))
-      : [],
   };
 }

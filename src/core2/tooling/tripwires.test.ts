@@ -81,6 +81,23 @@ describe("P8 release tripwires", () => {
     expect(codes).toContain("stale-stopgap-entry");
   });
 
+  it("lets a resolved row outlive its removed marker", () => {
+    const resolved = stopgapEntry(
+      "SG-P8-GONE",
+      "src/core2/old.ts",
+      3,
+      "resolved",
+    );
+    const root = fixtureRoot({
+      sourceFiles: { "src/core2/model.ts": "export const done = true;\n" },
+      stopgaps: [{ ...resolved, resolution: "The stand-in was removed." }],
+    });
+
+    const codes = auditCore2Tripwires(root).diagnostics.map((row) => row.code);
+    expect(codes).not.toContain("stale-stopgap-entry");
+    expect(codes).not.toContain("stopgap-entry-fields");
+  });
+
   it("requires a ledger location to match the marker's actual line", () => {
     const entry = stopgapEntry("SG-P8-002", "src/core2/model.ts", 1);
     const root = fixtureRoot({

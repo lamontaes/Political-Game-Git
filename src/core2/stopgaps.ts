@@ -11,6 +11,7 @@ export interface StopgapEntry {
   addedAt: string;
   replacement: string;
   status: "open" | "resolved";
+  resolution?: string;
 }
 
 export const STOPGAPS = registry as readonly StopgapEntry[];

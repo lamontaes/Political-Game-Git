@@ -464,10 +464,12 @@ describe("story director on the new core", () => {
     for (const row of Object.values(DEFAULT_DIRECTOR_DATA.parameters)) {
       expect(["SOURCED", "ESTIMATED", "TUNABLE"]).toContain(row.tag);
       if (row.tag === "TUNABLE")
-        expect(row.stopgapId && row.checkRange).toBeTruthy();
+        expect(row.spread && row.checkRange && row.checkedAgainst).toBeTruthy();
       if (row.stopgapId) expect(ids.has(row.stopgapId)).toBe(true);
     }
-    expect(openDirectorStopgapCount()).toBe(DIRECTOR_STOPGAPS.length);
+    expect(openDirectorStopgapCount()).toBe(
+      DIRECTOR_STOPGAPS.filter((row) => row.status === "open").length,
+    );
     const folder = join(process.cwd(), "src", "director");
     const literals: string[] = [];
     for (const name of readdirSync(folder)) {

@@ -36,6 +36,17 @@ describe("the retirement claim, a decision inside the law", () => {
     expect(retirementClaimAgeMonths(base, weights)).toBe(middle);
   });
 
+  it("decides inside the ages in force when the law changes them", () => {
+    const base = { birthYear: 1965, bufferMonths: 24 };
+    const enacted = retirementClaimAgeMonths(base, weights);
+    const raised = retirementClaimAgeMonths(base, weights, {
+      earliestMonths: 62 * 12,
+      fullMonths: 68 * 12,
+      delayedMaxMonths: 70 * 12,
+    });
+    expect(raised - enacted).toBe(12);
+  });
+
   it("never claims before 62 or waits past 70", () => {
     expect(
       retirementClaimAgeMonths(

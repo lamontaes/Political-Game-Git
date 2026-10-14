@@ -140,7 +140,6 @@ export function admitWorkCommitment(
     if (span.start + span.minutes > next)
       throw new Error("Periodic job slots overlap.");
   }
-  api.stopgap("SG-P8-work-pay-terms");
   if (row.scheduleSource.tag === "ESTIMATED")
     api.stopgap("SG-P8-work-schedule-data");
   const saved = {
@@ -323,7 +322,6 @@ export function recordDiscretionaryTime(
 export function compactQuietWorkResults(core: CoreState, api: CoreAPI): void {
   const data = core.data.work;
   if (!data) return;
-  api.stopgap("SG-P8-work-result-retention");
   const weeks = api.parameter(data.routineRetentionWeeksParameter);
   if (!Number.isSafeInteger(weeks) || weeks <= api.parameter("zero"))
     throw new Error("Invalid work retention weeks.");

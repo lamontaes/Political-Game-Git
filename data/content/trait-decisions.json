@@ -45,40 +45,24 @@
           "from": "src/core2/data/drives.json#/actions/0"
         },
         {
-          "id": "found-cause-group",
+          "id": "join-cause-group",
           "from": "src/core2/data/drives.json#/actions/1"
         },
         {
-          "id": "join-cause-group",
+          "id": "donate-to-cause",
           "from": "src/core2/data/drives.json#/actions/2"
         },
         {
-          "id": "donate-to-cause",
+          "id": "volunteer-for-cause",
           "from": "src/core2/data/drives.json#/actions/3"
         },
         {
-          "id": "volunteer-for-cause",
+          "id": "confront-grudge-target",
           "from": "src/core2/data/drives.json#/actions/4"
         },
         {
-          "id": "confront-grudge-target",
-          "from": "src/core2/data/drives.json#/actions/5"
-        },
-        {
           "id": "seek-standing",
-          "from": "src/core2/data/drives.json#/actions/6"
-        },
-        {
-          "id": "testify-at-hearing",
-          "from": "src/core2/data/drives.json#/actions/7"
-        },
-        {
-          "id": "run-for-office",
-          "from": "src/core2/data/drives.json#/actions/8"
-        },
-        {
-          "id": "lobby-legislator",
-          "from": "src/core2/data/drives.json#/actions/9"
+          "from": "src/core2/data/drives.json#/actions/5"
         }
       ]
     },

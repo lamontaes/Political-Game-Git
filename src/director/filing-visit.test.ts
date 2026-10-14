@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 import { buildDeepPast } from "../core2/deep-past";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
-import { openFilingVisit, pickContest, type FilingCheck } from "./filing-visit";
+import {
+  FILING_VISIT_WORDS,
+  openFilingVisit,
+  pickContest,
+  type FilingCheck,
+} from "./filing-visit";
 
 // Golden path step 3: the clerk at the filing office speaks from GOV's
 // records (contest, deadline, each eligibility rule).
@@ -42,10 +47,12 @@ const check = (
 describe("the filing visit", () => {
   it("states the terms from the record and offers to file", () => {
     const visit = openFilingVisit(core, player.id, [contest]);
-    expect(visit.lines[0]!.text).toBe("Which office are you filing for?");
-    expect(visit.choices.map((row) => row.text)).toEqual([
-      "City Council, Seat 2.",
-    ]);
+    // Every line is a mined sentence from the clerk bank, filled from records.
+    expect(FILING_VISIT_WORDS.greet.map((row) => row.text)).toContain(
+      visit.lines[0]!.text,
+    );
+    expect(visit.choices).toHaveLength(1);
+    expect(visit.choices[0]!.text).toContain("City Council, Seat 2");
     pickContest(core, visit, contest.id, terms, [
       check("minimum-age", true, "18", "40"),
     ]);
@@ -67,12 +74,10 @@ describe("the filing visit", () => {
     const clerk = visit.lines
       .filter((row) => row.speaker === "clerk")
       .map((row) => row.text);
-    expect(clerk).toContain(
-      "You have to be at least 18 to run for City Council, Seat 2.",
-    );
-    expect(clerk).toContain(
-      "Filings for City Council, Seat 2 closed on March 5, 2021.",
-    );
+    expect(clerk.some((text) => /\b18\b/.test(text))).toBe(true);
+    // No mined clerk sentence says a filing closed: that rule is left
+    // unsaid, and the screen shows its record.
+    expect(FILING_VISIT_WORDS.rules["filing-deadline"]).toEqual([]);
     expect(visit.choices.map((row) => row.action.kind)).toEqual(["done"]);
   });
 });

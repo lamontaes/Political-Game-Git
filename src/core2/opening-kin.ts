@@ -386,12 +386,14 @@ export function buildOpeningKin(
     ) => {
       const age = movedAt.get(key);
       if (age === undefined) return;
+      const date = addDays(
+        makeIsoDate(person.birthDate),
+        Math.floor(age * p("daysPerMeanYear")),
+      ) as IsoDate;
+      // A move in the past happened by the opening day at the latest.
       out.moves.push({
         personId: person.id,
-        date: addDays(
-          makeIsoDate(person.birthDate),
-          Math.floor(age * p("daysPerMeanYear")),
-        ) as IsoDate,
+        date: date > startedAt ? startedAt : date,
         kind,
       });
     };

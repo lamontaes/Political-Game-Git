@@ -1,11 +1,22 @@
 {
   "version": "views-v1",
-  "stopgapId": "SG-P15-views-first-version",
   "keys": "ces-2024-views.json",
   "parameters": {
-    "zero": { "value": 0, "tag": "SOURCED", "citation": "Identity." },
-    "one": { "value": 1, "tag": "SOURCED", "citation": "Identity." },
-    "two": { "value": 2, "tag": "SOURCED", "citation": "Identity." },
+    "zero": {
+      "value": 0,
+      "tag": "SOURCED",
+      "citation": "Identity."
+    },
+    "one": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "Identity."
+    },
+    "two": {
+      "value": 2,
+      "tag": "SOURCED",
+      "citation": "Identity."
+    },
     "leanMin": {
       "value": -2,
       "tag": "SOURCED",
@@ -21,12 +32,15 @@
       "tag": "SOURCED",
       "citation": "Hex digits of a stable hash read as one uniform value."
     },
-    "hashRadix": { "value": 16, "tag": "SOURCED", "citation": "Hexadecimal." },
+    "hashRadix": {
+      "value": 16,
+      "tag": "SOURCED",
+      "citation": "Hexadecimal."
+    },
     "minimumCellRespondents": {
       "value": 30,
       "tag": "TUNABLE",
-      "citation": "A state-by-age cell with fewer CES respondents falls back to the whole state. Checked by towns staying inside their state's spread; spread 20 to 100.",
-      "stopgapId": "SG-P15-views-first-version"
+      "citation": "A state-by-age cell with fewer CES respondents falls back to the whole state. Checked by towns staying inside their state's spread; spread 20 to 100."
     },
     "householdShare": {
       "value": 0.5,
@@ -37,14 +51,12 @@
     "tightness": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "citation": "How much less an engaged person's stance moves on one event: people who follow politics closely resist new messages more (Zaller 1992, The Nature and Origins of Mass Opinion). No study sets the size; spread 0.25 to 0.75.",
-      "stopgapId": "SG-P15-views-first-version"
+      "citation": "How much less an engaged person's stance moves on one event: people who follow politics closely resist new messages more (Zaller 1992, The Nature and Origins of Mass Opinion). No study sets the size; spread 0.25 to 0.75."
     },
     "stanceStep": {
       "value": 0.1,
       "tag": "TUNABLE",
-      "citation": "How far one event that reaches a person moves their stance on its topic, per unit of the event's appraised impulse. No study sets the size; checked by a big event moving the people it touched and no one else. Spread 0.05 to 0.2.",
-      "stopgapId": "SG-P15-views-first-version"
+      "citation": "How far one event that reaches a person moves their stance on its topic, per unit of the event's appraised impulse. No study sets the size; checked by a big event moving the people it touched and no one else. Spread 0.05 to 0.2."
     }
   },
   "labels": [

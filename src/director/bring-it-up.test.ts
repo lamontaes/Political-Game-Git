@@ -4,6 +4,7 @@ import { buildDeepPast } from "../core2/deep-past";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { properName } from "./words";
 import {
   BRING_IT_UP_DATA,
   leansToBlame,
@@ -68,8 +69,12 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
         core.jobs.get(core.people.get(id)!.jobId!)!.organizationId !== org,
     )!;
     const said = bringItUp(core, worker.id, friendId)!;
-    expect(said.lines.map((row) => row.text)[0]).toMatch(/ closed\.$/);
-    expect(said.lines[1]!.text).toMatch(/^That was .+(?:'s|s') doing\.$/);
+    // Both lines are mined sentences filled from records: the change and
+    // the blame both name the business.
+    const name = properName(core.organizations.get(org)!.name);
+    expect(said.lines).toHaveLength(2);
+    expect(said.lines[0]!.text).toContain(name);
+    expect(said.lines[1]!.text).toContain(name);
     const [heard] = changesKnownTo(core, friendId);
     expect(believedCause(core, friendId, heard!)).toMatchObject({
       how: "told",

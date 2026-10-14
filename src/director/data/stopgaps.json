@@ -9,7 +9,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorMomentFloor); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorInterruptImpact",
@@ -21,7 +22,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorInterruptImpact); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorScaleHealth",
@@ -33,7 +35,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorScaleHealth); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorWeightTieSociability",
@@ -45,7 +48,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorWeightTieSociability); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorWeightMoneyRisk",
@@ -57,7 +61,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorWeightMoneyRisk); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorRenewedFading",
@@ -69,7 +74,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorRenewedFading); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorTies",
@@ -81,7 +87,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A calibration of thread importance against recorded closeness in replayed lives.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorTieParent, directorTieChild, directorTieSibling, directorTieGrandparent, directorTieGrandchild, directorTiePartner and 2 more); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-param-directorHalfLives",
@@ -93,7 +100,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A half-life calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorFriendHalfLifeDays, directorKinHalfLifeDays); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-appraisal-recompute",
@@ -105,7 +113,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "Read the appraisal receipt the core passes with each event.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The director reads the appraisal the core publishes with each event (publishEventAppraisal, through onEventAppraisal) instead of recomputing it."
   },
   {
     "id": "SG-P13-tie-day-order",
@@ -117,7 +126,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A relationship change notice from the core.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tie changes are read from the core's relationship change notices (notifyRelationshipChange) in the order recorded, instead of end-of-day snapshots."
   },
   {
     "id": "SG-P13-kept-fact-producers",
@@ -129,7 +139,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "Producers in the core's conversation and favor modules, listed in producedBy.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the favor and promise kept-fact kinds, which nothing produced; lies keep their real producer, conversation.lie."
   },
   {
     "id": "SG-P13-param-directorAnniversaryHalfDays",
@@ -141,7 +152,8 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A calibration against when people recall shared events.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorAnniversaryHalfDays); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P13-past-fact-estimates",
@@ -165,7 +177,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Tuning dials tagged TUNABLE with a spread and what they are checked against (directorMemoryRecentDays, directorMemoryKeptMoments); sourced rows stay ESTIMATED with their citations."
   },
   {
     "id": "SG-P15-journal-banks",
@@ -177,7 +190,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from the mined first-person corpus in the speech research, refined by the owner's grades (M4-03).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Journal lines are composed from the mined first-person bank (data/english/parts/journal.json through src/director/mined-words.ts); a moment the bank doesn't word is left out."
   },
   {
     "id": "SG-P15-conversation-banks",
@@ -189,7 +203,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from the mined speech corpus and register cards, refined by the owner's grades (M4-02).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Conversation lines are composed from the mined speech bank; each answer choice is a different mined sentence, and a subject the bank can't word isn't offered."
   },
   {
     "id": "SG-P15-scene-banks",
@@ -201,7 +216,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Narration composed from the mined corpus, refined by the owner's grades (M4-03).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Scene narration is composed from the mined narration bank; a setting or cause it doesn't word is left unsaid."
   },
   {
     "id": "SG-P15-filing-visit-banks",
@@ -213,7 +229,8 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Clerk lines composed from mined public-counter speech and refined by the owner's grades (M4-02).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The clerk's and player's lines are composed from the mined clerk bank and filled from the filing records."
   },
   {
     "id": "SG-P15-bring-it-up-banks",
@@ -225,6 +242,7 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from mined speech; blame leaning on views, trust and the person's own experience of each official (M4-05).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Bringing up a change and who caused it is composed from the mined bring-it-up bank."
   }
 ]

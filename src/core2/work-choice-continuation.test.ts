@@ -234,7 +234,6 @@ function originalAutonomousWork(
     const planned = plannedWorkMinutesOnDate(api, row);
     if (planned <= p("zero")) continue;
     api.stopgap("SG-P8-attendance-choice");
-    api.stopgap("SG-P8-work-pay-terms");
     const context = hasDailyWorkRefresh(api, actor)
       ? refresh(actor)
       : refresh(actor, [data.attendanceAction.need, data.absenceAction.need]);

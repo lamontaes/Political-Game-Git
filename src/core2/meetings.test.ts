@@ -188,12 +188,22 @@ describe("public meetings", () => {
 
     // A town hall: residents ask, the member answers from their own views.
     const host = council[1]!.holder!.personId!;
+    const knewBefore = new Set(core.people.get(host)!.knownIds);
     const hall = holdTownHall(api, { hostId: host });
     expect(hall.attendeeIds.length, where).toBeGreaterThan(0);
     expect(hall.questions.length).toBeGreaterThan(0);
     expect(hall.questions.length).toBeLessThanOrEqual(4);
     for (const a of hall.attendeeIds)
       expect(impressionOf(api, a, host), `${where}: ${a}`).not.toBeNull();
+    // The host now knows each resident who stood up to ask, met at the hall.
+    for (const q of hall.questions) {
+      expect(core.people.get(host)!.knownIds.has(q.askedBy), where).toBe(true);
+      if (!knewBefore.has(q.askedBy))
+        expect(
+          api.knows(host, `person:${q.askedBy}:met`)?.sourceId,
+          `${where}: ${q.askedBy}`,
+        ).toBe(hall.id);
+    }
     govReport(
       "meetings-comment",
       JSON.stringify({

@@ -141,9 +141,12 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const lines = composeJournal(core, fixture, player.id, {
       through: makeIsoDate("2021-04-01"),
     }).flatMap((row) => row.lines);
+    // The mined bank words no "three times" yet: the repeats stay folded
+    // into the first line rather than told again.
     expect(lines).toHaveLength(1);
-    expect(lines[0]!.text).toMatch(/three times\.$/);
-    expect(lines[0]!.momentIds).toHaveLength(3);
+    expect(lines[0]!.momentIds[0]).toBe(
+      `${player.id}:2021-03-01:fixture-contact`,
+    );
   });
 
   it("looks back on a life when it ends", () => {
@@ -152,8 +155,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     person.alive = false;
     try {
       const lines = composeLookBack(core, director, player.id);
-      expect(lines.length).toBe(chapters.length + 1);
-      expect(lines.at(-1)!.text).toMatch(/^I died in .+, at \d+\.$/);
+      // Each chapter's opening line; the mined bank words no closing line
+      // on one's own death yet, so none is added.
+      expect(lines.length).toBe(chapters.length);
       for (const line of lines)
         expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     } finally {
@@ -196,11 +200,12 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(
       raise.channels.find((row) => row.channel === "money")!.raw,
     ).toBeCloseTo(0.25);
-    const text = composeJournal(core, director, player.id).flatMap((row) =>
-      row.lines.map((line) => line.text),
+    // No mined sentence says a raise to the minimum wage or names the law,
+    // so the journal leaves both out rather than word them by hand.
+    const lines = composeJournal(core, director, player.id).flatMap(
+      (row) => row.lines,
     );
-    expect(text).toContain("My pay went up to $15.00 an hour.");
-    expect(text).toContain("A new minimum wage took effect.");
+    expect(lines.some((line) => line.momentIds.includes(raise.id))).toBe(false);
   });
 
   it("writes a relative's death and filing for office, from the events' own records", () => {
@@ -248,10 +253,12 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       row.lines.map((line) => line.text),
     );
     expect(text.some((line) => /^My \w+ died\.$/.test(line))).toBe(true);
-    expect(text).toContain("I filed to run for City Council, Seat 2.");
+    expect(text.some((line) => line.includes("City Council, Seat 2"))).toBe(
+      true,
+    );
   });
 
-  it("writes a relative moving away, as the moves engine records it", () => {
+  it("records a relative moving away, and leaves it out until the mined bank words it", () => {
     // A watched person with a relative in town (a grown child moving out, a
     // sibling across town).
     const inTown = (id: string) => {
@@ -291,10 +298,19 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       facts: { [`person:${relativeId}:residence`]: "elsewhere" },
     });
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const text = composeJournal(core, director, watcherId).flatMap((row) =>
-      row.lines.map((line) => line.text),
+    const moments = director.ledger.people
+      .get(watcherId)!
+      .moments.filter((moment) =>
+        moment.causeId.startsWith("person.moved-away:"),
+      )
+      .map((moment) => moment.id);
+    expect(moments.length).toBeGreaterThan(0);
+    const lines = composeJournal(core, director, watcherId).flatMap(
+      (row) => row.lines,
     );
-    expect(text.some((line) => /^My \w+ moved away\.$/.test(line))).toBe(true);
+    expect(
+      lines.some((line) => line.momentIds.some((id) => moments.includes(id))),
+    ).toBe(false);
   });
 
   it("writes a household move as the person's own move, never as their family leaving them", () => {
@@ -359,7 +375,6 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       .flatMap((row) => row.lines)
       .filter((line) => line.momentIds.some((id) => moments.has(id)));
     const text = lines.map((line) => line.text);
-    expect(text).toContain("We moved away.");
     expect(text.some((line) => /^My \w+ moved away\.$/.test(line))).toBe(false);
 
     // When the person's place changes that day, the move is told once, with
@@ -396,13 +411,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       )
         .flatMap((row) => row.lines)
         .map((line) => line.text);
-    const named = told(mover.placeId);
-    expect(named.filter((line) => /moved/.test(line))).toEqual([
-      `We moved to ${lifePlaceByJurisdictionId(mover.placeId as never)!.displayName}.`,
-    ]);
+    const town = lifePlaceByJurisdictionId(mover.placeId as never)!.displayName;
     expect(
-      told("jurisdiction_unnamed").filter((line) => /moved/.test(line)),
-    ).toEqual(["We moved away."]);
+      told(mover.placeId).filter((line) => line.includes(town)),
+    ).toHaveLength(1);
+    // A place with no name, and no mined line for leaving: nothing is said.
+    expect(
+      told("jurisdiction_unnamed").filter((line) => /moved|came/.test(line)),
+    ).toEqual([]);
   });
 
   it("writes starting at a school once, however many stages were spent there", () => {
@@ -456,8 +472,8 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const text = composeJournal(state, fixture, player.id)
       .flatMap((row) => row.lines)
       .map((line) => line.text);
-    expect(text.filter((line) => line.startsWith("I started at"))).toEqual([
-      `I started at ${school.facts!.schoolName}.`,
-    ]);
+    expect(
+      text.filter((line) => line.includes(String(school.facts!.schoolName))),
+    ).toHaveLength(1);
   });
 });

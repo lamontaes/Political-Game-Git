@@ -101,7 +101,7 @@ function bereavementInput(): CoreInput {
     name: "Recorded fixture public office",
     kind: "fixture-public-office",
     source,
-    affordances: ["public-meeting-place", "known-office"],
+    affordances: ["public-meeting-place", "known-office", "known-group"],
     staff: [
       {
         personId: staffId,

@@ -1,16 +1,19 @@
 /**
- * Retirement claims during play (stand-in SG-CORE-retirement-claims-in-play,
- * until GOV's Social Security program). A full person who reaches their own
- * claim age (a decision inside the law: retirement-claim.ts) and has enough
+ * Retirement claims during play. A full person who reaches their own claim
+ * age (a decision inside the Social Security ages in force: the laws module's
+ * socialSecurityAges, read through retirement-claim.ts) and has enough
  * covered work starts a monthly award from the place's Social Security payer,
  * sized as the opening sizes awards. Claims are indexed by date; nothing scans
  * the town each day.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
-import ages from "../data/social-security-ages.json" with { type: "json" };
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
-import { retirementClaimAgeMonths } from "../retirement-claim";
+import {
+  enactedSocialSecurityAges,
+  retirementClaimAgeMonths,
+} from "../retirement-claim";
+import { LAWS_MODULE_ID, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
 import { decisionLean } from "../trait-decisions";
 import { residentPerson, residentsRuntime } from "./residents";
@@ -25,7 +28,6 @@ import type {
 import { registerWorldMapPart } from "../snapshot";
 
 export const RETIREMENT_CLAIMS_MODULE_ID = "core2-retirement-claims-v1";
-const STOPGAP = "SG-CORE-retirement-claims-in-play";
 
 interface Runtime {
   known: Set<PersonId>;
@@ -79,6 +81,13 @@ interface Claimant {
   traits: Readonly<Record<string, number>>;
 }
 
+/** The law in force where the laws module runs; the enacted rows otherwise. */
+function agesOf(api: CoreAPI, birthDate: string) {
+  return api.state.modules.has(LAWS_MODULE_ID)
+    ? socialSecurityAges(api, birthDate)
+    : enactedSocialSecurityAges(Number(birthDate.slice(0, 4)));
+}
+
 function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
   const p = (key: string) => api.parameter(key);
   const cost = person.livingCostDailyMinor;
@@ -105,6 +114,7 @@ function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
       needPullYears: p(incomeData.parameters.claimNeedPullYears),
       fullBufferMonths: p(incomeData.parameters.claimFullBufferMonths),
     },
+    agesOf(api, person.birthDate),
   );
   return monthsAfter(person.birthDate, months);
 }
@@ -122,7 +132,7 @@ function index(api: CoreAPI, rt: Runtime): void {
   if (rt.countedIndexedYear !== year) {
     rt.countedIndexedYear = year;
     const [y, m] = core.date.split("-").map(Number) as [number, number];
-    const soonest = ages.earliestClaimAgeMonths - 24;
+    const soonest = agesOf(api, core.date).earliestMonths - 24;
     for (const record of residentsRuntime(core)?.households.values() ?? [])
       for (const person of record.people) {
         if (rt.known.has(person.id)) continue;
@@ -205,14 +215,7 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
     (Date.parse(`${core.date}T00:00:00Z`) -
       Date.parse(`${person.birthDate}T00:00:00Z`)) /
     (p("daysPerMeanYear") * 86_400_000);
-  const reliability = person.traits["people-mind-v1:reliability"] ?? 0;
-  const fraction = Math.max(
-    0,
-    Math.min(
-      1,
-      p(keys.coveredFraction) + reliability * p(keys.coveredTraitPull),
-    ),
-  );
+  const fraction = p(keys.coveredFraction);
   const coveredMonths = Math.floor(
     Math.max(0, age - p(keys.careerStartAgeYears)) * 12 * fraction,
   );
@@ -232,7 +235,6 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
       row.id.startsWith(`${fundingData.contributorIdPrefix}:`),
   );
   if (!payer || monthlyMinor <= 0) return;
-  api.stopgap(STOPGAP);
   const accounts = api.accounts();
   const id = `retirement-claim:${personId}`;
   const source: Source = {

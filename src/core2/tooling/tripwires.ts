@@ -103,6 +103,7 @@ const STOPGAP_FIELDS = new Set([
   "addedAt",
   "replacement",
   "status",
+  "resolution",
 ]);
 const PARAMETER_ROW_FIELDS = new Set([
   "value",
@@ -112,6 +113,7 @@ const PARAMETER_ROW_FIELDS = new Set([
   "spread",
   "stopgapId",
   "checkRange",
+  "checkedAgainst",
 ]);
 
 /** Counts open rows in the array-form stopgap registry. */
@@ -1065,6 +1067,8 @@ function inspectMarkerLedger(
 
   for (const entry of entries) {
     const rows = markersById.get(entry.id);
+    // A resolved row may outlive its marker: the stand-in is gone.
+    if (!rows && entry.status === "resolved") continue;
     if (!rows) {
       diagnostics.push({
         code: "stale-stopgap-entry",

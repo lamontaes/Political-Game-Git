@@ -16,11 +16,10 @@ export interface ChannelRow {
 
 export interface KeptFactKindRow {
   id: string;
-  /** "never", "contradicting-fact-learned" or "world-event". */
+  /** "never" or "contradicting-fact-learned". */
   endsOn: string;
   /** Core event kinds that record a fact of this kind. */
   producedBy: readonly string[];
-  stopgapId?: string;
 }
 
 export interface DirectorData {

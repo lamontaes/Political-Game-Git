@@ -51,8 +51,7 @@
       "id": "schooling",
       "evaluator": "school-day",
       "goalKind": "learn",
-      "parameters": {},
-      "stopgapId": "SG-CORE-school-days"
+      "parameters": {}
     }
   ],
   "actions": [
@@ -138,7 +137,6 @@
           "operation": "not-member"
         }
       ],
-      "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -161,7 +159,6 @@
           "operation": "not-organized-topic"
         }
       ],
-      "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -184,7 +181,6 @@
           "operation": "has-organized-topic"
         }
       ],
-      "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -199,7 +195,6 @@
       "effectParameter": "one",
       "targetKind": "office-directory",
       "effect": "public-lookup",
-      "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
@@ -218,8 +213,7 @@
       "effortParameter": "schoolDayHours",
       "effectParameter": "one",
       "targetKind": "child-school",
-      "effect": "school-day",
-      "stopgapId": "SG-CORE-school-days"
+      "effect": "school-day"
     }
   ],
   "tiers": [
