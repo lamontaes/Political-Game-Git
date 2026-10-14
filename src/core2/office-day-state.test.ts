@@ -38,6 +38,7 @@ import {
   perDiemOf,
   perDiemPaidTo,
   resultsOf,
+  seatCoveringTown,
   seatPlayerInStateOffice,
   sessionOn,
   setStops,
@@ -89,6 +90,14 @@ function tenDays(
 
 describe(`a state officeholder's day in ${place} (seed ${seed})`, () => {
   it("ten days as a state representative: done and simulated acts, read by the legislature and the ledger", () => {
+    // A place whose offices data seats no chamber for the town can't seat a
+    // representative; the gap is reported, not hidden.
+    if (!seatCoveringTown(api, "legislator")) {
+      report.push(
+        `No legislative seat in ${chain.stateKey} covers the town in the offices data: no representative's day.`,
+      );
+      return;
+    }
     const seatedOn = core.date;
     const office = seatPlayerInStateOffice(api, {
       personId: player.id,

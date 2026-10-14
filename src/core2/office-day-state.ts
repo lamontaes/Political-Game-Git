@@ -1118,6 +1118,47 @@ export function openOfficeDayState(core: CoreState): void {
 }
 
 /**
+ * The seat a state officeholder holding the town would sit in: the
+ * governorship, or the town's own seat in the lower (or only) chamber, else
+ * the upper. Null where the offices data seats no such chamber for the town
+ * (a territory whose legislature's districts aren't in the data).
+ */
+export function seatCoveringTown(
+  api: CoreAPI,
+  role: StateRole,
+  chamberKind?: string,
+): { office: OfficeRow; seat: { id: string } } | null {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const kinds =
+    role === "governor"
+      ? ["governor"]
+      : chamberKind
+        ? [chamberKind]
+        : ["legislature-lower", "legislature-unicameral", "legislature-upper"];
+  const chambers = (
+    offices
+      .table("offices")
+      .query("byJurisdiction", [
+        lawChain(api).stateKey,
+      ]) as unknown as OfficeRow[]
+  )
+    .filter((o) => kinds.includes(o.kind))
+    .sort((a, b) => kinds.indexOf(a.kind) - kinds.indexOf(b.kind));
+  for (const office of chambers) {
+    const seat = (
+      offices.table("seats").query("byOffice", [office.id]) as unknown as {
+        id: string;
+        coversTown?: boolean;
+      }[]
+    )
+      .filter((s) => s.coversTown)
+      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    if (seat) return { office, seat };
+  }
+  return null;
+}
+
+/**
  * Dev mode's custom start as a sitting state officeholder (the package's
  * "custom start as a sitting officeholder"): the serving holder's term ends
  * and the player serves out the rest of it, as a winner takes office; the
@@ -1139,31 +1180,10 @@ export function seatPlayerInStateOffice(
   if (!person?.alive) throw new Error(`No living person ${input.personId}.`);
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const stateKey = lawChain(api).stateKey;
-  const kinds =
-    input.role === "governor"
-      ? ["governor"]
-      : input.chamberKind
-        ? [input.chamberKind]
-        : ["legislature-lower", "legislature-unicameral", "legislature-upper"];
-  const office = (
-    offices
-      .table("offices")
-      .query("byJurisdiction", [stateKey]) as unknown as (OfficeRow & {
-      coversTown?: boolean;
-    })[]
-  )
-    .filter((o) => kinds.includes(o.kind))
-    .sort((a, b) => kinds.indexOf(a.kind) - kinds.indexOf(b.kind))[0];
-  if (!office) throw new Error(`${stateKey} has no ${kinds.join(" or ")}.`);
-  const seat = (
-    offices.table("seats").query("byOffice", [office.id]) as unknown as {
-      id: string;
-      coversTown?: boolean;
-    }[]
-  )
-    .filter((s) => s.coversTown)
-    .sort((a, b) => a.id.localeCompare(b.id))[0];
-  if (!seat) throw new Error(`No seat in ${office.id} covers the town.`);
+  const found = seatCoveringTown(api, input.role, input.chamberKind);
+  if (!found)
+    throw new Error(`No ${input.role} seat in ${stateKey} covers the town.`);
+  const { office, seat } = found;
   const terms = offices.table("terms");
   const serving = terms.query("bySeatStatus", [
     seat.id,
