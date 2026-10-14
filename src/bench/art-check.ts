@@ -11,6 +11,7 @@ import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { buildBenchWorld } from "./world";
+import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { openBenchFilingVisit } from "./filing";
@@ -21,7 +22,7 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "art-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
-const w = buildBenchWorld(seed, "2026-10-12", {
+const w = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
   ...(placeKey ? { placeKey } : {}),
 });

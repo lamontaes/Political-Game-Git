@@ -6,6 +6,7 @@
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { buildBenchWorld } from "./world";
+import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
@@ -19,7 +20,7 @@ import type { ContestRow } from "../core2/modules/elections";
 const seed = process.env.GOLDEN_PATH_SEED ?? "path-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const started = performance.now();
-const w = buildBenchWorld(seed, "2026-10-12", {
+const w = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
   ...(placeKey ? { placeKey } : {}),
 });
