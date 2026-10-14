@@ -771,11 +771,18 @@ function officeHolding(
     ).find((row) => row.status === "serving");
     const office = term
       ? (offices.get(term.officeId) as unknown as
-          { title?: string } | undefined)
+          { title?: string; seats?: number } | undefined)
       : undefined;
-    return office?.title
-      ? { text: office.title, sourceRecordIds: [term!.id] }
-      : undefined;
+    if (!office?.title) return undefined;
+    // One of several seats takes an article: "a council member", but "mayor".
+    const article = /^[aeiou]/i.test(office.title) ? "an" : "a";
+    return {
+      text:
+        (office.seats ?? one) > one
+          ? `${article} ${office.title}`
+          : office.title,
+      sourceRecordIds: [term!.id],
+    };
   };
 }
 

@@ -119,6 +119,19 @@ describe("the repetition guard's line rules", () => {
         }),
       ),
     ).toBeNull();
+    // The revision names a school only as where someone was known.
+    expect(
+      lineProblem(
+        line(
+          "journal",
+          "Except for Dawn Chang. I knew Dawn Chang from Chestnut Hill Elementary School. Dawn Chang became mayor.",
+          {
+            institutions: ["Chestnut Hill Elementary School"],
+            sourceRecordIds: ["person-1:school:fact"],
+          },
+        ),
+      ),
+    ).toBeNull();
   });
 
   it("fails a bill title carried as a bare command, and passes a quoted short title", () => {

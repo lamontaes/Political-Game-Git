@@ -194,7 +194,6 @@ export function loadThresholds(
 /* -------------------------------------------------------------- single lines */
 
 const SETTING_PART = /^journal\.(?:school|work|job)[-.]|filing-office/;
-const SETTING_SOURCE = /:(?:school|work|job)(?::|-started|$)/;
 const ATTENDING =
   /\b(?:went|go|going|attend\w*|graduat\w*|was at|were at|started at|enrolled|worked|work at|joined|studied|hired)\b/i;
 const IMPERATIVE_LEAD = (title: string) =>
@@ -205,14 +204,16 @@ const IMPERATIVE_LEAD = (title: string) =>
 export function lineProblem(line: GuardLine): Rule | null {
   if (line.parts.some((key) => SETTING_PART.test(key)))
     return "institution-part";
-  if (
-    line.kind === "journal" &&
-    (line.sourceRecordIds ?? []).some((id) => SETTING_SOURCE.test(id)) &&
-    (line.institutions ?? []).some((name) => line.text.includes(name))
-  )
-    return "institution-event";
+  // The event is the sentence: "I went to X School." fails, while "I knew
+  // Dawn from X School." (the revision: the person is the event) passes.
+  const sentences = line.text.split(/(?<=[.!?])\s+/);
   for (const name of line.institutions ?? [])
-    if (name && line.text.includes(name) && ATTENDING.test(line.text))
+    if (
+      name &&
+      sentences.some(
+        (sentence) => sentence.includes(name) && ATTENDING.test(sentence),
+      )
+    )
       return "institution-event";
   for (const title of line.titles ?? []) {
     if (!IMPERATIVE_LEAD(title)) continue;
