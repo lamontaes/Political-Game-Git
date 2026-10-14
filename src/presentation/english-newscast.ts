@@ -110,6 +110,10 @@ function variants(
         ...(/\b(?:failed|rejected|rejects|vetoed)\b/i.test(part.text)
           ? ["failed"]
           : []),
+        // "The unemployment rate fell to ..." only when the record says it fell.
+        ...(/\bunemployment rate fell\b/i.test(part.text)
+          ? ["unemployment-down"]
+          : []),
         ...(/\bmorning\b/i.test(part.text) ? ["morning"] : []),
         ...(/\b(?:evening|tonight|night)\b/i.test(part.text)
           ? ["evening"]

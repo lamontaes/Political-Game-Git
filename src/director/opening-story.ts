@@ -115,7 +115,6 @@ interface OpeningData {
     decimals: number;
     jobsPerSeriesUnit: number;
     jobsPerMillion: number;
-    evenShare: number;
   };
   actionWords: readonly string[];
   townStoryKinds: Readonly<Record<string, StoryKind>>;
@@ -268,7 +267,7 @@ function presidentGoals(official: OfficialRow): GroundedEnglishFact[] {
   });
 }
 
-/** The state the address names: the town's own state if the campaign went there, else the closest-fought state it visited. */
+/** The state the address names: the town's own state if the campaign went there, else the campaign's last stop. */
 function visitedPlace(
   president: PersonState,
   townState: string | null,
@@ -276,13 +275,11 @@ function visitedPlace(
   const visits = (president.pastFacts ?? []).filter(
     (row) => row.kind === PRESIDENT_FACT.visit && row.facts?.stateName,
   );
-  const closeness = (row: (typeof visits)[number]) =>
-    Math.abs(Number(row.facts?.democraticTwoPartyShare ?? P.one) - N.evenShare);
   const chosen =
     visits.find((row) => row.facts?.stateKey === townState) ??
     visits
-      .filter((row) => row.facts?.contested === "true")
-      .sort((a, b) => closeness(a) - closeness(b) || a.id.localeCompare(b.id))[
+      .slice()
+      .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id))[
       P.zero
     ];
   return chosen ? fact(chosen.facts!.stateName!, chosen.id) : null;
@@ -452,12 +449,21 @@ function townStory(
       (row) => row.regionId === regionId,
     );
   if (!region) return null;
+  const before = months.before
+    ? (regionalMonth(api, townId, months.before.month) ??
+      openingRegionMonths(months.before, (key) => api.parameter(key)).find(
+        (row) => row.regionId === regionId,
+      ))
+    : undefined;
   return {
     kind: "jobs-report",
     recordId: region.id,
     facts: {
       place: fact(townName, townId),
       percent: fact(region.unemploymentPct.toFixed(N.decimals), region.id),
+      ...(before && region.unemploymentPct < before.unemploymentPct
+        ? { "unemployment-down": fact("yes", region.id, before.id) }
+        : {}),
     },
   };
 }
@@ -482,13 +488,10 @@ function newsStory(
     },
     kind,
   );
+  // The anchor names themself only from the station's record (the bank's
+  // "I'm {name}" otherwise takes the story's name).
   const broadcast = story.broadcast.filter(
-    (line) =>
-      // A line that says a figure fell is said only when the record says it
-      // did; the anchor names themself only from the station's record (the
-      // bank's "I'm {name}" otherwise takes the story's name).
-      (!/\bfell\b/.test(line.text) || facts["unemployment-down"]) &&
-      (!/\bI'm\b/.test(line.text) || facts.anchor),
+    (line) => !/\bI'm\b/.test(line.text) || facts.anchor,
   );
   return { kind, recordId, ...story, broadcast };
 }
