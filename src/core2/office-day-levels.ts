@@ -4,7 +4,15 @@
  * import line each here for `office-day-state.ts` and `office-day-federal.ts`.
  * The played world builds its data and opens the engine from here.
  */
-import "./modules/office-day";
+import type { CoreState } from "./types";
+import { openOfficeDay as openEngine } from "./modules/office-day";
+import { openFederalDay } from "./office-day-federal";
+import "./office-day-federal-president";
 
 export { officeDayData } from "./office-day-acts";
-export { openOfficeDay } from "./modules/office-day";
+
+/** Open the officeholder's day: the engine, then each level's own records. */
+export function openOfficeDay(core: CoreState, worldSeed: string): void {
+  openEngine(core, worldSeed);
+  openFederalDay(core);
+}
