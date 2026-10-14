@@ -3078,5 +3078,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-estate-cash-only",
+    "kind": "estate",
+    "file": "src/core2/estates.ts",
+    "line": 1,
+    "whatItFakes": "A full person's estate is only their cash: homes, loans, businesses and accounts other than their main one are not settled, no will is read, and an heirless estate escheats to the town's state even when the person lived in another state. A counted relative (not a full person) does not inherit.",
+    "why": "Money stress audit defect 6 (Oct 14): a dead person's cash stayed on their record. Cash first; the rest of an estate needs property and debt records the core doesn't settle yet.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "Probate that settles debts first, passes homes and businesses by title, reads a will where the person made one, and escheats to the decedent's own state.",
+    "status": "open"
   }
 ]
