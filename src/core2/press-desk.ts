@@ -14,6 +14,7 @@
  */
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { questionAxis } from "./campaign-views";
+import { closenessBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory } from "./modules/news";
@@ -101,13 +102,10 @@ const PROXIMITY: Readonly<Record<WireLevel, string>> = {
   nation: "storyProximityNation",
 };
 
-/** How close two people are (0 to 1), from the core's relationship record. */
+/** How close two people are today (0 to 1), from the core's relationship record. */
 export function closeness(api: CoreAPI, a: string, b: string): number {
   if (a === b) return 1;
-  return (
-    (api.state as CoreState).relationships.get([a, b].sort().join(":"))
-      ?.level ?? 0
-  );
+  return closenessBetween(api.state as CoreState, a, b);
 }
 
 /** How strong a person's grudge against another is (0 to 1), from their drives. */
