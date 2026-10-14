@@ -309,7 +309,14 @@ function organizeEmployers(
     };
     const first = !table(api, "meetings").get(meeting.id);
     table(api, "meetings").put(meeting as unknown as ModuleRow);
-    if (group.lobbyistId && member.personId) {
+    // A lobbyist who sits on the body themselves doesn't lobby their own seat.
+    if (
+      group.lobbyistId &&
+      member.personId &&
+      member.personId !== group.lobbyistId &&
+      api.state.people.has(group.lobbyistId) &&
+      api.state.people.has(member.personId)
+    ) {
       api.relationship(group.lobbyistId, member.personId, "contact", 0.1);
       // The lobbyist makes the employers' case against the bill.
       if (first && question)
