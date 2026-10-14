@@ -73,6 +73,7 @@ import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { stateActEffectiveDate } from "../state-effective-date";
 import representation from "../data/offices/federal-representation.json" with { type: "json" };
+import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
@@ -1331,15 +1332,22 @@ export function askToCarry(
   // stopgapId: SG-GOV-carry-request (owner decision: confirmation pending)
   api.stopgap("SG-GOV-carry-request");
   const asker = api.state.people.get(input.askerId);
-  if (!asker) throw new Error(`No such person: ${input.askerId}`);
+  const executive = executiveOf(api, input.bodyOfficeId).term;
+  // The sitting executive is known to every member; anyone else by the
+  // share of the town they know.
+  const isExecutive = !!executive && memberKey(executive) === input.askerId;
+  if (!asker && !isExecutive)
+    throw new Error(`No such person: ${input.askerId}`);
   if (
-    !members(api, input.bodyOfficeId).some((t) => t.personId === input.memberId)
+    !members(api, input.bodyOfficeId).some(
+      (t) => memberKey(t) === input.memberId,
+    )
   )
     throw new Error(
       `${input.memberId} holds no seat on ${input.bodyOfficeId}.`,
     );
   // Asked in person: the conversation brings the two closer.
-  if (api.state.people.has(input.memberId))
+  if (asker && api.state.people.has(input.memberId))
     api.relationship(input.askerId, input.memberId, "contact", 0.05);
   const asked = {
     id: `ask:${input.bodyOfficeId}:${api.state.date}:${input.askerId}`,
@@ -1356,7 +1364,12 @@ export function askToCarry(
   const position = positionOn(api, asked, input.memberId);
   const standing =
     campaignParameter("carryStandingWeight") *
-    Math.min(1, asker.knownIds.size / campaignParameter("carryStandingCircle"));
+    (isExecutive
+      ? 1
+      : Math.min(
+          1,
+          asker!.knownIds.size / campaignParameter("carryStandingCircle"),
+        ));
   const carried = position.total + standing > 0;
   const bill = carried
     ? draftBill(api, {
@@ -1384,6 +1397,69 @@ export function askToCarry(
   };
   table(api, "carryRequests").put(row as unknown as ModuleRow);
   return row;
+}
+
+/** How an executive brings a bill of their own to the body, by office (data). */
+export function proposalRight(
+  api: CoreAPI,
+  kind: string,
+): { readonly mode: "by-request" | "none"; readonly source: string } {
+  const row = (
+    proposalData.kinds as Record<
+      string,
+      { mode: "by-request"; tag: string; citation: string } | undefined
+    >
+  )[kind];
+  if (!row) return { mode: "none", source: "" };
+  // stopgapId: SG-GOV-local-executive-proposal (one national rule for every charter)
+  if (row.tag === "ESTIMATED") api.stopgap("SG-GOV-local-executive-proposal");
+  return { mode: row.mode, source: row.citation };
+}
+
+/**
+ * The executive brings a bill of their own: no executive may introduce one
+ * in their own name, so they ask the member most inclined to carry it (their
+ * own position on the bill as the executive's, closeness to the executive
+ * among it), and that member decides as anyone asked would.
+ */
+export function proposeAsExecutive(
+  api: CoreAPI,
+  input: {
+    readonly bodyOfficeId: string;
+    readonly provisions: readonly Provision[];
+  },
+): CarryRequest | null {
+  const { office, term } = executiveOf(api, input.bodyOfficeId);
+  if (!office || !term) return null;
+  if (proposalRight(api, office.kind).mode !== "by-request") return null;
+  const executiveId = memberKey(term);
+  const trial = {
+    id: `propose:${input.bodyOfficeId}:${api.state.date}:${executiveId}`,
+    number: "",
+    bodyOfficeId: input.bodyOfficeId,
+    sponsorId: executiveId,
+    introduced: api.state.date,
+    provisions: input.provisions,
+    costEstimate: { workersRaised: 0, annualPayMinor: 0, note: "" },
+    authority: [],
+    status: "drafted",
+    deals: [],
+  } as unknown as BillRow;
+  let best: { key: string; total: number } | null = null;
+  for (const member of members(api, input.bodyOfficeId)) {
+    const key = memberKey(member);
+    if (key === executiveId) continue;
+    const total = positionOn(api, trial, key).total;
+    if (!best || total > best.total || (total === best.total && key < best.key))
+      best = { key, total };
+  }
+  if (!best) return null;
+  return askToCarry(api, {
+    askerId: executiveId,
+    memberId: best.key,
+    bodyOfficeId: input.bodyOfficeId,
+    provisions: input.provisions,
+  });
 }
 
 /**
@@ -1903,24 +1979,24 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
 }
 
 /**
- * The executive's turn: a governor, or a directly elected mayor (or other
- * chief executive with a veto), signs or vetoes from their own position;
- * where the form of government gives no veto, a passed bill is law. An
- * override needs two thirds of every chamber's whole membership (the modal
- * rule, counted against all members; `vetoOverrideShare`).
+ * The elected executive over a body's bills (the mayor, county executive,
+ * governor or President), the office whether or not anyone holds it.
  */
-function executiveAction(
+export function executiveOf(
   api: CoreAPI,
-  bill: BillRow,
-  tallies: readonly { yes: number; no: number; members: number }[],
-): BillRow {
+  bodyOfficeId: string,
+): {
+  readonly office: { readonly id: string; readonly kind: string } | undefined;
+  readonly term: TermRow | undefined;
+  readonly federal: boolean;
+} {
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const body = offices.table("offices").get(bill.bodyOfficeId) as unknown as {
+  const body = offices.table("offices").get(bodyOfficeId) as unknown as {
     jurisdiction: string;
     kind: string;
   };
   const federal = body.kind.startsWith("us-house") || body.kind === "us-senate";
-  const executiveOffice = (
+  const office = (
     offices
       .table("offices")
       .query("byJurisdiction", [
@@ -1934,11 +2010,9 @@ function executiveAction(
     (o) =>
       o.elected && /^(mayor|governor|county-executive|president)$/.test(o.kind),
   );
-  const seated = executiveOffice
+  const seated = office
     ? (
-        offices
-          .table("seats")
-          .query("byOffice", [executiveOffice.id]) as unknown as {
+        offices.table("seats").query("byOffice", [office.id]) as unknown as {
           id: string;
         }[]
       ).flatMap(
@@ -1951,7 +2025,26 @@ function executiveAction(
             ]) as unknown as TermRow[],
       )[0]
     : undefined;
-  const executive = seated ? holderOf(api, seated) : undefined;
+  return { office, term: seated ? holderOf(api, seated) : undefined, federal };
+}
+
+/**
+ * The executive's turn: a governor, or a directly elected mayor (or other
+ * chief executive with a veto), signs or vetoes from their own position;
+ * where the form of government gives no veto, a passed bill is law. An
+ * override needs two thirds of every chamber's whole membership (the modal
+ * rule, counted against all members; `vetoOverrideShare`).
+ */
+function executiveAction(
+  api: CoreAPI,
+  bill: BillRow,
+  tallies: readonly { yes: number; no: number; members: number }[],
+): BillRow {
+  const {
+    office: executiveOffice,
+    term: executive,
+    federal,
+  } = executiveOf(api, bill.bodyOfficeId);
   let status: BillRow["status"] = "enacted";
   let decision: { executiveId: string; action: string } | undefined;
   // A mayor vetoes only where the state's law gives the office a veto (and

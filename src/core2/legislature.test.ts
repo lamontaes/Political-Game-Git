@@ -48,9 +48,12 @@ import {
   votesOn,
   authorityFor,
   askToCarry,
+  executiveOf,
+  proposalRight,
+  proposeAsExecutive,
   type Provision,
 } from "./modules/legislature";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
 import { partySide } from "./appointments";
 import { officialLean, officialOf } from "./modules/officials";
 import {
@@ -714,6 +717,36 @@ describe("asking a member to carry a bill", () => {
       api.state.relationships.get([asker.id, member].sort().join(":"))?.level ??
         0,
     ).toBeGreaterThan(before);
+  });
+
+  it("the executive brings a bill through the member most inclined to carry it", () => {
+    const states = Object.keys(authority).sort();
+    const { api, council } = town(states, "propose");
+    const body = council[0]!.office.id;
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const { office, term } = executiveOf(api, body);
+    const asked = proposeAsExecutive(api, {
+      bodyOfficeId: body,
+      provisions: [provision],
+    });
+    // No elected executive (a manager runs the town): nobody to propose.
+    if (!office || !term) {
+      expect(asked).toBeNull();
+      return;
+    }
+    expect(proposalRight(api, office.kind).mode).toBe("by-request");
+    expect(asked!.askerId).toBe(memberKey(term));
+    // The sitting executive is known to every member.
+    expect(asked!.standing).toBe(campaignParameter("carryStandingWeight"));
+    expect(asked!.carried).toBe(asked!.position.total + asked!.standing > 0);
+    if (asked!.carried)
+      expect(billOf(api, asked!.billId!).sponsorId).toBe(asked!.memberId);
   });
 });
 

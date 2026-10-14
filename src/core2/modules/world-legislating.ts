@@ -42,12 +42,14 @@ import {
   authorityFor,
   beyondPower,
   draftBill,
+  executiveOf,
   FEDERAL_HOUSE,
   holdVote,
   leanOf,
   memberKey,
   members,
   POLICY_QUESTIONS,
+  proposeAsExecutive,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
   settledness,
@@ -433,7 +435,16 @@ function holdSession(
     sponsor: Filer;
     cosponsors: number;
     leaderReason: number;
+    /** The bill a member filed at the executive's request. */
+    drafted?: BillRow;
   }[] = [];
+  // The executive over the body brings what no member files, through the
+  // member they ask (the player decides their own requests).
+  const head = input.body ? executiveOf(api, input.body.id).term : undefined;
+  const executive =
+    head && memberKey(head) !== (api.state as CoreState).playerId
+      ? filerOf(api, head)
+      : null;
   for (const question of input.body ? PLATFORM_QUESTIONS : []) {
     for (const direction of [1, -1]) {
       if (!input.needsChange(question, direction)) continue;
@@ -455,7 +466,40 @@ function holdSession(
           sponsor = member;
         }
       }
-      if (!sponsor) continue;
+      if (!sponsor) {
+        if (
+          !executive ||
+          filingReason(executive, question, direction, law) <= 0
+        )
+          continue;
+        const request = proposeAsExecutive(api, {
+          bodyOfficeId: input.body!.id,
+          provisions: [{ kind: "policy-question", question, value: direction }],
+        });
+        const drafted = request?.billId
+          ? (api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("bills")
+              .get(request.billId) as unknown as BillRow)
+          : undefined;
+        if (!request || !drafted) continue;
+        filed.push({
+          question,
+          direction,
+          sponsor:
+            filers.find((f) => f.key === request.memberId) ??
+            filerOf(
+              api,
+              input.filers.find((t) => memberKey(t) === request.memberId)!,
+            ),
+          cosponsors,
+          leaderReason: leader
+            ? filingReason(leader, question, direction, law)
+            : 0,
+          drafted,
+        });
+        continue;
+      }
       filed.push({
         question,
         direction,
@@ -477,17 +521,19 @@ function holdSession(
   const floorTime = Math.round(input.floorDays * input.billsPerFloorDay);
   const bills: SessionBill[] = [];
   filed.forEach((item, index) => {
-    const drafted = draftBill(api, {
-      bodyOfficeId: input.body!.id,
-      sponsorId: item.sponsor.key,
-      provisions: [
-        {
-          kind: "policy-question",
-          question: item.question,
-          value: item.direction,
-        },
-      ],
-    });
+    const drafted =
+      item.drafted ??
+      draftBill(api, {
+        bodyOfficeId: input.body!.id,
+        sponsorId: item.sponsor.key,
+        provisions: [
+          {
+            kind: "policy-question",
+            question: item.question,
+            value: item.direction,
+          },
+        ],
+      });
     const reached = index < floorTime;
     const bill = reached
       ? holdVote(api, drafted.id)

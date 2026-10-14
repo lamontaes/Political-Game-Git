@@ -3222,5 +3222,17 @@
     "addedAt": "2026-10-14",
     "replacement": "The owner's confirmation of the carry request (or its replacement); then this row resolves.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-local-executive-proposal",
+    "kind": "assumed-data",
+    "file": "src/core2/data/legislature/executive-proposal.json",
+    "line": 1,
+    "whatItFakes": "One national rule for how a mayor or county executive brings a bill of their own: through a member who carries it at their request. Charters differ (some let the mayor introduce ordinances directly).",
+    "why": "No per-place charter data on executive bill introduction exists yet; the national pattern (NLC, NACo) stands in.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Per-city and per-county charter research on who may introduce legislation, read by proposalRight.",
+    "status": "open"
   }
 ]
