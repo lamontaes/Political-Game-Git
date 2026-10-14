@@ -9,6 +9,7 @@ import {
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
+import { transferCash } from "./world-transfer";
 import type { CoreInput, Source } from "./types";
 
 const start = "2021-01-01",
@@ -123,5 +124,71 @@ describe("property tax bills", () => {
     ]);
     expect(second).toBe(Math.round((40_800_000 * 0.02) / 12));
     expect(core.organizations.get(county)!.liquidMinor).toBe(first + second);
+  });
+  it("tax an owner can't pay is kept as an arrears row; the next bill adds it, is paid it first, clears the row, and every dollar balances", () => {
+    registerPropertyTax(() => ({
+      rate: 0.02,
+      payeeId: county,
+      lawRowId: "law:property-tax:fixture",
+      source: src,
+    }));
+    const base = input();
+    const core = createLifeCore(
+        {
+          ...base,
+          people: base.people.map((p) => ({ ...p, liquidMinor: 10_000 })),
+        },
+        { data: worldCoreData(), modules: [HOUSING_MODULE] },
+      ),
+      api = coreAPI(core);
+    const all = () =>
+      [...core.people.values(), ...core.organizations.values()].reduce(
+        (n, row) => n + row.liquidMinor,
+        0,
+      );
+    const outsideNet = () =>
+      [...core.cashJournal.externalFlowsByOwner.values()].reduce(
+        (n, row) => n + row.netMinor,
+        0,
+      );
+    advanceCore(core, "2021-01-02");
+    const start = all() + outsideNet();
+    const assessments = api.moduleState("housing").table("assessments");
+    const arrears = api.moduleState("housing").table("taxArrears");
+    const homes = [
+      {
+        householdId: "household:owner",
+        placeId: place,
+        valueMinor: 40_000_000,
+      },
+    ];
+    const bill = Math.round((40_000_000 * 0.02) / 12);
+    const have = core.people.get("owner")!.liquidMinor;
+    const paid = billPropertyTax(api, assessments, homes, arrears);
+    expect(paid).toBe(have);
+    expect(arrears.get("tax-arrears:household:owner")).toMatchObject({
+      householdId: "household:owner",
+      dwellingId: "dwelling:household:owner",
+      amountMinor: bill - have,
+      since: "2021-01-02",
+      lawRowId: "law:property-tax:fixture",
+    });
+    expect(all() + outsideNet()).toBe(start);
+    // Cash arrives; the next bill is this month's plus what's owed, and the row clears.
+    advanceCore(core, "2021-02-02");
+    transferCash(
+      api,
+      "topup:owner",
+      "organization:outside",
+      "owner",
+      1_000_000,
+      src,
+    );
+    const before = core.organizations.get(county)!.liquidMinor;
+    const second = billPropertyTax(api, assessments, homes, arrears);
+    expect(second).toBe(bill + (bill - have));
+    expect(core.organizations.get(county)!.liquidMinor - before).toBe(second);
+    expect(arrears.get("tax-arrears:household:owner")).toBeUndefined();
+    expect(all() + outsideNet()).toBe(start + 1_000_000 - 1_000_000);
   });
 });
