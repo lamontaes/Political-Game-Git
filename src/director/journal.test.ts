@@ -440,9 +440,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(told("jurisdiction_unnamed")).toEqual([]);
   });
 
-  it("tells a quiet school only when someone from it matters later, revised as it is read", () => {
-    // Owner, Oct 14: an uneventful school chapter gains "except for one
-    // person" twenty years on, when that friend becomes important.
+  it("never titles a chapter by a school, and remembers a schoolmate who matters later", () => {
+    // Owner, Oct 14: school years are not entries unless something happened;
+    // a schoolmate who becomes important is remembered as their story.
     const person = core.people.get(player.id)!;
     const mate = (person.pastFacts ?? []).find(
       (fact) =>
@@ -480,12 +480,18 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(
       composeJournal(core, fixture, player.id, { officeOf: () => undefined }),
     ).toEqual([]);
-    // Years later the schoolmate holds office: the chapter turns on them.
+    // Years later the schoolmate holds office: they are remembered, in a
+    // chapter the school does not title.
     const mayor = { text: "Mayor", sourceRecordIds: ["fixture-term"] };
-    const lines = composeJournal(core, fixture, player.id, {
+    const chapters = composeJournal(core, fixture, player.id, {
       officeOf: (id) => (id === mate.facts!.otherPersonId ? mayor : undefined),
-    }).flatMap((row) => row.lines);
+    });
+    const schoolName = String(school.facts?.schoolName ?? "");
+    for (const chapter of chapters)
+      if (schoolName) expect(chapter.title).not.toContain(schoolName);
+    const lines = chapters.flatMap((row) => row.lines);
     expect(lines).toHaveLength(1);
+    expect(lines[0]!.text).not.toMatch(/^Except/);
     expect(lines[0]!.text).toMatch(/mayor/);
     expect(lines[0]!.sourceRecordIds).toContain(mate.id);
   });
