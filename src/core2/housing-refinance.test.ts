@@ -72,14 +72,14 @@ describe(`refinancing (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () =
     );
     if (high > 0) expect(refis.length).toBeGreaterThan(0);
     // A household can refinance again as rates keep falling: its loan carries the latest one's terms.
-    const latest = new Map<string, (typeof refis)[number]>();
+    const newest = new Map<string, (typeof refis)[number]>();
     for (const row of refis) {
       expect(row.toRate).toBeLessThan(row.fromRate);
       expect(row.paymentAfterMinor).toBeLessThan(row.paymentBeforeMinor);
-      const held = latest.get(row.householdId);
-      if (!held || held.date < row.date) latest.set(row.householdId, row);
+      const held = newest.get(row.householdId);
+      if (!held || held.date < row.date) newest.set(row.householdId, row);
     }
-    for (const row of latest.values()) {
+    for (const row of newest.values()) {
       const id = `mortgage:${row.householdId}`;
       const loan = housing.table("mortgages").get(id) as unknown as {
         paymentMinor: number;
