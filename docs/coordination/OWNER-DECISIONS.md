@@ -4,6 +4,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
+- **Towns larger than 10,000 (two-tier package, #4172).** A town under 10,000 now opens at its real Census size. A larger town still opens with 10,000, the October 9 target. Should a bigger town count its full population, each counted household standing for several? (SG-CORE-owner-decision-town-size)
+- **What a town's districts are.** The game has no city wards; a town's districts are the state House districts its people split into, else the whole town. Should council wards come later as their own districts? (SG-CORE-owner-decision-town-districts)
+- **Relatives of a person met for the first time.** They come with household, job, coworkers and employer, but no relatives living elsewhere. Acceptable for early access? (SG-CORE-owner-decision-fill-in-outside-kin)
+- **Demotion wait.** A filled-in household returns to the counts after 180 days without contact (never the player's household, circle, officials, public workers, business owners). Is 180 days right? (SG-CORE-owner-decision-demotion-days)
+
 - **Kit 12 versus Kit 13 (found by the Drive digests, Oct 14).** The play page was restyled tonight on Kit 12 (the Oct 2 packet). Kit 13's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md, owner Oct 4 and 5) is newer: brass corner ornaments ON the panel, no scrolling inside a menu, the chevron rule (only on a static button while activated, never in radial menus), People / Calendar / Money tabs with the selected tab a raised glass box, the approved icons, search, dropdown, slider and progress bar. Same fonts. Newest wins: PLAY reconciles the page to Kit 13's controls. Owner to confirm that logo and Steam art stay navy (the UI ban on navy does not name them).
 
 - **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
@@ -12,7 +17,22 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
-## Ruled, October 14, 2026 (late)
+## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
+
+- **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
+
+- **Town size (day-one audit):** a town opens at its real Census size; nothing pads it to 10,000. Follows one model, two tiers (counts must match the place).
+- **Which place is the town:** the governing unit the player lives in, the one whose offices they could run for (the town, not the village inside it), from the place data.
+- **A generated official's campaign past** holds an opponent, vote totals, promises and the result (#4190 built it); a date and a fixed share is a placeholder.
+- **A law with two effective dates** (premiums collected from one date, benefits paid from another) carries both, each read by the engine that collects or pays.
+- **The opening past** (falling-outs, favors, who held which job) may be seeded generation of what happened, consistent with each person's record, as the register allows for who exists; nothing after day one is a draw.
+- **State party leaders** come from the whole state's generated people, not the player's town.
+- **Tie by lot in a small race:** the state's statute from data where it names a size; else a registered ESTIMATED line (elections PR #4171).
+- **Felony-barred share** on the voting-eligible base as published, an estimate with its source.
+- **A named voter's single vote** follows a running account of their own voting record (sliding, no coin).
+- **A primary where nothing separates two candidates** is still decided: voters read what does separate them (standing, incumbency, money, endorsements, name recognition from the press); a race is never left blank by most voters.
+- **A child does not take up a cause:** drives read a person's age and standing on a sliding scale; a three-year-old with activist traits is a defect, not a personality (traitWeight 1.0 stands).
+- **Tests of removed mechanics are retired** with the mechanic (replace, never layer).
 
 - **The opening's sequence:** the president's address with the vice president and key people behind them, pointed out by name and office as the camera passes; then Congress; then your governor with a few important state legislators; then your family, if you have one (else skip); then into the game at home. Cutaways during the address follow the sentence's subject.
 
@@ -88,3 +108,19 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Generated versus simulated people:** every named official (governors, Congress, cabinet, town and state officeholders) is a full person with a campaign past from day one; everyone else is counted until the player meets or clicks them, then built from the records and demoted when they leave the player's life.
 - **Sources for tuning:** copyrighted writing may be read to calibrate the English engine; only public-domain or permissively licensed text ships verbatim.
 - **Sub-agents:** three Haiku, two Sonnet or one Opus per session, for parallel work or research only; audits run as an Opus session with up to ten Haiku tracers and one Sonnet verifier.
+
+## Rulings, October 14, 2026, morning (owner, spoken; recorded by the CTO)
+
+- **Replacement means every role.** When anyone dies, leaves or is removed, the role is refilled by whoever fills it in life: an outlet hires a new reporter, a business hires a new clerk, an organization names a new chair, a seat follows its vacancy rule. No role stays empty because its holder is gone. The press engine's refill (#4180) is the pattern for every engine.
+- **The journal is a dramatized story, not a list of facts.** It reads like a memoir: "When I was seven my dad died; I had no idea how much that would shape my life." School years are not entries unless something happened in them. Entries are procedural and revised later: an uneventful high school chapter gains "except for one person" twenty years on, when that friend becomes important. Running, winning, losing, deciding to run are entries. "The bill passed" is not a chapter about a son. No entry is a lone event with no story around it.
+- **Bills follow the real form.** Numbering, title, sections and enacting language follow the norm for that body, as a real bill reads. The player edits only the terms (the amount, the date, yes or no on a provision), each a clickable field; the rest is written by the engine. Hearing minutes are fine as minutes. A notice from the election office is the kind of thing the newspaper prints.
+- **Businesses are generated with real-sounding names.** Not "general store" (not what Americans say) and not real brands: generated chains and local names, with real people in them.
+- **Anything the tracer cannot answer is a dev-mode item.** A legislative vote shows each member's reasons; a business closing shows its books; a budget cut names the law and the line's history; a person shows job, pay, hours and spending.
+- **Why, every time.** Recall petitions against every board member at once, a legislature passing its whole year on one day, a nineteen-year-old cashier with $9,900 saved, a governor unopposed, a defeated state House member with no next chapter, every winner taking office on January 1: each is a defect until the record answers why.
+- **Statewide races draw statewide candidates.** The state's party leaders and officeholders are the pool for governor, lieutenant governor, attorney general and the like; a race with only the town's people weighing it is wrong.
+- **Taking office follows the law of the place**, from data (constitution or statute, cited), not a single date.
+- **Legislatures meet on their calendar.** Bills are heard and voted across the session days the state's calendar gives (#4173), never all on one day.
+- **An every-place runner.** The dev system runs every one of the 56 places at once for a number of years and reports every crash and broken invariant with the place, seed and stack, so a failure in one place is found before a player finds it.
+- **A graded part withdraws the rest (owner, Oct 14, 2026, morning).** When the owner grades part of a words batch, the ungraded remainder is withdrawn, the engine applies the grades to every line it produces, regenerates the whole batch, and only then is a new batch put in front of him. A batch that is still repetitive is not ready; the pipeline carries an automatic repetition guard with its thresholds in the parameter table.
+- **The CTO asks why before reporting (owner, Oct 14, 2026, morning).** A report of what the engine did carries the cause from the code or the record for every number and every repeated pattern, found by the CTO before the owner has to ask. The owner should not have to list the gaps; a lopsided total, a constant, a repeated date or a tiny balance is a question the report answers.
+- **Sessions never send messages (owner, Oct 14, 2026, morning).** A cloud session never calls send_message, send_later or any trigger; those prompts block it. Everything a session has to say goes in its PR body (top section, newest first) and its status file. The CTO reads PR bodies and relays.
