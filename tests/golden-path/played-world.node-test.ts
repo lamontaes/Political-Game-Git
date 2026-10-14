@@ -611,8 +611,12 @@ function playWorld(seed: string) {
   const local = held.filter(
     (c) => c.level !== "federal" && c.level !== "state",
   );
+  // A race nobody filed for has no one to vote for: that is a candidacy
+  // matter (who runs), counted under "a named challenger runs", not a silent
+  // counted population.
   const silent = local.filter(
     (c) =>
+      ballot(api, String(c.id)).length > 0 &&
       Object.values(resultOf(api, String(c.id))!.countedVotes).reduce(
         (n, v) => n + v,
         0,
@@ -628,7 +632,7 @@ function playWorld(seed: string) {
             .map((c) => c.title)
             .join(
               "; ",
-            )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels.`,
+            )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
         );
 
   // Break 12: the counted population changes.

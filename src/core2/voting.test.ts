@@ -170,8 +170,18 @@ describe("M2-07 elections", () => {
     // Every candidate, resident or official, has a name to show.
     for (const id of candidates)
       expect(candidateIdentity(api, id)?.familyName, id).toBeTruthy();
-    for (const id of filed.map((f) => f.personId))
-      expect(candidates).toContain(id);
+    // A filer is on the general ballot unless a primary before it knocked
+    // them out (their filing is then withdrawn).
+    for (const f of filed.filter((f) => !candidates.includes(f.personId))) {
+      const now = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(f.id) as unknown as FilingRow;
+      expect(
+        now.status === "withdrawn" && contest!.primaryDate !== null,
+        `${place}: ${f.personId} is off the ballot without losing a primary`,
+      ).toBe(true);
+    }
     // Every named adult has a ballot with their own reasons; votes add up.
     const ballots = api
       .moduleState(VOTING_MODULE_ID)
