@@ -120,6 +120,27 @@ export function sameMoment(
 
 const SLOT = /\{(\w+)\}/g;
 
+const NUMBER =
+  /^(?:about |over |nearly )?\$?[\d,.]+%?$|^(?:one|two|three|four|five|six|seven|eight|nine|ten)$/i;
+/** Slots that hold a number, an amount or a proper name: what a value must look like. */
+const SLOT_SHAPE: Record<string, RegExp> = {
+  age: NUMBER,
+  years: NUMBER,
+  n: NUMBER,
+  count: NUMBER,
+  number: NUMBER,
+  votes: NUMBER,
+  percent: NUMBER,
+  amount: NUMBER,
+  money: NUMBER,
+  fee: NUMBER,
+  year: /^\d{4}$/,
+  name: /^\p{Lu}/u,
+  other: /^\p{Lu}/u,
+  opponent: /^\p{Lu}/u,
+  relation: /^(?:my|his|her|their|our) \p{L}/iu,
+};
+
 function escape(text: string): string {
   return text.replace(/[.*+?^$()|[\]\\]/g, "\\$&");
 }
@@ -144,6 +165,10 @@ export function slotValues(
   names.forEach((name, at) => {
     values[name] = match[at + 1]!;
   });
+  // A slot holds the kind of fact it names: "My daughter was born." is not
+  // "{relation} was {age}." with the age "born".
+  for (const [name, value] of Object.entries(values))
+    if (SLOT_SHAPE[name] && !SLOT_SHAPE[name].test(value)) return null;
   return { values, index: match.index, length: match[0].length };
 }
 
