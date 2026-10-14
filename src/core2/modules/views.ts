@@ -278,6 +278,22 @@ function stancesTable(api: CoreAPI) {
   return api.moduleState(VIEWS_MODULE_ID).table("stances");
 }
 
+/**
+ * A custom world's lean shift (M6-04: -1, all left, to +1, all right, as the
+ * player set it; placeMetadata.worldSettings), on the views' scale: the shift
+ * times half its width. Zero in a world built from real data.
+ */
+function customLeanShift(core: Readonly<{ placeMetadata?: unknown }>): number {
+  const text = (core.placeMetadata as { worldSettings?: string } | undefined)
+    ?.worldSettings;
+  if (!text) return v("zero");
+  const shift = (JSON.parse(text) as { politics?: { leanShift?: number } })
+    .politics?.leanShift;
+  return Number.isFinite(shift)
+    ? shift! * ((v("leanMax") - v("leanMin")) / v("two"))
+    : v("zero");
+}
+
 /** A person's view, formed from their record the first time it is read. */
 export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const table = viewsTable(api);
@@ -300,7 +316,10 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
       normal(`${seed}:views:person:${person.id}`);
   const lean = Math.min(
     v("leanMax"),
-    Math.max(v("leanMin"), cell.mean + cell.sd * z),
+    Math.max(
+      v("leanMin"),
+      cell.mean + cell.sd * z + customLeanShift(api.state),
+    ),
   );
   // Following politics: the cell's average, spread by the person's own key
   // (u to the power a has mean 1 / (a + 1)).
