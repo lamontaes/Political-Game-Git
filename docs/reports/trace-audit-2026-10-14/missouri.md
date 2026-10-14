@@ -1,0 +1,52 @@
+# Missouri: Benton, seed 70cdb7d9991e
+
+## The year
+
+Benton, Missouri (place 2904798) started 2025 with 1,849 modeled people and 122 organizations. It ended the year with 1,904 people (1,899 alive) and 138 organizations. The player, Blair Garrett, was alive at year end with no job and $0 in cash, in household_9e90c62fdf7e0405.
+
+The town council organized on 2025-02-04, with person_81838274c31da570 as council president. That day it passed measure 2025-001, on partnering with federal immigration enforcement, by 4-1. The measure took effect 2025-03-06. On 2026-01-01 the council adopted the 2026 budget 5-0, with eleven lines dropped in amendment. The only town budget line changed in the file is parks, by 2,070 minor units.
+
+The county replaced its property tax on 2026-01-01 with a rate of 0.62 percent of home value.
+
+The state House met on 2025-05-16. It took up 50 bills that day, and the Senate voted on them the same day. Of the 51 state House bills, 14 were enacted and 37 failed. Several laws took effect on 2025-08-14, including right to work, cannabis sales and a Medicaid work requirement. The state minimum wage was $15.00 from 2025-01-21. It became $13.75 on 2025-08-15. On 2025-07-01 the legislature adopted the state budget 111-50. Ten of its thirteen lines were cut, including welfare and Medicaid, down 44,185,504,724 minor units.
+
+Four state House seats were vacated in 2025: two by moving away and two by death. The file shows no special election and no appointment for any of them. A $43.7 billion retirement contribution was booked on 2025-07-20 and reversed on 2025-08-14.
+
+Congress adopted the federal budget on 2025-10-01 (House 246-187, Senate 68-32), with seven functions dropped in amendment. The U.S. House record shows 25 bills: 3 enacted, 2 vetoed and 20 failed. Many federal records fall on 2025-12-15.
+
+No election or contest was recorded. The contests table shows 0 of 27. Three businesses closed. One closed on 2025-05-05 for exhausted cash and credit, and two closed on 2025-06-01 and 2025-11-01 with the reason "losses-kept." One organization was founded on 2025-12-01. Five single-family homes were completed, none affordable. The year summary reports 0 deaths, although two House seats were vacated by death.
+
+## Local / State / Federal at a glance
+
+- Local: works with gap: the council organized, passed a measure and adopted a budget, but no municipal election or contest appears in the file, and a U.S. House member is recorded as council president on 2025-12-15.
+- State: works with gap: House and Senate votes, a budget and laws all ran, but four House seats were vacated with no special election, and the minimum wage fell from $15.00 to $13.75 after a vote recorded against raising it.
+- Federal: works with gap: the budget and floor votes ran, but Missouri's House record holds 2025-12-15 bills sponsored by North Carolina and Indiana members, chaired by a Utah member, and the Senate vote on one of them lists an Alaska senator first.
+
+## Needs a why
+
+1. Minimum wage fell. `law:US-MO:state:minimum-wage:general:2025-01-21` set 1500 minor/hour ($15.00). `2025-08-15 law-took-effect ... "series":"minimum-wage" ... "value":"1375"` set $13.75. Why did the floor drop when the raise-minimum-wage law (2025-008) took effect 2025-08-14 with value 0?
+2. Measure number collision. `vote-recorded:vote:2025-008:official:term:seat:US-MO:us-senate:1:2025-01-20` shows measureId 2025-008 on clean-air-plan (position -1). The state law numbered 2025-008 is raise-minimum-wage. Why does one measure number point to two measures?
+3. Budget line before the law. `2025-07-20 budget-line-changed ... "line":"retirementContributions","deltaMinor":"43718262000"` came 25 days before the law took effect on 2025-08-14, then `2025-08-14 budget-line-changed ... "deltaMinor":"-43718262000"` with `#undo`. Why was the money booked before the law was in force?
+4. Tie that passed. `2025-05-16 legislative-vote ... "number":"2025-013","chamber":"office:US-MO:legislature-upper","yes":"17","no":"17"`. A pension bill (fund-pensions-to-schedule) took effect 2025-08-14 anyway. Why did a 17-17 tie produce a law, and why does the lower chamber's vote (109-53) point the other way?
+5. Same-day passage. Fifty lower-chamber bills were introduced on 2025-05-16, and each has a committee hearing, a House floor vote, a Senate committee and a Senate floor vote that same day (for example `2025-05-16 legislative-vote ... "number":"2025-004" ... "yes":"112","no":"50"`). Why does every bill clear all four stages in one day?
+6. Identical tallies. Senate floor votes read 24-10 on 2025-003, 2025-004, 2025-006, 2025-007 and 2025-008 (chamber `legislature-upper`). Lower floor votes read 112-50 on 2025-004, 2025-006, 2025-007 and 2025-008. Why do unrelated bills land on the same totals?
+7. Identical committee tallies. Senate committee hearings chaired by `official:term:seat:US-MO:upper:029:0` read yes 7, no 3 on about eight bills in a row. Lower committee hearings chaired by `official:term:seat:US-MO:lower:153:0` read yes 8, no 3 on about a dozen. Why do the same tallies repeat?
+8. Held with no vote. Forty `bill-held-in-committee` records all read `"yes":"0","no":"0"`, and most name the same chair (lower:153). Example: `bill:office:US-MO:legislature-lower:2025-05-16:...:lower:083:0:2025-01-20:19`. Why was no committee vote taken on forty bills?
+9. Vacant seats with no election. `2025-05-01 seat-vacated ... seat:US-MO:lower:108:0 ... "cause":"moved away"`; `2025-05-23 ... lower:063:0 ... "cause":"death"`; `2025-07-01 ... lower:156:0 ... "cause":"moved away"`; `2025-12-16 ... lower:028:0 ... "cause":"death"`. The contests table shows `0 of 27`. Why were no special elections or appointments recorded for four seats?
+10. Deaths disagree. The year summary says `deaths: 0`, but `seat-vacated` records two deaths (lower:063 on 2025-05-23 and lower:028 on 2025-12-16), and `health.serious-illness=1` is also recorded. Why does the death count not match?
+11. State budget cuts. `2025-07-01 budget-adopted ... "adoptedBy":"the legislature vote 111-50, 24-10, 2025-051"` cut ten of thirteen lines, including `"line":"welfareAndMedicaid","deltaMinor":"-44185504724"` and `"line":"localAid","deltaMinor":"-21405552532"`. Why does a budget adopted 111-50 cut local aid and welfare this much?
+12. Town budget unanimous. `budget-adopted:budget:place:2904798:2026 ... adoptedBy=the council vote 5-0 (amended: ... 11 lines dropped), 2026-001`. The only budget-line trace is `parks deltaMinor=2070`. Why 5-0 after eleven lines dropped, and why is parks the only line that moved?
+13. Vote count mismatch. `2025-02-04 legislative-vote ... "number":"2025-001","chamber":"office:gus2025:169170:council","yes":"4","no":"1"`. The seven `vote-recorded` lines for the same measure show four +1 and three -1 records. Why does the total read 4-1 when the records show 4 for and 3 against?
+14. Federal official as council president. `2025-12-15 chamber-organized {"council-president":"official:term:seat:US-MO:us-house:06:2025-01-20"}`. A U.S. House seat holder is recorded as the town council president. Why?
+15. Out-of-state sponsors. `bill:office:US-MO:us-house:2025-12-15:official:seat:US-NC:us-house:06:54` and `bill:office:US-MO:us-house:2025-12-15:official:seat:US-IN:us-house:01:75`. The U.S. House record holds 24 bills introduced 2025-12-15 by members from other states, with a Utah member as committee chair (`official:seat:US-UT:us-house:03`). Why are these in Missouri's House body?
+16. Senate vote on a House bill. `bill-vote:bill:office:US-MO:us-house:2025-12-15:official:seat:US-NV:us-house:04:60:federal:us-senate` reads yes 67, no 33. The first person in its record is `official:seat:US-AK:us-senate:0`. Why does a Missouri House bill sponsored by a Nevada member show an Alaska senator first?
+17. Repeating election shares. Every statewide term shows `"elected":{"share":0.56}` and every legislative term shows `"share":0.635`, including six consecutive governor terms (`term:seat:US-MO:governor:2025-01-20:past:1` through `past:6`). Why is every share the same?
+18. All Republican. Every seat and term in the sample is Republican, including `seat:US:president`, `seat:US-MO:governor` and both U.S. Senate seats. Why does every listed seat share one party?
+19. One date, many events. On 2025-08-14, fourteen state laws took effect at once. On 2025-12-15, the federal record holds six chamber and vote events, three committee hearings and two federal news items. Why do so many events land on one date?
+20. Closure reason. `2025-05-05 business.closed ... "closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"`, with closure source `residents:wages:opening-payroll-calendar:organization_0bfc666292f24d23`. Why did an employer close for exhausted cash on a payroll-calendar source, and why do the other two closures read "losses-kept"?
+21. Empty founding record. `2025-12-01 organization.founded {}`. The record has no organization id, type or place. Why is the payload empty?
+22. Two speakers, one meeting. `speech:party-meeting:party:US-MO:democratic:2026-01-15:retold:person_45dd8943d459d15c` names person_45dd8943d459d15c as speaker. `speech:party-meeting:party:US-MO:democratic:2026-01-15` names person_47986025b606c351. Why does one party meeting have two speakers?
+23. Player status. `player person_b7a99119551ff3b5 Blair Garrett born 2007-01-22` was 17 on 2025-01-20 and turned 18 on 2025-01-22. At year end: `player: alive=true job=none cash=$0`. Why does the player have no job and $0 after a year, and does the 17-year-old start affect filing eligibility?
+24. Unregistered tables and a zero count. The viewer reports `Unregistered module table` for vacancies, contests, filings, campaigns, executive offices and terms, legislature governments and budgets, but `core2-elections-v1.contests: 0 of 27` is shown. Why does the contests table show zero of 27, and why are the other tables missing?
+25. Replaced tax without its old value. `law-took-effect:law:county:29201:county:property-tax:general:2026-01-01 ... "value=0.62" "change=replaced" "replacesLawId=...:from-start"`. The file does not show the replaced rate. Why was the county property tax replaced on 2026-01-01, and what was the old rate?
+26. Population check. The file gives 1,849 modeled people at start for place 2904798. Does this match the real place's population in the census record for that place?
