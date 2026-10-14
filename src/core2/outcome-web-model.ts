@@ -12,8 +12,6 @@
 import web from "../../data/research/outcome-web/links.json" with { type: "json" };
 import bases from "../../data/research/outcome-web/place-outcome-bases-2024.json" with { type: "json" };
 import ledger from "../../data/research/outcome-web/placeholder-ledger.json" with { type: "json" };
-import cohorts from "../../data/research/outcome-web/person-recipient-age-cohorts.json" with { type: "json" };
-import plan from "../../data/research/outcome-web/landing-plan.json" with { type: "json" };
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
 import type { Source } from "./types";
@@ -264,96 +262,13 @@ export function moderatorScale(
 }
 
 export type Coverage =
-  | {
-      readonly key: string;
-      readonly wired: true;
-      readonly lands: string | { readonly waitingOn: string };
-    }
+  | { readonly key: string; readonly wired: true }
   | {
       readonly key: string;
       readonly wired: false;
       readonly waitingOn: readonly string[];
       readonly needsSize?: true;
     };
-
-const PLAN_RULES = new Map(
-  (plan.links as readonly { key: string; recipientRule: string | null }[]).map(
-    (row) => [row.key, row.recipientRule],
-  ),
-);
-type Rule =
-  | { readonly kind: "everyone" | "cohort" | "parent" | "renter" | "borrower" }
-  | {
-      readonly kind: "ages";
-      readonly minimumAge: number;
-      readonly maximumAge: number;
-      readonly noChildUnder?: number;
-    }
-  | { readonly kind: "waiting"; readonly waitingOn: string };
-const RULES = local.landing.rules as unknown as Readonly<Record<string, Rule>>;
-const GROUP_RULES = local.landing.groupRules as Readonly<
-  Record<string, string>
->;
-
-/** The recipient rule for a link: the landing plan's, or its group's. */
-export function recipientRule(link: WebLink): string | undefined {
-  return PLAN_RULES.get(link.key) ?? GROUP_RULES[link.group];
-}
-
-export interface Selector {
-  readonly minimumAge?: number;
-  readonly maximumAge?: number;
-  readonly noChildUnder?: number;
-  /** A parent of a child in the household aged within this range. */
-  readonly childAges?: readonly [number, number];
-  readonly renter?: true;
-  readonly borrower?: true;
-}
-
-/** Who a recipient rule selects, over core2's own person records. */
-export function selectorOf(rule: string): Selector | { waitingOn: string } {
-  const row = RULES[rule];
-  if (!row) return { waitingOn: `recipient rule ${rule}` };
-  switch (row.kind) {
-    case "everyone":
-      return {};
-    case "cohort": {
-      const c = (
-        cohorts.cohortsByRule as Record<
-          string,
-          { minimumAge: number; maximumAge: number | null }
-        >
-      )[rule]!;
-      return {
-        minimumAge: c.minimumAge,
-        ...(c.maximumAge === null ? {} : { maximumAge: c.maximumAge }),
-      };
-    }
-    case "parent": {
-      const c = (
-        cohorts.childCohortsByRule as Record<
-          string,
-          { minimumAge: number; maximumAge: number }
-        >
-      )[rule]!;
-      return { childAges: [c.minimumAge, c.maximumAge] };
-    }
-    case "ages":
-      return {
-        minimumAge: row.minimumAge,
-        maximumAge: row.maximumAge,
-        ...(row.noChildUnder === undefined
-          ? {}
-          : { noChildUnder: row.noChildUnder }),
-      };
-    case "renter":
-      return { renter: true };
-    case "borrower":
-      return { borrower: true };
-    case "waiting":
-      return { waitingOn: row.waitingOn };
-  }
-}
 
 /**
  * Whether a link runs on the new core, and if not, the measures it waits on.
@@ -378,13 +293,7 @@ export function linkCoverage(link: WebLink): Coverage {
       waitingOn: [...new Set(waitingOn)],
       ...(needsSize ? { needsSize: true as const } : {}),
     };
-  const rule = recipientRule(link);
-  const selector = rule ? selectorOf(rule) : { waitingOn: "recipient rule" };
-  return {
-    key: link.key,
-    wired: true,
-    lands: "waitingOn" in selector ? selector : rule!,
-  };
+  return { key: link.key, wired: true };
 }
 
 /** The links that run, by the outcome they move. */
@@ -411,14 +320,13 @@ export function ownerOf(measure: string): string {
 
 /** The checked-in coverage list (data the coverage test holds to the code). */
 export const COVERAGE_DATA = coverageData as unknown as {
-  readonly wired: Readonly<Record<string, string>>;
+  readonly wired: readonly string[];
   readonly waiting: Readonly<
     Record<
       string,
       { readonly waitingOn: readonly string[]; readonly needsSize?: true }
     >
   >;
-  readonly landingWaits: Readonly<Record<string, string>>;
   readonly measuresWanted: Readonly<
     Record<string, { readonly owner: string; readonly links: number }>
   >;
@@ -426,18 +334,13 @@ export const COVERAGE_DATA = coverageData as unknown as {
 
 /** The coverage list as data, computed from the links and what the core can read. */
 export function coverageTable(): typeof COVERAGE_DATA {
-  const wired: Record<string, string> = {};
+  const wired: string[] = [];
   const waiting: Record<string, { waitingOn: string[]; needsSize?: true }> = {};
-  const landingWaits: Record<string, string> = {};
   const wanted: Record<string, { owner: string; links: number }> = {};
   for (const link of WEB_LINKS) {
     const c = linkCoverage(link);
     if (c.wired) {
-      if (typeof c.lands === "string") wired[link.key] = c.lands;
-      else {
-        wired[link.key] = "waiting";
-        landingWaits[link.key] = c.lands.waitingOn;
-      }
+      wired.push(link.key);
       continue;
     }
     waiting[link.key] = {
@@ -454,5 +357,5 @@ export function coverageTable(): typeof COVERAGE_DATA {
       (a, b) => b[1].links - a[1].links || a[0].localeCompare(b[0]),
     ),
   );
-  return { wired, waiting, landingWaits, measuresWanted };
+  return { wired, waiting, measuresWanted };
 }

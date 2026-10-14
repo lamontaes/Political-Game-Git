@@ -186,6 +186,18 @@
     "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: volunteering (organizational and civic activities), 2.18 hours per participant-day (5.3% of people on an average day); religious and spiritual 1.41 hours.",
     "estimatedFrom": "One civic act (join, organize, approach) is one participant-day of volunteering; the 5.3% participation share is the outcome check."
   },
+  "causeGroupMonthlySpendShare": {
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "The share of its money a cause group spends each month on its cause. BBB Wise Giving Alliance Standard 8 asks a charity to spend at least 65% of its total expenses on programs (https://give.org/donor-landing-page/bbb-standards-for-charity-accountability); Charity Navigator's program expense ratio for advocacy groups commonly runs 70% to 85%. A small volunteer group holds little reserve, so it spends most of what it has each month.",
+    "estimatedFrom": "Program expense ratios (BBB Wise Giving Alliance; Charity Navigator); spread 0.5 to 1."
+  },
+  "officeReplyDays": {
+    "value": 7,
+    "tag": "ESTIMATED",
+    "citation": "Days from a resident's visit to a town office until its staff answer: five business days (seven calendar days), the Town of Lakeshore, Ontario customer service policy adopted in 2024 (https://www.lakeshore.ca/news/posts/lakeshore-moves-forward-with-customer-service-improvements/). Toronto acknowledges within two business days (https://www.toronto.ca/city-government/accountability-operations-customer-service/city-administration/staff-directory-divisions-and-customer-service/service-promise-standards/); Greater Sudbury answers mail within ten business days (https://www.greatersudbury.ca/city-hall/news-and-public-notices/2019/city-launches-new-customer-service-initiatives/).",
+    "estimatedFrom": "Municipal customer-service standards; spread 2 to 14 calendar days. No US-wide survey of town office reply times was found."
+  },
   "stressBaseline": {
     "value": 0.25,
     "tag": "TUNABLE",

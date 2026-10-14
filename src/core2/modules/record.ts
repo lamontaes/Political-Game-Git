@@ -16,16 +16,12 @@
  * on the voter's ballot as a reason. An attack ad carries a rival's record to
  * the people it reaches.
  */
-import { outcomeIssueView } from "./views";
+import { outcomeIssueView, viewOn } from "./views";
 import { votesAreTownNews } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  personStance,
-  type Stance,
-} from "../campaign-views";
+import { campaignParameter, type Stance } from "../campaign-views";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./campaigns";
 
 export const RECORD_MODULE_ID = "core2-record-v1";
@@ -176,7 +172,9 @@ export function recordAppeal(
   const weight = campaignParameter("recordVoteWeight");
   const reasons: RecordReason[] = [];
   for (const vote of votesOf(api, officeholderId)) {
-    const stance = personStance(lean, vote.stance.question);
+    // The voter's own view (the views engine's chain of reads), then what the
+    // recorded consequences in their town do to it.
+    const stance = viewOn(api, voter.id, vote.stance.question, lean);
     // The counted electorate also asks about a synthetic typical voter,
     // which has no place. Do not invent geography for that aggregate.
     const view = voter.placeId
@@ -202,7 +200,7 @@ export function recordAppeal(
     if (status.status === "open") continue;
     // A promise only counts with a voter who heard it made.
     if (!shown && !api.knows(voter.id, status.promise.id)) continue;
-    const own = personStance(lean, status.promise.stance.question);
+    const own = viewOn(api, voter.id, status.promise.stance.question, lean);
     const agreed =
       Math.sign(own) === Math.sign(status.promise.stance.position) && own !== 0;
     if (!agreed) continue;

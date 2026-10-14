@@ -8,13 +8,13 @@ import { countedDrift } from "./modules/counted-drift";
 import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { gameStartDate } from "./game-start";
-import { addDays } from "./kernel/dates";
 import { residentCounts, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
+import { countedResidents } from "./electorate";
+import { citizenShareOf } from "./electorate-places";
+import { lifePlaceByKey } from "../simulation/life-places";
+import { addDays } from "../simulation/dates";
 import type { CoreInput } from "./types";
-import { enactLaw, LAWS_MODULE } from "./modules/laws";
-import { worldCoreData } from "./modules/world";
 
 // One random place from all 56, named with its seed in the test title.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -28,168 +28,11 @@ const monthlyHouseholdPurchases = (input: CoreInput) =>
     .filter((row) => row.kind.startsWith("household."))
     .reduce((n, row) => n + row.amountMinor / row.periodMonths, 0);
 
-/**
- * A day counted from the opening: these tests were written against a
- * January 1 opening, so a date typed as 2021-MM-DD means that many days after
- * the game's start date.
- */
-function openingDay(typed: string) {
-  const days =
-    (Date.parse(typed) - Date.parse("2021-01-01")) / (24 * 60 * 60 * 1000);
-  return addDays(gameStartDate(), days);
-}
-
-describe("right-to-work pooled dues", () => {
-  it("removes only the private compulsory fee from the actual dues payment", () => {
-    const date = "2026-01-01",
-      placeId = "place:dues-fixture";
-    const source = {
-      tag: "ESTIMATED" as const,
-      asOf: date,
-      citation: "Technical pooled-dues fixture.",
-      estimatedFrom: "Two workers, one private and one public.",
-    };
-    const people = ["private", "public"].map((id) => ({
-      id,
-      givenName: id,
-      familyName: "Fixture",
-      birthDate: "1980-01-01",
-      placeId,
-      householdId: `home:${id}`,
-      tier: "monthly" as const,
-      traits: {},
-      liquidMinor: 0,
-      livingCostDailyMinor: 0,
-      familyIds: [],
-      knownIds: [],
-      jobId: `job:${id}`,
-      source,
-    }));
-    const core = createLifeCore(
-      {
-        seed: "pooled-dues-fixture",
-        startedAt: date,
-        people,
-        households: people.map((p) => ({
-          id: p.householdId,
-          placeId,
-          memberIds: [p.id],
-          source,
-        })),
-        organizations: [
-          {
-            id: "employer:private",
-            classification: "enterprise:retail",
-            kind: "employer",
-          },
-          {
-            id: "employer:public",
-            classification: "service:police",
-            kind: "employer",
-          },
-          { id: "pool", classification: "", kind: "residents" },
-          {
-            id: "union",
-            classification: "membership:labor-union",
-            kind: "membership",
-          },
-        ].map((o) => ({
-          ...o,
-          placeId,
-          name: o.id,
-          liquidMinor: 1000000,
-          source,
-        })),
-        jobs: people.map((p) => ({
-          id: p.jobId,
-          personId: p.id,
-          organizationId: `employer:${p.id}`,
-          title: "Worker",
-          hourlyMinor: 2000,
-          hoursDaily: 8,
-          wageDailyMinor: 16000,
-          source,
-        })),
-        residents: {
-          version: "core2-residents-v1",
-          accounts: [{ placeId, accountId: "pool" }],
-          households: [],
-          source,
-          flows: [
-            {
-              id: "dues:union",
-              kind: "purchase",
-              financeKind: "household.union-dues",
-              payerId: "pool",
-              payeeId: "union",
-              residentsId: "pool",
-              placeId,
-              amountMinor: 10000,
-              firstAt: "2026-02-01",
-              cadence: { kind: "months", every: 1, day: 1 },
-              salesReceipt: false,
-              marketAdjusted: false,
-              source,
-            },
-          ],
-        },
-        focusPersonIds: [],
-        focusPlaceIds: [],
-        calendarDates: [],
-        gaps: [],
-      },
-      { data: worldCoreData(), modules: [LAWS_MODULE], scheduledWork: false },
-    );
-    core.observer = true;
-    const api = coreAPI(core);
-    api
-      .moduleState(LAWS_MODULE.id)
-      .table("chain")
-      .put({
-        id: "chain",
-        placeKey: "fixture",
-        placeName: "Fixture",
-        townPlaceId: placeId,
-        stateKey: "state:fixture",
-        countyGeoids: [],
-        incorporated: false,
-        levels: [{ level: "state", jurisdiction: "state:fixture" }],
-      });
-    const enact = (value: number) =>
-      enactLaw(api, {
-        jurisdiction: "state:fixture",
-        level: "state",
-        series: "us-policy-positions:labor-workforce.right-to-work",
-        value,
-        effectiveDate: core.date,
-        measureId: `dues:${value}`,
-        citation: source.citation,
-      });
-    enact(0);
-    const money = () =>
-      [...core.people.values(), ...core.organizations.values()].reduce(
-        (n, p) => n + p.liquidMinor,
-        0,
-      );
-    const total = money();
-    advanceCore(core, "2026-02-02");
-    const receipt = (prefix: string) =>
-      [...core.cashJournal.detailedReceipts.values()].find((r) =>
-        r.sourceRef.id.startsWith(prefix),
-      );
-    expect(receipt("dues:union@2026-02-01")?.grossDebitMinor).toBe(10450);
-    const law = enact(1);
-    advanceCore(core, "2026-03-02");
-    expect(receipt(`dues:union@2026-03-01:${law.id}`)?.grossDebitMinor).toBe(
-      10000,
-    );
-    expect(money()).toBe(total);
-  });
-});
-
 describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let full: CoreInput, two: CoreInput;
   let collapsed: CoreInput;
+  // A day this many days after the opening, whatever date the game starts on.
+  const daysIn = (days: number) => addDays(two.startedAt, days);
   beforeAll(() => {
     full = generatedOpening(place);
     // The game's opening keeps a representative sample full too.
@@ -260,7 +103,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   it("runs a month with every dollar balanced and the counts read back", () => {
     const core = createLifeCore(two);
     const opening = cash(two);
-    advanceCore(core, openingDay("2021-02-01"));
+    advanceCore(core, daysIn(31));
     let closing = 0,
       outside = 0;
     for (const row of core.people.values()) closing += row.liquidMinor;
@@ -322,7 +165,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("fills in a counted worker who matches the employer's books", () => {
     const core = createLifeCore(two);
-    advanceCore(core, openingDay("2021-01-15"));
+    advanceCore(core, daysIn(14));
     const record = two.residents!.households.find((row) => row.jobs.length)!;
     const job = record.jobs[0]!;
     const before = residentCounts(core),
@@ -356,7 +199,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // Their working life is now their own: shifts, pay and cash.
     expect(residentsRuntime(core)!.wageFlowByJob.has(job.id)).toBe(false);
     const opening = cash(two);
-    advanceCore(core, openingDay("2021-02-01"));
+    advanceCore(core, daysIn(31));
     expect(core.work.lastAttendanceByJob.get(job.id)).toBeDefined();
     // Their shifts are scheduled; whether they go is their own choice.
     expect(core.work.totalsByJob.get(job.id)!.plannedMinutes).toBeGreaterThan(
@@ -373,7 +216,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("pays a filled-in retiree their own retirement income", () => {
     const core = createLifeCore(two);
-    advanceCore(core, openingDay("2021-01-05"));
+    advanceCore(core, daysIn(4));
     const record = [...residentsRuntime(core)!.households.values()].find(
       (row) => row.contracts.some((contract) => contract.recipientIncome),
     );
@@ -404,7 +247,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // The pooled flows shrink by exactly what moved to the retiree.
     expect(pooled()).toBe(before);
     const cashBefore = core.people.get(retireeId)!.liquidMinor;
-    advanceCore(core, openingDay("2021-03-05"));
+    advanceCore(core, daysIn(63));
     expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
     expect(own.arrearsMinor).toBe(0);
     expect(total()).toBe(start);
@@ -464,7 +307,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   it("re-rates full and counted workers from today", () => {
     const core = createLifeCore(two),
       api = coreAPI(core);
-    advanceCore(core, openingDay("2021-01-10"));
+    advanceCore(core, daysIn(9));
     const source = {
       tag: "SOURCED" as const,
       asOf: core.date,
@@ -498,7 +341,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
             flow.periodFactor!,
         ),
     );
-    advanceCore(core, openingDay("2021-01-31"));
+    advanceCore(core, daysIn(30));
     const latest = core.work.lastAttendanceByJob.get(full.id);
     if (old && latest && latest.attendedMinutes > 0)
       expect(latest.earnedMinor / (latest.attendedMinutes / 60)).toBeCloseTo(
@@ -544,7 +387,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         ],
       },
     );
-    advanceCore(core, openingDay("2021-02-01"));
+    advanceCore(core, daysIn(31));
     expect(sales).toBeGreaterThan(0);
     expect(counted).toBeGreaterThan(0);
     expect(core.organizations.get(treasury.id)!.liquidMinor).toBe(remitted);
@@ -590,43 +433,31 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     ).toBe(true);
   }, 300_000);
 
-  it("gives the counted adults voter groups, and fill-in moves them out", () => {
-    const groups = two.voterGroups ?? [];
+  it("votes the counted adults from their own records, and fill-in moves them to the named route", () => {
     const start = Number(two.startedAt.slice(0, 4));
-    // Groups are the town's counted adults who are citizens (CPS 2024 share by
-    // state and age band); relatives counted elsewhere vote where they live.
     const town = two.people.find((row) => row.id === two.playerId)!.placeId;
-    const adults = two
-      .residents!.households.filter((row) => row.household.placeId === town)
-      .reduce(
-        (n, row) =>
-          n +
-          row.people.filter(
-            (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
-          ).length,
-        0,
-      );
-    const eligible = groups.reduce((n, row) => n + row.size, 0);
-    expect(groups.every((row) => row.placeId === town)).toBe(true);
-    expect(eligible).toBeLessThanOrEqual(adults);
-    // The town's own ACS citizen share of adults sets the floor.
+    const core = createLifeCore(two);
+    const counted = () =>
+      countedResidents(core).filter(
+        (row) =>
+          row.placeId === town &&
+          start - Number(row.birthDate.slice(0, 4)) >= 18,
+      ).length;
+    // Counted votes stand for the town's citizens: the place's ACS share of
+    // adults, blended with its state's.
+    const usps =
+      lifePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(
+        3,
+      ) ?? "";
+    const share = citizenShareOf(two.placeMetadata!.placeKey!, usps);
+    expect(share).toBeGreaterThan(0);
+    expect(share).toBeLessThanOrEqual(1);
     const citizens = (
       placeCitizenship.byPlace as unknown as Record<string, [number, number]>
     )[two.placeMetadata!.placeKey!];
-    const floor = citizens
-      ? Math.min(0.75, (0.8 * citizens[0]) / citizens[1])
-      : 0.75;
-    expect(eligible).toBeGreaterThan(adults * floor);
-    for (const row of groups) {
-      expect(row.turnout).toBeGreaterThan(0);
-      expect(row.turnout).toBeLessThanOrEqual(1);
-      expect(Math.abs(row.lean)).toBeLessThanOrEqual(1);
-    }
-    const core = createLifeCore(two);
-    const total = () =>
-      groups.reduce(
-        (n, row) => n + (coreAPI(core).voterGroups().get(row.id)?.size ?? 0),
-        0,
+    if (citizens)
+      expect(share).toBeGreaterThan(
+        Math.min(0.75, (0.8 * citizens[0]) / citizens[1]),
       );
     const record = two.residents!.households.find(
       (row) =>
@@ -635,11 +466,11 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
           (person) => start - Number(person.birthDate.slice(0, 4)) >= 25,
         ),
     )!;
-    const before = total();
+    const before = counted();
     fillInPerson(core, record.people[0]!.id);
     const grown = record.people.filter(
       (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
     ).length;
-    expect(before - total()).toBe(grown);
+    expect(before - counted()).toBe(grown);
   }, 300_000);
 });

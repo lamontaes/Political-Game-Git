@@ -9,6 +9,7 @@
   "unconditionedTopic": "serious-illness",
   "conditionFactKey": "condition",
   "resilienceKey": "resilience-line",
+  "conditionHoldingKey": "condition-holding",
   "resilienceScaleParameter": "resilienceBaseRateScale",
   "resilience": {
     "stopgapId": "SG-P10-resilience-scale"

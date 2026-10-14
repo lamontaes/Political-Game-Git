@@ -11,6 +11,7 @@ import { chooseAct } from "../choice";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLeanBetween } from "../trait-decisions";
@@ -745,7 +746,7 @@ function reviewClosures(api: CoreAPI): void {
       monthlyCosts > 0 ? Math.max(0, -row.retainedMinor) / monthlyCosts : 0;
     // A firm based elsewhere weighs a branch's losses; it doesn't age out.
     const age = found
-      ? Number(c.date.slice(0, 4)) - Number(found.person.birthDate.slice(0, 4))
+      ? ageOnDate(makeIsoDate(found.person.birthDate), makeIsoDate(c.date))
       : p("jobsEarliestRetirementAge");
     const reasons = {
       baseline: p("businessCloseBaseline"),
@@ -769,6 +770,7 @@ function reviewClosures(api: CoreAPI): void {
           losses > 0
             ? businessData.reasons.losses
             : businessData.reasons.retiring,
+          reasons,
         );
     } else counted.push({ id: row.id, ownerId: row.ownerId, score, reasons });
   }

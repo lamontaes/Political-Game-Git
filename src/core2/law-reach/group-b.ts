@@ -25,6 +25,7 @@ import type { LawRowInput } from "../laws-starting";
 import {
   reachParameter,
   selectResidents,
+  forgetTownFacts,
   townFacts,
   type PeopleSelector,
   type ResidentFacts,
@@ -531,6 +532,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
 
 /** Re-run every policy in force: reach follows people's records month to month. */
 function review(api: CoreAPI): void {
+  forgetTownFacts(api);
   for (const row of rowsOf<ActiveRow>(api, "active")) {
     if (row.id.startsWith("budget-line:"))
       runBudgetLine(api, row.id.slice("budget-line:".length), row.lawId);
@@ -558,6 +560,7 @@ export function registerGroupB(): void {
   setReachReview(review);
   for (const key of Object.keys(data.policies))
     registerPolicyHandler(key, (api, change) => {
+      forgetTownFacts(api);
       const row = lawRow(api, change.lawId);
       const enacting = key.includes(":")
         ? row?.value === 1
@@ -571,15 +574,20 @@ export function registerGroupB(): void {
       });
     });
   // A budget adopted (or carried forward) on a repeal's day or a fiscal
-  // year's first day replaces the line the handlers just read; the lines in
-  // force are read again against the budget now standing.
+  // year's first day replaces the line the handlers just read. A line that
+  // stands at its base in the budget now standing ends its service rows; a
+  // line still off base keeps the reach read when its change took effect.
   registerPolicyHandler("budget-adopted", (api) => {
-    for (const row of rowsOf<ActiveRow>(api, "active"))
-      if (row.id.startsWith("budget-line:"))
-        runBudgetLine(api, row.id.slice("budget-line:".length), row.lawId);
+    for (const row of rowsOf<ActiveRow>(api, "active")) {
+      if (!row.id.startsWith("budget-line:")) continue;
+      const line = row.id.slice("budget-line:".length);
+      if (serviceLevel(api, line).deltaTownMinor === 0)
+        runBudgetLine(api, line, row.lawId);
+    }
   });
   for (const line of Object.keys(data.budgetLines))
-    registerPolicyHandler(`budget-line:${line}`, (api, change) =>
-      runBudgetLine(api, line, change.lawId),
-    );
+    registerPolicyHandler(`budget-line:${line}`, (api, change) => {
+      forgetTownFacts(api);
+      runBudgetLine(api, line, change.lawId);
+    });
 }

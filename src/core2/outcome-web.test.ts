@@ -3,10 +3,10 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
+import { gameStartDate } from "./game-start";
 import {
   OUTCOME_WEB_MODULE,
   OUTCOME_WEB_MODULE_ID,
-  outcomesOn,
   lawValue,
   outcomeWebFactor,
   type WebMonth,
@@ -28,7 +28,6 @@ import { openLaws, enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { regionPanel } from "./modules/world-panels";
 import { outcomeIssueView } from "./modules/views";
 import { generatedOpening } from "./tooling/generated-world";
-import { gameStartDate } from "./game-start";
 import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -42,19 +41,15 @@ const months = (api: CoreAPI, placeId: string) =>
   ].sort((a, b) => a.month.localeCompare(b.month));
 const monthOf = (api: CoreAPI, placeId: string, month: string) =>
   months(api, placeId).find((row) => row.month === month)!;
-const ageOn = (birthDate: string, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(birthDate.slice(0, 4)) -
-  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+/** The opening year: worlds open on the game start date (late January). */
+const Y = gameStartDate().slice(0, 4);
 
 describe("the outcome web's coverage", () => {
   it("lists every researched link as wired or waiting on a named measure, and the list matches the code", () => {
-    const { wired, waiting, landingWaits, measuresWanted } = COVERAGE_DATA;
-    expect({ wired, waiting, landingWaits, measuresWanted }).toEqual(
-      coverageTable(),
-    );
+    const { wired, waiting, measuresWanted } = COVERAGE_DATA;
+    expect({ wired, waiting, measuresWanted }).toEqual(coverageTable());
     for (const row of WEB_LINKS) {
-      const wired = row.key in COVERAGE_DATA.wired;
+      const wired = COVERAGE_DATA.wired.includes(row.key);
       const waiting = COVERAGE_DATA.waiting[row.key];
       expect(wired !== !!waiting, row.key).toBe(true);
       if (waiting)
@@ -62,12 +57,9 @@ describe("the outcome web's coverage", () => {
           waiting.waitingOn.length > 0 || waiting.needsSize === true,
           row.key,
         ).toBe(true);
-      if (wired && COVERAGE_DATA.wired[row.key] === "waiting")
-        expect(COVERAGE_DATA.landingWaits[row.key], row.key).toBeTruthy();
     }
     expect(
-      Object.keys(COVERAGE_DATA.wired).length +
-        Object.keys(COVERAGE_DATA.waiting).length,
+      COVERAGE_DATA.wired.length + Object.keys(COVERAGE_DATA.waiting).length,
     ).toBe(WEB_LINKS.length);
   });
 
@@ -110,9 +102,6 @@ describe("the outcome web's coverage", () => {
     );
   });
 });
-
-/** The opening's year: the game starts on its start-date parameter. */
-const Y = gameStartDate().slice(0, 4);
 
 describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () => {
   const place = drawPlace(seed, "outcome-web-unemployment");
@@ -260,47 +249,6 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
     expect(read.recordIds).toContain(at(`${Y}-07`).id);
     expect(read.salience).toBeGreaterThan(0);
     expect(read.position).toBeGreaterThan(0.5);
-
-    // A named adult aged 18 to 54 with no child at home carries the law's
-    // effect on their record: first at zero, then when it reached them.
-    const date = core.date;
-    const adult = [...core.people.values()]
-      .filter((person) => {
-        if (!person.alive || person.placeId !== town) return false;
-        const age = ageOn(person.birthDate, date);
-        const kids = (
-          core.households.get(person.householdId)?.memberIds ?? []
-        ).some(
-          (id) =>
-            id !== person.id &&
-            ageOn(core.people.get(id)?.birthDate ?? date, date) < 18,
-        );
-        return age >= 18 && age <= 54 && !kids;
-      })
-      .sort((a, b) => a.id.localeCompare(b.id))[0]!;
-    const landing = outcomesOn(api, adult.id).find(
-      (row) => row.linkKey === toParticipation.key,
-    )!;
-    expect(landing).toMatchObject({
-      measure: "program.snap-receipt",
-      previousEffect: 0,
-      changedOn: `${Y}-06-03`,
-    });
-    expect(landing.effect).toBeCloseTo(toParticipation.size!);
-    expect(landing.since < `${Y}-06-03`).toBe(true);
-    // A child is not in the group: no such landing on their record.
-    const child = [...core.people.values()].find(
-      (person) =>
-        person.alive &&
-        person.placeId === town &&
-        ageOn(person.birthDate, date) < 18,
-    );
-    if (child)
-      expect(
-        outcomesOn(api, child.id).some(
-          (row) => row.linkKey === toParticipation.key,
-        ),
-      ).toBe(false);
 
     // Repeal: the lagged effect ends the day the law does, and food
     // insecurity follows the next month.
