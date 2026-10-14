@@ -72,7 +72,32 @@
     "labor.unemployment-pct": {
       "owner": "OPUS-WORLD",
       "record": "world-metrics months.unemploymentRate, as a percent",
+      "unitScale": 100,
+      "field": "unemploymentRate"
+    },
+    "household.income": {
+      "owner": "OPUS-WORLD",
+      "record": "world-metrics months.medianHouseholdEarningsMinor (the middle earning household's yearly earnings), in thousands of dollars",
+      "field": "medianHouseholdEarningsMinor",
+      "unitScale": 1e-5
+    },
+    "housing.home-prices": {
+      "owner": "OPUS-WORLD",
+      "record": "world-metrics months.medianHomeValueMinor (the housing engine's typical owned home), in tens of thousands of dollars",
+      "field": "medianHomeValueMinor",
+      "unitScale": 1e-6
+    },
+    "housing.rent-to-income-pct": {
+      "owner": "OPUS-WORLD",
+      "record": "world-metrics months.rentToEarnings (a year of the typical rent against the typical household's earnings), as a percent",
+      "field": "rentToEarnings",
       "unitScale": 100
+    },
+    "housing.eviction": {
+      "owner": "OPUS-WORLD",
+      "record": "world-metrics months.evictionOrdersLastMonth (the housing engine's judgments in the month before)",
+      "field": "evictionOrdersLastMonth",
+      "unitScale": 1
     }
   },
   "measureOwners": {

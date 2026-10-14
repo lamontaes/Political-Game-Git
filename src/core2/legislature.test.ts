@@ -14,7 +14,12 @@ import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
+import {
+  bribePull,
+  considerBribe,
+  corruptionModule,
+} from "./modules/corruption";
 import { LAWS_MODULE_ID, lawInForce, openLaws } from "./modules/laws";
 import { openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
@@ -803,6 +808,62 @@ describe("asking a member to carry a bill", () => {
     expect(asked!.carried).toBe(asked!.position.total + asked!.standing > 0);
     if (asked!.carried)
       expect(billOf(api, asked!.billId!).sponsorId).toBe(asked!.memberId);
+  });
+});
+
+describe("a bribe on a bill", () => {
+  // A bribe is a payment for a decision: a member who took one on a bill
+  // carries it in their position on that bill, part by part, and on no other.
+  it("pulls the member who took it toward the payer's side, on that bill only", () => {
+    const { core, api, council } = town(Object.keys(authority).sort(), "bribe");
+    registerModule(core, corruptionModule);
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const body = council[0]!.office.id;
+    const member = council[0]!.holder!.personId!;
+    const bill = draftBill(api, {
+      bodyOfficeId: body,
+      sponsorId: council[1]!.holder!.personId!,
+      provisions: [provision],
+    });
+    const other = draftBill(api, {
+      bodyOfficeId: body,
+      sponsorId: council[1]!.holder!.personId!,
+      provisions: [provision],
+    });
+    const before = memberPosition(api, bill.id, member);
+    expect(before.bribe).toBe(0);
+    // The town's wealthiest weigh it, each by their own reasons, until one
+    // offers and the member takes it (or none does, in which case nothing moves).
+    const offerers = [...core.people.values()]
+      .filter((p) => p.alive && p.tier !== "husk" && p.id !== member)
+      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
+      .slice(0, 40);
+    let took = false;
+    for (const offerer of offerers) {
+      const record = considerBribe(api, {
+        offererId: offerer.id,
+        officialId: member,
+        stakeMinor: 50_000_000,
+        subjectId: bill.id,
+      });
+      if (record?.taken) {
+        took = true;
+        break;
+      }
+    }
+    const after = memberPosition(api, bill.id, member);
+    expect(after.bribe).toBe(bribePull(api, member, bill.id));
+    if (took) {
+      expect(after.bribe).toBeLessThan(0);
+      expect(after.total).toBeCloseTo(before.total + after.bribe, 9);
+    } else expect(after.bribe).toBe(0);
+    expect(memberPosition(api, other.id, member).bribe).toBe(0);
   });
 });
 

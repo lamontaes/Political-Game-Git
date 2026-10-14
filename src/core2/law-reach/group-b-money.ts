@@ -9,7 +9,7 @@
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
-  adoptedLine,
+  lineBeforeBill,
   amendBudget,
   BUDGETS_MODULE_ID,
   budgetsOf,
@@ -96,8 +96,9 @@ function baseLine(
   budget: BudgetRow,
   line: string,
 ) {
-  // The line as adopted, before any act amended it this year.
-  return adoptedLine(api, gov, budget.fiscalYear, line);
+  // The line before this year's budget bill and any act amending it: what
+  // the body adopts this year is a change the line's service carries.
+  return lineBeforeBill(api, gov, budget.fiscalYear, line);
 }
 
 export interface ServiceRow {

@@ -14,6 +14,7 @@
  * seat then filling by its vacancy rule.
  */
 import { coreAPI, registerModule } from "../state";
+import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import { parameter } from "../parameters";
 import type {
@@ -37,6 +38,10 @@ import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import { turnoutOn } from "./voting";
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
+
+const daysBetween = (from: string, to: string) =>
+  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
+  86_400_000;
 
 export const RECALLS_MODULE_ID = "core2-recalls-v1";
 
@@ -189,96 +194,185 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   );
   if (!bill) return;
   const enacted = row.value === 1 ? 1 : -1;
+  // Where the state's law lets a place recall only for cause (misconduct, a
+  // crime in office), a vote on an ordinance is no ground for one.
+  if (rule.groundsRequired === true) return;
   const people = adults(api);
-  for (const vote of votesOn(api, bill.id)) {
+  // The members open to a recall: serving, past the term's opening months,
+  // with no petition against them now and none that failed this term.
+  const seen = new Set<string>();
+  const targets = votesOn(api, bill.id).flatMap((vote) => {
     const side = vote.vote === "yes" ? 1 : vote.vote === "no" ? -1 : 0;
-    if (!side) continue;
-    const term = termOf(api, vote.memberId);
-    if (!term || term.status !== "serving") continue;
+    const term = side ? termOf(api, vote.memberId) : undefined;
+    // A member's committee and floor votes are one member to hold to account.
+    if (!term || term.status !== "serving" || seen.has(term.id)) return [];
+    seen.add(term.id);
+    // stopgapId: SG-GOV-recall-bars-national (one national bar for every state's statute)
+    api.stopgap("SG-GOV-recall-bars-national");
+    // The term began one term's length before it ends (a term held at the
+    // opening records the opening as its start).
+    const years = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as { termYears?: number } | undefined
+    )?.termYears;
+    const since =
+      term.endDate && years
+        ? `${Number(term.endDate.slice(0, 4)) - years}${term.endDate.slice(4)}`
+        : term.startDate;
     if (
-      (table(api).query("byTerm", [term.id]) as unknown as RecallRow[]).some(
-        (r) => r.status === "circulating" || r.status === "on-ballot",
+      daysBetween(since, api.state.date) <
+      campaignParameter("recallTermOpeningDays")
+    )
+      return [];
+    const prior = table(api).query("byTerm", [
+      term.id,
+    ]) as unknown as RecallRow[];
+    if (
+      prior.some(
+        (r) =>
+          r.status === "circulating" ||
+          r.status === "on-ballot" ||
+          r.status === "failed" ||
+          r.status === "kept",
       )
     )
-      continue;
-    // The organizer: the resident most moved to act, if anyone is moved
-    // enough to take on a petition drive.
-    const organizer = people
-      .filter((p) => p.id !== term.personId)
-      .map((p) => {
-        const g = grievance(api, p, row.series, enacted, side);
-        const duty =
-          parameter("traitDecisionWeight") *
-          decisionLean(
-            api.state,
-            p,
-            "recalls.organize",
-            "organize",
-            "leave-it",
-          );
-        return { p, drive: g + duty };
-      })
-      .filter((x) => x.drive > campaignParameter("recallOrganizerEffort"))
-      .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id))[0];
-    if (!organizer) continue;
-    const signers = people.filter(
-      (p) =>
-        p.id !== term.personId &&
-        grievance(api, p, row.series, enacted, side) +
-          parameter("traitDecisionWeight") *
-            decisionLean(api.state, p, "recalls.sign", "sign", "pass") >
-          0,
-    );
-    const electorate = townElectorate(api, people.length);
-    // stopgapId: SG-GOV-recall-signature-groups
-    api.stopgap("SG-GOV-recall-signature-groups");
-    const signatures = Math.round(
-      (electorate * signers.length) / Math.max(1, people.length),
-    );
-    const recall: RecallRow = {
-      id: `recall:${term.id}:${api.state.date}`,
-      termId: term.id,
-      seatId: term.seatId,
-      memberId: vote.memberId,
-      organizerId: organizer.p.id,
-      lawId: row.id,
-      question: row.series,
-      started: api.state.date,
-      due: addDays(api.state.date, rule.circulationDays),
-      required: resolveRequiredSignatures(rule.threshold, electorate),
-      signatures,
-      namedSigners: signers.map((p) => p.id),
-      status: "circulating",
-      vote: null,
-    };
-    table(api).put(recall as unknown as ModuleRow);
-    api.emit({
-      id: `recall-petition:${recall.id}`,
-      date: api.state.date,
-      kind: "recall-petition",
-      personIds: [organizer.p.id],
-      placeId: lawChain(api).townPlaceId,
-      source: {
-        tag: "SOURCED",
-        citation: `Recall petition against ${vote.memberId}`,
-        asOf: api.state.date,
-      },
-      publicRecord: true,
-      news: true,
-      facts: { recallId: recall.id, termId: term.id, lawId: row.id },
-    });
-    api.moduleCalendar(RECALLS_MODULE_ID).schedule({
-      key: `petition-due:${recall.id}`,
-      date: recall.due,
-      kind: "petition-due",
-      source: {
-        tag: "SOURCED",
-        citation: `${stateUsps(api)} municipal recall rule (${rule.doctrineBasis})`,
-        asOf: api.state.date,
-      },
-      sourceRecordIds: [recall.id],
+      return [];
+    return [{ vote, side, term }];
+  });
+  // Each resident moved enough to organize brings one petition, against the
+  // member they hold most to account: the bill's sponsor, else the one they
+  // are least close to. Another member needs another organizer.
+  const organizers = people
+    .map((p) => {
+      const duty =
+        parameter("traitDecisionWeight") *
+        decisionLean(api.state, p, "recalls.organize", "organize", "leave-it");
+      return { p, duty };
+    })
+    .sort((a, b) => a.p.id.localeCompare(b.p.id));
+  const used = new Set<string>();
+  const open = [...targets];
+  while (open.length) {
+    let best: {
+      p: Readonly<PersonState>;
+      drive: number;
+      target: (typeof open)[number];
+    } | null = null;
+    for (const o of organizers) {
+      if (used.has(o.p.id)) continue;
+      for (const t of open) {
+        if (o.p.id === t.term.personId) continue;
+        const drive = grievance(api, o.p, row.series, enacted, t.side) + o.duty;
+        if (drive <= campaignParameter("recallOrganizerEffort")) continue;
+        const account =
+          (t.vote.memberId === bill.sponsorId ? 1 : 0) -
+          closenessBetween(api.state as CoreState, o.p.id, t.vote.memberId);
+        const bestAccount = best
+          ? (best.target.vote.memberId === bill.sponsorId ? 1 : 0) -
+            closenessBetween(
+              api.state as CoreState,
+              best.p.id,
+              best.target.vote.memberId,
+            )
+          : -Infinity;
+        if (
+          !best ||
+          drive > best.drive ||
+          (drive === best.drive && account > bestAccount)
+        )
+          best = { p: o.p, drive, target: t };
+      }
+    }
+    if (!best) break;
+    used.add(best.p.id);
+    open.splice(open.indexOf(best.target), 1);
+    startRecall(api, {
+      organizer: best.p,
+      term: best.target.term,
+      memberId: best.target.vote.memberId,
+      side: best.target.side,
+      row,
+      enacted,
+      people,
+      rule,
     });
   }
+}
+
+function startRecall(
+  api: CoreAPI,
+  input: {
+    readonly organizer: Readonly<PersonState>;
+    readonly term: TermRow;
+    readonly memberId: string;
+    readonly side: number;
+    readonly row: LawRowInput;
+    readonly enacted: number;
+    readonly people: readonly Readonly<PersonState>[];
+    readonly rule: NonNullable<ReturnType<typeof recallRule>>;
+  },
+): void {
+  const { organizer, term, row, enacted, side, people, rule } = input;
+  // Neighbors sign for their own reasons: they oppose how the member voted.
+  const signers = people.filter(
+    (p) =>
+      p.id !== term.personId &&
+      grievance(api, p, row.series, enacted, side) +
+        parameter("traitDecisionWeight") *
+          decisionLean(api.state, p, "recalls.sign", "sign", "pass") >
+        0,
+  );
+  const electorate = townElectorate(api, people.length);
+  // stopgapId: SG-GOV-recall-signature-groups
+  api.stopgap("SG-GOV-recall-signature-groups");
+  const signatures = Math.round(
+    (electorate * signers.length) / Math.max(1, people.length),
+  );
+  const recall: RecallRow = {
+    id: `recall:${term.id}:${api.state.date}`,
+    termId: term.id,
+    seatId: term.seatId,
+    memberId: input.memberId,
+    organizerId: organizer.id,
+    lawId: row.id,
+    question: row.series,
+    started: api.state.date,
+    due: addDays(api.state.date, rule.circulationDays),
+    required: resolveRequiredSignatures(rule.threshold, electorate),
+    signatures,
+    namedSigners: signers.map((p) => p.id),
+    status: "circulating",
+    vote: null,
+  };
+  table(api).put(recall as unknown as ModuleRow);
+  api.emit({
+    id: `recall-petition:${recall.id}`,
+    date: api.state.date,
+    kind: "recall-petition",
+    personIds: [organizer.id],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Recall petition against ${input.memberId}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: { recallId: recall.id, termId: term.id, lawId: row.id },
+  });
+  api.moduleCalendar(RECALLS_MODULE_ID).schedule({
+    key: `petition-due:${recall.id}`,
+    date: recall.due,
+    kind: "petition-due",
+    source: {
+      tag: "SOURCED",
+      citation: `${stateUsps(api)} municipal recall rule (${rule.doctrineBasis})`,
+      asOf: api.state.date,
+    },
+    sourceRecordIds: [recall.id],
+  });
 }
 
 function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {

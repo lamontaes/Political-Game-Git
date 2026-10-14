@@ -41,6 +41,7 @@ import {
 } from "./campaigns";
 import {
   billOf,
+  LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
   registerLegislatureHooks,
@@ -101,6 +102,12 @@ export interface TownHallRow {
   readonly questions: readonly { askedBy: string; question: string }[];
   readonly answers: readonly InterviewAnswer[];
   readonly moved: number;
+  /** Why the host called it, where they weighed it (not the player's own choice): the cause and the parts of the decision. */
+  readonly calledFor?: {
+    readonly cause: "bill" | "race";
+    readonly recordId: string;
+    readonly reasons: Readonly<Record<string, number>>;
+  };
 }
 
 export interface DebateRow {
@@ -400,6 +407,7 @@ export function holdTownHall(
     readonly filingId?: string;
     /** The player's answers, by question; questions left out are declined. */
     readonly answers?: Readonly<Record<string, number | null>>;
+    readonly calledFor?: TownHallRow["calledFor"];
   },
 ): TownHallRow {
   const questions = Object.keys(POLICY_QUESTIONS).filter(
@@ -491,6 +499,7 @@ export function holdTownHall(
     questions: taken,
     answers,
     moved: causes.filter((c) => c.warmthAfter !== c.warmthBefore).length,
+    ...(input.calledFor ? { calledFor: input.calledFor } : {}),
   };
   table(api, "townHalls").put(row as unknown as ModuleRow);
   api.emit({
@@ -514,6 +523,141 @@ export function holdTownHall(
     },
   });
   return row;
+}
+
+/**
+ * Each week every local official and town candidate (the player aside, who
+ * holds one by choice) weighs holding a town hall: their reason is how evenly
+ * the town splits on a bill before their body (pending, or decided in the
+ * last two weeks), or their own race coming up; their temperament leans for
+ * or against; the effort weighs against it, more the more recently they held
+ * one. Nothing rolls: whoever's reasons outweigh the effort holds one.
+ */
+function considerTownHalls(api: CoreAPI): void {
+  const date = api.state.date;
+  const playerId = (api.state as CoreState).playerId;
+  const reasons = new Map<
+    string,
+    {
+      cause: number;
+      kind: "bill" | "race";
+      recordId: string;
+      filingId?: string;
+    }
+  >();
+  const raise = (
+    id: string,
+    cause: number,
+    kind: "bill" | "race",
+    recordId: string,
+    filingId?: string,
+  ) => {
+    const prior = reasons.get(id);
+    if (!prior || cause > prior.cause)
+      reasons.set(id, {
+        cause,
+        kind,
+        recordId,
+        ...(filingId ? { filingId } : {}),
+      });
+  };
+  // Bills before the town's bodies: how evenly the town splits on each.
+  const adults = townAdults(api);
+  const split = new Map<string, number>();
+  const evenness = (question: string) => {
+    let value = split.get(question);
+    if (value === undefined) {
+      const forIt = adults.filter(
+        (p) => personStance(personLean(api.state.people, p, 0), question) > 0,
+      ).length;
+      const share = adults.length ? forIt / adults.length : 0.5;
+      split.set(question, (value = 1 - Math.abs(2 * share - 1)));
+    }
+    return value;
+  };
+  const since = addDays(
+    makeIsoDate(date),
+    -meetingParameter("townHallBillDays"),
+  );
+  if (api.state.modules.has(LEGISLATURE_MODULE_ID))
+    for (const bill of (
+      api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as BillRow[]
+    ).filter(
+      (b) => local(b) && (b.status === "drafted" || b.introduced >= since),
+    )) {
+      const question = billQuestion(api, bill);
+      if (!question) continue;
+      for (const member of members(api, bill.bodyOfficeId))
+        if (member.personId)
+          raise(member.personId, evenness(question.question), "bill", bill.id);
+    }
+  // A race coming up: its candidates' reason.
+  if (api.state.modules.has(ELECTIONS_MODULE_ID)) {
+    const until = addDays(
+      makeIsoDate(date),
+      meetingParameter("townHallCampaignDays"),
+    );
+    for (const contest of (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).filter(
+      (c) =>
+        c.electionDate > date &&
+        c.electionDate <= until &&
+        c.level !== "state" &&
+        c.level !== "federal",
+    ))
+      for (const f of ballot(api, contest.id))
+        if (f.status === "on-ballot")
+          raise(f.personId, 1, "race", contest.id, f.id);
+  }
+  const town = lawChain(api).townPlaceId;
+  for (const [hostId, why] of [...reasons.entries()].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    const host = api.state.people.get(hostId);
+    if (!host?.alive || host.placeId !== town || hostId === playerId) continue;
+    const last = (
+      table(api, "townHalls").query("byHost", [
+        hostId,
+      ]) as unknown as TownHallRow[]
+    ).reduce((d, row) => (row.date > d ? row.date : d), "");
+    const gap = meetingParameter("townHallGapDays");
+    const recency = last
+      ? gap /
+        (gap +
+          Math.max(
+            0,
+            (Date.parse(`${date}T00:00:00Z`) -
+              Date.parse(`${last}T00:00:00Z`)) /
+              86_400_000,
+          ))
+      : 0;
+    const parts = {
+      cause: meetingParameter("townHallCauseWeight") * why.cause,
+      temperament:
+        parameter("traitDecisionWeight") *
+        decisionLean(
+          api.state,
+          host,
+          "meetings.hold-town-hall",
+          "hold",
+          "skip",
+        ),
+      effort: -meetingParameter("townHallEffort") * (1 + recency),
+    };
+    if (parts.cause + parts.temperament + parts.effort <= 0) continue;
+    holdTownHall(api, {
+      hostId,
+      ...(why.filingId ? { filingId: why.filingId } : {}),
+      calledFor: { cause: why.kind, recordId: why.recordId, reasons: parts },
+    });
+  }
 }
 
 function contestOf(api: CoreAPI, contestId: string): ContestRow {
@@ -664,6 +808,7 @@ export function debatesIn(
 function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "debate-week") return;
   scheduleWeek(api, api.state.date);
+  considerTownHalls(api);
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
   const from = addDays(
     makeIsoDate(api.state.date),
