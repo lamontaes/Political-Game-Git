@@ -366,6 +366,8 @@ function composeAddressOf(
       own,
       [president.id],
     );
+    // stopgapId: SG-PEOPLE-address-register
+    markWordsStopgap("SG-PEOPLE-address-register");
     const address = composeAddress(base, "election-night", moves);
     if (address.kind !== "rendered") {
       if (section.required) return null;
@@ -474,6 +476,8 @@ function newsStory(
   recordId: string,
   facts: Facts,
 ): OpeningNewsStory {
+  // stopgapId: SG-PEOPLE-newscast-register
+  markWordsStopgap("SG-PEOPLE-newscast-register");
   const story = composeNewsStory(
     {
       ...packet(

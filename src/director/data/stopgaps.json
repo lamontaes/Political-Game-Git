@@ -238,5 +238,29 @@
     "addedAt": "2026-10-14",
     "replacement": "An action phrase on each policy question in OPUS-GOV's bill catalog, or a mined goal phrase per question from OPUS-WORDS.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-address-register",
+    "kind": "hand-written-bank",
+    "file": "src/director/opening-story.ts",
+    "line": 1,
+    "whatItFakes": "The register card the President's opening address composes under: election night's public-address card stands in for a President's address.",
+    "why": "The engine has no register card for a State of the Union or an inaugural address yet (docs/coordination/words.md); the mined sentences need a public-address card to compose.",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "A President's-address register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-newscast-register",
+    "kind": "hand-written-bank",
+    "file": "src/director/opening-story.ts",
+    "line": 1,
+    "whatItFakes": "The register card the evening news composes under: the press briefing's card stands in for a newscast.",
+    "why": "The engine has no register card for a newscast yet (docs/coordination/words.md); the opening's evening news composes now.",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "A newscast register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
+    "status": "open"
   }
 ]
