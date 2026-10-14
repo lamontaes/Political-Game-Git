@@ -72,6 +72,7 @@ import mayorVetoData from "../../../data/research/local-government/mayor-veto-20
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { stateActEffectiveDate } from "../state-effective-date";
+import representation from "../data/offices/federal-representation.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
@@ -850,14 +851,12 @@ export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
   );
 }
 
-const NON_VOTING = new Set([
-  "US-DC",
-  "US-PR",
-  "US-GU",
-  "US-VI",
-  "US-AS",
-  "US-MP",
-]);
+/** Places whose House member does not vote on final passage (House Rule III), from data. */
+const NON_VOTING = new Set(
+  Object.keys(
+    (representation as unknown as { places: Record<string, unknown> }).places,
+  ),
+);
 export const FEDERAL_HOUSE = "federal:us-house";
 export const FEDERAL_SENATE = "federal:us-senate";
 
@@ -2125,6 +2124,12 @@ function enact(
   const stateDate = state
     ? stateActEffectiveDate(chain.stateKey, api.state.date)
     : null;
+  // Every state's rule is data; a state act with no rule is a data gap to
+  // fix, never a silent ordinance delay.
+  if (state && !stateDate)
+    throw new Error(
+      `No effective-date rule for ${chain.stateKey} acts (state-effective-dates.json).`,
+    );
   const defaultDate =
     (federal ? api.state.date : null) ??
     stateDate?.date ??
