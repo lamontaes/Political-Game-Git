@@ -140,6 +140,32 @@ async function launch() {
     (await page.getByTestId("new-game").isVisible()) &&
       (await page.getByTestId("title-options").isVisible()),
   );
+  // The title is a full-window national scene with the menu over it: the
+  // backdrop has a picture, and the front shows no version and no place field.
+  const titleScreen = await page.evaluate(async () => {
+    const backdrop = document.getElementById("backdrop");
+    if (backdrop.getAttribute("src") && !backdrop.complete)
+      await new Promise((resolve) => {
+        backdrop.onload = backdrop.onerror = resolve;
+      });
+    const front = document.getElementById("front");
+    const place = document.getElementById("place");
+    return {
+      src: backdrop.getAttribute("src") ?? "",
+      painted: backdrop.naturalWidth > 0,
+      version: /\bv?\d+\.\d+\.\d+/.test(front.innerText),
+      placeShown: Boolean(place && place.offsetParent !== null),
+    };
+  });
+  check(
+    "title: the backdrop is a painted national scene",
+    titleScreen.src !== "" &&
+      titleScreen.painted &&
+      !/state-capitol/.test(titleScreen.src),
+    titleScreen.src,
+  );
+  check("title: no version string on the title", !titleScreen.version);
+  check("title: no place field on the title", !titleScreen.placeShown);
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
@@ -158,6 +184,7 @@ async function launch() {
     { timeout: 240000 },
   );
   await page.getByTestId("new-game").click();
+  await page.getByTestId("place-random").click();
   await page.waitForFunction(
     () => {
       const line = document.querySelector('[data-testid="loading-line"]');

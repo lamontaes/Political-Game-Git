@@ -25,6 +25,7 @@ import { runUpdateCheck, updateActivation } from "./updater.mjs";
 import { macUpdater } from "./mac-install.mjs";
 import { windowsAllClosed } from "./window-close.mjs";
 import { portableDownloadSavePath } from "./download-policy.mjs";
+import { createPlayApi, utilityFork } from "./play-api-client.mjs";
 import {
   APP_ORIGIN,
   APP_SCHEME,
@@ -96,41 +97,10 @@ const contentRoot = app.isPackaged
 const playApiRoot = app.isPackaged
   ? path.join(process.resourcesPath, "play-api")
   : path.join(desktopRoot, "staged", "play-api");
-let playHost;
-const playPending = new Map();
-let playRequestId = 0;
-function startPlayHost() {
-  const host = utilityProcess.fork(
-    path.join(desktopRoot, "play-api-host.mjs"),
-    [],
-    {
-      serviceName: "Our Civic Duty play server",
-      env: { ...process.env, OCD_PLAY_API_ROOT: playApiRoot },
-      stdio: "inherit",
-    },
-  );
-  host.on("message", ({ id, reply, error }) => {
-    const waiting = playPending.get(id);
-    playPending.delete(id);
-    if (error !== undefined) waiting?.reject(new Error(error));
-    else waiting?.resolve(reply);
-  });
-  host.on("exit", (code) => {
-    if (playHost === host) playHost = undefined;
-    for (const waiting of playPending.values())
-      waiting.reject(new Error(`The play server stopped (exit ${code}).`));
-    playPending.clear();
-  });
-  return host;
-}
-function playApi(method, url) {
-  playHost ??= startPlayHost();
-  const id = ++playRequestId;
-  return new Promise((resolve, reject) => {
-    playPending.set(id, { resolve, reject });
-    playHost.postMessage({ id, method, url: url.href });
-  });
-}
+const playApi = createPlayApi({
+  root: playApiRoot,
+  fork: utilityFork(utilityProcess),
+});
 
 /**
  * Stable application identity and storage origin.
@@ -449,7 +419,7 @@ if (!app.requestSingleInstanceLock()) {
     });
   });
 
-  app.on("will-quit", () => playHost?.kill());
+  app.on("will-quit", () => playApi.stop());
 
   app.on("window-all-closed", () => {
     if (!holdQuit) app.quit();
