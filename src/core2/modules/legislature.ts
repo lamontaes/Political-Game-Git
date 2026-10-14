@@ -2234,6 +2234,7 @@ function executiveAction(
   } = executiveOf(api, bill.bodyOfficeId);
   let status: BillRow["status"] = "enacted";
   let decision: { executiveId: string; action: string } | undefined;
+  let override: ReturnType<typeof overrideVote> | null = null;
   // A mayor vetoes only where the state's law gives the office a veto (and
   // above any population line), overridden by the state's own share.
   const mayorRule = executiveOffice?.kind === "mayor" ? mayorVeto(api) : null;
@@ -2281,7 +2282,7 @@ function executiveAction(
       // Two thirds of each body's whole membership (not of those voting).
       const share =
         mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
-      status = overrideVote(
+      override = overrideVote(
         api,
         bill,
         memberSide(api, key, executive.party),
@@ -2289,9 +2290,8 @@ function executiveAction(
           mayorRule?.plusOne
             ? Math.floor(n * share) + 1
             : Math.ceil(n * share - 1e-9),
-      )
-        ? "overridden"
-        : "vetoed";
+      );
+      status = override.passed ? "overridden" : "vetoed";
     } else status = "signed";
     table(api, "votes").put({
       id: `vote:${bill.id}:${key}`,
@@ -2309,6 +2309,38 @@ function executiveAction(
         temperament: decided ? 0 : signLean,
       });
     decision = { executiveId: key, action: status };
+    // The signature, the veto and any override vote are public record the
+    // press reads, like the floor's roll call.
+    api.emit({
+      id: `executive-action:${bill.id}`,
+      date: api.state.date,
+      kind: "executive-action",
+      personIds: [
+        ...(executive.personId ? [executive.personId] : []),
+        ...(api.state.people.has(bill.sponsorId) ? [bill.sponsorId] : []),
+      ],
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${status === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        executiveId: key,
+        action: status,
+        ...(override
+          ? {
+              override: override.tallies
+                .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
+                .join(","),
+            }
+          : {}),
+      },
+    });
   }
   const next: BillRow = { ...bill, status };
   table(api, "bills").put(next as unknown as ModuleRow);
@@ -2328,7 +2360,21 @@ function overrideVote(
   bill: BillRow,
   executiveSide: number,
   needed: (members: number) => number,
-): boolean {
+): {
+  readonly passed: boolean;
+  readonly tallies: readonly {
+    chamber: string;
+    yes: number;
+    needed: number;
+    members: number;
+  }[];
+} {
+  const tallies: {
+    chamber: string;
+    yes: number;
+    needed: number;
+    members: number;
+  }[] = [];
   for (const chamber of chambersOf(api, bill)) {
     const roster = members(api, chamber);
     let yes = 0;
@@ -2364,9 +2410,15 @@ function overrideVote(
         position: { ...position, executive, total },
       } as unknown as ModuleRow);
     }
-    if (yes < needed(roster.length)) return false;
+    tallies.push({
+      chamber,
+      yes,
+      needed: needed(roster.length),
+      members: roster.length,
+    });
+    if (yes < needed(roster.length)) return { passed: false, tallies };
   }
-  return true;
+  return { passed: true, tallies };
 }
 
 /** A member's party side: an official's caucus or party, else their term's. */
