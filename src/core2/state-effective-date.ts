@@ -37,6 +37,7 @@ const SUPPORTED = new Set([
   "days-after-session-end",
   "next-year-date-by-passage",
   "january-after-days",
+  "first-of-month-after",
 ]);
 
 /** The date an act enacted on `enactedAt` takes effect, and the rule's citation; null where the rule can't say. */

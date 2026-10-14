@@ -1110,6 +1110,54 @@
           "actKinds": ["play-safe", "withdraw"]
         }
       ]
+    },
+    {
+      "id": "justice.report",
+      "site": "src/core2/modules/justice.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep-quiet",
+          "actKinds": ["stay-quiet", "keep-same", "play-safe"]
+        },
+        {
+          "id": "report",
+          "actKinds": ["speak-out", "follow-rules", "confront"]
+        }
+      ]
+    },
+    {
+      "id": "justice.prosecute",
+      "site": "src/core2/modules/justice.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["play-safe", "delay", "withdraw"]
+        },
+        {
+          "id": "pursue",
+          "actKinds": ["confront", "follow-rules", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "justice.plea",
+      "site": "src/core2/modules/justice.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "fight",
+          "actKinds": ["confront", "refuse", "take-risk"]
+        },
+        {
+          "id": "plead",
+          "actKinds": ["concede", "play-safe", "cooperate"]
+        }
+      ]
     }
   ],
   "outside": [
