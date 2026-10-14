@@ -31,6 +31,7 @@ import {
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
 import { strongestPulls } from "./jobs";
+import islandAreas from "../data/island-areas.json" with { type: "json" };
 import { withoutOutsideShelter } from "../housing-shelter";
 import housingConstruction from "../data/housing/construction.json" with { type: "json" };
 import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
@@ -114,8 +115,21 @@ const NATIONAL = (() => {
     ],
   };
 })();
+/** The island areas' own 2020 census tenure, rent and home value (the ACS tables don't cover them). */
+const ISLANDS = islandAreas.areas as Record<
+  string,
+  | {
+      occupiedUnits: number;
+      ownerOccupiedUnits: number;
+      medianGrossRentUsd: number;
+      medianOwnerValueUsd: number;
+    }
+  | undefined
+>;
 function nationTenure(town: { county: string }): [number, number] | undefined {
   if (!town.county.startsWith(`${NATION}:`)) return undefined;
+  const island = ISLANDS[town.county.slice(`${NATION}:`.length)];
+  if (island) return [island.occupiedUnits, island.ownerOccupiedUnits];
   stopgap("SG-WORLD-housing-island-areas");
   return NATIONAL.tenure;
 }
@@ -143,7 +157,13 @@ const STATE_RENT_VALUE = (() => {
   );
 })();
 function rentValueOf(county: string): [number | null, number | null] {
-  if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
+  if (county.startsWith(`${NATION}:`)) {
+    // An island area no county table covers: its own 2020 census figures, else the nation's.
+    const island = ISLANDS[county.slice(`${NATION}:`.length)];
+    return island
+      ? [island.medianGrossRentUsd, island.medianOwnerValueUsd]
+      : NATIONAL.rentValue;
+  }
   if (county.startsWith(STATE_PREFIX))
     return STATE_RENT_VALUE.get(county) ?? [null, null];
   return (RENT_VALUE[county] as [number, number] | undefined) ?? [null, null];

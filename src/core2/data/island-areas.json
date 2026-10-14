@@ -1,0 +1,41 @@
+{
+  "source": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic Profile Summary Files (www2.census.gov/programs-surveys/decennial/2020/data/island-areas/<area>/demographic_profile/, fields matched by the official table matrices; reference date April 1, 2020). Deposits: FDIC Summary of Deposits, June 30, 2026 (api.fdic.gov/banks/sod, branch deposits summed); American Samoa has no FDIC-insured branch. Gathered 2026-10-13 by an OPUS-WORLD research helper.",
+  "areas": {
+    "GU": {
+      "occupiedUnits": 43381,
+      "ownerOccupiedUnits": 22545,
+      "medianGrossRentUsd": 1057,
+      "medianOwnerValueUsd": 277750,
+      "population2020": 153836,
+      "depositsUsd": 4680387000,
+      "branches": 16
+    },
+    "VI": {
+      "occupiedUnits": 39642,
+      "ownerOccupiedUnits": 18968,
+      "medianGrossRentUsd": 926,
+      "medianOwnerValueUsd": 290558,
+      "population2020": 87146,
+      "depositsUsd": 3618727000,
+      "branches": 20
+    },
+    "AS": {
+      "occupiedUnits": 9834,
+      "ownerOccupiedUnits": 6993,
+      "medianGrossRentUsd": 601,
+      "medianOwnerValueUsd": 84357,
+      "population2020": 49710,
+      "depositsUsd": null,
+      "branches": null
+    },
+    "MP": {
+      "occupiedUnits": 14282,
+      "ownerOccupiedUnits": 4137,
+      "medianGrossRentUsd": 502,
+      "medianOwnerValueUsd": 184191,
+      "population2020": 47329,
+      "depositsUsd": 968383000,
+      "branches": 6
+    }
+  }
+}

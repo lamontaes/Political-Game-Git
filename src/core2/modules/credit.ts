@@ -6,6 +6,7 @@
  * reprice it. Draws, interest and repayment move through the existing
  * conserving credit writer. Bank books are recorded monthly.
  */
+import islandAreas from "../data/island-areas.json" with { type: "json" };
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import { bankBalances, reviewDeposits } from "../credit-deposits";
@@ -71,6 +72,21 @@ function fallbackDeposits(usps: string | undefined): number | undefined {
   const people = fips ? TERRITORY_PEOPLE.get(fips) : undefined;
   const own = fips ? sum((county) => county.startsWith(fips)) : 0;
   if (own > 0 && people) return own / people;
+  // An island area the county table misses: its own FDIC deposits (June 2026) per 2020 resident, in thousands.
+  const island = usps
+    ? (
+        islandAreas.areas as Record<
+          string,
+          { depositsUsd: number | null; population2020: number } | undefined
+        >
+      )[usps.replace(/^US-/, "")]
+    : undefined;
+  if (island?.depositsUsd)
+    return (
+      island.depositsUsd /
+      p0("creditDepositsInThousands") /
+      island.population2020
+    );
   let nationPeople = 0;
   for (const [county, row] of COUNTY_POPULATION)
     if (COUNTY_DEPOSITS.has(county))
