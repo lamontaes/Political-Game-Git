@@ -2615,7 +2615,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Claim ages come from the federal law rows: the laws module's socialSecurityAges in play, and the same enacted rows for the opening; the core's own age table is deleted."
   },
   {
     "id": "SG-CORE-retirement-claims-in-play",
@@ -2627,7 +2628,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "GOV's Social Security program: claims read the law in force and awards follow each person's recorded earnings.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Claims in play decide inside the Social Security ages in force and pay an award sized as the opening's; applications, earnings tests and spouse benefits are not built, since the game doesn't need them (owner, Oct 14)."
   },
   {
     "id": "SG-CORE-public-school-template",

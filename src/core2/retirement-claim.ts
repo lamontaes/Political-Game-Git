@@ -6,8 +6,7 @@
  * shared trait table, when the caller supplies the lean).
  * No roll decides it: the same person always claims at the same age.
  */
-import ages from "./data/social-security-ages.json" with { type: "json" };
-import { stopgap } from "./stopgaps";
+import law from "./data/laws/social-security-ages.json" with { type: "json" };
 
 export interface ClaimContext {
   birthYear: number;
@@ -35,20 +34,44 @@ export interface ClaimWeights {
   fullBufferMonths: number;
 }
 
-/** The full retirement age, in months, for a birth year (Social Security Act §216(l)). */
-export function fullRetirementAgeMonths(birthYear: number): number {
-  stopgap(ages.stopgapId);
-  const row = ages.fullRetirementAge.find((r) => birthYear <= r.bornThrough);
-  if (!row) throw new Error(`No full retirement age for ${birthYear}`);
-  return row.ageMonths;
+/** A person's Social Security ages in months, as the laws module reports them. */
+export interface SocialSecurityAgesMonths {
+  earliestMonths: number;
+  fullMonths: number;
+  delayedMaxMonths: number;
 }
 
-/** The claim age in months, inside the law's bounds. */
+const series = law.series;
+
+/** The full retirement age, in months, for a birth year under the enacted law row (42 U.S.C. § 416(l)). */
+export function fullRetirementAgeMonths(birthYear: number): number {
+  const full = series["social-security-full-retirement-age"];
+  const row = full.schedule.find((r) => birthYear <= r.bornThrough);
+  return row?.months ?? Math.round(full.valueYears * 12);
+}
+
+/** The enacted ages, for an opening built before the laws module runs. */
+export function enactedSocialSecurityAges(
+  birthYear: number,
+): SocialSecurityAgesMonths {
+  return {
+    earliestMonths: Math.round(
+      series["social-security-earliest-claim-age"].valueYears * 12,
+    ),
+    fullMonths: fullRetirementAgeMonths(birthYear),
+    delayedMaxMonths: Math.round(
+      series["social-security-delayed-credit-age"].valueYears * 12,
+    ),
+  };
+}
+
+/** The claim age in months, inside the law's bounds (the law in force when given). */
 export function retirementClaimAgeMonths(
   context: ClaimContext,
   weights: ClaimWeights,
+  ages: SocialSecurityAgesMonths = enactedSocialSecurityAges(context.birthYear),
 ): number {
-  const full = fullRetirementAgeMonths(context.birthYear);
+  const full = ages.fullMonths;
   const patience =
     context.patience ??
     ((context.deliberation ?? 0) +
@@ -64,8 +87,5 @@ export function retirementClaimAgeMonths(
     patience * weights.traitPullYears -
     need * weights.needPullYears;
   const months = Math.round(full + years * 12);
-  return Math.max(
-    ages.earliestClaimAgeMonths,
-    Math.min(ages.latestCreditAgeMonths, months),
-  );
+  return Math.max(ages.earliestMonths, Math.min(ages.delayedMaxMonths, months));
 }
