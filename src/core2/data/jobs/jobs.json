@@ -1854,6 +1854,7 @@
     "traitDrawn": "trait-drawn",
     "died": "died",
     "movedAway": "moved-away",
-    "replacement": "replaces-leaver"
+    "replacement": "replaces-leaver",
+    "offered": "job-offered"
   }
 }

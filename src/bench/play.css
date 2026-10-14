@@ -1015,10 +1015,6 @@ body.dev .dev-ring {
 .chat .acts {
   margin-top: 8px;
 }
-#choices {
-  padding: 13px 18px;
-}
-
 /* A journal line, bottom right. */
 .journal {
   right: var(--gutter);
@@ -1183,7 +1179,6 @@ body.dev .dev-ring {
   display: contents;
 }
 #game.sheet-open #talk,
-#game.sheet-open #choices,
 #game.sheet-open #person,
 #game.sheet-open #journal-note {
   visibility: hidden;
