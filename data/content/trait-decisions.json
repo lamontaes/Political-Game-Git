@@ -1254,6 +1254,22 @@
           "actKinds": ["follow-rules", "commit", "engage"]
         }
       ]
+    },
+    {
+      "id": "legislature.poison-pill",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "pill-hold",
+          "actKinds": ["follow-rules", "cooperate", "play-safe"]
+        },
+        {
+          "id": "pill-move",
+          "actKinds": ["bend-rules", "confront", "take-risk"]
+        }
+      ]
     }
   ],
   "outside": [

@@ -127,6 +127,49 @@ describe("M3-10 other governments legislate", () => {
           `${bill.number}: not on the press wire`,
         ).not.toBeNull();
       }
+      // A section traded for a vote is in the bill, on the record, and the
+      // member who took it voted for the bill; a poison pill's mover against.
+      const amendments = [...core.durableLog.values()].filter(
+        (e) => e.kind === "bill-amendment",
+      );
+      const votes = api.moduleState("core2-legislature-v1").table("votes");
+      for (const bill of api
+        .moduleState("core2-legislature-v1")
+        .table("bills")
+        .rows() as unknown as {
+        id: string;
+        provisions: { question?: string }[];
+        deals: { memberId: string; kind: string; terms: string }[];
+      }[])
+        for (const deal of bill.deals.filter((d) =>
+          ["trade-amendment", "poison-pill"].includes(d.kind),
+        )) {
+          const question = deal.terms.split(" ")[1];
+          expect(
+            bill.provisions.some((p) => p.question === question),
+            `${bill.id}: ${deal.terms} not in the bill`,
+          ).toBe(true);
+          expect(
+            amendments.some(
+              (e) =>
+                e.facts?.billId === bill.id &&
+                e.facts?.movedBy === deal.memberId,
+            ),
+            `${bill.id}: no amendment record`,
+          ).toBe(true);
+          const vote = (
+            votes.get(`vote:${bill.id}:${deal.memberId}`) as unknown as
+              { vote: string } | undefined
+          )?.vote;
+          // A pill adopted after a trade may break it.
+          const pilled = bill.deals.some((d) => d.kind === "poison-pill");
+          expect(
+            deal.kind === "trade-amendment"
+              ? ["yes", "absent", ...(pilled ? ["no"] : [])]
+              : ["no", "absent"],
+            `${bill.id}: ${deal.kind} by ${deal.memberId} voted ${vote}`,
+          ).toContain(vote);
+        }
       const passed = session!.bills.filter((b) =>
         ["enacted", "signed", "overridden"].includes(b.status),
       );

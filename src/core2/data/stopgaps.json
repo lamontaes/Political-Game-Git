@@ -4344,5 +4344,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Every seat's holder filled in as a person before they vote, so attendance reads their day like anyone's.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-official-floor-tactics",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 2702,
+    "whatItFakes": "A member with no person record never moves a poison pill; every other member decides from their own temperament.",
+    "why": "A member without a person record has no traits for the chooser to read.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's.",
+    "status": "open"
   }
 ]
