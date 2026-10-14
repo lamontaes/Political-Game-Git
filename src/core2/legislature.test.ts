@@ -526,9 +526,10 @@ describe(
       });
       expect(bill.status).toBe("blocked");
       expect(bill.authority[0]!.warning).toBe("preempted");
-      expect(bill.authority[0]!.reason).toMatch(
-        /preempts|no minimum-wage power/,
-      );
+      expect([
+        "state-preempts-local-minimum-wage",
+        "state-gives-no-local-minimum-wage",
+      ]).toContain(bill.authority[0]!.reason);
       expect(holdVote(api, bill.id).status).toBe("blocked");
     });
 

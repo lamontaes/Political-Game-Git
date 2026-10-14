@@ -94,9 +94,24 @@ export interface Provision {
 export interface Authority {
   readonly allowed: boolean;
   readonly warning: "none" | "disputed" | "preempted";
-  readonly reason: string;
+  /** Why, as a record code the English engine words (never player text). */
+  readonly reason: AuthorityReason;
+  /** The law row, question or statute the reason rests on. */
   readonly source: string;
 }
+
+export type AuthorityReason =
+  | "state-grants-local-minimum-wage"
+  | "state-preempts-local-minimum-wage"
+  | "state-gives-no-local-minimum-wage"
+  | "state-allows-local-tax"
+  | "state-gives-no-local-tax"
+  | "state-preempts-question"
+  | "state-has-own-law"
+  | "no-state-law"
+  | "no-state-limit"
+  | "within-own-power"
+  | "level-lacks-power";
 
 export interface BillRow {
   readonly id: string;
@@ -661,15 +676,15 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
       ? {
           allowed: true,
           warning: "none",
-          reason: "state lets its places set a minimum wage",
+          reason: "state-grants-local-minimum-wage",
           source: rows[0]?.id ?? "",
         }
       : {
           allowed: false,
           warning: "preempted",
           reason: authority.preempts
-            ? "state law preempts local minimum wages"
-            : "state law gives its places no minimum-wage power",
+            ? "state-preempts-local-minimum-wage"
+            : "state-gives-no-local-minimum-wage",
           source: rows[0]?.id ?? "",
         };
   }
@@ -692,13 +707,13 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
       ? {
           allowed: true,
           warning: "none",
-          reason: `state law lets its places levy a local ${provision.series}`,
+          reason: "state-allows-local-tax",
           source: rows[0]?.id ?? "",
         }
       : {
           allowed: false,
           warning: "preempted",
-          reason: `state law gives its places no local ${provision.series}`,
+          reason: "state-gives-no-local-tax",
           source: rows[0]?.id ?? "",
         };
   }
@@ -709,22 +724,20 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
       return {
         allowed: false,
         warning: "preempted",
-        reason: "state law rules this out for its places",
+        reason: "state-preempts-question",
         source: provision.question,
       };
     return {
       allowed: true,
       warning: answer ? "disputed" : "none",
-      reason: answer
-        ? "the state has its own law on this; the city attorney expects a challenge"
-        : "no state law on this",
+      reason: answer ? "state-has-own-law" : "no-state-law",
       source: provision.question,
     };
   }
   return {
     allowed: true,
     warning: "none",
-    reason: "no state limit recorded",
+    reason: "no-state-limit",
     source: "",
   };
 }
@@ -762,24 +775,28 @@ function costOf(api: CoreAPI, provisions: readonly Provision[]) {
   };
 }
 
-const seriesPowers = (
+const { series: seriesPowers, questions: questionPowers } =
   powers as unknown as {
     series: Record<string, { levels: string[]; source: string }>;
-  }
-).series;
+    questions: Record<string, { levels: string[]; source: string }>;
+  };
 
 /** A law amount this level has no power to set, with the law that says so; null when it may. */
-function beyondPower(
+export function beyondPower(
   provision: Provision,
   level: "federal" | "state" | "local",
 ): Authority | null {
-  if (provision.kind !== "law-amount" || !provision.series) return null;
-  const power = seriesPowers[provision.series];
+  const power =
+    provision.kind === "law-amount" && provision.series
+      ? seriesPowers[provision.series]
+      : provision.kind === "policy-question" && provision.question
+        ? questionPowers[provision.question]
+        : undefined;
   if (!power || power.levels.includes(level)) return null;
   return {
     allowed: false,
     warning: "preempted",
-    reason: `only ${power.levels.join(" or ")} government sets ${provision.series}`,
+    reason: "level-lacks-power",
     source: power.source,
   };
 }
@@ -812,7 +829,7 @@ export function draftBill(
         ? ({
             allowed: true,
             warning: "none",
-            reason: "within the state's own power",
+            reason: "within-own-power",
             source: "",
           } as Authority)
         : authorityFor(api, p)),

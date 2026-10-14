@@ -89,7 +89,7 @@ export function billCatalog(
                 : {
                     allowed: true,
                     warning: "none" as const,
-                    reason: "within this level's own power",
+                    reason: "within-own-power" as const,
                     source: "",
                   },
           };

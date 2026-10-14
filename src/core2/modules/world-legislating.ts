@@ -19,6 +19,7 @@
  * their reasons, and every vote is each member's. The session's filings,
  * hearings and votes are counted together on its floor day.
  */
+import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import sessions from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
@@ -39,6 +40,7 @@ import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import {
   authorityFor,
+  beyondPower,
   draftBill,
   FEDERAL_HOUSE,
   holdVote,
@@ -180,6 +182,12 @@ function scheduleSession(
 }
 
 /** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
+const FEDERAL_ANSWERS = (
+  federalAnswers as unknown as {
+    questions: Record<string, { answer: string }>;
+  }
+).questions;
+
 export function answerIn(
   api: CoreAPI,
   stateKey: string,
@@ -196,7 +204,10 @@ export function answerIn(
     .filter((r) => enacted || r.effectiveDate <= api.state.date)
     .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
   if (rows[0]) return rows[0].value === 1 ? 1 : -1;
-  const answer = POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
+  const answer =
+    stateKey === "US"
+      ? FEDERAL_ANSWERS[question]?.answer
+      : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
   return answer === "yes" ? 1 : answer === "no" ? -1 : null;
 }
 
@@ -579,7 +590,12 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     billsPerFloorDay: campaignParameter("floorBillsPerLegislativeDay"),
     needsChange: (question, direction) =>
       needsChange(direction, answerIn(api, jurisdiction, question, true)),
-    allowed: () => true,
+    // A legislature answers only the questions its level may (data).
+    allowed: (question, value) =>
+      !beyondPower(
+        { kind: "policy-question", question, value },
+        jurisdiction === "US" ? "federal" : "state",
+      ),
     // A new session takes every bill up afresh.
     barred: () => false,
   });
@@ -654,6 +670,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? !inForceForTown(api, question)
         : !!own && ownRow(api, own, question) === 1,
     allowed: (question, value) =>
+      !beyondPower({ kind: "policy-question", question, value }, "local") &&
       authorityFor(api, { kind: "policy-question", question, value }).allowed,
     barred: (question, direction) =>
       recentlyDefeated(api, officeId, question, direction),
