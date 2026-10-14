@@ -39,7 +39,7 @@ Three payments, by record:
 
 - **A staffer's pay against its line.** A county aide, `person_1779ed27326764ae`, was paid 23 times from March 4, 2025 to January 20, 2026, $38,626.12 in all, each payday filed against the county's administration line (measured). At the April 1 close, `treasury-month:county:26043:2025-04-01`, that line owed $358,037.53. $18,768.00 had gone to staff in town, $3,877.19 went to the town's professional firms and $335,392.34 went outside.
 - **A transfer to the town.** `treasury-aid:US-MI:place:2659220:intergovernmental:2025-02-01` moved $500,049.44 from Michigan's treasury to Norway's (measured). `treasury-aid:US:place:2659220:federalAid:2025-02-01` moved $69,289.50 from the U.S. treasury.
-- **A benefit after the federal cut.** In Lydia, `retirement-claim:person_6ee8931cace2b343@2025-11-27` paid $1,796.49 and `retirement-claim:person_6ee8931cace2b343@2025-12-27` paid $1,268.59 (measured). That is 70.6% of the award, the federal Social Security line's share of its base after Congress's cut (`src/core2/budgets-treasury.ts:516`).
+- **A benefit after the federal cut.** In Lydia, `retirement-claim:person_6ee8931cace2b343@2025-11-27` paid $1,796.49 and `retirement-claim:person_6ee8931cace2b343@2025-12-27` paid $1,268.59 (measured). That is 70.6% of the award, the federal Social Security line's share of its base after Congress's cut (`src/core2/budgets-treasury.ts:565`).
 
 Every one of the 27,936 journal entries in Norway and the 24,197 in Lydia posted both sides and summed to zero (measured).
 
@@ -61,13 +61,13 @@ Everyone else in town kept their Social Security amount: 5 retirees from the ope
 
 Each is read in code; the runs did not single any of them out.
 
-- Taxes are now withheld from the pay of townspeople the game tracks only as counts, each month, as they are from people it tracks one by one (money audit defect 4; `src/core2/modules/budgets.ts:1076`).
-- A withholding record is kept only after its payment posts (defect 16), and lists only the taxes that reached a treasury (defect 11; `src/core2/modules/budgets.ts:1001`).
+- Taxes are now withheld from the pay of townspeople the game tracks only as counts, each month, as they are from people it tracks one by one (money audit defect 4; `src/core2/modules/budgets.ts:1078`).
+- A withholding record is kept only after its payment posts (defect 16), and lists only the taxes that reached a treasury (defect 11; `src/core2/modules/budgets.ts:1003`).
 - A staffer is hired only if the budget line their pay draws on has room for a year of it (defect 19; `src/core2/modules/staff.ts:187`).
 - The paid-leave premium is capped by the cash it is taken from (defect 15; `src/core2/law-reach/group-a-money.ts:130`).
 - A bribe is recorded once the money moves (defect 17; `src/core2/modules/corruption.ts:212`).
 - Poll costs are filed as polls, not ads (defect 18; `src/core2/modules/campaigns.ts:1351`).
-- The notice of an adopted budget names who adopted it: the body's vote or the carry-forward rule (laws audit defect 12, the budgets part; `src/core2/modules/budgets.ts:880`).
+- The notice of an adopted budget names who adopted it: the body's vote or the carry-forward rule (laws audit defect 12, the budgets part; `src/core2/modules/budgets.ts:882`).
 - The balanced-budget act no longer cuts federal interest on the debt (laws audit defect 9; `src/core2/law-reach/group-b-money.ts:425`).
 
 ## What happens next
@@ -77,7 +77,7 @@ Each is read in code; the runs did not single any of them out.
   - Do the same for the townspeople tracked as counts. In Lydia 832 who claimed during play kept their old amount (SG-GOV-counted-social-security-level).
   - Pay the town's schools, police and fire from their treasury rather than from outside (SG-GOV-public-employers-outside).
 - **OPUS-PEOPLE:** the director counts only job wages as household money, so a cut benefit gets no scene or journal line (`src/director/ledger.ts:143`). The drives data still lists `law.effect-landed` as having no producer (`src/core2/data/drives.json:648`); it has one now.
-- **The other OPUS-GOV builder** (legislature): a county with no executive still passes a budget bill with no lines. `departmentRequests` (`src/core2/modules/budgets.ts:805`) now returns the lines such a bill can carry.
+- **The other OPUS-GOV builder** (legislature): a county with no executive still passes a budget bill with no lines. `departmentRequests` (`src/core2/modules/budgets.ts:807`) now returns the lines such a bill can carry.
 - **This builder, next:** state surpluses build up where the Census shows more revenue than spending. A rainy-day reserve or a larger next budget should take them.
 
 ## Method
