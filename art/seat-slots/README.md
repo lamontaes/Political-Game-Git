@@ -25,7 +25,7 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 | `council-chamber-small`                |    22 |     79 |
 | `county-commission`                    |    17 |     87 |
 | `county-commission-rural`              |    12 |     33 |
-| `public-meeting-room`                  |    15 |     74 |
+| `public-meeting-room`                  |    14 |     48 |
 | `school-board-room`                    |     7 |     27 |
 | `state-house-chamber`                  |    18 |    129 |
 | `state-legislative-chamber-bicameral`  |    13 |     70 |
@@ -35,4 +35,6 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 
 ## Rebuilt slots
 
-`school-board-room` now uses seven fixed chair anchors and 27 reviewed people, including four native-generated replacements. Its `chairs.json` records the empty-painting geometry; `report.json` records rejections. Each seat and variant includes `chair`, and variants also retain their own `head`. Other rooms retain their previous packed artwork until their replacement sheets pass visual review.
+`school-board-room` uses seven fixed chair anchors and 27 reviewed people, including four native-generated replacements. Its `chairs.json` records the empty-painting geometry; `report.json` records rejections. Each seat and variant includes `chair`, and variants also retain their own `head`. Other rooms retain their previous packed artwork until their replacement sheets pass visual review.
+
+`public-meeting-room`: 14 fixed occupied chair/bench positions, 48 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.

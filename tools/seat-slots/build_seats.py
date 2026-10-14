@@ -75,7 +75,15 @@ def furniture_mask(annotations, chair, size):
     drawing = ImageDraw.Draw(result)
     for item in annotations['furniture']:
         if chair['id'] in item['in_front_of']:
-            drawing.polygon([tuple(p) for p in item['polygon']], fill=255)
+            if 'mask' in item:
+                layer = Image.open(Path(annotations['_folder']) / item['mask']).convert('L')
+                if layer.size != size:
+                    raise ValueError('Furniture mask does not match the empty painting')
+                if 'min_y' in item:
+                    layer.paste(0, (0, 0, size[0], int(item['min_y'])))
+                result.paste(255, (0, 0), layer)
+            else:
+                drawing.polygon([tuple(p) for p in item['polygon']], fill=255)
     return np.array(result) > 0
 
 
@@ -84,6 +92,7 @@ def main(place, plate_path, source_dir, chairs_path, outdir):
     if outdir.exists():
         raise FileExistsError(f'Use a fresh build directory: {outdir}')
     annotations = json.loads(chairs_path.read_text())
+    annotations['_folder'] = str(chairs_path.parent)
     chairs = annotations['chairs']
     ids = [c['id'] for c in chairs]
     if len(ids) != len(set(ids)) or not chairs:
@@ -191,6 +200,11 @@ def main(place, plate_path, source_dir, chairs_path, outdir):
                 top += person['at'][1]
                 bottom += person['at'][1]
             cut = rgba.crop(bounds).resize((right - left, bottom - top), Image.Resampling.LANCZOS)
+            # The room frame clips edge chairs in the original painting too.
+            cut = cut.crop((max(0, -left), max(0, -top),
+                            min(cut.width, plate.width - left), min(cut.height, plate.height - top)))
+            left, top = max(0, left), max(0, top)
+            right, bottom = left + cut.width, top + cut.height
             data = np.array(cut)
             foreground = furniture_mask(annotations, chair, plate.size)[top:bottom, left:right]
             data[..., 3][foreground] = 0

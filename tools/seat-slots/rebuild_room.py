@@ -43,7 +43,7 @@ def main(place, build):
         image.thumbnail((cell_w - 12, cell_h - 40))
         x, y = index % columns * cell_w, index // columns * cell_h
         sheet.paste(image, (x + 6, y + 36), image)
-        draw.text((x + 6, y + 4), f'{chair}\n{Path(variant["file"]).stem}', fill='black')
+        draw.text((x + 6, y + 4), f'{chair}\nvariant {index + 1}', fill='black')
     sheet.save(build / f'{place}.jpg', quality=95)
     print(f'Ready for visual review: {build}')
 
