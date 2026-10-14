@@ -9,7 +9,8 @@
     "addedBy": "FIXER-EVERY-MODULE-RUNS",
     "addedAt": "2026-10-13",
     "replacement": "A job ending that settles or reassigns every contract naming the job (OPUS-CORE), after which employed applicants are back in the pool.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the out-of-work-only filter in staff and executive hiring: anyone paid less than the post may be chosen, and startPublicJob ends their job; the core now lets an agreement's current staff carry it when a named job ends (finance-cash productJobRelations)."
   },
   {
     "id": "SG-P8-relationship-closeness-update",
