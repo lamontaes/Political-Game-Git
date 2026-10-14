@@ -169,7 +169,9 @@ const activeWriters = new WeakSet<CashJournalRuntime>();
 /** Protection membership only. Weak objects carry no source authority or historical IDs. */
 const journalOwnedObjects = new WeakSet<object>();
 
+/** Marks journal-owned objects so a stray write is caught; a check, so only with bookkeeping on. */
 function protectJournalObjects(...objects: object[]): void {
+  if (!bookkeeping()) return;
   for (const object of objects) journalOwnedObjects.add(object);
 }
 
