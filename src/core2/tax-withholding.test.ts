@@ -10,7 +10,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { lawChain, lawInForce, openLaws } from "./modules/laws";
 import { openBudgets, withholdingOf } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
@@ -123,9 +122,7 @@ describe("pay to a worker who lives outside the town (audit 12, 13)", () => {
         .sort((a, b) => a.id.localeCompare(b.id))[0];
       if (!worker) continue;
       const core = createLifeCore(
-        withCountedVoterGroups(
-          collapseToTwoLevels({ ...full, playerId: worker.id }),
-        ),
+        collapseToTwoLevels({ ...full, playerId: worker.id }),
       );
       openLaws(core);
       openBudgets(core);
