@@ -465,6 +465,49 @@ function reportToPress(
   });
 }
 
+/** Whether someone already offered a bribe over this decision (one ask per decision). */
+export function askedOver(
+  api: CoreAPI,
+  offererId: PersonId,
+  subjectId: string,
+): boolean {
+  return (
+    api.state.modules.has(CORRUPTION_MODULE_ID) &&
+    (
+      table(api, "crimes").query("byOfferer", [
+        offererId,
+      ]) as unknown as CrimeRecord[]
+    ).some((row) => row.subjectId === subjectId)
+  );
+}
+
+/**
+ * What the bribes an official took on one decision pull them toward: each
+ * taken bribe's amount against a month of the official's living costs,
+ * sliding toward the offerer's side and never past the weight. Zero where
+ * none was taken. (The offerers are those who lose money on it, so the pull
+ * is against the subject.)
+ */
+export function bribePull(
+  api: CoreAPI,
+  officialId: PersonId,
+  subjectId: string,
+): number {
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return 0;
+  const official = api.state.people.get(officialId);
+  if (!official) return 0;
+  const taken = (
+    table(api, "crimes").query("byOfficial", [
+      officialId,
+    ]) as unknown as CrimeRecord[]
+  )
+    .filter((row) => row.taken && row.subjectId === subjectId)
+    .reduce((sum, row) => sum + row.amountMinor, 0);
+  if (!taken) return 0;
+  const month = official.livingCostDailyMinor * c(api, "daysPerMonth");
+  return -c(api, "bribeVoteWeight") * (taken / (taken + month));
+}
+
 /** The scandal stories reported about an official by the date (each a news story id). */
 export function scandalsOf(
   api: CoreAPI,

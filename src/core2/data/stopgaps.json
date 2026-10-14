@@ -3490,5 +3490,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Per-city and per-county charter research on who may introduce legislation, read by proposalRight.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-bribe-stakes-wage-only",
+    "kind": "partial-model",
+    "file": "src/core2/modules/interest-groups.ts",
+    "line": 1,
+    "whatItFakes": "Only an owner whose business pays workers under a proposed minimum wage weighs a bribe over a bill; a bill that costs people money any other way draws no bribe, because its losses aren't measured per payer.",
+    "why": "The only per-payer loss the engines measure today is a wage bill's (employerCosts). The CTO's next item, employer groups forming from who loses money on any bill, builds that measure.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "One 'who loses money on this bill' reading over every provision kind, read by both employer groups and bribes.",
+    "status": "open"
   }
 ]

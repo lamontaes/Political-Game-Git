@@ -51,5 +51,11 @@
     "tag": "TUNABLE",
     "citation": "Weight on how far the person who learned of a bribe is from the official when deciding to take it to the press, against the pull of keeping quiet (corruptionQuietPull). Most people who learn of corruption don't report it, for fear of reprisal or doubt it will matter (Transparency International, Global Corruption Barometer, United States 2019); distance from the official makes reprisal and loyalty matter less. Spread 0.5 to 2.",
     "stopgapId": "SG-P15-corruption-weights"
+  },
+  "bribeVoteWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The most a taken bribe moves the official's position on the decision it bought, reached as the bribe grows against a month of their living costs (a member's whole position runs about -1 to 1). A bribe is a payment for a specific decision (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 4). Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-corruption-weights"
   }
 }

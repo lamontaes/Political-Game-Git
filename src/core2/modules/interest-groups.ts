@@ -23,6 +23,7 @@ import {
   employerCosts,
   LEGISLATURE_MODULE_ID,
   members,
+  memberPosition,
   provisionStance,
   registerLegislatureHooks,
   type BillRow,
@@ -35,6 +36,7 @@ import { parameter } from "../parameters";
 import type { PersonState } from "../types";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
+import { askedOver, considerBribe } from "./corruption";
 import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
@@ -166,6 +168,54 @@ function ownerJoins(
   );
 }
 
+/**
+ * An owner whose business loses money on the bill may try to buy the vote
+ * that would pass it: the member leaning toward yes by the least. Whether
+ * they offer, and whether the member takes it, is each one's own decision
+ * (corruption.ts); a taken bribe is part of the member's position on the
+ * bill, on the record for the press and the courts to surface.
+ */
+// stopgapId: SG-GOV-bribe-stakes-wage-only (only a wage bill's losses are measured per employer)
+function offerBribes(
+  api: CoreAPI,
+  b: BillRow,
+  costs: ReadonlyMap<string, { annualMinor: number }>,
+): void {
+  api.stopgap("SG-GOV-bribe-stakes-wage-only");
+  const swing = members(api, b.bodyOfficeId)
+    .flatMap((t) =>
+      t.personId && api.state.people.get(t.personId)?.alive
+        ? [
+            {
+              id: t.personId,
+              total: memberPosition(api, b.id, t.personId).total,
+            },
+          ]
+        : [],
+    )
+    .filter((m) => m.total > 0)
+    .sort((x, y) => x.total - y.total || x.id.localeCompare(y.id))[0];
+  if (!swing) return;
+  for (const [orgId, cost] of [...costs.entries()].sort((x, y) =>
+    x[0].localeCompare(y[0]),
+  )) {
+    const owner = ownerOf(api, orgId);
+    if (
+      !owner ||
+      owner === swing.id ||
+      !api.state.people.get(owner)?.alive ||
+      askedOver(api, owner, b.id)
+    )
+      continue;
+    considerBribe(api, {
+      offererId: owner,
+      officialId: swing.id,
+      stakeMinor: cost.annualMinor,
+      subjectId: b.id,
+    });
+  }
+}
+
 /** Before the vote: the bill's losers decide whether to organize, and the group lobbies. */
 function organize(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
@@ -173,6 +223,7 @@ function organize(api: CoreAPI, billId: string): void {
   organizeResidents(api, b);
   const costs = employerCosts(api, b);
   if (!costs.size) return;
+  offerBribes(api, b, costs);
   const state = api.state as CoreState;
   const dues = campaignParameter("groupDuesMinor");
   const interest = "employers-minimum-wage";
