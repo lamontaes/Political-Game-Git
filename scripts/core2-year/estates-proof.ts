@@ -13,7 +13,7 @@ import { BenchPlayer } from "../../src/bench/player";
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 
 setBookkeeping(false);
-const seed = process.argv[2] ?? randomBytes(6).toString("hex");
+const seed = process.argv[2] || randomBytes(6).toString("hex");
 const years = Number(process.argv[3] ?? 2);
 const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
 const core = world.core;
