@@ -2,6 +2,7 @@
  * The story ledger: what the director keeps for each watched person
  * (docs/design/director-on-core2.md). Structure only; no player text.
  */
+import type { OpeningStory } from "./opening-story";
 import type { Parameter } from "../core2/parameters";
 import type { IsoDate, PersonId } from "../core2/types";
 import type { ScheduleEntry } from "./scheduling";
@@ -224,4 +225,6 @@ export interface Ledger {
   /** Open lies indexed by the deceived person and the fact they deny. */
   liesByLearner: Map<string, Set<string>>;
   stopgapHits: Set<string>;
+  /** The opening, the first scene: the President's address, that night's news, then day two at home. */
+  opening?: OpeningStory;
 }

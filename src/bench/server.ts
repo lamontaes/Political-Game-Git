@@ -10,7 +10,7 @@ import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
 import { knownCard, personCard } from "./card";
-import { openingShots } from "./opening";
+import { openingAddress, openingShots } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
@@ -205,7 +205,11 @@ const server = createServer(async (request, response) => {
         const entrant = { personId: world.playerId! };
         player.select(entrant.personId);
         // The opening is prepared during loading; its whole figures are files.
-        opening = openingShots(world.core, entrant.personId);
+        opening = openingShots(
+          world.core,
+          entrant.personId,
+          world.director.ledger.opening,
+        );
         buildProgress = { stage: "done", done: 0, total: 0 };
         send(200, {
           personId: entrant.personId,
@@ -562,8 +566,13 @@ const server = createServer(async (request, response) => {
         200,
         opening && player?.personId === id
           ? opening
-          : openingShots(requireCore(), id),
+          : openingShots(requireCore(), id, director?.ledger.opening),
       );
+      return;
+    }
+    // The whole address, a tap away (read-only; spends no game time).
+    if (request.method === "GET" && url.pathname === "/api/opening/address") {
+      send(200, openingAddress(director?.ledger.opening));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/known") {

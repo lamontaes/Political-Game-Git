@@ -40,5 +40,9 @@
     "opening": "Preparing the opening",
     "pictures": "Loading the pictures",
     "done": "Ready"
+  },
+  "opening": {
+    "fullText": "Full text",
+    "resume": "Continue"
   }
 }

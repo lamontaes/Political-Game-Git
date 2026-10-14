@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, Image, window, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -92,6 +92,7 @@ async function playOpening() {
   openingShotsReady = undefined;
   show("caption", true);
   $("game").classList.add("letterbox");
+  let morning;
   for (const shot of shots) {
     $("backdrop").src = shot.backdrop.url;
     drawPeople(shot.people);
@@ -99,17 +100,70 @@ async function playOpening() {
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
     const titles = [...new Set(shot.cast.map((c) => c.title).filter(Boolean))];
-    $("caption-title").textContent = titles.join(" · ");
+    $("caption-title").textContent = shot.date
+      ? new Date(`${shot.date}T12:00:00`).toLocaleDateString("en-US", {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        })
+      : titles.join(" · ");
     $("caption-names").textContent = shot.cast.map((c) => c.name).join(" · ");
+    // The President's own record: home state and the office before.
+    $("caption-detail").textContent = shot.cast
+      .flatMap((c) => c.detail ?? [])
+      .join(" · ");
+    // What is said over the shot: the address's opening and remembered
+    // lines, the newscast, or the subject the household can bring up.
+    const said = [
+      ...(shot.lines ?? []).flatMap((line) => [
+        ...(line.headline
+          ? [el("p", { className: "headline", textContent: line.headline })]
+          : []),
+        el("blockquote", {
+          className: line.role ?? line.speaker,
+          textContent: line.text,
+        }),
+      ]),
+      ...(shot.subject
+        ? [
+            el("blockquote", {
+              className: "subject",
+              textContent: shot.subject.quote,
+            }),
+          ]
+        : []),
+    ];
+    $("caption-words").replaceChildren(...said);
+    const speech = shot.lines?.some((line) => line.speaker === "president");
+    $("caption-full").hidden = !speech;
+    $("caption-full").textContent = controls.opening?.fullText ?? "";
+    if (shot.date) morning = shot.date;
+    const wait = SHOT_MS * Math.max(1, (shot.lines?.length ?? 0) / 2);
     const skipped = await new Promise((resolve) => {
+      const timer = setTimeout(() => resolve(false), wait);
       skipOpening = () => resolve(true);
-      setTimeout(() => resolve(false), SHOT_MS);
+      // The full text a tap away (Sept 28 ruling); the opening waits.
+      $("caption-full").onclick = async () => {
+        clearTimeout(timer);
+        const address = await api("/api/opening/address");
+        $("caption-words").replaceChildren(
+          ...(address?.sentences ?? []).map((row) =>
+            el("blockquote", { textContent: row.text }),
+          ),
+        );
+        $("caption-full").textContent = controls.opening?.resume ?? "";
+        $("caption-full").onclick = () => resolve(false);
+      };
     });
     if (skipped) break;
   }
   skipOpening = undefined;
+  $("caption-full").hidden = true;
+  $("caption-words").replaceChildren();
   show("caption", false);
   $("game").classList.remove("letterbox");
+  return morning;
 }
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
@@ -1666,10 +1720,13 @@ $("new-life").addEventListener("click", async () => {
     // What was already law at the start isn't news; only what changes after.
     seenChanges = await changeCount();
     show("front", false);
-    await playOpening();
+    const morning = await playOpening();
     for (const id of ["tabs", "stack", "card"]) show(id, true);
     renderPacket(life.packet);
     await refresh();
+    // The opening covered the first day; play starts the morning after.
+    if (morning && morning > (life.packet?.at?.date ?? life.date))
+      await act(`/api/advance?mode=calendar&date=${morning}`);
   } catch (error) {
     $("front-status").textContent = error.message;
     $("new-life").disabled = false;
