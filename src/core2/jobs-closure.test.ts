@@ -191,9 +191,14 @@ describe("a closed employer's counted workers", () => {
     // The state's law decides who qualifies: none where it records no
     // program, and every claim cites the law row it was fixed under.
     const terms = unemploymentTerms(api);
-    if (!terms.hasProgram) expect(claims).toEqual([]);
+    // A worker qualifies when their pay since they were hired (the opening,
+    // for a counted worker) meets the state's base-period minimum.
+    const weeks = (Date.parse("2021-02-10") - Date.parse(start)) / 6.048e8;
+    const qualifies =
+      jobs[0]!.wageDailyMinor * 7 * weeks >= terms.minimumBasePeriodMinor;
+    if (!terms.hasProgram || !qualifies) expect(claims).toEqual([]);
     else {
-      expect(claims.length).toBeGreaterThan(0);
+      expect(claims.length).toBe(workers.length);
       for (const row of claims) {
         expect(["c1", "c2", "c3"]).toContain(row.personId);
         expect(row.lawId).toBe(terms.lawId);
