@@ -1,0 +1,38 @@
+{
+  "version": "estates-v1",
+  "intestateOrder": [
+    {
+      "relations": ["partner"],
+      "tag": "SOURCED",
+      "citation": "Uniform Probate Code §2-102: the surviving spouse takes first. Model law the states follow in form; every state's intestacy statute puts the spouse first (Uniform Law Commission, Uniform Probate Code, 2019 text)."
+    },
+    {
+      "relations": ["child"],
+      "tag": "SOURCED",
+      "citation": "Uniform Probate Code §2-103(a)(1): with no surviving spouse, the decedent's descendants, by representation."
+    },
+    {
+      "relations": ["parent"],
+      "tag": "SOURCED",
+      "citation": "Uniform Probate Code §2-103(a)(2): with no descendant, the decedent's parents equally."
+    },
+    {
+      "relations": ["sibling"],
+      "tag": "SOURCED",
+      "citation": "Uniform Probate Code §2-103(a)(3): with no parent, the descendants of the decedent's parents (siblings), by representation."
+    },
+    {
+      "relations": ["grandparent", "grandchild"],
+      "tag": "ESTIMATED",
+      "citation": "Uniform Probate Code §2-103(a)(4): grandparents and their descendants come next; grandchildren already take under §2-103(a)(1) as descendants when no child survives. The game records only these relations, so the two share the last kin class.",
+      "estimatedFrom": "UPC §2-103 order, collapsed to the relations the game records"
+    }
+  ],
+  "escheat": {
+    "to": "state",
+    "tag": "ESTIMATED",
+    "citation": "Uniform Probate Code §2-105: with no taker under the intestacy order, the estate passes to the state. Every state, D.C. and the five territories escheat an heirless estate to their own government; the details (which agency, how long it holds a claim) differ and are not modeled.",
+    "estimatedFrom": "UPC §2-105; state escheat statutes, not compiled per place"
+  },
+  "stopgapId": "SG-CORE-estate-cash-only"
+}
