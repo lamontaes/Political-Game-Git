@@ -9,9 +9,9 @@
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
+  adoptedLine,
   amendBudget,
   BUDGETS_MODULE_ID,
-  baseBudget,
   budgetsOf,
   governments,
   type BudgetRow,
@@ -89,16 +89,15 @@ export function modeledShare(api: CoreAPI, facts: TownFacts): number {
   return Math.min(1, facts.modeled / Math.max(1, townPopulation(api)));
 }
 
-/** A budget line's base this fiscal year: the Census amount before any act or priority. */
+/** A budget line's base this fiscal year: the line as adopted, before any act changed it. */
 function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ) {
-  // The line at its Census base, before any change a body enacted.
-  const fy = Number(budget.startsOn.slice(0, 4));
-  return baseBudget(api, gov, fy).spendingMinor[line] ?? 0;
+  // The line as adopted, before any act amended it this year.
+  return adoptedLine(api, gov, budget.fiscalYear, line);
 }
 
 export interface ServiceRow {

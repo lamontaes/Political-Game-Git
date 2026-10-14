@@ -815,6 +815,20 @@ export function departmentRequests(
     .spendingMinor;
 }
 
+/**
+ * A line as the government adopted it for a fiscal year: its Census estimate
+ * with every budget bill the body enacted, before any act amends it during
+ * the year. Measures that change a line count their change from this.
+ */
+export function adoptedLine(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  line: string,
+): number {
+  return legislatedBudget(api, gov, fy, "adopted", {}).spendingMinor[line] ?? 0;
+}
+
 /** A year's budget when its bill fails: the enacted lines carried forward. */
 export function carriedBudget(
   api: CoreAPI,
