@@ -4,6 +4,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
+- **Kit 12 versus Kit 13 (found by the Drive digests, Oct 14).** The play page was restyled tonight on Kit 12 (the Oct 2 packet). Kit 13's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md, owner Oct 4 and 5) is newer: brass corner ornaments ON the panel, no scrolling inside a menu, the chevron rule (only on a static button while activated, never in radial menus), People / Calendar / Money tabs with the selected tab a raised glass box, the approved icons, search, dropdown, slider and progress bar. Same fonts. Newest wins: PLAY reconciles the page to Kit 13's controls. Owner to confirm that logo and Steam art stay navy (the UI ban on navy does not name them).
+
 - **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
 
 - **A player who loses an election (player-path audit, Oct 14), confirmed by the owner:** a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
