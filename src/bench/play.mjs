@@ -348,8 +348,12 @@ $("continue").addEventListener("click", () => {
 });
 
 // ---- Conversation (lower third, scales in its upper right) ----
-function renderTalk(value) {
+// Pressing the scales turns the whole set of choices false; pressing again
+// turns them back. Each new line from the other person starts truthful.
+let lying = false;
+function renderTalk(value, keepLying = false) {
   talk = value;
+  if (!keepLying) lying = false;
   show("talk", Boolean(value));
   show("choices", !value && packet?.kind === "choice");
   if (!value) return;
@@ -367,22 +371,23 @@ function renderTalk(value) {
       ),
     ),
   );
-  // A lower third: the first six choices the engine offers.
+  // A lower third: the first six choices the engine offers, or their false set.
+  const offered = lying && value.lies.length ? value.lies : value.choices;
   $("talk-choices").replaceChildren(
-    ...value.choices.slice(0, 6).map((choice) => {
+    ...offered.slice(0, 6).map((choice) => {
       const b = el("button", { type: "button", textContent: choice.text });
       b.addEventListener("click", () => sayLine(choice.key));
       return b;
     }),
   );
-  // The scales dim when there is nothing false to say, and tip once you lie.
-  $("talk-lie").disabled = !value.lie;
-  $("talk-lie").title = value.lie?.text ?? "";
-  $("talk-lie").firstElementChild.src = value.lines.some(
-    (line) => line.act === "lie",
-  )
-    ? "/ui/kit12/scales-tipped.svg"
-    : "/ui/kit12/scales-level.svg";
+  // The scales dim when there is nothing false to say, and tip while the
+  // false set shows or once you lie.
+  $("talk-lie").disabled = !value.lies.length;
+  $("talk-lie").setAttribute("aria-pressed", String(lying));
+  $("talk-lie").firstElementChild.src =
+    lying || value.lines.some((line) => line.act === "lie")
+      ? "/ui/kit12/scales-tipped.svg"
+      : "/ui/kit12/scales-level.svg";
 }
 async function sayLine(key) {
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
@@ -392,10 +397,11 @@ async function talkTo(otherId) {
     await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
   );
 }
-$("talk-lie").addEventListener(
-  "click",
-  () => talk?.lie && sayLine(talk.lie.key),
-);
+$("talk-lie").addEventListener("click", () => {
+  if (!talk?.lies.length) return;
+  lying = !lying;
+  renderTalk(talk, true);
+});
 $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");

@@ -1,0 +1,33 @@
+{
+  "about": "How conversations run on the new core: the events they record, how many choices the player gets, and which subject a reply or a raised subject is worded under. No sentence text: every line is a mined sentence from data/english/parts/conversation.json.",
+  "minimumChoices": 4,
+  "toldEvent": "conversation.told",
+  "lieEvent": "conversation.lie",
+  "minutesPerExchange": 2,
+  "replyKinds": {
+    "own-work": "heard-work",
+    "their-work": "other-work",
+    "home": "home-reply",
+    "their-tenure": "tenure-reply",
+    "their-school": "school-reply",
+    "news": "news-reply"
+  },
+  "otherRaises": {
+    "own-work": {
+      "kind": "other-work",
+      "stage": "working"
+    },
+    "mutual": {
+      "kind": "asked-mutual",
+      "stage": "default"
+    },
+    "kin": {
+      "kind": "asked-kin",
+      "stage": "default"
+    },
+    "news": {
+      "kind": "news",
+      "stage": "not-heard"
+    }
+  }
+}

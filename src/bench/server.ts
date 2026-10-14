@@ -66,13 +66,15 @@ let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
+    // The greeting comes before whatever they bring up.
     lines: [
+      ...value.lines.filter((line) => line.kind === "greet"),
       ...broughtUp.map((line) => ({
         ...line,
         speakerId: value.otherId,
         act: "tell",
       })),
-      ...value.lines,
+      ...value.lines.filter((line) => line.kind !== "greet"),
     ].map((line) => ({
       ...line,
       speaker: (() => {
@@ -81,7 +83,8 @@ const talkView = (value: Conversation | undefined) =>
       })(),
     })),
     choices: value.choices,
-    lie: value.lie,
+    // The scales' set: the same choices made false (empty dims the scales).
+    lies: value.lies,
   };
 const assets = new Map([
   ["/", { file: "index.html", type: "text/html; charset=utf-8" }],

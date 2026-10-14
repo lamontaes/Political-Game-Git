@@ -228,8 +228,11 @@ function button(label, onClick) {
 }
 
 let talk;
-function renderTalk(value) {
+// The scales turn the whole set of choices false until pressed again.
+let lying = false;
+function renderTalk(value, keepLying = false) {
   talk = value;
+  if (!keepLying) lying = false;
   element("talk-lines").replaceChildren(
     ...(value?.lines ?? []).map((line) => {
       const li = document.createElement("li");
@@ -239,17 +242,19 @@ function renderTalk(value) {
     }),
   );
   element("talk-choices").replaceChildren(
-    ...(value?.choices ?? []).map((choice) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.textContent = choice.text;
-      b.title = choice.sourceRecordIds.join(", ");
-      b.addEventListener("click", () => sayChoice(choice.key));
-      return b;
-    }),
+    ...((lying && value?.lies?.length ? value.lies : value?.choices) ?? []).map(
+      (choice) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = choice.text;
+        b.title = choice.sourceRecordIds.join(", ");
+        b.addEventListener("click", () => sayChoice(choice.key));
+        return b;
+      },
+    ),
   );
-  element("talk-lie").disabled = !value?.lie;
-  element("talk-lie").title = value?.lie?.text ?? "";
+  element("talk-lie").disabled = !value?.lies?.length;
+  element("talk-lie").setAttribute("aria-pressed", String(lying));
   element("talk-leave").disabled = !value;
 }
 async function sayChoice(key) {
@@ -264,7 +269,9 @@ async function sayChoice(key) {
   }
 }
 element("talk-lie").addEventListener("click", () => {
-  if (talk?.lie) sayChoice(talk.lie.key);
+  if (!talk?.lies?.length) return;
+  lying = !lying;
+  renderTalk(talk, true);
 });
 element("talk-leave").addEventListener("click", async () => {
   await request("/api/talk/leave", { method: "POST" });

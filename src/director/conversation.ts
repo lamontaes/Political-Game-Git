@@ -8,10 +8,17 @@
  * Talking is time together: each exchange is recorded through the core's
  * relationship writer, so closeness grows and news passes as at any contact.
  * The lie (the scales control) exists only when the last line asks about the
- * player's own record and the listener doesn't already know it. A lie leaves
- * its exact claim as a belief in everyone present, the director keeps it, and
- * anyone who knows the truth sets a believer straight when they next talk.
+ * player's own record and the listener doesn't already know it. Pressing it
+ * turns the whole set of choices false: each stays a different move, and each
+ * is a mined denial or a believable false alternative the player's own record
+ * contradicts. A lie leaves its exact claim as a belief in everyone present,
+ * the director keeps it, and anyone who knows the truth sets a believer
+ * straight when they next talk.
+ *
+ * Every line is a mined sentence (`./mined/conversation-bank.ts`); a moment no
+ * mined sentence covers is left unsaid.
  */
+import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { stableHash } from "../simulation/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { P } from "../core2/parameters";
@@ -26,21 +33,28 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import conversationJson from "./data/conversation.json" with { type: "json" };
+import { changesKnownTo } from "./bring-it-up";
 import { JOURNAL_DATA } from "./journal";
+import { MINED_CONVERSATION } from "./mined/conversation-bank";
 import { renderLine, type Fact } from "./render";
-import { markWordsStopgap } from "./stopgaps";
 import { properName, spoken, spokenMonth, spokenWhen } from "./words";
 
 const zero = P.zero;
 const one = P.one;
 
-interface Move {
+export interface Move {
+  /** The choice it makes (an answer), or the choice and its part (any other role). */
   key: string;
+  /** The mined part it is worded from. */
+  part?: string;
   text: string;
   stages?: string[];
   raises?: string;
   requiresFacts?: string[];
+  /** Whom the sentence speaks of, when it opens with a pronoun. */
+  pronoun?: "he" | "she" | "they";
+  /** A bare question turned back ("And you?"), said after the plain answer. */
+  afterPlain?: boolean;
 }
 interface SubjectBank {
   ask?: Move[];
@@ -48,10 +62,11 @@ interface SubjectBank {
   reply?: Move[];
   answers?: Move[];
   lie?: Move[];
+  open?: Move[];
+  leave?: Move[];
 }
 export interface ConversationData {
   version: string;
-  stopgapId: string;
   minimumChoices: number;
   toldEvent: string;
   lieEvent: string;
@@ -62,8 +77,8 @@ export interface ConversationData {
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
 }
-export const CONVERSATION_DATA =
-  conversationJson as unknown as ConversationData;
+/** The mined words, read by default. */
+export const CONVERSATION_DATA: ConversationData = MINED_CONVERSATION;
 
 type Facts = Record<string, Fact>;
 
@@ -78,6 +93,17 @@ export interface Subject {
   aboutId?: string;
 }
 
+/** Which mined sentence said a line, and what picked it (for reports and grading). */
+export interface Wording {
+  /** The bank and role: `conversation:own-work:ask`. */
+  bank: string;
+  /** The mined parts the line is made of, in order. */
+  parts: string[];
+  stage: string;
+  /** The record facts the line copied. */
+  facts: string[];
+}
+
 export interface ConversationLine {
   speakerId: PersonId;
   subjectId: string;
@@ -85,6 +111,7 @@ export interface ConversationLine {
   act: "ask" | "answer" | "lie" | "tell";
   text: string;
   sourceRecordIds: readonly string[];
+  wording?: Wording;
 }
 
 export interface ConversationChoice {
@@ -98,6 +125,11 @@ export interface ConversationChoice {
   raises?: string;
   lie: boolean;
   sourceRecordIds: readonly string[];
+  wording?: Wording;
+  /** A lie's exact claim about the player's own record. */
+  claim?: { key: string; value: string };
+  /** What follows the answer itself: the raised subject or a turned-back question. */
+  tail?: { text: string; sourceRecordIds: readonly string[]; parts: string[] };
 }
 
 /** What the last line was about, and the facts and stage it was said with. */
@@ -115,8 +147,12 @@ export interface Conversation {
   presentIds: readonly PersonId[];
   lines: ConversationLine[];
   choices: ConversationChoice[];
-  /** The scales control's line; null dims it (nothing false to say). */
-  lie: ConversationChoice | null;
+  /**
+   * The scales control's set: the same choices made false, each a different
+   * move. Empty dims the scales (nothing about the player's own record is in
+   * play, or the listener already knows the truth).
+   */
+  lies: ConversationChoice[];
   used: string[];
   /** Ids of the events the conversation recorded. */
   recorded: string[];
@@ -133,6 +169,23 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   return job && org ? { job, org } : null;
+}
+
+/** The last school a person's records name. */
+function schoolOf(person: Readonly<PersonState>) {
+  return (person.pastFacts ?? [])
+    .filter(
+      (row) => row.kind === "school:cohort-estimate" && row.facts?.schoolName,
+    )
+    .sort((a, b) => b.date.localeCompare(a.date))[zero];
+}
+
+/** Whether a person is past school age, which sets the tense they speak of school in. */
+function schoolStage(core: Readonly<CoreState>, person: Readonly<PersonState>) {
+  return ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >=
+    P.benchmarkAdultMinimumAge
+    ? "graduated"
+    : "enrolled";
 }
 
 /** When the person started their current job, from their own record. */
@@ -251,7 +304,8 @@ export function subjectsBetween(
     }
   }
   for (const id of [...speaker.knownIds].sort()) {
-    if (id === listenerId || !listener.knownIds.has(id)) continue;
+    if (id === listenerId || id === speakerId || !listener.knownIds.has(id))
+      continue;
     if (!core.people.get(id)?.alive) continue;
     out.push({
       id: `mutual:${id}`,
@@ -303,6 +357,68 @@ export function subjectsBetween(
       },
     });
   }
+  // The speaker's relatives the listener knows, asked after by name.
+  for (const id of [...speaker.familyIds].sort()) {
+    const relative = core.people.get(id);
+    const row = relationOf.get(id);
+    if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
+    if (id === listenerId) continue;
+    const words = JOURNAL_DATA.relationWords[row.relation];
+    const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
+    if (!word) continue;
+    out.push({
+      id: `family:${id}`,
+      kind: "family",
+      aboutId: id,
+      facts: {
+        relation: {
+          text: `${JOURNAL_DATA.possessive.scene} ${word}`,
+          sourceRecordIds: [row.factId],
+        },
+        name: { text: relative.givenName, sourceRecordIds: [row.factId] },
+      },
+    });
+  }
+  // The speaker's own school, when the listener didn't share it.
+  const school = schoolOf(speaker);
+  const shared = out.some((row) => row.kind === "shared-school");
+  if (school && !shared)
+    out.push({
+      id: `school:${speakerId}`,
+      kind: "school",
+      aboutId: school.id,
+      facts: {
+        school: {
+          text: properName(school.facts!.schoolName!),
+          sourceRecordIds: [school.id],
+        },
+      },
+      own: { key: `person:${speakerId}:school`, value: school.id },
+    });
+  // Where the listener went to school, asked when they didn't share it.
+  if (!shared && schoolOf(listener))
+    out.push({
+      id: `their-school:${listenerId}`,
+      kind: "their-school",
+      facts: {},
+    });
+  // The newest change the speaker learned of, as news to pass on.
+  const news = changesKnownTo(core, speakerId)[zero];
+  const institution = news
+    ? core.organizations.get(news.institutionId)
+    : undefined;
+  if (news && institution)
+    out.push({
+      id: `news:${news.eventId}`,
+      kind: "news",
+      aboutId: news.eventId,
+      facts: {
+        topic: {
+          text: properName(institution.name),
+          sourceRecordIds: [news.eventId, institution.id],
+        },
+      },
+    });
   return out;
 }
 
@@ -387,6 +503,29 @@ function replyFacts(
           }
         : { facts: { name }, stage: "not" };
     }
+    case "their-school": {
+      const school = schoolOf(listener);
+      return school
+        ? {
+            facts: {
+              school: {
+                text: properName(school.facts!.schoolName!),
+                sourceRecordIds: [school.id],
+              },
+            },
+            stage: schoolStage(core, listener),
+          }
+        : null;
+    }
+    case "news":
+      return {
+        facts: subject.facts,
+        stage: changesKnownTo(core, listenerId).some(
+          (row) => row.eventId === subject.aboutId,
+        )
+          ? "heard"
+          : "not-heard",
+      };
     default:
       return { facts: subject.facts, stage: "default" };
   }
@@ -456,12 +595,68 @@ function playerFacts(
       };
     else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
   }
+  if (last.kind === "news" && last.subject.aboutId)
+    stage = changesKnownTo(core, playerId).some(
+      (row) => row.eventId === last.subject.aboutId,
+    )
+      ? "heard"
+      : "not-heard";
+  if (last.kind === "school") stage = schoolStage(core, player);
   if (last.kind === "kin" && last.subject.aboutId) {
     const relative = core.people.get(last.subject.aboutId);
     if (relative?.householdId === player.householdId)
       facts.housemate = { text: "", sourceRecordIds: [player.householdId] };
   }
   return { facts, ...(stage ? { stage } : {}) };
+}
+
+/** A line as said, with the mined sentence that said it. */
+interface Said {
+  text: string;
+  sourceRecordIds: readonly string[];
+  wording: Wording;
+}
+
+/** Every relation word, so a sentence naming one fits only that relative. */
+const RELATION_WORDS = new Set(
+  Object.values(JOURNAL_DATA.relationWords).flatMap((forms) =>
+    Object.values(forms),
+  ),
+);
+const RELATION_IN_TEXT = /\b(wife|husband|[a-z]+)\b/gi;
+
+/**
+ * The wordings that fit the person a line speaks of: a sentence opening with
+ * "she" only for a woman, and one naming a relative ("my father") only for
+ * that relative.
+ */
+function fitAbout(
+  moves: readonly Move[] | undefined,
+  about: Readonly<PersonState> | undefined,
+  relationWord: string | undefined,
+): Move[] | undefined {
+  if (!moves) return moves;
+  const pronoun =
+    about?.looks?.gender === "male"
+      ? "he"
+      : about?.looks?.gender === "female"
+        ? "she"
+        : "they";
+  return moves.filter((move) => {
+    if (move.pronoun && (!about || move.pronoun !== pronoun)) return false;
+    const named = [...move.text.matchAll(RELATION_IN_TEXT)]
+      .map((match) => match[1]!.toLowerCase())
+      .filter(
+        (word) => RELATION_WORDS.has(word) || /^(?:wife|husband)$/.test(word),
+      );
+    return named.every((word) => word === relationWord);
+  });
+}
+
+function variantKey(move: Move): string {
+  return move.part && !move.key.endsWith(move.part)
+    ? `${move.key}.${move.part}`
+    : move.key;
 }
 
 function words(
@@ -474,16 +669,22 @@ function words(
   facts: Facts,
   momentKey: string,
   stage = "default",
-) {
-  markWordsStopgap(data.stopgapId);
-  return renderLine({
+  about?: Subject,
+): Said | null {
+  const person = about?.aboutId ? core.people.get(about.aboutId) : undefined;
+  const relationWord = about?.facts.relation?.text.split(" ").at(-one);
+  const usable = fitAbout(moves, person, relationWord)?.filter(
+    (row) => !row.requiresFacts?.some((key) => !facts[key]),
+  );
+  const bank = `conversation:${kind}:${part}`;
+  const line = renderLine({
     seed: core.seed,
     surface: "dialogue",
     holderId: speakerId,
-    bankKey: `conversation:${kind}:${part}`,
+    bankKey: bank,
     version: data.version,
-    variants: moves?.map((row) => ({
-      key: row.key,
+    variants: usable?.map((row) => ({
+      key: variantKey(row),
       text: row.text,
       ...(row.stages ? { stages: row.stages } : {}),
     })),
@@ -494,6 +695,18 @@ function words(
     stage,
     fallbackSourceId: speakerId,
   });
+  if (!line) return null;
+  const chosen = usable?.find((row) => variantKey(row) === line.variantKey);
+  return {
+    text: line.text,
+    sourceRecordIds: line.sourceRecordIds,
+    wording: {
+      bank,
+      parts: [chosen?.part ?? line.variantKey ?? bank],
+      stage,
+      facts: [...(line.factKeys ?? [])],
+    },
+  };
 }
 
 /** The bank a question about the player's own record is asked from: as news to someone who doesn't know it. */
@@ -544,17 +757,19 @@ function otherAsks(
     data.subjects[kind]?.ask,
     subject.facts,
     `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:ask`,
+    "default",
+    subject,
   );
-  if (!line) return false;
+  conversation.used.push(subject.id);
+  // Nothing mined asks this: the next subject instead.
+  if (!line) return otherAsks(core, conversation, data, order);
   conversation.lines.push({
     speakerId: otherId,
     subjectId: subject.id,
     kind,
     act: "ask",
-    text: line.text,
-    sourceRecordIds: line.sourceRecordIds,
+    ...line,
   });
-  conversation.used.push(subject.id);
   conversation.last = { subject, kind, facts: subject.facts, stage: "default" };
   offerChoices(core, conversation, data);
   return true;
@@ -575,52 +790,62 @@ function otherRaises(
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !conversation.used.includes(row.id),
   );
-  const subject = theirs[zero];
-  if (!subject) return false;
-  const then = data.otherRaises[subject.kind]!;
-  const line = words(
-    core,
-    data,
-    otherId,
-    subject.kind,
-    "raise",
-    data.subjects[subject.kind]?.raise,
-    subject.facts,
-    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
-  );
-  if (!line) return false;
-  conversation.lines.push({
-    speakerId: otherId,
-    subjectId: `${otherId}>${subject.id}`,
-    kind: then.kind,
-    act: subject.kind === "own-work" ? "tell" : "ask",
-    text: line.text,
-    sourceRecordIds: line.sourceRecordIds,
-  });
-  conversation.used.push(`${otherId}>${subject.id}`);
-  // Someone both know is a shared subject: neither raises them again.
-  if (subject.kind === "mutual") conversation.used.push(subject.id);
-  // Theirs, not the player's: no own record the player could lie about.
-  const raised: Subject = {
-    id: `${otherId}>${subject.id}`,
-    kind: subject.kind,
-    facts: subject.facts,
-    ...(subject.aboutId ? { aboutId: subject.aboutId } : {}),
-  };
-  conversation.last = {
-    subject: raised,
-    kind: then.kind,
-    facts: subject.facts,
-    stage: then.stage,
-  };
-  offerChoices(core, conversation, data);
-  return true;
+  for (const subject of theirs) {
+    conversation.used.push(`${otherId}>${subject.id}`);
+    const then = data.otherRaises[subject.kind]!;
+    const line = words(
+      core,
+      data,
+      otherId,
+      subject.kind,
+      "raise",
+      data.subjects[subject.kind]?.raise,
+      subject.facts,
+      `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
+      "default",
+      subject,
+    );
+    if (!line) continue;
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: `${otherId}>${subject.id}`,
+      kind: then.kind,
+      act: subject.kind === "own-work" ? "tell" : "ask",
+      ...line,
+    });
+    // Someone both know, or news both may know, is shared: neither raises it again.
+    if (subject.kind === "mutual" || subject.kind === "news")
+      conversation.used.push(subject.id);
+    // Theirs, not the player's: no own record the player could lie about.
+    const raised: Subject = {
+      id: `${otherId}>${subject.id}`,
+      kind: subject.kind,
+      facts: subject.facts,
+      ...(subject.aboutId ? { aboutId: subject.aboutId } : {}),
+    };
+    conversation.last = {
+      subject: raised,
+      kind: then.kind,
+      facts: subject.facts,
+      stage: then.stage,
+    };
+    offerChoices(core, conversation, data);
+    return true;
+  }
+  return false;
 }
 
 const OPENING_ORDER = ["shared-school", "shared-work", "own-work", "home"];
-const FOLLOW_ORDER = ["own-work", "home", "shared-school", "shared-work"];
+const FOLLOW_ORDER = [
+  "own-work",
+  "home",
+  "family",
+  "shared-school",
+  "shared-work",
+  "school",
+];
 
-/** Opens a conversation: the other person asks about something they share with the player. */
+/** Opens a conversation: a greeting, then the other person asks about something they share with the player. */
 export function openConversation(
   core: Readonly<CoreState>,
   playerId: PersonId,
@@ -636,13 +861,46 @@ export function openConversation(
     ),
     lines: [],
     choices: [],
-    lie: null,
+    lies: [],
     used: [],
     recorded: [],
   };
+  // A greeting first; a "How are you?" would need its own answer, so only a
+  // greeting that asks nothing opens. The player's name only if they know it.
+  const player = core.people.get(playerId)!;
+  const knows = core.people.get(otherId)?.knownIds.has(playerId);
+  const greeting = words(
+    core,
+    data,
+    otherId,
+    "greet",
+    "open",
+    data.subjects.greet?.open?.filter((move) => !/\?$/.test(move.text)),
+    knows
+      ? {
+          name: {
+            text: player.givenName,
+            sourceRecordIds: [
+              core.people.get(otherId)?.knownIdSources?.[playerId]
+                ?.sourceFactId ?? playerId,
+            ],
+          },
+        }
+      : {},
+    `${playerId}:${otherId}:${core.date}:greet`,
+  );
+  if (greeting)
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: `greet:${otherId}`,
+      kind: "greet",
+      act: "tell",
+      ...greeting,
+    });
   // Work they share or know of first, then a shared past, then the player's
   // work or home.
-  otherAsks(core, conversation, data, OPENING_ORDER);
+  if (!otherAsks(core, conversation, data, OPENING_ORDER))
+    endConversation(core, conversation, data);
   return conversation;
 }
 
@@ -669,28 +927,39 @@ function knowsTruth(
   return knower.householdId === core.people.get(subjectId)?.householdId;
 }
 
-/** The false value a lie claims, chosen among real alternatives in the records. */
-function lieClaim(
+interface Claim {
+  /** The lie bank's stage: a denial ("none") or a false alternative ("elsewhere"). */
+  stage: string;
+  value: string;
+  facts: Facts;
+}
+
+/**
+ * The false things the player could claim about their own record: denying it
+ * outright, or a real alternative from the records (another employer in
+ * town, a place a relative lives). Each contradicts the record it is about.
+ */
+function lieClaims(
   core: Readonly<CoreState>,
   conversation: Conversation,
   subject: Subject,
-): { stage: string; value: string; facts: Facts } {
+): Claim[] {
+  const own = subject.own!;
+  const player = core.people.get(conversation.playerId)!;
   const key = `${core.seed}:${conversation.playerId}:${conversation.otherId}:${subject.id}`;
+  const claims: Claim[] = [];
   if (subject.kind === "own-work") {
-    const others = [...core.organizations.values()]
-      .filter(
-        (row) =>
-          row.id !== subject.own!.value &&
-          (core.peopleByPlace.get(row.placeId)?.size ?? zero) > zero,
-      )
-      .sort((a, b) =>
-        stableHash(`${key}:${a.id}`).localeCompare(
-          stableHash(`${key}:${b.id}`),
-        ),
-      );
-    const other = others[zero];
-    if (other && stableHash(`${key}:stage`) < stableHash(`${key}:none`))
-      return {
+    claims.push({ stage: "none", value: "none", facts: {} });
+    const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
+      .map((id) => jobOf(core, core.people.get(id)!)?.org)
+      .filter((org) => org && org.id !== own.value);
+    const other = nearby.sort((a, b) =>
+      stableHash(`${key}:${a!.id}`).localeCompare(
+        stableHash(`${key}:${b!.id}`),
+      ),
+    )[zero];
+    if (other)
+      claims.push({
         stage: "elsewhere",
         value: other.id,
         facts: {
@@ -699,13 +968,38 @@ function lieClaim(
             sourceRecordIds: [other.id],
           },
         },
-      };
+      });
   }
-  return {
-    stage: "none",
-    value: subject.kind === "own-work" ? "none" : "moved-away",
-    facts: {},
-  };
+  if (subject.kind === "home") {
+    claims.push({ stage: "none", value: "moved-away", facts: {} });
+    const away = [...player.familyIds]
+      .sort()
+      .map((id) => core.people.get(id))
+      .find((row) => row?.alive && row.placeId !== player.placeId);
+    const place = away
+      ? lifePlaceByJurisdictionId(away.placeId as never)
+      : null;
+    if (away && place)
+      claims.push({
+        stage: "elsewhere",
+        value: away.placeId,
+        facts: {
+          claimed: {
+            text: spoken(place),
+            sourceRecordIds: [away.householdId],
+          },
+        },
+      });
+  }
+  return claims.filter((claim) => claim.value !== own.value);
+}
+
+/** The kinds the player can raise: the other person has words to reply with. */
+function raisable(data: ConversationData, kind: string): boolean {
+  return (
+    !!data.subjects[kind]?.raise?.length &&
+    !!data.subjects[data.replyKinds[kind] ?? kind]?.reply?.length
+  );
 }
 
 function offerChoices(
@@ -716,14 +1010,17 @@ function offerChoices(
   const { playerId, otherId } = conversation;
   const last = conversation.last!;
   conversation.choices = [];
-  conversation.lie = null;
+  conversation.lies = [];
   const bank = data.subjects[last.kind];
   const own = playerFacts(core, playerId, last);
   const facts = { ...own.facts, ...last.facts };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
   const unused = subjectsBetween(core, playerId, otherId).filter(
-    (row) => !conversation.used.includes(row.id) && row.id !== last.subject.id,
+    (row) =>
+      !conversation.used.includes(row.id) &&
+      row.id !== last.subject.id &&
+      raisable(data, row.kind),
   );
   const taken = new Set<string>();
   const target = (raises: string): Subject | undefined => {
@@ -733,64 +1030,118 @@ function offerChoices(
     if (raises === "next-2") return general[one];
     return free.find((row) => row.kind === raises);
   };
+  // One choice per move, worded from every mined wording of it.
+  const groups = new Map<string, Move[]>();
+  for (const move of bank?.answers ?? [])
+    groups.set(move.key, [...(groups.get(move.key) ?? []), move]);
   const seen = new Set<string>();
-  const add = (move: Move, raisedSubject?: Subject) => {
-    if (move.requiresFacts?.some((key) => !facts[key])) return;
-    const answer = words(
+  const answerBank = `conversation:${last.kind}:answers`;
+  const answerWith = (group: readonly Move[], momentKey: string) =>
+    words(
       core,
       data,
       playerId,
       last.kind,
       "answers",
-      [move],
+      group,
       facts,
-      `${playerId}:${otherId}:${turn}:${move.key}`,
+      `${playerId}:${otherId}:${turn}:${momentKey}`,
       stage,
+      last.subject,
+    );
+  const add = (choiceKey: string, group: readonly Move[], raised?: Subject) => {
+    // Each raised subject has its own moment, so brief answers vary.
+    const answer = answerWith(
+      group,
+      raised ? `${choiceKey}:${raised.id}` : choiceKey,
     );
     if (!answer) return;
-    let text = answer.text;
-    let ids = [...answer.sourceRecordIds];
-    if (raisedSubject) {
-      const raised = words(
+    let head: Said = answer;
+    let tail: Said | null = null;
+    const chosen = group.find((row) => row.part === answer.wording.parts[zero]);
+    if (chosen?.afterPlain) {
+      const plain =
+        groups.get("plain") && answerWith(groups.get("plain")!, "plain");
+      if (plain && !/\?$/.test(plain.text)) {
+        head = plain;
+        tail = answer;
+      }
+    }
+    if (raised) {
+      const line = words(
         core,
         data,
         playerId,
-        raisedSubject.kind,
+        raised.kind,
         "raise",
-        data.subjects[raisedSubject.kind]?.raise,
-        raisedSubject.facts,
-        `${playerId}:${otherId}:${turn}:${raisedSubject.id}:raise`,
+        data.subjects[raised.kind]?.raise,
+        raised.facts,
+        `${playerId}:${otherId}:${turn}:${raised.id}:raise`,
+        "default",
+        raised,
       );
-      if (!raised) return;
+      if (!line) return;
       // A turned-back question ("And you?") already asks; it carries no second line.
-      if (!/\?$/.test(text)) text = `${text} ${raised.text}`;
-      ids = [...new Set([...ids, ...raised.sourceRecordIds])];
+      if (!/\?$/.test(answer.text)) tail = line;
     }
+    const text = tail ? `${head.text} ${tail.text}` : head.text;
     if (seen.has(text)) return;
     seen.add(text);
-    if (raisedSubject) taken.add(raisedSubject.id);
+    if (raised) taken.add(raised.id);
     conversation.choices.push({
-      key: `${turn}:${move.key}${raisedSubject ? `:${raisedSubject.id}` : ""}`,
-      move: move.key,
+      key: `${turn}:${choiceKey}${raised ? `:${raised.id}` : ""}`,
+      move: choiceKey,
       text,
       answers: last.subject.id,
-      ...(raisedSubject ? { raises: raisedSubject.id } : {}),
+      ...(raised ? { raises: raised.id } : {}),
       lie: false,
-      sourceRecordIds: ids,
+      sourceRecordIds: [
+        ...new Set([...head.sourceRecordIds, ...(tail?.sourceRecordIds ?? [])]),
+      ],
+      wording: {
+        bank: answerBank,
+        parts: [...head.wording.parts, ...(tail?.wording.parts ?? [])],
+        stage,
+        facts: [
+          ...new Set([...head.wording.facts, ...(tail?.wording.facts ?? [])]),
+        ],
+      },
+      ...(tail
+        ? {
+            tail: {
+              text: tail.text,
+              sourceRecordIds: tail.sourceRecordIds,
+              parts: tail.wording.parts,
+            },
+          }
+        : {}),
     });
   };
-  for (const move of bank?.answers ?? []) {
-    if (move.raises) {
-      const subject = target(move.raises);
-      if (subject) add(move, subject);
-    } else add(move);
+  // Answers that name what they raise first, then those taking the next subject.
+  const ordered = [...groups].sort(
+    ([, a], [, b]) =>
+      Number(a[zero]!.raises?.startsWith("next") ?? false) -
+      Number(b[zero]!.raises?.startsWith("next") ?? false),
+  );
+  for (const [choiceKey, group] of ordered) {
+    const raises = group[zero]!.raises;
+    if (raises) {
+      const subject = target(raises);
+      if (subject) add(choiceKey, group, subject);
+    } else add(choiceKey, group);
   }
-  // Four choices at least: further brief answers that raise the next subjects.
-  const brief = (bank?.answers ?? []).find((row) => row.key === "brief");
+  // Four choices at least: further brief answers that raise the next
+  // subjects. Where nothing brief is mined for this subject, taking it in
+  // ("Okay.", "Right.") serves, as the other person's acknowledgment does.
+  const briefKey = "brief";
+  const brief =
+    groups.get(briefKey) ??
+    data.subjects.ack?.reply?.map((move) => ({ ...move, key: briefKey }));
+  if (!groups.size && brief) add("ack", brief);
   for (const subject of unused) {
     if (conversation.choices.length >= data.minimumChoices || !brief) break;
     if (EXPLICIT_ONLY.includes(subject.kind)) continue;
-    if (!taken.has(subject.id)) add(brief, subject);
+    if (!taken.has(subject.id)) add(briefKey!, brief, subject);
   }
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
@@ -799,9 +1150,30 @@ function offerChoices(
     asked?.speakerId === otherId &&
     asked.act === "ask" &&
     !knowsTruth(core, otherId, playerId, last.subject.own)
-  ) {
-    const claim = lieClaim(core, conversation, last.subject);
-    const lie = words(
+  )
+    conversation.lies = lieChoices(core, conversation, data, turn, facts);
+}
+
+/**
+ * The scales' set: every true choice made false. Each lie keeps its choice's
+ * move (what it raises or turns back) and swaps the answer for a mined denial
+ * or false alternative, alternating so the set holds both; a choice whose lie
+ * would read the same as another's is left out.
+ */
+function lieChoices(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+  turn: number,
+  facts: Facts,
+): ConversationChoice[] {
+  const { playerId, otherId } = conversation;
+  const last = conversation.last!;
+  const own = last.subject.own!;
+  const bank = data.subjects[last.kind];
+  const bases = lieClaims(core, conversation, last.subject).flatMap((claim) => {
+    const momentKey = `${playerId}:${otherId}:${turn}:lie:${claim.stage}`;
+    let said = words(
       core,
       data,
       playerId,
@@ -809,19 +1181,117 @@ function offerChoices(
       "lie",
       bank?.lie,
       { ...last.facts, ...claim.facts },
-      `${playerId}:${otherId}:${turn}:lie`,
+      momentKey,
       claim.stage,
     );
-    if (lie)
-      conversation.lie = {
-        key: `${turn}:lie`,
-        move: "lie",
-        text: lie.text,
+    // No mined lie for this question: a false alternative is the plain
+    // answer with the false fact in it ("I'm at {claimed}."), and a denial is
+    // what someone without that record says ("Not right now.").
+    const claimed = claim.facts.claimed;
+    if (!said && claimed)
+      said = words(
+        core,
+        data,
+        playerId,
+        last.kind,
+        "answers",
+        bank?.answers?.filter((move) => move.key === "plain"),
+        Object.fromEntries(
+          Object.entries(facts).map(([key, fact]) => [
+            key,
+            OWN_SLOTS.includes(key) ? claimed : fact,
+          ]),
+        ),
+        momentKey,
+      );
+    if (!said && claim.stage === "none" && last.kind.startsWith("own-work"))
+      said = words(
+        core,
+        data,
+        playerId,
+        "other-work",
+        "reply",
+        data.subjects["other-work"]?.reply,
+        {},
+        momentKey,
+        "none",
+      );
+    return said ? [{ claim, said }] : [];
+  });
+  if (!bases.length) return [];
+  const out: ConversationChoice[] = [];
+  const seen = new Set<string>();
+  const sources = conversation.choices.length
+    ? conversation.choices
+    : [undefined];
+  sources.forEach((choice, index) => {
+    for (let step = zero; step < bases.length; step += one) {
+      const { claim, said } = bases[(index + step) % bases.length]!;
+      const text = choice?.tail
+        ? `${said.text} ${choice.tail.text}`
+        : said.text;
+      if (seen.has(text)) continue;
+      seen.add(text);
+      out.push({
+        key: `${turn}:lie:${claim.stage}:${choice?.key ?? "plain"}`,
+        move: `lie-${claim.stage}${choice?.tail ? `+${choice.move}` : ""}`,
+        text,
         answers: last.subject.id,
+        ...(choice?.tail && choice.raises ? { raises: choice.raises } : {}),
         lie: true,
-        sourceRecordIds: lie.sourceRecordIds,
-      };
-  }
+        claim: { key: own.key, value: claim.value },
+        sourceRecordIds: [
+          ...new Set([
+            ...said.sourceRecordIds,
+            ...(choice?.tail?.sourceRecordIds ?? []),
+          ]),
+        ],
+        wording: {
+          ...said.wording,
+          parts: [...said.wording.parts, ...(choice?.tail?.parts ?? [])],
+        },
+      });
+      break;
+    }
+  });
+  return out;
+}
+
+/** The slots that carry the player's own employer or place, which a false alternative replaces. */
+const OWN_SLOTS = ["employer", "my-employer", "place", "my-place"];
+
+/** The conversation runs out: the other person says goodbye. */
+function endConversation(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): void {
+  conversation.choices = [];
+  conversation.lies = [];
+  const { playerId, otherId } = conversation;
+  if (conversation.lines.at(-one)?.kind === "farewell") return;
+  // "Say hello to {name}." only for someone in the player's family they know.
+  const family = subjectsBetween(core, playerId, otherId).find(
+    (row) => row.kind === "family",
+  );
+  const line = words(
+    core,
+    data,
+    otherId,
+    "farewell",
+    "leave",
+    data.subjects.farewell?.leave,
+    family ? { name: family.facts.name! } : {},
+    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell`,
+  );
+  if (line)
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: `farewell:${otherId}`,
+      kind: "farewell",
+      act: "tell",
+      ...line,
+    });
 }
 
 /**
@@ -854,7 +1324,7 @@ export function say(
 ): Conversation {
   const choice =
     conversation.choices.find((row) => row.key === choiceKey) ??
-    (conversation.lie?.key === choiceKey ? conversation.lie : undefined);
+    conversation.lies.find((row) => row.key === choiceKey);
   if (!choice) throw new Error(`Not an offered line: ${choiceKey}`);
   const { playerId, otherId } = conversation;
   const api = coreAPI(core);
@@ -880,8 +1350,9 @@ export function say(
     });
     conversation.recorded.push(id);
   };
-  if (choice.lie && last.subject.own) {
-    const claim = lieClaim(core, conversation, last.subject);
+  let doubted = false;
+  if (choice.lie && choice.claim) {
+    const claim = choice.claim;
     // The exact claim and who heard it; the director keeps it as a lie.
     applyCoreEvent(core, {
       id: eventId,
@@ -890,8 +1361,8 @@ export function say(
       personIds: [playerId, otherId],
       witnessIds: conversation.presentIds,
       placeId: player.placeId,
-      topic: last.subject.own.key,
-      facts: { [`claim:${last.subject.own.key}`]: claim.value },
+      topic: claim.key,
+      facts: { [`claim:${claim.key}`]: claim.value },
       source,
     });
     conversation.recorded.push(eventId);
@@ -901,9 +1372,12 @@ export function say(
     const keeps = core.modules.has(BELIEFS_MODULE_ID);
     for (const hearerId of hearers) {
       const hearer = core.people.get(hearerId);
-      if (hearer && doubtsClaim(core, hearer)) continue;
+      if (hearer && doubtsClaim(core, hearer)) {
+        if (hearerId === otherId) doubted = true;
+        continue;
+      }
       api.observe(hearerId, {
-        key: last.subject.own.key,
+        key: claim.key,
         value: claim.value,
         learnedAt: core.date,
         sourceId: eventId,
@@ -911,12 +1385,12 @@ export function say(
       });
       if (!keeps) continue;
       beliefs(api).put({
-        id: `${hearerId}:${last.subject.own.key}`,
+        id: `${hearerId}:${claim.key}`,
         hearerId,
         subjectId: playerId,
-        key: last.subject.own.key,
+        key: claim.key,
         claimed: claim.value,
-        truth: last.subject.own.value,
+        truth: last.subject.own!.value,
         lieEventId: eventId,
       });
       believers(api).add(hearerId);
@@ -931,7 +1405,29 @@ export function say(
     act: choice.lie ? "lie" : "answer",
     text: choice.text,
     sourceRecordIds: choice.sourceRecordIds,
+    ...(choice.wording ? { wording: choice.wording } : {}),
   });
+  // A listener who doubts the lie says so; the conversation carries on.
+  if (doubted) {
+    const doubt = words(
+      core,
+      data,
+      otherId,
+      "lie",
+      "reply",
+      data.subjects.lie?.reply,
+      {},
+      `${eventId}:doubt`,
+    );
+    if (doubt)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: "lie-doubt",
+        act: "ask",
+        ...doubt,
+      });
+  }
   // Talking is time together, recorded through the core's own writer.
   for (const hearerId of hearers)
     api.relationship(
@@ -961,19 +1457,17 @@ export function say(
       {},
       `${playerId}:${otherId}:${conversation.lines.length}:ack`,
     );
-    if (ack)
+    if (ack && !doubted)
       conversation.lines.push({
         speakerId: otherId,
         subjectId: choice.answers,
         kind: "ack",
         act: "tell",
-        text: ack.text,
+        ...ack,
         sourceRecordIds: [eventId, ...ack.sourceRecordIds],
       });
-    if (!otherAsks(core, conversation, data, FOLLOW_ORDER)) {
-      conversation.choices = [];
-      conversation.lie = null;
-    }
+    if (!otherAsks(core, conversation, data, FOLLOW_ORDER))
+      endConversation(core, conversation, data);
     return conversation;
   }
   conversation.used.push(raised.id);
@@ -991,11 +1485,11 @@ export function say(
         reply.facts,
         `${playerId}:${otherId}:${conversation.lines.length}:${raised.id}:reply`,
         reply.stage,
+        raised,
       )
     : null;
   if (!line || !reply) {
-    conversation.choices = [];
-    conversation.lie = null;
+    endConversation(core, conversation, data);
     return conversation;
   }
   conversation.lines.push({
@@ -1003,8 +1497,7 @@ export function say(
     subjectId: raised.id,
     kind,
     act: "tell",
-    text: line.text,
-    sourceRecordIds: line.sourceRecordIds,
+    ...line,
   });
   conversation.last = {
     subject: raised,
