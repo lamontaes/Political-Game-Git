@@ -3,7 +3,12 @@ import {
   homePlaceFor,
   workplacePlaceFor,
 } from "../presentation/place-backdrops";
-import { backdropStaging, type StagingSpot } from "./staging";
+import {
+  BACKDROP_ASPECT,
+  backdropStaging,
+  type PlaceStaging,
+  type StagingSpot,
+} from "./staging";
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -11,7 +16,15 @@ import { HOUSING_MODULE_ID, dwellingKind } from "../core2/modules/housing";
 import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
-import { wholeFigureFor, type WholeFigure } from "./whole-figures";
+import figureRules from "./data/whole-figures.json" with { type: "json" };
+import {
+  ageBandOf,
+  figureOn,
+  pickLook,
+  type Figure,
+  type FigurePerson,
+  type WholeFigure,
+} from "./whole-figures";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
@@ -23,9 +36,22 @@ const PICTURED = new Set(
     .map((row) => row.place),
 );
 export const hasBackdrop = (place: string) => PICTURED.has(place);
+const FRONTS = figureRules.roomFronts as unknown as Record<
+  string,
+  number | undefined
+>;
 const ACTIONS = scenePlaces.actions as Record<string, readonly string[]>;
 const ORG_KINDS = scenePlaces.organizationKinds as Record<string, string>;
-const ORG_PLACES = scenePlaces.placesWithoutKind as Record<string, string>;
+const ORG_PLACES = scenePlaces.placesWithoutKind as unknown as Record<
+  string,
+  readonly string[]
+>;
+
+/** A classification's own picture for one organization, chosen by its id among the painted ones. */
+function classPlace(classification: string, orgId: string): string | null {
+  const options = ORG_PLACES[classification]?.filter?.(hasBackdrop) ?? [];
+  return options.length ? pickFor(orgId, options) : null;
+}
 
 /** The bench's picture of where a person is and who is there with them. */
 export interface BenchScene {
@@ -53,20 +79,88 @@ export function orgPlace(
   const org = orgId ? core.organizations.get(orgId) : undefined;
   const classification = org?.classification;
   if (!classification) return null;
-  if (ORG_PLACES[classification]) return ORG_PLACES[classification]!;
+  const own = classPlace(classification, org.id);
+  if (own) return own;
   const kind =
     ORG_KINDS[classification] ??
     classification.slice(classification.indexOf(":") + 1);
   return workplacePlaceFor(null, null, kind);
 }
 
+const RESIDENCES = scenePlaces.officialResidences as unknown as Record<
+  string,
+  Record<"living" | "kitchen" | "bedroom", readonly string[]>
+>;
+const OFFICE_WORK = scenePlaces.officeWorkplaces as unknown as Record<
+  string,
+  readonly string[]
+>;
+
+/** The kinds of office a person is serving in now (core2-offices-v1 terms). */
+function servingOfficeKinds(core: CoreState, personId: string): string[] {
+  if (!core.modules.has(OFFICES)) return [];
+  const state = coreAPI(core).moduleState(OFFICES);
+  return (
+    state.table("terms").query("byPerson", [personId]) as unknown as {
+      status: string;
+      officeId: string;
+    }[]
+  )
+    .filter((term) => term.status === "serving")
+    .map(
+      (term) =>
+        (
+          state.table("offices").get(term.officeId) as
+            { kind?: string } | undefined
+        )?.kind ?? "",
+    );
+}
+
+const COURTHOUSES = scenePlaces.courthouseByState as unknown as Record<
+  string,
+  readonly string[]
+>;
+/** The county courthouse in its state's usual style. */
+function courthouseOf(core: CoreState): string | null {
+  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  const style = Object.entries(COURTHOUSES).find(
+    ([place, states]) =>
+      place !== "about" && place !== "default" && states.includes(state),
+  )?.[0];
+  return (
+    [...(style ? [style] : []), ...COURTHOUSES.default!].find(hasBackdrop) ??
+    null
+  );
+}
+
+/** The first painted picture in the first list that has one ('@courthouse' is the state's style). */
+function firstPainted(
+  core: CoreState,
+  lists: readonly (readonly string[] | undefined)[],
+) {
+  for (const list of lists) {
+    const place = list
+      ?.map((row) => (row === "@courthouse" ? courthouseOf(core) : row))
+      .find((row): row is string => !!row && hasBackdrop(row));
+    if (place) return place;
+  }
+  return null;
+}
+
 function workplaceOf(core: CoreState, person: PersonState): string {
+  // An officeholder works where the office sits: the president in the Oval
+  // Office, a governor in the governor's office.
+  const office = firstPainted(
+    core,
+    servingOfficeKinds(core, person.id).map((kind) => OFFICE_WORK[kind]),
+  );
+  if (office) return office;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   if (!job) return "office";
   const org = core.organizations.get(job.organizationId);
   const classification = org?.classification;
-  if (classification && ORG_PLACES[classification])
-    return ORG_PLACES[classification]!;
+  const own = classification ? classPlace(classification, org!.id) : null;
+  if (own) return own;
   const kind = classification
     ? (ORG_KINDS[classification] ??
       classification.slice(classification.indexOf(":") + 1))
@@ -195,6 +289,16 @@ export function homeOf(
   const kind = (household && dwellingKind(coreAPI(core), household)) || "house";
   const pictures = DWELLINGS[kind] ?? DWELLINGS.house!;
   const room = roomAt(minuteOfDay);
+  // A sitting president lives in the White House, a governor in the
+  // governor's residence, in place of their own dwelling.
+  // The residences' own rooms aren't painted yet: the outside of the
+  // residence stands in by day and the large house's room at night.
+  // stopgapId: SG-LOC-residence-rooms
+  const residence = firstPainted(
+    core,
+    servingOfficeKinds(core, personId).map((kind) => RESIDENCES[kind]?.[room]),
+  );
+  if (residence) return residence;
   const age = person ? ageOn(person.birthDate, core.date) : 30;
   const living = () => {
     const state = stateOf(core.placeMetadata?.placeKey ?? "");
@@ -417,9 +521,10 @@ function isOfficial(core: CoreState, id: string): boolean {
 
 /**
  * Puts each id on the place's spots: the first on the hero spot, the rest
- * behind. Only approved whole figures are drawn (owner, Oct 13): a person no
- * figure fits on a spot moves to the next spot that one fits, and where none
- * does, nobody is drawn for them.
+ * near them. Only approved whole figures are drawn (owner, Oct 13): a person
+ * no figure fits on a spot moves to the next spot that one fits, and where
+ * none does, nobody is drawn for them. Then each turns toward who they're
+ * with, or toward the front of a room that has one.
  */
 export function stagePeople(
   core: CoreState,
@@ -431,51 +536,171 @@ export function stagePeople(
   const unplaced: BenchScene["unplaced"] = [];
   if (!stage) return { people, unplaced };
   const hero = stage.spots.find((spot) => spot.hero) ?? stage.spots[0]!;
-  // Others stand behind the lead first, nearest first, so the lead stays
-  // the largest person in the picture.
+  // People who are together stand together: the nearest spots to the lead
+  // first. A spot in front of the lead counts as farther, so the lead stays
+  // in front and unhidden.
+  const reach = (spot: StagingSpot) =>
+    Math.hypot(spot.x - hero.x, (spot.y - hero.y) * 2) +
+    (spot.y > hero.y + IN_FRONT ? FRONT_PENALTY : 0);
   const rest = stage.spots
     .filter((spot) => spot !== hero && spot.pose !== "podium")
-    .sort(
-      (a, b) =>
-        Number(a.y > hero.y) - Number(b.y > hero.y) ||
-        (a.y > hero.y ? a.y - b.y : b.y - a.y),
-    );
+    .sort((a, b) => reach(a) - reach(b));
   const free: StagingSpot[] = [hero, ...rest];
+  const placed: {
+    id: string;
+    name: string;
+    look: Figure;
+    band: Parameters<typeof figureOn>[1];
+    spot: StagingSpot;
+  }[] = [];
+  // No twins: each look is worn by one person in the scene, the lead first.
+  const taken = new Set<string>();
   for (const { id, name } of ids) {
     const looks = looksOf(core, id);
     if (!looks) {
       unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
-    const who = {
+    const act = core.people.has(id) ? doing(core, id, undefined) : undefined;
+    const who: Who = {
       id,
       birthDate: looks.birthDate,
       ...(looks.gender ? { gender: looks.gender } : {}),
       official: isOfficial(core, id),
+      ...(act?.actionId ? { act: act.actionId } : {}),
+      ...(id === core.playerId ? { player: true } : {}),
     };
-    let placed = false;
-    for (const [index, spot] of free.entries()) {
-      const whole = wholeFigureFor(core, who, place, stage, spot);
-      if (!whole) continue;
-      free.splice(index, 1);
-      people.push({
-        personId: id,
-        name,
-        spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
-        figure: whole.figure,
-        figureUrl: whole.url,
-        art: "whole",
-      });
-      placed = true;
-      break;
+    const look = pickLook(core, who, place, taken);
+    if (!look) {
+      unplaced.push({ personId: id, reason: "no-whole-figure" });
+      continue;
     }
-    if (!placed)
+    const band = ageBandOf(core, who.birthDate);
+    // A spot where they'd be mostly hidden behind (or hide) someone
+    // already there is taken only when nothing else fits.
+    const fits = (spot: StagingSpot) =>
+      figureOn(look, band, place, stage, spot) !== null;
+    const clear = (spot: StagingSpot) =>
+      placed.every((row) => !hides(stage, spot, row.spot));
+    let index = free.findIndex((spot) => clear(spot) && fits(spot));
+    if (index < 0) index = free.findIndex(fits);
+    if (index < 0) {
       unplaced.push({
         personId: id,
         reason: free.length ? "no-whole-figure" : "no-spot",
       });
+      continue;
+    }
+    taken.add(look.look);
+    placed.push({ id, name, look, band, spot: free.splice(index, 1)[0]! });
+  }
+  const front = FRONTS[place];
+  // Drawn far to near, so nearer people stand in front of farther ones.
+  const depth = (spot: StagingSpot) => spot.depth ?? spot.y;
+  const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
+  for (const { id, name, look, band, spot } of order) {
+    const turn = turnOf(
+      spot,
+      placed.map((row) => row.spot),
+      front,
+    );
+    const whole = figureOn(look, band, place, stage, spot, turn)!;
+    people.push({
+      personId: id,
+      name,
+      spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
+      figure: whole.figure,
+      figureUrl: whole.url,
+      art: "whole",
+    });
   }
   return { people, unplaced };
+}
+
+/** A standing person's outline on a spot, in percent of the picture (presentation estimate). */
+function outline(stage: PlaceStaging, spot: StagingSpot) {
+  const meters =
+    spot.floorMetersPercent ??
+    (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
+    stage.metersPercent;
+  const height =
+    ADULT_METERS * meters * (spot.y - (spot.floorHorizonY ?? stage.horizonY));
+  const width = (height * BODY_WIDTH) / BACKDROP_ASPECT;
+  return {
+    left: spot.x - width / 2,
+    right: spot.x + width / 2,
+    top: spot.y - height,
+    bottom: spot.y,
+  };
+}
+/** Whether two people on these spots would cover much of one another. */
+export function hides(
+  stage: PlaceStaging,
+  a: StagingSpot,
+  b: StagingSpot,
+): boolean {
+  const one = outline(stage, a),
+    two = outline(stage, b);
+  const wide = Math.min(one.right, two.right) - Math.max(one.left, two.left);
+  const tall = Math.min(one.bottom, two.bottom) - Math.max(one.top, two.top);
+  if (wide <= 0 || tall <= 0) return false;
+  // The farther one is the one covered.
+  const back = a.y <= b.y ? one : two;
+  return (
+    (wide * tall) / ((back.right - back.left) * (back.bottom - back.top)) >
+    HIDDEN_SHARE
+  );
+}
+
+type Who = FigurePerson;
+type Turn = NonNullable<Parameters<typeof figureOn>[5]>;
+// Presentation choices, TUNABLE by eye: how far below the lead a spot counts
+// as in front of them, how much farther that makes it, how near in depth two
+// people are to be side by side, and how near the front's line a person is
+// to keep their own facing.
+const IN_FRONT = 3;
+const FRONT_PENALTY = 25;
+const SIDE_BY_SIDE = 6;
+const ON_THE_LINE = 3;
+// An adult's height for the outline, a body's width as a share of its
+// height, and how much of a person may be covered before a spot is passed over.
+const ADULT_METERS = 1.72;
+const BODY_WIDTH = 0.3;
+const HIDDEN_SHARE = 0.25;
+
+/**
+ * Which way a person turns: in a room with a front (a chamber, a dais, a
+ * classroom) toward the front, from behind where the spot faces away; else
+ * toward the nearest person they're with, side-on when level with them;
+ * alone, the spot's own facing.
+ */
+export function turnOf(
+  spot: StagingSpot,
+  spots: readonly StagingSpot[],
+  front: number | undefined,
+): Turn {
+  if (front !== undefined) {
+    const view = spot.facing === "away" ? ("back" as const) : undefined;
+    if (Math.abs(front - spot.x) < ON_THE_LINE) return view ? { view } : {};
+    return {
+      toward: front > spot.x ? "right" : "left",
+      ...(view ? { view } : {}),
+    };
+  }
+  const others = spots.filter((other) => other !== spot);
+  if (!others.length) return {};
+  const nearest = others.reduce((a, b) =>
+    Math.hypot(a.x - spot.x, a.y - spot.y) <=
+    Math.hypot(b.x - spot.x, b.y - spot.y)
+      ? a
+      : b,
+  );
+  return {
+    toward: nearest.x >= spot.x ? "right" : "left",
+    ...(Math.abs(nearest.y - spot.y) < SIDE_BY_SIDE
+      ? { view: "profile" as const }
+      : {}),
+  };
 }
 
 export function benchScene(

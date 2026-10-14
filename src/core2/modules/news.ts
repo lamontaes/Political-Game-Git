@@ -15,9 +15,35 @@ import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
-import type { CoreAPI, CoreModule, KnownFact, PersonId } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  KnownFact,
+  PersonId,
+  PersonState,
+} from "../types";
 import { decisionLean } from "../trait-decisions";
 import { viewOf } from "./views";
+
+const passOnLeans = new WeakMap<
+  object,
+  { date: string; by: Map<string, number> }
+>();
+
+/** A teller's lean toward passing a story on, worked out once per person per day. */
+function passOnLean(api: CoreAPI, person: PersonState): number {
+  let day = passOnLeans.get(api.state);
+  if (day?.date !== api.state.date) {
+    day = { date: api.state.date, by: new Map() };
+    passOnLeans.set(api.state, day);
+  }
+  let lean = day.by.get(person.id);
+  if (lean === undefined) {
+    lean = decisionLean(api.state, person, "news.pass-on", "tell", "keep");
+    day.by.set(person.id, lean);
+  }
+  return lean;
+}
 
 export const NEWS_MODULE_ID = "news";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -267,6 +293,27 @@ function hear(
 }
 
 /**
+ * Retention (MEMORY-FLAT), once a month: past its life a story is never
+ * delivered or told again, so who heard it no longer decides anything, and
+ * those rows go. What they learned stays in their knowledge; the player's own
+ * rows stay too.
+ */
+function forgetOldNews(api: CoreAPI): void {
+  const since = addDays(makeIsoDate(api.state.date), -n(api, "newsMaxAgeDays"));
+  const counts = countsOf(api);
+  const player = (api.state as { playerId?: PersonId }).playerId;
+  for (const row of heard(api).rows()) {
+    const personId = row.personId as PersonId;
+    if (personId === player) continue;
+    const story = stories(api).get(row.storyId as string) as unknown as
+      Story | undefined;
+    if (story && story.date >= since) continue;
+    heard(api).remove(row.id);
+    counts.set(personId, (counts.get(personId) ?? 1) - api.parameter("one"));
+  }
+}
+
+/**
  * The news module. `tellable` lists what a teller can pass on, newest first;
  * tests swap in the full rescan (`storiesHeard`) to check both tell the same.
  */
@@ -357,13 +404,7 @@ export function createNewsModule(
               api.parameter("one") +
                 (tellerPerson
                   ? n(api, "traitDecisionWeight") *
-                    decisionLean(
-                      api.state,
-                      tellerPerson,
-                      "news.pass-on",
-                      "tell",
-                      "keep",
-                    )
+                    passOnLean(api, tellerPerson)
                   : api.parameter("zero")),
             ),
         );
@@ -378,6 +419,7 @@ export function createNewsModule(
       }
     },
     onAfterDay(api) {
+      if (api.state.date.endsWith("-01")) forgetOldNews(api);
       for (const row of deliveries(api).query("byDate", [api.state.date])) {
         const story = stories(api).get(
           row.storyId as string,

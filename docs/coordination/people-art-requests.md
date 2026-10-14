@@ -27,7 +27,9 @@ Every row keeps today's fields (`file`, `look`, `build`, `sex`, `ageBand`, `age`
 - `pose`: `stand` (default when absent) or `sit`.
 - For `sit` only:
   - `seat`: the chair kind, one of `office-chair`, `legislative-seat`, `dais-chair`, `couch`, `bench`, `kitchen-chair`, `table-chair`.
-  - `seatY`: the row where the seat cushion meets the buttocks (the hip line). The game puts this row on the chair's `seatY` in the staging.
+  - `seatY`: the row where the seat cushion meets the buttocks (the hip line). The game puts this row on the chair's `seatY` in the staging and centers the figure on the seat.
+  - **Scale:** paint a seated figure at the same scale as the same look's standing figure (the same number of pixels per meter), on a canvas 1000 px tall. The game sizes it from the standing figure's foot line.
+  - Paint the chair out: only the person, sitting on nothing. The painted room supplies the chair, and a desk or dais front hides the legs where the staging says so.
   - `footY`: the row the feet rest on, even if a desk will hide them.
 - `activity`: `standing`, `talking` or `listening` for plain poses (hands empty; talking is an open-hand gesture, listening is attentive). Seated plain poses use `sitting`. Prop activities are added later with the section 7 art.
 
@@ -91,5 +93,5 @@ Only after sections 1 to 6 are painted: prop versions of each look (`phone`, `re
 
 ## How the game uses it
 
-- `src/bench/whole-figures.ts` reads every row whose file exists. A new row with `pose: "sit"` and `seat` goes to the matching seats; a row with `angle: "back"` or `"profile"` goes to spots facing away or sideways; plain poses are the default; a prop version (section 7, later) is used only when the person's current act in the simulation is that act; `family` keeps the player's look across ages.
+- `src/bench/whole-figures.ts` reads every row whose file exists. A new row with `pose: "sit"` and `seat` goes to the matching seats (each seat's chair kind is read from its staging group; see `seatKinds` in `src/bench/data/whole-figures.json`); a row with `angle: "back"` or `"profile"` goes to spots facing away or sideways; plain poses are the default; a prop version (section 7, later) is used only when the person's current act in the simulation is that act; `family` keeps the player's look across ages.
 - Nothing else needs changing: commit the PNGs and the manifest rows.

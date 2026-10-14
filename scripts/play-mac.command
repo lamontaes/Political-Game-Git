@@ -338,7 +338,6 @@ if [ "$MODE" = "candidate" ]; then
 else
   say " Candidate-art Play (separate saves): http://127.0.0.1:$PORT/?art-preview=candidate"
 fi
-say " Review tools (developer fixtures): http://127.0.0.1:$PORT/review.html"
 say "=============================================================="
 say ""
 say "Leave this window open while you play. Close it, or press Control-C,"

@@ -29,7 +29,7 @@ import type {
   PersonInput,
   PersonState,
 } from "../types";
-import { decisionKinds, decisionLean } from "../trait-decisions";
+import { decisionKinds } from "../trait-decisions";
 import { PLATFORM_QUESTIONS, questionAxis } from "../campaign-views";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
@@ -256,15 +256,8 @@ function reasonsFrom(
   const zero = api.parameter("zero");
   const one = api.parameter("one");
   const two = api.parameter("two");
-  // Every trait, through the shared trait table: how much more the person
-  // leans toward running than staying out, about -1..1.
-  const temperament = decisionLean(
-    api.state,
-    person,
-    "candidacy.run",
-    "candidacy-run",
-    "candidacy-stay-out",
-  );
+  // Personality enters once, through the chooser's trait term on the two
+  // options' act kinds; no second temperament term here.
   const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
   const age = ageOnDate(
     makeIsoDate(person.birthDate),
@@ -281,7 +274,6 @@ function reasonsFrom(
   return {
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
-    temperament: c(api, "candidacyTemperamentWeight") * temperament,
     time: -c(api, "candidacyTimeWeight") * Math.min(one, hours),
     incumbency:
       contest.incumbentId === person.id
