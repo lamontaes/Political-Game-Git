@@ -999,6 +999,9 @@ function startupCost(api: CoreAPI, market: Market): number {
  * of that kind choose first whether to open a location there, then the
  * place's working-age adults choose whether to found one.
  */
+/** Each counted person's lean toward founding over not, by person. */
+const foundLeans = new WeakMap<CoreState, Map<string, number>>();
+
 function foundings(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -1116,6 +1119,18 @@ function foundings(api: CoreAPI): void {
       businessData.actions.found.actKinds,
       businessData.actions.notFound.actKinds,
     );
+  // A counted person's traits don't change, so their lean is worked out once.
+  let leans = foundLeans.get(c);
+  if (!leans) foundLeans.set(c, (leans = new Map()));
+  const countedLeans = leans;
+  const countedFoundLean = (
+    person: { id: string } & Pick<PersonState, "traits">,
+  ) => {
+    let value = countedLeans.get(person.id);
+    if (value === undefined)
+      countedLeans.set(person.id, (value = foundLean(person)));
+    return value;
+  };
   const ownerRows = store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[];
@@ -1162,15 +1177,26 @@ function foundings(api: CoreAPI): void {
     return;
   }
   const owners = new Set(ownerRows.map((row) => row.ownerId));
+  // Ages in years today, by birth date (many people share one), worked out once.
+  const today = makeIsoDate(c.date),
+    daysPerYear = p("jobsDaysPerYear");
+  const ages = new Map<string, number>();
+  const ageOf = (birthDate: string) => {
+    let value = ages.get(birthDate);
+    if (value === undefined)
+      ages.set(
+        birthDate,
+        (value = daysBetween(makeIsoDate(birthDate), today) / daysPerYear),
+      );
+    return value;
+  };
   const seekers = c.modules.has("jobs")
     ? api.moduleState("jobs").table("seekers")
     : undefined;
   for (const person of [...c.people.values()].sort((a, b) =>
     a.id.localeCompare(b.id),
   )) {
-    const age =
-      daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-      p("jobsDaysPerYear");
+    const age = ageOf(person.birthDate);
     if (
       !person.alive ||
       person.placeId !== market.placeId ||
@@ -1219,9 +1245,7 @@ function foundings(api: CoreAPI): void {
   }[] = [];
   for (const record of residentsRuntime(c)?.households.values() ?? [])
     for (const person of record.people) {
-      const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-        p("jobsDaysPerYear");
+      const age = ageOf(person.birthDate);
       if (
         owners.has(person.id) ||
         age < p("businessFounderMinimumAge") ||
@@ -1235,13 +1259,19 @@ function foundings(api: CoreAPI): void {
         placeId: record.household.placeId,
         common:
           p("businessCountedFoundBaseline") +
-          p("traitWeight") * foundLean(person) +
+          p("traitWeight") * countedFoundLean(person) +
           p("businessFoundUnemployedWeight") *
             (seeker && !seeker.employed ? 1 : 0),
         income: incomeOf(person.id),
         own: founderMoney(api, person),
       });
     }
+  const adultsAt = new Map<string, typeof adults>();
+  for (const adult of adults) {
+    const list = adultsAt.get(adult.placeId);
+    if (list) list.push(adult);
+    else adultsAt.set(adult.placeId, [adult]);
+  }
   for (const each of candidates) {
     // Founders come in proportion to the businesses already in a market (BDS entry as a share of establishments).
     const marketTerm =
@@ -1249,8 +1279,7 @@ function foundings(api: CoreAPI): void {
       p("businessFoundRoomWeight") * gapsOf(each);
     const monthly = prospectMonthly(api, each),
       floor = medianPay(each.placeId) * p("businessProspectIncomeFloorShare");
-    for (const adult of adults) {
-      if (adult.placeId !== each.placeId) continue;
+    for (const adult of adultsAt.get(each.placeId) ?? []) {
       const income = Math.max(adult.income, floor);
       rows.push({
         id: `${adult.id}|${each.kindId}`,
