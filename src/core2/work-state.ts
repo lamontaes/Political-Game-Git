@@ -140,7 +140,6 @@ export function admitWorkCommitment(
     if (span.start + span.minutes > next)
       throw new Error("Periodic job slots overlap.");
   }
-  api.stopgap("SG-P8-work-pay-terms");
   if (row.scheduleSource.tag === "ESTIMATED")
     api.stopgap("SG-P8-work-schedule-data");
   const saved = {
