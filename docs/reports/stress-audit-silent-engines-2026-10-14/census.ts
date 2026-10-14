@@ -109,6 +109,14 @@ for (const [key, listener] of core.eventSubscribers) {
   }) as never);
 }
 
+// Relationship and appraisal listeners are also held by reference; count them.
+for (const map of [core.relationshipSubscribers, core.eventAppraisalSubscribers] as unknown as Map<string, (...x: unknown[]) => unknown>[])
+  for (const [key, listener] of map) {
+    const id = key.replace(/^module:/, "");
+    if (!ENGINES.includes(id)) continue;
+    map.set(key, (...a: unknown[]) => { bump(id, map === (core.relationshipSubscribers as unknown) ? "relationship-change" : "appraisal"); return listener(...a); });
+  }
+
 const startTables = Object.fromEntries(ENGINES.map((id) => [id, tablesOf(id)]));
 const startDate = core.date;
 const end = addDays(makeIsoDate(core.date), 365);
