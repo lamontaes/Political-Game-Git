@@ -89,6 +89,7 @@ function tenDays(
 
 describe(`a state officeholder's day in ${place} (seed ${seed})`, () => {
   it("ten days as a state representative: done and simulated acts, read by the legislature and the ledger", () => {
+    const seatedOn = core.date;
     const office = seatPlayerInStateOffice(api, {
       personId: player.id,
       role: "legislator",
@@ -181,6 +182,17 @@ describe(`a state officeholder's day in ${place} (seed ${seed})`, () => {
     );
     if (rate.basis !== "none" && rate.dailyMinor > 0)
       expect(paid.length).toBeGreaterThan(0);
+    // Never a day before the seat was taken.
+    for (const row of paid)
+      expect(row.days).toBeLessThanOrEqual(
+        Math.round(
+          (Date.parse(
+            `${addDays(makeIsoDate(`${row.month}-28`), 4).slice(0, 7)}-01`,
+          ) -
+            Date.parse(seatedOn)) /
+            86_400_000,
+        ),
+      );
   });
 
   it("ten days as governor: the State of the State moves listeners, the budget proposal is read by the budgets engine", () => {

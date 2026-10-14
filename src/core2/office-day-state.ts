@@ -938,11 +938,15 @@ function payPerDiem(api: CoreAPI): void {
       const id = memberKey(term);
       const person = api.state.people.get(id);
       if (!person?.alive) continue;
+      // Only the days they held the seat (a member seated mid-month).
+      const served = (d: string) => d >= term.startDate;
       let count: number;
-      if (rate.basis === "calendar-day-in-session") count = days.length;
+      if (rate.basis === "calendar-day-in-session")
+        count = days.filter(served).length;
       else if (id === playerId)
         count = floorDays.filter(
           (d) =>
+            served(d) &&
             (
               table(api, "attendance").get(`${id}:${d}`) as unknown as
                 { attended: boolean } | undefined
@@ -951,7 +955,7 @@ function payPerDiem(api: CoreAPI): void {
       else
         count = ownAttendance(api, person, stateDayParameter("attendanceDuty"))
           .attend
-          ? floorDays.length
+          ? floorDays.filter(served).length
           : 0;
       if (count <= 0) continue;
       const transferId = `per-diem:${id}:${firstOfLast.slice(0, 7)}`;
