@@ -100,5 +100,10 @@
     "family": "Family"
   },
   "search": "Search",
-  "talk": "Talk"
+  "talk": "Talk",
+  "levels": {
+    "local": "Local",
+    "state": "State",
+    "federal": "Federal"
+  }
 }

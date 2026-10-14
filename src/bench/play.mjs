@@ -493,12 +493,12 @@ async function refresh() {
       $("backdrop").src = night.backdrop.url;
       drawPeople(night.people);
     }
-    await openSheet("results");
+    await openSheet("campaigns");
     return;
   }
   // A law that took effect: what changed in town.
   if (newChanges(await changeCount())) {
-    await openSheet("changes");
+    await openSheet("issues");
     return;
   }
   if (openTab) await openSheet(openTab);
@@ -1039,7 +1039,7 @@ async function campaignRows() {
         $("card-why").textContent = campaignResult;
         return;
       }
-      openSheet("politics");
+      openSheet("campaigns");
     };
     const question = el(
       "select",
@@ -1243,7 +1243,7 @@ async function seatRows() {
     seatResult = r.number
       ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
       : "";
-    openSheet("politics");
+    openSheet("office");
   };
   for (const body of v.bodies) {
     for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
@@ -1749,7 +1749,7 @@ const sheets = {
               await post(
                 `/api/budget/priority?${new URLSearchParams({ governmentId: gov.id, line: r.line, change: String(now + sign * STEP_MINOR) })}`,
               );
-              openSheet("budgets");
+              openSheet("issues");
             });
             line.append(b);
           }
@@ -2029,7 +2029,12 @@ const sheets = {
       );
     });
   },
-  async politics() {
+  // Politics is a compact hub: your office, your campaigns, the government
+  // around you, its parties, and the issues and budget behind them.
+  async office() {
+    return seatRows();
+  },
+  async campaigns() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const filings = v.filings.map((f) =>
       el(
@@ -2039,7 +2044,6 @@ const sheets = {
         f.filedWith,
       ),
     );
-    const campaigns = await campaignRows();
     // Filing happens only at the office's counter, one race at a time.
     const offices = (
       v.filings.length
@@ -2050,36 +2054,92 @@ const sheets = {
       b.addEventListener("click", () => openFiling(filedWith));
       return b;
     });
-    const seat = await seatRows();
     return [
-      ...campaigns,
+      ...(await campaignRows()),
       ...offices,
       ...filings,
-      ...seat,
-      ...v.seats
-        .toSorted(
-          (a, b) => Number(!!b.holder?.personId) - Number(!!a.holder?.personId),
-        )
-        .slice(0, 10)
-        .map((s) => {
-          const line = row(
-            s.title,
-            s.holder
-              ? `${s.holder.givenName} ${s.holder.familyName}${s.holder.party ? ` (${s.holder.party})` : ""} `
-              : "",
-          );
-          // Play anyone: a resident officeholder can be taken over (bench only).
-          if (s.holder?.personId && s.holder.personId !== me.id) {
-            const b = el("button", {
-              type: "button",
-              className: "dev-only",
-              textContent: "Play",
-            });
-            b.addEventListener("click", () => playAs(s.holder.personId));
-            line.append(b);
-          }
-          return line;
-        }),
+      ...(await sheets.results()),
+    ];
+  },
+  // The map first, then who holds each seat, by level.
+  async government() {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const levelOf = (seat) =>
+      ["federal", "state"].includes(seat.level) ? seat.level : "local";
+    const levels = ["local", "state", "federal"].filter((level) =>
+      v.seats.some((seat) => levelOf(seat) === level),
+    );
+    const names = controls.levels ?? {};
+    const list = el("div", { className: "flow" });
+    const draw = (level) => {
+      for (const b of picker.children)
+        b.classList.toggle("on", b.dataset.level === level);
+      list.replaceChildren(
+        ...v.seats
+          .filter((seat) => levelOf(seat) === level)
+          .toSorted(
+            (a, b) =>
+              Number(!!b.holder?.personId) - Number(!!a.holder?.personId),
+          )
+          .map((seat) => {
+            const line = row(
+              seat.title,
+              seat.holder
+                ? `${seat.holder.givenName} ${seat.holder.familyName}${seat.holder.party ? ` (${seat.holder.party})` : ""}`
+                : "",
+            );
+            // Play anyone: a resident officeholder can be taken over (bench only).
+            if (seat.holder?.personId && seat.holder.personId !== me.id) {
+              const b = el("button", {
+                type: "button",
+                className: "dev-only",
+                textContent: "Play",
+              });
+              b.addEventListener("click", () => playAs(seat.holder.personId));
+              line.append(b);
+            }
+            return line;
+          }),
+      );
+    };
+    const picker = el(
+      "div",
+      { className: "level-picker" },
+      ...levels.map((level) => {
+        const b = el("button", {
+          type: "button",
+          className: "tab",
+          textContent: names[level] ?? "",
+        });
+        b.dataset.level = level;
+        b.addEventListener("click", () => draw(level));
+        return b;
+      }),
+    );
+    if (levels.length) draw(levels[0]);
+    return [...(await sheets.map()), picker, list];
+  },
+  // The parties that hold the seats around you, from the seats' own records.
+  async parties() {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const byParty = new Map();
+    for (const seat of v.seats)
+      if (seat.holder?.party)
+        byParty.set(seat.holder.party, [
+          ...(byParty.get(seat.holder.party) ?? []),
+          `${seat.holder.givenName} ${seat.holder.familyName}`,
+        ]);
+    return [...byParty.entries()]
+      .toSorted((a, b) => b[1].length - a[1].length)
+      .map(([party, holders]) =>
+        row(party, `${holders.length} · ${holders.join(", ")}`),
+      );
+  },
+  async issues() {
+    return [
+      ...(await sheets.law()),
+      ...(await sheets.changes()),
+      ...(await sheets.budgets()),
     ];
   },
 };
@@ -2092,6 +2152,11 @@ const titles = {
   jobs: "Jobs and study",
   journal: "Journal",
   politics: "Politics",
+  office: "Your office",
+  campaigns: "Campaigns",
+  government: "Government",
+  parties: "Parties",
+  issues: "Issues and budget",
   calendar: "Calendar",
   results: "Election night",
   budgets: "Budgets",
@@ -2107,9 +2172,9 @@ const titles = {
 };
 // Screens shown as tabs across the top of one menu screen.
 // The tab a menu opens on, when it is not the menu's own name.
-const homeTab = { people: "web" };
+const homeTab = { people: "web", politics: "government" };
 const groups = {
-  politics: ["politics", "results", "law", "changes", "budgets", "map"],
+  politics: ["office", "campaigns", "government", "parties", "issues"],
   people: ["web", "list", "family"],
 };
 const groupOf = (tab) =>
@@ -2121,19 +2186,16 @@ async function openSheet(tab) {
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
-  // Election night only once there are results to show.
   $("sheet-tabs").replaceChildren(
-    ...(groups[group] ?? [])
-      .filter((name) => name !== "results" || seenResults > 0)
-      .map((name) => {
-        const b = el("button", {
-          type: "button",
-          className: `tab${name === tab ? " on" : ""}`,
-          textContent: titles[name],
-        });
-        b.addEventListener("click", () => openSheet(name));
-        return b;
-      }),
+    ...(groups[group] ?? []).map((name) => {
+      const b = el("button", {
+        type: "button",
+        className: `tab${name === tab ? " on" : ""}`,
+        textContent: titles[name],
+      });
+      b.addEventListener("click", () => openSheet(name));
+      return b;
+    }),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.

@@ -1603,3 +1603,14 @@ body.dev .dev-ring {
   margin-bottom: 10px;
   column-span: all;
 }
+
+/* Government: the level picker above the seats. */
+.level-picker {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 8px;
+  column-span: all;
+}
+.level-picker .tab.on {
+  box-shadow: inset 0 -2px 0 var(--gold);
+}
