@@ -9,6 +9,7 @@
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
 import { addDays, makeIsoDate } from "../../simulation/dates";
+import { lawHistory } from "../past-module";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -137,11 +138,12 @@ export function openLaws(core: CoreState): LawChain {
       tier: "general",
       value: answer.answer === "yes" ? 1 : 0,
       // In force by the research's calibration date, so outcome research
-      // reading the real law at that date sees it (OPUS-WEB, Oct 12).
+      // reading the real law at that date sees it (OPUS-WEB, Oct 12); when
+      // it was enacted, by whom, is the law's history (`enactmentOf`).
       effectiveDate: today < ANSWERS_AS_OF ? today : ANSWERS_AS_OF,
       endDate: null,
       source: entry.source ?? "data/research/laws/starting-law-2026",
-      retrieved: today,
+      retrieved: ANSWERS_AS_OF,
       estimate: answer.estimated !== undefined,
     };
     if (!state.table("laws").get(row.id))
@@ -332,10 +334,46 @@ function seriesRows(api: CoreAPI, series: string): readonly LawRowInput[] {
 }
 
 /**
- * The latest law enacted on a series in play (not a starting row): the day
- * it passed, the margin it passed by (the narrowest chamber's yes minus no,
- * over its members), and its value. Null when nothing has been enacted on it
- * since the opening.
+ * When and how a law was enacted: a law passed in play from its own record
+ * (the day it passed, its margin); a day-one law from its history (the
+ * world's past: the enactment date, body, session and roll calls). Null for a
+ * law with neither.
+ */
+export function enactmentOf(
+  api: CoreAPI,
+  row: LawRowInput,
+): {
+  passedOn: string;
+  margin: number;
+  body: string | null;
+  session: Readonly<Record<string, string>> | null;
+} | null {
+  if (row.terms?.enactedBy) {
+    const margin = Number(row.terms.margin);
+    return {
+      passedOn: row.retrieved,
+      margin: Number.isFinite(margin) ? margin : 0,
+      body: null,
+      session: null,
+    };
+  }
+  const history = lawHistory(api, row.id);
+  if (!history) return null;
+  const margins = history.rollCalls.map(
+    (c) => (c.yes - c.no) / Math.max(1, c.yes + c.no),
+  );
+  return {
+    passedOn: history.enactedOn,
+    margin: margins.length ? Math.min(...margins) : 0,
+    body: history.body,
+    session: history.session,
+  };
+}
+
+/**
+ * The latest law enacted on a series, in play or before day one: the day it
+ * passed, the margin it passed by (the narrowest chamber's yes minus no, over
+ * those voting), and its value. Null when no record says when it passed.
  */
 export function lastEnactment(
   api: CoreAPI,
@@ -348,12 +386,13 @@ export function lastEnactment(
     lawId: string;
   } | null = null;
   for (const row of seriesRows(api, series)) {
-    if (!row.terms?.enactedBy) continue;
-    if (latest && row.retrieved <= latest.passedOn) continue;
-    const margin = Number(row.terms.margin);
+    if (row.effectiveDate > api.state.date && !row.terms?.enactedBy) continue;
+    const enacted = enactmentOf(api, row);
+    if (!enacted || enacted.passedOn > api.state.date) continue;
+    if (latest && enacted.passedOn <= latest.passedOn) continue;
     latest = {
-      passedOn: row.retrieved,
-      margin: Number.isFinite(margin) ? margin : 0,
+      passedOn: enacted.passedOn,
+      margin: enacted.margin,
       value: row.value ?? 0,
       lawId: row.id,
     };
