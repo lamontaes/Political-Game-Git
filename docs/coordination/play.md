@@ -244,4 +244,10 @@ Newest first: one line per event (what changed, the measured result, what's next
 
 Branch `play/desktop-serves-play-api` (the status file for OPUS-PLAY is this one, `play.md`).
 
-**The gap:** the packaged app served static files only, so every `/api/*` call from the play page was a 404 and New game failed. **The fix in progress:** the shell runs the play server's request handler in-process (no listener) and routes `/api/*` and `/art/*` through it inside the `app://game` protocol. Dev-only routes (`/api/build`, `/api/trace`, `/api/resident`) are refused there. Everything it reads ships as resources; it writes nothing outside userData.
+**The gap:** the packaged app served static files only, so every `/api/*` call from the play page was a 404 and New game failed.
+
+**Done (PR #4189):** `src/bench/handler.ts` holds the play server's routes (`benchRequest`); `server.ts` is only the dev listener and the bench's page files. `desktop/scripts/build-play-api.mjs` (run by `stage.mjs`) bundles the handler and copies what it reads (art, map geometry, data) to `staged/play-api/`, shipped as a resource. The shell runs it in a utility process (`desktop/play-api-host.mjs`) and `app-protocol.mjs` routes `/api/*` and `/art/*` to it. It is a utility process, not the main process, because building a town holds a thread for up to ~22 s at a stretch and would freeze the window. No network listener. `/api/build`, `/api/trace`, `/api/resident` (the play page never calls them) answer only when the host sets `developer`; the desktop never does.
+
+**Proof:** packaged on Linux, launched under Xvfb with Playwright: New game builds a town (~60 s), the opening plays, the play screen loads, People and Options open, the app quits with exit 0, nothing is written under the install directory or the repo. Screenshots in `docs/reports/desktop-play-api-2026-10-14/`.
+
+**Needs from others / found:** at 1440×900 on Linux the player card grows (name wraps, Day/Week/Until needed) and overlaps the ring icons, so a real mouse click on the People ring lands on the card. A layout bug in `play.css`, not caused by this change; worth a fixer ticket. The first game build is ~60 s and the loading bar updates only between stages, because the build holds its thread.

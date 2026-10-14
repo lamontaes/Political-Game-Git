@@ -1,4 +1,4 @@
-/* global process, globalThis */
+/* global process, URL */
 /**
  * The play server's host: an Electron utility process (no window, no network
  * listener) that runs the request handler bundled by scripts/build-play-api.mjs.

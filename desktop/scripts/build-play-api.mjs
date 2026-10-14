@@ -1,4 +1,4 @@
-/* global console, process, URL */
+/* global console, process */
 /**
  * Bundle the play server's request handler (src/bench/handler.ts) for the
  * desktop shell, which runs it in-process behind the app:// protocol.
@@ -32,7 +32,7 @@ function runtimeUrls() {
     name: "our-civic-duty-runtime-urls",
     enforce: "pre",
     transform(code, id) {
-      const file = id.split("?")[0];
+      const file = path.resolve(id.split("?")[0]);
       if (
         !file.startsWith(repoRoot + path.sep) ||
         file.includes("node_modules")
