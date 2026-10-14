@@ -22,6 +22,7 @@ import { ownerOf } from "./business";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { regionalMonth } from "./regional";
 import { residentPerson, residentsRuntime } from "./residents";
+import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
@@ -66,6 +67,9 @@ interface PositionRow {
   status: "open" | "filled" | "withdrawn";
   reasonKey: string;
   filledBy?: string;
+  /** The job of the worker this opening replaces (who died, moved, quit or retired), and who held it. */
+  replacesJobId?: string;
+  replacesPersonId?: string;
 }
 interface SeekerRow {
   id: string;
@@ -88,6 +92,10 @@ interface EmployerRow {
   mix?: Record<string, { count: number; templateJobId: string }>;
   /** Fraction of a posting's withdrawal carried to the next review. */
   withdrawCarry?: number;
+  /** Jobs of workers who left (died, moved, quit, retired), oldest first, each to be replaced. */
+  leavers?: { jobId: string; personId: string }[];
+  /** The counted workers' jobs at the last review (job to worker), to find who left outside the jobs engine. */
+  countedJobs?: Record<string, string>;
 }
 
 function store(api: CoreAPI) {
@@ -221,15 +229,9 @@ function record(
     values?: Readonly<Record<string, number>>;
   },
 ): void {
-  // A worker who leaves (a quit or retirement) is replaced: the employer's need grows by one at once.
-  if (row.kind === "quit" || row.kind === "left-work") {
-    const employer = store(api).table("employers").get(row.organizationId) as
-      EmployerRow | undefined;
-    if (employer)
-      store(api)
-        .table("employers")
-        .put({ ...employer, need: employer.need + 1 });
-  }
+  // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
+  if (row.kind === "quit" || row.kind === "left-work")
+    noteLeaver(api, row.organizationId, row.jobId, row.personId);
   store(api)
     .table("changes")
     .put({
@@ -238,6 +240,129 @@ function record(
       ...row,
       values: { ...(row.values ?? {}) },
     });
+}
+
+/**
+ * Someone left an employer's staff: its need grows by one at once, and the
+ * leaver's job waits to be replaced in the same role (owner, Oct 14: every
+ * role is refilled when its holder dies, leaves or is removed).
+ */
+function noteLeaver(
+  api: CoreAPI,
+  organizationId: string,
+  jobId: string,
+  personId: string,
+): void {
+  const employer = store(api).table("employers").get(organizationId) as
+    EmployerRow | undefined;
+  if (!employer) return;
+  store(api)
+    .table("employers")
+    .put({
+      ...employer,
+      need: employer.need + 1,
+      leavers: [...(employer.leavers ?? []), { jobId, personId }],
+    });
+}
+
+/** A job by id, a full person's or a counted worker's. */
+function jobById(api: CoreAPI, jobId: string): JobInput | undefined {
+  return (
+    core(api).jobs.get(jobId) ?? residentsRuntime(core(api))?.jobs.get(jobId)
+  );
+}
+
+/**
+ * A worker died: their job ends at the next day's calendar work (a job
+ * ends before the day's work, never after a shift), and they are replaced.
+ */
+function workerDied(api: CoreAPI, personId: string, eventId: string): void {
+  const person = core(api).people.get(personId);
+  const job = person?.jobId ? core(api).jobs.get(person.jobId) : undefined;
+  if (!job || job.endsAt !== undefined) return;
+  record(api, {
+    personId,
+    organizationId: job.organizationId,
+    jobId: job.id,
+    kind: "left-work",
+    reasonKey: jobsData.reasons.died,
+    decidedBy: eventId,
+  });
+  const date = addDays(makeIsoDate(api.state.date), 1);
+  api.moduleCalendar(JOBS_MODULE_ID).schedule({
+    key: `end:${job.id}`,
+    date,
+    kind: "jobs-end",
+    source: source(api, `The job of a worker who died (${eventId}) ends.`),
+    sourceRecordIds: [job.id, eventId],
+  });
+}
+
+/** A worker moved away: the moves engine ended their job; they are replaced. */
+function workerMoved(
+  api: CoreAPI,
+  event: Readonly<{
+    id: string;
+    personIds: readonly string[];
+    facts?: Readonly<Record<string, unknown>>;
+  }>,
+): void {
+  for (const personId of event.personIds) {
+    const jobId = event.facts?.[`person:${personId}:job`];
+    if (typeof jobId !== "string") continue;
+    const job = jobById(api, jobId);
+    if (!job) continue;
+    record(api, {
+      personId,
+      organizationId: job.organizationId,
+      jobId,
+      kind: "left-work",
+      reasonKey: jobsData.reasons.movedAway,
+      decidedBy: personId,
+    });
+  }
+}
+
+/**
+ * Counted workers who left an employer outside the jobs engine since the
+ * last review (the wider population's deaths and moves, which end or drop
+ * their jobs) are replaced as full workers are: their jobs join their
+ * employers' leavers. Each employer keeps the counted jobs it had at the last
+ * review; one that is gone, not ended by the jobs engine and not now a full
+ * person's job, left. Counted leavers keep no reasons (owner, Oct 14, ruling
+ * 3). One pass a month.
+ */
+function noteCountedLeavers(api: CoreAPI): void {
+  const c = core(api),
+    rt = residentsRuntime(c);
+  if (!rt) return;
+  const changes = store(api).table("changes");
+  const employers = store(api).table("employers");
+  const live = new Map<string, Record<string, string>>();
+  for (const job of rt.jobs.values())
+    if (!job.endsAt) {
+      const held = live.get(job.organizationId) ?? {};
+      held[job.id] = job.personId;
+      live.set(job.organizationId, held);
+    }
+  for (const row of employers.query("all", [
+    true,
+  ]) as unknown as EmployerRow[]) {
+    const now = live.get(row.id) ?? {};
+    const closed = c.finance.businesses.get(row.id)?.closedAt;
+    for (const id of closed ? [] : Object.keys(row.countedJobs ?? {})) {
+      if (now[id] || c.jobs.has(id)) continue;
+      const job = rt.jobs.get(id);
+      const ownEnd =
+        job?.endsAt !== undefined &&
+        ["layoff", "quit", "left-work", "closure"].some((kind) =>
+          changes.get(`job-change:${job.endsAt}:${id}:${kind}`),
+        );
+      if (!ownEnd) noteLeaver(api, row.id, id, row.countedJobs![id]!);
+    }
+    const fresh = (employers.get(row.id) as unknown as EmployerRow) ?? row;
+    employers.put({ ...fresh, countedJobs: now });
+  }
 }
 
 function startSeeking(
@@ -627,10 +752,20 @@ function reviewEmployers(api: CoreAPI): void {
         ? (c.jobs.get(id) ?? residentsRuntime(c)?.jobs.get(id))
         : undefined;
     };
+    const leavers = [...(row.leavers ?? [])];
     while (need >= 1 && fromJobs.length) {
-      const role = rolesByDeficit(mix, have).find((r) => copyable(r));
+      // A leaver's role is refilled first, as that role; then the role furthest below the mix.
+      const replaces = leavers.shift();
+      const left = replaces ? jobById(api, replaces.jobId) : undefined;
+      const role =
+        left && copyable(roleOf(left))
+          ? roleOf(left)
+          : rolesByDeficit(mix, have).find((r) => copyable(r));
       const template = role ? copyable(role) : undefined;
-      if (!template) break;
+      if (!template) {
+        if (replaces) leavers.unshift(replaces);
+        break;
+      }
       have[roleOf(template)] = (have[roleOf(template)] ?? 0) + 1;
       const id = `position:${row.id}:${api.state.date}:${Math.floor(need)}`;
       store(api)
@@ -645,7 +780,15 @@ function reviewEmployers(api: CoreAPI): void {
           hourlyMinor: payFor(api, row.id, template),
           openedAt: api.state.date,
           status: "open",
-          reasonKey: jobsData.reasons.opening,
+          reasonKey: replaces
+            ? jobsData.reasons.replacement
+            : jobsData.reasons.opening,
+          ...(replaces
+            ? {
+                replacesJobId: replaces.jobId,
+                replacesPersonId: replaces.personId,
+              }
+            : {}),
           gap,
           target,
         });
@@ -668,9 +811,15 @@ function reviewEmployers(api: CoreAPI): void {
       }
       need += 1;
     }
+    // Leavers not refilled this month wait while staff is below target; above it, attrition does the shrinking.
     store(api)
       .table("employers")
-      .put({ ...row, need, withdrawCarry: carry });
+      .put({
+        ...row,
+        need,
+        withdrawCarry: carry,
+        leavers: gap > 0 ? leavers : [],
+      });
   }
 }
 
@@ -1923,9 +2072,18 @@ export const JOBS_MODULE: CoreModule = {
       value: Number(binding.arguments!.value),
     }),
   },
-  eventKinds: ["organization.closed"],
+  eventKinds: ["organization.closed", "life.death", MOVED_AWAY_EVENT],
   onEvent(api, event) {
     if (!store(api).table("state").get("jobs:state")) return;
+    if (event.kind === "life.death") {
+      for (const personId of event.personIds)
+        workerDied(api, personId, event.id);
+      return;
+    }
+    if (event.kind === MOVED_AWAY_EVENT) {
+      workerMoved(api, event);
+      return;
+    }
     // The closure event's id ends with the closed business.
     const organizationId = event.id.split(":").slice(2).join(":");
     // The closed business's counted workers look for work too, with their claims.
@@ -1998,9 +2156,14 @@ export const JOBS_MODULE: CoreModule = {
     }
   },
   onCalendarWork(api, work) {
-    if (work.kind === "jobs-review") {
+    if (work.kind === "jobs-end") {
+      const job = core(api).jobs.get(work.sourceRecordIds[0] ?? "");
+      if (job && job.endsAt === undefined)
+        api.endJob(job.id, work.sourceRecordIds[1] ?? work.key);
+    } else if (work.kind === "jobs-review") {
       // Agreements made since last month may name jobs too.
       pinnedByCore.delete(core(api));
+      noteCountedLeavers(api);
       reviewEmployers(api);
       reviewWorkers(api);
       scheduleReview(api);

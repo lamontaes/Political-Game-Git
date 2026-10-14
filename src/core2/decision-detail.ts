@@ -8,6 +8,7 @@
 import { parameter } from "./parameters";
 import type { CoreState, DecisionResult } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { forgetOldExperiences } from "./knowledge-retention";
 
 const queues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-queue", queues);
@@ -39,6 +40,7 @@ function involvesPlayer(
 
 export function condenseCircleDecisions(core: CoreState): void {
   dropOldReceiptDetail(core);
+  forgetOldExperiences(core);
   const queue = queues.get(core);
   if (!queue?.length) return dropOldCircleActs(core);
   const cutoff = new Date(`${core.date}T00:00:00Z`);

@@ -7,6 +7,7 @@ import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
+import { bookkeeping } from "../bookkeeping";
 import { adTimeForSale, buyAdTime } from "./campaigns";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
@@ -1173,7 +1174,17 @@ export function createDrivesModule(
         if (!mine.size) {
           runtime.byPerson.delete(personId);
           runtime.predicted.delete(personId);
-        } else runtime.predicted.set(personId, predict(api, actor, refresh));
+        } else if (bookkeeping() || personId === api.state.playerId)
+          // The scored "why" behind a drive act is kept for the player, and
+          // for everyone only when bookkeeping is on (Keep it simple): a full
+          // choice scored daily for every drive holder grew with the number
+          // of holders, each year slower than the last.
+          runtime.predicted.set(personId, predict(api, actor, refresh));
+        else {
+          // Their needs are still brought up to today, as the scoring did.
+          refresh(actor as PersonState);
+          runtime.predicted.delete(personId);
+        }
       }
     },
     onEvent(api, event, learnedBy) {
@@ -1231,16 +1242,25 @@ export function createDrivesModule(
     },
     offerProviders: {
       "drive-confidant": (api, actor, action) => {
+        // Every confidant of one drive scores the same and ties go to the
+        // lowest id, so only that one is offered: the choice is unchanged
+        // and a person with many acquaintances scores one offer, not dozens.
         const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action)) {
-          if (!drive.shareable) continue;
-          for (const id of [
-            ...new Set([...actor.familyIds, ...actor.knownIds]),
-          ].sort()) {
-            if (drive.told.has(id) || id === actor.id) continue;
-            if (!api.state.people.get(id)?.alive) continue;
-            out.push(driveOffer(api, action, id, drive));
-          }
+        const serving = servingDrives(api, actor, action).filter(
+          (drive) => drive.shareable,
+        );
+        if (!serving.length) return out;
+        const ids = [
+          ...new Set([...actor.familyIds, ...actor.knownIds]),
+        ].sort();
+        for (const drive of serving) {
+          const id = ids.find(
+            (id) =>
+              !drive.told.has(id) &&
+              id !== actor.id &&
+              api.state.people.get(id)?.alive,
+          );
+          if (id) out.push(driveOffer(api, action, id, drive));
         }
         return out;
       },

@@ -77,6 +77,10 @@ export interface StafferRow {
   readonly reasons?: Readonly<Record<string, number>>;
   /** The records the reasons read: where they live, the family link, a counted record filled in at hire. */
   readonly reasonRecordIds?: readonly string[];
+  /** The post's job on the government's payroll. */
+  readonly jobId?: string;
+  /** The aide this hire replaces, who died or left the post (owner, Oct 14: every role is refilled). */
+  readonly replacesStafferId?: string;
 }
 
 export interface WorkRecord {
@@ -553,6 +557,13 @@ export function hireStaff(
     : null;
   // stopgapId: SG-GOV-staff-unpaid
   if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
+  // The first of the official's aides who died or left the post and has no successor yet.
+  const replaced = new Set(
+    staffOf(api, input.officialId).map((r) => r.replacesStafferId),
+  );
+  const replaces = staffOf(api, input.officialId).find(
+    (r) => !serving(api, r) && !replaced.has(r.id),
+  );
   const row: StafferRow = {
     id: `staffer:${input.officialId}:${input.personId}`,
     officialId: input.officialId,
@@ -570,6 +581,8 @@ export function hireStaff(
       ...(candidate.familyLinkId ? [candidate.familyLinkId] : []),
       ...(candidate.counted ? [`counted:${person.householdId}`] : []),
     ],
+    ...(jobId ? { jobId } : {}),
+    ...(replaces ? { replacesStafferId: replaces.id } : {}),
   };
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
@@ -615,6 +628,22 @@ export function staffOf(
   return table(api, "staff").query("byOfficial", [
     officialId,
   ]) as unknown as StafferRow[];
+}
+
+/** An aide serves while alive and still in the post's job. */
+function serving(api: CoreAPI, row: StafferRow): boolean {
+  const person = api.state.people.get(row.personId);
+  return (
+    !!person?.alive && (row.jobId === undefined || person.jobId === row.jobId)
+  );
+}
+
+/** The official's aides who serve now; one who died or left is replaced. */
+export function servingStaffOf(
+  api: CoreAPI,
+  officialId: string,
+): readonly StafferRow[] {
+  return staffOf(api, officialId).filter((row) => serving(api, row));
 }
 
 /** How well a staffer does a task on a question, and the parts behind it. */
@@ -802,7 +831,7 @@ export function staffDecision(
   api: CoreAPI,
   officialId: string,
 ): { stafferId: string; help: boolean; work: WorkRecord } | null {
-  const staffer = [...staffOf(api, officialId)].sort(
+  const staffer = [...servingStaffOf(api, officialId)].sort(
     (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
   )[0];
   if (!staffer) return null;
@@ -870,7 +899,8 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     const official = api.state.people.get(officialId);
     if (!official?.alive) continue;
     if (
-      staffOf(api, officialId).length >= campaignParameter("staffPerOfficial")
+      servingStaffOf(api, officialId).length >=
+      campaignParameter("staffPerOfficial")
     )
       continue;
     if (
@@ -923,11 +953,10 @@ function briefBeforeVote(api: CoreAPI, billId: string): void {
   if (!bill) return;
   for (const term of members(api, bill.bodyOfficeId)) {
     if (!term.personId) continue;
-    const staffer = [...staffOf(api, term.personId)].sort(
+    const staffer = [...servingStaffOf(api, term.personId)].sort(
       (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
     )[0];
-    if (staffer && api.state.people.get(staffer.personId)?.alive)
-      briefOnBill(api, staffer.id, billId);
+    if (staffer) briefOnBill(api, staffer.id, billId);
   }
 }
 

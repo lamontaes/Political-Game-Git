@@ -21,7 +21,7 @@ import { electionsParameter } from "../elections-calendar";
 import { lifePlaceByKey } from "../../simulation/life-places";
 import { campaignParameter } from "../campaign-views";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
-import type { PolicyHandler } from "../modules/law-effects";
+import type { PolicyHandler } from "./host";
 import {
   ageOn,
   applyRecords,
