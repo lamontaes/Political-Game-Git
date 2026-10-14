@@ -466,21 +466,31 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     );
     for (const [index, seat] of seats.entries()) {
       const holder = residents[index];
-      if (!holder) break;
-      taken.add(holder.person.id);
+      if (holder) taken.add(holder.person.id);
+      // A town with too few named residents for every seat has a named
+      // official in the rest, as a vacancy with no resident to fill it does.
       pastTerms(
         api,
         worldSeed,
         office,
         seat,
-        seatResident(
-          api,
-          office,
-          seat,
-          holder.person.id,
-          date,
-          "in office at the opening",
-        ),
+        holder
+          ? seatResident(
+              api,
+              office,
+              seat,
+              holder.person.id,
+              date,
+              "in office at the opening",
+            )
+          : seatNamedOfficial(
+              api,
+              `${worldSeed}:${date}`,
+              office,
+              seat,
+              date,
+              "in office at the opening",
+            ),
       );
     }
   }
