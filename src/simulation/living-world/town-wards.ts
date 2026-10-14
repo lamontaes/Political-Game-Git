@@ -1,6 +1,6 @@
 import { applyWardCommissionLandings } from "../law-consequences/modules/election-ward-landings";
 import methods from "../../../data/research/local-government/council-election-methods.json" with { type: "json" };
-import precinctPopulation from "../../districts/place-precinct-population.generated.json" with { type: "json" };
+import { groupedJsonTable, lazyValue } from "../../core2/reference/lazy-data";
 import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { recordsWithFieldValue } from "../history-index";
@@ -571,10 +571,25 @@ interface PrecinctPopulationCatalog {
     >
   >;
 }
-const precinctCatalog =
-  precinctPopulation as unknown as PrecinctPopulationCatalog;
-if (precinctCatalog.format !== "ocd-place-precinct-population/v1")
-  throw new Error("Unrecognized voting-precinct population source.");
+// Read on first use, only for the states a world asks about.
+const precinctTable = groupedJsonTable(
+  new URL(
+    "../../districts/place-precinct-population.generated.json",
+    import.meta.url,
+  ),
+  ["populations"],
+);
+const precinctPopulations =
+  precinctTable.section<PrecinctPopulationCatalog["populations"][string]>(
+    "populations",
+  );
+const precinctCatalog = lazyValue(() => {
+  const catalog =
+    precinctTable.rest<Omit<PrecinctPopulationCatalog, "populations">>();
+  if (catalog.format !== "ocd-place-precinct-population/v1")
+    throw new Error("Unrecognized voting-precinct population source.");
+  return catalog;
+});
 const precinctStateCodes = countyReadings.municipalCodes as Readonly<
   Record<string, { readonly stateFips: string }>
 >;
@@ -665,8 +680,9 @@ export function votingPrecinctPlan(
   if (!place || !world.jurisdictions[townId])
     throw new Error("Precinct membership requires a recorded home place.");
   const placeGeoid = place.sourceGeoid ?? null;
+  precinctCatalog();
   const recorded = placeGeoid
-    ? precinctCatalog.populations[`${placeGeoid}:voting-precinct`]
+    ? precinctPopulations(`${placeGeoid}:voting-precinct`)
     : undefined;
   const rows = Object.entries(recorded ?? {})
     .filter(([, count]) => Number.isSafeInteger(count) && count > 0)
@@ -686,8 +702,10 @@ export function votingPrecinctPlan(
   const stateFips = stateUsps
     ? precinctStateCodes[stateUsps]?.stateFips
     : undefined;
-  const own = stateFips ? precinctCatalog.stateAverages[stateFips] : undefined;
-  const donors = Object.entries(precinctCatalog.stateAverages).filter(
+  const own = stateFips
+    ? precinctCatalog().stateAverages[stateFips]
+    : undefined;
+  const donors = Object.entries(precinctCatalog().stateAverages).filter(
     ([, value]) =>
       value.population !== null &&
       value.vtdCount !== null &&

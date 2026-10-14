@@ -50,6 +50,11 @@ export function regionOfPlace(placeId: string): string | undefined {
     ?.id;
 }
 
+/** The month a year before `month` (YYYY-MM): months after it are kept in full. */
+function yearBefore(month: string): string {
+  return `${Number(month.slice(0, 4)) - 1}${month.slice(4)}`;
+}
+
 export function openRegional(
   api: CoreAPI,
   national: Readonly<MacroMonth>,
@@ -63,9 +68,15 @@ export function openRegional(
     store(api)
       .table("regions")
       .put({ ...row });
-  // The coarse years' real regional months (M1-14), then the opening month the regions step from.
+  // The coarse years' real regional months (M1-14), then the opening month
+  // the regions step from. Retention (MEMORY-FLAT): the year before the
+  // opening in full, and only each year's December before that.
+  const kept = yearBefore(national.month);
   for (const month of history)
-    if (month.month !== national.month)
+    if (
+      month.month !== national.month &&
+      (month.month > kept || month.month.endsWith("-12"))
+    )
       for (const row of openingRegionMonths(month, p))
         store(api)
           .table("months")
@@ -102,6 +113,16 @@ export function stepRegional(
     stepped.push(row);
     months.put({ ...row });
   }
+  // Retention (MEMORY-FLAT): the last twelve months in full; before them,
+  // each year's December and the opening month (pay and jobs are read
+  // against it).
+  const gone = yearBefore(now.month);
+  const opening = (
+    api.moduleState("macro").table("state").get("macro:state") as
+      { openingMonth?: string } | undefined
+  )?.openingMonth;
+  if (!gone.endsWith("-12") && gone !== opening)
+    for (const row of months.query("byMonth", [gone])) months.remove(row.id);
   // Each state's monthly jobs report is a public record other engines (the news) can read.
   for (const fips of new Set(stepped.map((row) => row.stateFips))) {
     const rows = stepped.filter((row) => row.stateFips === fips);
