@@ -1124,6 +1124,125 @@ export function billSections(
   });
 }
 
+/**
+ * When a bill takes effect if it became law today and named no date of its
+ * own: a federal act on enactment (the general rule: Gozlon-Peretz v. United
+ * States, 498 U.S. 395 (1991)), a state act by its state's researched rule,
+ * and an ordinance a set number of days after adoption.
+ */
+export function effectiveRule(
+  api: CoreAPI,
+  bill: BillRow,
+): {
+  readonly jurisdiction: string;
+  readonly level: "federal" | "state" | "county" | "city";
+  readonly federal: boolean;
+  readonly state: boolean;
+  readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
+  readonly days: number | null;
+  readonly date: string;
+  readonly cite: string;
+} {
+  const chain = lawChain(api);
+  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
+  const state = !federal && isState(api, bill);
+  const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const jurisdiction = federal
+    ? "US"
+    : state
+      ? chain.stateKey
+      : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
+  const level = federal
+    ? "federal"
+    : state
+      ? "state"
+      : county
+        ? "county"
+        : "city";
+  const base = { jurisdiction, level, federal, state } as const;
+  if (federal)
+    return {
+      ...base,
+      kind: "on-enactment",
+      days: null,
+      date: api.state.date,
+      cite: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
+    };
+  if (state) {
+    const stateDate = stateActEffectiveDate(chain.stateKey, api.state.date);
+    // Every state's rule is data; a state act with no rule is a data gap to
+    // fix, never a silent ordinance delay.
+    if (!stateDate)
+      throw new Error(
+        `No effective-date rule for ${chain.stateKey} acts (state-effective-dates.json).`,
+      );
+    return {
+      ...base,
+      kind: "state-rule",
+      days: null,
+      date: stateDate.date,
+      cite: stateDate.cite,
+    };
+  }
+  const days = campaignParameter("ordinanceEffectiveDays");
+  return {
+    ...base,
+    kind: "days-after-adoption",
+    days,
+    date: new Date(
+      Date.parse(`${api.state.date}T00:00:00Z`) + days * 86_400_000,
+    )
+      .toISOString()
+      .slice(0, 10),
+    cite: "campaigns parameter ordinanceEffectiveDays",
+  };
+}
+
+/**
+ * A bill as its body writes it, for the paper to word: its number, the
+ * enacting clause, its sections, and, for an ordinance, the closing section
+ * on when it takes effect (an ordinance states it; an act falls back on its
+ * government's rule). Never the federal short-title form for a local measure.
+ */
+export function billForm(
+  api: CoreAPI,
+  bill: BillRow,
+): {
+  readonly number: string;
+  readonly kind: BillFormKind;
+  readonly enactingClause: string;
+  readonly enactingSource: string;
+  readonly sections: readonly BillSection[];
+  readonly effectiveSection: {
+    readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
+    readonly days: number | null;
+    /** A date every section names, or null when they fall back on the rule. */
+    readonly date: string | null;
+    readonly cite: string;
+  } | null;
+} {
+  const sections = billSections(api, bill);
+  const dates = new Set(bill.provisions.map((p) => p.effectiveDate ?? null));
+  const named = dates.size === 1 ? [...dates][0]! : null;
+  const rule =
+    bill.form.kind === "ordinance" || named ? effectiveRule(api, bill) : null;
+  return {
+    number: bill.number,
+    kind: bill.form.kind,
+    enactingClause: bill.form.enactingClause,
+    enactingSource: bill.form.enactingSource,
+    sections,
+    effectiveSection: rule
+      ? {
+          kind: rule.kind,
+          days: named ? null : rule.days,
+          date: named,
+          cite: rule.cite,
+        }
+      : null,
+  };
+}
+
 /** Draft a bill: numbered, with its cost estimate and authority check. */
 export function draftBill(
   api: CoreAPI,
@@ -2838,46 +2957,13 @@ function enact(
       : {}),
   };
   const terms = Object.keys(recorded).length ? recorded : undefined;
-  const chain = lawChain(api);
-  // A federal act takes effect when it becomes law unless it names a date
-  // (the general rule: Gozlon-Peretz v. United States, 498 U.S. 395 (1991)).
-  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
-  const state = !federal && isState(api, bill);
-  const county = !federal && !state ? countyOfBody(api, bill) : null;
-  const jurisdiction = federal
-    ? "US"
-    : state
-      ? chain.stateKey
-      : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
-  const level = federal
-    ? "federal"
-    : state
-      ? "state"
-      : county
-        ? "county"
-        : "city";
-  const stateDate = state
-    ? stateActEffectiveDate(chain.stateKey, api.state.date)
-    : null;
-  // Every state's rule is data; a state act with no rule is a data gap to
-  // fix, never a silent ordinance delay.
-  if (state && !stateDate)
-    throw new Error(
-      `No effective-date rule for ${chain.stateKey} acts (state-effective-dates.json).`,
-    );
-  const defaultDate =
-    (federal ? api.state.date : null) ??
-    stateDate?.date ??
-    new Date(
-      Date.parse(`${api.state.date}T00:00:00Z`) +
-        campaignParameter("ordinanceEffectiveDays") * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10);
+  const rule = effectiveRule(api, bill);
+  const { jurisdiction, level, federal, state } = rule;
+  const defaultDate = rule.date;
   const citation = federal
     ? `Public Law (bill ${bill.number})`
     : state
-      ? `${bill.number}, enacted${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
+      ? `${bill.number}, enacted (effective by ${rule.cite})`
       : `Ordinance ${bill.number}`;
   for (const provision of bill.provisions) {
     const effectiveDate = provision.effectiveDate ?? defaultDate;
