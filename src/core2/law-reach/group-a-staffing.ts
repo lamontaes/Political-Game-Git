@@ -104,9 +104,14 @@ export const staffing: PolicyHandler = (api, change) => {
         count: Math.round(row.positions),
       },
     ]);
-    if (employers.length)
-      api.moduleCalendar(REACH_A_MODULE_ID).schedule({
-        key: `staffing:${row.id}:${api.state.date}`,
+    // Two laws changing the same employer's staffing on one day (a city's
+    // and a county's budgets adopted together) share one hiring round: the
+    // round reads the latest staffing row when it runs.
+    const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
+    const key = `staffing:${row.id}:${api.state.date}`;
+    if (employers.length && !calendar.get(key))
+      calendar.schedule({
+        key,
         date: tomorrow(api.state.date),
         kind: STAFFING_KIND,
         source: {
