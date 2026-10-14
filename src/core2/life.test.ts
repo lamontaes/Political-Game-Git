@@ -86,6 +86,9 @@ function input(
   };
 }
 
+/** A mild work ethic: enough to work when calm, little enough for stress or need to tip the choice. */
+const mildEffort = { [voluntaryEffort]: p("traitScale") / 20 };
+
 function workers(
   ids: readonly string[],
   overrides: Partial<PersonInput> = {},
@@ -295,7 +298,10 @@ describe("shared actor chooser and committed effects", () => {
   });
 
   it("re-evaluates resource pressure after wages and commits a different recovery consequence", () => {
-    const core = createLifeCore({ ...workers([actorId]), playerId: actorId });
+    const core = createLifeCore({
+      ...workers([actorId], { traits: mildEffort }),
+      playerId: actorId,
+    });
     const openingMoney = money(core);
     advanceCore(core, nextDay);
     const actor = core.people.get(actorId)!;
@@ -355,9 +361,10 @@ describe("shared actor chooser and committed effects", () => {
     expect(high.people.get(actorId)!.liquidMinor).toBeGreaterThan(
       low.people.get(actorId)!.liquidMinor,
     );
-    // P15 part 2b: the high-effort worker also rests in what is left of the
-    // evening after the shift, so both end the day equally rested.
-    expect(low.people.get(actorId)!.affect.stress).toBe(
+    // Since personality weighs as much as needs (#4152), a full-scale work
+    // ethic skips the evening rest after its shift: the low-effort worker ends
+    // the day at least as rested.
+    expect(low.people.get(actorId)!.affect.stress).toBeLessThanOrEqual(
       high.people.get(actorId)!.affect.stress,
     );
     expect(money(high)).toBe(openingHigh);
@@ -366,7 +373,12 @@ describe("shared actor chooser and committed effects", () => {
 
   it("lets mood and stress change the chosen act through action-specific recorded emotion contributions", () => {
     const decide = (mood: number, stress: number) => {
-      const core = createLifeCore({ ...workers([actorId]), playerId: actorId });
+      // A mild work ethic: emotion tips a near-even choice (a full-scale trait
+      // outweighs any mood or stress since personality weighs as much as needs).
+      const core = createLifeCore({
+        ...workers([actorId], { traits: mildEffort }),
+        playerId: actorId,
+      });
       const actor = core.people.get(actorId)!;
       coreAPI(core).updatePerson(actorId, {
         affect: { ...actor.affect, mood, stress },
