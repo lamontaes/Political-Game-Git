@@ -11,6 +11,8 @@
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { outsideGovernment } from "./outside-governments";
+import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
+import { estateTaxes, inheritanceTax, type DeathTax } from "./laws-death-taxes";
 import type { CoreAPI, PersonId, PersonState } from "./types";
 
 export const ESTATES = data;
@@ -69,6 +71,28 @@ function escheatTo(
   return outsideGovernment(api, stateKey);
 }
 
+/** The decedent's state: where they are recorded, or the town's own state. */
+function stateOf(api: CoreAPI, person: Readonly<PersonState>): string | null {
+  if (/^US-[A-Z]{2}$/.test(person.placeId)) return person.placeId;
+  const own = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governments(api).find((row) => row.level === "state")
+    : undefined;
+  if (own) return own.id;
+  return api.state.modules.has(LAWS_MODULE_ID) ? lawChain(api).stateKey : null;
+}
+
+/** The treasury a tax is paid to: the government's own where this world keeps it, else an outside government. */
+function treasuryOf(api: CoreAPI, jurisdiction: string): string {
+  const own = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governments(api).find((row) =>
+        jurisdiction === "US"
+          ? row.level === "federal"
+          : row.id === jurisdiction,
+      )
+    : undefined;
+  return own?.organizationId ?? outsideGovernment(api, jurisdiction);
+}
+
 /** Pass a dead person's cash to their heirs, or to the state. Returns who received what. */
 export function settleEstate(
   api: CoreAPI,
@@ -89,12 +113,54 @@ export function settleEstate(
   const takers = heirs.length ? heirs : treasury ? [treasury] : [];
   if (!takers.length) return [];
   const paid: { toId: string; amountMinor: number }[] = [];
-  const share = Math.floor(estate / takers.length);
+  // Before the heirs, the estate pays the estate taxes in force (an heirless
+  // estate goes whole to the state). Each heir's share then pays their
+  // state's inheritance tax by their relation to the decedent.
+  const stateKey = stateOf(api, person);
+  const taxes: DeathTax[] = [];
+  const payTax = (tax: DeathTax, heirId?: string) => {
+    const owedBy = heirId ? { ...tax, heirId } : tax;
+    accounts.transfer({
+      id: `estate:${personId}:${tax.series}:${tax.jurisdiction}${heirId ? `:${heirId}` : ""}`,
+      from,
+      to: accounts.main(treasuryOf(api, tax.jurisdiction)),
+      amountMinor: tax.amountMinor,
+      reasonKey: `estate.${tax.series}`,
+      source: {
+        tag: "SOURCED",
+        asOf: api.state.date,
+        citation: `Estate of ${personId} after ${deathEventId}: ${tax.lawId}`,
+      },
+    });
+    taxes.push(owedBy);
+    paid.push({
+      toId: treasuryOf(api, tax.jurisdiction),
+      amountMinor: tax.amountMinor,
+    });
+  };
+  let net = estate;
+  if (heirs.length)
+    for (const tax of estateTaxes(api, stateKey, estate)) {
+      const amountMinor = Math.min(tax.amountMinor, net);
+      if (amountMinor <= api.parameter("zero")) continue;
+      payTax({ ...tax, amountMinor });
+      net -= amountMinor;
+    }
+  const relations = relationsOf(person);
+  const share = Math.floor(net / takers.length);
   takers.forEach((toId, index) => {
     // The first taker also receives the cents an equal split leaves over.
-    const amountMinor = index
+    let amountMinor = index
       ? share
-      : estate - share * (takers.length - api.parameter("one"));
+      : net - share * (takers.length - api.parameter("one"));
+    if (amountMinor <= api.parameter("zero")) return;
+    const owed = heirs.length
+      ? inheritanceTax(api, stateKey, relations.get(toId) ?? "", amountMinor)
+      : null;
+    if (owed) {
+      payTax(owed, toId);
+      amountMinor -= owed.amountMinor;
+    }
     if (amountMinor <= api.parameter("zero")) return;
     accounts.transfer({
       id: `estate:${personId}:${toId}`,
@@ -119,6 +185,67 @@ export function settleEstate(
             },
     });
     paid.push({ toId, amountMinor });
+    if (heirs.length) noticeTaxes(api, personId, toId, amountMinor, taxes);
   });
   return paid;
+}
+
+/**
+ * The estate's accounting reaches each heir: what passed to them and the
+ * taxes taken first, each naming its law. An heir whose share a tax took
+ * from now ties that loss to the law, citing the accounting, and wants it
+ * repealed (the views engine reads it).
+ */
+function noticeTaxes(
+  api: CoreAPI,
+  personId: PersonId,
+  heirId: PersonId,
+  receivedMinor: number,
+  taxes: readonly DeathTax[],
+): void {
+  const heir = api.state.people.get(heirId);
+  const mine = taxes.filter(
+    (t) => t.series === "estate-tax" || t.heirId === heirId,
+  );
+  if (!heir?.alive || !mine.length) return;
+  const noticeId = `event:estate.accounting:${personId}:${heirId}`;
+  const source = {
+    tag: "SOURCED" as const,
+    asOf: api.state.date,
+    citation: `Accounting of the estate of ${personId}`,
+  };
+  api.emit({
+    id: noticeId,
+    date: api.state.date,
+    kind: "estate.accounting",
+    personIds: [heirId],
+    placeId: heir.placeId,
+    facts: {
+      decedentId: personId,
+      receivedMinor: String(receivedMinor),
+      taxLawIds: mine.map((t) => t.lawId).join(","),
+    },
+    publicRecord: false,
+    source,
+  });
+  for (const tax of mine)
+    api.emit({
+      id: `event:law.effect-learned:${personId}:${heirId}:${tax.lawId}`,
+      date: api.state.date,
+      kind: "law.effect-learned",
+      personIds: [heirId],
+      placeId: heir.placeId,
+      topic: tax.series,
+      desiredChange: "repeal",
+      facts: {
+        lawId: tax.lawId,
+        learnedFrom: `event:${noticeId}:experienced`,
+        amountMinor: String(tax.amountMinor),
+      },
+      publicRecord: false,
+      source: {
+        ...source,
+        citation: `Learned from the accounting of the estate of ${personId} that ${tax.lawId} took from the estate`,
+      },
+    });
 }
