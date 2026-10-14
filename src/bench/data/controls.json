@@ -18,7 +18,9 @@
     "vote": "Vote",
     "sign": "Sign",
     "veto": "Veto",
-    "case": "Case"
+    "case": "Case",
+    "speak": "Spoke",
+    "state-of-the-city": "State of the city"
   },
   "endedBy": {
     "start": "Shift starts",
@@ -103,7 +105,9 @@
     "for": "For",
     "against": "Against",
     "sign": "Signed",
-    "veto": "Vetoed"
+    "veto": "Vetoed",
+    "speakFor": "Speak for",
+    "speakAgainst": "Speak against"
   },
   "desk": {
     "sign": "Sign",

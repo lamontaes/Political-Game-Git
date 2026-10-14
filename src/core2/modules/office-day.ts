@@ -26,6 +26,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
+import { signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { governments } from "./budgets";
 import { notePublicPay } from "../budgets-treasury";
@@ -503,6 +504,39 @@ export function takeUpItem(
     takenUp: [...row.takenUp, billId],
   } as unknown as ModuleRow);
   return bill;
+}
+
+/**
+ * The player speaks on an item before it is taken up, for or against; every
+ * member hears it at the vote, as they hear public comment (the meetings
+ * engine).
+ */
+export function speakOnItem(
+  api: CoreAPI,
+  meetingIdValue: string,
+  billId: string,
+  position: 1 | -1,
+): void {
+  const row = meetingOf(api, meetingIdValue);
+  if (
+    !row ||
+    row.status === "adjourned" ||
+    !row.playerPresent ||
+    row.date !== api.state.date ||
+    !row.agenda.includes(billId) ||
+    row.takenUp.includes(billId)
+  )
+    throw new Error("That item is not waiting on this agenda.");
+  const player = playerOf(api)!;
+  const remark = signUpToSpeak(api, { billId, personId: player, position });
+  keepAct(api, {
+    personId: player,
+    kind: "speak",
+    how: "did",
+    recordId: remark.id,
+    position,
+    detail: position > 0 ? "for" : "against",
+  });
 }
 
 /** The chair adjourns: any item left is voted with the character's own votes, and the clock moves on. */

@@ -578,21 +578,41 @@ function inMeeting() {
             item,
             item.takenUp
               ? []
-              : ["yes", "no", "abstain", "own"].map((vote) => {
-                  const b = el("button", {
-                    className: "action",
-                    type: "button",
-                    textContent: words[vote] ?? vote,
-                  });
-                  b.addEventListener("click", async () =>
-                    draw(
-                      await post(
-                        `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote })}`,
+              : [
+                  ...["for", "against"].map((position) => {
+                    const b = el("button", {
+                      className: "action",
+                      type: "button",
+                      textContent:
+                        words[
+                          position === "for" ? "speakFor" : "speakAgainst"
+                        ] ?? position,
+                    });
+                    b.addEventListener("click", async () =>
+                      draw(
+                        await post(
+                          `/api/meeting/speak?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, position })}`,
+                        ),
                       ),
-                    ),
-                  );
-                  return b;
-                }),
+                    );
+                    return b;
+                  }),
+                  ...["yes", "no", "abstain", "own"].map((vote) => {
+                    const b = el("button", {
+                      className: "action",
+                      type: "button",
+                      textContent: words[vote] ?? vote,
+                    });
+                    b.addEventListener("click", async () =>
+                      draw(
+                        await post(
+                          `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote })}`,
+                        ),
+                      ),
+                    );
+                    return b;
+                  }),
+                ],
           ),
         ),
       );

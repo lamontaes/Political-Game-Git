@@ -17,6 +17,7 @@ import {
   officeActsOf,
   officeJobsOf,
   setStops,
+  speakOnItem,
   stopsOf,
   stopKinds,
   takeUpItem,
@@ -80,6 +81,15 @@ export function meetingItem(
     billId,
     vote as "yes" | "no" | "abstain" | "own",
   );
+}
+
+export function meetingSpeak(
+  core: CoreState,
+  meetingId: string,
+  billId: string,
+  position: string,
+) {
+  speakOnItem(coreAPI(core), meetingId, billId, position === "for" ? 1 : -1);
 }
 
 export function meetingAdjourn(core: CoreState, meetingId: string) {

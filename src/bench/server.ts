@@ -24,6 +24,7 @@ import {
   deskView,
   meetingAdjourn,
   meetingItem,
+  meetingSpeak,
   meetingSceneView,
   officeStops,
   officeView,
@@ -499,6 +500,24 @@ const server = createServer(async (request, response) => {
         url.searchParams.get("meetingId") ?? "",
         url.searchParams.get("billId") ?? "",
         url.searchParams.get("vote") ?? "",
+      );
+      send(
+        200,
+        meetingSceneView(
+          requireCore(),
+          player.personId,
+          player.packet?.at.minuteOfDay ?? 18 * 60,
+        ),
+      );
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/meeting/speak") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      meetingSpeak(
+        requireCore(),
+        url.searchParams.get("meetingId") ?? "",
+        url.searchParams.get("billId") ?? "",
+        url.searchParams.get("position") ?? "",
       );
       send(
         200,
