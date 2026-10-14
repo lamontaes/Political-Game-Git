@@ -15,14 +15,6 @@ import { citizenShareOf } from "./electorate-places";
 import { lifePlaceByKey } from "../simulation/life-places";
 import { addDays } from "../simulation/dates";
 import type { CoreInput } from "./types";
-import { gameStartDate } from "./game-start";
-
-/** A date this many days after the game's opening date (tests once assumed January 1, 2021). */
-const daysIn = (days: number) => {
-  const at = new Date(`${gameStartDate()}T00:00:00Z`);
-  at.setUTCDate(at.getUTCDate() + days);
-  return at.toISOString().slice(0, 10);
-};
 
 // One random place from all 56, named with its seed in the test title.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
