@@ -139,6 +139,7 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     prepared: (api, personId, actId) => preparedFor(api, personId, actId),
     clearPrepared: (api, personId, actId) =>
       table(api, "prepared").remove(`${personId}|${actId}`),
+    given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
   }) as unknown as CoreModule["offerProviders"],
   effectHandlers: officeActHandlers({
     officesOf: (api, personId) =>
@@ -147,6 +148,7 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     prepared: (api, personId, actId) => preparedFor(api, personId, actId),
     clearPrepared: (api, personId, actId) =>
       table(api, "prepared").remove(`${personId}|${actId}`),
+    given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
   }) as unknown as CoreModule["effectHandlers"],
   onDay(api) {
     // New holders are seated the day the roster grows; ended terms and pay
@@ -237,20 +239,21 @@ function scheduleMeeting(api: CoreAPI, officeId: string, after: string): void {
   const notice = dayOffset(next.date, -officeDayParameter("agendaNoticeDays"));
   const calendar = api.moduleCalendar(OFFICE_DAY_MODULE_ID);
   const id = meetingId(officeId, next.date);
-  calendar.schedule({
-    key: `agenda:${id}`,
-    date: notice > api.state.date ? notice : api.state.date,
-    kind: "agenda",
+  const work = {
     source: next.rule.source,
     sourceRecordIds: [officeId, next.date],
-  });
-  calendar.schedule({
-    key: id,
-    date: next.date,
-    kind: "meeting",
-    source: next.rule.source,
-    sourceRecordIds: [officeId, next.date],
-  });
+  };
+  // The agenda's notice day has passed (the world opened inside it): it is
+  // posted now.
+  if (notice <= api.state.date) postAgenda(api, work);
+  else
+    calendar.schedule({
+      ...work,
+      key: `agenda:${id}`,
+      date: notice,
+      kind: "agenda",
+    });
+  calendar.schedule({ ...work, key: id, date: next.date, kind: "meeting" });
 }
 
 const meetingId = (officeId: string, date: string) =>
@@ -323,7 +326,10 @@ function officeDayCalendar(
  * The agenda is posted: the bills placed for this meeting. A member the
  * player plays who stops for this meeting is held at its hour.
  */
-function postAgenda(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+function postAgenda(
+  api: CoreAPI,
+  work: Readonly<Pick<ModuleCalendarWork, "sourceRecordIds">>,
+): void {
   const [officeId, date] = work.sourceRecordIds as [string, string];
   const rule = nextMeeting(api, officeId, dayOffset(date, -1));
   if (!rule || rule.date !== date) return;
@@ -855,7 +861,12 @@ export function officeJobsOf(api: CoreAPI, personId: string): OfficeJobRow[] {
 export function prepareAct(
   api: CoreAPI,
   personId: string,
-  actId: "office-hours" | "town-hall" | "interview" | "talk-to-colleague",
+  actId:
+    | "office-hours"
+    | "town-hall"
+    | "interview"
+    | "talk-to-colleague"
+    | "state-of-the-city",
   prepared: Prepared,
 ): void {
   table(api, "prepared").put({
@@ -872,5 +883,16 @@ function preparedFor(
   return (
     (table(api, "prepared").get(`${personId}|${actId}`) as unknown as
       Prepared | undefined) ?? null
+  );
+}
+
+function gaveInYear(
+  api: CoreAPI,
+  personId: string,
+  kind: string,
+  year: string,
+): boolean {
+  return officeActsOf(api, personId).some(
+    (row) => row.kind === kind && row.date.startsWith(year),
   );
 }

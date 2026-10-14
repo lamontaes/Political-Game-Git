@@ -22,7 +22,6 @@ import type {
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
 import { decisionLean } from "./trait-decisions";
-import { campaignParameter } from "./campaign-views";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { casesFor, handleCase } from "./modules/constituent-cases";
 import { holdTownHall } from "./modules/meetings";
@@ -30,12 +29,21 @@ import {
   answerInterview,
   candidateAnswers,
   followersOf,
+  interviewsFor,
   officeholderSpeaker,
   outletsHere,
   requestInterview,
 } from "./modules/press";
 import { appointmentsIn } from "./modules/executive";
 import { lawChain } from "./modules/laws";
+import { deliverSpeech } from "./modules/speech";
+import {
+  campaignParameter,
+  personLean,
+  personStance,
+  questionAxis,
+} from "./campaign-views";
+import { POLICY_QUESTIONS } from "./policy-answers";
 import {
   learnStake,
   LEGISLATURE_MODULE_ID,
@@ -83,6 +91,11 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     ["cooperate", "engage"],
     DEPARTMENT_HEAD,
   ),
+  act("state-of-the-city", "stateOfCityActHours", [
+    "speak-out",
+    "engage",
+    "take-risk",
+  ]),
   act(
     "talk-to-colleague",
     "colleagueActHours",
@@ -121,6 +134,20 @@ export function officeDayData(base: CoreData): CoreData {
         "Typical local interview length.",
         [0.5, 1.5],
       ),
+      stateOfCityActHours: HOURS(
+        1,
+        "A mayor's or county executive's annual state of the city or county address runs about forty-five minutes to an hour (published addresses of mid-sized and large cities).",
+        "Typical annual address length.",
+        [0.5, 1.5],
+      ),
+      stateOfCityLastMonth: {
+        value: 4,
+        tag: "ESTIMATED",
+        citation:
+          "Mayors and county executives commonly deliver the annual state of the city or county address between January and April (published addresses of U.S. cities; National League of Cities' annual review of mayors' state of the city speeches covers addresses given in the first months of the year).",
+        estimatedFrom: "The season most annual addresses fall in.",
+        spread: [2, 6],
+      },
       colleagueActHours: HOURS(
         0.5,
         "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
@@ -163,6 +190,8 @@ export interface OfficeActHost {
   prepared(api: CoreAPI, personId: string, actId: string): Prepared | null;
   /** The prepared content is used once. */
   clearPrepared(api: CoreAPI, personId: string, actId: string): void;
+  /** Whether the person already took this act in the year given. */
+  given(api: CoreAPI, personId: string, kind: string, year: string): boolean;
 }
 
 export interface Prepared {
@@ -170,6 +199,11 @@ export interface Prepared {
   readonly answers?: Readonly<Record<string, number | null>>;
   /** Decisions by case id for office hours. */
   readonly cases?: Readonly<Record<string, "help" | "decline">>;
+  /** The state of the city's subject: a policy question and the change the speaker argues for. */
+  readonly topic?: {
+    readonly question: string;
+    readonly desiredChange: "enact" | "repeal";
+  };
   /** A deal to offer a colleague, by member, when talking about the player's bill. */
   readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
 }
@@ -183,7 +217,8 @@ export function officeActProviders(host: OfficeActHost) {
       actor: Readonly<PersonState>,
       action: ActionDefinition,
     ): ActOffer[] =>
-      holds(api, actor)
+      holds(api, actor) &&
+      (action.id !== "state-of-the-city" || addressDue(api, host, actor.id))
         ? [
             {
               definition: action,
@@ -230,6 +265,34 @@ export function officeActProviders(host: OfficeActHost) {
       }));
     },
   };
+}
+
+/** The executives who give an annual address. */
+const EXECUTIVE_KINDS = new Set(["mayor", "county-executive"]);
+
+/** A mayor or county executive in the address's season who has not given it this year. */
+function addressDue(
+  api: CoreAPI,
+  host: OfficeActHost,
+  personId: string,
+): boolean {
+  if (
+    Number(api.state.date.slice(5, 7)) > api.parameter("stateOfCityLastMonth")
+  )
+    return false;
+  const offices = api.moduleState("core2-offices-v1").table("offices");
+  const executive = host
+    .officesOf(api, personId)
+    .some((id) =>
+      EXECUTIVE_KINDS.has(
+        (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
+          "",
+      ),
+    );
+  return (
+    executive &&
+    !host.given(api, personId, "state-of-the-city", api.state.date.slice(0, 4))
+  );
 }
 
 /** The actor's own bills drafted and waiting for a vote. */
@@ -306,12 +369,18 @@ export function officeActHandlers(host: OfficeActHost) {
       host.clearPrepared(api, actorId, "town-hall");
     },
     /**
-     * An interview with the outlet that reaches the most people here. The
+     * An interview with the outlet that reaches the most people here among
+     * those that have not had the official on yet. The
      * outlet decides whether it has room and interest; the answers are the
      * player's where prepared, else the official's own positions.
      */
     interview: (api: CoreAPI, actorId: string) => {
+      // The outlets that have not had them on yet, widest reach first.
+      const had = new Set(
+        interviewsFor(api, actorId).map((row) => row.outletId),
+      );
       const outlet = [...outletsHere(api)]
+        .filter((o) => !had.has(o.id))
         .map((o) => ({ o, reach: followersOf(api, o.id).length }))
         .sort(
           (a, b) => b.reach - a.reach || a.o.id.localeCompare(b.o.id),
@@ -398,6 +467,55 @@ export function officeActHandlers(host: OfficeActHost) {
             : "asked",
         });
       }
+    },
+    /**
+     * The annual address: the speaker argues for the change prepared, else
+     * for their own strongest view, to everyone who follows the town's
+     * outlets; each listener weighs it by the speech engine's own rule.
+     */
+    "state-of-the-city": (api: CoreAPI, actorId: string) => {
+      const prepared = host.prepared(api, actorId, "state-of-the-city");
+      const person = api.state.people.get(actorId);
+      if (!person) return;
+      let topic = prepared?.topic;
+      let strength: number | null = null;
+      if (!topic) {
+        const lean = personLean(api.state.people, person, 0);
+        const best = Object.keys(POLICY_QUESTIONS)
+          .filter((q) => questionAxis(q) !== 0)
+          .map((q) => ({ q, s: personStance(lean, q) }))
+          .sort(
+            (a, b) => Math.abs(b.s) - Math.abs(a.s) || a.q.localeCompare(b.q),
+          )[0];
+        if (!best || best.s === 0) return;
+        strength = best.s;
+        topic = {
+          question: best.q,
+          desiredChange: best.s > 0 ? "enact" : "repeal",
+        };
+      }
+      const audience = new Set<string>();
+      for (const outlet of outletsHere(api))
+        for (const id of followersOf(api, outlet.id))
+          if (id !== actorId) audience.add(id);
+      const id = `state-of-the-city:${actorId}:${api.state.date}`;
+      deliverSpeech(api, {
+        id,
+        speakerId: actorId,
+        placeId: lawChain(api).townPlaceId,
+        topic: topic.question,
+        desiredChange: topic.desiredChange,
+        audienceIds: [...audience].sort(),
+      });
+      host.keep(api, {
+        personId: actorId,
+        kind: "state-of-the-city",
+        how: prepared?.topic ? "did" : "own-choice",
+        recordId: id,
+        position: strength,
+        detail: `${topic.desiredChange} ${topic.question}; ${audience.size} heard it`,
+      });
+      host.clearPrepared(api, actorId, "state-of-the-city");
     },
     /** An hour with a department head: they come to know each other. */
     "meet-department-head": (

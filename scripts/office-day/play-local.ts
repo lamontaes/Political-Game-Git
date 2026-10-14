@@ -5,83 +5,97 @@
  *   node --max-old-space-size=8192 --import tsx scripts/office-day/play-local.ts council <draw-key>
  *   node --max-old-space-size=8192 --import tsx scripts/office-day/play-local.ts mayor <draw-key>
  *
- * The player controls a sitting official (dev mode's custom start), drafts a
- * bill and places it on the body's agenda, skips to three days before the
- * meeting, and then plays ten days: they vote their own bill at the meeting
- * and leave every other item, choice and desk decision to the character.
- * The output is the record: the meeting, each vote with its reasons, and
- * what the character did on its own.
+ * The player controls a sitting official from the game's start (dev mode's
+ * custom start) and plays ten days on a plan: a council member drafts a
+ * bill, skips to three days before its meeting, holds a town hall and
+ * votes their bill at the meeting; a mayor gives one interview with their
+ * own answers, leaves another to the character, and gives the state of the
+ * city. Every other choice, vote and desk decision is the character's own.
+ * The output is the record, with the ids that answer why.
  */
 import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../../src/bench/world";
 import { BenchPlayer } from "../../src/bench/player";
 import { coreAPI } from "../../src/core2/state";
+import { gameStartDate } from "../../src/core2/game-start";
 import { townSeats } from "../../src/core2/modules/offices";
 import {
+  billOf,
   draftBill,
   memberPosition,
   POLICY_QUESTIONS,
   votesOn,
-  billOf,
 } from "../../src/core2/modules/legislature";
+import { interviewsFor } from "../../src/core2/modules/press";
 import {
   adjourn,
+  deskWaiting,
+  leaveDeskToCharacter,
   meetingInProgress,
   meetingsOf,
   officeActsOf,
   officeJobsOf,
   placeOnAgenda,
+  prepareAct,
   takeUpItem,
   upcomingMeeting,
 } from "../../src/core2/modules/office-day";
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 
 const role = process.argv[2] === "mayor" ? "mayor" : "council";
-const draw = drawPlace(
-  "office-local",
-  process.argv[3] ?? `${role}-${Date.now()}`,
-);
-console.log(`# ${role}: ${draw.name} (${draw.state}), seed ${draw.seed}`);
+const key = process.argv[3] ?? `${role}-${Date.now()}`;
 const started = Date.now();
-const built = buildBenchWorld(draw.seed, "2026-10-01", {
-  placeKey: draw.key,
-  twoLevel: true,
-});
+// A random place from all 56 that has the office (a town governed by town
+// meeting has no mayor): the next draw is taken until one has it.
+let built;
+let draw;
+let seat;
+for (let attempt = 0; attempt < 6 && !seat?.holder?.personId; attempt++) {
+  draw = drawPlace("office-local", attempt ? `${key}-${attempt}` : key);
+  console.log(`# ${role}: ${draw.name} (${draw.state}), seed ${draw.seed}`);
+  built = buildBenchWorld(draw.seed, gameStartDate(), {
+    placeKey: draw.key,
+    twoLevel: true,
+  });
+  const seats = townSeats(coreAPI(built.core));
+  seat = seats.find(
+    (s) =>
+      s.office.kind === (role === "mayor" ? "mayor" : "council") &&
+      s.holder?.personId,
+  );
+  if (!seat?.holder?.personId)
+    console.log(`no sitting ${role} here; next draw`);
+}
+if (!built || !seat?.holder?.personId)
+  throw new Error(`No sitting ${role} who is a person in six draws.`);
 const { core, director } = built;
 const api = coreAPI(core);
 console.log(
-  `built in ${Date.now() - started} ms; town ${core.placeMetadata.referencePopulation} people`,
+  `built in ${Date.now() - started} ms; town ${core.placeMetadata.referencePopulation} people; ${core.date}`,
 );
-
-const seats = townSeats(api);
-const council = seats.find(
+const council = townSeats(api).find(
   (s) => s.office.kind === "council" && s.holder?.personId,
 );
-const mayorSeat = seats.find(
-  (s) => s.office.kind === "mayor" && s.holder?.personId,
-);
-const seat = role === "mayor" ? mayorSeat : council;
-if (!seat?.holder?.personId)
-  throw new Error(`No sitting ${role} who is a person here.`);
 const me = seat.holder.personId;
 const person = core.people.get(me)!;
 console.log(
   `playing ${person.givenName} ${person.familyName} (${me}), ${seat.office.title}`,
 );
 
-// A bill of the player's own: a council member sponsors on their own body;
-// a mayor brings one through the council.
-const body = council?.office.id;
-if (!body) throw new Error("No council here.");
-let bill;
-for (const question of Object.keys(POLICY_QUESTIONS)
-  .filter((q) => !q.startsWith("us-federal"))
-  .sort()) {
-  for (const value of [1, -1]) {
+/** On a planned day, the player picks this act; everything else is the character's. */
+const plan: Record<number, string> = {};
+const player = new BenchPlayer(core, director);
+player.select(me);
+if (role === "council") {
+  const body = council!.office.id;
+  let bill;
+  for (const question of Object.keys(POLICY_QUESTIONS)
+    .filter((q) => !q.startsWith("us-federal"))
+    .sort()) {
     const drafted = draftBill(api, {
       bodyOfficeId: body,
       sponsorId: me,
-      provisions: [{ kind: "policy-question", question, value }],
+      provisions: [{ kind: "policy-question", question, value: 1 }],
     });
     if (
       drafted.status === "drafted" &&
@@ -91,66 +105,67 @@ for (const question of Object.keys(POLICY_QUESTIONS)
       break;
     }
   }
-  if (bill) break;
-}
-if (!bill) throw new Error("The player favors no change the council may make.");
-const date = placeOnAgenda(api, bill.id);
-console.log(
-  `drafted ${bill.number} (${JSON.stringify(bill.provisions)}), on the agenda for ${date}`,
-);
-
-const player = new BenchPlayer(core, director);
-player.select(me);
-// Skip to three days before the meeting (the owner skips a week).
-const skipTo = addDays(makeIsoDate(date), -3);
-if (skipTo > core.date) {
-  const t = Date.now();
-  const r = player.advance("calendar", skipTo);
+  if (!bill)
+    throw new Error("The player favors no change the council may make.");
+  const date = placeOnAgenda(api, bill.id);
   console.log(
-    `skipped to ${skipTo} in ${Date.now() - t} ms; ${r.selfChosen.length} choices the character made itself`,
+    `drafted ${bill.number} (${bill.provisions.map((p) => ("question" in p ? p.question : p.kind)).join("; ")}), on the agenda for ${date}`,
   );
+  // Skip to three days before the meeting (the owner skips a week).
+  const skipTo = addDays(makeIsoDate(date), -3);
+  if (skipTo > core.date) {
+    const r = player.advance("calendar", skipTo);
+    console.log(
+      `skipped to ${skipTo}; the character made ${r.selfChosen.length} choices on its own`,
+    );
+  }
+  plan[1] = "town-hall";
+  plan[2] = "talk-to-colleague";
+} else {
+  plan[0] = "interview";
+  plan[3] = "interview";
+  plan[5] = "state-of-the-city";
 }
 
 const firstDay = core.date;
-let selfChosen = 0;
-let heldTownHall = false;
+let ownChoices = 0;
 for (let day = 0; day < 10; day++) {
-  let result = player.advance("day");
-  selfChosen += result.selfChosen.length;
+  if (role === "mayor" && day === 0) {
+    // The first interview's answers are the player's: against every change.
+    const answers: Record<string, number> = {};
+    for (const q of Object.keys(POLICY_QUESTIONS)) answers[q] = -1;
+    prepareAct(api, me, "interview", { answers });
+  }
+  player.advance("day");
+  let planned = plan[day];
   for (let guard = 0; guard < 200; guard++) {
     const packet = player.packet!;
     if (packet.kind === "complete") break;
     if (packet.kind === "choice") {
-      const offered = packet.offers.map((o) => o.actionId);
-      if (day < 3)
+      const pick = planned
+        ? packet.offers.find((o) => o.actionId === planned)
+        : undefined;
+      if (pick) {
         console.log(
-          `${packet.at.date} ${packet.at.minuteOfDay}: offered ${[...new Set(offered)].join(", ")}; the character would pick ${packet.decision.selected?.definition.id}`,
+          `${packet.at.date}: the player chooses ${pick.actionId} (${pick.durationMinutes} minutes); the character would have chosen ${packet.decision.selected?.definition.id}`,
         );
-      // On the second day the player holds a town hall themselves.
-      const townHall = packet.offers.find((o) => o.actionId === "town-hall");
-      if (day === 1 && townHall && !heldTownHall) {
-        heldTownHall = true;
-        console.log(
-          `the player chooses to hold a town hall (${townHall.durationMinutes} minutes)`,
-        );
-        const r = player.resume({
+        planned = undefined;
+        player.resume({
           kind: "choice",
           pauseId: packet.pauseId,
-          offerId: townHall.offerId,
+          offerId: pick.offerId,
         });
-        selfChosen += r.selfChosen.length;
-        continue;
+      } else {
+        ownChoices += 1;
+        player.resume({ kind: "own-choice", pauseId: packet.pauseId });
       }
-      // Every other choice of the day is left to the character.
-      const r = player.resume({ kind: "own-choice", pauseId: packet.pauseId });
-      selfChosen += 1 + r.selfChosen.length;
       continue;
     }
     if (packet.kind === "stop") {
       const meeting = meetingInProgress(api);
       if (meeting) {
         console.log(
-          `\n## Stop: ${meeting.id} at minute ${meeting.startMinute} (${meeting.citation})`,
+          `\n## ${packet.at.date} at minute ${packet.at.minuteOfDay}: the meeting holds the player (${meeting.citation})`,
         );
         for (const billId of meeting.agenda) {
           const own = billOf(api, billId).sponsorId === me;
@@ -163,17 +178,22 @@ for (let day = 0; day < 10; day++) {
           console.log(
             `- ${after.number}: ${own ? "the player voted yes" : "left to the character"}; ${after.status}`,
           );
-          for (const v of votesOn(api, billId))
+          const seen = new Set<string>();
+          for (const v of votesOn(api, billId)) {
+            if (seen.has(v.memberId + v.vote)) continue;
+            seen.add(v.memberId + v.vote);
             console.log(
-              `  ${v.memberId === me ? "(player) " : ""}${v.memberId} ${v.vote} total ${v.position.total.toFixed(3)} views ${v.position.views.toFixed(3)} constituents ${v.position.constituents.toFixed(3)}`,
+              `  ${v.memberId === me ? "(player) " : ""}${v.memberId} ${v.vote}: total ${v.position.total.toFixed(3)} (views ${v.position.views.toFixed(3)}, constituents ${v.position.constituents.toFixed(3)})`,
             );
+          }
         }
         adjourn(api, meeting.id);
       }
-      result = {
-        ...result,
-        ...player.resume({ kind: "stop", pauseId: packet.pauseId }),
-      };
+      for (const bill of deskWaiting(api)) {
+        console.log(`desk: ${bill.number}, left to the character`);
+        leaveDeskToCharacter(api, bill.id);
+      }
+      player.resume({ kind: "stop", pauseId: packet.pauseId });
       continue;
     }
     break;
@@ -181,35 +201,41 @@ for (let day = 0; day < 10; day++) {
   if (player.pollingPlace) player.leavePolls();
 }
 console.log(
-  `\nplayed ${firstDay} to ${core.date}; the character made ${selfChosen} choices on its own`,
+  `\nplayed ${firstDay} to ${core.date}; the character made ${ownChoices} of the day's choices on its own`,
 );
-for (const office of [
-  body,
-  ...seats
-    .filter((s) => s.office.kind === "county-board")
-    .map((s) => s.office.id)
-    .slice(0, 1),
-])
-  for (const m of meetingsOf(api, office).slice(0, 3))
+for (const job of officeJobsOf(api, me)) {
+  console.log(
+    `office job: ${job.title}, ${job.fullTime ? "full time on the payroll" : "part time, stipend"}; $${job.annualMinor / 100} a year, ${job.weeklyHours} hours a week; ${job.citation}`,
+  );
+  for (const m of meetingsOf(api, job.officeId).slice(0, 3))
     console.log(
       `meeting ${m.id}: ${m.status}, ${m.takenUp.length} items, player present ${m.playerPresent}`,
     );
-console.log(
-  "next council meeting",
-  JSON.stringify(upcomingMeeting(api, body)?.date),
-);
-for (const act of officeActsOf(api, me))
+  const next = upcomingMeeting(api, job.officeId);
+  if (next) console.log(`next meeting of ${job.officeId}: ${next.date}`);
+}
+console.log("\nacts of office:");
+for (const act of officeActsOf(api, me)
+  .slice()
+  .sort((a, b) => a.date.localeCompare(b.date)))
   console.log(
-    `act ${act.date} ${act.kind} ${act.how} ${act.recordId} ${act.detail} ${act.position ?? ""}`,
+    `- ${act.date} ${act.kind} (${act.how === "did" ? "the player" : "the character"}): ${act.detail}${act.position !== null ? ` [position ${act.position.toFixed(3)}]` : ""} ${act.recordId}`,
   );
-for (const job of officeJobsOf(api, me))
+for (const row of interviewsFor(api, me))
   console.log(
-    `office job: ${job.title}, ${job.fullTime ? "full time on the payroll" : "part time, stipend"}; $${job.annualMinor / 100} a year, ${job.weeklyHours} hours a week; paid by ${job.payerId}; ${job.citation}`,
+    `interview ${row.id}: ${row.status}; ${
+      (
+        row as unknown as {
+          answers?: { question: string; position: number | null }[];
+        }
+      ).answers
+        ?.map((a) => `${a.question.split(".").pop()} ${a.position}`)
+        .join(", ") ?? ""
+    }`,
   );
 // Skip to the day after the next 1st to see the stipend paid.
-const month = core.date.slice(0, 7);
-const nextFirst = addDays(makeIsoDate(`${month}-01`), 40).slice(0, 8) + "02";
-player.advance("calendar", nextFirst);
+const next1st = `${addDays(makeIsoDate(`${core.date.slice(0, 7)}-01`), 40).slice(0, 8)}02`;
+player.advance("calendar", next1st);
 for (
   let guard = 0;
   guard < 400 && player.packet?.kind !== "complete";
@@ -221,11 +247,12 @@ for (
   else if (packet.kind === "stop") {
     const meeting = meetingInProgress(api);
     if (meeting) adjourn(api, meeting.id);
+    for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
     player.resume({ kind: "stop", pauseId: packet.pauseId });
   } else break;
 }
 for (const job of officeJobsOf(api, me))
   console.log(
-    `by ${core.date}: last stipend ${JSON.stringify(job.lastPaid ?? null)}; paid through ${job.paidFrom}`,
+    `by ${core.date}: last stipend ${JSON.stringify(job.lastPaid ?? null)}`,
   );
 console.log(`total ${Date.now() - started} ms`);
