@@ -162,6 +162,14 @@ writeFileSync(
   ) + "\n",
 );
 
+// The play server's handler rides beside the client (it answers /api and /art).
+const bundled = spawnSync(
+  process.execPath,
+  [path.join(desktopRoot, "scripts", "build-play-api.mjs")],
+  { cwd: repoRoot, stdio: "inherit", env: process.env },
+);
+if (bundled.status !== 0) process.exit(bundled.status ?? 1);
+
 console.log(
   `Staged ${identity.version} @ ${identity.revisionShort}${identity.dirty ? " (dirty)" : ""} distribution=${distribution} composition=${composition} profile=${identity.profile}`,
 );
