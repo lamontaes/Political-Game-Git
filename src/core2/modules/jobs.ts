@@ -194,9 +194,11 @@ export function pinned(c: CoreState): Set<string> {
 
 /** An employer's staff: its full people's jobs and its counted workers' jobs. */
 function currentJobs(api: CoreAPI, organizationId: string) {
+  const c = core(api);
+  // A job filled in as a full person's is theirs: listed once.
   return [
     ...fullJobs(api, organizationId),
-    ...countedJobsOf(core(api), organizationId),
+    ...countedJobsOf(c, organizationId).filter((job) => !c.jobs.has(job.id)),
   ];
 }
 
@@ -1152,8 +1154,9 @@ function letGo(
   const counted = isCounted(api, job.personId);
   const weeksWorked =
     (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
-  if (counted) endCountedJob(c, job.id);
-  else api.endJob(job.id, `jobs:layoff:${api.state.date}`);
+  // The job ends where it is kept: a recorded job in the core, a counted one in the residents' wage flows (a worker filled in may still hold one).
+  if (c.jobs.has(job.id)) api.endJob(job.id, `jobs:layoff:${api.state.date}`);
+  else endCountedJob(c, job.id);
   // The owner decides; a business without a recorded owner decides as itself.
   const decidedBy = ownerOf(api, organizationId);
   if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
@@ -1262,6 +1265,14 @@ function reviewMatches(api: CoreAPI): void {
     rows,
     (row) => row.organizationId,
   )) {
+    // Still held: an earlier ending this review (a fill-in, a move) may have taken it.
+    const held = c.jobs.get(row.job.id);
+    if (
+      held
+        ? held.endsAt !== undefined
+        : !residentsRuntime(c)?.wageFlowByJob.has(row.job.id)
+    )
+      continue;
     letGo(api, row.organizationId, row.job, jobsData.reasons.letGo, {
       pull: row.score,
     });

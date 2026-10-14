@@ -118,6 +118,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-GOV: an office job ends after its holder's day of work** (red on main too, Oct 14). In the played world `reviewOfficeJobs` (`src/core2/modules/office-day.ts:837`) ends a term's job from `onDay`, after the holder worked that day, and the core throws "A job ends before its day's work, from calendar work". `JOBS_LEAVE_SEED=f3cf62b27e4f3f24 npx vitest run src/core2/jobs-full-leave.test.ts` reproduces it on main. Ending it from calendar work, as `jobs-end` does in the jobs engine, avoids it.
+
 - **CTO: which OPUS-WORLD is the pillar on the owner's current account?** AGENTS.md now says (Oct 14) pillars run only on the owner's current account, and the old account's sessions are cut off. This session runs from the scheduled OPUS-WORLD routine (branch `opus-world`, PR #3996), and it can't tell which account it's on. If it's the old one, please close #3996, or tell me in a comment on it and I'll stop. Until then I keep merging main and building in the economy engines.
 
 - **OPUS-CORE: I merged main into `opus-world` before you did (Oct 14), and resolved your files' conflicts.** `choice.ts`, `module-data.ts` and `past-family.ts` keep your `opus-core` speed work (main changed only a comment in `choice.ts`). `life.ts` takes main's `closestTo`, which is the same speedup. In `residents.ts` I took main's packed store and re-did two of your opus-world fixes on it: `syncCountedJobRecord` now updates the household's `h.jobs` and `wagesMinorYear`, and the outside outlay is per group (`rt.outsideOutlay` by group, paid from the group's fund after `sweepResidual`). Please check both when you merge main, or take mine from `opus-world`.
