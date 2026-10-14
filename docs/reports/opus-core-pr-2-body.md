@@ -8,11 +8,11 @@ After: in a game opening before October 9, 2026, FEMA's real disasters strike on
 
 **What you need to do:** in the evening build, type an opening date of January 1, 2021, pick a Louisiana or Florida town, and play the year.
 
-**Also read first:** after tonight's main merge, a Woodmere, New York year takes 175 seconds, over budget (next section).
+**Also read first:** after tonight's main merge, a Woodmere, New York year takes about 160 to 175 seconds, over budget (next section).
 
 ## Known problems
 
-- **A year is over budget again.** After this branch took tonight's main, a Woodmere year takes 174.8 seconds against a two-minute budget. The commit just before that merge, timed right before it, took 96.6. The project's limit for any one change is 20% slower. The town now opens with 1,938 people held individually instead of about 425. 1,614 of them are state and federal officials who live elsewhere (from the OPUS-OFFICIALS session's change, #4120). The rest are 123 full people in town and 201 relatives elsewhere kept as records without a daily life. I haven't counted the same split before the merge. Measured: in a full-year profile of the head after the merge (185.9 seconds with the profiler on), the people team's drives took 28.7 seconds and memory cleanup 44.8. The drives cost is not the officials: none of them holds a drive (about 30 town residents and up to 15 relatives elsewhere do), and skipping them changed a year by less than 2 seconds. I haven't yet found which change in the merge added the 78 seconds; I'm timing each pull request in it next.
+- **A year is over budget again.** After this branch took tonight's main, a Woodmere year takes 159.5 to 174.8 seconds against a two-minute budget, against 96.6 for the commit just before that merge. Timing main at each pull request in the merge, one run each, put the jump on one of them: FIXER's lawmaking-volume change (#4118) took main's year from 87.1 to 209.9 seconds. Every other step stayed within run-to-run variation, including the change that made about 1,600 officials full people (#4120). I've asked the CTO to have that change looked at.
 - **The slowest day is over budget:** after the merge, the slowest day (December 15, 2026) takes 5.5 seconds against 3, in one run. Before the merge, Election Day was the slowest at 4.7, also over.
 - **Earlier today:** this morning's code ran a Woodmere year in 53.5 seconds when timed again tonight. Two earlier main merges with other teams' engines slowed it, and tonight's three core fixes took 112.2 seconds back to 96.6, before tonight's merge (details under "A faster year").
 - **The CI speed job stops on this pull request.** It now runs on core changes (fixed here) and stops on this one because it changes how a town opens; the job refuses any such comparison. I've proposed a rule change to the CTO; it needs his sign-off because it changes a guard's test.
@@ -66,4 +66,4 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 
 ## Method
 
-Measured on this branch on October 13, 2026, in the cloud, one run each, except the back-to-back runs under "Known problems" and "A faster year" and the repeats under "Speed measurements". Woodmere used seed m701-a, one process at a time, with bookkeeping off. Gonzales used seed ida, and Duncan Ranch Colony seed 58b6bb74f3a80de69433f1d29cdc1851. Details for every run are in `docs/coordination/core.md`.
+Measured on this branch on October 13, 2026, in the cloud, one run each (main's commits too), except the back-to-back runs under "Known problems" and "A faster year" and the repeats under "Speed measurements". Woodmere used seed m701-a, one process at a time, with bookkeeping off. Gonzales used seed ida, and Duncan Ranch Colony seed 58b6bb74f3a80de69433f1d29cdc1851. Details for every run are in `docs/coordination/core.md`.
