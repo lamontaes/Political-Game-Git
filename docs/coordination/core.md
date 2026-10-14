@@ -39,6 +39,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **Standing duty.** Review other pillars' core requests on its PR within the day.
   - Verified by: Requests answered in its status file.
   - Needs: All
+- [ ] **Stress audit, Oct 14 (branch `core/wiring-office-and-husks`).** From `docs/reports/stress-audit-2026-10-14/README.md` (PR #4160): defects 1 (the town office answers), 17 (husks sit idle; offers read where a person lives), 2 (cause groups spend what they raise), 20 (people filled in later get health records), 21 (one faded closeness read) and 24 (appointment qualification from the parameter table, no age cutoff).
+  - Verified by: one year of the played world (`buildBenchWorld`, every module, a seed I did not choose) naming each read by record id, in the PR body; the golden-path runner with no new regression.
+  - Not editing this round (gov/wiring-votes-and-views owns them): `views.ts`, `legislature.ts`, `interest-groups.ts`, `candidacy.ts`, `outcome-web.ts`, `jobs-benefits.ts`.
 
 ## Requests to the core (answered here)
 
