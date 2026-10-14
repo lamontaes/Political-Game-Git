@@ -1378,7 +1378,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Residents' own views (PEOPLE's views engine) set each group's lean, refined by GOV's elections; each counted person's own citizenship once the counts record it.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Counted adults hold no views until filled in (two-level population, owner, Oct 11), so each group starts from its county's 2024 presidential margin as a labeled estimate; campaigns and the views of people filled in move it from there."
   },
   {
     "id": "SG-GOV-REACH-A-leave-claims",
