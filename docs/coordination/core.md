@@ -19,6 +19,7 @@ In the evening build (PLAY's bench on the core): children go to school on school
 
 Cleanup builder, PR #4196 (branch `cleanup/retire-old-core`, on top of the dead-files cleanup #4153). Opus, high; no sub-agents. Nothing a player sees changes: on one random seed the world state hashes the same as main at the opening and after 60 days; the golden path, the played world and the dollar check come out the same; the speed guard reads 0.963 of main.
 
+- Oct 14, late evening: main merged on head `277ebca`; local gate and golden path clean. The CI reds left (`opening-story`, `budgets` sales tax on some seeds, `permission-records`, `validate-workflow`) fail on main with the same seed.
 - [x] Map: `docs/design/old-core-retirement-map.md` (369 sites in 186 files; each old file's job, its replacement, its owner).
 - [x] Rewire: 5 shipped files still read the old engine, all for two remaining ports.
 - [x] Delete: old screen files, 148 tests of old features play never runs (measured by coverage), the old browser suite, old-engine scripts, 1,086 old proof screenshots; 275 hand-offs moved to `docs/archive/` with an index.
