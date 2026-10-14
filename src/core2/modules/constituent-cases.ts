@@ -18,6 +18,7 @@
  * moves, as a cause their next ballot reads.
  */
 import { coreAPI, registerModule } from "../state";
+import { closenessBetween } from "../closeness";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -209,8 +210,7 @@ function officeHours(api: CoreAPI): void {
     // They go to the official they know best (the senior one if none).
     const official = [...officials].sort((a, b) => {
       const level = (t: TermRow) =>
-        state.relationships.get([person.id, t.personId!].sort().join(":"))
-          ?.level ?? 0;
+        closenessBetween(state, person.id, t.personId!);
       return (
         level(b) - level(a) ||
         (a.serviceStart ?? a.startDate).localeCompare(
