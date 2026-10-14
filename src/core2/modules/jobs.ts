@@ -1300,9 +1300,11 @@ function reviewWorkers(api: CoreAPI): void {
   for (const job of c.jobs.values()) {
     if (job.endsAt !== undefined || pinned(c).has(job.id)) continue;
     const person = c.people.get(job.personId);
-    // stopgapId: SG-WORLD-jobs-full-seekers-stay
-    if (!person || !person.alive || store(api).table("seekers").get(person.id))
-      continue;
+    if (!person || !person.alive) continue;
+    // A worker already looking around still weighs leaving and retiring; only the look itself is behind them.
+    const looking = store(api).table("seekers").get(person.id) as
+      SeekerRow | undefined;
+    if (looking && !looking.employed) continue;
     const pay = tenuredPay(api, job);
     const payGap =
       pay > 0
@@ -1327,14 +1329,18 @@ function reviewWorkers(api: CoreAPI): void {
     const pastRetirementAge = Math.max(0, age - p("jobsEarliestRetirementAge"));
     const result = chooseAct(c, person.id, [
       offer("stay", job.id, {}),
-      offer("look", job.id, {
-        baseline: p("jobsLookBaseline"),
-        payGap: p("jobsPayGapWeight") * payGap,
-        // Where jobs are scarce, looking around pays less.
-        unemployment:
-          -p("jobsUnemploymentLookWeight") *
-          unemploymentGap(api, person.placeId),
-      }),
+      ...(looking
+        ? []
+        : [
+            offer("look", job.id, {
+              baseline: p("jobsLookBaseline"),
+              payGap: p("jobsPayGapWeight") * payGap,
+              // Where jobs are scarce, looking around pays less.
+              unemployment:
+                -p("jobsUnemploymentLookWeight") *
+                unemploymentGap(api, person.placeId),
+            }),
+          ]),
       // Leaving needs a cause (strain on time or health); savings only make it possible.
       offer("leave", job.id, {
         baseline: p("jobsLeaveBaseline"),
@@ -1362,6 +1368,8 @@ function reviewWorkers(api: CoreAPI): void {
     } else if (chosen === jobsData.actions.leave.id) {
       const retiring = result.selected!.targetId.startsWith("retire:");
       api.endJob(job.id, `jobs:left-work:${api.state.date}`);
+      // Out of work by choice: the search around ends with the job.
+      if (looking) store(api).table("seekers").remove(person.id);
       record(api, {
         personId: person.id,
         organizationId: job.organizationId,
