@@ -1,0 +1,15 @@
+{
+  "method": "Complete-sheet visual review",
+  "rejected": {
+    "generated-light-back-1__person000__chair-013": "occluded_or_incomplete_head",
+    "x-ccl-08__person002": "occluded_or_incomplete_head",
+    "x-ccl-10__person008": "occluded_or_incomplete_head",
+    "crowd-v1__person011": "occluded_or_incomplete_head",
+    "crowd-v2__person021": "occluded_or_incomplete_head",
+    "x-ccl-02__person008": "occluded_or_incomplete_head",
+    "x-ccl-03__person006": "occluded_or_incomplete_head",
+    "crowd-v2__person009": "occluded_or_incomplete_head",
+    "x-ccl-01__person002": "occluded_or_incomplete_head",
+    "x-ccl-07__person007": "occluded_or_incomplete_head"
+  }
+}
