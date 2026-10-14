@@ -66,7 +66,7 @@ SLOT_PATTERNS = {
     "relation": r"(?:[Mm]y|[Yy]our|[Hh]is|[Hh]er|[Oo]ur) " + RELATION,
     "kin": RELATION,
     "filing_office": r"the [A-Z][A-Za-z]+(?: (?:of|[A-Z][A-Za-z']*))* [Oo]ffice|the (?:[A-Z][a-z]+ )?(?:County |City |Town )?(?:Clerk|Registrar|Board of Elections)(?:'s [Oo]ffice)?",
-    "office": r"(?:the )?(?:[A-Z][a-z]+ )?(?:[Cc]ity [Cc]ouncil|[Cc]ouncil|[Mm]ayor|[Ss]chool [Bb]oard|[Cc]ounty [Cc]ommission|[Ss]tate [Ss]enate|[Ss]tate [Hh]ouse|[Ss]heriff|[Gg]overnor|[Cc]ongress|[Ss]elect [Bb]oard|[Bb]oard of [A-Z][a-z]+)(?:,? (?:[Ss]eat|[Dd]istrict|[Ww]ard) \d+)?",
+    "office": r"(?:(?:the|a|an) )?(?:[A-Z][a-z]+ )?(?:[Cc]ity [Cc]ouncil|[Cc]ouncil|[Mm]ayor|[Ss]chool [Bb]oard|[Cc]ounty [Cc]ommission|[Ss]tate [Ss]enate|[Ss]tate [Hh]ouse|[Ss]heriff|[Gg]overnor|[Cc]ongress|[Ss]elect [Bb]oard|[Bb]oard of [A-Z][a-z]+|[Jj]udge|(?:[Ss]tate )?[Ss]enator|(?:[Ss]tate )?[Rr]epresentative|[Cc]ongressman|[Cc]ongresswoman|[Ss]peaker|[Ww]hip|[Ss]enate|[Cc]ommissioner|[Cc]ouncilman|[Cc]ouncilwoman|[Cc]hair(?:man|woman)?|[Cc]lerk|[Ll]ieutenant [Gg]overnor)(?:,? (?:[Ss]eat|[Dd]istrict|[Ww]ard) \d+)?",
     "fee": r"\$\d[\d,]*(?:\.\d\d)?|\d[\d,]* dollars|" + NUMBER_WORD + r"(?: hundred| thousand)? dollars",
     "signatures": r"(?:\d[\d,]*|" + NUMBER_WORD + r"(?: hundred| thousand)?)",
     "required": r"[\w$,.\- ]{1,30}",

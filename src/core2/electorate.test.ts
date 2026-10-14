@@ -180,5 +180,7 @@ describe(`the one electorate (seed ${seed})`, () => {
     expect(countedChoice({ a: { total: 0.2 }, b: { total: 0.2 } })).toBeNull();
     expect(countedChoice({ a: { total: 0.3 }, b: { total: 0.2 } })).toBe("a");
     expect(countedChoice({ a: { total: -0.1 } })).toBeNull();
+    // A lone candidate nobody knows, the voter not against them.
+    expect(countedChoice({ a: { total: 0 } })).toBe("a");
   });
 });

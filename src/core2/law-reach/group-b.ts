@@ -155,7 +155,7 @@ function reachOf(
   for (const r of selected) {
     if (r.named)
       named.set(r.id, { ...input.terms, ...input.personTerms?.get(r.id) });
-    else counted += 1;
+    else counted += r.weight ?? 1;
   }
   const perHousehold = input.people?.householdHead === true;
   const countedOf =
@@ -171,7 +171,7 @@ function reachOf(
         { ...input.terms },
       ]),
     ),
-    counted: counted + (input.counted ?? 0),
+    counted: Math.round(counted) + (input.counted ?? 0),
     countedOf,
     terms: input.terms,
   };
