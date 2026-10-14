@@ -8,7 +8,7 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import { votesOn } from "../core2/modules/legislature";
 import { findRecord, traceNode } from "./dev-trace";

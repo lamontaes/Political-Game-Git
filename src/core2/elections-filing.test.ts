@@ -27,12 +27,8 @@ import {
   openElections,
   type ContestRow,
 } from "./modules/elections";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
-import { novemberGeneralElectionDay } from "../simulation/nationwide-world/town-election-calendar";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { novemberGeneralElectionDay } from "./gov-rules/town-election-calendar";
 
 const START = "2026-01-05";
 const seed =
@@ -50,7 +46,7 @@ const filingRequirementsRead = JSON.parse(
   string,
   Record<string, { independent?: { deadline2026?: string } }>
 >;
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -60,7 +56,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function randomPlace(salt: string) {
   const state = pick(states, `${salt}:state`);
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),

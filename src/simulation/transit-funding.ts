@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { operativeDateInWorld } from "./governing/law-in-force";
 import { measurePosition } from "./legislation";
 import { currentMeasureProvisions } from "./legislative-politics";

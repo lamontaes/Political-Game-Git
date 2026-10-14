@@ -1,6 +1,10 @@
-import { ageOnDate, isoDateFromParts, makeIsoDate } from "./dates";
-import type { SeededRng } from "./rng";
-import type { IsoDate } from "./types";
+import {
+  ageOnDate,
+  isoDateFromParts,
+  makeIsoDate,
+} from "../core2/kernel/dates";
+import type { SeededRng } from "../core2/kernel/rng";
+import type { IsoDate } from "../core2/kernel/brands";
 
 /**
  * One way to give an invented person an age (A161). Every producer that

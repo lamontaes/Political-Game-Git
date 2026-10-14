@@ -49,7 +49,7 @@ import {
   inventedPersonBirthDate,
   type InventedPersonRole,
 } from "../invented-person-age";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -65,7 +65,7 @@ import { personTrait } from "../people-traits";
 import type { TraitValue } from "../people-trait-definitions";
 import { generatePersonIdentity } from "../person-identity";
 import { currentHistoricalCutoff } from "../queries";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {

@@ -1,5 +1,5 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { buildPopulation } from "../core2/population";
 import { buildDeepPast } from "../core2/deep-past";
@@ -210,7 +210,7 @@ function* benchWorldStages(
   yield "people";
   const place = options.placeKey
     ? realLocalities().find((row) => row.key === options.placeKey)
-    : selectBenchPlace(seed, lifePlaceStateIdentities(), realLocalities());
+    : selectBenchPlace(seed, corePlaceStateIdentities(), realLocalities());
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);

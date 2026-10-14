@@ -2,7 +2,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { lifePlaceByKey } from "../simulation/life-places";
+import { corePlaceByKey } from "./place-lookup";
 import { withHousing } from "./modules/housing";
 import type { CoreInput, Source } from "./types";
 
@@ -18,7 +18,7 @@ const src: Source = {
 };
 
 function input(): CoreInput {
-  const town = lifePlaceByKey(place.key)!.context.jurisdiction.id;
+  const town = corePlaceByKey(place.key)!.context.jurisdiction.id;
   // The opening also generates the county, with more households than the town.
   const county = "place:county-fixture";
   const homes = [
@@ -83,7 +83,7 @@ function input(): CoreInput {
 describe(`opening homes in ${place.name} (seed ${seed})`, () => {
   it("houses the played town's households, owners at real values and renters on leases", () => {
     const opening = input();
-    const town = lifePlaceByKey(place.key)!.context.jurisdiction.id;
+    const town = corePlaceByKey(place.key)!.context.jurisdiction.id;
     const housed = withHousing(opening);
     const dwellings = JSON.parse(housed.placeMetadata!.housingDwellings!) as [
       string,

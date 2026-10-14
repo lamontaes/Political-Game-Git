@@ -3,7 +3,7 @@ import {
   addSimulationMinutes,
   ageOnDate,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { feltDebtConsiderations } from "./favors";
 import {

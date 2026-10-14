@@ -1,6 +1,6 @@
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { scheduledActivityState } from "./time-work";
-import { compareSimulationMoments } from "./dates";
+import { compareSimulationMoments } from "../core2/kernel/dates";
 import type { EntityId, World, SimulationMoment } from "./types";
 
 /** Read-only shared adapter: identity, current role, and exact calendar availability. */

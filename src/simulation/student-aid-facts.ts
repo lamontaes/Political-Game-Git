@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { studyProgressSummary } from "./education-study-progression";
 import { householdLoansOf } from "./household-loans";
 import {

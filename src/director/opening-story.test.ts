@@ -6,7 +6,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "../core2/state";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { PRESIDENT_FACT } from "../core2/officials-president";
-import { OPENING_SPEECH_BANK } from "../presentation/english-opening-speech";
+import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { subjectsBetween } from "./conversation";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
 

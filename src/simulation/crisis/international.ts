@@ -1,4 +1,4 @@
-import { addDays, daysBetween, makeIsoDate } from "../dates";
+import { addDays, daysBetween, makeIsoDate } from "../../core2/kernel/dates";
 import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";

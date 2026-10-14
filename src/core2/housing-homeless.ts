@@ -13,7 +13,7 @@
  * are behind, the ones with the least income of their own first. At removal
  * a counted household is filled in, so the same rule places its people.
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import shelterData from "./data/housing/shelter-beds.json" with { type: "json" };
 import { currentCloseness } from "./closeness";
 import { stopgap } from "./stopgaps";

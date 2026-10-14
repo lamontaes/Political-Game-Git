@@ -1,5 +1,5 @@
 import { canonicalJson } from "./canonical-json";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import type { TaxGameProfileRef, TaxTerms } from "./tax-types";
 import type { CurrencyCode, PublicProgramBasis } from "./types";
 

@@ -24,11 +24,7 @@ import {
 } from "./modules/legislature";
 import { bodyNumbering, designation } from "./legislature-bill-form";
 import clauses from "./data/legislature/enacting-clauses.json" with { type: "json" };
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -37,7 +33,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
@@ -80,7 +76,7 @@ describe("a bill's form in its body", () => {
   it("a generated world's bills carry their body's designation, clause and motion", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

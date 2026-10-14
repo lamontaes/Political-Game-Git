@@ -1,11 +1,11 @@
 import filingTermsData from "../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import {
   filingLeadDays,
   MEDIAN_FILING_GAP_SOURCE,
 } from "./nominations/filing-gap";
 import { STATES } from "./state-reference";
-import type { IsoDate } from "./types";
+import type { IsoDate } from "../core2/kernel/brands";
 
 export type FilingOfficeFamily =
   "statewideExecutive" | "stateLegislative" | "federalLegislative" | "local";

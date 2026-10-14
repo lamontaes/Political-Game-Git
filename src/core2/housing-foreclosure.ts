@@ -13,7 +13,7 @@
  * housing arrears say how many of the group's owners are behind, the ones
  * with the least income first.
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import foreclosureData from "./data/housing/foreclosure.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
