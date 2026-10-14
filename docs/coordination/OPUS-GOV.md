@@ -139,6 +139,30 @@ Needs from other sessions:
 - GOV wiring: `candidacy.ts` `platformFromViews` should call `candidatePlatform`. Who runs leaves many town seats with one or no candidate (audit defects 9 to 11).
 - OPUS-PLAY: controls for `campaignDayChoices`, the speech parts, `joinParty`; the bench reads `doorsKnockedCount`.
 
+### State and federal races (branch `gov/state-federal`, October 14, 2026)
+
+What the owner can play now (once it merges):
+
+- **Statewide and federal candidates come from the whole state**, not a ladder: anyone with standing there may weigh a run, a party asks its strongest when a side has no one, and every candidacy keeps its reasons.
+- **Every U.S. House seat and the legislature are on the ballot each even year**, voted by the counted people of that district, even where it is outside the town.
+- **Winners take office on the day the place's law sets**, a legislator who loses a run for higher office keeps their seat, and nobody leaves a seat before their new term begins.
+- **Every post has a replacement:** the vice president or lieutenant governor rises and their seat is filled by law, a dead cabinet secretary is replaced the same day, and seats outside the town get their special elections.
+- **Nonpartisan offices** are elected in spring without a party primary; a dead candidate leaves the ballot; reporters and outlet owners can't run or be appointed while they work for the outlet.
+
+Checklist:
+
+- [x] Candidate pool with no ladder; recruits; appointees from the same pool
+- [x] Ballots: delegate, territory legislatures, every U.S. House seat, legislature each even year
+- [x] Taking office by the law of the place, all 56; holdover; loser keeps their seat
+- [x] Replacement for every role; specials outside the town; appointments recorded
+- [x] Counted groups vote by share; unopposed races get undervotes; primaries count votes
+- [x] Debates on the outlet that covers the race; legislators don't move away
+- [x] 56-place audit items 1 to 7, including the D.C. Council, Puerto Rico's municipal cycle, lettered districts and multi-seat boards
+- [ ] Nonpartisan primaries are scheduled but not yet run (SG-GOV-nonpartisan-primary-not-run)
+- [ ] The Illinois Senate stagger needs per-district class data
+
+Sub-agents (3-2-1 rule): Opus (high), the candidate pool and law of the place, finished; Sonnet (high), the press ruling, finished; Sonnet (high), the offices data, finished.
+
 ## Justice
 
 Branch `gov/justice-small`. Owner's order, October 14, 2026: "Courts, trials, prisons: build a small version. Conceptually get it working, especially for the background, and allow for the player."
