@@ -340,13 +340,27 @@ export const LIFE_MODULE: CoreModule = {
   onEvent(api, event, learnedBy) {
     const params = parameterValues(api.state.data.parameters);
     api.stopgap("SG-P8-emotion-model");
+    // An event can name hundreds of people (a chamber's vote); each learner
+    // reads whichever is shorter, its own ties or the named people.
+    const named = new Set(event.personIds);
     for (const id of learnedBy) {
       const actor = api.state.people.get(id)!;
-      const relation = event.personIds.reduce(
-        (level, subject) =>
-          Math.max(level, relationAt(api, [id, subject].sort().join(":"))),
-        zero(api),
-      );
+      const ties = api.state.relationshipsByPerson.get(id);
+      let relation = zero(api);
+      if (ties && ties.size < named.size) {
+        for (const tie of ties) {
+          const row = api.state.relationships.get(tie);
+          if (!row) continue;
+          const other = row.actorId === id ? row.otherId : row.actorId;
+          if (other !== id && named.has(other))
+            relation = Math.max(relation, currentCloseness(api.state, row));
+        }
+      } else
+        for (const subject of event.personIds)
+          relation = Math.max(
+            relation,
+            relationAt(api, [id, subject].sort().join(":")),
+          );
       const appraisal = appraiseEvent(
         actor,
         event,
