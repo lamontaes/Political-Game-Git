@@ -13211,6 +13211,34 @@
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg30573",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
+    },
+    {
+      "key": "conversation.job-lost-raise.i-lost-my-job",
+      "move": "job-lost-raise",
+      "kind": "spoken",
+      "text": "I lost my job.",
+      "uses": [
+        {
+          "move": "job-lost-raise",
+          "subject": "job-lost",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300667",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
     }
   ]
 }

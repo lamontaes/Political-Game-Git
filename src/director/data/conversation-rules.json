@@ -27,6 +27,10 @@
     "news": {
       "kind": "news",
       "stage": "not-heard"
+    },
+    "job-lost": {
+      "kind": "other-work",
+      "stage": "none"
     }
   },
   "follows": {
@@ -49,7 +53,8 @@
     "family": ["kin"],
     "mutual": ["family"],
     "news": ["address"],
-    "address": ["news"]
+    "address": ["news"],
+    "job-lost": []
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",

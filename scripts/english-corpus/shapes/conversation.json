@@ -1930,6 +1930,19 @@
         "All right.",
         "Got it."
       ]
+    },
+    {
+      "move": "job-lost-raise",
+      "subject": "job-lost",
+      "role": "raise",
+      "choice": "raise",
+      "candidates": [
+        "I lost my job.",
+        "I got laid off.",
+        "I was laid off.",
+        "I lost my job at {employer}.",
+        "I got let go."
+      ]
     }
   ]
 }

@@ -365,6 +365,25 @@ export function subjectsBetween(
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
     });
+  // A job the speaker lost lately, from the director's ledger: the money
+  // moment of its end, theirs or a household member's that names them.
+  const lost =
+    recentMoments(core, director, speakerId).find(
+      (moment) =>
+        moment.label === "money:job-ended" && !moment.counterpartIds.length,
+    ) ??
+    recentMoments(core, director, listenerId).find(
+      (moment) =>
+        moment.label === "money:job-ended" &&
+        moment.counterpartIds.includes(speakerId),
+    );
+  if (lost && !mine)
+    out.push({
+      id: `job-lost:${lost.causeId}`,
+      kind: "job-lost",
+      aboutId: lost.causeId,
+      facts: { lost: { text: "yes", sourceRecordIds: [lost.causeId] } },
+    });
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
     out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });
