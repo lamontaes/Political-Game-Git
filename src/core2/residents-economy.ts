@@ -5,7 +5,11 @@
  * flow (rent, a loan payment, spending that leaves town) at runtime.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { ownMap, residentsRuntime } from "./modules/residents";
+import {
+  ownMap,
+  residentsRuntime,
+  syncCountedJobRecord,
+} from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
@@ -38,6 +42,7 @@ export function endCountedJob(
   rt.wageFlowByJob.delete(jobId);
   const ended = { ...job, endsAt: makeIsoDate(core.date) };
   rt.jobs.set(jobId, ended);
+  syncCountedJobRecord(core, ended);
   return ended;
 }
 
@@ -121,6 +126,7 @@ export function addCountedJob(
   recompute(flow);
   rt.jobs.set(job.id, job);
   rt.wageFlowByJob.set(job.id, flow);
+  syncCountedJobRecord(core, job);
   const index = jobIndexes.get(core);
   if (index?.date === core.date) {
     const set = index.byOrg.get(job.organizationId) ?? new Set<string>();
@@ -184,6 +190,7 @@ export function addCountedJobsAt(
   for (const job of jobs) {
     rt.jobs.set(job.id, job);
     rt.wageFlowByJob.set(job.id, flow);
+    syncCountedJobRecord(core, job);
   }
   jobIndexes.delete(core);
   return jobs.length;
@@ -559,11 +566,13 @@ export function rerateCountedJobs(
       touched.add(flow);
     }
     (flow.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
-    rt.jobs.set(jobId, {
+    const rerated = {
       ...job,
       hourlyMinor,
       wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
-    });
+    };
+    rt.jobs.set(jobId, rerated);
+    syncCountedJobRecord(core, rerated);
     changed += 1;
   }
   for (const flow of touched) recompute(flow);

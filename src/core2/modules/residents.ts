@@ -1029,24 +1029,30 @@ export function rerateCountedJob(
   const rt = runtimes.get(core);
   const job = rt?.jobs.get(jobId);
   if (!rt || !job) return false;
-  const flows = [...rt.flows.values()].filter(
-    (flow) => !flow.endedAt && flow.perDayMinorByJob?.[jobId] !== undefined,
-  );
-  if (!flows.length || !job.hourlyMinor) return false;
+  // The job's wage flow, by its index (a job is paid by one flow).
+  const flow = rt.wageFlowByJob.get(jobId);
+  if (
+    !flow ||
+    flow.endedAt ||
+    flow.perDayMinorByJob?.[jobId] === undefined ||
+    !job.hourlyMinor
+  )
+    return false;
   const ratio = hourlyMinor / job.hourlyMinor;
-  for (const flow of flows) {
-    const perDay = { ...flow.perDayMinorByJob! };
-    perDay[jobId] = perDay[jobId]! * ratio;
-    flow.perDayMinorByJob = perDay;
-    let total = 0;
-    for (const value of Object.values(perDay)) total += value;
-    flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
-  }
-  rt.jobs.set(jobId, {
+  // The flow's own copy of its pay map, made once and changed in place after.
+  const perDay = ownMap(flow.perDayMinorByJob);
+  perDay[jobId] = perDay[jobId]! * ratio;
+  flow.perDayMinorByJob = perDay;
+  let total = 0;
+  for (const value of Object.values(perDay)) total += value;
+  flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+  const rerated = {
     ...job,
     hourlyMinor,
     wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
-  });
+  };
+  rt.jobs.set(jobId, rerated);
+  syncCountedJobRecord(core, rerated);
   return true;
 }
 
@@ -1337,20 +1343,16 @@ export function ownMap(
   return copy;
 }
 
-/** Every job these people hold: the opening's on their household's record and any they were hired into since (the jobs engine's hires live only in the runtime). */
+/** Every job these people hold, from their household's record (hires, endings and new rates in play keep it current: syncCountedJobRecord). */
 function jobsHeldBy(
-  rt: ResidentsRuntime,
   record: ResidentHouseholdRecord,
   personIds: ReadonlySet<string>,
 ): Set<string> {
-  const ids = new Set(
+  return new Set(
     record.jobs
       .filter((row) => personIds.has(row.personId))
       .map((row) => row.id),
   );
-  for (const [id, job] of rt.jobs)
-    if (job.endsAt === undefined && personIds.has(job.personId)) ids.add(id);
-  return ids;
 }
 
 /** Remove counted jobs from their employers' wage flows (the worker is gone). */
@@ -1416,7 +1418,7 @@ export function removeCountedPerson(core: CoreState, personId: PersonId): void {
   if (!rt || !householdId) return;
   const record = rt.households.get(householdId)!;
   const person = record.people.find((row) => row.id === personId)!;
-  dropCountedJobs(rt, jobsHeldBy(rt, record, new Set([personId])));
+  dropCountedJobs(rt, jobsHeldBy(record, new Set([personId])));
   const awards = record.contracts.filter(
     (row) => row.recipientIncome?.personId === personId,
   );
@@ -1483,7 +1485,7 @@ export function departCountedHousehold(
   if (!rt || !record) return undefined;
   dropCountedJobs(
     rt,
-    jobsHeldBy(rt, record, new Set(record.people.map((row) => row.id))),
+    jobsHeldBy(record, new Set(record.people.map((row) => row.id))),
   );
   dropCountedContracts(
     rt,
@@ -1541,6 +1543,23 @@ export function addCountedPerson(
       ),
       person,
     ],
+  });
+}
+
+/**
+ * A counted person's job changed in play (a hire, an ending, a new rate):
+ * their household's record follows, so moving away, dying and being filled
+ * in all see the jobs they hold now, not only the opening's.
+ */
+export function syncCountedJobRecord(core: CoreState, job: JobInput): void {
+  const rt = runtimes.get(core);
+  const householdId = rt?.householdOfPerson.get(job.personId);
+  const record = householdId ? rt!.households.get(householdId) : undefined;
+  if (!rt || !record) return;
+  const others = record.jobs.filter((row) => row.id !== job.id);
+  replaceRecord(rt, {
+    ...record,
+    jobs: job.endsAt === undefined ? [...others, job] : others,
   });
 }
 
