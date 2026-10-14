@@ -13,9 +13,21 @@ import { regionalMonth } from "./modules/regional";
 import { residentsRuntime } from "./modules/residents";
 import { addCountedJobsAt } from "./residents-economy";
 import { stopgap } from "./stopgaps";
-import type { CoreAPI, CoreState, JobInput, Source } from "./types";
+import { transferCash } from "./world-transfer";
+import jobsData from "./data/jobs/jobs.json" with { type: "json" };
+import { addDays, makeIsoDate } from "./kernel/dates";
+import type {
+  CoreAPI,
+  CoreState,
+  JobInput,
+  Source,
+  WorkCommitmentInput,
+} from "./types";
+import type { WorkPayrollCalendarInput } from "./work-pay-period";
 
 const UNPLACED = "residents:unplaced-wages:";
+/** The employer full people placed outside the town work for, one per place. */
+const FULL_ELSEWHERE = "organization:work-elsewhere:";
 
 /** The stand-in's pooled pay for unplaced workers: its flow, the town's median recorded pay a day, and how many workers it pays. */
 function unplaced(api: CoreAPI) {
@@ -58,7 +70,16 @@ export function unplacedWorkers(
 export function placeElsewhere(
   api: CoreAPI,
   isJobless: (personId: string) => boolean,
-): { organizationId: string; placeId: string; staff: number } | undefined {
+):
+  | {
+      organizationId: string;
+      placeId: string;
+      staff: number;
+      /** The employer the full people placed elsewhere work for, and how many. */
+      fullOrganizationId?: string;
+      fullStaff?: number;
+    }
+  | undefined {
   const c = api.state as CoreState,
     p = (key: string) => api.parameter(key);
   const rt = residentsRuntime(c),
@@ -102,13 +123,31 @@ export function placeElsewhere(
   }));
   const placed = addCountedJobsAt(c, organizationId, flow.placeId, jobs);
   if (!placed) return undefined;
+  // The full people the same gap stands for work elsewhere too (the stand-in paid only the counted adults' share).
+  const fullPlaced = placeFullElsewhere(api, {
+    organizationId,
+    placeId: flow.placeId,
+    medianDaily,
+    source,
+    isJobless,
+  });
   // The stand-in's pooled pay ends, or shrinks by the share placed: each placed worker is paid by their own job now.
   if (placed >= count) flow.endsAt = c.date;
   else
     flow.amountMinor = Math.round(
       (flow.amountMinor * (count - placed)) / count,
     );
-  return { organizationId, placeId: flow.placeId, staff: placed };
+  return {
+    organizationId,
+    placeId: flow.placeId,
+    staff: placed,
+    ...(fullPlaced
+      ? {
+          fullOrganizationId: `${FULL_ELSEWHERE}${flow.placeId}`,
+          fullStaff: fullPlaced,
+        }
+      : {}),
+  };
 }
 
 /** The staff an employer elsewhere keeps: its opening staff moved with the region's jobs since the opening. */
@@ -127,4 +166,204 @@ export function elsewhereTarget(
   return first && now
     ? (openingStaff * now.jobsThousands) / first.jobsThousands
     : openingStaff;
+}
+
+/**
+ * The opening's employment gap (its target less recorded jobs) belongs to
+ * every adult in the place; the core's stand-in pays only the counted
+ * adults' share, so full adults get jobs elsewhere here until they're
+ * employed at the counted adults' rate (once those are placed), from the
+ * working-age full adults with no job who aren't looking, closest to prime
+ * working age first. Each job keeps the schedule and payday of a
+ * counted worker's recorded job in the place.
+ */
+function placeFullElsewhere(
+  api: CoreAPI,
+  input: {
+    organizationId: string;
+    placeId: string;
+    medianDaily: number;
+    source: Source;
+    isJobless: (personId: string) => boolean;
+  },
+): number {
+  const c = api.state as CoreState,
+    p = (key: string) => api.parameter(key);
+  const rt = residentsRuntime(c);
+  if (!rt) return 0;
+  const year = Number(c.date.slice(0, 4));
+  const ageOf = (birthDate: string) => year - Number(birthDate.slice(0, 4));
+  // The counted adults' employment rate once they're placed: the full adults are held to the same.
+  const countedWorking = new Set<string>();
+  for (const [jobId, flow] of rt.wageFlowByJob) {
+    const job = rt.jobs.get(jobId);
+    if (job && job.endsAt === undefined && !flow.endedAt)
+      countedWorking.add(job.personId);
+  }
+  let countedAdults = 0,
+    countedEmployed = 0;
+  for (const record of rt.households.values())
+    if (record.household.placeId === input.placeId)
+      for (const person of record.people)
+        if (ageOf(person.birthDate) >= 18) {
+          countedAdults += 1;
+          if (countedWorking.has(person.id)) countedEmployed += 1;
+        }
+  const working = new Set<string>();
+  for (const job of c.jobs.values())
+    if (job.endsAt === undefined) working.add(job.personId);
+  const full = [...c.people.values()].filter(
+    (person) =>
+      person.alive &&
+      person.placeId === input.placeId &&
+      ageOf(person.birthDate) >= 18,
+  );
+  if (!countedAdults || !full.length) return 0;
+  const employed = full.filter((person) => working.has(person.id)).length;
+  const want = Math.max(
+    0,
+    Math.round((countedEmployed / countedAdults) * full.length) - employed,
+  );
+  const prime = p("jobsElsewherePrimeAge");
+  const candidates = full
+    .filter((person) => {
+      const age = ageOf(person.birthDate);
+      return (
+        age < p("jobsEarliestRetirementAge") &&
+        !working.has(person.id) &&
+        input.isJobless(person.id)
+      );
+    })
+    .sort(
+      (a, b) =>
+        Math.abs(ageOf(a.birthDate) - prime) -
+          Math.abs(ageOf(b.birthDate) - prime) || a.id.localeCompare(b.id),
+    )
+    .slice(0, want);
+  if (!candidates.length) return 0;
+  // A counted worker's recorded schedule and payday in the place, the first by id.
+  const calendars = new Map(
+    (rt.input.calendars ?? []).map((row) => [row.id, row]),
+  );
+  let shape:
+    | { commitment: WorkCommitmentInput; calendar: WorkPayrollCalendarInput }
+    | undefined;
+  for (const record of [...rt.households.values()].sort((a, b) =>
+    a.household.id.localeCompare(b.household.id),
+  )) {
+    if (record.household.placeId !== input.placeId) continue;
+    for (const commitment of record.workCommitments) {
+      const calendar = commitment.payrollCalendarId
+        ? calendars.get(commitment.payrollCalendarId)
+        : undefined;
+      if (calendar && !commitment.publicPayAuthorityId) {
+        shape = { commitment, calendar };
+        break;
+      }
+    }
+    if (shape) break;
+  }
+  if (!shape) return 0;
+  // Their employers outside the town stand as one, paid each month from outside (see the stopgap and fundFullElsewhere).
+  const employerId = `${FULL_ELSEWHERE}${input.placeId}`;
+  if (!c.organizations.has(employerId))
+    api.addOrganization({
+      id: employerId,
+      placeId: input.placeId,
+      name: jobsData.elsewhereEmployerNamePattern.replace(
+        "{place}",
+        c.placeMetadata?.placeName?.split(",")[0] ?? input.placeId,
+      ),
+      kind: "employer",
+      liquidMinor: 0,
+      source: input.source,
+    });
+  const hours =
+    shape.commitment.expectedWeeklyMinutes > 0
+      ? shape.commitment.expectedWeeklyMinutes /
+        60 /
+        (p("jobsDaysPerYear") / 52)
+      : p("jobsElsewhereHoursDaily");
+  const hourlyMinor = Math.max(1, Math.round(input.medianDaily / hours));
+  const startsAt = addDays(makeIsoDate(c.date), 1);
+  for (const person of candidates) {
+    const jobId = `job:elsewhere:${person.id}`,
+      commitmentId = `work-commitment:${jobId}`,
+      calendarId = `payroll-calendar:${jobId}`;
+    api.startJob(
+      {
+        id: jobId,
+        personId: person.id,
+        organizationId: employerId,
+        title: "work-elsewhere",
+        hourlyMinor,
+        hoursDaily: hours,
+        wageDailyMinor: Math.round(hourlyMinor * hours),
+        source: input.source,
+      },
+      {
+        ...shape.commitment,
+        id: commitmentId,
+        jobId,
+        personId: person.id,
+        organizationId: employerId,
+        payrollCalendarId: calendarId,
+        startsAt,
+        endsAt: undefined,
+        hourlyMinor,
+        scheduleTemplateJobId: shape.commitment.jobId,
+        paySource: input.source,
+        scheduleSource: input.source,
+      },
+      {
+        ...shape.calendar,
+        id: calendarId,
+        organizationId: employerId,
+        workCommitmentIds: [commitmentId],
+        basisRecordIds: [employerId],
+        effectiveFrom: [startsAt, shape.calendar.effectiveFrom].sort().at(-1)!,
+        source: input.source,
+      },
+    );
+  }
+  fundFullElsewhere(api);
+  return candidates.length;
+}
+
+/**
+ * Each month the employers outside the town that full people work for are
+ * paid enough from outside to meet a month of their payroll (the outside
+ * world's money: it enters the town as their pay).
+ */
+export function fundFullElsewhere(api: CoreAPI): void {
+  const c = api.state as CoreState;
+  const monthDays =
+    api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear");
+  for (const org of c.organizations.values()) {
+    if (!org.id.startsWith(FULL_ELSEWHERE)) continue;
+    let payroll = 0;
+    for (const id of c.finance.jobsByOrganization.get(org.id) ?? []) {
+      const job = c.jobs.get(id);
+      if (job && job.endsAt === undefined) payroll += job.wageDailyMinor;
+    }
+    const need = Math.round(payroll * monthDays) - org.liquidMinor;
+    const outside = [...c.organizations.values()].find(
+      (row) => row.placeId === org.placeId && row.outsideFlow !== undefined,
+    );
+    if (need <= 0 || !outside) continue;
+    transferCash(
+      api,
+      `work-elsewhere-funding:${org.id}:${c.date}`,
+      outside.id,
+      org.id,
+      need,
+      {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: org.source.citation,
+        estimatedFrom:
+          "A month of the payroll of the full people working outside the town, paid in from outside.",
+      },
+    );
+  }
 }

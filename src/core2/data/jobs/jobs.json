@@ -1889,5 +1889,6 @@
         "medianYears": 9.9
       }
     ]
-  }
+  },
+  "elsewhereEmployerNamePattern": "Employers outside {place}"
 }

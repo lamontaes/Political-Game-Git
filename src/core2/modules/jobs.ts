@@ -32,6 +32,7 @@ import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
   elsewhereTarget,
+  fundFullElsewhere,
   placeElsewhere,
   unplacedWorkers,
 } from "../jobs-elsewhere";
@@ -498,10 +499,11 @@ function open(api: CoreAPI): void {
     if (job && job.endsAt === undefined && !flow.endedAt)
       working.add(job.personId);
   }
-  const looking = store(api).table("countedSeekers");
+  const looking = store(api).table("countedSeekers"),
+    lookingFull = store(api).table("seekers");
   const elsewhere = placeElsewhere(
     api,
-    (id) => !working.has(id) && !looking.get(id),
+    (id) => !working.has(id) && !looking.get(id) && !lookingFull.get(id),
   );
   if (elsewhere)
     store(api).table("employers").put({
@@ -512,6 +514,17 @@ function open(api: CoreAPI): void {
       elsewhere: true,
       townPlaceId: elsewhere.placeId,
     });
+  if (elsewhere?.fullOrganizationId)
+    store(api)
+      .table("employers")
+      .put({
+        id: elsewhere.fullOrganizationId,
+        isEmployer: true,
+        openingStaff: elsewhere.fullStaff ?? 0,
+        need: 0,
+        elsewhere: true,
+        townPlaceId: elsewhere.placeId,
+      });
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   // Where each place's people work at the opening: the places a seeker can look for work.
   const links: Record<string, string[]> = {};
@@ -2242,6 +2255,8 @@ export const JOBS_MODULE: CoreModule = {
     if (work.kind === "jobs-review") {
       // Agreements made since last month may name jobs too.
       pinnedByCore.delete(core(api));
+      // Full people's employers outside the town are paid in for the month first.
+      fundFullElsewhere(api);
       reviewMatches(api);
       reviewEmployers(api);
       reviewWorkers(api);
