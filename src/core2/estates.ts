@@ -23,6 +23,7 @@ import { outsideGovernment } from "./outside-governments";
 import { closenessBetween } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import { registerModule } from "./state";
+import { endRecipientIncomeAtDeath } from "./finance-state";
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import type {
   CoreAPI,
@@ -165,8 +166,9 @@ export function settleEstate(
   if (!person || person.alive) return [];
   const accounts = api.accounts();
   const from = accounts.main(personId);
-  // Benefits and other standing payments to them stop with their death.
+  // Benefits, pensions and other standing payments to them stop with their death.
   accounts.endObligationsTo(from);
+  endRecipientIncomeAtDeath(api.state as CoreState, personId);
   payDebts(api, personId, from);
   if (accounts.balance(from) <= api.parameter("zero")) return [];
   if (api.state.modules.has(ESTATES_MODULE_ID)) {
