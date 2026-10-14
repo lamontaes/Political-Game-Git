@@ -1045,10 +1045,23 @@ export function reviewBusiness(
   date.setUTCMonth(date.getUTCMonth() - p("one"));
   const month = date.toISOString().slice(p("zero"), p("isoMonthCharacters"));
   const paid = core.finance.paidIncomeByPlaceMonth.get(`${month}:${place}`);
+  // The opening's anchor counts residents' pay from the town's own firms; the
+  // month's measure also counts pay from elsewhere and retirement. So the
+  // first full month the book reads (never the game's opening month, which
+  // starts partway) becomes its basis, and each later month moves the anchor
+  // by its change from that basis.
+  if (
+    book.incomeBasisMinor === undefined &&
+    paid !== undefined &&
+    paid > p("zero") &&
+    month > core.startedAt.slice(p("zero"), p("isoMonthCharacters"))
+  )
+    book.incomeBasisMinor = paid * p("monthsPerYear");
   const income =
-    paid === undefined
+    paid === undefined || book.incomeBasisMinor === undefined
       ? book.openingTownIncomeMinor
-      : paid * p("monthsPerYear");
+      : (book.openingTownIncomeMinor * paid * p("monthsPerYear")) /
+        book.incomeBasisMinor;
   const conditions = core.finance.conditionsByPlace.get(place) ?? [];
   const condition = conditions
     .filter((row) => row.at <= core.date)
