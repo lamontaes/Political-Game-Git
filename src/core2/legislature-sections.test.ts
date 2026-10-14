@@ -17,6 +17,7 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import {
+  billForm,
   billSections,
   draftBill,
   openLegislature,
@@ -148,5 +149,46 @@ describe("a bill's sections", () => {
     expect(section!.before.shape, where).toBe("graduated");
     expect(section!.after.value).toBe(3);
     expect(section!.editable).toEqual(["value", "effectiveDate", "shape"]);
+    // A state act falls back on its state's rule: no closing section.
+    expect(billForm(api, bill).kind).toBe("act");
+    expect(billForm(api, bill).effectiveSection, where).toBeNull();
+
+    // A town or county body's measure reads as an ordinance: numbered by the
+    // year, ordained by that body, closing on when it takes effect.
+    const local = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+        id: string;
+        kind: string;
+        jurisdiction: string;
+      }[]
+    ).find(
+      (o) =>
+        o.jurisdiction !== state &&
+        o.jurisdiction !== "US" &&
+        /council|board|commission/.test(o.kind),
+    );
+    expect(local, where).toBeDefined();
+    const ordinance = billForm(
+      api,
+      draftBill(api, {
+        bodyOfficeId: local!.id,
+        sponsorId: player.id,
+        provisions: [
+          {
+            kind: "law-amount",
+            series: "minimum-wage",
+            value: 1500,
+            unit: "minor/hour",
+          },
+        ],
+      }),
+    );
+    expect(ordinance.kind, where).toBe("ordinance");
+    expect(ordinance.number, where).toMatch(/^\d{4}-\d+$/);
+    expect(ordinance.enactingClause, where).toMatch(/^Be it ordained by /);
+    expect(ordinance.enactingClause, where).not.toContain("{body}");
+    expect(ordinance.sections).toHaveLength(1);
+    expect(ordinance.effectiveSection?.kind, where).toBe("days-after-adoption");
+    expect(ordinance.effectiveSection!.days).toBeGreaterThan(0);
   }, 600_000);
 });
