@@ -28,6 +28,7 @@ import { openLawEffects } from "../core2/modules/law-effects";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openLeadership } from "../core2/modules/leadership";
+import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
@@ -318,6 +319,8 @@ function* benchWorldStages(
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
   openExecutive(core, seed);
+  // The president's cabinet and the line of succession (OPUS-GOV).
+  openSuccession(core);
   openLawEffects(core);
   // Everything that works through the government above, in the order the
   // modules' own tests open them: officials' staff, interest groups (hooks
