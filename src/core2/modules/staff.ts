@@ -137,9 +137,17 @@ const WORKING_AGE_POINTS = [18, 22, 30, 40, 50, 60, 70, 80] as const;
  * the nearest two band middles, read along the line between them, over the
  * fullest band's share. No age is cut off.
  */
+let workingAgeTable: ReadonlyMap<number, number> | null = null;
 export function workingAgeWeight(age: number): number {
-  const at = (point: number) => campaignParameter(`staffWorkingAgeAt${point}`);
-  const top = Math.max(...WORKING_AGE_POINTS.map(at));
+  workingAgeTable ??= new Map(
+    WORKING_AGE_POINTS.map((point) => [
+      point,
+      campaignParameter(`staffWorkingAgeAt${point}`),
+    ]),
+  );
+  const table = workingAgeTable;
+  const at = (point: number) => table.get(point)!;
+  const top = Math.max(...table.values());
   const first = WORKING_AGE_POINTS[0];
   const last = WORKING_AGE_POINTS[WORKING_AGE_POINTS.length - 1]!;
   if (age <= first) return at(first) / top;
@@ -188,8 +196,28 @@ function officeSiteOf(api: CoreAPI, officialId: string): OfficeSite {
   };
 }
 
+const reachCache = new Map<
+  string,
+  Pick<StaffCandidate, "reach" | "reachBasis">
+>();
+
 /** How far a home is within commuting reach of the office's site, from the place records. */
 function reachOf(
+  site: OfficeSite,
+  placeId: string,
+  countyGeoids: readonly string[],
+): Pick<StaffCandidate, "reach" | "reachBasis"> {
+  // Place records never change in play: one read per site and home.
+  const key = `${site.placeId}|${placeId}|${countyGeoids.join(",")}`;
+  let held = reachCache.get(key);
+  if (!held) {
+    held = readReach(site, placeId, countyGeoids);
+    reachCache.set(key, held);
+  }
+  return held;
+}
+
+function readReach(
   site: OfficeSite,
   placeId: string,
   countyGeoids: readonly string[],
@@ -251,9 +279,7 @@ export function staffCandidates(
   );
   const postHourly = campaignParameter("staffHourlyMinor");
   const out: StaffCandidate[] = [];
-  for (const person of [...api.state.people.values()].sort((a, b) =>
-    a.id.localeCompare(b.id),
-  )) {
+  for (const person of peopleInOrder(state)) {
     if (
       !person.alive ||
       person.id === officialId ||
@@ -292,14 +318,8 @@ export function staffCandidates(
       out.push({ personId: person.id, from: "applicant", ...placed });
   }
   // The town's counted adults with no work in their records apply too.
-  for (const voter of countedResidents(state)) {
-    if (
-      voter.placeId !== town ||
-      voter.weeklyMinutes > 0 ||
-      hired.has(voter.id) ||
-      ageOnDay(voter.birthDate, date) < minimum
-    )
-      continue;
+  for (const voter of countedPool(api, town, minimum)) {
+    if (hired.has(voter.id)) continue;
     const known =
       official.knownIds.has(voter.id) || official.familyIds.has(voter.id);
     const link = official.familyIds.has(voter.id)
@@ -309,13 +329,67 @@ export function staffCandidates(
       personId: voter.id,
       from: known ? "known" : "applicant",
       counted: true,
-      ...reachOf(site, voter.placeId, lawChain(api).countyGeoids),
-      workingAge: workingAgeWeight(ageOnDay(voter.birthDate, date)),
+      ...reachOf(site, town, lawChain(api).countyGeoids),
+      workingAge: voter.workingAge,
       traits: voter.traits,
       ...(link ? { familyLinkId: link } : {}),
     });
   }
   return out;
+}
+
+const pools = new WeakMap<
+  CoreState,
+  {
+    readonly date: string;
+    readonly rows: readonly {
+      readonly id: string;
+      readonly workingAge: number;
+      readonly traits: Readonly<Record<string, number>>;
+    }[];
+  }
+>();
+
+/** The town's counted adults with no work in their records, once a day. */
+function countedPool(api: CoreAPI, town: string, minimum: number) {
+  const state = api.state as CoreState;
+  const held = pools.get(state);
+  if (held?.date === state.date) return held.rows;
+  const rows = countedResidents(state)
+    .filter(
+      (voter) =>
+        voter.placeId === town &&
+        voter.weeklyMinutes <= 0 &&
+        ageOnDay(voter.birthDate, state.date) >= minimum,
+    )
+    .map((voter) => ({
+      id: voter.id,
+      workingAge: workingAgeWeight(ageOnDay(voter.birthDate, state.date)),
+      traits: voter.traits,
+    }));
+  pools.set(state, { date: state.date, rows });
+  return rows;
+}
+
+const ordered = new WeakMap<
+  CoreState,
+  {
+    readonly date: string;
+    readonly size: number;
+    readonly rows: readonly PersonState[];
+  }
+>();
+
+/** Full people in id order, sorted once a day (or when someone is filled in). */
+function peopleInOrder(state: CoreState): readonly PersonState[] {
+  const held = ordered.get(state);
+  if (held?.date === state.date && held.size === state.people.size)
+    return held.rows.map((row) => state.people.get(row.id) ?? row);
+  const rows = [...state.people.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  );
+  ordered.set(state, { date: state.date, size: state.people.size, rows });
+  return rows;
 }
 
 /** How well a new hire would do the work, from their traits alone (no tasks done yet). */
@@ -361,10 +435,15 @@ export function hireStaff(
     readonly personId: string;
     readonly role: string;
   },
+  /** The candidate as the review already weighed them, to skip a second scan. */
+  chosen?: StaffCandidate,
 ): StafferRow {
-  const candidate = staffCandidates(api, input.officialId).find(
-    (c) => c.personId === input.personId,
-  );
+  const candidate =
+    chosen?.personId === input.personId
+      ? chosen
+      : staffCandidates(api, input.officialId).find(
+          (c) => c.personId === input.personId,
+        );
   if (!candidate)
     throw new Error(`${input.personId} isn't a candidate for this office`);
   // Someone from the counted population becomes a full person from their
@@ -711,11 +790,15 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         (a, b) => b.score - a.score || a.personId.localeCompare(b.personId),
       )[0];
     if (choice)
-      hireStaff(api, {
-        officialId,
-        personId: choice.personId,
-        role: "aide",
-      });
+      hireStaff(
+        api,
+        {
+          officialId,
+          personId: choice.personId,
+          role: "aide",
+        },
+        choice,
+      );
   }
 }
 
