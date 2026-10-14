@@ -43,6 +43,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
 import { closenessBetween } from "../closeness";
+import { bribePull } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
@@ -90,6 +91,8 @@ export interface Provision {
   readonly value: number;
   readonly unit?: string;
   readonly effectiveDate?: string;
+  /** For a budget line: the line's amount the change is made to, so a stance weighs its size. */
+  readonly of?: number;
   /** The catalog policy the section was drafted from, and what it does to it. */
   readonly policyId?: string;
   readonly operation?: string;
@@ -176,6 +179,8 @@ export interface MemberPosition {
   readonly trait: number;
   /** Their own last vote on the question, while the law is fresh: for a bill that keeps it, against one that undoes it. */
   readonly consistency: number;
+  /** What a bribe they took on this bill pulls them toward (the payer's side). */
+  readonly bribe: number;
   readonly total: number;
 }
 
@@ -295,11 +300,15 @@ function councilBudget(
     return null;
   const priorities =
     budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
+  const carried = budgetCarry(api, gov, fy);
   const provisions: Provision[] = Object.entries(priorities?.changes ?? {}).map(
     ([line, delta]) => ({
       kind: "budget-line",
       line,
       value: delta,
+      ...(carried?.spendingMinor[line]
+        ? { of: carried.spendingMinor[line] }
+        : {}),
     }),
   );
   const sponsor =
@@ -353,12 +362,16 @@ function councilBudget(
     }
     return { adopted: true, tallies, rows, against: [] as string[] };
   };
-  // A rejected budget is negotiated, not abandoned: the leaders drop the
-  // change its opponents in the failing chamber object to most and vote
-  // again, until it passes or no change is left (then last year's carries).
+  // A rejected budget is negotiated, not abandoned: the leaders meet its
+  // opponents in the failing chamber halfway on the change they object to
+  // most, halving it, and vote again; a change halved as far as the
+  // negotiation goes is dropped. It ends when the budget passes or no change
+  // is left (then last year's carries).
   let kept: readonly Provision[] = provisions;
   let result = roll(kept);
+  const halved = new Map<string, number>();
   const dropped: string[] = [];
+  const lineOf = (p: Provision) => String((p as { line?: string }).line);
   while (!result.adopted && kept.length) {
     const objection = (p: Provision) =>
       result.against.reduce((sum, key) => {
@@ -371,15 +384,19 @@ function councilBudget(
       }, 0);
     const worst = [...kept]
       .map((p) => ({ p, o: objection(p) }))
-      .sort(
-        (a, b) =>
-          a.o - b.o ||
-          String((a.p as { line?: string }).line).localeCompare(
-            String((b.p as { line?: string }).line),
-          ),
-      )[0]!.p;
-    dropped.push(String((worst as { line?: string }).line));
-    kept = kept.filter((p) => p !== worst);
+      .sort((a, b) => a.o - b.o || lineOf(a.p).localeCompare(lineOf(b.p)))[0]!
+      .p;
+    const line = lineOf(worst);
+    const times = halved.get(line) ?? 0;
+    if (times >= campaignParameter("budgetCompromiseRounds")) {
+      dropped.push(line);
+      kept = kept.filter((p) => p !== worst);
+    } else {
+      halved.set(line, times + 1);
+      kept = kept.map((p) =>
+        p === worst ? { ...p, value: Math.round(p.value / 2) } : p,
+      );
+    }
     result = roll(kept);
   }
   for (const row of result.rows) table(api, "votes").put(row);
@@ -400,7 +417,16 @@ function councilBudget(
         api,
         gov,
         fy,
-        `${chambers.body} vote ${votes}${dropped.length ? ` (amended: ${dropped.join(", ")} dropped)` : ""}, ${bill.number}`,
+        `${chambers.body} vote ${votes}${
+          halved.size || dropped.length
+            ? ` (amended: ${[
+                ...[...halved.entries()]
+                  .filter(([line]) => !dropped.includes(line))
+                  .map(([line, n]) => `${line} cut to 1/${2 ** n}`),
+                ...dropped.map((line) => `${line} dropped`),
+              ].join(", ")})`
+            : ""
+        }, ${bill.number}`,
         passed,
       )
     : carriedBudget(
@@ -609,12 +635,23 @@ export function provisionStance(
       position: provision.value > 0 ? 1 : -1,
     };
   // Spending more or less on a line: read by who wants more spent on it.
+  // A change's size counts: against the line it's made to, a change of a
+  // tunable share is a full stance, a smaller one less (a sliding scale).
   if (provision.kind === "budget-line" && provision.line)
     return provision.value === 0
       ? null
       : {
           question: `budget-line:${provision.line}`,
-          position: Math.sign(provision.value),
+          position: provision.of
+            ? Math.max(
+                -1,
+                Math.min(
+                  1,
+                  provision.value /
+                    (provision.of * campaignParameter("budgetFullStanceShare")),
+                ),
+              )
+            : Math.sign(provision.value),
         };
   const map = provision.series ? seriesQuestion[provision.series] : undefined;
   if (!map || !provision.series) return null;
@@ -1300,6 +1337,8 @@ function positionOn(
   // A member's own record: undoing what they just voted for, or redoing what
   // they just voted against, weighs against them while the law is fresh.
   const consistency = recordConsistency(api, memberId, bill);
+  // A bribe they took on this bill, as far as it moves them.
+  const bribe = bribePull(api, memberId, bill.id);
   return {
     memberId,
     views,
@@ -1311,6 +1350,7 @@ function positionOn(
     ...(further ?? {}),
     trait,
     consistency,
+    bribe,
     total:
       views +
       answersHome +
@@ -1319,6 +1359,7 @@ function positionOn(
       lobby +
       trait +
       consistency +
+      bribe +
       (further
         ? further.party + further.wing + further.ambition + further.press
         : 0),
@@ -2545,27 +2586,38 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
   });
 }
 
-/** Put a bill on the body's next meeting (stand-in: two weeks out until meeting calendars are read). */
+/** The body's next sitting day after today, with where its date comes from. */
+export interface Sitting {
+  readonly date: string;
+  readonly source: Source;
+}
+let sittingReader:
+  ((api: CoreAPI, bodyOfficeId: string) => Sitting | null) | null = null;
+/** The engine that keeps the bodies' calendars says when each sits next. */
+export function registerSittingReader(
+  reader: (api: CoreAPI, bodyOfficeId: string) => Sitting | null,
+): void {
+  sittingReader = reader;
+}
+
+/**
+ * Put a bill on the body's next sitting: a town body's next regular meeting,
+ * a legislature's next floor week in session (or its next session's first),
+ * Congress's likewise, from the calendars the world keeps.
+ */
 export function scheduleVote(api: CoreAPI, billId: string): string {
-  const date = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 14 * 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  const sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
+  if (!sitting)
+    throw new Error(`No sitting of ${bill.bodyOfficeId} is on the calendar.`);
   api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
     key: `meeting:${billId}`,
-    date,
+    date: sitting.date,
     kind: "council-meeting",
-    source: {
-      tag: "ESTIMATED",
-      citation: "Two weeks to the next regular meeting",
-      asOf: api.state.date,
-      estimatedFrom:
-        "Most councils meet twice a month (ICMA municipal form of government survey)",
-    },
+    source: sitting.source,
     sourceRecordIds: [billId],
   });
-  return date;
+  return sitting.date;
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {

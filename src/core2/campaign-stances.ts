@@ -193,7 +193,13 @@ export function partyFirmness(api: CoreAPI, personId: string): number {
       : 0;
   const traits =
     person && !official
-      ? decisionLean(api.state, person, "parties.join", "join", "stay-out")
+      ? decisionLean(
+          api.state,
+          person,
+          "campaigns.party-firmness",
+          "join",
+          "stay-out",
+        )
       : 0;
   return clamp(
     campaignParameter("partyFirmnessBase") * (official?.loyalty ?? 1) +
