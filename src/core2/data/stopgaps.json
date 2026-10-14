@@ -2573,18 +2573,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORLD-housing-unmodeled-renters",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/housing.ts",
-    "line": 396,
-    "whatItFakes": "Renter households with no recorded income (no current job and no income award) pay no rent and cannot be evicted.",
-    "why": "Most such households stand for people working at employers the opening does not generate; charging them rent evicted 537 of 1,195 renter households in four months in Landrum. The two-level population (OPUS-CORE) will hold them as counts with their real incomes.",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-12",
-    "replacement": "The two-level population's household incomes for every renter, with rent and arrears for all of them.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
@@ -4103,6 +4091,66 @@
     "replacement": "OFFICE-LOCAL's prepareAct taking any registered kit's act ids (asked on the PR); the federal table is deleted.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-committee-names-national",
+    "kind": "assumed-data",
+    "file": "src/core2/legislature-committees.ts",
+    "line": 1,
+    "whatItFakes": "Every state chamber and Congress keeps the same nine subject committees (finance, judiciary, education, health, labor and commerce, transportation, environment, housing, government), not its own list and names.",
+    "why": "The audit found every bill going to one 'general' committee. Each chamber's own committee list is not in the data yet; the nine subjects are the ones nearly every chamber keeps.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Each chamber's standing committees and the subjects they hear, read from its rules (Book of the States Table 3.23 and each chamber's committee page), the way Congress's are in data/office-day/federal-committees.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-owner-decision-player-eviction",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/housing.ts",
+    "line": 1081,
+    "whatItFakes": "The player's household is evicted like any other when its rent goes unpaid: notice, filing, hearing, judgment and removal under the place's law.",
+    "why": "Whether the player can lose their home is the owner's call (homelessness package, Oct 14); the package's default is yes.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling: keep it as is, or give the player's household another path.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-shelter-beds-state-rate",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-homeless.ts",
+    "line": 106,
+    "whatItFakes": "A place's shelter beds are its state's year-round beds per 10,000 people (HUD 2025 Housing Inventory Count) times its own people, not the beds its Continuum of Care actually lists in or near it.",
+    "why": "The HIC lists beds by Continuum of Care and provider; joining providers' geocodes to places is not done yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Beds by place from the HIC provider rows (geocode to county and place), with occupancy on the count night.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-shelter-territory",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-homeless.ts",
+    "line": 111,
+    "whatItFakes": "American Samoa and the Northern Mariana Islands, which have no HUD Continuum of Care, use the nation's shelter beds per 10,000.",
+    "why": "No HUD Housing Inventory Count covers them.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Each territory government's own shelter count.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-foreclosure-steps",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-foreclosure.ts",
+    "line": 66,
+    "whatItFakes": "A state's foreclosure timeline that was not read from its statute (or that has no published average) is taken from secondary summaries or the national average days to complete.",
+    "why": "Foreclosure statutes and timelines were gathered for 56 places in one pass; places below high confidence still need their statute text read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete.",
     "status": "open"
   }
 ]
