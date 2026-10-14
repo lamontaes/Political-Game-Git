@@ -4069,18 +4069,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORLD-housing-counted-set-asides",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/housing.ts",
-    "line": 1843,
-    "whatItFakes": "An apartment building's set-aside (inclusionary) units go only to full households with a lease; the wider population's renters are never offered one.",
-    "why": "Counted renters have no lease contract for the set-aside rent to replace (they pay a rent flow from their group).",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-14",
-    "replacement": "Set-aside units offered to the lowest-paid eligible renters of both tiers, a counted household's rent flow set to 30% of its pay.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORLD-credit-income-test-tiers",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/credit.ts",

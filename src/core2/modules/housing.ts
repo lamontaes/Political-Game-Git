@@ -1947,7 +1947,6 @@ function build(api: CoreAPI): void {
   }
 }
 
-// stopgapId: SG-WORLD-housing-counted-set-asides
 /** A finished project is a public record; an apartment building's set-aside units go to the lowest-paid eligible renters at 30% of their pay. */
 function finish(
   api: CoreAPI,
@@ -1958,8 +1957,13 @@ function finish(
   const moved: string[] = [];
   if (project.affordableUnits > 0) {
     const limit = housingConstruction.inclusionary.amiShare * medianPayMinor;
-    const eligible: { householdId: string; pay: number; leaseId: string }[] =
-      [];
+    // Renters of both tiers (one model, two tiers): a lease, or a counted household's rent flow.
+    const eligible: {
+      householdId: string;
+      pay: number;
+      leaseId?: string;
+      flowId?: string;
+    }[] = [];
     for (const [id, lease] of c.finance.contracts) {
       if (!id.startsWith("lease:") || lease.endedAt || !lease.householdId)
         continue;
@@ -1977,6 +1981,16 @@ function finish(
       if (pay > 0 && pay < limit)
         eligible.push({ householdId: lease.householdId, pay, leaseId: id });
     }
+    const rt = residentsRuntime(c);
+    for (const h of rt?.store.liveHouseholds() ?? []) {
+      if (h.placeId !== project.placeId) continue;
+      const flow = rt!.flows.get(`rent:${h.id}`);
+      if (!flow || flow.endedAt) continue;
+      if (store(api).table("affordable").get(h.id)) continue;
+      const pay = h.wagesMinorYear / api.parameter("macroMonthsPerYear");
+      if (pay > 0 && pay < limit)
+        eligible.push({ householdId: h.id, pay, flowId: flow.id });
+    }
     eligible.sort(
       (a, b) => a.pay - b.pay || a.householdId.localeCompare(b.householdId),
     );
@@ -1984,10 +1998,19 @@ function finish(
       const rent = Math.round(
         housingConstruction.inclusionary.rentShareOfIncome * row.pay,
       );
-      const lease = c.finance.contracts.get(row.leaseId)!;
-      const whole = contractRent(api, row.householdId, lease.amountMinor);
-      if (rent >= whole) continue;
-      setLeaseRent(api, row.leaseId, row.householdId, rent, true);
+      let whole: number;
+      if (row.leaseId) {
+        const lease = c.finance.contracts.get(row.leaseId)!;
+        whole = contractRent(api, row.householdId, lease.amountMinor);
+        if (rent >= whole) continue;
+        setLeaseRent(api, row.leaseId, row.householdId, rent, true);
+      } else {
+        const flow = rt!.flows.get(row.flowId!)!;
+        whole = flow.amountMinor;
+        if (rent >= whole) continue;
+        // The group pays the set-aside rent from the next due date.
+        flow.amountMinor = rent;
+      }
       store(api).table("affordable").put({
         id: row.householdId,
         householdId: row.householdId,
