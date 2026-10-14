@@ -4,9 +4,20 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 
 ## Open
 
+- **A player who loses an election (player-path audit, Oct 14).** CTO ruling pending the owner: a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
+- **The player's own hand in unrest (movements proposal, Oct 14).** May the player order a crackdown on a march, or urge a crowd past peaceful protest, told without graphic detail?
+- **Unions and strikes:** early access or 1.0?
+
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
 ## Ruled, October 14, 2026 (evening)
+
+- **The player casts their own ballot** (owner, Oct 13: "you should be able to cast your vote"); the engine never votes for the player, and a candidate's own ballot is theirs to cast.
+- **A yes-or-no vote resolves from a sliding score** (CTO, from the sliding-scales rule, which governs causes, not the final yes or no): a deal offered to someone already in favor counts as accepted.
+- **Filing under a party** requires being a member (joining reads the person's views against the party's positions, per the register's votes-from-principles ruling) or filing as an independent where the place allows it.
+- **The executive proposes where the place's charter or constitution allows it** (data), and signs or vetoes everywhere (owner: "all of them").
+- **Where the data has a primary date, the primary is held** (one rule, all places); Alabama county primaries skipping is a defect, not a decision.
+- **Movements (from the proposal and the register's movement ruling):** in early access: marches, petitions, primary challenges, the player speaking, joining and founding; a person's lean may move over years from what happens to them and what they hear (realignment must be possible); the director gains public scenes (a rally, a march, a crowd, a speech to strangers); police, the Guard and the military as deciding bodies, boycotts and war are 1.0; a living retired leader keeps leading until they step down or die, then a similar successor inherits (the register).
 
 - **What you know about a person:** faith and the rest come out only through what they say and do; the dossier shows what anyone would know (age, hometown, probably job), the rest emerges. The player's own traits emerge the same way, and people hold views on the player as they do on anyone.
 - **Starting age:** 17 turning 18 is the early-access default; starting older (with a job, a home and a record) is allowed; the old client had a randomized-age control and may again.
