@@ -264,8 +264,10 @@ export function scoreOffers(
           ? ownBindings
           : offerBindings;
     // Retain at most the selected and runner-up terms. Full alternative scores stay detail-only.
-    const reasonTerms: WeightedReason[] = [];
+    let reasonTerms: readonly WeightedReason[] = NO_BINDINGS;
     if (bindings.length) {
+      const terms: WeightedReason[] = [];
+      reasonTerms = terms;
       const api = coreAPI(core),
         ids = new Set<string>();
       let contribution = p("zero");
@@ -292,7 +294,7 @@ export function scoreOffers(
         contribution += weighted;
         if (!Number.isFinite(contribution))
           throw new Error("Non-finite module reason sum.");
-        reasonTerms.push({
+        terms.push({
           ...binding,
           arguments: binding.arguments ? { ...binding.arguments } : undefined,
           value: result.value,
@@ -302,10 +304,16 @@ export function scoreOffers(
       }
       reasons.module = contribution;
     }
-    const score = Object.values(reasons).reduce(
-      (sum, value) => sum + value,
-      p("zero"),
-    );
+    // Summed in the reasons' own order, without an array per offer.
+    let score =
+      p("zero") +
+      reasons.need +
+      reasons.goal +
+      reasons.drive +
+      reasons.trait +
+      reasons.emotion +
+      reasons.effort;
+    if (reasons.module !== undefined) score += reasons.module;
     if (!Number.isFinite(score)) throw new Error("Non-finite choice utility.");
     scored.push({
       offerIndex,
