@@ -80,7 +80,13 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     });
     const api = coreAPI(core);
     const start = total(core);
-    advanceCore(core, "2022-01-01");
+    // A year from the opening, then two months more (dates follow the game start).
+    const monthsOn = (months: number) => {
+      const at = new Date(`${input.startedAt}T00:00:00Z`);
+      at.setUTCMonth(at.getUTCMonth() + months);
+      return at.toISOString().slice(0, 10);
+    };
+    advanceCore(core, monthsOn(12));
     const claims = retirementClaims(core);
     expect(claims.has(adult.id)).toBe(true);
     const flows = residentsRuntime(core)!.flows;
@@ -116,7 +122,7 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       ([id, row]) => row.counted && residentPerson(core, id),
     )!;
     fillInPerson(core, claimant);
-    advanceCore(core, "2022-03-01");
+    advanceCore(core, monthsOn(14));
     const moved = retirementClaims(core).get(claimant)!;
     expect(moved.counted).toBe(false);
     expect(api.accounts().obligation(moved.obligationId)!.paidMinor).toBe(

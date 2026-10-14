@@ -3084,11 +3084,23 @@
     "kind": "estate",
     "file": "src/core2/estates.ts",
     "line": 1,
-    "whatItFakes": "A full person's estate is only their cash: homes, loans, businesses and accounts other than their main one are not settled, no will is read, and an heirless estate escheats to the town's state even when the person lived in another state. A counted relative (not a full person) does not inherit.",
+    "whatItFakes": "A full person's estate is only their cash: homes, loans, businesses and accounts other than their main one are not settled, and no will is read. A relative who is still only a counted record does not inherit.",
     "why": "Money stress audit defect 6 (Oct 14): a dead person's cash stayed on their record. Cash first; the rest of an estate needs property and debt records the core doesn't settle yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
-    "replacement": "Probate that settles debts first, passes homes and businesses by title, reads a will where the person made one, and escheats to the decedent's own state.",
+    "replacement": "Probate that settles debts first, passes homes and businesses by title, and reads a will where the person made one.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-official-salary",
+    "kind": "official-pay",
+    "file": "src/core2/modules/official-pay.ts",
+    "line": 1,
+    "whatItFakes": "Officials' salaries are monthly transfers, not payroll paychecks, so no income tax or payroll tax is withheld from them. The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
+    "why": "Money stress audit defect 9 (Oct 14): every official outside the town opened with $0 and no job. The payroll engine pays by attended minute, and scheduling shifts for 1,500 officials would break the speed guard.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "A salaried pay basis in the payroll engine so officials are paid by paycheck with withholding; every state's treasury where its officials act; sourced salary rows for every elected office.",
     "status": "open"
   }
 ]

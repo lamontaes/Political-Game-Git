@@ -86,6 +86,29 @@ describe("estates (money audit defect 6)", () => {
     ]);
   });
 
+  it("ends standing payments to the dead, such as a benefit award", () => {
+    const core = world([
+      person("dead", 0, { kid: "child" }),
+      person("kid", 500, { dead: "parent" }),
+    ]);
+    const api = coreAPI(core);
+    const accounts = api.accounts();
+    accounts.addObligation({
+      id: "award",
+      from: accounts.main("kid"),
+      to: accounts.main("dead"),
+      amountMinor: 100,
+      firstDueAt: "2026-02-01",
+      cadence: { kind: "months", every: 1 },
+      accruesArrears: false,
+      reasonKey: "benefit.test",
+      source: piecesSource,
+    });
+    api.updatePerson("dead", { alive: false });
+    settleEstate(api, "dead", "event:death");
+    expect(accounts.obligation("award")!.endedAt).toBe(core.date);
+  });
+
   it("leaves cash in place when there is no kin and no state treasury to escheat to", () => {
     const core = world([person("dead", 900, {})]);
     const api = coreAPI(core);

@@ -3,12 +3,14 @@
  * cash passes, in one balanced journal entry per heir, to their nearest
  * living kin by the intestate order in `data/estates.json` (Uniform Probate
  * Code §2-102 to §2-103), shared equally within that class. With no living
- * kin it escheats to the state's treasury (UPC §2-105). Stopgap
+ * kin it escheats to their state (UPC §2-105). Standing payments to them
+ * (a benefit award) end. Stopgap
  * SG-CORE-estate-cash-only: only cash passes; homes, loans and businesses
  * are not settled, and no will is read.
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { outsideGovernment } from "./outside-governments";
 import type { CoreAPI, PersonId, PersonState } from "./types";
 
 export const ESTATES = data;
@@ -46,11 +48,25 @@ export function heirsOf(
   return { heirs: [] };
 }
 
-/** The state treasury an heirless estate escheats to, when the budgets engine runs. */
-function stateTreasury(api: CoreAPI): string | undefined {
-  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
-  return governments(api).find((row) => row.level === data.escheat.to)
-    ?.organizationId;
+/**
+ * The state an heirless estate escheats to: the decedent's own. The town's
+ * state keeps a treasury when the budgets engine runs; any other state is an
+ * outside government.
+ */
+function escheatTo(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): string | undefined {
+  const own = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governments(api).find((row) => row.level === data.escheat.to)
+    : undefined;
+  // Officials and others recorded at a state hold its key as their place.
+  const stateKey = /^US-[A-Z]{2}$/.test(person.placeId)
+    ? person.placeId
+    : own?.id;
+  if (!stateKey) return undefined;
+  if (own && own.id === stateKey) return own.organizationId;
+  return outsideGovernment(api, stateKey);
 }
 
 /** Pass a dead person's cash to their heirs, or to the state. Returns who received what. */
@@ -63,11 +79,13 @@ export function settleEstate(
   if (!person || person.alive) return [];
   const accounts = api.accounts();
   const from = accounts.main(personId);
+  // Benefits and other standing payments to them stop with their death.
+  accounts.endObligationsTo(from);
   const estate = accounts.balance(from);
   if (estate <= api.parameter("zero")) return [];
   api.stopgap(data.stopgapId);
   const { heirs, row } = heirsOf(api, person);
-  const treasury = heirs.length ? undefined : stateTreasury(api);
+  const treasury = heirs.length ? undefined : escheatTo(api, person);
   const takers = heirs.length ? heirs : treasury ? [treasury] : [];
   if (!takers.length) return [];
   const paid: { toId: string; amountMinor: number }[] = [];
