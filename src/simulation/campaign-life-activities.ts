@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { eventById } from "./event-index";
 import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { circulateCandidatePetition } from "./candidate-petitions";

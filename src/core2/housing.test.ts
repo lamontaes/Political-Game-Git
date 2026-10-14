@@ -119,6 +119,41 @@ describe("eviction follows the place's steps", () => {
   });
 });
 
+describe("a tenancy that ends before removal", () => {
+  it("closes the case when the household leaves mid-case, with the rent still owed on the lease and no removal", () => {
+    const core = createLifeCore(input("TX"), {
+        data: worldCoreData(),
+        modules: [HOUSING_MODULE],
+      }),
+      api = coreAPI(core);
+    const cases = () =>
+      api.moduleState("housing").snapshot().tables.cases as unknown as Record<
+        string,
+        string | number | boolean
+      >[];
+    // Day by day until notice is served, then the household leaves (as the moves engine ends a leaving household's lease).
+    let day = "2021-02-01";
+    while (!cases().length) {
+      day = new Date(Date.parse(day) + 86_400_000).toISOString().slice(0, 10);
+      advanceCore(core, day);
+    }
+    api.endStandingContract("lease:household:broke");
+    const owed = core.finance.contracts.get(
+      "lease:household:broke",
+    )!.arrearsMinor;
+    expect(() => advanceCore(core, "2021-08-31")).not.toThrow();
+    const [row] = cases();
+    expect(row).toMatchObject({
+      open: false,
+      stage: "vacated",
+      reasonKey: housingData.reasons.vacated,
+      owedAtCloseMinor: owed,
+    });
+    expect(owed).toBeGreaterThan(0);
+    expect(core.eventIds.has(`event:housing.eviction:${row!.id}`)).toBe(false);
+  });
+});
+
 describe("paying within the notice period", () => {
   it("in South Carolina, whose statute lets a tenant cure, cures the case when the household pays what it owes before the deadline", () => {
     const core = createLifeCore(input("SC"), {

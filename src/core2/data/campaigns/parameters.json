@@ -234,6 +234,12 @@
       "source": "How much the district's lean on the questions weighs beside the member's own views. Checked against dyadic representation studies (Miller and Stokes 1963; Bafumi and Herron 2010).",
       "spread": [0.2, 1]
     },
+    "pillCandidates": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of their own causes a member weighs as a floor amendment against a bill they oppose: the few they care most about. Checked against the share of bills that draw a poison pill in a played year.",
+      "spread": [1, 5]
+    },
     "ordinanceEffectiveDays": {
       "value": 30,
       "tag": "ESTIMATED",

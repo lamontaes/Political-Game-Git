@@ -263,12 +263,12 @@ function showNewsSurface(news) {
   $("news-surface-label").textContent = controls.opening?.news ?? "";
   $("news-surface-headline").textContent =
     story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
-  $("news-surface").onclick = () => openNewsReader(news);
-  show("news-surface", true);
+  $("news-surface").onclick = () => {
+    coachUsed("news-surface");
+    openNewsReader(news);
+  };
   // The paper stays on the table for the evening; living on clears it.
-  $("day").addEventListener("click", () => show("news-surface", false), {
-    once: true,
-  });
+  show("news-surface", true);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -305,28 +305,28 @@ $("news-reader-close").addEventListener("click", () =>
  * The first choices, pointed out one at a time: the news, the people you
  * know, then living the day. Each glows until it is used; nothing to read.
  */
+const COACH_ORDER = ["news-surface", "people-tab", "day"];
+const coachDone = new Set();
+const coachNode = (id) =>
+  id === "people-tab"
+    ? document.querySelector('#rings [data-tab="people"]')
+    : $(id);
+/** Glows the first choice not yet used; each clears however it is used. */
+function coachRender() {
+  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
+  const next = COACH_ORDER.find((id) => {
+    const node = coachNode(id);
+    return !coachDone.has(id) && node && !node.hidden;
+  });
+  if (next) coachNode(next).classList.add("coach");
+}
+function coachUsed(...ids) {
+  for (const id of ids) coachDone.add(id);
+  coachRender();
+}
 function coachFirstChoices() {
-  const steps = ["news-surface", "people-tab", "day"]
-    .map((id) =>
-      id === "people-tab"
-        ? document.querySelector('#rings [data-tab="people"]')
-        : $(id),
-    )
-    .filter((node) => node && !node.hidden);
-  const next = () => {
-    const node = steps.shift();
-    if (!node) return;
-    node.classList.add("coach");
-    node.addEventListener(
-      "click",
-      () => {
-        node.classList.remove("coach");
-        next();
-      },
-      { once: true },
-    );
-  };
-  next();
+  coachDone.clear();
+  coachRender();
 }
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
@@ -785,7 +785,12 @@ function atThePolls(scene) {
   });
 }
 // The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
-$("day").addEventListener("click", () => act("/api/advance?mode=day"));
+$("day").addEventListener("click", () => {
+  // Living on puts the evening's paper away and ends the first-choice glow.
+  show("news-surface", false);
+  coachUsed(...COACH_ORDER);
+  return act("/api/advance?mode=day");
+});
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -2046,6 +2051,7 @@ const groups = {
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
+  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
