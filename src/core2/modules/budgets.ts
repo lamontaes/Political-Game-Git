@@ -1393,7 +1393,8 @@ function payPensionContribution(api: CoreAPI): void {
     .filter((row) => row.startsOn <= api.state.date)
     .at(-1);
   const monthly = Math.round(
-    (budget?.spendingMinor.retirementContributions ?? 0) / MONTHS_PER_YEAR,
+    (budget?.spendingMinor.retirementContributions ?? 0) /
+      lawParameters.parameters.monthsPerYear.value,
   );
   if (monthly <= 0) return;
   // stopgapId: SG-LAW-LINK-calibration
