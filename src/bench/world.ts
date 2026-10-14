@@ -36,6 +36,7 @@ import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { openCases } from "../core2/modules/constituent-cases";
+import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
@@ -47,6 +48,7 @@ import { initialFocusPeople } from "../core2/focus";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { recordOpeningStory } from "../director/opening-story";
 import {
   applyWorldSettings,
   checkWorldSettings,
@@ -139,7 +141,7 @@ function familyClosure(input: CoreInput): Set<string> {
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "done";
+  "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
 type BuildOptions = {
   placeKey?: string;
   minimumPeople?: number;
@@ -328,7 +330,16 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // The world has a past (OPUS-CORE): prior elections, voting records, law
+  // histories, the year's news and what the public knows, before day one.
+  openThePast(core, seed);
   director.start(core);
+  yield "opening";
+  // The opening, told as a story from the records (owner, Oct 14, 2026): the
+  // President's address and that night's news, composed once while the
+  // world loads and kept on the director's ledger for the screens.
+  if (playerId)
+    director.ledger.opening = recordOpeningStory(core, playerId) ?? undefined;
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
     .filter((person) => person.placeId === placeId)
