@@ -28,6 +28,7 @@ Cleanup builder, PR #4196 (branch `cleanup/retire-old-core`, on top of the dead-
   - Oct 14, night: the old imports left, by owner. Core (mine): the generated-world scaffolding (`simulation/world`, `simulation/types`), the household mix, the household skeletons (`living-world/town-residents`), starting money and character history. PEOPLE: traits, trait packs, the trait registry, personality, upbringing, given names and the place-name corpus. WORLD: town pay, town employment, work schedules, jail terms and organization profiles. Counts: `population.ts` 21, `opening-employment.ts` 7, `opening-work.ts` 3.
   - Oct 14, night: starting money ported first: `medianTransactionBalance` now lives in `src/core2/starting-cash.ts`, and the old engine reads it from there.
   - Oct 14, night: the household mix moved into the core (`src/core2/household-mix.ts`). The old engine's copy of the invented-person age table is deleted, and its 25 readers use GOV's existing port (`src/core2/gov-rules/invented-person-age.ts`). That leaves the household skeletons' age draw on the core.
+  - Oct 14, night: the household skeletons' draw (shape and ages, from the seed) is in the core (`src/core2/town-households.ts`); the old town residents keep only naming and writing households out, which need PEOPLE's names. Two built towns (Kagman, Northern Mariana Islands, seed 31a4370993ef; Augusta, Maine, seed a06d37625f53) give the same people before and after (fingerprint a40d72baeb92136a).
 - [ ] Remaining port, the health condition pack: OPUS-PEOPLE.
 
 ## Checklist

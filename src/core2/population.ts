@@ -55,12 +55,12 @@ import {
 import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";
+import { townHouseholdPeople } from "../simulation/living-world/town-residents";
 import {
   TOWN_RESIDENTS_VERSION,
-  townHouseholdPeople,
   townHouseholdSkeleton,
   type TownHouseholdSkeleton,
-} from "../simulation/living-world/town-residents";
+} from "./town-households";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { placeReferencePopulation } from "./gov-rules/place-population";
 import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
@@ -578,7 +578,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     partnerAgedHousehold({
       seed: options.seed,
       geo: partnershipGeo(corePlaceByJurisdictionId(town)?.sourceGeoid),
-      skeleton: townHouseholdSkeleton(seedWorld, town, index, shape),
+      skeleton: townHouseholdSkeleton(seedWorld.seed, town, index, shape),
       people: townHouseholdPeople(seedWorld, town, index, shape),
       rebirth: (person, age, sex) => {
         const birthDate = inventedPersonBirthDate(
