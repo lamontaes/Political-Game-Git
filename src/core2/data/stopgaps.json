@@ -4332,5 +4332,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Early-access preparation: the Windows job made green and required again, and every release carrying latest.yml.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-official-attendance",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 1913,
+    "whatItFakes": "A member with no person record (a seat held by no one filled in) is present at every vote; every other member decides from their own day.",
+    "why": "The audit found nobody ever absent. A member without a person record has no day, health or temperament to miss a vote from.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Every seat's holder filled in as a person before they vote, so attendance reads their day like anyone's.",
+    "status": "open"
   }
 ]
