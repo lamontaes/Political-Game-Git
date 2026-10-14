@@ -1314,7 +1314,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD's business engine: recorded owners (local people or outside), payout and investment decisions from the firm's own conditions, and business taxes.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the core's stand-in owner payouts: the business module pays owners, so the outside-market step no longer adds them and the world economy no longer has to strip them."
   },
   {
     "id": "SG-CORE-unplaced-workers-income",
@@ -2794,7 +2795,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV’s knockDoors (with OPUS-CORE’s fillInPerson) filling in each household it actually reaches.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Door-knocking fills in each household it actually reaches inside the campaign module, so the bench no longer prepares doors ahead of a round."
   },
   {
     "id": "SG-PLAY-challenger-name",
@@ -2806,7 +2808,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Election night names every candidate, drawn challengers included, from the voting module's exported candidate identity."
   },
   {
     "id": "SG-WORLD-business-no-successor",
