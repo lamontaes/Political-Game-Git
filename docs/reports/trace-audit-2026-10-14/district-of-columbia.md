@@ -3,17 +3,15 @@
 This reader followed one generated year in Washington, D.C. The council and the U.S. House bills mostly failed or were held, and the player ended the year working as a cook with $2859.
 
 - Town: Washington, District of Columbia (place 1150000).
-- Seed: b4bfbf9faa9e.
 - Start date: January 20, 2025. Build took 44 seconds.
 - People: 1630 at build (the alive count at start is not in the file). 1658 at year end, 1655 alive.
 - Organizations: 115 at build, 126 at year end.
 - Year runtime: 49 seconds, heap 1249 MB.
-- Player: Shannon Reese (`person_2f58906223220c84`), born January 23, 2007, so 17 on the start date.
 
 ## The year in this place
 
 On June 30, 2025, the council (12 seats, unicameral) introduced 39 bills. It held 9 in committee with a 0-0 tally and took 18 to a floor vote. Floor tallies were 12-0 for 004 and 005, 10-2 for 006, 009, 010, 012, 013, 015, 017 and 024, 11-1 for 007, 008, 011 and 016, 9-3 for 014 and 019, 7-5 for 022, and 6-6 for 020.
-Every council committee event that day named the same chair, `official:term:seat:US-DC:unicameral:007:0:2025-01-20`.
+Every council committee event that day named the same chair, the council member later named speaker.
 On July 1, 2025, the minimum-wage law took effect at 1795 minor per hour, replacing a law dated July 1, 2024 that is not in the file. One organization also closed that day for losses.
 On September 29, 2025, fourteen state policy laws took effect (bills 004, 005, 006, 007, 008, 009, 011, 012, 014, 015, 016, 017, 019 and 022).
 The same day, a retirement-contributions budget line changed by -4915750000 under a measure ending in "#undo". That undid the pension law, bill 019.
@@ -26,13 +24,14 @@ Federal laws dated December 15, 2025 include two policy items with value 1, rest
 Federal laws dated January 1, 2026 set the income tax top rate at 37 percent and the social security tax at 6.2 percent of wages.
 On January 1, 2026, a county property-tax law took effect at 0.585 percent of home value.
 On January 17, 2026, a candidate filed for At-Large seat 1 with the D.C. Board of Elections for the November 3, 2026 contest. The file has no contest row for it.
-At year end the player is alive, works as a cook, has $2859 in cash, and lives in `household_6afbd3cc70d3f810`. Seven people moved away, and one move is traced (February 1, 2025). Deaths: 0. The file shows no births.
+At year end the player is alive, works as a cook, has $2859 in cash, and lives in a household recorded in the run section below. Seven people moved away, and one move is traced (February 1, 2025). Deaths: 0. The file shows no births.
 
 ## Needs a why
 
 1. Deaths are 0 in the records, yet 1655 of 1658 people are alive at year end, so three are not alive with no death record. People rose from 1630 at build to 1658 with no birth kind in the records. `person.moved-away=7` is the only exit kind shown.
 2. The election-ish line reads only `official-appointed=2`. The records also hold `candidate-filed=1` (`filing:contest:seat:US-DC:unicameral:At-Large:1:2026-11-03:person_a7779ea43a35c1f0`, January 17, 2026), and that is missing from the line. No seat-vacated record is in the file.
-3. Records and the federal-and-state log disagree. `law-took-effect` is 27 in records and 25 in the log. `budget-line-changed` is 16 vs 17. `official-appointed` is 2 vs 4, the two January 20, 2025 appointments appearing only in the dump. `budget-adopted` is 3 vs 2, the place record appearing only in records. `chamber-organized` is 1 vs 4, the three January 20, 2025 rows appearing only in the dump. The log also shows `inauguration=1` and `president.address=1`, which are not in the records kinds.
+3. Records and the federal-and-state log disagree. `law-took-effect` is 27 in records and 25 in the log. `budget-line-changed` is 16 vs 17. `official-appointed` is 2 vs 4. The two extra appointments, dated January 20, 2025, appear only in the dump. `budget-adopted` is 3 vs 2; the place record appears only in records. `chamber-organized` is 1 vs 4; the three January 20, 2025 rows appear only in the dump.
+   3a. The log also shows `inauguration=1` and `president.address=1`, which are not in the records kinds.
 4. `bill-held-in-committee` is 28 in records, but the file shows 21 such lines: 9 council on June 30, 2025 and 12 U.S. House on December 15, 2025. The 23 U.S. House bills of December 15, 2025 are numbered 41 to 63. The record lines show 41 to 56, and the trace shows 63. Bills 57 to 62 are not in the file.
 5. Nine council bills were held in committee with yes 0 and no 0, all on June 30, 2025, all with the same chair. The ids are `bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:` followed by `004:0:2025-01-20:25`, `004:0:2025-01-20:34`, `At-Large:1:2025-01-20:35`, `At-Large:0:2025-01-20:36`, `At-Large:0:2025-01-20:37`, `At-Large:1:2025-01-20:38`, `At-Large:0:2025-01-20:2` and `At-Large:0:2025-01-20:1`. None of the nine lines carries a measure number.
 6. One chair for every council committee: all 30 council committee hearings and all 9 held bills name `official:term:seat:US-DC:unicameral:007:0:2025-01-20`, the same person named speaker in `chamber-organized` on January 20, 2025.
@@ -60,21 +59,36 @@ At year end the player is alive, works as a cook, has $2859 in cash, and lives i
 28. Organizations rose from 115 to 126, with six closures and no opening records in the file. That leaves 11 organizations unexplained.
 29. Business closed December 1, 2025 (`organization_13b073a93d99712c`, losses-kept): the trace chain goes to an "opening" entry from `core2-officials-v1.loaded` and stops there. Business closed July 1, 2025 (`organization_b4d7ef60b57a9d1e`, owner-closed, losses-kept) has no trace.
 30. The housing eviction is dated October 21, 2025, but its id is dated September 6, 2025, and its payload is `{}`. The trace chain stops at a perceiving person.
-31. Traces that stop at one step or explain nothing: the speech trace (one perceived observer); the county property-tax law of January 1, 2026 (law record only); the committee trace for bill 063 (bill, office and chair only); the Senate-vote trace (one senator); the veterans budget-line trace (place only, the law measure not followed); the employer-closed trace (perceiving person only); the planning appointment trace (witness is a newspaper owner, no reason); the vote-recorded trace for 2025-024 (member only); and the moved-away trace (observer only).
+31. Traces that stop at one step or explain nothing:
+    - The speech trace has one perceived observer.
+    - The county property-tax law of January 1, 2026 has the law record only.
+    - The committee trace for bill 063 has the bill, office and chair only.
+    - The Senate-vote trace has one senator.
+    - The veterans budget-line trace has the place only; the law measure is not followed.
+    - The employer-closed trace has a perceiving person only.
+    - The planning appointment trace has a newspaper owner as witness, with no reason.
+    - The vote-recorded trace for 2025-024 has the member only.
+    - The moved-away trace has the observer only.
 32. Laws that took effect and then ended: law 2025-014 (minimum reserve balance) took effect September 29, 2025 with value 0, and its change field is cut off in the file at "ende". Law 2025-019 (pensions) took effect the same day with value 0, and its budget effect was undone that day.
 33. Federal news: the count shows 243 news items and 29 FED items, but the file shows 6 FED lines. The other 23 and any local news lines are not in the file.
 34. `person.acted=3195` records appear, with no detail for any of them in the file.
 35. Player pay: no wage, job start or cash-change record is in the file. Cash is $2859 at year end, with no starting value.
 36. The county property-tax law of January 1, 2026 is traced, but the file does not show whether it is in the `law-took-effect` count.
-37. The candidate filed January 17, 2026 is `person_a7779ea43a35c1f0`, not the player (`person_2f58906223220c84`).
+37. The candidate filed January 17, 2026 is `person_a7779ea43a35c1f0`, not the player.
+
+## Run
+
+- Seed: b4bfbf9faa9e.
+- Player: Shannon Reese (`person_2f58906223220c84`), born January 23, 2007, so 17 on the start date.
+- Player home: `household_6afbd3cc70d3f810`.
 
 ## Raw facts for the report
 
 - Bills by body and introduction date (64 bills):
-  - `office:US-DC:legislature-unicameral` on 2025-06-30: 39
-  - `office:US-DC:legislature-unicameral` on 2025-10-01: 1
-  - `office:US-DC:us-house` on 2025-10-01: 1
-  - `office:US-DC:us-house` on 2025-12-15: 23
+  - `office:US-DC:legislature-unicameral` on `2025-06-30`: 39
+  - `office:US-DC:legislature-unicameral` on `2025-10-01`: 1
+  - `office:US-DC:us-house` on `2025-10-01`: 1
+  - `office:US-DC:us-house` on `2025-12-15`: 23
 - Bills by body and status:
   - `office:US-DC:legislature-unicameral` enacted: 15
   - `office:US-DC:legislature-unicameral` failed: 22
@@ -82,15 +96,15 @@ At year end the player is alive, works as a cook, has $2859 in cash, and lives i
   - `office:US-DC:us-house` enacted: 3
   - `office:US-DC:us-house` failed: 21
 - Budget-adopted lines:
-  - 2025-10-01, governmentId US, fiscalYear 2025, adoptedBy "Congress vote 260-173, 61-39 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"
-  - 2025-10-01, governmentId US-DC, fiscalYear 2025, adoptedBy "the legislature vote 12-0, 2025-040"
-  - 2025-10-01, governmentId place:1150000, fiscalYear 2025, adoptedBy "carried forward by the budget rule until the council or legislature votes it"
+  - `2025-10-01`, governmentId US, fiscalYear 2025, adoptedBy "Congress vote 260-173, 61-39 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"
+  - `2025-10-01`, governmentId US-DC, fiscalYear 2025, adoptedBy "the legislature vote 12-0, 2025-040"
+  - `2025-10-01`, governmentId place:1150000, fiscalYear 2025, adoptedBy "carried forward by the budget rule until the council or legislature votes it"
 - Seat-vacated lines: not in the file.
 - Federal law lines (FED):
-  - 2026-01-01 income-tax value=37 percent-top-rate
-  - 2026-01-01 social-security-tax value=6.2 percent-of-wages
-  - 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1
-  - 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1
-  - 2025-10-01 medicaid-match value=70 percent
-  - 2025-10-01 snap-maximum value=298 USD/month
-- Candidate filing: January 17, 2026, filingId `filing:contest:seat:US-DC:unicameral:At-Large:1:2026-11-03:person_a7779ea43a35c1f0`, office Legislator, election date November 3, 2026, filed with the District of Columbia Board of Elections.
+  - `2026-01-01` income-tax value=37 percent-top-rate
+  - `2026-01-01` social-security-tax value=6.2 percent-of-wages
+  - `2025-12-15` us-policy-positions:civil-family-community.restrict-abortion value=1
+  - `2025-12-15` us-policy-positions:fiscal.balanced-operating-budget value=1
+  - `2025-10-01` medicaid-match value=70 percent
+  - `2025-10-01` snap-maximum value=298 USD/month
+- Candidate filing: `2026-01-17`, filingId `filing:contest:seat:US-DC:unicameral:At-Large:1:2026-11-03:person_a7779ea43a35c1f0`, office Legislator, election date `2026-11-03`, filed with the District of Columbia Board of Elections.
