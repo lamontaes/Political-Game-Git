@@ -1,4 +1,3 @@
-import { gameStartDate } from "./game-start";
 import { randomBytes } from "node:crypto";
 import { gzipSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
@@ -13,6 +12,7 @@ import {
 } from "./snapshot";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-snapshot");
@@ -45,13 +45,6 @@ function content(core: CoreState): Record<string, string> {
   return out;
 }
 
-/** A date this many days after the game's opening date (the test once assumed January 1, 2021). */
-const daysIn = (days: number) => {
-  const at = new Date(`${gameStartDate()}T00:00:00Z`);
-  at.setUTCDate(at.getUTCDate() + days);
-  return at.toISOString().slice(0, 10);
-};
-
 describe(`a world snapshot in ${place.name}, ${place.state} (seed ${seed})`, () => {
   it("loads into a rebuilt world that then runs exactly as the original", () => {
     const input = generatedOpening(place, {
@@ -60,7 +53,7 @@ describe(`a world snapshot in ${place.name}, ${place.state} (seed ${seed})`, () 
     });
     const original = createLifeCore(input);
     expect(uncoveredModules(original)).toEqual([]);
-    advanceCore(original, daysIn(59));
+    advanceCore(original, daysAfterStart(59));
     // Engines installed on first use are covered too.
     expect(uncoveredModules(original)).toEqual([]);
     const saved = JSON.stringify(snapshotWorld(original));
@@ -68,9 +61,9 @@ describe(`a world snapshot in ${place.name}, ${place.state} (seed ${seed})`, () 
     expect(gzipSync(saved).length).toBeLessThan(40e6);
     const loaded = createLifeCore(input);
     restoreWorld(loaded, JSON.parse(saved) as WorldSnapshot);
-    expect(loaded.date).toBe(daysIn(59));
-    advanceCore(original, daysIn(104));
-    advanceCore(loaded, daysIn(104));
+    expect(loaded.date).toBe(daysAfterStart(59));
+    advanceCore(original, daysAfterStart(104));
+    advanceCore(loaded, daysAfterStart(104));
     const a = content(original),
       b = content(loaded);
     expect(Object.keys(b).sort()).toEqual(Object.keys(a).sort());

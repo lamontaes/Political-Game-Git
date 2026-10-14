@@ -77,6 +77,10 @@
     "warning": "Warning",
     "reconciliation": "Reconciliation",
     "asking-permission": "Asking permission",
-    "polling-place": "Polling place"
+    "polling-place": "Election day"
+  },
+  "polling": {
+    "leaveBlank": "Leave blank",
+    "leave": "Leave"
   }
 }
