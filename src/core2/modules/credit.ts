@@ -370,7 +370,7 @@ function review(api: CoreAPI): void {
     0,
     book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
   );
-  // The owner decides whether to borrow.
+  // The owner decides whether to borrow; a public employer doesn't.
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
@@ -395,8 +395,8 @@ function review(api: CoreAPI): void {
     if (!requested) continue;
     const ownerId = (owners?.get(id) as { ownerId?: string } | undefined)
       ?.ownerId;
-    // A business with no recorded owner (a public employer runs on its budget) doesn't borrow.
-    if (!ownerId) continue;
+    // A public employer runs on its budget and doesn't borrow.
+    if (!ownerId && c.organizations.get(id)?.publicPayAuthority) continue;
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
     const reasons = {
       baseline: p("creditBorrowBaseline"),
@@ -410,7 +410,7 @@ function review(api: CoreAPI): void {
             Math.max(p("one"), monthlySales),
         ),
     };
-    if (c.people.has(ownerId)) {
+    if (ownerId && c.people.has(ownerId)) {
       const choice = chooseAct(c, ownerId, [
         creditOffer("wait", id, {}),
         creditOffer("borrow", id, reasons),
@@ -418,6 +418,8 @@ function review(api: CoreAPI): void {
       if (choice.definition.id === creditData.actions.borrow.id)
         wanted.push({ id, requested });
     } else
+      // A counted owner, or a business whose owner isn't recorded, decides
+      // by the same reasons as a group (two-level population).
       counted.push({
         id,
         requested,

@@ -2371,7 +2371,7 @@
     "addedAt": "2026-10-12",
     "replacement": "Those organizations' own deciders (a board, a public budget) choose whether to borrow.",
     "status": "resolved",
-    "resolution": "Deleted: a business with no recorded owner (a public employer) no longer applies for a credit line; only owners decide to borrow."
+    "resolution": "A public employer (publicPayAuthority) runs on its budget and never borrows; a private business whose owner isn't recorded decides with counted owners by the same reasons (need, cost, baseline) through strongestPulls, not whenever cash runs short."
   },
   {
     "id": "SG-WORLD-credit-bank-equity-only",
