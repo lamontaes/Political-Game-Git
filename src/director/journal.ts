@@ -615,7 +615,7 @@ export function composeJournal(
   }
 
   const fitsGender = (text: string, id: PersonId) => {
-    const lead = /^(he|she)\b/i.exec(text)?.[1]?.toLowerCase();
+    const lead = /^(he|she)\b/i.exec(text)?.[one]?.toLowerCase();
     if (!lead) return true;
     const gender = core.people.get(id)?.looks?.gender;
     return (
