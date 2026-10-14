@@ -712,20 +712,24 @@ function pastTerms(
   let next = serviceStart;
   let k = own;
   for (let h = 1; h <= tenureYears("pastHoldersRecorded"); h += 1) {
+    // Of age at the start of their last term; their earlier terms are
+    // capped by the minimum age like anyone's.
+    const lastStart = shiftTerms(office, next, -years);
     const holder = drawOfficialIdentity({
       worldSeed,
       seatKey: `${seat.id}:past-holder:${h}`,
       stateUsps,
       role: officialRole(office),
-      referenceDate: next,
+      referenceDate: lastStart,
       ...legalAge(office),
     });
-    const terms =
-      careerBefore(
-        `past-holder:${h}`,
-        next,
-        Number(holder.birthDate.slice(0, 4)),
-      ) + 1;
+    const born = Number(holder.birthDate.slice(0, 4));
+    if (
+      Number(lastStart.slice(0, 4)) - born <
+      tenureYears("minimumAgeAtFirstTerm")
+    )
+      break;
+    const terms = careerBefore(`past-holder:${h}`, lastStart, born) + 1;
     const theirStart = shiftTerms(office, next, -terms * years);
     for (let t = 0; t < terms; t += 1) {
       k += 1;
@@ -965,6 +969,54 @@ export function registerSuccessorProvider(
   successorProviders.set(officeKind, provider);
 }
 
+/**
+ * The holder of the office a successor rule names in the same government
+ * ("lieutenant governor" reads the lieutenant governor's seat), a living full
+ * person, or null where the rule names no such office or no one holds it.
+ */
+function successorSeatHolder(
+  api: CoreAPI,
+  office: OfficeInput,
+  rule: VacancyRule,
+): {
+  personId: string;
+  party: string | null;
+  seatId: string;
+  title: string;
+} | null {
+  const kind = (rule.successor ?? "")
+    .split("(")[0]!
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+  if (!kind) return null;
+  const successor = (
+    table(api, "offices").query("byJurisdiction", [
+      office.jurisdiction,
+    ]) as unknown as OfficeInput[]
+  ).find((o) => o.kind === kind);
+  if (!successor) return null;
+  for (const seat of table(api, "seats").query("byOffice", [
+    successor.id,
+  ]) as unknown as SeatInput[]) {
+    const term = table(api, "terms").query("bySeatStatus", [
+      seat.id,
+      "serving",
+    ])[0] as unknown as TermRow | undefined;
+    const person = term?.personId
+      ? api.state.people.get(term.personId)
+      : undefined;
+    if (term && person?.alive)
+      return {
+        personId: person.id,
+        party: term.party,
+        seatId: seat.id,
+        title: successor.title,
+      };
+  }
+  return null;
+}
+
 function fillVacancy(
   api: CoreAPI,
   office: OfficeInput & { vacancyRule: VacancyRule },
@@ -1028,6 +1080,30 @@ function fillVacancy(
     const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
     table(api, "vacancies").put(filled as unknown as ModuleRow);
     named.then?.();
+    return filled;
+  }
+  // The successor the law names, where it is an office of the same
+  // government (the vice president, a lieutenant governor): its holder
+  // rises today and their own seat falls vacant by its rule.
+  const rising =
+    rule.method === "successor" ? successorSeatHolder(api, office, rule) : null;
+  if (rising) {
+    const term = seatResident(
+      api,
+      office,
+      { ...seat, party: rising.party },
+      rising.personId,
+      date,
+      `succeeded as ${rising.title} (${rule.citation ?? rule.source ?? office.source})`,
+    );
+    table(api, "terms").put({
+      ...term,
+      endDate: previous.endDate,
+      endEstimated: previous.endEstimated,
+    } as unknown as ModuleRow);
+    const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
+    table(api, "vacancies").put(filled as unknown as ModuleRow);
+    vacateSeat(api, rising.seatId, `succeeded as ${office.title}`);
     return filled;
   }
   if (rule.method === "successor")

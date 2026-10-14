@@ -959,12 +959,7 @@ function recordFiledReasons(
     contest.id,
   ]) as unknown as FilingRow[]) {
     const person = api.state.people.get(filing.personId);
-    if (
-      filing.status !== "on-ballot" ||
-      !person ||
-      decisionOf(api, contest.id, filing.personId)
-    )
-      continue;
+    if (filing.status !== "on-ballot" || !person) continue;
     const nominated =
       filing.how !== undefined && filing.how !== "incumbent stands again";
     const facts = new Map([
@@ -973,13 +968,22 @@ function recordFiledReasons(
         raceFactsFor(api, person, scope, members.get(person.id), nominated),
       ],
     ]);
-    const decision = decideToRun(api, person.id, { ...open, facts }, false);
+    // Someone the pool already asked keeps their answer; anyone else on the
+    // opening's ballot is asked now.
+    const decision =
+      decisionOf(api, contest.id, person.id) ??
+      decideToRun(api, person.id, { ...open, facts }, false);
     if (!decision) continue;
-    asked.push(person.id);
-    // A nominee who would not run when asked withdraws; their party asks
-    // another (`recruitParties`). The holder's own filing stands.
-    if (!decision.run && person.id !== incumbent)
-      filings.put({ ...filing, status: "withdrawn" } as unknown as ModuleRow);
+    if (!asked.includes(person.id)) asked.push(person.id);
+    // A runner's decision names the filing that stood on the record.
+    if (decision.run)
+      table(api).put({
+        ...decision,
+        filing: { status: "on-ballot", filingId: filing.id, unmet: [] },
+      } as unknown as { id: string });
+    // The opening's ballot for a race whose filing closed before it is the
+    // record (a name stays on the ballot past the deadline): their reasons
+    // are kept, and the filing stands.
   }
   return { ...row, askedIds: asked };
 }

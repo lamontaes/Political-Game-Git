@@ -133,12 +133,35 @@ export const ELECTIONS_MODULE: CoreModule = {
   },
   // A holder who took office changes who the seat's open contests are
   // against: the incumbent is the term serving when the vote comes.
-  eventKinds: ["took-office"],
+  // A candidate who dies leaves every race not yet decided, the same day.
+  eventKinds: ["took-office", "life.death"],
   onEvent: (api, event) => {
+    if (event.kind === "life.death") {
+      for (const personId of event.personIds) withdrawDead(api, personId);
+      return;
+    }
     const seatId = event.facts?.seatId;
     if (typeof seatId === "string") syncSeatContests(api, seatId);
   },
 };
+
+/** A dead candidate's filings for races still to come are withdrawn. */
+function withdrawDead(api: CoreAPI, personId: string): void {
+  const date = api.state.date;
+  for (const row of table(api, "filings").query("byPerson", [
+    personId,
+  ]) as unknown as FilingRow[]) {
+    if (row.status !== "on-ballot") continue;
+    const contest = table(api, "contests").get(row.contestId) as unknown as
+      ContestRow | undefined;
+    if (!contest || contest.electionDate < date) continue;
+    table(api, "filings").put({
+      ...row,
+      status: "withdrawn",
+      how: "died",
+    } as unknown as ModuleRow);
+  }
+}
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(ELECTIONS_MODULE_ID).table(name);

@@ -97,6 +97,7 @@ import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { nationalParty, partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
+import { CANDIDACY_MODULE_ID } from "../candidate-pool";
 import {
   agreementWith,
   VIEWS_DATA,
@@ -1051,7 +1052,13 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       incumbent.party,
       "incumbent stands again",
     );
+  // Where the candidacy engine weighed the race, its own chooser and the
+  // parties' recruiting decided who runs; no stand-in files over them.
+  const contestWeighed =
+    api.state.modules.has(CANDIDACY_MODULE_ID) &&
+    !!api.moduleState(CANDIDACY_MODULE_ID).table("weighed").get(contestId);
   if (
+    !contestWeighed &&
     (contest.level === "federal" || contest.level === "state") &&
     incumbent &&
     partySide(incumbent.party) !== 0

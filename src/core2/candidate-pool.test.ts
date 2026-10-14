@@ -103,12 +103,17 @@ describe(`the standing pool in the played world: ${world.place.key} (seed ${seed
           (d) => d.contestId === contest.id && d.personId === f.personId,
         );
         expect(decision, `${contest.title}: ${f.personId}`).toBeDefined();
-        // Whoever filed chose to, except a holder whose own filing stood on
-        // the opening record.
+        // Whoever filed chose to, except a filing that stood on the opening
+        // record for a race whose filing closed before it.
         if (!decision!.run)
-          expect(f.how, `${contest.title}: ${f.personId}`).toBe(
-            "incumbent stands again",
-          );
+          expect(
+            [
+              "incumbent stands again",
+              "challenger",
+              "nominee for an open seat",
+            ],
+            `${contest.title}: ${f.personId}`,
+          ).toContain(f.how);
         expect(Object.keys(decision!.reasons).length).toBeGreaterThan(5);
         expect(decision!.sourceIds).toContain(contest.id);
       }
@@ -160,7 +165,8 @@ describe(`the standing pool in the played world: ${world.place.key} (seed ${seed
     )) {
       const seatId = contests.find((c) => c.id === result.contestId)?.seatId;
       for (const f of filings.filter(
-        (row) => row.contestId === result.contestId,
+        (row) =>
+          row.contestId === result.contestId && row.status === "on-ballot",
       )) {
         const held = officialOf(api, f.personId);
         if (!held || f.personId === result.winnerId || held.seatId === seatId)
