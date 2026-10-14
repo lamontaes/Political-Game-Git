@@ -11,5 +11,27 @@
     "66": 3.6,
     "69": 10.5,
     "78": 3.5
+  },
+  "gdp": {
+    "source": {
+      "tag": "SOURCED",
+      "asOf": "2026-10-14",
+      "citation": "Current-dollar GDP, latest official year: Puerto Rico Planning Board, Apéndice Estadístico del Informe Económico a la Gobernadora 2025, Tabla 1 (fiscal 2025, preliminary; the World Bank's NY.GDP.MKTP.CD gives the same); BEA news releases Gross Domestic Product for Guam, 2022 (April 15, 2024), for the U.S. Virgin Islands, 2022 (June 17, 2024), for American Samoa, 2022 (October 20, 2023), and for the Commonwealth of the Northern Mariana Islands, 2021 and 2022 (November 21, 2024), Table 1.1 (2022 preliminary; BEA paused these series after them). Gathered 2026-10-14 by an OPUS-WORLD research helper, each read in the source itself.",
+      "estimatedFrom": "A territory's regions have no BEA personal income per person, so their output is the territory's GDP, split by population; it scales a budget's spending against the economy it lands in."
+    },
+    "usd": {
+      "72": 129368500000,
+      "66": 6910000000,
+      "78": 4672000000,
+      "60": 871000000,
+      "69": 1096000000
+    },
+    "year": {
+      "72": 2025,
+      "66": 2022,
+      "78": 2022,
+      "60": 2022,
+      "69": 2022
+    }
   }
 }

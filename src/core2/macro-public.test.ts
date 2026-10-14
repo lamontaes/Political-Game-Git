@@ -68,7 +68,7 @@ describe("public purchases and output", () => {
         netInterest: 50e9 * 100,
       },
     );
-    // And the state's own highways budget up by $50 per resident.
+    // And the state's own highways budget up by $50 million (a territory's government records no residents, so not per resident).
     const state = governments(api).find((g) => g.level === "state")!;
     const year = Number(opening.startedAt.slice(0, 4));
     enactBudget(
@@ -76,11 +76,9 @@ describe("public purchases and output", () => {
       state,
       opening.startedAt.slice(5) >= state.fiscalYearStart ? year : year - 1,
       "test",
-      { highways: state.residents * 50 * 100 },
+      { highways: 50e6 * 100 },
     );
-    expect(statePurchasesAboveMinor(api)!.stateMinor).toBe(
-      state.residents * 50 * 100,
-    );
+    expect(statePurchasesAboveMinor(api)!.stateMinor).toBe(50e6 * 100);
     const share = federalPurchasesPct(api);
     // Transfers count at CBO's transfer multiplier against its purchases multiplier (1.25 / 1.5).
     expect(share).toBeCloseTo(

@@ -13,6 +13,7 @@ import {
   REGIONS,
   REGION_SOURCE,
   openingRegionMonths,
+  regionOutputUsd,
   stepRegionMonth,
   type RegionMonth,
 } from "../regional-model";
@@ -111,9 +112,7 @@ export function stepRegional(
   // its county's and city's move the town's own region, over that region's output.
   const state = statePurchasesAboveMinor(api);
   const outputOf = (region: (typeof REGIONS)[number]) =>
-    region.population *
-    (region.perCapitaIncome ?? 0) *
-    p("regionalOutputPerPersonalIncome");
+    regionOutputUsd(region, p("regionalOutputPerPersonalIncome"));
   let statePct = 0;
   const townRegion = state ? regionOfPlace(state.townPlaceId) : undefined;
   let localPct = 0;

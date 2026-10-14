@@ -63,6 +63,25 @@ const DATA = regions as unknown as {
   source: { citation: string };
 };
 export const REGIONS = DATA.regions;
+
+/**
+ * A region's output in dollars a year: its people's personal income times
+ * output per dollar of it, or, in a territory with no personal income on
+ * record, its share by population of the territory's official GDP.
+ */
+export function regionOutputUsd(
+  region: (typeof REGIONS)[number],
+  outputPerPersonalIncome: number,
+): number {
+  if (region.perCapitaIncome != null)
+    return region.population * region.perCapitaIncome * outputPerPersonalIncome;
+  const gdp = (TERRITORY.gdp.usd as Record<string, number>)[region.stateFips];
+  if (!gdp) return 0;
+  let people = 0;
+  for (const row of REGIONS)
+    if (row.stateFips === region.stateFips) people += row.population;
+  return people > 0 ? (gdp * region.population) / people : 0;
+}
 export const REGION_SOURCE = DATA.source;
 export const COUNTY_REGION = DATA.countyRegion;
 
