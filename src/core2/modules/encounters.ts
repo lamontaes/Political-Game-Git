@@ -6,6 +6,7 @@
 import { ENCOUNTERS, meetAtMeeting } from "../encounters";
 import type { CoreModule } from "../types";
 
+import { declareSnapshotCovered } from "../snapshot";
 export const ENCOUNTERS_MODULE_ID = "encounters";
 
 export const encountersModule: CoreModule = {
@@ -18,3 +19,5 @@ export const encountersModule: CoreModule = {
     meetAtMeeting(api, event);
   },
 };
+
+declareSnapshotCovered(ENCOUNTERS_MODULE_ID);

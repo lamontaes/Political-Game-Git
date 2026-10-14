@@ -44,6 +44,7 @@ import type {
   PersonState,
 } from "../types";
 
+import { registerSnapshotPart, declareSnapshotCovered } from "../snapshot";
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
   Record<string, Parameter>
@@ -201,6 +202,15 @@ function inTown(core: CoreState, id: PersonId): boolean {
 }
 
 const pinnedByCore = new WeakMap<CoreState, Set<string>>();
+// Snapshot: kinCache and pinnedByCore are caches built from the family links,
+// place metadata and organizations; drop them so they rebuild from the restored records.
+registerSnapshotPart("moves-caches", {
+  save: () => null,
+  restore: (core) => {
+    kinCache.delete(core);
+    pinnedByCore.delete(core);
+  },
+});
 
 /** Every job id a saved record names under `jobIds`, through nested JSON text. */
 function collectJobIds(value: unknown, ids: Set<string>): void {
@@ -827,3 +837,5 @@ export const movesModule: CoreModule = {
     },
   },
 };
+
+declareSnapshotCovered(MOVES_MODULE_ID);

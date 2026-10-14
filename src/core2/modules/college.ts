@@ -36,6 +36,7 @@ import type {
 } from "../types";
 import { departAlone } from "./moves";
 
+import { declareSnapshotCovered } from "../snapshot";
 export const COLLEGE_MODULE_ID = "college";
 export const ENROLLED_EVENT = "education.enrolled";
 export const GRADUATED_EVENT = "education.graduated";
@@ -401,3 +402,5 @@ export const collegeModule: CoreModule = {
     },
   },
 };
+
+declareSnapshotCovered(COLLEGE_MODULE_ID);

@@ -21,6 +21,7 @@ import type {
 import { decisionKinds, decisionLean } from "../trait-decisions";
 import { stancesOf, viewOf, VIEWS_SPEECH_LEAN_KEY } from "./views";
 
+import { declareSnapshotCovered } from "../snapshot";
 export const SPEECH_MODULE_ID = "speech";
 export const SPEECH_HEARD = "speech.heard";
 export const SPEECH_RETOLD = "speech.retold";
@@ -209,3 +210,5 @@ export const speechModule: CoreModule = {
     },
   },
 };
+
+declareSnapshotCovered(SPEECH_MODULE_ID);

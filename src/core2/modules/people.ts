@@ -30,6 +30,7 @@ import type {
 } from "../types";
 import { offer } from "./life";
 
+import { registerSnapshotPart, declareSnapshotCovered } from "../snapshot";
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {
   officeAffordance: "known-office",
@@ -37,6 +38,11 @@ const LOOKUP = {
 } as const;
 
 const seeded = new WeakSet<object>();
+registerSnapshotPart("people-seeded", {
+  save: (core) => seeded.has(core),
+  restore: (core, done) => void (done && seeded.add(core)),
+});
+// dependentsCache (below) is keyed by the person record and the date, so it rebuilds itself.
 
 function shareHomeTime(api: CoreAPI): void {
   const core = api.state;
@@ -229,3 +235,5 @@ export const PEOPLE_MODULE: CoreModule = {
     },
   },
 };
+
+declareSnapshotCovered(PEOPLE_MODULE_ID);

@@ -26,6 +26,7 @@ import type {
   PersonState,
 } from "../types";
 
+import { declareSnapshotCovered } from "../snapshot";
 export const COVERAGE_MODULE_ID = "coverage";
 export const COVERAGE_LOST_EVENT = "health.coverage-lost";
 export const COVERAGE_PARAMETERS = rows as unknown as Readonly<
@@ -553,3 +554,5 @@ export const coverageModule: CoreModule = {
     },
   },
 };
+
+declareSnapshotCovered(COVERAGE_MODULE_ID);

@@ -12,6 +12,10 @@
  * its exact claim as a belief in everyone present, the director keeps it, and
  * anyone who knows the truth sets a believer straight when they next talk.
  */
+import {
+  declareSnapshotCovered,
+  registerSnapshotPart,
+} from "../core2/snapshot";
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { stableHash } from "../simulation/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
@@ -1141,6 +1145,14 @@ export const BELIEFS_MODULE_ID = "beliefs";
 const beliefs = (api: CoreAPI) =>
   api.moduleState(BELIEFS_MODULE_ID).table("beliefs");
 const believerSets = new WeakMap<object, Set<PersonId>>();
+// Snapshot: who believes something is rebuilt from the beliefs table.
+registerSnapshotPart("beliefs-believers", {
+  save: () => null,
+  restore: (core) => {
+    believerSets.delete(core);
+  },
+});
+declareSnapshotCovered(BELIEFS_MODULE_ID);
 function believers(api: CoreAPI): Set<PersonId> {
   let set = believerSets.get(api.state);
   if (!set) {

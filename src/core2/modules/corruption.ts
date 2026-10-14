@@ -23,6 +23,11 @@ import type {
   PersonState,
 } from "../types";
 
+import {
+  registerWorldMapPart,
+  registerSnapshotPart,
+  declareSnapshotCovered,
+} from "../snapshot";
 export const CORRUPTION_MODULE_ID = "corruption";
 const SOURCE_KIND = "corruption:bribe";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -62,8 +67,17 @@ const pending = new WeakMap<
   { role: "offer" | "take" | "tell"; values: Record<string, number> }
 >();
 const journalRecords = new WeakMap<object, Map<string, unknown>>();
+registerWorldMapPart(
+  "corruption-journal-records",
+  journalRecords as WeakMap<CoreState, Map<string, unknown>>,
+);
 /** People party to a taken bribe, rebuilt from the table when first read. */
 const partySets = new WeakMap<object, Set<PersonId>>();
+// Snapshot: rebuilt from the crimes table when first read; drop it on restore.
+registerSnapshotPart("corruption-party-sets", {
+  save: () => null,
+  restore: (core) => void partySets.delete(core),
+});
 function partiesOf(api: CoreAPI): Set<PersonId> {
   let set = partySets.get(api.state);
   if (!set) {
@@ -402,3 +416,5 @@ export const corruptionModule: CoreModule = {
     }
   },
 };
+
+declareSnapshotCovered(CORRUPTION_MODULE_ID);

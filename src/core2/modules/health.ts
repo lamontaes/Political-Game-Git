@@ -36,6 +36,7 @@ import type {
   Source,
 } from "../types";
 
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 /**
  * P10 producer, not a health engine: the existing Ruling 29/38/39 mortality
  * rule applied to core2 residents. Each resident's opening chronic conditions
@@ -119,6 +120,10 @@ interface HealthRuntime {
 }
 
 const runtimes = new WeakMap<object, HealthRuntime>();
+registerWorldMapPart(
+  "p15-health-runtimes",
+  runtimes as WeakMap<CoreState, HealthRuntime>,
+);
 /** The coverage engine's kind for no coverage. */
 const UNINSURED = "uninsured";
 
@@ -197,7 +202,6 @@ function resilienceLine(api: CoreAPI, data: HealthData, personId: string) {
 }
 
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
-  const p = (key: string) => api.parameter(key);
   api.stopgap(data.stopgapId);
   const start = makeIsoDate(api.state.startedAt);
   const pay = householdMonthlyPay(api);
@@ -602,3 +606,5 @@ export function healthReport(core: Readonly<CoreState>) {
     resilienceLines: row?.resilienceLines ?? new Map(),
   };
 }
+
+declareSnapshotCovered("core2-health-producer-p10-v1");

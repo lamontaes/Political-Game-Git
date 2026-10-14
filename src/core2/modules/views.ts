@@ -30,6 +30,7 @@ import type {
   PersonState,
 } from "../types";
 
+import { declareSnapshotCovered } from "../snapshot";
 interface CellKey {
   n: number;
   mean: number;
@@ -644,3 +645,5 @@ function driftToward(
     ...(party ? { party } : {}),
   } as unknown as { id: string });
 }
+
+declareSnapshotCovered(VIEWS_MODULE_ID);

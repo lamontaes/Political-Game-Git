@@ -26,6 +26,7 @@ import type {
   PersonState,
 } from "../types";
 
+import { declareSnapshotCovered } from "../snapshot";
 export const PARTNERING_MODULE_ID = "partnering";
 export const MARRIED_EVENT = "family.married";
 export const MARRIAGE_KIND = "legal:marriage";
@@ -850,3 +851,5 @@ export const partneringModule: CoreModule = {
     },
   },
 };
+
+declareSnapshotCovered(PARTNERING_MODULE_ID);

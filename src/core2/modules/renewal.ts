@@ -14,6 +14,7 @@ import { nextMonthDay } from "../residents";
 import type { CoreAPI, CoreModule, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 
+import { registerSnapshotPart, declareSnapshotCovered } from "../snapshot";
 export const RENEWAL_MODULE_ID = "core2-renewal-v1";
 /** The partnering engine's records of a couple marrying or moving in together during play. */
 const MARRIED_EVENT = "family.married";
@@ -23,6 +24,11 @@ const COURTING_EVENT = "family.courting";
 const PARTNERING_MODULE_ID = "partnering";
 const INACTIVE_TIER = "husk";
 const initialized = new WeakSet<object>();
+// Snapshot: whether the opening plans were made (the plans themselves are in the module tables and calendar).
+registerSnapshotPart("renewal-initialized", {
+  save: (core) => initialized.has(core),
+  restore: (core, done) => void (done && initialized.add(core)),
+});
 const source = (api: CoreAPI): Source => ({
   tag: "SOURCED",
   asOf: api.state.date,
@@ -557,3 +563,5 @@ export const RENEWAL_MODULE: CoreModule = {
     }
   },
 };
+
+declareSnapshotCovered(RENEWAL_MODULE_ID);

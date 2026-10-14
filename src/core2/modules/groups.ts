@@ -35,6 +35,7 @@ import type {
 import { decisionKinds, decisionLean } from "../trait-decisions";
 import { viewOf } from "./views";
 
+import { declareSnapshotCovered } from "../snapshot";
 export const GROUPS_MODULE_ID = "groups";
 export const GROUPS_PARAMETERS = rows as unknown as Readonly<
   Record<string, Parameter>
@@ -452,3 +453,5 @@ export const groupsModule: CoreModule = {
 };
 
 export { GROUPS };
+
+declareSnapshotCovered(GROUPS_MODULE_ID);

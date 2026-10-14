@@ -122,6 +122,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 14: snapshots for my engines (owner's ruling 7, CORE's request). All 16 of my engines are now declared covered: renewal, health, drives, people, moves, news, speech, groups, partnering, coverage, college, views, encounters, candidacy, corruption and beliefs. Runtime state is saved as snapshot parts: renewal's opening flag, health's and drives' runtimes, people's seeding, candidacy's queues and counted bases, corruption's journal records. Caches that rebuild from tables are dropped on restore: moves' kin and pinned jobs, news' recent hearing and counts, corruption's party sets, beliefs' believers. Values held only during one scoring call need nothing.
+  - **Round trip:** it crashed on day 30 ("Duplicate institutional calendar key" from renewal); now it runs through.
+  - **Still differs:** people, husks, households and `core2-residents`. After a restore, 101 of 291 people take different moves. Not isolated yet; next for me.
+  - **Not mine:** the GOV, WORLD and director engines are still uncovered.
+  - **Who did it:** a Sonnet sub-agent did the registrations; I reviewed them and added beliefs. Tests: 14 test files for those engines (74 tests), conversation 10 of 10, health 3 of 3; golden path: no accepted regression.
 - Oct 13: fill-in matches the full town again, and both failures that predated today's work are fixed:
   - **College enrollment:** it used to rank a state's young adults against each other, so a household filled in on its own got a different answer than in the full town (`fill-in-people.test.ts`, Takilma, Oregon). Now each person's own keyed line falls under the state's enrolled share divided by the share of their age with some college, from the same survey that gives them their schooling. The family's degree still picks four-year or community college. College tests pass (2 of 2), fill-in 9 of 9.
   - **Population test:** its rule "fewer traits than the registry" no longer held once OPUS-TRAITS anchored every trait to temperament, so the test now accepts the registry plus the five dimensions, from either source (8 of 8).

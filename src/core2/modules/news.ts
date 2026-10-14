@@ -19,6 +19,7 @@ import type { CoreAPI, CoreModule, KnownFact, PersonId } from "../types";
 import { decisionLean } from "../trait-decisions";
 import { moveStance, stanceSize, viewOf, type StanceCause } from "./views";
 
+import { registerSnapshotPart, declareSnapshotCovered } from "../snapshot";
 export const NEWS_MODULE_ID = "news";
 const PARAMETERS = rows as unknown as Readonly<Record<string, Parameter>>;
 const n = (api: CoreAPI, key: string) => {
@@ -219,6 +220,14 @@ function heardRecently(
 
 /** How many stories each person has heard, rebuilt from the table when first read. */
 const heardCounts = new WeakMap<object, Map<PersonId, number>>();
+// Snapshot: both heard caches rebuild from the heard table; drop them on restore.
+registerSnapshotPart("news-caches", {
+  save: () => null,
+  restore: (core) => {
+    recentHeard.delete(core);
+    heardCounts.delete(core);
+  },
+});
 function countsOf(api: CoreAPI): Map<PersonId, number> {
   let map = heardCounts.get(api.state);
   if (!map) {
@@ -444,3 +453,5 @@ export function createNewsModule(
 }
 
 export const newsModule: CoreModule = createNewsModule();
+
+declareSnapshotCovered(NEWS_MODULE_ID);

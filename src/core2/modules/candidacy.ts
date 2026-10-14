@@ -57,6 +57,7 @@ import { stableHash } from "../../simulation/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const STOPGAP = "SG-P15-candidacy-weights";
@@ -492,6 +493,8 @@ interface Queues {
   opening: ContestRow[];
 }
 const queues = new WeakMap<object, Queues>();
+// Snapshot: the first-day "opening" list is only built once, so the queues are kept as they are.
+registerWorldMapPart("candidacy-queues", queues as WeakMap<CoreState, Queues>);
 
 /** Contests to weigh and runners to file, soonest first; rebuilt when contests are added. */
 function queuesFor(api: CoreAPI): Queues | null {
@@ -759,6 +762,14 @@ const countedBases = new WeakMap<
   object,
   { year: string; rows: { voter: CountedVoter; base: number }[] }
 >();
+registerWorldMapPart(
+  "candidacy-counted-bases",
+  countedBases as WeakMap<
+    CoreState,
+    { year: string; rows: { voter: CountedVoter; base: number }[] }
+  >,
+);
+// engagementCells is a pure cache of the people's generated engagement, so it rebuilds itself.
 
 /**
  * The town's counted adults weigh a local seat from their counted records:
@@ -944,3 +955,5 @@ export const candidacyModule: CoreModule = {
     },
   },
 };
+
+declareSnapshotCovered(CANDIDACY_MODULE_ID);
