@@ -5,6 +5,8 @@ import { advanceCore, createLifeCore } from "./life";
 import { isSchoolDay, SCHOOL_MODULE_ID } from "./modules/school";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
+import { daysAfterStart } from "./tooling/test-days";
+import { gameStartDate } from "./game-start";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-school");
@@ -35,19 +37,18 @@ describe(`school days in ${place.name}, ${place.state} (seed ${seed})`, () => {
         settings: { population: 1500 },
       }),
     );
-    advanceCore(core, "2021-01-22");
-    const schoolDays = [
-      ...Array.from(
-        { length: 22 },
-        (_, i) => `2021-01-${String(i + 1).padStart(2, "0")}`,
-      ),
-    ].filter((date) => date > "2021-01-01" && isSchoolDay(date)).length;
+    advanceCore(core, daysAfterStart(21));
+    // The 21 days run after the opening day.
+    const schoolDays = Array.from({ length: 21 }, (_, i) =>
+      daysAfterStart(i + 1),
+    ).filter((date) => isSchoolDay(date)).length;
     const town = core.people.get(core.playerId!)!.placeId;
     const school = [...core.organizations.values()].find(
       (row) => row.placeId === town && row.classification === "service:school",
     );
     const kids = [...core.people.values()].filter((row) => {
-      const age = 2021 - Number(row.birthDate.slice(0, 4));
+      const age =
+        Number(gameStartDate().slice(0, 4)) - Number(row.birthDate.slice(0, 4));
       return (
         row.placeId === town &&
         row.id !== core.playerId &&

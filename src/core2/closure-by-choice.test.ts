@@ -6,6 +6,7 @@ import { residentsRuntime, supplierBillsOwedTo } from "./modules/residents";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-closure-by-choice");
@@ -29,7 +30,7 @@ describe(`an owner closes a solvent business in ${place.name}, ${place.state} (s
         settings: { population: 1500 },
       }),
     );
-    advanceCore(core, "2021-01-20");
+    advanceCore(core, daysAfterStart(19));
     const api = coreAPI(core);
     const firm = [...core.finance.businesses.values()]
       .filter(
@@ -74,7 +75,7 @@ describe(`an owner closes a solvent business in ${place.name}, ${place.state} (s
         source: core.organizations.get(id)!.source,
       }),
     ).toThrow();
-    advanceCore(core, "2021-02-28");
+    advanceCore(core, daysAfterStart(58));
     const live = [...residentsRuntime(core)!.flows.values()].filter(
       (flow) => !flow.endedAt && (flow.payeeId === id || flow.payerId === id),
     );
