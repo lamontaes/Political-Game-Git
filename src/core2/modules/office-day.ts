@@ -63,22 +63,20 @@ import { makeIsoDate } from "../../simulation/dates";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
-/** What can stop the player. */
-export const STOP_KINDS = [
-  "own-bill-vote",
-  "every-meeting",
-  "desk",
-  "emergency",
-  "election-day",
-] as const;
+/**
+ * What can stop the player. Election day always stops them at the polls
+ * (the polling-place scene): whether the character may cast the player's
+ * ballot when they choose not to stop is the owner's call.
+ * stopgapId: SG-OFFICE-owner-decision-ballot-stop
+ * An emergency stop waits on the disasters engine's declarations.
+ */
+export const STOP_KINDS = ["own-bill-vote", "every-meeting", "desk"] as const;
 export type StopKind = (typeof STOP_KINDS)[number];
 /** The important few stop by default (owner, Oct 14, 2026: play how you want). */
 const DEFAULT_STOPS: Readonly<Record<StopKind, boolean>> = {
   "own-bill-vote": true,
   "every-meeting": false,
   desk: true,
-  emergency: true,
-  "election-day": true,
 };
 
 export interface StopSettingsRow {
