@@ -420,7 +420,9 @@ export function meetingsOf(api: CoreAPI, officeId: string): MeetingRow[] {
     table(api, "meetings").query("byOffice", [
       officeId,
     ]) as unknown as MeetingRow[]
-  ).sort((a, b) => b.date.localeCompare(a.date));
+  )
+    .slice()
+    .sort((a, b) => b.date.localeCompare(a.date));
 }
 
 /** The meeting holding the player's clock, if any. */
