@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
-import { enrichCivicInputs } from "../../src/core2/civic-inputs";
-import { buildDeepPast } from "../../src/core2/deep-past";
-import { initialFocusPeople } from "../../src/core2/focus";
-import { advanceCore, createLifeCore } from "../../src/core2/life";
-import { buildPopulation } from "../../src/core2/population";
-import type { CoreState } from "../../src/core2/types";
-import { composeJournal } from "../../src/director/journal";
-import { createDirector } from "../../src/director/ledger";
+import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { enrichCivicInputs } from "../../core2/civic-inputs";
+import { buildDeepPast } from "../../core2/deep-past";
+import { initialFocusPeople } from "../../core2/focus";
+import { advanceCore, createLifeCore } from "../../core2/life";
+import { buildPopulation } from "../../core2/population";
+import type { CoreState } from "../../core2/types";
+import { composeJournal } from "../journal";
+import { createDirector } from "../ledger";
 import { JOURNAL_BANK, journalDataFromBank } from "./journal-bank";
 
 /**

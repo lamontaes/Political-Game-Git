@@ -3,16 +3,18 @@
  * (`composeScene` in `src/director/scene.ts`, `bringItUp` in
  * `src/director/bring-it-up.ts`). Each mined part names the director's
  * subject (setting, present, cause; change, blame) and its role (the setting
- * kind, the cause's label prefix, the blame's source). A row no record words
- * yet is left empty, and the director leaves that line out.
- *
- * OPUS-WORDS owns this file until OPUS-PEOPLE folds it into the director.
+ * kind, the cause's label prefix, the blame's source). The structure is
+ * `data/scene-rows.json` and `data/bring-it-up-rows.json`, which hold no
+ * sentences. A row no record words yet is left empty, and the director leaves
+ * that line out.
  */
-import sceneJson from "../../data/english/parts/scene-words.json" with { type: "json" };
-import bringJson from "../../data/english/parts/bring-it-up.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
-import { SCENE_WORDS, type SceneWords } from "../../src/director/scene";
-import { BRING_IT_UP_DATA } from "../../src/director/bring-it-up";
+import sceneJson from "../../../data/english/parts/scene-words.json" with { type: "json" };
+import bringJson from "../../../data/english/parts/bring-it-up.json" with { type: "json" };
+import { heldByGrades } from "../../presentation/english-grades";
+import bringRowsJson from "../data/bring-it-up-rows.json" with { type: "json" };
+import sceneRowsJson from "../data/scene-rows.json" with { type: "json" };
+import type { BringData, BringRows } from "../bring-it-up";
+import type { SceneRows, SceneWords } from "../scene";
 
 interface Use {
   subject: string;
@@ -28,6 +30,8 @@ interface MinedPart {
 type Bank = { parts: MinedPart[] };
 export const SCENE_BANK = sceneJson as unknown as Bank;
 export const BRING_BANK = bringJson as unknown as Bank;
+export const SCENE_ROWS = sceneRowsJson as unknown as SceneRows;
+export const BRING_ROWS = bringRowsJson as unknown as BringRows;
 
 /**
  * Bank slots as the director names its facts: a host's home is `{{host}}'s`,
@@ -54,15 +58,15 @@ function variants(bank: Bank, subject: string, role: string) {
     .map((part) => ({ key: part.key, text: directorText(part.text) }));
 }
 
-export function sceneWordsFromBank(bank: Bank = SCENE_BANK): SceneWords {
+export function sceneWordsFromBank(
+  bank: Bank = SCENE_BANK,
+  rows: SceneRows = SCENE_ROWS,
+): SceneWords {
   return {
-    ...SCENE_WORDS,
-    version: "words-scene-v1",
+    version: rows.version,
+    and: rows.and,
     settings: Object.fromEntries(
-      Object.keys(SCENE_WORDS.settings).map((kind) => [
-        kind,
-        variants(bank, "setting", kind),
-      ]),
+      rows.settings.map((kind) => [kind, variants(bank, "setting", kind)]),
     ),
     present: ["one", "many"].flatMap((stage) =>
       variants(bank, "present", stage).map((row) => ({
@@ -70,28 +74,28 @@ export function sceneWordsFromBank(bank: Bank = SCENE_BANK): SceneWords {
         stages: [stage],
       })),
     ),
-    causes: SCENE_WORDS.causes.map((row) => ({
-      labelPrefix: row.labelPrefix,
-      variants: variants(bank, "cause", row.labelPrefix),
+    causes: rows.causes.map((labelPrefix) => ({
+      labelPrefix,
+      variants: variants(bank, "cause", labelPrefix),
     })),
   };
 }
 
 export function bringDataFromBank(
   bank: Bank = BRING_BANK,
-): typeof BRING_IT_UP_DATA {
+  rows: BringRows = BRING_ROWS,
+): BringData {
   return {
-    ...BRING_IT_UP_DATA,
-    version: "words-bring-it-up-v1",
-    changes: BRING_IT_UP_DATA.changes.map((row) => ({
+    version: rows.version,
+    toldEvent: rows.toldEvent,
+    heardKey: rows.heardKey,
+    blameKey: rows.blameKey,
+    changes: rows.changes.map((row) => ({
       ...row,
       line: variants(bank, "change", row.eventKind),
     })),
     blame: Object.fromEntries(
-      Object.keys(BRING_IT_UP_DATA.blame).map((how) => [
-        how,
-        variants(bank, "blame", how),
-      ]),
-    ) as typeof BRING_IT_UP_DATA.blame,
+      rows.blame.map((how) => [how, variants(bank, "blame", how)]),
+    ) as BringData["blame"],
   };
 }

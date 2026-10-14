@@ -1,6 +1,6 @@
 {
   "schema": "english-part-grades/1",
-  "batches": ["batch-1", "batch-2"],
+  "batches": ["batch-1", "batch-2", "batch-7"],
   "parts": {
     "bank:hearing.answer.thank-you-for-the-question": {
       "good": 0,
@@ -146,6 +146,78 @@
       "sharedBad": 1,
       "sharedFix": 0
     },
+    "journal.death-line-funeral.relation-was-age": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.law-backdrop-took-effect.the-bill-passed": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.office-line-filing.i-went-to-filing-office": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.school-line-started.i-attended-school": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.school-line-started.i-graduated-from-school": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.school-line-started.i-went-on-to-school": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.school-line-started.then-i-went-to-school": {
+      "good": 0,
+      "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.work-line-started.i-went-to-work-at-employer": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.work-other-started.relation-went-to-work": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "journal:chapter:phase:chapter:6": {
       "good": 0,
       "bad": 1,
@@ -218,6 +290,22 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "legislation.short-title.this-act-may-be-cited-as-the-act": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "legislation.short-title.this-title-may-be-cited-as-the": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "life-reply.first-greeting:closer:ask-followup": {
       "good": 0,
       "bad": 0,
@@ -233,6 +321,54 @@
       "sharedGood": 0,
       "sharedBad": 0,
       "sharedFix": 1
+    },
+    "minutes.discussion.the-manager-then-turned-to-topic": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.discussion.the-manager-turned-first-to-topic": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.discussion.the-manager-turned-next-to-topic": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "minutes.discussion.the-staff-provided-an-update-on-topic": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "notice.election.notice-of-election": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "notice.ordinance.council-ordinances": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
     }
   }
 }
