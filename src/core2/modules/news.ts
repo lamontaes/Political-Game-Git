@@ -87,6 +87,11 @@ export function trustOf(api: CoreAPI, lean: number): number {
     : center + (n(api, "newsTrustConservative") - center) * x;
 }
 
+/** How much a person's trust in the media weighs what the news told them, against the average reader (1). */
+export function trustWeight(api: CoreAPI, lean: number): number {
+  return trustOf(api, lean) / n(api, "newsTrustAverage");
+}
+
 /**
  * Who reads a story recorded for a place: its residents, and for a county or
  * state, the residents of the places inside it.
@@ -365,8 +370,7 @@ export function createNewsModule(
         const engagement = view?.engagement ?? api.parameter("zero");
         if (engagement <= api.parameter("zero")) continue;
         // People who trust the media less check it less, and hear later.
-        const reach =
-          engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
+        const reach = engagement * trustWeight(api, view!.lean);
         const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
         if (delay > maxAge) continue;
         deliveries(api).put({

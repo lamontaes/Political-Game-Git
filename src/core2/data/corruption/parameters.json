@@ -45,5 +45,11 @@
     "value": 30,
     "tag": "SOURCED",
     "citation": "A month of daily living costs, rounded to 30 days."
+  },
+  "corruptionReportWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on how far the person who learned of a bribe is from the official when deciding to take it to the press, against the pull of keeping quiet (corruptionQuietPull). Most people who learn of corruption don't report it, for fear of reprisal or doubt it will matter (Transparency International, Global Corruption Barometer, United States 2019); distance from the official makes reprisal and loyalty matter less. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-corruption-weights"
   }
 }

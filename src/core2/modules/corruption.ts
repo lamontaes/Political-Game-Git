@@ -25,6 +25,8 @@ import type {
 } from "../types";
 
 export const CORRUPTION_MODULE_ID = "corruption";
+/** A bribe taken to the press: public record the news carries. */
+export const SCANDAL_REPORTED = "scandal.reported";
 const SOURCE_KIND = "corruption:bribe";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const c = (api: CoreAPI, key: string) => {
@@ -285,6 +287,7 @@ export const corruptionModule: CoreModule = {
         },
       },
       surfaced: { indexes: { byCrime: { fields: ["crimeId"] } } },
+      reported: { indexes: { byOfficial: { fields: ["officialId"] } } },
     },
   },
   journalSourceProviders: {
@@ -395,7 +398,86 @@ export const corruptionModule: CoreModule = {
           date: api.state.date,
           reasons: told.values,
         });
+        reportToPress(api, crime, listener);
       }
     }
   },
 };
+
+/**
+ * Whoever learns of a bribe decides whether to take it to the press: the
+ * farther they are from the official, the less they hold back, and their
+ * temperament leans one way or the other. A report is public record, so the
+ * local outlet carries it and readers and word of mouth spread it; nobody
+ * holds the scandal against the official until it reaches them.
+ */
+function reportToPress(
+  api: CoreAPI,
+  crime: CrimeRecord,
+  listenerId: PersonId,
+): void {
+  const listener = api.state.people.get(listenerId);
+  const official = api.state.people.get(crime.officialId);
+  if (!listener?.alive || !official) return;
+  const reported = decide(
+    api,
+    listenerId,
+    "tell",
+    {
+      distance:
+        c(api, "corruptionReportWeight") *
+        (api.parameter("one") -
+          closenessBetween(
+            api.state as CoreState,
+            listenerId,
+            crime.officialId,
+          )),
+      temperament:
+        c(api, "corruptionTraitWeight") * temperament(api, listener, "tell"),
+    },
+    `${crime.id}:report`,
+  );
+  if (!reported.yes) return;
+  const id = `${crime.id}:reported:${listenerId}:${api.state.date}`;
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: SCANDAL_REPORTED,
+    personIds: [crime.officialId],
+    witnessIds: [listenerId],
+    placeId: official.placeId,
+    publicRecord: true,
+    news: true,
+    facts: { crimeId: crime.id, officialId: crime.officialId },
+    source: {
+      tag: "SOURCED",
+      citation: "Someone who learned of a recorded bribe took it to the press.",
+      asOf: api.state.date,
+    },
+  });
+  table(api, "reported").put({
+    id,
+    crimeId: crime.id,
+    officialId: crime.officialId,
+    reporterId: listenerId,
+    date: api.state.date,
+    reasons: reported.values,
+  });
+}
+
+/** The scandal stories reported about an official by the date (each a news story id). */
+export function scandalsOf(
+  api: CoreAPI,
+  officialId: PersonId,
+  date: string,
+): readonly string[] {
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return [];
+  return (
+    table(api, "reported").query("byOfficial", [officialId]) as unknown as {
+      id: string;
+      date: string;
+    }[]
+  )
+    .filter((row) => row.date <= date)
+    .map((row) => row.id);
+}
