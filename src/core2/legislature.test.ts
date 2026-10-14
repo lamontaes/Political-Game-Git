@@ -144,7 +144,7 @@ describe(
         ],
       });
       expect(bill.status).toBe("drafted");
-      expect(bill.number).toMatch(/^2026-\d{3}$/);
+      expect(bill.number).toMatch(/^2026-\d+$/);
       expect(bill.authority[0]!.allowed).toBe(true);
       // Learn two members' stakes, through a conversation and their record.
       const others = council.slice(1).map((s) => s.holder!.personId!);

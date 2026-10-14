@@ -1,0 +1,25 @@
+{
+  "about": "The form a bill takes in each kind of body: what it is (a bill for an act, or an ordinance), how the body numbers it, and its enacting clause. A state chamber's prefix and numbering period come from the recorded research (src/simulation/bill-numbering-styles.generated.ts, decision OCD-LEG-NUM-001); its enacting clause from enacting-clauses.json.",
+  "federal": {
+    "kind": "act",
+    "lower": "H.R. {n}",
+    "upper": "S. {n}",
+    "period": "biennial",
+    "biennialOpensIn": "odd",
+    "firstNumber": 1,
+    "tag": "SOURCED",
+    "source": "Bills are numbered in the order introduced, H.R. in the House and S. in the Senate, starting over with each two-year Congress (Congressional Research Service, 'Introducing a House Bill or Resolution', RS22977; the 119th Congress opened with H.R. 1 and S. 1 in January 2025).",
+    "enactingClause": "Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled,",
+    "enactingSource": "1 U.S.C. § 101: 'The enacting clause of all Acts of Congress shall be in the following form: \"Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled.\"'"
+  },
+  "local": {
+    "kind": "ordinance",
+    "template": "{yyyy}-{n}",
+    "period": "annual",
+    "firstNumber": 1,
+    "tag": "ESTIMATED",
+    "source": "Most municipal clerks number ordinances by the year and their order of introduction (Baltimore City Council 'Council Bill 25-0001'; International Institute of Municipal Clerks, records-numbering practice). Each place's own style is not in the data yet (SG-GOV-local-bill-numbering).",
+    "enactingClause": "Be it ordained by the {body}",
+    "enactingSource": "Baltimore City Council bill text ('Section 1. Be it ordained by the Mayor and City Council of Baltimore, That ...'), data/english/parts/legislation.json key legislation.local-section-first.be-it-ordained."
+  }
+}
