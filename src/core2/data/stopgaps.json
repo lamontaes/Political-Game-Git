@@ -3078,5 +3078,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-reconsideration-rule",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 1,
+    "whatItFakes": "How soon a body may undo a law it passed: no place's data records a reconsideration rule, so a sliding reluctance (fresher law and wider margin, more reluctance; a member's own last vote) stands in for the rule.",
+    "why": "Laws stress audit defect 3 (Oct 14): a county repealed laws it passed two weeks earlier. The owner's exact rule is pending (CTO relay, Oct 14).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling on reconsideration, and each place's recorded rule as data where one exists.",
+    "status": "open"
   }
 ]
