@@ -280,7 +280,7 @@
       "needsSize": true
     },
     "family-income-to-scores": {
-      "waitingOn": ["household.income", "school.test-scores"],
+      "waitingOn": ["school.test-scores"],
       "needsSize": true
     },
     "neighborhood-years-to-adult-outcomes": {
@@ -339,22 +339,22 @@
       "needsSize": true
     },
     "rent-burden-to-homelessness": {
-      "waitingOn": ["housing.rent-to-income-pct"],
+      "waitingOn": [],
       "needsSize": true
     },
     "eviction-to-homelessness": {
-      "waitingOn": ["housing.eviction"],
+      "waitingOn": [],
       "needsSize": true
     },
     "eviction-to-hospital-visits": {
-      "waitingOn": ["housing.eviction", "health.hospital-visits"],
+      "waitingOn": ["health.hospital-visits"],
       "needsSize": true
     },
     "home-prices-to-owner-births": {
-      "waitingOn": ["housing.home-prices", "births.owners"]
+      "waitingOn": ["births.owners"]
     },
     "home-prices-to-renter-births": {
-      "waitingOn": ["housing.home-prices", "births.renters"]
+      "waitingOn": ["births.renters"]
     },
     "property-tax-to-rent": {
       "waitingOn": ["housing.rent"]
@@ -542,14 +542,6 @@
       "owner": "OPUS-PEOPLE",
       "links": 3
     },
-    "housing.eviction": {
-      "owner": "OPUS-WORLD",
-      "links": 3
-    },
-    "housing.home-prices": {
-      "owner": "OPUS-WORLD",
-      "links": 3
-    },
     "business.incentive-deal": {
       "owner": "OPUS-WORLD",
       "links": 2
@@ -568,10 +560,6 @@
     },
     "health.mortality-all": {
       "owner": "OPUS-PEOPLE",
-      "links": 2
-    },
-    "household.income": {
-      "owner": "OPUS-WORLD",
       "links": 2
     },
     "housing.rent": {
@@ -766,15 +754,23 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
+    "household.income": {
+      "owner": "OPUS-WORLD",
+      "links": 1
+    },
     "household.vehicle-costs": {
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "housing.mid-year-school-move": {
+    "housing.eviction": {
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "housing.rent-to-income-pct": {
+    "housing.home-prices": {
+      "owner": "OPUS-WORLD",
+      "links": 1
+    },
+    "housing.mid-year-school-move": {
       "owner": "OPUS-WORLD",
       "links": 1
     },

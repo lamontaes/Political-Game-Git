@@ -1,0 +1,38 @@
+name: Every place nightly
+# The played world in all 56 states and territories, one drawn locality and
+# seed each, for two years: seconds and heap per year, any crash with its
+# stack, and the four checks (money balances, no ended job re-rated, seats
+# filled, even-year contests on the ballot). The table goes to the run summary.
+on:
+  schedule:
+    - cron: "41 7 * * *"
+  workflow_dispatch:
+    inputs:
+      years:
+        description: Years per place
+        default: "2"
+permissions:
+  contents: read
+concurrency:
+  group: all-places-nightly
+  cancel-in-progress: true
+jobs:
+  all-places:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Every place
+        env:
+          YEARS: ${{ github.event.inputs.years || '2' }}
+        run: npm run all-places -- --years "$YEARS" --heap-mb 3072 --out "$RUNNER_TEMP/all-places.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: all-places
+          path: ${{ runner.temp }}/all-places.json
