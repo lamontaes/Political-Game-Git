@@ -3224,18 +3224,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-counted-social-security-level",
-    "kind": "faked-mechanic",
-    "file": "src/core2/budgets-treasury.ts",
-    "line": 760,
-    "whatItFakes": "When the federal Social Security line is cut or raised, counted residents' awards (pooled in the residents' flows) keep their amount; only full people's awards follow the line.",
-    "why": "The residents' pooled flows have no way for another engine to change an award's amount (residents-economy.ts, OPUS-CORE).",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "A residents-economy rerate for retirement flows, called with the same level full awards use.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-public-employers-outside",
     "kind": "faked-mechanic",
     "file": "src/core2/budgets-treasury.ts",
@@ -3777,6 +3765,102 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The town's income history before the start (from the opening's pre-start years), so growth is read from the first month.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-person-views",
+    "kind": "faked-mechanic",
+    "file": "src/core2/counted-groups.ts",
+    "line": 1,
+    "whatItFakes": "Engines that still read counted people one by one (jobs, business, campaigns, retirement claims, housing, place prices, candidacy) get a person or household record built on demand from the counted group's packed columns, with no past, no ties outside the household and no sources of their own.",
+    "why": "One model, two tiers (owner, Oct 14): counted people are held once per group; the engines that read them one by one belong to other lanes and move to group reads one at a time.",
+    "replacement": "Each engine reads counted groups and their counts (reachOf, group fields) instead of one counted person at a time; the views are then deleted.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-town-districts",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/residents.ts",
+    "line": 1,
+    "whatItFakes": "A town's districts are the state House districts its population splits into (from the place-district join), else the whole town; city council wards are not modeled.",
+    "why": "The game has no ward geography; the owner has not said whether council wards should be districts.",
+    "replacement": "The owner's ruling on what a town's districts are; wards as districts if he wants them.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-fill-in-outside-kin",
+    "kind": "owner-decision",
+    "file": "src/core2/state.ts",
+    "line": 1,
+    "whatItFakes": "A counted person built at fill-in has their household, job and coworkers but no relatives living outside their household.",
+    "why": "Counted people keep no ties outside their household (one model, two tiers); building relatives at fill-in needs the relative generator to run for one person. The owner has not ruled whether that is needed for early access.",
+    "replacement": "The owner's ruling; if wanted, the opening's relative generator run for one filled-in household, seeded by the world.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-demotion-days",
+    "kind": "owner-decision",
+    "file": "src/core2/data/counted/parameters.json",
+    "line": 1,
+    "whatItFakes": "A full person out of the player's life for 180 days returns to their counted group (TUNABLE).",
+    "why": "The owner asked for demotion after 'a long while' without naming how long.",
+    "replacement": "The owner's number of days.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-unkeyed-money",
+    "kind": "faked-mechanic",
+    "file": "src/core2/counted-money.ts",
+    "line": 1,
+    "whatItFakes": "Money an engine pays to or takes from a place's counted residents as a whole (an owner's draw to owners who are counted, a pooled property tax bill, a price change on counted households, money left in the place's residents account) is shared by the place's counted groups by their people, not by the households it belongs to.",
+    "why": "Those engines (business, housing property tax, place prices, unemployment claims) name a place or a counted person but pay the place's residents account; until each passes the person or household, the groups share it.",
+    "replacement": "Each engine pays counted money through countedPayment with the counted person or household it belongs to (business owners, property tax by owner household, price changes by household), so the right group pays or is paid.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-district-placement",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/residents.ts",
+    "line": 1,
+    "whatItFakes": "A town split between state legislative districts places its counted households into the districts by income order, filling each district in proportion to its Census population in the town, so each district holds a slice of the town's income ladder.",
+    "why": "The game reads only each district's population in the town (Census place-district populations); it has no district-level income, housing or vote tables, and no home locations.",
+    "replacement": "Each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the district's real mix.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-filled-unplaced-income",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/residents.ts",
+    "line": 1,
+    "whatItFakes": "A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts.",
+    "why": "The opening places only some counted workers in recorded jobs; the rest are paid from one place-level flow with no employer to file a W-2.",
+    "replacement": "The jobs engine places every counted worker in a recorded job on an employer's books, so a filled-in worker always gets a real job and withholding.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-town-size",
+    "kind": "owner-decision",
+    "file": "src/core2/population.ts",
+    "line": 1,
+    "whatItFakes": "A town larger than the opening target (10,000 people, owner decision Oct 9) opens with 10,000 people, not its Census population, so its counts, a law's reach and its money cover only those 10,000. A town smaller than the target opens at its real Census size.",
+    "why": "The owner set the 10,000 target on Oct 9 before the counted tier was one record per group; whether a bigger town should count its full Census population (each counted household standing for several) is his call.",
+    "replacement": "The owner's ruling: either keep the cap, or let each counted group of a bigger town carry its Census count with the money and reach scaled to it.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
     "status": "open"
   }
 ]

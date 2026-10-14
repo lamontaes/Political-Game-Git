@@ -83,6 +83,8 @@ export interface ResidentFlowInput {
    * days worked since the opening, as full workers' earned pay does.
    */
   earnedDaysByDue?: Readonly<Record<string, number>>;
+  /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
+  unplacedWorkers?: number;
   /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
   bufferDays?: number;
   outsideId?: string;
@@ -745,6 +747,7 @@ export function collapseToTwoLevels(
       residentsId: accountFor(placeId),
       placeId,
       amountMinor: Math.round((unplaced * median * 14) / DAYS_PER_YEAR),
+      unplacedWorkers: unplaced,
       firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
       cadence: { kind: "days", every: 14 },
       salesReceipt: false,
