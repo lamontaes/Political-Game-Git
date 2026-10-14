@@ -171,13 +171,36 @@ function enact(series: string, value: number, level: string, unit?: string) {
     measureId: `TEST-${measure}`,
     citation: `Test act ${measure}`,
   });
+  // A law's reach is read on the effective day before that day's moves and
+  // deaths, so what it should reach is the town as it stands going in.
+  startOfDay = { date: after(api.state.date, 1), birthDates: townBirthDates() };
   advanceCore(core, after(api.state.date, 1));
 }
+
+/** The birth dates of the town's residents, named and counted, as they stand now. */
+function townBirthDates(): string[] {
+  const out: string[] = [];
+  for (const p of core.people.values())
+    if (p.alive && p.placeId === town) out.push(p.birthDate);
+  const rt = residentsRuntime(core);
+  for (const r of rt?.households.values() ?? []) {
+    if (rt!.filledIn.has(r.household.id) || r.household.placeId !== town)
+      continue;
+    for (const p of r.people) if (!core.people.has(p.id)) out.push(p.birthDate);
+  }
+  return out;
+}
+
+let startOfDay: { date: string; birthDates: string[] } | null = null;
 
 /** Everyone in the town (named and counted) with an age in [from, below). */
 function residentsAged(from: number, below = Infinity): number {
   const date = makeIsoDate(api.state.date);
   const age = (b: string) => ageOnDate(makeIsoDate(b), date);
+  // Right after an enactment, count the town as the law's reach saw it.
+  if (startOfDay?.date === api.state.date)
+    return startOfDay.birthDates.filter((b) => age(b) >= from && age(b) < below)
+      .length;
   let n = 0;
   for (const p of core.people.values())
     if (
