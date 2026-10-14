@@ -12,7 +12,7 @@ After: each treasury pays every line of its budget each month, to people and bus
 
 ## What a treasury does each month
 
-On the first of each month, every treasury (federal, state, county and town) does three things in order (read in code, `src/core2/budgets-treasury.ts:253`):
+On the first of each month, every treasury (federal, state, county and town) does three things in order (read in code, `src/core2/budgets-treasury.ts:254`):
 
 1. **Money in.** It receives a twelfth of the yearly revenue that nobody in the game pays it: fees, the taxes of people outside the town, and so on. Federal aid now comes from the U.S. treasury, and state aid to the county and town from the state treasury.
 2. **Money out, line by line.** Each budget line pays a twelfth of its year. What the treasury already paid in town on that line counts first: its staff's paychecks and benefits a law pays. Next comes aid to the treasuries below it. Then the town's share of roads, housing, parks and similar work goes to the town's own businesses of that kind. The rest goes to the world outside the town, recorded by line.
@@ -39,7 +39,7 @@ Three payments, by record:
 
 - **A staffer's pay against its line.** A county aide, `person_1779ed27326764ae`, was paid 23 times from March 4, 2025 to January 20, 2026, $38,626.12 in all, each payday filed against the county's administration line (measured). At the April 1 close, `treasury-month:county:26043:2025-04-01`, that line owed $358,037.53. $18,768.00 had gone to staff in town, $3,877.19 went to the town's professional firms and $335,392.34 went outside.
 - **A transfer to the town.** `treasury-aid:US-MI:place:2659220:intergovernmental:2025-02-01` moved $500,049.44 from Michigan's treasury to Norway's (measured). `treasury-aid:US:place:2659220:federalAid:2025-02-01` moved $69,289.50 from the U.S. treasury.
-- **A benefit after the federal cut.** In Lydia, `retirement-claim:person_6ee8931cace2b343@2025-11-27` paid $1,796.49 and `retirement-claim:person_6ee8931cace2b343@2025-12-27` paid $1,268.59 (measured). That is 70.6% of the award, the federal Social Security line's share of its base after Congress's cut (`src/core2/budgets-treasury.ts:565`).
+- **A benefit after the federal cut.** In Lydia, `retirement-claim:person_6ee8931cace2b343@2025-11-27` paid $1,796.49 and `retirement-claim:person_6ee8931cace2b343@2025-12-27` paid $1,268.59 (measured). That is 70.6% of the award, the federal Social Security line's share of its base after Congress's cut (`src/core2/budgets-treasury.ts:642`).
 
 Every one of the 27,936 journal entries in Norway and the 24,197 in Lydia posted both sides and summed to zero (measured).
 
@@ -53,7 +53,7 @@ Measured in the Lydia run, in order:
 4. **The smaller payment.** `person_6ee8931cace2b343`, a retiree in Lydia who claimed during play, was paid $1,796.49 on November 27 and $1,268.59 on December 27. `person_52106326559861a5` was paid $1,616.47 on December 2 and $1,141.47 on January 2.
 5. **Their money.** Each payment is a journal entry on their own cash account; the retiree held $22,298.57 at the end of the run.
 6. **What they felt.** The cut landed on them as an event with no cause attached (`event:law.effect-landed:2025-12-15:retirement-claim:person_6ee8931cace2b343`). Their mood fell to -0.40 and their stress rose to 0.65 that day; `person_52106326559861a5` fell to -0.39 and rose to 0.64.
-7. **Why their view did not move.** Someone ties a smaller check to the law only after learning of it: a story they heard about the law taking effect, or about the Social Security line it changed (`src/core2/budgets-treasury.ts`, `attribute`). Then a `law.effect-learned` event names the law, and their stance on it cites that story. In 400 days none of the 29 recipients heard such a story (measured: 29 changes landed, 0 learned). This retiree heard 5 stories, all about county board votes and a business closing. So the retiree knows the check is smaller but not why, and holds no view on the act. The learned step has not yet been seen in a run.
+7. **Why their view did not move.** Someone ties a smaller check to the law only after learning of it: a story they heard about the law taking effect, or about the Social Security line it changed (`src/core2/budgets-treasury.ts:584`). Then a `law.effect-learned` event names the law, and their stance on it cites that story. In 400 days none of the 29 recipients heard such a story (measured: 29 changes landed, 0 learned). This retiree heard 5 stories, all about county board votes and a business closing. So the retiree knows the check is smaller but not why, and holds no view on the act. The learned step has not yet been seen in a run.
 8. **What else did not read it.** No choice they made changed: the game records choices only for the player and the people around them, and this retiree recorded none in 400 days. No drive appears in their records. The story director counts only job wages as household money, so no scene or journal line followed (`src/director/ledger.ts:143`); that part is OPUS-PEOPLE's.
 
 Everyone else in town kept their Social Security amount: 5 retirees from the opening and 832 tracked as counts (see What happens next). The other 27 people who claimed during play and are tracked one by one live outside the town.
@@ -62,13 +62,13 @@ Everyone else in town kept their Social Security amount: 5 retirees from the ope
 
 Each is read in code; the runs did not single any of them out.
 
-- Taxes are now withheld from the pay of townspeople the game tracks only as counts, each month, as they are from people it tracks one by one (money audit defect 4; `src/core2/modules/budgets.ts:1078`).
-- A withholding record is kept only after its payment posts (defect 16), and lists only the taxes that reached a treasury (defect 11; `src/core2/modules/budgets.ts:1003`).
+- Taxes are now withheld from the pay of townspeople the game tracks only as counts, each month, as they are from people it tracks one by one (money audit defect 4; `src/core2/modules/budgets.ts:1080`).
+- A withholding record is kept only after its payment posts (defect 16), and lists only the taxes that reached a treasury (defect 11; `src/core2/modules/budgets.ts:1005`).
 - A staffer is hired only if the budget line their pay draws on has room for a year of it (defect 19; `src/core2/modules/staff.ts:187`).
 - The paid-leave premium is capped by the cash it is taken from (defect 15; `src/core2/law-reach/group-a-money.ts:130`).
 - A bribe is recorded once the money moves (defect 17; `src/core2/modules/corruption.ts:212`).
 - Poll costs are filed as polls, not ads (defect 18; `src/core2/modules/campaigns.ts:1351`).
-- The notice of an adopted budget names who adopted it: the body's vote or the carry-forward rule (laws audit defect 12, the budgets part; `src/core2/modules/budgets.ts:882`).
+- The notice of an adopted budget names who adopted it: the body's vote or the carry-forward rule (laws audit defect 12, the budgets part; `src/core2/modules/budgets.ts:884`).
 - The balanced-budget act no longer cuts federal interest on the debt (laws audit defect 9; `src/core2/law-reach/group-b-money.ts:425`).
 
 ## What happens next
@@ -78,7 +78,7 @@ Each is read in code; the runs did not single any of them out.
   - Do the same for the townspeople tracked as counts. In Lydia 832 who claimed during play kept their old amount (SG-GOV-counted-social-security-level).
   - Pay the town's schools, police and fire from their treasury rather than from outside (SG-GOV-public-employers-outside).
 - **OPUS-PEOPLE:** the director counts only job wages as household money, so a cut benefit gets no scene or journal line (`src/director/ledger.ts:143`). The drives data still lists `law.effect-landed` as having no producer (`src/core2/data/drives.json:648`); it has one now.
-- **The other OPUS-GOV builder** (legislature): a county with no executive still passes a budget bill with no lines. `departmentRequests` (`src/core2/modules/budgets.ts:807`) now returns the lines such a bill can carry.
+- **The other OPUS-GOV builder** (legislature): a county with no executive still passes a budget bill with no lines. `departmentRequests` (`src/core2/modules/budgets.ts:809`) now returns the lines such a bill can carry.
 - **This builder, next:** state surpluses build up where the Census shows more revenue than spending. A rainy-day reserve or a larger next budget should take them.
 
 ## Method
