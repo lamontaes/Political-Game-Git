@@ -1347,6 +1347,13 @@ async function seatRows() {
 const kindName = (kind) =>
   `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
 
+/** The player's own picture: the look chosen in the creator, else their figure in the room. */
+function portraitUrl() {
+  return me.portrait
+    ? `/api/portrait?id=${encodeURIComponent(me.id)}`
+    : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
+}
+
 // ---- Menus ----
 const sheets = {
   async people() {
@@ -1400,10 +1407,10 @@ const sheets = {
       el(
         "div",
         { className: "character" },
-        me.portrait
+        portraitUrl()
           ? el("img", {
               className: "portrait",
-              src: `/api/portrait?id=${encodeURIComponent(me.id)}`,
+              src: portraitUrl(),
               alt: c.name,
             })
           : "",
@@ -1411,7 +1418,11 @@ const sheets = {
       ),
       row(words.age ?? "", c.age),
       row(words.born ?? "", born),
-      row(words.home ?? "", me.placeName),
+      // A minor's home is the household's.
+      row(
+        c.age < 18 ? (words.householdHome ?? "") : (words.home ?? ""),
+        me.placeName,
+      ),
       ...(c.home?.members.length
         ? [
             row(
@@ -1424,6 +1435,10 @@ const sheets = {
         : []),
       ...(occupation
         ? [row(c.job ? (words.work ?? "") : (words.school ?? ""), occupation)]
+        : []),
+      ...c.traits.map((t) => row(t.label, t.word)),
+      ...(c.view
+        ? [row(words.views ?? "", controls.leanWords?.[c.view] ?? "")]
         : []),
       row(words.money ?? "", dollars(c.liquidMinor)),
       dev(row("Golden path", step ? `${step.step}. ${step.label}` : "—")),
@@ -1438,7 +1453,7 @@ const sheets = {
     const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
-      ...(me.card.dwelling && me.card.age < 18
+      ...(me.card.age < 18
         ? [row(controls.who?.householdHome ?? "", me.placeName)]
         : []),
       ...(me.card.dwelling && me.card.age >= 18

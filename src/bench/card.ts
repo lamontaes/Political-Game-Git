@@ -7,6 +7,13 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import type { CoreState } from "../core2/types";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
+import {
+  BALANCED_TRAIT,
+  PEOPLE_TRAITS,
+  TRAIT_SHAPES,
+  peopleTraitId,
+} from "../simulation/people-trait-definitions";
+import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
@@ -100,6 +107,27 @@ export function personCard(core: CoreState, personId: string) {
               rentMinor?: number;
             }
           | undefined) ?? null)
+      : null,
+    // The temperament recorded on the person, each in the pole's own word.
+    traits: PEOPLE_TRAITS.flatMap((trait) => {
+      const value = person.traits[peopleTraitId(trait)];
+      if (value === undefined) return [];
+      const shape = TRAIT_SHAPES[trait];
+      return [
+        {
+          label: shape.label,
+          word:
+            value < 0
+              ? shape.low.label
+              : value > 0
+                ? shape.high.label
+                : BALANCED_TRAIT.label,
+        },
+      ];
+    }),
+    // Where they place themselves politically, as the views engine's label.
+    view: core.modules.has(VIEWS_MODULE_ID)
+      ? (viewOf(coreAPI(core), personId)?.label ?? null)
       : null,
     affect: person.affect,
     needs: person.needs,

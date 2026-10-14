@@ -97,6 +97,14 @@
     "work": "Work",
     "school": "School",
     "money": "Money",
-    "family": "Family"
+    "family": "Family",
+    "views": "Politics"
+  },
+  "leanWords": {
+    "veryLiberal": "Very liberal",
+    "liberal": "Liberal",
+    "moderate": "Moderate",
+    "conservative": "Conservative",
+    "veryConservative": "Very conservative"
   }
 }
