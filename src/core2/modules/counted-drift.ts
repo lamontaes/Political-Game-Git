@@ -123,8 +123,11 @@ interface Month {
 function liveJobsByPerson(core: CoreState): Map<PersonId, string[]> {
   const out = new Map<PersonId, string[]>();
   for (const job of residentsRuntime(core)!.jobs.values())
-    if (!job.endsAt)
-      out.set(job.personId, [...(out.get(job.personId) ?? []), job.id]);
+    if (!job.endsAt) {
+      const list = out.get(job.personId);
+      if (list) list.push(job.id);
+      else out.set(job.personId, [job.id]);
+    }
   return out;
 }
 

@@ -437,6 +437,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     delete rest[date];
     flow.earnedDaysByDue = rest;
   }
+  if (flow.payIndexed) base = Math.round(base * payLevel(core, flow.placeId));
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
     // takes in; whatever it hasn't bought from local suppliers (running totals,
@@ -1003,6 +1004,16 @@ function knownSources(
  * A counted worker's new hourly pay from today (e.g. a minimum wage). Their
  * employer's wage flow changes by exactly their share; the job record follows.
  */
+/** The place's pay level against the opening (latest finance condition's wage factor). */
+function payLevel(core: CoreState, placeId: string): number {
+  const conditions = core.finance.conditionsByPlace.get(placeId);
+  if (!conditions) return 1;
+  let factor = 1;
+  for (const row of conditions)
+    if (row.at <= core.date) factor = row.wagePriceFactor;
+  return factor;
+}
+
 export function rerateCountedJob(
   core: CoreState,
   jobId: string,

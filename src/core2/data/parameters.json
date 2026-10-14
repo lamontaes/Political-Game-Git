@@ -186,6 +186,18 @@
     "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: volunteering (organizational and civic activities), 2.18 hours per participant-day (5.3% of people on an average day); religious and spiritual 1.41 hours.",
     "estimatedFrom": "One civic act (join, organize, approach) is one participant-day of volunteering; the 5.3% participation share is the outcome check."
   },
+  "causeGroupMonthlySpendShare": {
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "The share of its money a cause group spends each month on its cause. BBB Wise Giving Alliance Standard 8 asks a charity to spend at least 65% of its total expenses on programs (https://give.org/donor-landing-page/bbb-standards-for-charity-accountability); Charity Navigator's program expense ratio for advocacy groups commonly runs 70% to 85%. A small volunteer group holds little reserve, so it spends most of what it has each month.",
+    "estimatedFrom": "Program expense ratios (BBB Wise Giving Alliance; Charity Navigator); spread 0.5 to 1."
+  },
+  "officeReplyDays": {
+    "value": 7,
+    "tag": "ESTIMATED",
+    "citation": "Days from a resident's visit to a town office until its staff answer: five business days (seven calendar days), the Town of Lakeshore, Ontario customer service policy adopted in 2024 (https://www.lakeshore.ca/news/posts/lakeshore-moves-forward-with-customer-service-improvements/). Toronto acknowledges within two business days (https://www.toronto.ca/city-government/accountability-operations-customer-service/city-administration/staff-directory-divisions-and-customer-service/service-promise-standards/); Greater Sudbury answers mail within ten business days (https://www.greatersudbury.ca/city-hall/news-and-public-notices/2019/city-launches-new-customer-service-initiatives/).",
+    "estimatedFrom": "Municipal customer-service standards; spread 2 to 14 calendar days. No US-wide survey of town office reply times was found."
+  },
   "stressBaseline": {
     "value": 0.25,
     "tag": "TUNABLE",
@@ -1611,42 +1623,48 @@
   },
   "businessCrowdingResponse": {
     "value": 0.1,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances crowdingPriceResponse is explicitly PLACEHOLDER; no observed firm price adjustment coefficient is claimed.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "tag": "ESTIMATED",
+    "citation": "Nakamura and Steinsson (2008), 'Five Facts about Prices,' Quarterly Journal of Economics 123(4), Table I (https://business.columbia.edu/sites/default/files-efs/pubfiles/3556/fivefacts.pdf): median monthly frequency of regular price change 8.7-11.9%.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires matched capacity/utilization/price changes; no identified coefficient range is available."
+      "low": 0.03,
+      "high": 0.24,
+      "unit": "monthly log price change per unit of excess demand",
+      "citation": "f from 0.087 to 0.119 (Nakamura and Steinsson 2008) over e from 3 (rival sellers, Broda and Weinstein 2006) to 0.5 (market demand)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Derived: a firm closes about the monthly change frequency f of its price gap each month, and clearing excess demand x takes a price move of x over the demand elasticity e it faces, so the response is about f/e; f = 0.10 and e = 1 give 0.1."
   },
   "businessPriceStepMaximum": {
     "value": 0.05,
     "tag": "TUNABLE",
-    "citation": "Old town-finances priceStepMax is an authored per-review cap; this pure calculator does not establish a review cadence or measured cap.",
+    "citation": "A per-review cap on the price move from demand pressure. Nakamura and Steinsson (2008), 'Five Facts about Prices,' QJE 123(4): the median absolute size of a regular consumer price change is 8.5% (6.1% to 14.2% by major group), made about once every 8 to 11 months; a monthly cap of 5% keeps a monthly review's move below one typical change.",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No matched review-period price-step distribution identifies this cap; cadence and coefficient calibration remain open."
+      "low": 0.05,
+      "high": 0.142,
+      "unit": "largest monthly log price change",
+      "citation": "Nakamura and Steinsson (2008): per-change sizes 6.1%-14.2% by major group; the cap is checked from 0.05 up to that range."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "businessRivalPriceElasticity": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances rivalPriceElasticity is explicitly PLACEHOLDER; capacity times relative-price weight is an uncalibrated allocation model.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "value": 2.7,
+    "tag": "ESTIMATED",
+    "citation": "Broda and Weinstein (2006), 'Globalization and the Gains from Variety,' Quarterly Journal of Economics 121(2), Table 4 (FRBNY Staff Report 180, https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr180.html): median elasticity of substitution between varieties, 1990-2001, 2.7 at SITC-5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires actual within-market price, capacity and spending-share observations; no coefficient bounds measured."
+      "low": 1.6,
+      "high": 9.7,
+      "unit": "elasticity of substitution between rival sellers",
+      "citation": "Broda and Weinstein (2006), SITC-5 10th and 90th percentiles, 1990-2001."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "US import varieties by source country, used for rival local sellers of one kind; close local substitutes are likely more elastic than the median."
   },
   "businessRepaymentShare": {
     "value": 0.5,

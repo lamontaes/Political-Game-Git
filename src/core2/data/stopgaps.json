@@ -2300,7 +2300,7 @@
     "id": "SG-WORLD-credit-business-applies",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/credit.ts",
-    "line": 501,
+    "line": 502,
     "whatItFakes": "A business with no recorded owner (a public employer, an ownerless landlord) applies for a line whenever its cash is below a few months of payroll; owned businesses' owners decide.",
     "why": "Businesses have no recorded owners until businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
@@ -2465,7 +2465,7 @@
     "id": "SG-WORLD-credit-island-deposits",
     "kind": "assumed-data",
     "file": "src/core2/modules/credit.ts",
-    "line": 133,
+    "line": 134,
     "whatItFakes": "American Samoa has no FDIC-insured branch, so its town bank's deposits are the nation's per resident; the Virgin Islands take their own FDIC deposits (June 2026) per 2020 resident, and Guam and the Northern Marianas their county deposit rows. Branch deposits include business, government and non-resident accounts.",
     "why": "American Samoa's banks (the government-owned Territorial Bank and ANZ Amerika Samoa) publish no deposit totals that were found.",
     "addedBy": "OPUS-WORLD",
@@ -2967,6 +2967,18 @@
     "status": "open"
   },
   {
+    "id": "SG-CORE-disasters-from-records",
+    "kind": "behavior",
+    "file": "src/core2/modules/disasters.ts",
+    "line": 1,
+    "whatItFakes": "Disasters happen only where and when FEMA declared one for the town's county or state (since 2000), as a public news event on the incident's start date. Federal Public Assistance obligated to the county's own government and the town's government (disasters declared since 2020) is paid in full on the declaration date from the U.S. Treasury outside account the game already keeps for Social Security. FEMA housing assistance approved for the town's households (Individuals and Households Program, owners and renters, disasters since 2020) is paid to the town's counted residents on the declaration date, scaled by the world's people over the Census estimate (a town without an estimate takes the whole amount); no single household is chosen, and 36% of household rows don't match a county or town by name. A government kept outside the world receives nothing. The town's households also pay, on the declaration date, for repairing the damage FEMA inspected in owners' homes (scaled the same way), to the town's open builders by their staff or to builders outside the town; the news event carries how many homes FEMA found damaged. Damage to rented homes falls on no landlord, and repairs are paid at once from what households have rather than over months or by insurance. No damage to businesses, public buildings or people; no other applicants (schools, utilities, nonprofits; 13% of assistance rows don't match a county); no new disasters after the records end.",
+    "why": "The core owns disasters and hazards (BOARD); under no-dice a rate can't decide when one strikes, and the owner hasn't ruled on what should cause new ones.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "The owner's ruling on what causes a disaster in play; damage to businesses, public buildings and people (from NOAA storm episodes), and household aid and repairs reaching the named households that lost homes, with insurance and repairs over time; assistance paid over its real obligation dates to every applicant; a federal FEMA account of its own.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-electorate-approval",
     "kind": "missing-data",
     "file": "src/core2/electorate-inputs.ts",
@@ -3027,15 +3039,27 @@
     "status": "open"
   },
   {
-    "id": "SG-CORE-disasters-from-records",
-    "kind": "behavior",
-    "file": "src/core2/modules/disasters.ts",
+    "id": "SG-CORE-cause-group-ads-only",
+    "kind": "cause-group-spending",
+    "file": "src/core2/modules/drives.ts",
     "line": 1,
-    "whatItFakes": "Disasters happen only where and when FEMA declared one for the town's county or state (since 2000), as a public news event on the incident's start date. Federal Public Assistance obligated to the county's own government and the town's government (disasters declared since 2020) is paid in full on the declaration date from the U.S. Treasury outside account the game already keeps for Social Security. FEMA housing assistance approved for the town's households (Individuals and Households Program, owners and renters, disasters since 2020) is paid to the town's counted residents on the declaration date, scaled by the world's people over the Census estimate (a town without an estimate takes the whole amount); no single household is chosen, and 36% of household rows don't match a county or town by name. A government kept outside the world receives nothing. The town's households also pay, on the declaration date, for repairing the damage FEMA inspected in owners' homes (scaled the same way), to the town's open builders by their staff or to builders outside the town; the news event carries how many homes FEMA found damaged. Damage to rented homes falls on no landlord, and repairs are paid at once from what households have rather than over months or by insurance. No damage to businesses, public buildings or people; no other applicants (schools, utilities, nonprofits; 13% of assistance rows don't match a county); no new disasters after the records end.",
-    "why": "The core owns disasters and hazards (BOARD); under no-dice a rate can't decide when one strikes, and the owner hasn't ruled on what should cause new ones.",
+    "whatItFakes": "A cause group spends its money only on ad time, bought through the campaigns engine's ad purchase; it holds no events, sends no mailers and pays none of a cause's own costs.",
+    "why": "Stress audit defect 2 (Oct 14): groups took donations and never spent them. The ad purchase was the one existing way to buy reach.",
     "addedBy": "OPUS-CORE",
-    "addedAt": "2026-10-13",
-    "replacement": "The owner's ruling on what causes a disaster in play; damage to businesses, public buildings and people (from NOAA storm episodes), and household aid and repairs reaching the named households that lost homes, with insurance and repairs over time; assistance paid over its real obligation dates to every applicant; a federal FEMA account of its own.",
+    "addedAt": "2026-10-14",
+    "replacement": "A group chooses among the reach it can buy (events, mailers, press) and a cause's costs (a lawyer, a petition drive where the golden path needs one), read from its members' plans.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-closeness-gov-raw-reads",
+    "kind": "closeness-read",
+    "file": "src/core2/closeness.ts",
+    "line": 1,
+    "whatItFakes": "candidacy.ts (incumbent tie) and legislature.ts (two member ties) still read a relationship's stored level, the closeness at the last contact, instead of today's faded closeness (closenessBetween).",
+    "why": "Stress audit defect 21 (Oct 14). Every other engine now reads closenessBetween; those two files belong to gov/wiring-votes-and-views this round and OPUS-CORE may not edit them.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
     "status": "open"
   },
   {

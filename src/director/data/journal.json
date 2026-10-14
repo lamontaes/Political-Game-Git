@@ -348,6 +348,28 @@
       ]
     },
     {
+      "kindPrefix": "event:office.replied",
+      "turn": false,
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "line": [
+        {
+          "key": "office-replied",
+          "text": "I heard back from {{office}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-office-replied",
+          "text": "{{other}} heard back from {{office}}."
+        }
+      ]
+    },
+    {
       "kindPrefix": "event:candidate-filed",
       "turn": true,
       "eventFacts": {

@@ -142,7 +142,9 @@ function lawAges(
 }
 
 function schedule(rt: Runtime, date: IsoDate, personId: PersonId): void {
-  rt.byDate.set(date, [...(rt.byDate.get(date) ?? []), personId]);
+  const list = rt.byDate.get(date);
+  if (list) list.push(personId);
+  else rt.byDate.set(date, [personId]);
 }
 
 function index(api: CoreAPI, rt: Runtime): void {
