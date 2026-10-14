@@ -25,7 +25,10 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { lifePlaceByKey } from "../../simulation/life-places";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceByKey,
+} from "../../simulation/life-places";
 import {
   municipalFilingDeadline,
   nextElectionForSeat,
@@ -528,7 +531,13 @@ export function checkEligibility(
       personId,
     ]) as unknown as FilingRow[]
   ).some((f) => f.status !== "withdrawn" && f.contestId === contestId);
-  const resident = person.placeId === town(api).townPlaceId;
+  // Where they must live: the town for a local seat; the state for a state
+  // or federal one (a district's own residency rule is in the requirement
+  // text the place's records give).
+  const resident =
+    contest.level === "federal" || contest.level === "state"
+      ? stateOfPlace(person.placeId) === town(api).stateKey
+      : person.placeId === town(api).townPlaceId;
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
@@ -659,6 +668,14 @@ export function fileCandidacy(
   table(api, "filings").put(filing as unknown as ModuleRow);
   announce(api, filing, contest);
   return { status: filing.status, filing };
+}
+
+/** The state a place lies in, from the place records. */
+function stateOfPlace(placeId: string): string | null {
+  const place = lifePlaceByJurisdictionId(placeId as never);
+  // An official kept at the state level is placed at the state itself.
+  if (!place) return /^US-[A-Z]{2}$/.test(placeId) ? placeId : null;
+  return place.stateJurisdictionKey ?? null;
 }
 
 /** The party organization a ballot label names in the town's state, by name. */

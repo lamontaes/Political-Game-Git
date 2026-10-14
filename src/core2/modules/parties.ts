@@ -21,6 +21,7 @@ import delegates from "../../../data/research/elections/house-delegates-2024.jso
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
 import { partySide } from "../appointments";
+import { partyLean } from "../campaign-stances";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -335,6 +336,47 @@ function put(
     lean,
     reason,
   } as unknown as ModuleRow);
+}
+
+/**
+ * Join a party (the player's act, or anyone's): American parties take any
+ * voter who registers with them, so the tie is made, and the record keeps how
+ * the person's own views sit against the party's positions (their lean
+ * against the party's, -1 to 1: 1 the same, -1 opposite), which their
+ * loyalty and the party's other members read. Filing under the party's
+ * label reads this membership (`checkEligibility`).
+ */
+export function joinParty(
+  api: CoreAPI,
+  personId: string,
+  partyId: string,
+): { readonly tie: TieRow; readonly agreement: number } {
+  const person = api.state.people.get(personId);
+  if (!person) throw new Error(`No such person: ${personId}`);
+  const party = partiesHere(api).find((p) => p.id === partyId);
+  if (!party) throw new Error(`No party ${partyId} here`);
+  const own = personLean(
+    api.state.people,
+    person,
+    (
+      api
+        .moduleState("core2-campaigns-v1")
+        .table("town")
+        .get("town") as unknown as { lean: number } | undefined
+    )?.lean ?? 0,
+  );
+  const theirs = partyLean(api, party.name)?.lean ?? party.side;
+  const agreement = 1 - Math.abs(own - theirs);
+  put(
+    api.moduleState(PARTIES_MODULE_ID).table("ties"),
+    person,
+    "party",
+    party.id,
+    own,
+    api.state.date,
+    `joined; views against the party's positions ${agreement.toFixed(3)}`,
+  );
+  return { tie: partyTie(api, personId)!, agreement };
 }
 
 export function partyTie(api: CoreAPI, personId: string): TieRow | null {

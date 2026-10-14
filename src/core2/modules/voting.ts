@@ -623,7 +623,10 @@ function contestView(
             publicRecord[f.personId]!
           : 0,
       localStanding: standing ? appealOfShare(standing.local) : 0,
-      recognition: named.length ? heard / named.length : 0,
+      // The town's share who know the candidate: the named adults who have
+      // heard of them and the counted adults the campaign's doors and mail
+      // reached, over all the town's adults.
+      recognition: townShareKnowing(api, named.length, heard, f.id),
       platform: facts.platform,
     };
   });
@@ -639,6 +642,40 @@ function countedField(
 ): readonly CountedFieldEntry[] {
   return contestView(api, contest, field).field;
 }
+
+/** A candidate's recognition in town: named adults who heard of them and counted adults reached, over all adults. */
+function townShareKnowing(
+  api: CoreAPI,
+  namedAdults: number,
+  namedHeard: number,
+  filingId: string,
+): number {
+  const counted = countedAdultsToday(api);
+  const reached = api.state.modules.has(CAMPAIGNS_MODULE_ID)
+    ? ((
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("campaigns")
+          .get(filingId) as unknown as { countedReached?: number } | undefined
+      )?.countedReached ?? 0)
+    : 0;
+  const all = namedAdults + counted;
+  return all ? Math.min(1, (namedHeard + Math.min(counted, reached)) / all) : 0;
+}
+
+/** The town's counted adults today. */
+function countedAdultsToday(api: CoreAPI): number {
+  const held = countedByDay.get(api.state);
+  if (held?.date === api.state.date) return held.n;
+  const { townPlaceId } = town(api);
+  const date = api.state.date;
+  let n = 0;
+  for (const v of countedResidents(api.state as CoreState))
+    if (v.placeId === townPlaceId && ageOn(v, date) >= 18) n += 1;
+  countedByDay.set(api.state, { date, n });
+  return n;
+}
+const countedByDay = new WeakMap<object, { date: string; n: number }>();
 
 /** The town's named adults today, from the place index. */
 function townAdults(api: CoreAPI): readonly PersonState[] {
@@ -951,12 +988,22 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   }
   // A partisan state or federal seat with no one holding it (a special
   // election's vacancy): each major party with no filed candidate nominates.
-  const seatParty = (
+  // The seat's party: its record's, else its last holder's.
+  const lastHolder = (
     api
       .moduleState(OFFICES_MODULE_ID)
-      .table("seats")
-      .get(contest.seatId) as unknown as { party?: string | null } | undefined
-  )?.party;
+      .table("terms")
+      .query("bySeatStatus", [contest.seatId, "ended"]) as unknown as TermRow[]
+  )
+    .slice()
+    .sort((a, b) => (b.endDate ?? "").localeCompare(a.endDate ?? ""))[0];
+  const seatParty =
+    (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("seats")
+        .get(contest.seatId) as unknown as { party?: string | null } | undefined
+    )?.party ?? lastHolder?.party;
   if (
     (contest.level === "federal" || contest.level === "state") &&
     !(incumbent && alive) &&
@@ -1039,7 +1086,12 @@ export function officialCandidateId(key: string): string {
 export function holdPrimary(
   api: CoreAPI,
   contestId: string,
-): Readonly<Record<string, number>> {
+): {
+  /** Every candidate's votes, named, counted and wider electorate together. */
+  readonly votes: Readonly<Record<string, number>>;
+  /** The named voters' share of them. */
+  readonly namedVotes: number;
+} {
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
@@ -1075,6 +1127,7 @@ export function holdPrimary(
     ] ?? 0;
   const extraCost = campaignParameter("primaryTurnoutCost");
   const votes: Record<string, number> = {};
+  let namedVotes = 0;
   // Named voters: what reached them, as on election day.
   const countNamed = (
     field: readonly FilingRow[],
@@ -1089,8 +1142,10 @@ export function holdPrimary(
           table(api, "chosen").get(`${contestId}|${voter.id}`) as unknown as
             { candidateId: string | null } | undefined
         )?.candidateId;
-        if (chosen && field.some((f) => f.personId === chosen))
+        if (chosen && field.some((f) => f.personId === chosen)) {
           votes[chosen] = (votes[chosen] ?? 0) + 1;
+          namedVotes += 1;
+        }
         continue;
       }
       const { appeal } = appealFor(api, voter, contest, field);
@@ -1104,7 +1159,10 @@ export function holdPrimary(
       const choice = field.some((f) => f.personId === voter.id)
         ? voter.id
         : countedChoice(appeal);
-      if (choice) votes[choice] = (votes[choice] ?? 0) + 1;
+      if (choice) {
+        votes[choice] = (votes[choice] ?? 0) + 1;
+        namedVotes += 1;
+      }
     }
   };
   // The wider electorate's view of the field: the ballot names the
@@ -1253,9 +1311,14 @@ export function holdPrimary(
     },
     publicRecord: true,
     news: true,
-    facts: { contestId, method, votes: JSON.stringify(votes) },
+    facts: {
+      contestId,
+      method,
+      votes: JSON.stringify(votes),
+      namedVotes: String(namedVotes),
+    },
   });
-  return votes;
+  return { votes, namedVotes };
 }
 
 /**

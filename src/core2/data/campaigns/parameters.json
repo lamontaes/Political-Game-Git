@@ -121,9 +121,9 @@
       "spread": [0.5, 1.2]
     },
     "turnoutBase": {
-      "value": -0.6,
+      "value": -0.48,
       "tag": "TUNABLE",
-      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald).",
+      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald). Measured with the logistic propensity over eight random places (OPUS-GOV elections, Oct 14, 2026): counted turnout 0.624 in a presidential year.",
       "spread": [-1.2, 0.6]
     },
     "turnoutScale": {
@@ -522,9 +522,9 @@
       "spread": [0.05, 0.2]
     },
     "primaryTurnoutCost": {
-      "value": 1.4,
+      "value": 1.15,
       "tag": "TUNABLE",
-      "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022). Measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 25 to 34% of named adults clear this cost.",
+      "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022). Measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 25 to 34% of named adults clear this cost. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 22% of adults on a primary date in a midterm year.",
       "spread": [0.8, 2]
     },
     "partyMeetingDays": {
@@ -564,15 +564,15 @@
       "spread": [0.18, 0.46]
     },
     "midtermTurnoutCost": {
-      "value": 0.7,
+      "value": 0.8,
       "tag": "TUNABLE",
-      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named turnout falls near the 2022 midterm's 46.6% of the voting-eligible population (U.S. Elections Project, Michael McDonald), 0.72 of a presidential year's; measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 46% at this value.",
+      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named turnout falls near the 2022 midterm's 46.6% of the voting-eligible population (U.S. Elections Project, Michael McDonald), 0.72 of a presidential year's; measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 46% at this value. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 0.458, 0.73 of the presidential year's 0.624.",
       "spread": [0.3, 1]
     },
     "offCycleTurnoutCost": {
-      "value": 1.4,
+      "value": 1.8,
       "tag": "TUNABLE",
-      "source": "What an off-cycle election adds to the cost of voting, checked so named turnout falls near 0.39 of a presidential year's, about 25% of eligible adults (Hajnal and Green, 'Big Cities, Tiny Votes?', 2024; off-cycle mayoral turnout in large cities averages about 20% of eligible voters, Portland State University, 'Who Votes for Mayor?', 2016); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 25 to 34% at this value.",
+      "source": "What an off-cycle election adds to the cost of voting, checked so named turnout falls near 0.39 of a presidential year's, about 25% of eligible adults (Hajnal and Green, 'Big Cities, Tiny Votes?', 2024; off-cycle mayoral turnout in large cities averages about 20% of eligible voters, Portland State University, 'Who Votes for Mayor?', 2016); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 25 to 34% at this value. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 0.252, 0.40 of the presidential year's 0.624.",
       "spread": [0.8, 2]
     },
     "officeTermYearsEstimate": {
