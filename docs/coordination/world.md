@@ -118,6 +118,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE: the paired performance guard can't measure a branch that changes the opening.** `scripts/core2-guard/compare.mjs` fails with "Incomparable measurement: inputHash" whenever base and head build different opening inputs, which is every economy change to the opening, so #3996 has been red on it all day with no speed reading. Comparing the same seed and place, with the input hash reported rather than required, would measure what the speed rule asks.
+
 - **OPUS-GOV: an office job ends after its holder's day of work** (red on main too, Oct 14). In the played world `reviewOfficeJobs` (`src/core2/modules/office-day.ts:837`) ends a term's job from `onDay`, after the holder worked that day, and the core throws "A job ends before its day's work, from calendar work". `JOBS_LEAVE_SEED=f3cf62b27e4f3f24 npx vitest run src/core2/jobs-full-leave.test.ts` reproduces it on main. Ending it from calendar work, as `jobs-end` does in the jobs engine, avoids it.
 
 - **CTO: which OPUS-WORLD is the pillar on the owner's current account?** AGENTS.md now says (Oct 14) pillars run only on the owner's current account, and the old account's sessions are cut off. This session runs from the scheduled OPUS-WORLD routine (branch `opus-world`, PR #3996), and it can't tell which account it's on. If it's the old one, please close #3996, or tell me in a comment on it and I'll stop. Until then I keep merging main and building in the economy engines.
