@@ -20,29 +20,29 @@ import {
   daysBetween,
   isoDateFromParts,
   makeIsoDate,
-} from "../simulation/dates";
+} from "./kernel/dates";
 import {
   countyLandSharesForPlace,
   countyPopulationSharesForPlace,
-} from "../simulation/government-units";
+} from "./reference/government-units";
 import {
   HOUSEHOLD_MIX_META,
   householdMixForJurisdiction,
   type HouseholdMix,
   type HouseholdShape,
 } from "../simulation/household-mix";
-import { createStableId, stableHash } from "../simulation/ids";
+import { createStableId, stableHash } from "./kernel/ids";
 import {
-  lifePlaceByKey,
-  lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
-  type LifePlace,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  corePlaceByJurisdictionId,
+  coreStateJurisdiction,
+  type CorePlace,
+} from "./place-lookup";
 import {
   estimatedMonthlyHouseholdLivingCosts,
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
-} from "../simulation/living-costs-data";
+} from "./reference/living-costs-data";
 import { organizationProfileAt } from "../simulation/life-queries";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
 import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
@@ -53,24 +53,18 @@ import {
   weeklyHoursOf,
 } from "../simulation/living-world/town-pay";
 import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
-import {
-  bedroomsForHousehold,
-  hudRentRowFor,
-} from "../simulation/living-world/town-rent";
-import { TOWN_RENT_META } from "../simulation/living-world/town-rent.generated";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import { TOWN_RENT_META } from "./reference/town-rent.generated";
 import {
   TOWN_RESIDENTS_VERSION,
   townHouseholdPeople,
   townHouseholdSkeleton,
   type TownHouseholdSkeleton,
 } from "../simulation/living-world/town-residents";
-import { placeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
-import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
+import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
+import { placeReferencePopulation } from "./gov-rules/place-population";
 import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
-import {
-  PEOPLE_MIND_VERSION,
-  PEOPLE_TRAITS,
-} from "../simulation/people-trait-definitions";
+import { PEOPLE_MIND_VERSION, PEOPLE_TRAITS } from "./people-mind";
 import {
   upbringingCoreValueFrom,
   upbringingFor,
@@ -100,16 +94,16 @@ import {
   createWorld,
   writeWithWorldIntegrityOnce,
 } from "../simulation/world";
-import { DEFAULT_CORPUS_VERSION } from "../simulation/names-data";
-import { drawCanonicalNamedIdentity } from "../simulation/people";
+import { DEFAULT_CORPUS_VERSION } from "./gov-rules/names-data";
+import { drawCanonicalNamedIdentity } from "./person-names";
 import { nameCorpusVersionForWorld } from "../simulation/place-name-corpus";
 import {
   defaultPronounsForGender,
   type GenderIdentityKey,
-} from "../simulation/person-identity";
+} from "./gov-rules/person-identity";
 import { birthCohortGivenName } from "../simulation/given-name-cohorts";
-import { inventedPersonBirthDate } from "../simulation/invented-person-age";
-import { SeededRng } from "../simulation/rng";
+import { inventedPersonBirthDate } from "./gov-rules/invented-person-age";
+import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
@@ -142,7 +136,7 @@ export interface PopulationOptions {
 }
 
 interface CountyContext {
-  place: LifePlace;
+  place: CorePlace;
   share: number;
 }
 
@@ -194,7 +188,7 @@ const GENERATED_PROVENANCE = {
 };
 
 /** Geography is distinct from government: a county area need not have a county council. */
-function countyContexts(place: LifePlace): readonly CountyContext[] {
+function countyContexts(place: CorePlace): readonly CountyContext[] {
   const population = place.sourceGeoid
     ? countyPopulationSharesForPlace(place.sourceGeoid)
     : [];
@@ -203,7 +197,7 @@ function countyContexts(place: LifePlace): readonly CountyContext[] {
     : new Map<string, number>();
   const rows: CountyContext[] = [];
   for (const [geoid, populationShare] of population) {
-    const county = lifePlaceByKey(`county:${geoid}`);
+    const county = corePlaceByKey(`county:${geoid}`);
     if (county)
       rows.push({
         place: county,
@@ -214,7 +208,7 @@ function countyContexts(place: LifePlace): readonly CountyContext[] {
   // Declared county equivalents use the same identity loader; this also admits municipios.
   for (const unit of placeLocalGovernmentUnits(place).counties) {
     const county = unit.countyGeoid
-      ? lifePlaceByKey(`county:${unit.countyGeoid}`)
+      ? corePlaceByKey(`county:${unit.countyGeoid}`)
       : null;
     if (county && !rows.some((row) => row.place.key === county.key))
       rows.push({ place: county, share: p("one") });
@@ -226,16 +220,16 @@ function countyContexts(place: LifePlace): readonly CountyContext[] {
 function selectedPlace(
   options: PopulationOptions,
   minimumPeople: number,
-): LifePlace {
+): CorePlace {
   if (options.placeKey !== undefined) {
-    const place = lifePlaceByKey(options.placeKey);
+    const place = corePlaceByKey(options.placeKey);
     if (!place || place.scope !== "locality")
       throw new Error(
         `Population requires a recorded locality: ${options.placeKey}`,
       );
     return place;
   }
-  let selected: LifePlace | undefined;
+  let selected: CorePlace | undefined;
   let selectedHash: string | undefined;
   for (const place of realLocalities()) {
     if (place.scope !== "locality" || !place.sourceGeoid) continue;
@@ -327,7 +321,7 @@ function withFamilyContext(
       effectiveAt: today,
       jurisdictionId: home,
       label:
-        lifePlaceByJurisdictionId(home)?.displayName ??
+        corePlaceByJurisdictionId(home)?.displayName ??
         world.jurisdictions[home]!.name,
       kind: "residence:home",
       provenance,
@@ -533,7 +527,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const counties = countyContexts(place);
   const jurisdictions = new Map([[town, place.context.jurisdiction]]);
   if (place.stateJurisdictionKey) {
-    const state = stateJurisdictionForKey(place.stateJurisdictionKey);
+    const state = coreStateJurisdiction(place.stateJurisdictionKey);
     if (state) jurisdictions.set(state.id, state);
   }
   for (const county of counties)
@@ -583,7 +577,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const drawHousehold = (index: number, shape?: HouseholdShape) =>
     partnerAgedHousehold({
       seed: options.seed,
-      geo: partnershipGeo(lifePlaceByJurisdictionId(town)?.sourceGeoid),
+      geo: partnershipGeo(corePlaceByJurisdictionId(town)?.sourceGeoid),
       skeleton: townHouseholdSkeleton(seedWorld, town, index, shape),
       people: townHouseholdPeople(seedWorld, town, index, shape),
       rebirth: (person, age, sex) => {
@@ -1248,7 +1242,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     world,
     town,
     stateId: place.stateJurisdictionKey
-      ? stateJurisdictionForKey(place.stateJurisdictionKey)?.id
+      ? coreStateJurisdiction(place.stateJurisdictionKey)?.id
       : undefined,
     stateKey: place.stateJurisdictionKey ?? undefined,
     startedAt,

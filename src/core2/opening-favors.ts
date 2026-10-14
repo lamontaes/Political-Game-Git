@@ -12,8 +12,8 @@
  */
 import data from "./data/opening-favors.json" with { type: "json" };
 import fallingOuts from "./data/opening-falling-outs.json" with { type: "json" };
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { CLOSENESS, halfLifeDays, levelFromHours } from "./closeness";
 import { PARAMETERS, parameter } from "./parameters";
 import { stopgap } from "./stopgaps";

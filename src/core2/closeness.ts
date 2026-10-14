@@ -9,7 +9,7 @@
  * closeness changes only when people spend time together or time passes.
  */
 import data from "./data/closeness.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreState, IsoDate, PersonId, Relationship } from "./types";

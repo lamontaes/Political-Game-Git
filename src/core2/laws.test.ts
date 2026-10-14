@@ -22,11 +22,7 @@ import {
 } from "./modules/laws";
 import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, type LawRowInput } from "./laws-starting";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -60,7 +56,7 @@ const research = {
 
 function localities(stateKey: string) {
   return [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: stateKey,
       scope: "locality",
     }),
@@ -72,7 +68,7 @@ function draw(states: readonly string[], salt: string) {
   const places = localities(state);
   return places[parseInt(hash.slice(8, 16), 16) % places.length]!;
 }
-const allStates = [...lifePlaceStateIdentities()]
+const allStates = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 const territories = ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"];

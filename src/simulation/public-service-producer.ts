@@ -3,7 +3,7 @@ import {
   addSimulationMinutes,
   ageOnDate,
   simulationMomentAtLocalTime,
-} from "./dates";
+} from "../core2/kernel/dates";
 import {
   considerationScore,
   evaluateDecision,

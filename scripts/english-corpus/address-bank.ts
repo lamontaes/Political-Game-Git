@@ -11,7 +11,7 @@
  * OPUS-WORDS owns this file until GOV or PEOPLE folds it into the engine.
  */
 import bankJson from "../../data/english/parts/address.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   composeAddress,
   composeGroundedLine,
@@ -19,12 +19,12 @@ import {
   type ComposedLineBank,
   type LinePartVariant,
   type SpeechAct,
-} from "../../src/presentation/english-composition";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
+} from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import {
   REGISTER_CARDS,
   type SpeechRegister,
-} from "../../src/presentation/speech-registers";
+} from "../../src/english/speech-registers";
 
 interface MinedPart {
   key: string;

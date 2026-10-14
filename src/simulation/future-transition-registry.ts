@@ -1,4 +1,4 @@
-import { compareSimulationMoments } from "./dates";
+import { compareSimulationMoments } from "../core2/kernel/dates";
 import { COMBINED_ROUTINE_MEMBERS } from "./routine-hook-members";
 import { assertSemanticTransitionKey } from "./semantic-transition-key";
 import type {

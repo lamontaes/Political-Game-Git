@@ -24,17 +24,13 @@ import {
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
 import { sessionYear } from "./state-session-calendar";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`session-calendar:${Date.now()}`).digest("hex");
 const YEARS = [2025, 2026, 2027];
-const places = [...lifePlaceStateIdentities()]
+const places = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -110,7 +106,7 @@ describe("state session calendar table", () => {
         .slice(0, 10);
       if (start < "2025-01-20") continue;
       const localities = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),

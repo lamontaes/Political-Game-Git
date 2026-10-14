@@ -6,7 +6,7 @@
  * from local names. Read-only and pure.
  */
 import names from "./data/business/names.json" with { type: "json" };
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import { countyGovernmentUnitsForPlace } from "./reference/government-units";
 
 export interface BusinessNameContext {
@@ -76,7 +76,7 @@ export function businessNameContext(
   placeId: string,
   family: string,
 ): BusinessNameContext {
-  const place = lifePlaceByJurisdictionId(placeId as never);
+  const place = corePlaceByJurisdictionId(placeId as never);
   const [town = family, state = ""] = (place?.displayName ?? "")
     .split(",")
     .map((part) => part.trim());

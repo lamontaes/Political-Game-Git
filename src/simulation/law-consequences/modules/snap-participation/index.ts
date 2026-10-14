@@ -1,7 +1,7 @@
 import programs from "../../../../../data/research/money/public-programs-2026.json" with { type: "json" };
 import benefitData from "../../../../../data/research/money/snap-average-monthly-benefit-by-state-fy2023.json" with { type: "json" };
-import { ageOnDate } from "../../../dates";
-import { createStableId } from "../../../ids";
+import { ageOnDate } from "../../../../core2/kernel/dates";
+import { createStableId } from "../../../../core2/kernel/ids";
 import {
   annualPovertyLineMinor,
   recordedMonthlyPayByPerson,

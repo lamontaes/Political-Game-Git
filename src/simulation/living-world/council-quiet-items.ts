@@ -4,7 +4,7 @@ import {
   recordMemberBallot,
   type MemberBallot,
 } from "../governing/member-ballots";
-import type { GovernmentUnitIdentity } from "../government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { measurePosition } from "../legislation";
 import {
   currentOfficeVoteInstruction,

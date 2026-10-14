@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import { newsKey, newsModule, trustOf } from "./modules/news";

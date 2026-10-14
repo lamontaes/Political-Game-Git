@@ -1,15 +1,15 @@
 import type { CoreState } from "../core2/types";
 import { gameStartDate } from "../core2/game-start";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   getNameCorpus,
   givenNamePoolForStatedGender,
 } from "../simulation/names-data";
 import {
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
-import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../core2/place-lookup";
+import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import type { EngineRecipe } from "../presentation/appearance-engine/pack";
 
 /**
@@ -92,10 +92,10 @@ export function drawBirthday(seed: string, draw: number) {
 
 /** The states with places to start in, by name. */
 export function creatorStates() {
-  return lifePlaceStateIdentities()
+  return corePlaceStateIdentities()
     .filter(
       (state) =>
-        lifePlaceSearch("", 1, {
+        searchCorePlaces("", 1, {
           stateJurisdictionKey: state.jurisdictionKey,
           scope: "locality",
         }).length > 0,
@@ -106,7 +106,7 @@ export function creatorStates() {
 /** A state's cities and towns matching a search, with their population. */
 export function creatorTowns(stateKey: string, query: string) {
   // Engineering list length for the scrolling list, not a model value.
-  return lifePlaceSearch(query, 400, {
+  return searchCorePlaces(query, 400, {
     stateJurisdictionKey: stateKey,
     scope: "locality",
   }).map((place) => {

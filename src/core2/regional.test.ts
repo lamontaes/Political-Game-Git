@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import regionsData from "./data/regional/regions.json" with { type: "json" };
 import stats from "../../data/research/regional/series/stats.json" with { type: "json" };
-import { lifePlaceByKey } from "../simulation/life-places";
+import { corePlaceByKey } from "./place-lookup";
 import { historyMonths, stepMacroMonth, type MacroMonth } from "./macro-model";
 import { macroCoreData } from "./modules/macro";
 import { regionOfPlace } from "./modules/regional";
@@ -132,7 +132,7 @@ describe("state and metro economies", () => {
     expect(fall(fips.at(-1)!)).toBeGreaterThan(fall(fips[0]!));
   });
   it("puts a real town in the region of its county", () => {
-    const place = lifePlaceByKey("4540075")!;
+    const place = corePlaceByKey("4540075")!;
     const region = regionOfPlace(place.context.jurisdiction.id);
     expect(region).toMatch(/^region:45:/);
   });

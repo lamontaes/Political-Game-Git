@@ -1,7 +1,7 @@
 import { coreAPI } from "../core2/state";
 import { townSeats } from "../core2/modules/offices";
-import { lifePlaceByKey } from "../simulation/life-places";
-import { capitolPlaceFor } from "../presentation/place-backdrops";
+import { corePlaceByKey } from "../core2/place-lookup";
+import { capitolPlaceFor } from "./backdrop-places";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { backdropFile, stagePeople, homeOf } from "./scene";
 import pictures from "./data/opening-pictures.json" with { type: "json" };
@@ -63,7 +63,7 @@ export function openingFrames(
   const seats = townSeats(api);
   const minute = RULES.hour * 60;
   const usps =
-    lifePlaceByKey(
+    corePlaceByKey(
       api.state.placeMetadata.placeKey ?? "",
     )?.stateJurisdictionKey?.slice(3) ?? null;
   // A state's own capitol where it is pictured (the presentation helper reads

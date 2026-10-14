@@ -1,4 +1,4 @@
-import { addDays, spokenDate } from "../dates";
+import { addDays, spokenDate } from "../../core2/kernel/dates";
 import { crisisRecords } from "../crisis/records";
 import { isLawEffectStamp, type LawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";

@@ -295,6 +295,12 @@
       "citation": "Losing one's home to eviction, sized like losing one's job (the Social Readjustment Rating Scale's 'Fired at work', 47 life-change units divided by 100; its nearest item, 'Foreclosure of mortgage or loan', 30, understates it per Desmond and Kimbro 2015, Social Forces 94(1):295-324), the same size the drives engine gives an eviction.",
       "estimatedFrom": "Holmes and Rahe (1967); Desmond and Kimbro (2015); spread 0.3 to 0.47"
     },
+    "directorHomeLostImpact": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Losing one's home (doubled up with kin, in a shelter or on the street), the same size the drives engine gives it (driveHomeLostImpulse) and an eviction (directorEvictionImpact): Holmes and Rahe (1967), 'Fired at work', 47 life-change units divided by 100.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.6"
+    },
     "directorHomePurchaseImpact": {
       "value": 0.31,
       "tag": "ESTIMATED",
@@ -1017,6 +1023,11 @@
       "eventKind": "housing.eviction",
       "channel": "feeling",
       "impactParameter": "directorEvictionImpact"
+    },
+    {
+      "eventKind": "housing.status-changed",
+      "channel": "feeling",
+      "impactParameter": "directorHomeLostImpact"
     },
     {
       "eventKind": "housing.purchase",

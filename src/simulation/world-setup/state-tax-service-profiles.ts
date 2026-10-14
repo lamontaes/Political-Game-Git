@@ -1,8 +1,8 @@
 import { canonicalJson } from "../canonical-json";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { TaxGameProfileRef } from "../tax-types";
 import type { CurrencyCode, World } from "../types";
 import {

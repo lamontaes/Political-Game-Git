@@ -1,4 +1,4 @@
-import type { IsoDate } from "../types";
+import type { IsoDate } from "../../core2/kernel/brands";
 import { fieldClosingDate } from "./state-executive-turnover-calendar";
 import {
   generalElectionDay,

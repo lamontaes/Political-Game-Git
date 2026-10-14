@@ -3,13 +3,8 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { performance } from "node:perf_hooks";
-import {
-  addDays,
-  ageOnDate,
-  daysBetween,
-  makeIsoDate,
-} from "../../simulation/dates";
-import { stableHash } from "../../simulation/ids";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
+import { stableHash } from "../kernel/ids";
 import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
 import { developerBanners } from "../stopgaps";
@@ -800,11 +795,11 @@ export function sourceHash(): {
     fileCount: files.length,
     files: manifest,
     directRuntimeDependencies: [
-      "src/simulation/dates.ts",
-      "src/simulation/ids.ts",
-      "src/simulation/life-places.ts",
-      "src/simulation/living-costs-data.ts",
-      "src/simulation/living-costs-category-data.ts",
+      "src/core2/kernel/dates.ts",
+      "src/core2/kernel/ids.ts",
+      "src/core2/place-lookup.ts",
+      "src/core2/reference/living-costs-data.ts",
+      "src/core2/reference/living-costs-category-data.ts",
       "data/content/act-kinds.json",
       "data/content/trait-act-pulls.json",
     ].map((path) => {

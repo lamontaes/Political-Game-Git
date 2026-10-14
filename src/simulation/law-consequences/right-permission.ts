@@ -1,4 +1,4 @@
-import { ageOnDate } from "../dates";
+import { ageOnDate } from "../../core2/kernel/dates";
 import { canonicalJson } from "../canonical-json";
 import { housingVoucherIncomeScope } from "../housing-voucher-eligibility";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";

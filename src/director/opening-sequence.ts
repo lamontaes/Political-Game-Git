@@ -20,8 +20,8 @@ import {
   members,
 } from "../core2/modules/legislature";
 import { officialOf } from "../core2/modules/officials";
-import { stateNameForUsps } from "../simulation/state-reference";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { coreStateName } from "../core2/place-lookup";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import openingData from "./data/opening-story.json" with { type: "json" };
 import journalRows from "./data/journal-rows.json" with { type: "json" };
@@ -122,14 +122,14 @@ const RELATION_WORDS = (
 /** A state's name from a jurisdiction or state key ("US-WV"), else null. */
 const stateName = (key: string | null | undefined) =>
   key && /^US-[A-Z]{2}$/.test(key)
-    ? (stateNameForUsps(key.replace(/^US-/, "")) ?? null)
+    ? (coreStateName(key.replace(/^US-/, "")) ?? null)
     : null;
 
 /** The player's state, by its jurisdiction key. */
 function stateOf(core: CoreState, playerId: PersonId): string | null {
   const player = core.people.get(playerId);
   return player
-    ? (lifePlaceByJurisdictionId(player.placeId as never)
+    ? (corePlaceByJurisdictionId(player.placeId as never)
         ?.stateJurisdictionKey ?? null)
     : null;
 }

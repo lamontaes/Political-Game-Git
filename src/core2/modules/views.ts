@@ -20,9 +20,9 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
-import { stableHash } from "../../simulation/ids";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { stableHash } from "../kernel/ids";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import { personStance } from "../campaign-views";
 import { currentCloseness } from "../closeness";
@@ -156,7 +156,7 @@ function normal(key: string): number {
 }
 
 function stateOf(person: PersonState): string | null {
-  const place = lifePlaceByJurisdictionId(person.placeId as never);
+  const place = corePlaceByJurisdictionId(person.placeId as never);
   const key = place?.stateJurisdictionKey;
   return key ? key.slice(key.lastIndexOf("-") + v("one")) : null;
 }

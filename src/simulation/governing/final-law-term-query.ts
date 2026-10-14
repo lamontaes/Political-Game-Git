@@ -11,7 +11,7 @@ import { isDistrictOfColumbia } from "../nationwide-world/district-of-columbia-i
 import {
   censusRegionOf,
   censusRegionStates,
-} from "../world-setup/census-regions";
+} from "../../core2/reference/census-regions";
 import {
   startingLawTerms,
   startingLawCategories,

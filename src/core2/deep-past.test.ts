@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
-import { SeededRng } from "../simulation/rng";
+import { corePlaceStateIdentities } from "./place-lookup";
+import { SeededRng } from "./kernel/rng";
 import {
   buildDeepPast,
   DEFAULT_DEEP_PAST_DATA,
@@ -11,7 +11,7 @@ import { realLocalities } from "./places";
 import type { CoreInput, PersonInput, Source } from "./types";
 
 const seed = "p8-deep-past-source-cohorts";
-const state = new SeededRng(seed).pick(lifePlaceStateIdentities());
+const state = new SeededRng(seed).pick(corePlaceStateIdentities());
 const place = new SeededRng(`${seed}:place`).pick(
   realLocalities().filter(
     (row) =>

@@ -25,10 +25,7 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../../simulation/life-places";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import {
   municipalFilingDeadline,
   nextElectionForSeat,
@@ -291,7 +288,7 @@ export function openElections(core: CoreState): void {
     registerModule(core, ELECTIONS_MODULE);
   registerElectorate(core);
   const api = coreAPI(core);
-  const place = lifePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
   if (!place?.stateJurisdictionKey) throw new Error("Elections need the town.");
   const stateKey = place.stateJurisdictionKey;
   const geoid = place.sourceGeoid ?? place.key;
@@ -683,7 +680,7 @@ export function fileCandidacy(
 
 /** The state a place lies in, from the place records. */
 function stateOfPlace(placeId: string): string | null {
-  const place = lifePlaceByJurisdictionId(placeId as never);
+  const place = corePlaceByJurisdictionId(placeId as never);
   // An official kept at the state level is placed at the state itself.
   if (!place) return /^US-[A-Z]{2}$/.test(placeId) ? placeId : null;
   return place.stateJurisdictionKey ?? null;

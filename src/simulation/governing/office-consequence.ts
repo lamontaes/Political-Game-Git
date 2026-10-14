@@ -5,7 +5,7 @@ import {
   workStatusAt,
 } from "../life-queries";
 import { stateName } from "../office-qualification-rules";
-import { spokenDate } from "../dates";
+import { spokenDate } from "../../core2/kernel/dates";
 import { recordWorkStatus } from "../life";
 import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";

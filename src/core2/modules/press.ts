@@ -19,7 +19,7 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import type {

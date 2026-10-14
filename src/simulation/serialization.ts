@@ -1,5 +1,5 @@
 import { writeCanonicalJson, writeJson } from "./canonical-json";
-import { createStableIdFromParts } from "./ids";
+import { createStableIdFromParts } from "../core2/kernel/ids";
 import { retireDrawnIncidentModes } from "./incident-legacy-modes";
 import {
   collectJsonChunks,
