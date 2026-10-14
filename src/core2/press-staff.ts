@@ -67,9 +67,10 @@ export function outletName(input: {
     const draw = rng.fork(String(attempt));
     let name: string;
     if (input.kind === "newspaper") {
-      const town =
-        lifePlaceByJurisdictionId(input.townPlaceId as never)?.displayName ??
-        "";
+      // The town's own name, without the state the display name adds.
+      const town = (
+        lifePlaceByJurisdictionId(input.townPlaceId as never)?.displayName ?? ""
+      ).split(",")[0]!;
       name = `${town} ${draw.pick(MASTHEADS.newspaperWords.rows)}`.trim();
     } else {
       const prefix = MASTHEADS.callSignPrefix.byState[usps] ?? "W";
