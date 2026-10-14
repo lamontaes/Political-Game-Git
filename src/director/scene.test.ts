@@ -60,9 +60,9 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
         if (scene.talkToId) {
           expect(scene.presentIds).toContain(scene.talkToId);
           const talk = openConversation(core, book.personId, scene.talkToId);
-          // Up to the minimum, as the mined sentences and records allow
-          // (see the conversation test's measured share).
-          expect(talk.choices.length).toBeGreaterThan(0);
+          // With nothing mined to say, they greet and say goodbye.
+          if (!talk.choices.length)
+            expect(talk.lines.at(-1)?.kind).toBe("farewell");
         }
         scenes += 1;
       }

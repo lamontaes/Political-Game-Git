@@ -1724,6 +1724,10 @@ export function coreAPI(core: CoreState): CoreAPI {
         );
       core.pendingCallbacks.set(event.id, { ...event });
     },
+    resolveCallback(callbackId) {
+      if (!core.pendingCallbacks.delete(callbackId))
+        throw new Error(`No pending callback: ${callbackId}`);
+    },
   };
   writerAPIs.set(core, api);
   return api;

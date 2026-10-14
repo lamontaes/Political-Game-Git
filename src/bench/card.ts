@@ -2,6 +2,7 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { drivesReport } from "../core2/modules/drives";
 import { effectsOn } from "../core2/modules/law-effects";
 import { coreAPI } from "../core2/state";
+import { currentCloseness } from "../core2/closeness";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import type { CoreState } from "../core2/types";
 import { relationWord, schoolsOf } from "./words";
@@ -35,7 +36,7 @@ export function personCard(core: CoreState, personId: string) {
         name: name(otherId),
         kind: row.kind,
         relation: relationWord(core, otherId, relationOf.get(otherId)),
-        level: row.level,
+        level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
         // Why the tie last changed, from its own record.
@@ -178,7 +179,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     tie: tie
       ? {
           kind: tie.kind,
-          level: tie.level,
+          level: currentCloseness(core, tie),
           lastContactDate: tie.lastContactDate,
         }
       : null,

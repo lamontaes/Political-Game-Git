@@ -211,6 +211,17 @@
       "hasOtherLine": true
     },
     {
+      "kindPrefix": "event:office.replied",
+      "turn": false,
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "hasOtherLine": true
+    },
+    {
       "kindPrefix": "event:candidate-filed",
       "turn": true,
       "eventFacts": {
