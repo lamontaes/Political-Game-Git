@@ -8,6 +8,13 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 
 ## Ruled, October 14, 2026 (evening)
 
+- **Dev mode (the old "watch the world", to be renamed):** one mode where the owner or a player can do anything: pass or repeal any law at any level instantly, make any person or body take any decision, jump time, trace any record's causes, and watch the world run. "What if" experiments live here and are a player feature in early access.
+- **Press:** the player can influence a paper and influence people; reporters are people in the world with their own records.
+- **Indictment and prison:** if the player is caught, the trial plays in scenes; then the player is gone for the sentence while the world runs, and may die in prison. The game is real, not raunchy: temptation and scandal exist (an affair, a payoff), told without graphic detail.
+- **Capability tests belong in dev mode:** can the background world organize a protest, produce a demagogue, in rare cases overthrow a government, produce a realignment on the scale of 1933 to 1945, or drift toward a war? Real politicians' lives are tests of capability, never scripts.
+- **The reward loop** is the effect of the player's actions on the simulation over time.
+- **Square pegs:** when an engine or feature the owner asks about does not exist, the CTO says so plainly instead of fitting it into something else.
+
 - **Ballot measures:** in early access. The player's main interaction is voting on them (and campaigning for or against through the existing campaign paths); writing one is not for early access.
 - **Recalls:** in. Rare, from causes; the player as an officeholder can be recalled.
 - **Interest groups and corruption:** in. The player is approached (support with strings, a bribe with a real risk), but never through hard-coded situations. The engine's causes must be able to produce what real corruption cases, books and films show; real cases are stress tests of capability, never scripted scenarios.
