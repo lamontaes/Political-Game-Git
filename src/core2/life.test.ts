@@ -672,14 +672,6 @@ describe("learned civic cause and honest requests", () => {
     advanceCore(core, addDays("2021-01-04", p("officeReplyDays") - p("one")));
     expect(core.pendingCallbacks.size).toBe(p("one"));
     advanceCore(core, addDays("2021-01-04", p("officeReplyDays")));
-    // Answered; any callback still pending is a new visit, due a week on.
-    for (const pending of core.pendingCallbacks.values())
-      expect(pending.date).toBe(
-        addDays(
-          addDays("2021-01-04", p("officeReplyDays")),
-          p("officeReplyDays"),
-        ),
-      );
     const replies = [...(core.logByKind.get("office.replied") ?? [])].map(
       (id) => core.durableLog.get(id)!,
     );
@@ -699,6 +691,13 @@ describe("learned civic cause and honest requests", () => {
     expect(
       api.knows(actorId, `event:${replies[0]!.id}:experienced`),
     ).toBeDefined();
+    // Answered, with nothing new on the cause since: no second visit yet.
+    expect(core.pendingCallbacks.size).toBe(p("zero"));
+    expect(
+      availableActs(core, actorId).some(
+        (offer) => offer.definition.effect === "approach",
+      ),
+    ).toBe(false);
     assertCoreIntegrity(core);
   });
 

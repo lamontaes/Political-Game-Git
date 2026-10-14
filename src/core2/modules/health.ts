@@ -302,19 +302,36 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
 function admitNewcomers(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   if (api.state.people.size === row.seenPeople) return;
   row.seenPeople = api.state.people.size;
+  for (const person of api.state.people.values())
+    giveHealthRecord(api, person.id, data);
+}
+
+/**
+ * Give one person who just became full (a fill-in, a birth, a move in) their
+ * health record now, from the same model and seeded by the world and the
+ * person, so it is the same whenever they are filled in. Fill-in calls this;
+ * anyone it misses is caught on the next day the people count changes. A
+ * person who already has a record keeps it.
+ */
+export function giveHealthRecord(
+  api: CoreAPI,
+  personId: PersonId,
+  data: HealthData = DEFAULT_HEALTH_DATA,
+): void {
+  const row = runtime(api.state);
+  const person = api.state.people.get(personId);
+  if (!row.initialized || !person?.alive) return;
+  if (row.conditionsByPerson.has(personId)) return;
+  api.stopgap(data.stopgapId);
   const today = makeIsoDate(api.state.date);
-  for (const person of api.state.people.values()) {
-    if (!person.alive || row.conditionsByPerson.has(person.id)) continue;
-    api.stopgap(data.stopgapId);
-    assignPerson(
-      api,
-      data,
-      row,
-      person,
-      lateConditions(api, data, person, exactAge(api, person.birthDate, today)),
-      today,
-    );
-  }
+  assignPerson(
+    api,
+    data,
+    row,
+    person,
+    lateConditions(api, data, person, exactAge(api, person.birthDate, today)),
+    today,
+  );
 }
 
 function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {

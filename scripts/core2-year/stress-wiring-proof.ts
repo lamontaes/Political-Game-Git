@@ -36,11 +36,8 @@ const start = core.date;
 const end = addDays(makeIsoDate(start), 365);
 const huskActs = new Map<string, number>();
 const husks = [...core.people.values()].filter((p) => p.tier === "husk");
-const huskActsBefore = new Map(
-  husks.map((p) => [
-    p.id,
-    [...p.actsByKind.values()].reduce((a, b) => a + b, 0),
-  ]),
+const huskKindsBefore = new Map(
+  husks.map((p) => [p.id, new Map(p.actsByKind)]),
 );
 const focusHusks = husks.filter((p) => core.focusPersonIds.has(p.id));
 const callbacksSeen = new Map<string, { date: string; due: string }>();
@@ -75,7 +72,16 @@ const replies = log("office.replied");
 console.log(
   `\nDefect 1: ${approaches.length} approaches, ${replies.length} replies, ${core.pendingCallbacks.size} still pending at year end`,
 );
-const reply = replies[0];
+// The director keeps a season of moments whole, so read the latest reply.
+const withMoment = replies.filter((r) =>
+  world.director.ledger.people
+    .get(r.personIds[0]!)
+    ?.moments.some((m) => m.causeId === r.id),
+);
+console.log(
+  `  ${withMoment.length} replies still held as a director moment at year end`,
+);
+const reply = withMoment.at(-1) ?? replies.at(-1);
 if (reply) {
   const callbackId = reply.facts!.callbackId!;
   console.log(`  approach ${reply.facts!.approachEventId}`);
@@ -105,11 +111,22 @@ if (reply) {
 
 // Defect 17: husks.
 let huskActCount = 0;
+let huskShiftCount = 0;
+const huskShiftKinds = new Set([
+  "attend-scheduled-work-date-segment",
+  "decline-scheduled-work-date-segment",
+]);
 for (const husk of husks) {
-  const now = [...husk.actsByKind.values()].reduce((a, b) => a + b, 0);
-  const delta = now - (huskActsBefore.get(husk.id) ?? 0);
-  if (delta) huskActs.set(husk.id, delta);
-  huskActCount += delta;
+  const before = huskKindsBefore.get(husk.id)!;
+  for (const [kind, count] of husk.actsByKind) {
+    const delta = count - (before.get(kind) ?? 0);
+    if (!delta) continue;
+    if (huskShiftKinds.has(kind)) huskShiftCount += delta;
+    else {
+      huskActCount += delta;
+      huskActs.set(husk.id, (huskActs.get(husk.id) ?? 0) + delta);
+    }
+  }
 }
 const volunteers = log("cause.volunteered").filter((e) => {
   const actor = core.people.get(e.personIds[0]!);
@@ -122,7 +139,7 @@ const volunteers = log("cause.volunteered").filter((e) => {
   );
 });
 console.log(
-  `\nDefect 17: ${husks.length} husks (${focusHusks.length} in the focus circle), ${huskActCount} acts by husks; ${volunteers.length} volunteer acts away from home`,
+  `\nDefect 17: ${husks.length} husks (${focusHusks.length} in the focus circle), ${huskActCount} chosen acts by husks (plus ${huskShiftCount} scheduled work shifts by husks hired as aides, defect 16); ${volunteers.length} volunteer acts away from home`,
 );
 if (focusHusks[0])
   console.log(

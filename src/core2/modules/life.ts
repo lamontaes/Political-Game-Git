@@ -3,6 +3,7 @@ import { addDays } from "../../simulation/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
 import { closenessBetween } from "../closeness";
+import { VIEWS_MODULE_ID, stancesOf } from "./views";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import type {
@@ -112,6 +113,31 @@ function relationAt(api: CoreAPI, a: string, b: string): number {
   return closenessBetween(api.state, a, b);
 }
 
+/** What a resident knows the office answered about one cause. */
+const replyKey = (officeId: string, topic: string) =>
+  `office-reply:${officeId}:${topic}`;
+
+/**
+ * The office has answered this cause and nothing on it has reached the person
+ * since: no event has moved their stance on the topic after the reply (the
+ * views engine's dated causes). Going back needs something new to say.
+ */
+function answeredWithNothingNew(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+  topic: string,
+): boolean {
+  const reply = api.knows(personId, replyKey(officeId, topic));
+  if (!reply) return false;
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return true;
+  return !stancesOf(api, personId).some(
+    (stance) =>
+      stance.topic === topic &&
+      stance.causes.some((cause) => cause.date > reply.learnedAt),
+  );
+}
+
 /**
  * The office answers a resident who came about a cause: the staff member
  * closest to them (by today's closeness, then by id) replies, the reply is an
@@ -171,6 +197,14 @@ function answerCallback(
         : {}),
     },
   });
+  if (callback.topic)
+    api.observe(resident.id, {
+      key: replyKey(office.id, callback.topic),
+      value: responder.personId,
+      learnedAt: api.state.date,
+      sourceId: `office.replied:${api.state.date}:${resident.id}:${office.id}`,
+      access: "told",
+    });
   api.resolveCallback(callbackId);
 }
 
@@ -292,7 +326,8 @@ export const LIFE_MODULE: CoreModule = {
           true &&
         !api.state.pendingCallbacks.has(
           `callback:${actor.id}:${chosen.targetId}:${drive.id}`,
-        )
+        ) &&
+        !answeredWithNothingNew(api, actor.id, chosen.targetId, drive.topic)
       );
     },
   },
