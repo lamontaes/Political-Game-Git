@@ -8,7 +8,6 @@ import type {
   ModuleStateSnapshot,
 } from "./module-state";
 import type { ModuleCalendar, ModuleCalendarWork } from "./module-calendar";
-import type { VoterGroup, VoterGroups } from "./voter-groups";
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { CashActSelection } from "./act-cash";
 import type {
@@ -717,7 +716,6 @@ export interface WorkData {
 export interface CoreInput {
   /** Explicit exact-version module snapshots; absent tables start empty. */
   moduleState?: readonly ModuleStateSnapshot[];
-  voterGroups?: readonly VoterGroup[];
   seed: string;
   startedAt: IsoDate;
   people: readonly PersonInput[];
@@ -1018,7 +1016,6 @@ export interface CoreModule {
 export interface CoreAPI {
   moduleState(moduleId: string): ModuleStateStore;
   moduleCalendar(moduleId: string): ModuleCalendar;
-  voterGroups(): VoterGroups;
   /** Named accounts, transfers and obligations through the one journal (M0-09). */
   accounts(): Accounts;
   version: string;
