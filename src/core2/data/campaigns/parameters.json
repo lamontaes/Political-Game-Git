@@ -121,10 +121,52 @@
       "spread": [0.5, 1.2]
     },
     "turnoutBase": {
-      "value": -0.6,
+      "value": -0.48,
       "tag": "TUNABLE",
-      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), their interest in the race and its cost. Checked so named adults in a local race on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 64% at this value.",
-      "spread": [-1.2, 0]
+      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald). Measured with the logistic propensity over eight random places (OPUS-GOV elections, Oct 14, 2026): counted turnout 0.624 in a presidential year.",
+      "spread": [-1.2, 0.6]
+    },
+    "turnoutScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How gently the turnout propensity slides with a voter's reasons: the logistic's scale on the turnout scale (src/core2/turnout.ts). Near even odds, one unit of reasons moves the propensity by 1/(4 x scale). Checked against the spread of validated turnout by age and engagement: about 23% of citizens 18 to 24 and 65% of those 65 and over voted in the 2022 midterm (U.S. Census Bureau, CPS Voting and Registration Supplement 2022), a spread the age gradient in duty and engagement must reproduce without flipping anyone to always or never.",
+      "spread": [0.25, 1]
+    },
+    "turnoutStakesWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much the stakes of the day's races add to a voter's reason to vote, at most (times tanh of the gap between the candidates in their own eyes). People who care who wins vote more (the American National Election Studies' 'care who wins' item predicts reported turnout; ANES and Gallup, 'Lessons learned', electionstudies.org/2007anes_gallup_lessonslearned); the size here is not taken from a published figure and is checked only through the turnout totals (counted presidential turnout against the state's CPS rate, src/core2/electorate.test.ts). A race whose candidates a voter can't tell apart adds nothing.",
+      "spread": [0.2, 1.2]
+    },
+    "turnoutReachWeight": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "source": "What the campaigns' contacts add to a voter's reason to vote, at most, leveling off with repeated contact. Field experiments: a door-to-door contact raises turnout about 2.5 points in a low-salience election, and a mailer about 0.5 points; repeated contact adds less each time (Green and Gerber, 'Get Out the Vote', 4th ed. 2019, chapters 3 and 5). At the turnout scale (0.5), 0.2 is up to about 10 points for a voter near even odds, reached after several contacts.",
+      "spread": [0.05, 0.4]
+    },
+    "turnoutReachContacts": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many campaign contacts it takes to give about two thirds of the most reach can add (1 - e^-1). Repeated contacts show diminishing returns in field experiments (Green and Gerber 2019); checked so a voter knocked once gains about the 2.5 points a door gives.",
+      "spread": [1, 6]
+    },
+    "turnoutHabitWeight": {
+      "value": 0.4,
+      "tag": "ESTIMATED",
+      "source": "What a voter's own record of voting adds (times their share of elections voted, less one half, by how long the record is). Voting in one election raises the chance of voting in the next by about 10 points (Gerber, Green and Shachar 2003, 'Voting May Be Habit-Forming: Evidence from a Randomized Field Experiment', American Journal of Political Science 47(3):540-550); at the turnout scale, a record of always voting adds about 0.2, about 10 points near even odds.",
+      "spread": [0.2, 0.8]
+    },
+    "turnoutHabitFamiliarity": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many election days of record it takes for habit to carry half its weight: a record of one election says little, a record of many says more. Checked so a first-time voter's record moves their next turnout by a few points and a long record by about ten (Gerber, Green and Shachar 2003; Coppock and Green 2016, 'Is Voting Habit Forming?', American Journal of Political Science 60(4):1044-1062).",
+      "spread": [1, 6]
+    },
+    "recordFamiliarityItems": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many items an officeholder's record needs (votes, promises kept or broken) before a voter weighs it at about two thirds of its full weight: the record is an average, and a short record gives a voter less to go on. Keeps a busy incumbent's record within the size of a voter's other reasons (it summed to -8.2 for a 56-vote council member in the elections stress audit of Oct 14, 2026). Checked against roll-call accountability: members out of step with their districts lose a few points of vote share (Canes-Wrone, Brady and Cogan 2002, American Political Science Review 96(1)).",
+      "spread": [2, 12]
     },
     "turnoutWorkWeekMinutes": {
       "value": 2400,
@@ -159,7 +201,7 @@
     "recordVoteWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
-      "source": "How much each vote on the record moves a voter who knows the officeholder, toward or away by how close the vote sits to their own view. Checked against roll-call accountability studies (Canes-Wrone, Brady and Cogan 2002: members out of step with their districts lose a few points of vote share).",
+      "source": "How much an officeholder's voting record moves a voter who knows the officeholder, at most: the average over the record of their own stance times each vote's position (a vote they'd have cast counts for, one against their view against), by how much the record gives them to go on (recordFamiliarityItems). Checked against roll-call accountability studies (Canes-Wrone, Brady and Cogan 2002: members out of step with their districts lose a few points of vote share; at the electorate's appealPerShare a whole record against a voter is worth several points).",
       "spread": [0.1, 0.5]
     },
     "keptPromiseWeight": {
@@ -486,9 +528,9 @@
       "spread": [0.05, 0.2]
     },
     "primaryTurnoutCost": {
-      "value": 1.4,
+      "value": 1.15,
       "tag": "TUNABLE",
-      "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022). Measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 25 to 34% of named adults clear this cost.",
+      "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022). Measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 25 to 34% of named adults clear this cost. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 22% of adults on a primary date in a midterm year.",
       "spread": [0.8, 2]
     },
     "partyMeetingDays": {
@@ -528,15 +570,15 @@
       "spread": [0.18, 0.46]
     },
     "midtermTurnoutCost": {
-      "value": 0.7,
+      "value": 0.8,
       "tag": "TUNABLE",
-      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named turnout falls near the 2022 midterm's 46.6% of the voting-eligible population (U.S. Elections Project, Michael McDonald), 0.72 of a presidential year's; measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 46% at this value.",
+      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named turnout falls near the 2022 midterm's 46.6% of the voting-eligible population (U.S. Elections Project, Michael McDonald), 0.72 of a presidential year's; measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 46% at this value. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 0.458, 0.73 of the presidential year's 0.624.",
       "spread": [0.3, 1]
     },
     "offCycleTurnoutCost": {
-      "value": 1.4,
+      "value": 1.8,
       "tag": "TUNABLE",
-      "source": "What an off-cycle election adds to the cost of voting, checked so named turnout falls near 0.39 of a presidential year's, about 25% of eligible adults (Hajnal and Green, 'Big Cities, Tiny Votes?', 2024; off-cycle mayoral turnout in large cities averages about 20% of eligible voters, Portland State University, 'Who Votes for Mayor?', 2016); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 25 to 34% at this value.",
+      "source": "What an off-cycle election adds to the cost of voting, checked so named turnout falls near 0.39 of a presidential year's, about 25% of eligible adults (Hajnal and Green, 'Big Cities, Tiny Votes?', 2024; off-cycle mayoral turnout in large cities averages about 20% of eligible voters, Portland State University, 'Who Votes for Mayor?', 2016); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 25 to 34% at this value. Remeasured with the logistic propensity over eight random places (Oct 14, 2026): 0.252, 0.40 of the presidential year's 0.624.",
       "spread": [0.8, 2]
     },
     "officeTermYearsEstimate": {
@@ -610,6 +652,162 @@
       "tag": "TUNABLE",
       "source": "How firm a lean must be for someone no campaign reached to name their party's candidate to a pollster rather than say they're undecided.",
       "spread": [0.1, 0.6]
+    },
+    "partyIdentifierLean": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "Where a party's average identifier stands on the -1 to 1 lean scale, before its state shifts it: Cooperative Election Study 2024 ideological self-placement by party identification puts Democratic identifiers' mean about a third to a half of the way from the center to the liberal end and Republicans' mean about half to two thirds toward the conservative end (CES 2024 common content, ideo5 by pid3).",
+      "spread": [0.35, 0.65]
+    },
+    "partyStateLeanWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a state's own vote moves where its parties stand: state parties sit to the side their state leans (Shor and McCarty 2011, 'The Ideological Mapping of American Legislatures', APSR 105(3): each state party's median legislator moves with state ideology while the two parties stay apart).",
+      "spread": [0.2, 0.8]
+    },
+    "partyPositionPriorMembers": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "How many tied members' worth of weight the state's party position carries against the town's own members when the town's party takes a position: a town with a handful of members leans on the state party; one with many speaks for itself.",
+      "spread": [3, 30]
+    },
+    "partyFirmnessBase": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "The share of a party candidate's stated position that comes from their party before their own tie and traits add to it: House candidates' positions sit roughly between their district's and their national party's (Ansolabehere, Snyder and Stewart 2001, 'Candidate Positioning in U.S. House Elections', AJPS 45(1)). For a seated official it scales with their recorded party loyalty.",
+      "spread": [0.2, 0.6]
+    },
+    "partyFirmnessTieWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much a firmer party tie (the tie's lean, 0 to 1) adds to how closely a candidate states the party's positions; strong partisans hold the party line most (Green, Palmquist and Schickler 2002, Partisan Hearts and Minds).",
+      "spread": [0.1, 0.5]
+    },
+    "partyFirmnessTraitWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "How much a candidate's trait lean toward joining over staying out (parties.join, -1 to 1) adds to or takes from how closely they state their party's positions.",
+      "spread": [0.05, 0.3]
+    },
+    "candidatePlatformQuestions": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many questions a candidate who files with no stated platform campaigns on: the ones they feel most strongly about. Local candidate questionnaires and mailers lead with a few issues (Ballotpedia candidate surveys ask for three key messages).",
+      "spread": [2, 5]
+    },
+    "campaignRampDays": {
+      "value": 60,
+      "tag": "ESTIMATED",
+      "source": "How a campaign's pace rises toward election day: its turns come every campaignTurnDays times (1 + days left / this), so about every 3 days in the last weeks, every 6 two months out and every 3 weeks a year out. Campaign activity concentrates late: most House candidates' spending falls in the final quarter before the general election (FEC, candidate disbursements by reporting period, 2022 cycle), and canvassing programs run mostly in the last six to eight weeks (Green and Gerber, 'Get Out the Vote', 4th ed. 2019).",
+      "spread": [30, 120]
+    },
+    "campaignTurnDays": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Days between a world candidate's campaign turns (asks for money, doors, buys): a part-time local campaign works a few evenings and a weekend day a week (Green and Gerber, Get Out the Vote, 2019).",
+      "spread": [1, 7]
+    },
+    "donorAsksPerTurn": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "How many people a campaign asks for money in one turn, by call or in person: call time runs a few hours a session at roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides).",
+      "spread": [10, 100]
+    },
+    "playerCanvassHours": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "Hours the player's campaign day spends on one canvassing shift: volunteer shifts run two to three hours (Green and Gerber, Get Out the Vote, 2019).",
+      "spread": [2, 4]
+    },
+    "playerEventHours": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Hours an evening event takes the candidate, setup and the room together. Checked against the evening venue rental in campaign-unit-prices (an evening).",
+      "spread": [2, 5]
+    },
+    "playerInterviewHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Hours one press interview takes the candidate, the travel and the talk. Checked against the press desk's one interview per reporter slot.",
+      "spread": [0.5, 2]
+    },
+    "playerCallTimeHours": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "Hours of one fundraising call-time session: a few hours a session (campaign fundraising manuals; Wellstone Action's training guides), the same session donorAsksPerTurn counts.",
+      "spread": [2, 4]
+    },
+    "playerAsksPerCallHour": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "People the player asks for money in one hour of call time, by call or in person: roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides), so a three-hour session matches donorAsksPerTurn.",
+      "spread": [5, 20]
+    },
+    "playerRestHours": {
+      "value": 8,
+      "tag": "TUNABLE",
+      "source": "Hours a rest choice sets aside from the campaign day. Nothing is recorded as activity time for it: the day's other time belongs to the player's own routine.",
+      "spread": [4, 12]
+    },
+    "donorPartyWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much sharing the candidate's party adds to a person's reason to give. Party identifiers give far more often than independents (Pew Research Center 2018, 'Political engagement': 12% of strong partisans and few independents gave in the past year).",
+      "spread": [0.2, 0.8]
+    },
+    "donorRelationshipWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a person's own relationship with the candidate (-1 to 1) adds to their reason to give: a first campaign's first money comes from family and friends (Center for Responsive Politics donor studies; campaign finance guides' 'friends and family' round).",
+      "spread": [0.2, 1]
+    },
+    "adSpendShare": {
+      "value": 0.4,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on paid media: about 40% of U.S. House candidates' disbursements go to media and advertising (OpenSecrets, House expenditures by category, 2022 cycle: media 35 to 45%).",
+      "spread": [0.25, 0.55]
+    },
+    "mailSpendShare": {
+      "value": 0.3,
+      "tag": "ESTIMATED",
+      "source": "Share of a local campaign's spending on direct mail: state legislative and local races lean on mail more than federal ones (OpenSecrets direct-mail share 10 to 20% for House; National Institute on Money in Politics shows local campaigns' printing and postage among the largest lines).",
+      "spread": [0.15, 0.45]
+    },
+    "eventSpendShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on events and rallies before a sociable candidate leans further in (OpenSecrets: campaign events and fundraising events about 5 to 15% of disbursements).",
+      "spread": [0.05, 0.2]
+    },
+    "pollSpendShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "Share of a campaign's spending on polling and research before a deliberate candidate leans further in (OpenSecrets 'strategy and research' about 5 to 10% of House disbursements).",
+      "spread": [0.03, 0.2]
+    },
+    "spendTraitWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a candidate's sociability moves their event share, and their deliberation their poll share (each trait -1 to 1).",
+      "spread": [0.2, 1]
+    },
+    "pollMinimumInterviews": {
+      "value": 200,
+      "tag": "ESTIMATED",
+      "source": "The smallest poll a campaign commissions: a sample of 200 carries about a 7-point margin of error (AAPOR margin-of-sampling-error guidance); local campaign polls run 200 to 400 interviews.",
+      "spread": [100, 400]
+    },
+    "adViewsImpulse": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "The appraised impulse of seeing a campaign ad, on the views engine's scale, below a speech heard in person (speech 0.3): single ads persuade little and fade (Kalla and Broockman 2018; Coppock, Hill and Vavreck 2020).",
+      "spread": [0.05, 0.3]
+    },
+    "mailWarmthWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far one mailer moves the adults in the household it reaches toward what they make of the candidate: direct mail's persuasion effect is small (Green and Gerber 2019, ch. 5).",
+      "spread": [0.05, 0.4]
     },
     "committeeSize": {
       "value": 11,
@@ -742,6 +940,30 @@
       "tag": "TUNABLE",
       "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
+    },
+    "speechOpeningParts": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "A stump speech opens with one move (greeting, thanks or why they are running), the exordium of classical oratory (Cicero, De Inventione I.20) and the opening of a modern campaign speech.",
+      "spread": [1, 2]
+    },
+    "speechBodyParts": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "A stump speech makes a few points rather than many (the rule of three in political speechwriting; Atkinson 1984, 'Our Masters' Voices', on three-part lists as the applause-eliciting unit).",
+      "spread": [2, 5]
+    },
+    "speechClosingParts": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "A stump speech ends with one closing move (an ask for the vote, a thank you or a pledge), the peroration of classical oratory (Cicero, De Inventione I.52).",
+      "spread": [1, 2]
+    },
+    "speechOffersPerStep": {
+      "value": 4,
+      "tag": "SOURCED",
+      "source": "Owner ruling, Oct 14, 2026: a speech is composed one part at a time from four offered parts, as in Suzerain.",
+      "spread": [4, 4]
     },
     "staffMinimumAge": {
       "value": 18,

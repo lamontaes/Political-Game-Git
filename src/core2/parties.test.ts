@@ -7,6 +7,7 @@
  * party with two candidates for a seat picks one in its primary.
  */
 import { createHash } from "node:crypto";
+import { countedResidents } from "./electorate";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -153,7 +154,7 @@ describe("M2-08 parties", () => {
         canvasserId: first.personId,
         hours: 6,
       });
-      const votes = holdPrimary(api, primaryContest);
+      const { votes, namedVotes } = holdPrimary(api, primaryContest);
       const left = ballot(api, primaryContest).filter(
         (f) => f.party === party.name,
       );
@@ -161,7 +162,11 @@ describe("M2-08 parties", () => {
       // The primary counts the party's wider electorate, not only the
       // town's named voters (audit 2, item 1).
       const total = Object.values(votes).reduce((a, b) => a + b, 0);
-      expect(total).toBeGreaterThan(members.length);
+      // Where the town has counted residents, they vote in it too; a world
+      // of named people only has no one else to count.
+      if (countedResidents(core).length)
+        expect(total).toBeGreaterThan(namedVotes);
+      else expect(total).toBe(namedVotes);
       govReport(
         "parties",
         JSON.stringify({
