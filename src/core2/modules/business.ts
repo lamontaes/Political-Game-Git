@@ -1498,6 +1498,8 @@ function foundings(api: CoreAPI): void {
     .sort(
       (a, b) => b.strength - a.strength || a.row.id.localeCompare(b.row.id),
     );
+  // The market an owner or a full founder opened into this month; the wider population weighs the rest.
+  let taken: Market | undefined;
   const decided = new Set<string>();
   for (const grower of growers) {
     const ownerId = grower.owner.person.id;
@@ -1521,7 +1523,8 @@ function foundings(api: CoreAPI): void {
       fundsMinor: Math.max(0, grower.cash - grower.cushion),
       strength: grower.strength,
     });
-    return;
+    taken = market;
+    break;
   }
   const owners = new Set(ownerRows.map((row) => row.ownerId));
   // Ages in years today, by birth date (many people share one), worked out once.
@@ -1540,9 +1543,9 @@ function foundings(api: CoreAPI): void {
   const seekers = c.modules.has("jobs")
     ? api.moduleState("jobs").table("seekers")
     : undefined;
-  for (const person of [...c.people.values()].sort((a, b) =>
-    a.id.localeCompare(b.id),
-  )) {
+  for (const person of taken
+    ? []
+    : [...c.people.values()].sort((a, b) => a.id.localeCompare(b.id))) {
     const age = ageOf(person.birthDate);
     if (
       !person.alive ||
@@ -1570,8 +1573,10 @@ function foundings(api: CoreAPI): void {
     if (result.selected!.definition.id !== businessData.actions.found.id)
       continue;
     found(api, person.id, market);
-    // One opening a month; the next month's room is measured afresh.
-    return;
+    // One opening a month in this market; the next month's room is measured afresh.
+    taken = market;
+    owners.add(person.id);
+    break;
   }
   // stopgapId: SG-WORLD-business-founding-tiers
   // The wider population weighs every market by the same reasons, as summed pulls (stopgap), until filled in: each market draws its own founders.
@@ -1621,6 +1626,7 @@ function foundings(api: CoreAPI): void {
     else adultsAt.set(adult.placeId, [adult]);
   }
   for (const each of candidates) {
+    if (each === taken) continue;
     // Founders come in proportion to the businesses already in a market (BDS entry as a share of establishments).
     const marketTerm =
       Math.log(each.incumbents.length) +
