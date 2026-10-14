@@ -12,7 +12,7 @@ import {
 import { addDays, makeIsoDate } from "../dates";
 import { stateKeyForJurisdiction } from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
-import { sessionYear } from "../state-session-calendar";
+import stateSessionCalendar from "../../../data/research/laws/state-session-calendars.json" with { type: "json" };
 
 /**
  * The state governing due records the canonical clock keeps filled. Dates
@@ -35,8 +35,24 @@ export function recordedStateSessionWindows(
   jurisdictionKey: string,
   onDate: IsoDate,
 ): readonly SessionWindow[] | null {
-  const row = sessionYear(jurisdictionKey, Number(onDate.slice(0, 4)));
-  return row ? (row.meets ? row.windows : []) : null;
+  const row = (
+    stateSessionCalendar as unknown as {
+      readonly places: Readonly<
+        Record<
+          string,
+          {
+            readonly years: Readonly<
+              Record<
+                string,
+                { readonly meets: boolean; readonly sessions: SessionWindow[] }
+              >
+            >;
+          }
+        >
+      >;
+    }
+  ).places[jurisdictionKey]?.years[onDate.slice(0, 4)];
+  return row ? (row.meets ? row.sessions : []) : null;
 }
 
 /** A per-jurisdiction session record applies to its recorded year. */

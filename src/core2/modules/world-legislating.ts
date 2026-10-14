@@ -23,7 +23,7 @@ import {
   sessionWindows,
   sessionYear,
   type SessionWindow,
-} from "../../simulation/state-session-calendar";
+} from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";

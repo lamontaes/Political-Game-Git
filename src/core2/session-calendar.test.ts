@@ -23,10 +23,7 @@ import {
   sessionsOf,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
-import {
-  sessionWindows,
-  sessionYear,
-} from "../simulation/state-session-calendar";
+import { sessionWindows, sessionYear } from "./state-session-calendar";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,
