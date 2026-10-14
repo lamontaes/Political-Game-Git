@@ -186,6 +186,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       counters: {},
       obligations: {},
       choices: {},
+      carryRequests: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -1291,6 +1292,98 @@ export function learnStake(
   )
     api.relationship(bill.sponsorId, memberId, "contact", 0.05);
   return memberPosition(api, billId, memberId);
+}
+
+/** A request that a member carry a bill, the member's answer and why. */
+export interface CarryRequest {
+  readonly id: string;
+  readonly askerId: string;
+  readonly memberId: string;
+  readonly bodyOfficeId: string;
+  readonly date: string;
+  readonly provisions: readonly Provision[];
+  /** The member's position on the bill as the asker's, part by part. */
+  readonly position: MemberPosition;
+  /** The asker's standing in town, as a reason. */
+  readonly standing: number;
+  readonly carried: boolean;
+  /** The bill the member filed, when they carried it. */
+  readonly billId: string | null;
+}
+
+/**
+ * Someone without a seat (a resident, or the player after losing a race)
+ * asks a member they know to carry a bill, in conversation. The member weighs
+ * the bill as the asker's: their own views, their district, their record, a
+ * taste for change read against the law in force, and how close they are to
+ * the asker; the asker's standing in town counts too. If the sum is for it,
+ * the member files the bill as its sponsor, and the request stays on record.
+ */
+export function askToCarry(
+  api: CoreAPI,
+  input: {
+    readonly askerId: string;
+    readonly memberId: string;
+    readonly bodyOfficeId: string;
+    readonly provisions: readonly Provision[];
+  },
+): CarryRequest {
+  // stopgapId: SG-GOV-carry-request (owner decision: confirmation pending)
+  api.stopgap("SG-GOV-carry-request");
+  const asker = api.state.people.get(input.askerId);
+  if (!asker) throw new Error(`No such person: ${input.askerId}`);
+  if (
+    !members(api, input.bodyOfficeId).some((t) => t.personId === input.memberId)
+  )
+    throw new Error(
+      `${input.memberId} holds no seat on ${input.bodyOfficeId}.`,
+    );
+  // Asked in person: the conversation brings the two closer.
+  if (api.state.people.has(input.memberId))
+    api.relationship(input.askerId, input.memberId, "contact", 0.05);
+  const asked = {
+    id: `ask:${input.bodyOfficeId}:${api.state.date}:${input.askerId}`,
+    number: "",
+    bodyOfficeId: input.bodyOfficeId,
+    sponsorId: input.askerId,
+    introduced: api.state.date,
+    provisions: input.provisions,
+    costEstimate: { workersRaised: 0, annualPayMinor: 0, note: "" },
+    authority: [],
+    status: "drafted",
+    deals: [],
+  } as unknown as BillRow;
+  const position = positionOn(api, asked, input.memberId);
+  const standing =
+    campaignParameter("carryStandingWeight") *
+    Math.min(1, asker.knownIds.size / campaignParameter("carryStandingCircle"));
+  const carried = position.total + standing > 0;
+  const bill = carried
+    ? draftBill(api, {
+        bodyOfficeId: input.bodyOfficeId,
+        sponsorId: input.memberId,
+        provisions: input.provisions,
+      })
+    : null;
+  if (bill)
+    table(api, "bills").put({
+      ...bill,
+      requestedBy: input.askerId,
+    } as unknown as ModuleRow);
+  const row: CarryRequest = {
+    id: `carry:${input.bodyOfficeId}:${api.state.date}:${input.askerId}:${input.memberId}`,
+    askerId: input.askerId,
+    memberId: input.memberId,
+    bodyOfficeId: input.bodyOfficeId,
+    date: api.state.date,
+    provisions: input.provisions,
+    position,
+    standing,
+    carried,
+    billId: bill?.id ?? null,
+  };
+  table(api, "carryRequests").put(row as unknown as ModuleRow);
+  return row;
 }
 
 /**

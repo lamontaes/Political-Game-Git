@@ -47,6 +47,7 @@ import {
   openLegislature,
   votesOn,
   authorityFor,
+  askToCarry,
   type Provision,
 } from "./modules/legislature";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
@@ -670,6 +671,51 @@ describe(
     });
   },
 );
+
+describe("asking a member to carry a bill", () => {
+  it("the member answers from their own position, their tie to the asker and the asker's standing", () => {
+    const states = Object.keys(authority).sort();
+    const { core, api, council } = town(states, "carry");
+    const seated = new Set(council.map((s) => s.holder?.personId));
+    const asker = [...core.people.values()]
+      .filter((p) => p.alive && !seated.has(p.id) && p.tier !== "husk")
+      .sort(
+        (a, b) => b.knownIds.size - a.knownIds.size || a.id.localeCompare(b.id),
+      )[0]!;
+    const member = council[0]!.holder!.personId!;
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const before =
+      api.state.relationships.get([asker.id, member].sort().join(":"))?.level ??
+      0;
+    const asked = askToCarry(api, {
+      askerId: asker.id,
+      memberId: member,
+      bodyOfficeId: council[0]!.office.id,
+      provisions: [provision],
+    });
+    // The answer is the sum of the recorded reasons, never a roll.
+    expect(asked.carried).toBe(asked.position.total + asked.standing > 0);
+    expect(asked.standing).toBeGreaterThanOrEqual(0);
+    if (asked.carried) {
+      const bill = billOf(api, asked.billId!) as ReturnType<typeof billOf> & {
+        requestedBy?: string;
+      };
+      expect(bill.sponsorId).toBe(member);
+      expect(bill.requestedBy).toBe(asker.id);
+    } else expect(asked.billId).toBeNull();
+    // Asking is a conversation: the two know each other a little better.
+    expect(
+      api.state.relationships.get([asker.id, member].sort().join(":"))?.level ??
+        0,
+    ).toBeGreaterThan(before);
+  });
+});
 
 describe("a Congress member from elsewhere", () => {
   // Regression (wire-all-modules, Oct 12): reading one member's lean rebuilt

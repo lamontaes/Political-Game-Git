@@ -3210,5 +3210,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Each territory's certified 2024 delegate and governor returns (territorial election offices) as research data, read in place of the town's ballots.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-carry-request",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 1,
+    "whatItFakes": "A person without a seat asking a member they know to carry a bill, and the member's answer from their own position on it, their tie to the asker and the asker's standing; built ahead of the owner's confirmation.",
+    "why": "Player-path audit (Oct 14): a player who lost an election should be able to ask a member to carry a bill. The CTO relayed it with owner confirmation pending.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's confirmation of the carry request (or its replacement); then this row resolves.",
+    "status": "open"
   }
 ]
