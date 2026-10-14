@@ -1,0 +1,31 @@
+{
+  "method": "Every accepted cut-out inspected on the existing seat_sheet2 review sheet. Reject whole cut-outs only.",
+  "rejected": {
+    "x-cco-08__person001": "paper_or_missing_arm",
+    "crowd-v3__person005": "paper_or_missing_arm",
+    "x-cco-05__person002": "paper_or_missing_arm",
+    "crowd-v2__person016": "occluded_head",
+    "crowd-v3__person009": "occluded_head",
+    "crowd-v4__person010": "occluded_head",
+    "crowd-v2__person017": "occluded_head",
+    "x-cco-04__person004": "occluded_head",
+    "crowd-v1__person006": "occluded_head",
+    "crowd-v4__person008": "occluded_head",
+    "x-cco-01__person009": "occluded_head",
+    "crowd-v2__person010": "occluded_head",
+    "crowd-v4__person011": "occluded_head",
+    "crowd-v5__person010": "occluded_head",
+    "crowd-v5__person011": "occluded_head",
+    "x-cco-02__person006": "occluded_head",
+    "crowd-v2__person005": "occluded_head",
+    "crowd-v4__person015": "occluded_head",
+    "x-cco-05__person006": "orphan_arm",
+    "x-cco-09__person004": "orphan_arm",
+    "crowd-v4__person012": "two_people",
+    "crowd-v5__person014": "two_people",
+    "x-cco-09__person005": "occluded_head",
+    "x-cco-02__person000": "occluded_head",
+    "x-cco-10__person002": "occluded_head",
+    "crowd-v4__person014": "missing_crown"
+  }
+}

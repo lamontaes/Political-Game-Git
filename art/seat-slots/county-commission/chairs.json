@@ -1,0 +1,487 @@
+{
+  "place": "county-commission",
+  "size": [1672, 941],
+  "plate_sha256": "bdd2fd6884378a8058ed8d77efe5b84bec40517362d1f1fe514695cf66eebce0",
+  "method": "One-time empty-painting annotation. Retains existing occupied positions on audience benches; bench slot positions are approximate. Officials are anchored to visible chair backs.",
+  "chairs": [
+    {
+      "id": "slot-00",
+      "seat": [531, 335],
+      "box": [459, 175, 144, 165],
+      "depth": "board",
+      "facing": "camera",
+      "legacy_seat": "county-commission:seat:0"
+    },
+    {
+      "id": "slot-01",
+      "seat": [680, 335],
+      "box": [608, 175, 144, 165],
+      "depth": "board",
+      "facing": "camera",
+      "legacy_seat": "county-commission:seat:1"
+    },
+    {
+      "id": "slot-02",
+      "seat": [834, 335],
+      "box": [762, 175, 144, 165],
+      "depth": "board",
+      "facing": "camera",
+      "legacy_seat": "county-commission:seat:2"
+    },
+    {
+      "id": "slot-03",
+      "seat": [994, 335],
+      "box": [922, 175, 144, 165],
+      "depth": "board",
+      "facing": "camera",
+      "legacy_seat": "county-commission:seat:3"
+    },
+    {
+      "id": "slot-04",
+      "seat": [1143, 335],
+      "box": [1071, 175, 144, 165],
+      "depth": "board",
+      "facing": "camera",
+      "legacy_seat": "county-commission:seat:4"
+    },
+    {
+      "id": "slot-05",
+      "seat": [550.6, 510],
+      "box": [475.6, 315, 150, 80],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:5"
+    },
+    {
+      "id": "slot-06",
+      "seat": [1138.9, 510],
+      "box": [1063.9, 315, 150, 80],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:6"
+    },
+    {
+      "id": "slot-07",
+      "seat": [119.7, 510],
+      "box": [44.7, 315, 150, 80],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:7"
+    },
+    {
+      "id": "slot-08",
+      "seat": [292.2, 510],
+      "box": [217.2, 315, 150, 80],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:8"
+    },
+    {
+      "id": "slot-09",
+      "seat": [1372.0, 510],
+      "box": [1297.0, 315, 150, 80],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:9"
+    },
+    {
+      "id": "slot-10",
+      "seat": [1569.2, 510],
+      "box": [1494.2, 315, 150, 80],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:10"
+    },
+    {
+      "id": "slot-11",
+      "seat": [1236.7, 550],
+      "box": [1161.7, 395, 150, 65],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:11"
+    },
+    {
+      "id": "slot-12",
+      "seat": [453.1, 550],
+      "box": [378.1, 395, 150, 65],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:12"
+    },
+    {
+      "id": "slot-13",
+      "seat": [260.0, 550],
+      "box": [185.0, 395, 150, 65],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:13"
+    },
+    {
+      "id": "slot-14",
+      "seat": [353.4, 608],
+      "box": [278.4, 460, 150, 100],
+      "depth": "bench-2",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:14"
+    },
+    {
+      "id": "slot-15",
+      "seat": [1326.5, 608],
+      "box": [1251.5, 460, 150, 100],
+      "depth": "bench-2",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:15"
+    },
+    {
+      "id": "slot-16",
+      "seat": [62.7, 608],
+      "box": [-12.299999999999997, 460, 150, 100],
+      "depth": "bench-2",
+      "facing": "away",
+      "legacy_seat": "county-commission:seat:16"
+    }
+  ],
+  "furniture": [
+    {
+      "id": "front-00",
+      "in_front_of": ["slot-00", "slot-01", "slot-02", "slot-03", "slot-04"],
+      "polygon": [
+        [420, 313],
+        [1252, 313],
+        [1252, 430],
+        [420, 430]
+      ]
+    },
+    {
+      "id": "front-01",
+      "in_front_of": ["slot-00", "slot-01", "slot-02", "slot-03", "slot-04"],
+      "polygon": [
+        [420, 313],
+        [1252, 313],
+        [1252, 430],
+        [420, 430]
+      ]
+    },
+    {
+      "id": "front-02",
+      "in_front_of": ["slot-00", "slot-01", "slot-02", "slot-03", "slot-04"],
+      "polygon": [
+        [420, 313],
+        [1252, 313],
+        [1252, 430],
+        [420, 430]
+      ]
+    },
+    {
+      "id": "front-03",
+      "in_front_of": ["slot-00", "slot-01", "slot-02", "slot-03", "slot-04"],
+      "polygon": [
+        [420, 313],
+        [1252, 313],
+        [1252, 430],
+        [420, 430]
+      ]
+    },
+    {
+      "id": "front-04",
+      "in_front_of": ["slot-00", "slot-01", "slot-02", "slot-03", "slot-04"],
+      "polygon": [
+        [420, 313],
+        [1252, 313],
+        [1252, 430],
+        [420, 430]
+      ]
+    },
+    {
+      "id": "front-05",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10"
+      ],
+      "polygon": [
+        [30, 450],
+        [631, 450],
+        [631, 491],
+        [30, 491]
+      ]
+    },
+    {
+      "id": "front-06",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10"
+      ],
+      "polygon": [
+        [1040, 450],
+        [1644, 450],
+        [1644, 491],
+        [1040, 491]
+      ]
+    },
+    {
+      "id": "front-07",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10"
+      ],
+      "polygon": [
+        [30, 450],
+        [631, 450],
+        [631, 491],
+        [30, 491]
+      ]
+    },
+    {
+      "id": "front-08",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10"
+      ],
+      "polygon": [
+        [30, 450],
+        [631, 450],
+        [631, 491],
+        [30, 491]
+      ]
+    },
+    {
+      "id": "front-09",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10"
+      ],
+      "polygon": [
+        [1040, 450],
+        [1644, 450],
+        [1644, 491],
+        [1040, 491]
+      ]
+    },
+    {
+      "id": "front-10",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10"
+      ],
+      "polygon": [
+        [1040, 450],
+        [1644, 450],
+        [1644, 491],
+        [1040, 491]
+      ]
+    },
+    {
+      "id": "front-11",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13"
+      ],
+      "polygon": [
+        [1076, 490],
+        [1672, 490],
+        [1672, 550],
+        [1076, 550]
+      ]
+    },
+    {
+      "id": "front-12",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13"
+      ],
+      "polygon": [
+        [0, 490],
+        [598, 490],
+        [598, 550],
+        [0, 550]
+      ]
+    },
+    {
+      "id": "front-13",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13"
+      ],
+      "polygon": [
+        [0, 490],
+        [598, 490],
+        [598, 550],
+        [0, 550]
+      ]
+    },
+    {
+      "id": "front-14",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14",
+        "slot-15",
+        "slot-16"
+      ],
+      "polygon": [
+        [0, 548],
+        [550, 548],
+        [550, 763],
+        [0, 763]
+      ]
+    },
+    {
+      "id": "front-15",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14",
+        "slot-15",
+        "slot-16"
+      ],
+      "polygon": [
+        [1128, 548],
+        [1672, 548],
+        [1672, 763],
+        [1128, 763]
+      ]
+    },
+    {
+      "id": "front-16",
+      "in_front_of": [
+        "slot-00",
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14",
+        "slot-15",
+        "slot-16"
+      ],
+      "polygon": [
+        [0, 548],
+        [550, 548],
+        [550, 763],
+        [0, 763]
+      ]
+    }
+  ]
+}

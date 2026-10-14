@@ -1,0 +1,14 @@
+{
+  "source": "x-cco-07.jpg",
+  "instance": 4,
+  "chair": "slot-06",
+  "reasons": [
+    "disconnected",
+    "too_wide"
+  ],
+  "room_pixel_share": 0.020124257158292816,
+  "shift": [
+    0,
+    -1
+  ]
+}
