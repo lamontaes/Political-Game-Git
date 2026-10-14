@@ -877,6 +877,9 @@ function reviewMatches(api: CoreAPI): void {
     const owner = ownerOf(api, employer.id);
     for (const job of currentJobs(api, employer.id)) {
       if (pinned(c).has(job.id) || job.personId === owner) continue;
+      // A worker gone from the world (moved away, died) has no record left to weigh.
+      if (!c.people.has(job.personId) && !residentPerson(c, job.personId))
+        continue;
       rows.push({
         id: job.id,
         organizationId: employer.id,

@@ -38,6 +38,8 @@ interface StockRow {
   rentalUnits: number;
   vacantRental: number;
   newHomesForSale: number;
+  /** Homes households gone from the town left behind, listed for sale (the housing engine's occupancy pass). */
+  existingForSale?: number;
   /** Fractional starts carried between months. */
   carrySingle: number;
   carryMulti: number;

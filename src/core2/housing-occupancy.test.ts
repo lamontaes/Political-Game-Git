@@ -69,6 +69,15 @@ describe(`who lives in the rentals (${drawn.name}, ${drawn.state}, seed ${drawn.
         r.household.source.asOf < lastReview,
     );
     expect(unhoused.length).toBe(0);
+    // A home a household gone from the town owned is off the books and up for sale (or already sold to a renter).
+    expect(
+      dwellings.filter(
+        (row) =>
+          row.tenure === "own" &&
+          !core.households.has(row.householdId) &&
+          !rt.households.has(row.householdId),
+      ).length,
+    ).toBe(0);
     // Vacancy is the units less the households renting them.
     for (const row of stocks) {
       const renters = dwellings.filter(

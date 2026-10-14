@@ -57,8 +57,10 @@ import {
   homePriceRatio,
   type PriceLevel,
 } from "../housing-prices";
-import { residentsRuntime } from "./residents";
+import { countedOutsideAccount, residentsRuntime } from "./residents";
 import { settleOccupancy } from "../housing-occupancy";
+import type { ModuleTable } from "../module-state";
+import type { StockRow } from "../housing-construction";
 import type {
   ActOffer,
   CoreAPI,
@@ -1267,10 +1269,13 @@ function buyCountedHomes(api: CoreAPI): void {
   );
   for (const account of rt.input.accounts) {
     const placeId = account.placeId;
-    const forSale = (
-      stock.get(`stock:${placeId}`) as { newHomesForSale?: number } | undefined
-    )?.newHomesForSale;
-    if (!forSale || forSale < 1) continue;
+    const listing = stock.get(`stock:${placeId}`) as
+      { newHomesForSale?: number; existingForSale?: number } | undefined;
+    // New houses from their builders, and the homes households gone from the town left behind.
+    const forSale =
+      Math.floor(listing?.newHomesForSale ?? 0) +
+      Math.floor(listing?.existingForSale ?? 0);
+    if (forSale < 1) continue;
     // Each counted renter household's monthly pay, from its members' counted jobs.
     const pay = new Map<string, number>();
     for (const [jobId, flow] of rt.wageFlowByJob) {
@@ -1330,10 +1335,9 @@ function buyCountedHomes(api: CoreAPI): void {
         rentMinor: flow.amountMinor,
       });
     }
-    // Only finished new houses: the counted households' other moves are the core's arrivals and departures.
     for (const row of strongestPulls(api, `housing-buy:${placeId}`, rows).slice(
       0,
-      Math.floor(forSale),
+      forSale,
     )) {
       // A new house has its price: the loan is the rest of it, and the bank must have room for all of it.
       const principal = Math.floor(row.value - row.down);
@@ -1343,13 +1347,16 @@ function buyCountedHomes(api: CoreAPI): void {
         lendingRoom(api) < principal
       )
         continue;
-      const seller = takeNewHome(stock, store(api).table("projects"), placeId);
+      // A new house first, from its builder; else a home left behind, from its seller outside the town (the departed owner's estate or the buyer of its loan).
+      const seller =
+        takeNewHome(stock, store(api).table("projects"), placeId) ??
+        takeLeftHome(stock, placeId, countedOutsideAccount(c, placeId));
       if (!seller) break;
       const source = {
         tag: "ESTIMATED" as const,
         asOf: c.date,
         citation: housingData.mortgage.source,
-        estimatedFrom: `A new house bought by a household of the wider population for about ${Math.round((principal + row.down) / 100)} dollars with ${Math.round(row.down / 100)} down at ${(rate * 100).toFixed(2)}%, paid from its place's pooled cash.`,
+        estimatedFrom: `A house bought by a household of the wider population for about ${Math.round((principal + row.down) / 100)} dollars with ${Math.round(row.down / 100)} down at ${(rate * 100).toFixed(2)}%, paid from its place's pooled cash.`,
       };
       const down = transferCash(
         api,
@@ -1413,6 +1420,18 @@ function buyCountedHomes(api: CoreAPI): void {
         });
     }
   }
+}
+
+/** A home a household gone from the town left behind sells through the place's outside account. */
+function takeLeftHome(
+  stock: ModuleTable,
+  placeId: string,
+  sellerId: string | undefined,
+): string | undefined {
+  const row = stock.get(`stock:${placeId}`) as unknown as StockRow | undefined;
+  if (!sellerId || !row || (row.existingForSale ?? 0) < 1) return undefined;
+  stock.put({ ...row, existingForSale: (row.existingForSale ?? 0) - 1 });
+  return sellerId;
 }
 
 function review(api: CoreAPI): void {

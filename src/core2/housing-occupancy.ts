@@ -1,6 +1,7 @@
 /**
- * Who lives in the town's rentals. A household gone from the town (died
- * out, moved away) frees the home it rented and stops paying its rent. A
+ * Who lives in the town's homes. A household gone from the town (died
+ * out, moved away) frees the home it rented and stops paying its rent, or
+ * leaves the home it owned for sale (counted renters buy it). A
  * household of the wider population that moved in rents a home freed this
  * way first (its landlord re-lets it at the rent it last asked), else one
  * of the landlords' empty units at the town's typical rent. The town's
@@ -21,6 +22,7 @@ interface DwellingRow {
   tenure: string;
   kind?: string;
   rentMinor?: number;
+  placeId?: string;
 }
 
 interface VacatedRow {
@@ -37,6 +39,8 @@ export interface Occupancy {
   housed: string[];
   /** Households gone from the town whose rent stopped, by id. */
   left: string[];
+  /** Households gone from the town whose owned home went up for sale, by id. */
+  sold: string[];
 }
 
 export function settleOccupancy(
@@ -47,7 +51,7 @@ export function settleOccupancy(
 ): Occupancy {
   const c = api.state as CoreState;
   const rt = residentsRuntime(c);
-  const out: Occupancy = { housed: [], left: [] };
+  const out: Occupancy = { housed: [], left: [], sold: [] };
   const stocks = new Map(
     (tables.stock.rows() as unknown as StockRow[]).map((row) => [
       row.placeId,
@@ -61,9 +65,19 @@ export function settleOccupancy(
     c.households.get(id)?.placeId ?? rt?.households.get(id)?.household.placeId;
   const renters = new Map<string, number>();
   const housedIds = new Set<string>();
-  // Households gone from the town leave their rentals.
+  const putUp = new Map<string, number>();
+  const townOf = (row: DwellingRow) =>
+    row.placeId ?? (stocks.size === 1 ? [...stocks.keys()][0] : undefined);
+  // Households gone from the town leave their homes: a rental stands empty, an owned home goes up for sale.
   for (const row of tables.dwellings.rows() as unknown as DwellingRow[]) {
     housedIds.add(row.householdId);
+    if (row.tenure === "own" && !exists(row.householdId)) {
+      tables.dwellings.remove(row.id);
+      const at = townOf(row);
+      if (at && stocks.has(at)) putUp.set(at, (putUp.get(at) ?? 0) + 1);
+      out.sold.push(row.householdId);
+      continue;
+    }
     if (row.tenure !== "rent") continue;
     if (exists(row.householdId)) {
       const at = placeOf(row.householdId);
@@ -167,8 +181,13 @@ export function settleOccupancy(
   // Freed homes nobody took stay listed only while units stand empty.
   for (const [placeId, row] of stocks) {
     const vacant = Math.max(0, row.rentalUnits - (renters.get(placeId) ?? 0));
-    if (vacant !== row.vacantRental)
-      tables.stock.put({ ...row, vacantRental: vacant });
+    const forSale = (row.existingForSale ?? 0) + (putUp.get(placeId) ?? 0);
+    if (vacant !== row.vacantRental || forSale !== (row.existingForSale ?? 0))
+      tables.stock.put({
+        ...row,
+        vacantRental: vacant,
+        existingForSale: forSale,
+      });
     const listed = vacated.get(placeId) ?? [];
     for (const extra of listed.slice(0, Math.max(0, listed.length - vacant)))
       tables.vacated.remove(extra.id);
