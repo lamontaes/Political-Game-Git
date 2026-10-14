@@ -13,10 +13,12 @@ Verdicts: cause found (CF), not found (NF), viewer artifact (VA), reader error (
 **C1. The viewer's local news list is the oldest 200 items only, and leaves out records the player's circle witnessed.**
 
 `scripts/trace/viewer.ts:96`, `src/bench/calendar.ts:84-93`, `src/core2/state.ts:690-715`.
+
 ```
 newsItems(): [...durableLog.values()].filter(visibility "public"|"news").reverse()   // newest first
 viewer: local.slice().reverse().slice(0, 200)                                        // oldest 200 printed
 ```
+
 Raw proof: Nebraska prints 200 of 259 local items and ends at October 1, 2025 (the year runs to January 20, 2026); Nevada 200 of 325; New Jersey 200 of 354 and ends at June 30, 2025 (`new-jersey.txt:214`). Records whose visibility is "circle" are never listed (calendar.ts:85). Stopgap: none (tool defect).
 Explains: everything "not in the file" after the cut date, e.g. NE 21, NV 2, NV 4, NJ 3, NJ 1's results, MP 5.
 
@@ -51,10 +53,12 @@ Explains: NE 26, NV 24, AS 17, MP 13.
 **C7. A record the player's circle does not witness is dropped from the log.**
 
 `src/core2/state.ts:690-705`, `src/core2/focus.ts:5-21`.
+
 ```
 circle = personIds/witnessIds in focusPersonIds (player, family, known, household, coworkers) ...
 if (!core.observer && !circle && !publicRecord && !news) return;   // not kept
 ```
+
 `life.death` events set no `publicRecord` or `news` (`health.ts:362-386`), so a death among strangers is never in the file, though `alive` flips (`health.ts:438`, the only place `alive` is set false). Raw proof: NE people 1793, alive 1790, one death record; NV 1876 / 1871 / 2; AS 1733 / 1731 / 1; MP 1634 / 1630 / 0. Stopgap: none.
 Explains: NV 5, AS 21, MP 1.
 
@@ -78,20 +82,24 @@ Explains: NV 8, NV 16, AS 23, NJ 6.
 **C11. Every bill in a body is filed on one floor day.**
 
 `world-legislating.ts:184-189` (a session's floor day is its adjournment, or for a full-year legislature the end of month 6), `world-legislating.ts:167-173` (Congress: day 349, Dec 15, `campaigns/parameters.json:298`), `world-legislating.ts:544-560` (`draftBill` for every filed item on that day; items past `floorTime` die).
+
 ```
 filed.forEach((item, index) => { const drafted = draftBill(api, {...});
   const reached = index < floorTime; ... holdVote(...) : dieOnCalendar(...)
 ```
+
 Local bodies meet 24 times a year (`world-legislating.ts:811-813`, parameter 24). Stopgap: parameters are TUNABLE with sources; no stopgap.
 Explains: NE 8, NE 15, NV 15, NV 20, NJ 23, AS 14, MP 5, MP 17.
 
 **C12. Congress is run through the town's state's House office, with every member of both chambers.**
 
 `world-legislating.ts:258-272` (`houseOffice` = first office whose kind starts `us-house`), `legislature.ts:539-552` (budget introduced there), `world-legislating.ts:660` (filers are all of the House and Senate), `legislature.ts:1646-1649` (a House bill goes through `federal:us-house` then `federal:us-senate`), `legislature.ts:953-967` and `925-927` (all states' members; delegates do not vote), `legislature.ts:305-306` (`sponsor = priorities.setBy`, the President, for the budget bill).
+
 ```
 const office = ...rows().find((o) => o.kind.startsWith("us-house"));
 return office ? { id: office.id, members: members(api, FEDERAL_HOUSE) } : null;
 ```
+
 So a bill's body id carries the town's state, its sponsors and chairs are other states' members, a Senate vote follows a House bill, 4 seats show against 433 voters, and the President sponsors the budget bill. Stopgap: none (a code comment says "bills are introduced there"). Explains: NE 16, NE 17, NV 15, NV 17, NV 18, NJ 14, AS 11, AS 16, MP 9, MP 10, MP 13, MP 15.
 
 **C13. A federal body is organized with the council template, so its holder is a "council-president".**
@@ -110,8 +118,8 @@ Stopgap: SG-GOV-committee-structure. Explains: NE 9, NE 8, NV 14, NV 13, NJ 5, N
 - Party: `officials.ts:1054-1063` sets the party part as `pull * loyalty * lead * care`.
 - One dimension: `campaign-views.ts:231-233` makes a stance `lean * questionAxis` (SG-GOV-views-stand-in, `campaigns.ts:290-292`).
 - Committees: seats follow the party ratio (`legislature.ts:1823-1840`).
-Data check against the party counts file (`data/research/offices/legislature-party-counts-2026.json`): Nevada's Senate is 13 D and 8 R, and the raw votes repeat 13-8. New Jersey's Senate is 25 and 15, and the raw votes repeat 25-15 five times. New Jersey's Assembly is 57 and 23, and the raw votes repeat 57-23 twice. An 11-seat committee at those ratios is 7-4 for Nevada (27 of 42) and 8-3 for New Jersey (57 of 80), which are the raw committee splits. Stopgap: SG-GOV-views-stand-in (for town members).
-Explains: NV 1, NV 12, NV 13, NJ 7, NJ 8, AS 12, MP 11.
+  Data check against the party counts file (`data/research/offices/legislature-party-counts-2026.json`): Nevada's Senate is 13 D and 8 R, and the raw votes repeat 13-8. New Jersey's Senate is 25 and 15, and the raw votes repeat 25-15 five times. New Jersey's Assembly is 57 and 23, and the raw votes repeat 57-23 twice. An 11-seat committee at those ratios is 7-4 for Nevada (27 of 42) and 8-3 for New Jersey (57 of 80), which are the raw committee splits. Stopgap: SG-GOV-views-stand-in (for town members).
+  Explains: NV 1, NV 12, NV 13, NJ 7, NJ 8, AS 12, MP 11.
 
 **C16. "Overridden" means vetoed then overridden; the veto lives in the executive desk table.**
 
@@ -131,7 +139,7 @@ Explains: NE 10.
 - Year name: `budgets.ts:331-335`. A year is "named by the year it starts", and the federal year starts October 1, so fiscal year 2025 begins October 1, 2025.
 - Local lines: `budgets.ts:296-312`. County and city split by function from Census finance data.
 - Zero changes: `budgets.ts:926`. Zero deltas are not emitted.
-Stopgap: SG-GOV-local-budget-split, SG-GOV-local-fiscal-year. Explains: NE 12, NE 13, NE 22, NV 19, NJ 16.
+  Stopgap: SG-GOV-local-budget-split, SG-GOV-local-fiscal-year. Explains: NE 12, NE 13, NE 22, NV 19, NJ 16.
 
 **C19. A balanced-budget law cuts every non-interest line in proportion; "minor" is cents.**
 
@@ -170,7 +178,7 @@ Explains: NE 4, NJ 3, NJ 10.
 - Withdrawal: `elections.ts:106` has a `withdrawn` status, but it is written only for a primary loss (`voting.ts:1293-1297`).
 - Campaign: `campaigns.ts:2246-2250` runs a turn for every filing that is `on-ballot`, with no aliveness check, and `campaigns.ts:2146-2150` emits `campaign-message` with the candidate as speaker. `campaigns.ts:2054` skips only the candidate's own donation and doors.
 - Stopgap: none.
-Explains: NE 1.
+  Explains: NE 1.
 
 **C26. A vacancy is filled the same day, and the fill writes a term row, not a log record.**
 
@@ -255,154 +263,154 @@ Verdicts: CF = cause found, NF = not found, VA = viewer artifact, RE = reader er
 
 ### Nebraska (Mullen, 26 items)
 
-| # | Verdict | Cause | Note |
-|---|---|---|---|
-| 1 | CF | C25 | No module handles a candidate's death; the filing stays `on-ballot` and `campaignTurn` keeps sending (`campaigns.ts:2246`, `2146`). Defect. |
-| 2 | RE | C16 | "Overridden" is a vetoed bill that was then overridden: 3 overridden plus 2 sustained vetoes is 5 vetoes. Which bills: in the `desk` table, not dumped. |
-| 3 | CF | C16, C3 | The mayor's `position + signLean < 0` (`legislature.ts:2141`); the desk row is not dumped. |
-| 4 | VA | C3, C4 | Filings are in `core2-elections-v1`; the six filings' contests (November 3, 2026) are hidden by the 400-character filter. |
-| 5 | CF | C23 | Petitions are written when the law takes effect. Possible body mismatch (county law, city council members), see C23. |
-| 6 | CF | C35 | Same board, same question; Feb 4 + 180 days = Aug 3, so the Aug 18 refiling was allowed. Same members give the same six positions. |
-| 7 | CF | C30 | Six speakers is the cap (`parameters.json:4-9`); same residents on the same question. |
-| 8 | CF | C11, C14 | Filed on the session's floor day (Nebraska adjourns Jun 9); holds are chairs declining hearings (`legislature.ts:1861, 1932`). |
-| 9 | CF | C14 | `committeeFor` returns "general"; one roster and chair per body. |
-| 10 | CF | C17 | Three months plus a day after the Jun 9 adjournment = Sept 10 (`US-NE` rule). |
-| 11 | CF | C20 | Booked Jul 20 by the monthly review after the Jul 1 budget; undone Sept 10 when bill 2025-012 (repeal, 40-9) took effect. |
-| 12 | CF | C18 | Each line moves by the governor's lean times the line's axis; no balancing rule. |
-| 13 | RE | C18 | Fiscal years are named by their start year; the federal year starting Oct 1, 2025 is "2025". |
-| 14 | CF | C19 | Proportional cut to cover the deficit; minor units are cents ($110.8 billion). |
-| 15 | CF | C11, C33 | Congress's one floor day is Dec 15; value 1 is a "yes" answer; `restrict-abortion` has mechanic "none". |
-| 16 | CF | C12 | House bills sit in the town's state's House office; sponsors are any member; the President sponsors the budget bill. |
-| 17 | RE | C12 | The Senate vote is recorded as `chamber=federal:us-senate`; the bill table shows only the introducing body. |
-| 18 | CF | C13 | Template fallthrough gives "council-president". |
-| 19 | RE | C37 | -1 is a yes vote on a bill whose provision is -1 (the sample bill's value is -1); the position is vote times direction. |
-| 20 | CF | C22 | Flat $15 target on the state's starting "yes"; real 2025 rate not checked; no source in the file for it. |
-| 21 | VA | C5, C1 | The second vacancy is a local seat outside the federal/state dump regex or in the cut news tail. |
-| 22 | CF | C18 | Local lines are a county/city split of Census functions; the county board has no executive, so no line changes. |
-| 23 | CF | C27 | Constant share per office kind: 0.56 statewide, 0.635 legislator. |
-| 24 | CF | C21 | The "replaced" row is the carried-back copy; the value before equals the value after. |
-| 25 | VA | C5 | 48 counts all legislative votes; 43 is the federal/state regex. |
-| 26 | VA | C6 | One `learned` child per person; the viewer hides the person id. |
+| #   | Verdict | Cause    | Note                                                                                                                                                    |
+| --- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | CF      | C25      | No module handles a candidate's death; the filing stays `on-ballot` and `campaignTurn` keeps sending (`campaigns.ts:2246`, `2146`). Defect.             |
+| 2   | RE      | C16      | "Overridden" is a vetoed bill that was then overridden: 3 overridden plus 2 sustained vetoes is 5 vetoes. Which bills: in the `desk` table, not dumped. |
+| 3   | CF      | C16, C3  | The mayor's `position + signLean < 0` (`legislature.ts:2141`); the desk row is not dumped.                                                              |
+| 4   | VA      | C3, C4   | Filings are in `core2-elections-v1`; the six filings' contests (November 3, 2026) are hidden by the 400-character filter.                               |
+| 5   | CF      | C23      | Petitions are written when the law takes effect. Possible body mismatch (county law, city council members), see C23.                                    |
+| 6   | CF      | C35      | Same board, same question; Feb 4 + 180 days = Aug 3, so the Aug 18 refiling was allowed. Same members give the same six positions.                      |
+| 7   | CF      | C30      | Six speakers is the cap (`parameters.json:4-9`); same residents on the same question.                                                                   |
+| 8   | CF      | C11, C14 | Filed on the session's floor day (Nebraska adjourns Jun 9); holds are chairs declining hearings (`legislature.ts:1861, 1932`).                          |
+| 9   | CF      | C14      | `committeeFor` returns "general"; one roster and chair per body.                                                                                        |
+| 10  | CF      | C17      | Three months plus a day after the Jun 9 adjournment = Sept 10 (`US-NE` rule).                                                                           |
+| 11  | CF      | C20      | Booked Jul 20 by the monthly review after the Jul 1 budget; undone Sept 10 when bill 2025-012 (repeal, 40-9) took effect.                               |
+| 12  | CF      | C18      | Each line moves by the governor's lean times the line's axis; no balancing rule.                                                                        |
+| 13  | RE      | C18      | Fiscal years are named by their start year; the federal year starting Oct 1, 2025 is "2025".                                                            |
+| 14  | CF      | C19      | Proportional cut to cover the deficit; minor units are cents ($110.8 billion).                                                                          |
+| 15  | CF      | C11, C33 | Congress's one floor day is Dec 15; value 1 is a "yes" answer; `restrict-abortion` has mechanic "none".                                                 |
+| 16  | CF      | C12      | House bills sit in the town's state's House office; sponsors are any member; the President sponsors the budget bill.                                    |
+| 17  | RE      | C12      | The Senate vote is recorded as `chamber=federal:us-senate`; the bill table shows only the introducing body.                                             |
+| 18  | CF      | C13      | Template fallthrough gives "council-president".                                                                                                         |
+| 19  | RE      | C37      | -1 is a yes vote on a bill whose provision is -1 (the sample bill's value is -1); the position is vote times direction.                                 |
+| 20  | CF      | C22      | Flat $15 target on the state's starting "yes"; real 2025 rate not checked; no source in the file for it.                                                |
+| 21  | VA      | C5, C1   | The second vacancy is a local seat outside the federal/state dump regex or in the cut news tail.                                                        |
+| 22  | CF      | C18      | Local lines are a county/city split of Census functions; the county board has no executive, so no line changes.                                         |
+| 23  | CF      | C27      | Constant share per office kind: 0.56 statewide, 0.635 legislator.                                                                                       |
+| 24  | CF      | C21      | The "replaced" row is the carried-back copy; the value before equals the value after.                                                                   |
+| 25  | VA      | C5       | 48 counts all legislative votes; 43 is the federal/state regex.                                                                                         |
+| 26  | VA      | C6       | One `learned` child per person; the viewer hides the person id.                                                                                         |
 
 ### Nevada (Mina, 25 items)
 
-| # | Verdict | Cause | Note |
-|---|---|---|---|
-| 1 | CF | C15 | One-dimensional stance on a three-member board; the same member order gives 1-2 on every bill. |
-| 2 | VA | C1 | 200 of 325 local items printed; which two passed is not in the raw file (statuses are set at `legislature.ts:1970`). |
-| 3 | CF | C5, C13 | Opening-day records excluded from "this year"; the council key is the template fallthrough. |
-| 4 | VA | C26, C5 | The seat is filled by appointment the same day (term row, no log record); the vacancy table is under another module. |
-| 5 | CF (partial) | C7, C8 | Dead strangers are not logged; movers stay in `people`; +35 is mostly fill-in. Census check: NF. |
-| 6 | CF | C32 | Campaign committees and cause groups have no founding record. |
-| 7 | CF | C31 | `losses-kept` is the owner's choice; the losses are in the business module; trace ends at `opening`. |
-| 8 | VA | C10 | Org id is in `topic`, not `facts`. |
-| 9 | VA | C9 | The viewer never acts as the player; why the job is none and cash $0: NF. |
-| 10 | CF | C22 | Flat $15 from the starting answer; the real Nevada rate was not checked here. |
-| 11 | VA | C3, C16 | Veto sustained; the record is in `core2-executive-v1.desk`, which the viewer does not read. |
-| 12 | CF | C15 | 13-8 is Nevada's Senate party split (13 D, 8 R). |
-| 13 | CF | C15, C14 | An 11-seat committee at 27 D to 15 R is 7-4. |
-| 14 | CF | C14 | A "held" bill is a chair who declines a hearing; yes and no stay 0. |
-| 15 | CF | C12, C11 | Any member may sponsor; the body is the lower chamber; all bills are filed on the floor day Jun 2. |
-| 16 | VA | C10 | Different members; the viewer omits the person. |
-| 17 | CF | C12 | Federal House run through the town's state's House office. |
-| 18 | CF | C19, C12 | Cents; the President sponsors the budget bill. |
-| 19 | CF | C18, C20 | Priorities and a negotiation drop; the Jul 20 date is the monthly review. |
-| 20 | CF | C11 | One Congress floor day (Dec 15). |
-| 21 | VA | C4, C3 | Contests and filings exist but the dump hides them; six filings prove it. |
-| 22 | VA | C3 | Wrong module ids (see C3 for the real ones). |
-| 23 | RE | C27 | The printed rows are the past terms; ids carry the opening date (January 20, 2025); current terms are not printed. Shares are constants. |
-| 24 | VA | C6 | Viewer chain loop and fact-key display. |
-| 25 | CF | C21 | The replaced law is the carried-back copy; no earlier rate exists. |
+| #   | Verdict      | Cause    | Note                                                                                                                                     |
+| --- | ------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | CF           | C15      | One-dimensional stance on a three-member board; the same member order gives 1-2 on every bill.                                           |
+| 2   | VA           | C1       | 200 of 325 local items printed; which two passed is not in the raw file (statuses are set at `legislature.ts:1970`).                     |
+| 3   | CF           | C5, C13  | Opening-day records excluded from "this year"; the council key is the template fallthrough.                                              |
+| 4   | VA           | C26, C5  | The seat is filled by appointment the same day (term row, no log record); the vacancy table is under another module.                     |
+| 5   | CF (partial) | C7, C8   | Dead strangers are not logged; movers stay in `people`; +35 is mostly fill-in. Census check: NF.                                         |
+| 6   | CF           | C32      | Campaign committees and cause groups have no founding record.                                                                            |
+| 7   | CF           | C31      | `losses-kept` is the owner's choice; the losses are in the business module; trace ends at `opening`.                                     |
+| 8   | VA           | C10      | Org id is in `topic`, not `facts`.                                                                                                       |
+| 9   | VA           | C9       | The viewer never acts as the player; why the job is none and cash $0: NF.                                                                |
+| 10  | CF           | C22      | Flat $15 from the starting answer; the real Nevada rate was not checked here.                                                            |
+| 11  | VA           | C3, C16  | Veto sustained; the record is in `core2-executive-v1.desk`, which the viewer does not read.                                              |
+| 12  | CF           | C15      | 13-8 is Nevada's Senate party split (13 D, 8 R).                                                                                         |
+| 13  | CF           | C15, C14 | An 11-seat committee at 27 D to 15 R is 7-4.                                                                                             |
+| 14  | CF           | C14      | A "held" bill is a chair who declines a hearing; yes and no stay 0.                                                                      |
+| 15  | CF           | C12, C11 | Any member may sponsor; the body is the lower chamber; all bills are filed on the floor day Jun 2.                                       |
+| 16  | VA           | C10      | Different members; the viewer omits the person.                                                                                          |
+| 17  | CF           | C12      | Federal House run through the town's state's House office.                                                                               |
+| 18  | CF           | C19, C12 | Cents; the President sponsors the budget bill.                                                                                           |
+| 19  | CF           | C18, C20 | Priorities and a negotiation drop; the Jul 20 date is the monthly review.                                                                |
+| 20  | CF           | C11      | One Congress floor day (Dec 15).                                                                                                         |
+| 21  | VA           | C4, C3   | Contests and filings exist but the dump hides them; six filings prove it.                                                                |
+| 22  | VA           | C3       | Wrong module ids (see C3 for the real ones).                                                                                             |
+| 23  | RE           | C27      | The printed rows are the past terms; ids carry the opening date (January 20, 2025); current terms are not printed. Shares are constants. |
+| 24  | VA           | C6       | Viewer chain loop and fact-key display.                                                                                                  |
+| 25  | CF           | C21      | The replaced law is the carried-back copy; no earlier rate exists.                                                                       |
 
 ### New Jersey (Asbury, 24 items)
 
-| # | Verdict | Cause | Note |
-|---|---|---|---|
-| 1 | CF | C23 | A petition per member whose vote conflicts with the law, written when it takes effect (Mar 6). The results are in the recalls table; the list is cut at Jun 30 (C1). |
-| 2 | RE | C35 | The Feb 19 bill is a repeal (positions -1, 1, 1, yes 1, no 2), not a second vote to pass. |
-| 3 | VA | C24, C1 | The stand-in filed the incumbent when filing closed; that record falls after the Jun 30 cut. |
-| 4 | RE | C26 | "Appointment-then-special" seats an interim the same day, so 80 voted. |
-| 5 | RE | C14 | The 79-1 vote is the lower chamber; the hold is the upper chamber's committee (different chair, `upper:007`). |
-| 6 | RE | C37 | `vote-recorded` appears only for members who are people; position is vote times direction. |
-| 7 | CF | C15 | Position is a sum of parts; bills reach the floor because members file them; cross-party agreement gives 79-1. |
-| 8 | CF | C15 | 25-15 and 57-23 are the party counts; 8-3 is an 11-seat committee at 57 of 80. |
-| 9 | CF | C14 | 0-0 is how a held bill is recorded. |
-| 10 | CF | C24 | A party with one filer has no primary; `votes` stays `{}`. |
-| 11 | CF (partial) | C36 | Same electorate and readiness for each uncontested race; the 2-vote difference was not traced. |
-| 12 | CF | C27 | The age floor is a uniform 21 for every office; New Jersey's state senate minimum is not read. Defect. |
-| 13 | CF | C38 | Normalized by `partyName` and `partySide`. |
-| 14 | CF | C12 | Same as other federal body items. |
-| 15 | CF | C13, C11 | Template fallthrough on the first Congress session end. |
-| 16 | CF | C18 | The negotiation drops the most-objected lines; the enacted lines then feed budget-line events and law-effects handlers. |
-| 17 | CF | C19 | Proportional cut; cents. Who is paid less: the line feeds the budgets module (not traced to a person). |
-| 18 | CF | C39 | The law id is in the `landed` table; the event omits it. |
-| 19 | CF | C30 | Numbers are per body and year. |
-| 20 | RE | C31 | The payer is the town's residents' payroll, not a government. |
-| 21 | CF | C32 | Campaign committees (about 30) and 14 cause groups. |
-| 22 | CF (partial) | C7, C8 | No births in the log; fill-in grows `people`; census check: NF. |
-| 23 | CF | C11 | Full-year legislature: floor day is the end of month 6; Congress Dec 15. |
-| 24 | VA | C3 | Real modules: offices (vacancies), elections (contests, filings), campaigns, budgets (governments, budgets). |
+| #   | Verdict      | Cause    | Note                                                                                                                                                                 |
+| --- | ------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | CF           | C23      | A petition per member whose vote conflicts with the law, written when it takes effect (Mar 6). The results are in the recalls table; the list is cut at Jun 30 (C1). |
+| 2   | RE           | C35      | The Feb 19 bill is a repeal (positions -1, 1, 1, yes 1, no 2), not a second vote to pass.                                                                            |
+| 3   | VA           | C24, C1  | The stand-in filed the incumbent when filing closed; that record falls after the Jun 30 cut.                                                                         |
+| 4   | RE           | C26      | "Appointment-then-special" seats an interim the same day, so 80 voted.                                                                                               |
+| 5   | RE           | C14      | The 79-1 vote is the lower chamber; the hold is the upper chamber's committee (different chair, `upper:007`).                                                        |
+| 6   | RE           | C37      | `vote-recorded` appears only for members who are people; position is vote times direction.                                                                           |
+| 7   | CF           | C15      | Position is a sum of parts; bills reach the floor because members file them; cross-party agreement gives 79-1.                                                       |
+| 8   | CF           | C15      | 25-15 and 57-23 are the party counts; 8-3 is an 11-seat committee at 57 of 80.                                                                                       |
+| 9   | CF           | C14      | 0-0 is how a held bill is recorded.                                                                                                                                  |
+| 10  | CF           | C24      | A party with one filer has no primary; `votes` stays `{}`.                                                                                                           |
+| 11  | CF (partial) | C36      | Same electorate and readiness for each uncontested race; the 2-vote difference was not traced.                                                                       |
+| 12  | CF           | C27      | The age floor is a uniform 21 for every office; New Jersey's state senate minimum is not read. Defect.                                                               |
+| 13  | CF           | C38      | Normalized by `partyName` and `partySide`.                                                                                                                           |
+| 14  | CF           | C12      | Same as other federal body items.                                                                                                                                    |
+| 15  | CF           | C13, C11 | Template fallthrough on the first Congress session end.                                                                                                              |
+| 16  | CF           | C18      | The negotiation drops the most-objected lines; the enacted lines then feed budget-line events and law-effects handlers.                                              |
+| 17  | CF           | C19      | Proportional cut; cents. Who is paid less: the line feeds the budgets module (not traced to a person).                                                               |
+| 18  | CF           | C39      | The law id is in the `landed` table; the event omits it.                                                                                                             |
+| 19  | CF           | C30      | Numbers are per body and year.                                                                                                                                       |
+| 20  | RE           | C31      | The payer is the town's residents' payroll, not a government.                                                                                                        |
+| 21  | CF           | C32      | Campaign committees (about 30) and 14 cause groups.                                                                                                                  |
+| 22  | CF (partial) | C7, C8   | No births in the log; fill-in grows `people`; census check: NF.                                                                                                      |
+| 23  | CF           | C11      | Full-year legislature: floor day is the end of month 6; Congress Dec 15.                                                                                             |
+| 24  | VA           | C3       | Real modules: offices (vacancies), elections (contests, filings), campaigns, budgets (governments, budgets).                                                         |
 
 ### American Samoa (Tafuna, 24 items)
 
-| # | Verdict | Cause | Note |
-|---|---|---|---|
-| 1 | CF | C28 | No Gazetteer districts and no roster for the territory, so `seats: 0`. |
-| 2 | CF | C21 | Data rows (A.S.C.A., estimate true), no enacting body; 39.6 is the territory's own tax code. |
-| 3 | CF | C20, C29 | The monthly review books the pension line on a carried-forward budget (Oct 20). |
-| 4 | CF | C29 | Registered stopgap; the record says "carried forward". |
-| 5 | CF | C13 | Template fallthrough. |
-| 6 | CF | C28, C3 | No local government units; wrong tables. |
-| 7 | CF (partial) | C3 | Orders and desk records exist only where an executive decides on a bill or an order the engine can carry (`executive.ts:1-20`); the territory has no legislature. |
-| 8 | VA | C4, C5 | Two different dump filters; the three contests are hidden by the 400-character filter. |
-| 9 | CF | C27 | Constant shares (0.64, 0.56). |
-| 10 | CF | C40 | No party row for territorial executives. |
-| 11 | CF | C12 | Other states' members sponsor and chair; the House and Senate committees are two chairs. |
-| 12 | CF | C15 | An 11-seat committee on party-line votes. |
-| 13 | CF | C14 | Same as above. |
-| 14 | CF | C11 | Congress's single floor day. |
-| 15 | VA | C2, C16 | Federal votes are not printed; a vetoed bill passed both chambers and was vetoed (desk table). |
-| 16 | CF | C12 | `chambersOf` sends a House bill to the Senate. |
-| 17 | VA | C6 | Loop and repeated lines are viewer artifacts; who learned of the 0 percent tax: NF. |
-| 18 | CF | C19 | Cents. |
-| 19 | CF | C21 | Sourced Federal Register FMAP row, 83 percent. |
-| 20 | CF | C33 | Mechanic "none": an eligibility record with no reader. |
-| 21 | CF (partial) | C7, C8 | Deaths outside the circle are not logged. Census check: NF. |
-| 22 | CF | C8 | Moves come from the moves engine; the residence is the destination place id (`moves.ts:688-690`). |
-| 23 | VA | C10, C31 | Empty payload is a viewer artifact; losses are in the business module. |
-| 24 | CF (partial) | C34 | Monthly housing review; why the 6th: NF. |
+| #   | Verdict      | Cause    | Note                                                                                                                                                              |
+| --- | ------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | CF           | C28      | No Gazetteer districts and no roster for the territory, so `seats: 0`.                                                                                            |
+| 2   | CF           | C21      | Data rows (A.S.C.A., estimate true), no enacting body; 39.6 is the territory's own tax code.                                                                      |
+| 3   | CF           | C20, C29 | The monthly review books the pension line on a carried-forward budget (Oct 20).                                                                                   |
+| 4   | CF           | C29      | Registered stopgap; the record says "carried forward".                                                                                                            |
+| 5   | CF           | C13      | Template fallthrough.                                                                                                                                             |
+| 6   | CF           | C28, C3  | No local government units; wrong tables.                                                                                                                          |
+| 7   | CF (partial) | C3       | Orders and desk records exist only where an executive decides on a bill or an order the engine can carry (`executive.ts:1-20`); the territory has no legislature. |
+| 8   | VA           | C4, C5   | Two different dump filters; the three contests are hidden by the 400-character filter.                                                                            |
+| 9   | CF           | C27      | Constant shares (0.64, 0.56).                                                                                                                                     |
+| 10  | CF           | C40      | No party row for territorial executives.                                                                                                                          |
+| 11  | CF           | C12      | Other states' members sponsor and chair; the House and Senate committees are two chairs.                                                                          |
+| 12  | CF           | C15      | An 11-seat committee on party-line votes.                                                                                                                         |
+| 13  | CF           | C14      | Same as above.                                                                                                                                                    |
+| 14  | CF           | C11      | Congress's single floor day.                                                                                                                                      |
+| 15  | VA           | C2, C16  | Federal votes are not printed; a vetoed bill passed both chambers and was vetoed (desk table).                                                                    |
+| 16  | CF           | C12      | `chambersOf` sends a House bill to the Senate.                                                                                                                    |
+| 17  | VA           | C6       | Loop and repeated lines are viewer artifacts; who learned of the 0 percent tax: NF.                                                                               |
+| 18  | CF           | C19      | Cents.                                                                                                                                                            |
+| 19  | CF           | C21      | Sourced Federal Register FMAP row, 83 percent.                                                                                                                    |
+| 20  | CF           | C33      | Mechanic "none": an eligibility record with no reader.                                                                                                            |
+| 21  | CF (partial) | C7, C8   | Deaths outside the circle are not logged. Census check: NF.                                                                                                       |
+| 22  | CF           | C8       | Moves come from the moves engine; the residence is the destination place id (`moves.ts:688-690`).                                                                 |
+| 23  | VA           | C10, C31 | Empty payload is a viewer artifact; losses are in the business module.                                                                                            |
+| 24  | CF (partial) | C34      | Monthly housing review; why the 6th: NF.                                                                                                                          |
 
 ### Northern Mariana Islands (Susupe, 25 items)
 
 The report file exists (`northern-mariana-islands.md`) and the raw file is `audit/northern-mariana-islands.txt`; both were read.
 
-| # | Verdict | Cause | Note |
-|---|---|---|---|
-| 1 | CF | C7 | Four dead and no death record: deaths outside the circle are not logged. |
-| 2 | CF (partial) | C8 | Fill-in and counted tallies; census check: NF. |
-| 3 | CF (partial) | C32 | Organizations without founding records; workers of closed firms: NF. |
-| 4 | CF (partial) | C34 | See C34. |
-| 5 | CF | C11 | Oct 1 is the federal fiscal year's start (`budgets.ts:380`); Dec 15 is Congress's floor day. |
-| 6 | CF | C29 | No voting body for the territory budget. |
-| 7 | CF | C28 | Zero seats (Senate 9, House 20 in the research file are not used). |
-| 8 | CF | C13 | Template fallthrough. |
-| 9 | CF | C12 | Any member may sponsor. |
-| 10 | CF | C12, C14 | Two chairs: one per chamber. |
-| 11 | CF | C15 | Party-line committee. |
-| 12 | CF | C14 | See C14. |
-| 13 | CF | C12, C6 | The national House votes the bill; the delegate does not vote (`legislature.ts:925-927`); traces: viewer artifacts. |
-| 14 | VA | C2 | The viewer prints only a sample bill; which five: NF. |
-| 15 | CF | C12, C2 | The "state bill" sample matches the same federal bill by regex. |
-| 16 | CF | C19 | Cents; the place is the town's place id. |
-| 17 | CF | C11, C33 | One floor day; value 1 is a yes answer; the others have mechanics. |
-| 18 | CF | C21 | Carried-back rows and sourced values. |
-| 19 | CF | C21 | Sourced 83 percent. |
-| 20 | VA | C4, C28 | Contests are hidden by the filter; no local contests exist because there is no local government. |
-| 21 | VA | C3 | Wrong module ids. |
-| 22 | VA | C4 | Two different dump filters. |
-| 23 | CF | C27 | The title text comes from `data/research/offices/state-offices.json:13766`; past terms are a seeded estimate and none was drawn. |
-| 24 | NF | C7 | The kinds are `person.acted`; the game kept these through the circle rule (`state.ts:690-705`, focus); no per-kind breakdown in the raw file. |
-| 25 | VA | C9 | The viewer never acts as the player. |
+| #   | Verdict      | Cause    | Note                                                                                                                                          |
+| --- | ------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | CF           | C7       | Four dead and no death record: deaths outside the circle are not logged.                                                                      |
+| 2   | CF (partial) | C8       | Fill-in and counted tallies; census check: NF.                                                                                                |
+| 3   | CF (partial) | C32      | Organizations without founding records; workers of closed firms: NF.                                                                          |
+| 4   | CF (partial) | C34      | See C34.                                                                                                                                      |
+| 5   | CF           | C11      | Oct 1 is the federal fiscal year's start (`budgets.ts:380`); Dec 15 is Congress's floor day.                                                  |
+| 6   | CF           | C29      | No voting body for the territory budget.                                                                                                      |
+| 7   | CF           | C28      | Zero seats (Senate 9, House 20 in the research file are not used).                                                                            |
+| 8   | CF           | C13      | Template fallthrough.                                                                                                                         |
+| 9   | CF           | C12      | Any member may sponsor.                                                                                                                       |
+| 10  | CF           | C12, C14 | Two chairs: one per chamber.                                                                                                                  |
+| 11  | CF           | C15      | Party-line committee.                                                                                                                         |
+| 12  | CF           | C14      | See C14.                                                                                                                                      |
+| 13  | CF           | C12, C6  | The national House votes the bill; the delegate does not vote (`legislature.ts:925-927`); traces: viewer artifacts.                           |
+| 14  | VA           | C2       | The viewer prints only a sample bill; which five: NF.                                                                                         |
+| 15  | CF           | C12, C2  | The "state bill" sample matches the same federal bill by regex.                                                                               |
+| 16  | CF           | C19      | Cents; the place is the town's place id.                                                                                                      |
+| 17  | CF           | C11, C33 | One floor day; value 1 is a yes answer; the others have mechanics.                                                                            |
+| 18  | CF           | C21      | Carried-back rows and sourced values.                                                                                                         |
+| 19  | CF           | C21      | Sourced 83 percent.                                                                                                                           |
+| 20  | VA           | C4, C28  | Contests are hidden by the filter; no local contests exist because there is no local government.                                              |
+| 21  | VA           | C3       | Wrong module ids.                                                                                                                             |
+| 22  | VA           | C4       | Two different dump filters.                                                                                                                   |
+| 23  | CF           | C27      | The title text comes from `data/research/offices/state-offices.json:13766`; past terms are a seeded estimate and none was drawn.              |
+| 24  | NF           | C7       | The kinds are `person.acted`; the game kept these through the circle rule (`state.ts:690-705`, focus); no per-kind breakdown in the raw file. |
+| 25  | VA           | C9       | The viewer never acts as the player.                                                                                                          |
 
 ## Highest-priority defects found (as opposed to viewer artifacts)
 
