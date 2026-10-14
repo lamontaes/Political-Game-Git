@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -24,6 +24,51 @@ async function displayVersion() {
   return `v${number}`;
 }
 const post = (path) => api(path, "POST");
+/**
+ * Nothing inside a menu scrolls: what does not fit in `box` is split into pages, and the
+ * pager's Back and Continue turn them. Columns flow sideways; a plain list pages at a row.
+ */
+function pageIn(box, pager) {
+  box.scrollTo(0, 0);
+  const [back, next] = pager.querySelectorAll("button");
+  const stops = [0];
+  let sideways = false;
+  if (box.clientHeight > 0) {
+    if (box.scrollWidth > box.clientWidth + 2) {
+      sideways = true;
+      const step =
+        box.clientWidth + (parseFloat(getComputedStyle(box).columnGap) || 0);
+      for (let x = step; x < box.scrollWidth - 2; x += step) stops.push(x);
+    } else if (box.scrollHeight > box.clientHeight + 2) {
+      let top = 0;
+      for (const kid of box.querySelectorAll(
+        ":scope > *:not(.flow), :scope > .flow > *",
+      )) {
+        if (kid.offsetTop + kid.offsetHeight - top > box.clientHeight) {
+          top = kid.offsetTop;
+          stops.push(top);
+        }
+      }
+    }
+  }
+  let at = 0;
+  const go = (index) => {
+    at = index;
+    box.scrollTo(sideways ? stops[at] : 0, sideways ? 0 : stops[at]);
+    back.hidden = at === 0;
+    next.hidden = at === stops.length - 1;
+  };
+  back.onclick = () => go(at - 1);
+  next.onclick = () => go(at + 1);
+  pager.hidden = stops.length === 1;
+  go(0);
+}
+/** Pages again whenever the box's contents change (a search narrowing a list, a redrawn ballot). */
+function pageWhenChanged(box, pager) {
+  new MutationObserver(() =>
+    requestAnimationFrame(() => pageIn(box, pager)),
+  ).observe(box, { childList: true, subtree: true });
+}
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 /** The player card's date, and the time under it: the only place either appears. */
@@ -251,6 +296,7 @@ function openNewsReader(news) {
   );
   show("news-reader", true);
 }
+pageWhenChanged($("news-reader-body"), $("news-reader-pager"));
 $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
@@ -437,7 +483,8 @@ function endedBy(value) {
   const work = value.stop.work?.reasons?.[0];
   if (work)
     return `${words[work.boundary] ?? ""} · ${me.names?.[work.owner.organizationId] ?? ""}`;
-  return value.stop.modules.length ? (words.moment ?? "") : "";
+  const module = value.stop.modules[0];
+  return module ? (words[module.reasonKey] ?? words.moment ?? "") : "";
 }
 
 /** The newest line of the journal, bottom right. */
@@ -497,6 +544,16 @@ async function act(path) {
       return act(path);
     }
     await refresh();
+    // A meeting or the desk holds the clock: the scene, then the day goes on.
+    const office = officeStop(result.packet);
+    if (office) {
+      if (office.reasonKey === "office-day.meeting") await inMeeting();
+      else if (office.reasonKey === "office-day.desk") await atDesk();
+      busy = false;
+      return act(
+        `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
+      );
+    }
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
   } catch (error) {
@@ -505,6 +562,159 @@ async function act(path) {
     busy = false;
     renderPacket();
   }
+}
+
+// ---- The officeholder's day (OFFICE-LOCAL): the meeting and the desk ----
+/** A stop the office-day engine holds: a meeting at its hour, or the desk in the morning. */
+function officeStop(value) {
+  return value?.kind === "stop"
+    ? value.stop.modules.find((row) => row.moduleId === "core2-office-day-v1")
+    : undefined;
+}
+const voteWords = () => controls.meeting ?? {};
+/** One agenda item or desk bill: number, sponsor, terms, who spoke and how each member voted. */
+function billBlock(item, buttons) {
+  const words = voteWords();
+  return el(
+    "div",
+    { className: "race" },
+    el("h3", {
+      className: "heading",
+      textContent: [item.number, item.sponsor].filter(Boolean).join(" · "),
+    }),
+    el("div", {
+      textContent: item.provisions
+        .map(
+          (p) =>
+            `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
+        )
+        .join("; "),
+    }),
+    item.remarks.length
+      ? el("div", {
+          textContent: item.remarks
+            .map(
+              (r) =>
+                `${r.name} · ${r.position > 0 ? (words.for ?? "") : (words.against ?? "")}`,
+            )
+            .join(" · "),
+        })
+      : "",
+    item.votes.length
+      ? el("div", {
+          textContent: item.votes
+            .map((v) => `${v.name} ${words[v.vote] ?? v.vote}`)
+            .join(" · "),
+        })
+      : "",
+    buttons.length ? el("div", { className: "acts" }, ...buttons) : "",
+  );
+}
+function inMeeting() {
+  return new Promise((resolve) => {
+    const words = voteWords();
+    const draw = (scene) => {
+      if (!scene) return finish();
+      $("backdrop").src = scene.backdrop.url;
+      drawPeople(scene.people);
+      $("card-place").textContent = scene.title;
+      $("meeting-items").replaceChildren(
+        ...scene.items.map((item) =>
+          billBlock(
+            item,
+            item.takenUp
+              ? []
+              : [
+                  ...["for", "against"].map((position) => {
+                    const b = el("button", {
+                      className: "action",
+                      type: "button",
+                      textContent:
+                        words[
+                          position === "for" ? "speakFor" : "speakAgainst"
+                        ] ?? position,
+                    });
+                    b.addEventListener("click", async () =>
+                      draw(
+                        await post(
+                          `/api/meeting/speak?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, position })}`,
+                        ),
+                      ),
+                    );
+                    return b;
+                  }),
+                  ...["yes", "no", "abstain", "own"].map((vote) => {
+                    const b = el("button", {
+                      className: "action",
+                      type: "button",
+                      textContent: words[vote] ?? vote,
+                    });
+                    b.addEventListener("click", async () =>
+                      draw(
+                        await post(
+                          `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote })}`,
+                        ),
+                      ),
+                    );
+                    return b;
+                  }),
+                ],
+          ),
+        ),
+      );
+      $("meeting-adjourn").onclick = async () => {
+        await post(
+          `/api/meeting/adjourn?${new URLSearchParams({ meetingId: scene.id })}`,
+        );
+        finish();
+      };
+    };
+    const finish = () => {
+      show("meeting", false);
+      $("game").classList.remove("cinema");
+      resolve();
+    };
+    $("meeting-adjourn").textContent = words.adjourn ?? "";
+    $("game").classList.add("cinema");
+    show("meeting", true);
+    api("/api/meeting").then(draw);
+  });
+}
+function atDesk() {
+  return new Promise((resolve) => {
+    const words = controls.desk ?? {};
+    const draw = (bills) => {
+      if (!bills.length) return finish();
+      $("desk-items").replaceChildren(
+        ...bills.map((item) =>
+          billBlock(
+            item,
+            ["sign", "veto", "own"].map((how) => {
+              const b = el("button", {
+                className: "action",
+                type: "button",
+                textContent: words[how] ?? how,
+              });
+              b.addEventListener("click", async () =>
+                draw(
+                  await post(
+                    `/api/desk?${new URLSearchParams({ billId: item.billId, how })}`,
+                  ),
+                ),
+              );
+              return b;
+            }),
+          ),
+        ),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/desk").then(draw);
+  });
 }
 
 // ---- Election day (owner, Oct 14, 2026: election day is a scene) ----
@@ -990,22 +1200,6 @@ async function visit(organizationId) {
   $("card-place").textContent = v.name;
 }
 
-// ---- The body in its meeting room ----
-function chamberButton(officeId) {
-  const b = el("button", { type: "button", textContent: "Chamber" });
-  b.addEventListener("click", async () => {
-    closeSheet();
-    renderTalk(undefined);
-    const v = await api(
-      `/api/seat/scene?${new URLSearchParams({ id: me.id, officeId })}`,
-    );
-    $("backdrop").src = v.backdrop.url;
-    drawPeople(v.people);
-    $("card-place").textContent = v.title;
-  });
-  return b;
-}
-
 // ---- Play someone else: the one you leave finishes their day ----
 async function playAs(personId) {
   const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);
@@ -1016,23 +1210,56 @@ async function playAs(personId) {
   await refresh();
 }
 
-// ---- From your seat (steps 6 to 9): draft, negotiate, vote ----
+// ---- The seat as a job, and what stops you (OFFICE-LOCAL) ----
+async function officeRows() {
+  const v = await api(`/api/office?id=${encodeURIComponent(me.id)}`);
+  if (!v.jobs.length) return [];
+  const words = controls.officeStops ?? {};
+  const toggles = v.stops.map((stop) => {
+    const box = el("input", { type: "checkbox", checked: stop.on });
+    box.addEventListener("change", async () => {
+      await post(
+        `/api/office/stops?${new URLSearchParams({ kind: stop.kind, on: String(box.checked) })}`,
+      );
+    });
+    return el("label", {}, box, ` ${words[stop.kind] ?? stop.kind} `);
+  });
+  return [
+    ...v.jobs.map((job) =>
+      el(
+        "div",
+        { className: "row campaign", title: job.citation },
+        el("b", { textContent: job.title }),
+        ` ${dollars(job.annualMinor)} · ${job.weeklyHours} h · ${job.payer}`,
+        job.lastPaid
+          ? ` · ${job.lastPaid.on} ${dollars(job.lastPaid.amountMinor)}`
+          : "",
+        job.nextMeeting ? ` · ${job.nextMeeting}` : "",
+      ),
+    ),
+    el("div", { className: "row campaign" }, ...toggles),
+    ...v.acts.map((a) =>
+      row(
+        `${a.date} · ${controls.actions?.[a.kind] ?? a.kind}`,
+        `${a.detail}${a.how === "own-choice" ? ` · ${words.ownChoice ?? ""}` : ""}`,
+      ),
+    ),
+  ];
+}
+
+// ---- From your seat (steps 6 to 9): draft; the vote is at the meeting ----
+// Asking colleagues and the vote itself are acts in the day and the meeting
+// scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
+// body's next agenda.
 let seatResult = "";
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
-  const rows = [];
+  const rows = [...(await officeRows())];
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
-    seatResult =
-      r.total !== undefined
-        ? `${me.names?.[params.memberId] ?? params.memberId}: ${r.total.toFixed(2)} (views ${r.views.toFixed(2)} · constituents ${r.constituents.toFixed(2)} · deal ${r.deal.toFixed(2)})`
-        : r.accepted !== undefined
-          ? `${params.deal}: ${r.accepted ? "accepted" : "declined"} · ${r.before.total.toFixed(2)} → ${r.after.total.toFixed(2)}`
-          : r.date
-            ? `vote ${r.date}`
-            : r.number
-              ? `${r.number} · ${r.status}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
-              : "";
+    seatResult = r.number
+      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
+      : "";
     openSheet("politics");
   };
   for (const body of v.bodies) {
@@ -1100,14 +1327,11 @@ async function seatRows() {
         { className: "row campaign" },
         el("b", { textContent: body.title }),
         body.members.map((m) => m.name).join(" · "),
-        el("div", {}, pick, value, draft, chamberButton(body.officeId)),
+        el("div", {}, pick, value, draft),
       ),
     );
   }
-  for (const { bill, votes } of v.bills) {
-    const members = (
-      v.bodies.find((b) => b.officeId === bill.bodyOfficeId)?.members ?? []
-    ).filter((m) => !m.you);
+  for (const { bill, votes } of v.bills)
     rows.push(
       el(
         "div",
@@ -1122,41 +1346,6 @@ async function seatRows() {
         bill.costEstimate
           ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
           : "",
-        el(
-          "div",
-          {},
-          ...members.flatMap((m) => {
-            const ask = el("button", {
-              type: "button",
-              textContent: `Ask · ${m.name}`,
-            });
-            ask.addEventListener("click", () =>
-              act({ kind: "stake", billId: bill.id, memberId: m.key }),
-            );
-            const deal = el("button", { type: "button", textContent: "Favor" });
-            deal.addEventListener("click", () =>
-              act({
-                kind: "deal",
-                billId: bill.id,
-                memberId: m.key,
-                deal: "favor",
-              }),
-            );
-            return [ask, deal];
-          }),
-        ),
-        bill.status === "drafted"
-          ? (() => {
-              const b = el("button", {
-                type: "button",
-                textContent: "Schedule vote",
-              });
-              b.addEventListener("click", () =>
-                act({ kind: "schedule", billId: bill.id }),
-              );
-              return b;
-            })()
-          : "",
         votes.length
           ? el("div", {
               textContent: votes.map((x) => `${x.name} ${x.vote}`).join(" · "),
@@ -1164,7 +1353,6 @@ async function seatRows() {
           : "",
       ),
     );
-  }
   if (seatResult)
     rows.push(
       el("div", { className: "row campaign", textContent: seatResult }),
@@ -1876,11 +2064,12 @@ async function openSheet(tab) {
     "cols",
     tab === "calendar" || body.length > 12,
   );
-  $("sheet-body").scrollTop = 0;
   show("sheet", true);
   show("menu", Boolean(me));
   $("game").classList.add("sheet-open");
 }
+pageWhenChanged($("sheet-body"), $("sheet-pager"));
+pageWhenChanged($("ballot-races"), $("ballot-pager"));
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")

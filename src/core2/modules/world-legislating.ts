@@ -21,6 +21,7 @@
  */
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
+import { townConcernShare } from "./meetings";
 import { sessionYear } from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
@@ -432,10 +433,19 @@ function fileChanges(
       });
     }
   }
-  // The floor leader's calendar: the most backed first, then their own.
+  // The floor leader's calendar: the most backed first, a change weighing
+  // more as more of the town's residents live with what it touches; then the
+  // leader's own reasons.
+  const weight = campaignParameter("floorConcernWeight");
+  const backing = new Map(
+    filed.map((f) => [
+      f,
+      f.cosponsors * (1 + weight * townConcernShare(api, f.question)),
+    ]),
+  );
   filed.sort(
     (a, b) =>
-      b.cosponsors - a.cosponsors ||
+      backing.get(b)! - backing.get(a)! ||
       b.leaderReason - a.leaderReason ||
       a.question.localeCompare(b.question),
   );
