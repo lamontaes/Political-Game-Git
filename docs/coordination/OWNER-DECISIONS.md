@@ -1,12 +1,43 @@
 # Owner decisions
 
-The CTO's only writer. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
+The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
 ## Open
 
+- **Kit 12 versus Kit 13 (found by the Drive digests, Oct 14).** The play page was restyled tonight on Kit 12 (the Oct 2 packet). Kit 13's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md, owner Oct 4 and 5) is newer: brass corner ornaments ON the panel, no scrolling inside a menu, the chevron rule (only on a static button while activated, never in radial menus), People / Calendar / Money tabs with the selected tab a raised glass box, the approved icons, search, dropdown, slider and progress bar. Same fonts. Newest wins: PLAY reconciles the page to Kit 13's controls. Owner to confirm that logo and Steam art stay navy (the UI ban on navy does not name them).
+
+- **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
+
+- **A player who loses an election (player-path audit, Oct 14), confirmed by the owner:** a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
+
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
-## Ruled, October 14, 2026 (evening)
+## Ruled, October 14, 2026 (late)
+
+- **The opening's sequence:** the president's address with the vice president and key people behind them, pointed out by name and office as the camera passes; then Congress; then your governor with a few important state legislators; then your family, if you have one (else skip); then into the game at home. Cutaways during the address follow the sentence's subject.
+
+- **Election day is a scene.** The player goes to their polling place and marks a ballot there; the vote is cast in the scene, never in a menu. Firefly images already made may stand in for the place and the ballot while the screens are crude, on the kit.
+- **Unions and strikes: 1.0. Police, the National Guard and the war design: 1.0;** specific questions may be asked later.
+- **Ask why.** Every proof answers why, by record: why a vote was 5 to 0, why a person knew a law caused their smaller check. A session that cannot answer why has found a defect.
+- **Knowing is a read.** Nobody attributes a change in their life to a law unless they learned of it: from the news they received, a conversation, a notice on the check, or an ad. Most people only notice something happened and grumble. A stance that cites a law must cite how the person heard of it.
+- **Dev mode's Trace is the ultimate trace.** From any record, click every decision behind it: why a number was chosen, whose views and where they came from, who got the dollar, what they cut, how they learned, how they felt and which trait made them feel it, what they did or didn't do. Lightest weight: recorded reasons where kept, recomputed from the same seeded history where not. A report button writes the clicked chain so one Haiku agent can write the audit instead of ten.
+- **Famous political careers are capability tests** (a bartender to Congress at 29, a governor to the White House): can the simulation produce the career from causes, never by script.
+- **Grading batches may include lies and context.** The lie versions of lines are graded on the same axes, and a line may carry a made-up context scenario, on one condition: the simulation must be able to produce it. A scenario it cannot produce is a gap: search the register and the PRs for intent first, then flag it, never invent it.
+- **Words (from grading batch 6, spoken):** lines must sound like people talk ("Where are you from?", "I'm from Washington. What about you?", "And you?"); a reply's second move must follow from its first (never "I'm from Washington. Have you talked to Omar?"); many variants of the same meaning so the player never sees a line twice; and the batches must cover legislation wording, journal wording, emotional register (happiness, sadness, arrogance, combinations), interviews, meeting speech and campaign lines, not one small-talk scenario. New lines are added to the grading page as other systems (press, debates) are built.
+- **Slim the repository like a real game** before early access: unneeded files, tests of deleted or old-core code, duplicate tooling and documents go; the guards stay.
+
+- **The world has a past.** History does not start on the day the player generates in. Laws in force carry their enactment history; the prior election for every seat exists with its campaign facts; officials have voting records from the prior term; the year before day one has a news archive; two seeds in one place produce different, recognizable pasts.
+- **Public figures are known.** Everyone knows what the public knows about the president, the vice president, their governor, their representative and their mayor (positions, record, reputation), distinct from having met them; "you have never met" is never the only line.
+- **The player's own context:** parents, their relationship, siblings, where the family came from and a few remembered moments are kept facts the journal and dossier render from day one.
+- **Standard for the morning build:** the behind-the-scenes logic makes sense and every system works as intended; what remains is graphics, English and the human feel. The player can run for office, debate, read the news.
+- **English calibration** may draw on everything readable (the web, books, Claude's own documents) to sound natural; nothing ships in dev speak.
+
+- **The player casts their own ballot** (owner, Oct 13: "you should be able to cast your vote"); the engine never votes for the player, and a candidate's own ballot is theirs to cast.
+- **A yes-or-no vote resolves from a sliding score** (CTO, from the sliding-scales rule, which governs causes, not the final yes or no): a deal offered to someone already in favor counts as accepted.
+- **Filing under a party** requires being a member (joining reads the person's views against the party's positions, per the register's votes-from-principles ruling) or filing as an independent where the place allows it.
+- **The executive proposes where the place's charter or constitution allows it** (data), and signs or vetoes everywhere (owner: "all of them").
+- **Where the data has a primary date, the primary is held** (one rule, all places); Alabama county primaries skipping is a defect, not a decision.
+- **Movements (from the proposal and the register's movement ruling):** in early access: marches, petitions, primary challenges, the player speaking, joining and founding; a person's lean may move over years from what happens to them and what they hear (realignment must be possible); the director gains public scenes (a rally, a march, a crowd, a speech to strangers); police, the Guard and the military as deciding bodies, boycotts and war are 1.0; a living retired leader keeps leading until they step down or die, then a similar successor inherits (the register).
 
 - **What you know about a person:** faith and the rest come out only through what they say and do; the dossier shows what anyone would know (age, hometown, probably job), the rest emerges. The player's own traits emerge the same way, and people hold views on the player as they do on anyone.
 - **Starting age:** 17 turning 18 is the early-access default; starting older (with a job, a home and a record) is allowed; the old client had a randomized-age control and may again.
