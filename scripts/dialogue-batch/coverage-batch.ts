@@ -57,8 +57,7 @@ import {
   type IndexedPart,
   type Variant,
 } from "./mined-variants";
-import { hashOf, headCommit, playLives } from "./play-lives";
-import hearingJson from "../../data/english/parts/hearing.json" with { type: "json" };
+import { headCommit, playLives } from "./play-lives";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import meetingJson from "../../data/english/parts/meeting.json" with { type: "json" };
@@ -325,6 +324,9 @@ function readWorld(place: Place): {
     .rows() as any[];
   const localBills = bills.filter(
     (bill) =>
+      // A body of the town's own government: one on record below the state
+      // (batch 10 listed congressional bills, whose body is not the town's).
+      !!offices.get(bill.bodyOfficeId) &&
       !["federal", "state"].includes(offices.get(bill.bodyOfficeId)?.level),
   );
   const titleOf = (bill: any) => {
@@ -513,9 +515,8 @@ function readWorld(place: Place): {
 
   // Minutes and hearing exchanges and the chair, from a real roll call.
   const minutesBank = minutesJson as unknown as EnglishBank;
-  const hearingBank = hearingJson as unknown as EnglishBank;
   const LOCAL_FLOOR_ONLY =
-    /\b(Senator|Senate|Congress\w*|House|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution|engross\w*|third time|yeas and nays|previous question)\b/i;
+    /\b(Senator|Senate|Congress\w*|House|Speaker|recommit|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution|engross\w*|third time|yeas and nays|previous question|heavy heart|honor the life|sense of loss|in memory|condolences?|passed away)\b/i;
   const chairOf = (officeId: string) => {
     const head = holders(officeId)[0];
     const row = head ? personOf(head) : undefined;
@@ -628,8 +629,13 @@ function readWorld(place: Place): {
       });
     });
 
-    // A member to the chair on the floor, and a hearing exchange.
-    const speakerId = rolls.find((v) => v.vote === "yes")?.memberId ?? chair.id;
+    // A member to the chair on the floor: never the chair, who holds one seat
+    // (batch 10: the chair was also "a member" addressing "Madam Chair").
+    // Words a town body's floor never hears (Congress's procedure, a grief
+    // that no death or retirement record stands behind) are left out.
+    const speakerId = rolls.find(
+      (v) => v.vote === "yes" && v.memberId !== chair.id,
+    )?.memberId;
     if (chair.address && speakerId) {
       for (const move of ["opener", "procedural", "closer"]) {
         const made = composeFromBank(
@@ -652,31 +658,9 @@ function readWorld(place: Place): {
             sourceRecordIds: [bill.id, speakerId],
           });
       }
-      const witness =
-        circle.filter((c) => c !== world.playerId)[
-          hashOf(seed, bill.id) % Math.max(1, circle.length - 1)
-        ] ?? speakerId;
-      for (const move of ["thanks", "answer", "chair-procedure", "agree"]) {
-        const made = composeFromBank(
-          hearingBank,
-          move,
-          {},
-          `${bill.id}:h:${move}`,
-          LOCAL_FLOOR_ONLY,
-        );
-        if (made)
-          raws.push({
-            ...base,
-            category: "hearing",
-            speaker: `${nameOf(move === "chair-procedure" ? (chair.id ?? speakerId) : witness)}${move === "chair-procedure" ? " (chair)" : " (witness)"}`,
-            context: `A hearing on ${bill.number} ("${title}") before the ${body}; the witness is ${nameOf(witness)}, a resident.`,
-            prior: "",
-            text: made.text,
-            parts: [made.partKey],
-            composer: "composeFromBank over data/english/parts/hearing.json",
-            sourceRecordIds: [bill.id],
-          });
-      }
+      // A hearing needs the question each answer follows, and the hearing
+      // bank holds no chair's or member's question yet (batch 10: a witness
+      // thanked a question nobody asked); hearings wait for one.
     }
   }
 
@@ -747,18 +731,30 @@ function readWorld(place: Place): {
   const residents = circle.filter((c) => c !== world.playerId).slice(0, 4);
   for (const personId of residents)
     turns.push({ register: "public-comment", personId });
-  // Honors: a sitting official honored by a colleague.
-  const sitting = terms
-    .filter((t) => t.status === "serving")
-    .map((t) => t.personId as string);
-  const honored = sitting
-    .filter((p) => personOf(p)?.alive !== false)
-    .slice(0, 4);
-  honored.forEach((personId, at) => {
-    const colleague = honored[(at + 1) % honored.length];
-    if (colleague && colleague !== personId)
-      turns.push({ register: "house-honor", personId, speakerId: colleague });
-  });
+  // Honors: a member honored by a colleague in the same state or federal
+  // chamber, whose floor addresses the Speaker; a town body's floor never
+  // does (batch 10: "Madam Speaker" on a selectboard).
+  const chambers = [...offices.values()].filter((office) =>
+    ["state", "federal"].includes(office.level),
+  );
+  let honors = 0;
+  for (const office of chambers) {
+    const members = holders(office.id as string).filter(
+      (p) => personOf(p)?.alive !== false,
+    );
+    for (let at = 0; at + 1 < members.length && honors < 4; at += 2) {
+      turns.push({
+        register: "house-honor",
+        personId: members[at]!,
+        speakerId: members[at + 1]!,
+      });
+      honors += 1;
+    }
+  }
+  if (!honors)
+    gaps.push(
+      "no state or federal chamber with two members on record in this world, so no floor honor is said; a town body's own way of honoring a member is not mined yet",
+    );
   const deceased = [...core.people.values()].filter((p) => !p.alive);
   if (!deceased.length)
     gaps.push(
@@ -991,9 +987,19 @@ function readWorld(place: Place): {
   stood.push(
     `${town}: ${decided} decided races, office levels ${[...new Set([...offices.values()].map((o) => o.level))].join("/")};  bills and roll calls are the legislature module's own rows (${localBills.length} local bills, ${voteRows.length} recorded votes); interviews are the press module's`,
   );
-  const passed = localBills
-    .filter((bill) => /passed|enacted|adopted|signed/.test(String(bill.status)))
-    .map((bill) => `${bill.number} ("${titleOf(bill) ?? bill.number}")`);
+  // A bill is named by its title; one with none on record is a defect to
+  // file, never named by its own number (batch 10: 2027-1 ("2027-1")).
+  const enacted = localBills.filter((bill) =>
+    /passed|enacted|adopted|signed/.test(String(bill.status)),
+  );
+  const untitled = enacted.filter((bill) => !titleOf(bill));
+  if (untitled.length)
+    gaps.push(
+      `defect for OPUS-GOV: ${untitled.length} local bill(s) passed with no title on record (${untitled.map((bill) => `${bill.number}, ${bill.provisions.map((p: any) => p.kind).join("/") || "no provisions"}`).join("; ")}); a bill needs a title the words can name`,
+    );
+  const passed = enacted
+    .filter((bill) => titleOf(bill))
+    .map((bill) => `${bill.number} ("${titleOf(bill)}")`);
   return { raws, gaps, stood, passed };
 }
 
@@ -1055,7 +1061,6 @@ const SCENE_CAPS: Record<string, number> = {
   journal: 6,
   conversation: 8,
   meeting: 5,
-  hearing: 4,
   minutes: 3,
   legislation: 3,
   notices: 2,
@@ -1395,6 +1400,7 @@ function main() {
         : [
             "Interviews: every recorded question and answer names a policy by its catalog name, which nobody says aloud (owner, batch 9); they return when each policy carries its purpose phrase and moniker (owner ruling, Oct 14 afternoon, item 1).",
           ]),
+      "Hearings: the hearing bank holds a witness's thanks, answers and agreement but no chair's or member's question, so no answer could follow a question it was asked; hearings return when a question move is mined.",
       "Scenes the world does not yet produce: a wedding, pork barreling (a member asking for a project in the district), a legislator arguing on the floor against another member by name.",
       "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet.",
       ...(items.length < SCENES
