@@ -8,6 +8,7 @@ import { realLocalities } from "../core2/places";
 import { earliestPlayerStopV1 } from "../core2/player-v1";
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld, type BenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
 import { benchProgress } from "./progress";
@@ -15,7 +16,7 @@ import { benchProgress } from "./progress";
 // Check-size town: engineering, not calibration. The owner's bench builds
 // the full cohort; the checks need a whole town, not a big one.
 const CHECK_PEOPLE = Number(process.env.BENCH_CHECK_PEOPLE ?? 400);
-const OPENING_DATE = process.env.BENCH_CHECK_DATE ?? "2026-10-12";
+const OPENING_DATE = gameStartDate();
 const seed = process.env.GOLDEN_PATH_SEED ?? "bench-check-local";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
 

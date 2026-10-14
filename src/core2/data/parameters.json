@@ -4430,6 +4430,11 @@
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     }
   },
+  "gameStartDate": {
+    "value": 20250120,
+    "tag": "SOURCED",
+    "citation": "Inauguration Day, 20th Amendment §1; owner ruling Oct 14, 2026: every game starts on January 20, 2025, in every place. Written as year, month and day (YYYYMMDD); read it with gameStartDate() in src/core2/game-start.ts."
+  },
   "preStartFromYear": {
     "value": 2000,
     "tag": "TUNABLE",
