@@ -18,6 +18,7 @@ import { legislativeSessionsOf } from "../../src/core2/modules/world-legislating
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
+  type MemberPosition,
 } from "../../src/core2/modules/legislature";
 import { budgetsOf, governments } from "../../src/core2/modules/budgets";
 
@@ -58,6 +59,46 @@ console.log(
           (b) => `${b.fiscalYear}: ${b.adoptedBy}`,
         ),
       })),
+      // Why Congress voted its budgets as it did: how many votes the state
+      // stake decided (the vote would have gone the other way without it),
+      // and the drawn place's own delegation with its reasons.
+      federalBudgets: bills
+        .filter(
+          (b) =>
+            /:(us-house|us-senate)/.test(b.bodyOfficeId) &&
+            b.provisions.some((p) => p.kind === "budget-line"),
+        )
+        .map((b) => {
+          const votes = (
+            api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("votes")
+              .query("byBill", [b.id]) as unknown as {
+              memberId: string;
+              chamber: string;
+              vote: string;
+              position: MemberPosition;
+            }[]
+          ).filter((v) => v.position.stateStake !== undefined);
+          const decided = votes.filter(
+            (v) =>
+              v.vote !== "abstain" &&
+              Math.sign(v.position.total) !==
+                Math.sign(v.position.total - v.position.stateStake!),
+          );
+          return {
+            number: b.number,
+            status: b.status,
+            votes: votes.length,
+            decidedByStake: decided.length,
+            decided: decided.slice(0, 6).map((v) => ({
+              member: v.memberId,
+              vote: v.vote,
+              stateStake: Number(v.position.stateStake!.toFixed(3)),
+              total: Number(v.position.total.toFixed(3)),
+            })),
+          };
+        }),
       sessions: legislativeSessionsOf(api).map((s) => {
         const mine = s.filings.flatMap((f) =>
           f.billId ? [bills.find((b) => b.id === f.billId)!] : [],

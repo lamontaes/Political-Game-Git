@@ -1,0 +1,4927 @@
+{
+  "id": "batch-8",
+  "title": "Coverage batch batch-8 (100 lines)",
+  "at": "2026-10-14T16:07:28.164Z",
+  "head": "61a8d8fcde417a06a4b3ac02439be966a1fc613e",
+  "shortHead": "61a8d8fcd",
+  "seed": "batch-8",
+  "days": 365,
+  "status": "open",
+  "axes": [
+    "personality fit",
+    "formality",
+    "word choice",
+    "sentence structure",
+    "length"
+  ],
+  "mix": {
+    "journal": 20,
+    "legislation": 12,
+    "notices": 2,
+    "minutes": 4,
+    "hearing": 4,
+    "meeting": 12,
+    "campaign": 8,
+    "interview": 8,
+    "emotion": 18,
+    "conversation": 12
+  },
+  "guard": {
+    "thresholds": {
+      "journal": {
+        "openers": 0.48,
+        "shapes": 0.59,
+        "verbs": 0.37
+      },
+      "legislation": {
+        "openers": 0.33,
+        "shapes": 0.37,
+        "verbs": 0.31
+      },
+      "notices": {
+        "openers": 0.49,
+        "shapes": 0.59,
+        "verbs": 0.49
+      },
+      "minutes": {
+        "openers": 0.8,
+        "shapes": 0.82,
+        "verbs": 0.64
+      },
+      "hearing": {
+        "openers": 0.6,
+        "shapes": 0.86,
+        "verbs": 0.47
+      },
+      "meeting": {
+        "openers": 0.09,
+        "shapes": 0.91,
+        "verbs": 0.52
+      },
+      "campaign": {
+        "openers": 0.45,
+        "shapes": 0.73,
+        "verbs": 0.35
+      },
+      "interview": {
+        "openers": 0.37,
+        "shapes": 0.38,
+        "verbs": 0.34
+      },
+      "emotion": {
+        "openers": 0.38,
+        "shapes": 0.6,
+        "verbs": 0.24
+      },
+      "conversation": {
+        "openers": 0.71,
+        "shapes": 0.71,
+        "verbs": 0.21
+      }
+    },
+    "measured": [
+      {
+        "kind": "journal",
+        "lines": 20,
+        "openers": 0.65,
+        "shapes": 0.95,
+        "verbs": 0.4
+      },
+      {
+        "kind": "legislation",
+        "lines": 12,
+        "openers": 0.5833333333333334,
+        "shapes": 0.5,
+        "verbs": 0.4166666666666667
+      },
+      {
+        "kind": "notices",
+        "lines": 2,
+        "openers": 0.5,
+        "shapes": 1,
+        "verbs": 0.5
+      },
+      {
+        "kind": "minutes",
+        "lines": 4,
+        "openers": 1,
+        "shapes": 1,
+        "verbs": 0.75
+      },
+      {
+        "kind": "hearing",
+        "lines": 4,
+        "openers": 1,
+        "shapes": 1,
+        "verbs": 1
+      },
+      {
+        "kind": "meeting",
+        "lines": 12,
+        "openers": 0.75,
+        "shapes": 1,
+        "verbs": 0.8333333333333334
+      },
+      {
+        "kind": "campaign",
+        "lines": 8,
+        "openers": 1,
+        "shapes": 1,
+        "verbs": 1
+      },
+      {
+        "kind": "interview",
+        "lines": 8,
+        "openers": 0.625,
+        "shapes": 0.625,
+        "verbs": 0.375
+      },
+      {
+        "kind": "emotion",
+        "lines": 18,
+        "openers": 0.7222222222222222,
+        "shapes": 1,
+        "verbs": 0.6111111111111112
+      },
+      {
+        "kind": "conversation",
+        "lines": 12,
+        "openers": 1,
+        "shapes": 1,
+        "verbs": 1
+      }
+    ],
+    "candidates": {
+      "journal": 29,
+      "legislation": 24,
+      "notices": 12,
+      "minutes": 24,
+      "hearing": 38,
+      "meeting": 144,
+      "campaign": 103,
+      "interview": 30,
+      "emotion": 44,
+      "conversation": 439
+    },
+    "tried": {
+      "journal": 20,
+      "legislation": 12,
+      "notices": 2,
+      "minutes": 4,
+      "hearing": 14,
+      "meeting": 41,
+      "campaign": 17,
+      "interview": 8,
+      "emotion": 23,
+      "conversation": 46
+    },
+    "rejected": 87,
+    "rejections": [
+      {
+        "rule": "repeated-opener",
+        "kind": "hearing",
+        "text": "Thank you."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "hearing",
+        "text": "Thank you very much."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "hearing",
+        "text": "Thank you all."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "hearing",
+        "text": "Well, thank you."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "hearing",
+        "text": "Thank you, Madam Chair."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "hearing",
+        "text": "Thank you so much."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "hearing",
+        "text": "Thank you for that."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "hearing",
+        "text": "Thank you, Chair."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "hearing",
+        "text": "Good morning."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "hearing",
+        "text": "Very good."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I was unavoidably absent and unable to vote."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, I ask that the reading be dispensed with."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I move to proceed to legislative session."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I was absent from the chamber today."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Thank you very much."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, how much time is remaining?"
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Chair Ruiz, reserving the right to object."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, may I inquire how much debate time remains."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I move to take the words down."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, I rise to speak briefly in gratitude today."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, may I inquire how much time is remaining."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, I was otherwise detained off the floor."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Thank you for listening."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, may I inquire how much time remains."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I was unavoidably detained."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, I have no further speakers, and I am ready to close."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Chair Ruiz, I send a cloture motion to the desk."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, I could not make today's vote."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, I missed a vote today."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I thank the chair for the time."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, may I inquire as to how much time is remaining."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I have a motion at the desk."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, may I inquire as to the time remaining."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I thank the ranking member for the time."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "meeting",
+        "text": "That's all I have."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "meeting",
+        "text": "Good morning, Commissioners."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Madam Chair, I rise today with a profound sense of loss."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "meeting",
+        "text": "Mr. Chair, I rise to ask a point of parliamentary inquiry."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "campaign",
+        "text": "Thank you, and God bless."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "campaign",
+        "text": "It's good to be back in Ellsworth."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "campaign",
+        "text": "Thank you all for being here."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "campaign",
+        "text": "Thank you."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "campaign",
+        "text": "It's great to be here."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "campaign",
+        "text": "It's great to be home."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "campaign",
+        "text": "God bless America."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "campaign",
+        "text": "Thank you so much."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "campaign",
+        "text": "Go vote."
+      },
+      {
+        "rule": "institution-event",
+        "kind": "emotion",
+        "text": "Mr. Speaker, I rise to recognize Warren Chambers. Warren Chambers graduated from Woodland Elementary School. Please join me in congratulating Warren Chambers. I yield back."
+      },
+      {
+        "rule": "institution-event",
+        "kind": "emotion",
+        "text": "Mr. Speaker, I rise to recognize Christopher Chang. Christopher Chang graduated from Chestnut Hill Elementary School. I thank Christopher Chang for his service. Mr. Speaker, I yield back the balance of my time."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "emotion",
+        "text": "I thank Diana Stephenson for her service."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "emotion",
+        "text": "Madam Speaker, I rise today to recognize Michael Weeks. Michael Weeks was born in West Laurel. I congratulate Michael Weeks. I yield back."
+      },
+      {
+        "rule": "institution-event",
+        "kind": "emotion",
+        "text": "Mr. Speaker, I rise to honor Dawn Brooks. Dawn Brooks graduated from Chestnut Hill Elementary School. I congratulate Dawn Brooks. Mr. Speaker, I yield back the balance of my time."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here. And you?"
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "I haven't."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "I saw Erica Stephens today."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "conversation",
+        "text": "I'm from Washtenaw County."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "I'm at Creekside Intermediate School."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not recently."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Good to see you."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here. What about you?"
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Hello, Ivy."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "See you soon."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here. Where do you live?"
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "No, I haven't."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Have a nice day."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here. How about you?"
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "conversation",
+        "text": "That was a long time ago."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "conversation",
+        "text": "I have to run."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Oh, yes."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here. Where are you from?"
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Oh, okay."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "I'm going to Westridge Elementary."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Good to see you, Tyler."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Hey."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "conversation",
+        "text": "That was years ago."
+      },
+      {
+        "rule": "repeated-opener",
+        "kind": "conversation",
+        "text": "I'm from Hancock County."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "I see."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Oh, Madison County."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here. And you?"
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Hello there."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here. Where do you live?"
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Hey, Jose."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Ellsworth Elementary-Middle School, yes."
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Not here. Where are you from?"
+      },
+      {
+        "rule": "repeated-verb",
+        "kind": "conversation",
+        "text": "Me too."
+      }
+    ]
+  },
+  "variety": {
+    "items": 100,
+    "places": 5,
+    "placeList": [
+      {
+        "life": 0,
+        "key": "1948180",
+        "name": "Macksburg, Iowa",
+        "state": "US-IA"
+      },
+      {
+        "life": 1,
+        "key": "2622160",
+        "name": "Dexter, Michigan",
+        "state": "US-MI"
+      },
+      {
+        "life": 2,
+        "key": "2323200",
+        "name": "Ellsworth, Maine",
+        "state": "US-ME"
+      },
+      {
+        "life": 3,
+        "key": "3604143",
+        "name": "Baldwin, New York",
+        "state": "US-NY"
+      },
+      {
+        "life": 4,
+        "key": "2483025",
+        "name": "West Laurel, Maryland",
+        "state": "US-MD"
+      }
+    ],
+    "variantsByAxis": {
+      "formality": 64,
+      "word choice": 75,
+      "length": 54,
+      "sentence structure": 18,
+      "personality fit": 2
+    },
+    "emotionsSeen": {
+      "gratitude": 10,
+      "disappointment": 1,
+      "goodwill": 1,
+      "joy": 7,
+      "pride": 3,
+      "resolve": 2
+    }
+  },
+  "emotionCoverage": {
+    "apology": 6,
+    "sadness": 14,
+    "disappointment": 3,
+    "resolve": 3,
+    "pride": 4,
+    "gratitude": 141,
+    "joy": 20,
+    "goodwill": 2,
+    "arrogance": 0
+  },
+  "stoodIn": [
+    "Macksburg: 7 decided races, office levels federal/state/city/county;  bills and roll calls are the legislature module's own rows (29 local bills, 8405 recorded votes); interviews are the press module's",
+    "Dexter: 0 decided races, office levels federal/state/city/county;  bills and roll calls are the legislature module's own rows (16 local bills, 10844 recorded votes); interviews are the press module's",
+    "Ellsworth: 0 decided races, office levels federal/state/city/county;  bills and roll calls are the legislature module's own rows (19 local bills, 8879 recorded votes); interviews are the press module's",
+    "Baldwin: 0 decided races, office levels federal/state/township/county;  bills and roll calls are the legislature module's own rows (10 local bills, 8290 recorded votes); interviews are the press module's",
+    "West Laurel: 0 decided races, office levels federal/state/county;  bills and roll calls are the legislature module's own rows (5 local bills, 7804 recorded votes); interviews are the press module's"
+  ],
+  "gaps": [
+    "no race was decided by the end of the run, so victory and concession lines (which need a recorded winner and loser) cannot be produced",
+    "Arrogance, anger and fear have no words in any bank: no part carries a boast, a threat or an alarm, and the composer's `mood` input has no bank that reads it. Owner's intent: temporary emotions are separate from core traits, and cocky and brazen are named traits (docs/coordination/DECISION-REGISTER.md, the personality-vocabulary entry); the wording is the owner's call.",
+    "Local ordinance wording: the only local parts ('An Ordinance concerning', 'Be it ordained by the') come from one Baltimore bill and are marked not shippable, so a town council's measure is worded with the federal bank's short title ('This Act may be cited as') and repeal clause. Owner decision needed on whether a local body's measure uses its own form.",
+    "Bill text is only a bill's title, short title, long title and repeal clause: no composer turns a provision (a policy question and a direction, or a budget line and an amount) into an operative section, and the local ordinance section part needs words nobody writes. Owner decision needed on how a section's operative words are produced without hand-written text.",
+    "Interviews: a recorded answer that opposes a policy has no wording (the bank only commits or deflects), and the 'record' move needs the candidate's recorded vote on the same question, which the press and record modules do not join.",
+    "Minutes: only roll-call lines and a discussion line; 'the next meeting would be held on' needs a recorded next meeting date and 'dissented because' needs a recorded reason, which the legislature module does not keep.",
+    "Meeting agendas and the speech of a real council meeting come only from bills of the town's bodies; a posted agenda record (items in order, with times) is not in the world yet.",
+    "Bill titles in the real form: a bill's title should read 'A bill to ...' (a verb phrase after 'To'), but the bill catalog names each policy as a bare phrase, some a noun ('Paid family leave') and some a command ('Shift highway funds to transit'). Until each policy carries its own purpose phrase, notices, minutes, interviews and the repeal clause carry the title as a name in quotation marks, the short title carries it as before, and the long title ('To provide for ...') is made only for noun titles. Owner decision needed: who writes a purpose phrase per policy, or whether a quoted name is the form.",
+    "Workplaces and schools are settings, never entries: the guard fails any line whose event is a school, a workplace, a filing office or an institution. Business names (for example 'Farmer's General Store') are another engine's work and are not fixed here."
+  ],
+  "items": [
+    {
+      "i": 0,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Jordan Peters",
+      "context": "The \"My life\" journal of Jordan Peters, chapter \"COUNTY OF MADISON treasury\", entry dated August 1, 2027.",
+      "situation": "The \"My life\" journal of Jordan Peters, chapter \"COUNTY OF MADISON treasury\", entry dated August 1, 2027.",
+      "prior": "",
+      "text": "I lost my job. It was a terrible time.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hard.it-was-a-terrible-time"],
+      "lineParts": ["journal.memoir-hard.it-was-a-terrible-time"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "cause-group.ad:organization:cause-group:person:press:outlet:newspaper:0:jurisdiction_ca630c0ed667de54:reporter:0:cause:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:2027-08-01"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hard.it-was-really-tough"],
+          "partText": "It was really tough.",
+          "text": "I lost my job. It was really tough."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hard.it-was-a-difficult-time"],
+          "partText": "It was a difficult time.",
+          "text": "I lost my job. It was a difficult time."
+        }
+      ]
+    },
+    {
+      "i": 1,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Francis Weiss",
+      "context": "The \"My life\" journal of Francis Weiss, chapter \"My daughter\", entry dated June 16, 1986.",
+      "situation": "The \"My life\" journal of Francis Weiss, chapter \"My daughter\", entry dated June 16, 1986.",
+      "prior": "Journal: My son was born.",
+      "text": "My daughter was born.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.death-line-funeral.relation-was-age"],
+      "lineParts": ["journal.death-line-funeral.relation-was-age"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "person_5bafdcf3ce7ec94c",
+        "person_5bafdcf3ce7ec94c:family:person_5144da9636e6627d"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.death-line-funeral.relation-was-age-years-old"],
+          "partText": "My daughter was born years old.",
+          "text": "My daughter was born years old."
+        }
+      ]
+    },
+    {
+      "i": 2,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Douglas Stephens",
+      "context": "The \"My life\" journal of Douglas Stephens, chapter \"Chestnut Hill Elementary School\", entry dated August 24, 1981.",
+      "situation": "The \"My life\" journal of Douglas Stephens, chapter \"Chestnut Hill Elementary School\", entry dated August 24, 1981.",
+      "prior": "",
+      "text": "Except for Dawn Chang. I knew Dawn Chang from Chestnut Hill Elementary School. Dawn Chang became a council member.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-remember.i-knew-name-from-school"],
+      "lineParts": ["journal.memoir-remember.i-knew-name-from-school"],
+      "guard": {
+        "masks": ["Chestnut Hill Elementary School"],
+        "institutions": ["Chestnut Hill Elementary School"],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "person_01711da3ff909e7b:p8-opening-school-peers-v1:043db045f99f4087",
+        "term:seat:gus2025:105830:council:3:2026-10-12",
+        "person_01711da3ff909e7b:p8-deep-past-v1:school:elementary"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.memoir-remember.name-and-i-were-good-friends"],
+          "partText": "Dawn Chang and I were good friends.",
+          "text": "Except for Dawn Chang. Dawn Chang and I were good friends. Dawn Chang became a council member."
+        },
+        {
+          "n": 2,
+          "axis": "length",
+          "parts": ["journal.memoir-remember.i-worked-with-name"],
+          "partText": "I worked with Dawn Chang.",
+          "text": "Except for Dawn Chang. I worked with Dawn Chang. Dawn Chang became a council member."
+        }
+      ]
+    },
+    {
+      "i": 3,
+      "kind": "journal",
+      "category": "journal",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Noor Haynes",
+      "context": "The \"My life\" journal of Noor Haynes, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Noor Haynes, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "My mother got elected. I didn't know what that meant.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.i-didnt-know-what-that-meant"],
+      "lineParts": ["journal.memoir-hook.i-didnt-know-what-that-meant"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:166367:board:4:2026-11-03",
+        "kinship_5215494f30cd93dd:past:person_014c27499fffde27"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.little-did-i-know"],
+          "partText": "Little did I know.",
+          "text": "My mother got elected. Little did I know."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.i-didnt-know-that-at-the-time"],
+          "partText": "I didn't know that at the time.",
+          "text": "My mother got elected. I didn't know that at the time."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "partText": "I never knew.",
+          "text": "My mother got elected. I never knew."
+        }
+      ]
+    },
+    {
+      "i": 4,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Tyler McLean",
+      "context": "The \"My life\" journal of Tyler McLean, chapter \"Brookview Elementary School\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Tyler McLean, chapter \"Brookview Elementary School\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "Maya won.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.election-other-result.other-won"],
+      "lineParts": ["journal.election-other-result.other-won"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:164262:board:2:2026-11-03",
+        "kinship_29b6bde54a7ffd34:past:person_4013adaa7a009032"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-lost"],
+          "partText": "Maya lost.",
+          "text": "Maya lost."
+        }
+      ]
+    },
+    {
+      "i": 5,
+      "kind": "journal",
+      "category": "journal",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Rachel Wilson",
+      "context": "The \"My life\" journal of Rachel Wilson, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Rachel Wilson, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "My father was elected. I didn't realize it at the time.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.i-didnt-realize-it-at-the-time"],
+      "lineParts": ["journal.memoir-hook.i-didnt-realize-it-at-the-time"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:166367:board:0:2026-11-03",
+        "kinship_00957992d898c68b:past:person_73dc50c4c30fb7ac"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.that-was-a-turning-point"],
+          "partText": "That was a turning point.",
+          "text": "My father was elected. That was a turning point."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.i-didnt-know-at-the-time"],
+          "partText": "I didn't know at the time.",
+          "text": "My father was elected. I didn't know at the time."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "partText": "I never knew.",
+          "text": "My father was elected. I never knew."
+        }
+      ]
+    },
+    {
+      "i": 6,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Maya McLean",
+      "context": "The \"My life\" journal of Maya McLean, chapter \"CITY OF MACKSBURG treasury\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Maya McLean, chapter \"CITY OF MACKSBURG treasury\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "It wasn't close.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.election-line-own-result.it-wasnt-close"],
+      "lineParts": ["journal.election-line-own-result.it-wasnt-close"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:164262:board:2:2026-11-03"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.election-line-own-result.it-was-close"],
+          "partText": "It was close.",
+          "text": "It was close."
+        }
+      ]
+    },
+    {
+      "i": 7,
+      "kind": "journal",
+      "category": "journal",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Paige Villanueva",
+      "context": "The \"My life\" journal of Paige Villanueva, chapter \"Maryland\", entry dated November 1, 2026.",
+      "situation": "The \"My life\" journal of Paige Villanueva, chapter \"Maryland\", entry dated November 1, 2026.",
+      "prior": "",
+      "text": "I moved to Maryland.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.home-line-moved.i-moved-to-place"],
+      "lineParts": ["journal.home-line-moved.i-moved-to-place"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "household_e3757947cd5b2900",
+        "jurisdiction_4b72ee154e14b52e"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.home-line-moved.i-came-to-place"],
+          "partText": "I came to Maryland.",
+          "text": "I came to Maryland."
+        }
+      ]
+    },
+    {
+      "i": 8,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Scott Guerrero",
+      "context": "The \"My life\" journal of Scott Guerrero, chapter \"My son\", entry dated May 8, 1996.",
+      "situation": "The \"My life\" journal of Scott Guerrero, chapter \"My son\", entry dated May 8, 1996.",
+      "prior": "Journal: My son was born.",
+      "text": "My daughter was born. That's where it began.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.thats-where-it-began"],
+      "lineParts": ["journal.memoir-hook.thats-where-it-began"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "person_3835b5917d6e3a0c",
+        "kinship_92b2c881303e263e:past:person_3835b5917d6e3a0c"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.i-had-no-clue"],
+          "partText": "I had no clue.",
+          "text": "My daughter was born. I had no clue."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.thats-how-it-started"],
+          "partText": "That's how it started.",
+          "text": "My daughter was born. That's how it started."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["journal.memoir-hook.i-didnt-know-it-at-the-time"],
+          "partText": "I didn't know it at the time.",
+          "text": "My daughter was born. I didn't know it at the time."
+        }
+      ]
+    },
+    {
+      "i": 9,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Ruby Stephens",
+      "context": "The \"My life\" journal of Ruby Stephens, chapter \"Chestnut Hill Elementary School\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Ruby Stephens, chapter \"Chestnut Hill Elementary School\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "My mother lost.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.election-other-result.other-lost"],
+      "lineParts": ["journal.election-other-result.other-lost"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:183964:board:0:2026-11-03",
+        "kinship_ef53fbb84c6851ae:past:person_01711ea3ff90a02e"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-won"],
+          "partText": "My mother won.",
+          "text": "My mother won."
+        }
+      ]
+    },
+    {
+      "i": 10,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Liam Choi",
+      "context": "The \"My life\" journal of Liam Choi, chapter \"Steele Elementary School\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Liam Choi, chapter \"Steele Elementary School\", entry dated November 3, 2026.",
+      "prior": "Journal: My father was elected. I didn't know what that meant.",
+      "text": "Nicole won. I didn't know that at the time.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.i-didnt-know-that-at-the-time"],
+      "lineParts": ["journal.memoir-hook.i-didnt-know-that-at-the-time"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:170425:board:3:2026-11-03",
+        "kinship_a559596dbbb262a8:past:person_3624fed36bf93ccf"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.that-was-a-turning-point"],
+          "partText": "That was a turning point.",
+          "text": "Nicole won. That was a turning point."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.i-didnt-realize-it-at-the-time"],
+          "partText": "I didn't realize it at the time.",
+          "text": "Nicole won. I didn't realize it at the time."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["journal.memoir-hook.little-did-i-know"],
+          "partText": "Little did I know.",
+          "text": "Nicole won. Little did I know."
+        }
+      ]
+    },
+    {
+      "i": 11,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Scott Guerrero",
+      "context": "The \"My life\" journal of Scott Guerrero, chapter \"My son\", entry dated October 14, 2009.",
+      "situation": "The \"My life\" journal of Scott Guerrero, chapter \"My son\", entry dated October 14, 2009.",
+      "prior": "Journal: My daughter was born.",
+      "text": "My daughter was born. I didn't know at the time.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.i-didnt-know-at-the-time"],
+      "lineParts": ["journal.memoir-hook.i-didnt-know-at-the-time"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "person_3835b5917d6e3a0c",
+        "kinship_be02918148c6c61b:past:person_3835b5917d6e3a0c"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.little-did-i-know"],
+          "partText": "Little did I know.",
+          "text": "My daughter was born. Little did I know."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.i-didnt-realize-it-at-the-time"],
+          "partText": "I didn't realize it at the time.",
+          "text": "My daughter was born. I didn't realize it at the time."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "partText": "I never knew.",
+          "text": "My daughter was born. I never knew."
+        }
+      ]
+    },
+    {
+      "i": 12,
+      "kind": "journal",
+      "category": "journal",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Gabriella Francis",
+      "context": "The \"My life\" journal of Gabriella Francis, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Gabriella Francis, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "Emma lost. I'll never forget that.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.ill-never-forget-that"],
+      "lineParts": ["journal.memoir-hook.ill-never-forget-that"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:166367:board:1:2026-11-03",
+        "kinship_ff0adb243e0c6b54:past:person_3e4308ee07aad7c0"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "partText": "I never knew.",
+          "text": "Emma lost. I never knew."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.ill-never-forget-it"],
+          "partText": "I'll never forget it.",
+          "text": "Emma lost. I'll never forget it."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["journal.memoir-hook.i-didnt-know-that-at-the-time"],
+          "partText": "I didn't know that at the time.",
+          "text": "Emma lost. I didn't know that at the time."
+        }
+      ]
+    },
+    {
+      "i": 13,
+      "kind": "journal",
+      "category": "journal",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Cora Haynes",
+      "context": "The \"My life\" journal of Cora Haynes, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Cora Haynes, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "My mother won. That was a turning point.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.that-was-a-turning-point"],
+      "lineParts": ["journal.memoir-hook.that-was-a-turning-point"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:166367:board:4:2026-11-03",
+        "kinship_6419174f3b33ebe7:past:person_014c29499fffe18d"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.ill-never-forget-that"],
+          "partText": "I'll never forget that.",
+          "text": "My mother won. I'll never forget that."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.that-was-the-beginning"],
+          "partText": "That was the beginning.",
+          "text": "My mother won. That was the beginning."
+        }
+      ]
+    },
+    {
+      "i": 14,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Stephen Guerrero",
+      "context": "The \"My life\" journal of Stephen Guerrero, chapter \"Plaza Elementary School\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Stephen Guerrero, chapter \"Plaza Elementary School\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "My father got elected.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.election-other-result.other-got-elected"],
+      "lineParts": ["journal.election-other-result.other-got-elected"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:170425:coroner:0:2026-11-03",
+        "kinship_89aa27812b05527d:past:person_871c47d23737a11d"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-was-elected"],
+          "partText": "My father was elected.",
+          "text": "My father was elected."
+        }
+      ]
+    },
+    {
+      "i": 15,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Francis Weiss",
+      "context": "The \"My life\" journal of Francis Weiss, chapter \"My daughter\", entry dated November 12, 1977.",
+      "situation": "The \"My life\" journal of Francis Weiss, chapter \"My daughter\", entry dated November 12, 1977.",
+      "prior": "Journal: My daughter was born.",
+      "text": "My daughter was born.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.death-line-funeral.relation-was-age"],
+      "lineParts": ["journal.death-line-funeral.relation-was-age"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "person_5bafdcf3ce7ec94c",
+        "person_5bafdcf3ce7ec94c:family:person_5144d39636e65698"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.death-line-funeral.relation-was-age-years-old"],
+          "partText": "My daughter was born years old.",
+          "text": "My daughter was born years old."
+        }
+      ]
+    },
+    {
+      "i": 16,
+      "kind": "journal",
+      "category": "journal",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Jasper Haynes",
+      "context": "The \"My life\" journal of Jasper Haynes, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Jasper Haynes, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "Crystal won. I didn't know what that meant.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.i-didnt-know-what-that-meant"],
+      "lineParts": ["journal.memoir-hook.i-didnt-know-what-that-meant"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:166367:board:4:2026-11-03",
+        "kinship_5af4e44f35e35858:past:person_014c28499fffdfda"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.little-did-i-know"],
+          "partText": "Little did I know.",
+          "text": "Crystal won. Little did I know."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.i-didnt-know-that-at-the-time"],
+          "partText": "I didn't know that at the time.",
+          "text": "Crystal won. I didn't know that at the time."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "partText": "I never knew.",
+          "text": "Crystal won. I never knew."
+        }
+      ]
+    },
+    {
+      "i": 17,
+      "kind": "journal",
+      "category": "journal",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Zane Tillman",
+      "context": "The \"My life\" journal of Zane Tillman, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Zane Tillman, chapter \"Gladys Noon Spellman Elementary\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "Jennifer lost. I didn't know at the time.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.memoir-hook.i-didnt-know-at-the-time"],
+      "lineParts": ["journal.memoir-hook.i-didnt-know-at-the-time"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:166367:board:2:2026-11-03",
+        "kinship_faeff574d10747a7:past:person_4267260081da29ca"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.little-did-i-know"],
+          "partText": "Little did I know.",
+          "text": "Jennifer lost. Little did I know."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.i-didnt-realize-it-at-the-time"],
+          "partText": "I didn't realize it at the time.",
+          "text": "Jennifer lost. I didn't realize it at the time."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "partText": "I never knew.",
+          "text": "Jennifer lost. I never knew."
+        }
+      ]
+    },
+    {
+      "i": 18,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Ivy Guerrero",
+      "context": "The \"My life\" journal of Ivy Guerrero, chapter \"Meadow Elementary School\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Ivy Guerrero, chapter \"Meadow Elementary School\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "Scott lost.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.election-other-result.other-lost"],
+      "lineParts": ["journal.election-other-result.other-lost"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:170425:coroner:0:2026-11-03",
+        "kinship_c72642814e167cc4:past:person_3835b8917d6e3f25"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-won"],
+          "partText": "Scott won.",
+          "text": "Scott won."
+        }
+      ]
+    },
+    {
+      "i": 19,
+      "kind": "journal",
+      "category": "journal",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Devon Vinson",
+      "context": "The \"My life\" journal of Devon Vinson, chapter \"Meadow Elementary School\", entry dated November 3, 2026.",
+      "situation": "The \"My life\" journal of Devon Vinson, chapter \"Meadow Elementary School\", entry dated November 3, 2026.",
+      "prior": "",
+      "text": "My mother won.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["journal.election-other-result.other-won"],
+      "lineParts": ["journal.election-other-result.other-won"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:170425:prosecutor:0:2026-11-03",
+        "kinship_3b7d1d2a3183c2b4:past:person_795872ce73b03698"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-lost"],
+          "partText": "My mother lost.",
+          "text": "My mother lost."
+        }
+      ]
+    },
+    {
+      "i": 20,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "United States Congress (bill text)",
+      "context": "The opening of 2026-001 (enacted), filed in the House on December 15, 2026.",
+      "situation": "The opening of 2026-001 (enacted), filed in the House on December 15, 2026.",
+      "prior": "",
+      "text": "Be it enacted by the Senate and House of Representatives of the United States of America in Congress assembled,",
+      "lie": false,
+      "emotion": [],
+      "parts": [
+        "legislation.enacting-clause.be-it-enacted-by-the-senate-and-house-of-representatives-of-the-united"
+      ],
+      "lineParts": [
+        "legislation.enacting-clause.be-it-enacted-by-the-senate-and-house-of-representatives-of-the-united"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json",
+      "sourceRecordIds": [
+        "bill:office:US-IA:us-house:2026-12-15:official:seat:US-IN:us-house:04:17"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "length",
+          "parts": [
+            "legislation.enacting-clause.resolved-by-the-house-of-representatives-the-senate-concurri"
+          ],
+          "partText": "Resolved by the House of Representatives (the Senate concurring),",
+          "text": "Resolved by the House of Representatives (the Senate concurring),"
+        }
+      ]
+    },
+    {
+      "i": 21,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "County of Washtenaw commissioner (bill text)",
+      "context": "Its long title. 2026-002 (enacted), introduced October 27, 2026 before the County of Washtenaw commissioner: it adopts \"Civilian oversight of police\" on the bill's own provision record.",
+      "situation": "Its long title. 2026-002 (enacted), introduced October 27, 2026 before the County of Washtenaw commissioner: it adopts \"Civilian oversight of police\" on the bill's own provision record.",
+      "prior": "",
+      "text": "To provide for civilian oversight of police, and for other purposes.",
+      "lie": false,
+      "emotion": [],
+      "parts": [
+        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+      ],
+      "lineParts": [
+        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": ["Civilian oversight of police"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:166614:board:2026-10-27:person_2dd62b6ad0a09312:1"
+      ],
+      "variants": []
+    },
+    {
+      "i": 22,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "City of Ellsworth council (bill text)",
+      "context": "Its short title. 2026-004 (vetoed), introduced October 27, 2026 before the City of Ellsworth council: it adopts \"Rent stabilization\" on the bill's own provision record.",
+      "situation": "Its short title. 2026-004 (vetoed), introduced October 27, 2026 before the City of Ellsworth council: it adopts \"Rent stabilization\" on the bill's own provision record.",
+      "prior": "",
+      "text": "This Act may be cited as the \"Rent stabilization\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"],
+      "lineParts": ["legislation.short-title.this-act-may-be-cited-as-the-act"],
+      "guard": {
+        "masks": ["Rent stabilization"],
+        "institutions": [],
+        "titles": ["Rent stabilization"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:105830:council:2026-10-27:person_442f96c2ee9c9824:3"
+      ],
+      "variants": []
+    },
+    {
+      "i": 23,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "County of Nassau commissioner (bill text)",
+      "context": "Its repeal clause. 2026-006 (failed), introduced November 11, 2026 before the County of Nassau commissioner: it repeals \"Inclusionary requirement\" on the bill's own provision record.",
+      "situation": "Its repeal clause. 2026-006 (failed), introduced November 11, 2026 before the County of Nassau commissioner: it repeals \"Inclusionary requirement\" on the bill's own provision record.",
+      "prior": "",
+      "text": "\"Inclusionary requirement\" is repealed.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.clause.provision-is-repealed"],
+      "lineParts": ["legislation.clause.provision-is-repealed"],
+      "guard": {
+        "masks": ["Inclusionary requirement"],
+        "institutions": [],
+        "titles": ["Inclusionary requirement"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:170425:board:2026-11-11:person_641e1cada9628e95:6"
+      ],
+      "variants": []
+    },
+    {
+      "i": 24,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "City of Macksburg council (bill text)",
+      "context": "Its short title. 2026-011 (failed), introduced November 11, 2026 before the City of Macksburg council: it adopts \"Paid family leave\" on the bill's own provision record.",
+      "situation": "Its short title. 2026-011 (failed), introduced November 11, 2026 before the City of Macksburg council: it adopts \"Paid family leave\" on the bill's own provision record.",
+      "prior": "",
+      "text": "This title may be cited as the \"Paid family leave\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.short-title.this-title-may-be-cited-as-the"],
+      "lineParts": ["legislation.short-title.this-title-may-be-cited-as-the"],
+      "guard": {
+        "masks": ["Paid family leave"],
+        "institutions": [],
+        "titles": ["Paid family leave"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-11-11:person_de0f310007681961:10"
+      ],
+      "variants": []
+    },
+    {
+      "i": 25,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "County of Washtenaw commissioner (bill text)",
+      "context": "Its short title. 2026-008 (failed), introduced October 27, 2026 before the County of Washtenaw commissioner: it adopts \"Partner with federal immigration enforcement\" on the bill's own provision record.",
+      "situation": "Its short title. 2026-008 (failed), introduced October 27, 2026 before the County of Washtenaw commissioner: it adopts \"Partner with federal immigration enforcement\" on the bill's own provision record.",
+      "prior": "",
+      "text": "This Act may be cited as the \"Partner with federal immigration enforcement\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"],
+      "lineParts": ["legislation.short-title.this-act-may-be-cited-as-the-act"],
+      "guard": {
+        "masks": ["Partner with federal immigration enforcement"],
+        "institutions": [],
+        "titles": ["Partner with federal immigration enforcement"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:166614:board:2026-10-27:person_2dd62b6ad0a09312:7"
+      ],
+      "variants": []
+    },
+    {
+      "i": 26,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "County of Hancock Commissioner (bill text)",
+      "context": "Its short title. 2026-001 (failed), introduced October 27, 2026 before the County of Hancock Commissioner: it adopts \"Rent stabilization\" on the bill's own provision record.",
+      "situation": "Its short title. 2026-001 (failed), introduced October 27, 2026 before the County of Hancock Commissioner: it adopts \"Rent stabilization\" on the bill's own provision record.",
+      "prior": "",
+      "text": "This title may be cited as the \"Rent stabilization\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.short-title.this-title-may-be-cited-as-the"],
+      "lineParts": ["legislation.short-title.this-title-may-be-cited-as-the"],
+      "guard": {
+        "masks": ["Rent stabilization"],
+        "institutions": [],
+        "titles": ["Rent stabilization"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:183964:board:2026-10-27:person_6093c0e32aa76a7b:6"
+      ],
+      "variants": []
+    },
+    {
+      "i": 27,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "City of Ellsworth council (bill text)",
+      "context": "Its repeal clause. 2027-005 (failed), introduced June 24, 2027 before the City of Ellsworth council: it repeals \"Limit groundwater withdrawal\" on the bill's own provision record.",
+      "situation": "Its repeal clause. 2027-005 (failed), introduced June 24, 2027 before the City of Ellsworth council: it repeals \"Limit groundwater withdrawal\" on the bill's own provision record.",
+      "prior": "",
+      "text": "\"Limit groundwater withdrawal\" is repealed.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.clause.provision-is-repealed"],
+      "lineParts": ["legislation.clause.provision-is-repealed"],
+      "guard": {
+        "masks": ["Limit groundwater withdrawal"],
+        "institutions": [],
+        "titles": ["Limit groundwater withdrawal"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:105830:council:2027-06-24:person_0a27e7fd2e764bc0:90"
+      ],
+      "variants": []
+    },
+    {
+      "i": 28,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "City of Macksburg council (bill text)",
+      "context": "Its long title. 2026-007 (failed), introduced October 27, 2026 before the City of Macksburg council: it adopts \"Paid family leave\" on the bill's own provision record.",
+      "situation": "Its long title. 2026-007 (failed), introduced October 27, 2026 before the City of Macksburg council: it adopts \"Paid family leave\" on the bill's own provision record.",
+      "prior": "",
+      "text": "To provide for paid family leave, and for other purposes.",
+      "lie": false,
+      "emotion": [],
+      "parts": [
+        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+      ],
+      "lineParts": [
+        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": ["Paid family leave"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_de0f310007681961:6"
+      ],
+      "variants": []
+    },
+    {
+      "i": 29,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "City of Macksburg council (bill text)",
+      "context": "Its short title. 2026-003 (failed), introduced October 27, 2026 before the City of Macksburg council: it adopts \"Inclusionary requirement\" on the bill's own provision record.",
+      "situation": "Its short title. 2026-003 (failed), introduced October 27, 2026 before the City of Macksburg council: it adopts \"Inclusionary requirement\" on the bill's own provision record.",
+      "prior": "",
+      "text": "This Act may be cited as the \"Inclusionary requirement\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"],
+      "lineParts": ["legislation.short-title.this-act-may-be-cited-as-the-act"],
+      "guard": {
+        "masks": ["Inclusionary requirement"],
+        "institutions": [],
+        "titles": ["Inclusionary requirement"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_de0f310007681961:2"
+      ],
+      "variants": []
+    },
+    {
+      "i": 30,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "City of Macksburg council (bill text)",
+      "context": "Its repeal clause. 2026-014 (failed), introduced November 11, 2026 before the City of Macksburg council: it repeals \"Right to counsel in eviction\" on the bill's own provision record.",
+      "situation": "Its repeal clause. 2026-014 (failed), introduced November 11, 2026 before the City of Macksburg council: it repeals \"Right to counsel in eviction\" on the bill's own provision record.",
+      "prior": "",
+      "text": "\"Right to counsel in eviction\" is repealed.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.clause.provision-is-repealed"],
+      "lineParts": ["legislation.clause.provision-is-repealed"],
+      "guard": {
+        "masks": ["Right to counsel in eviction"],
+        "institutions": [],
+        "titles": ["Right to counsel in eviction"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-11-11:person_a0a3dbc192ac43f6:13"
+      ],
+      "variants": []
+    },
+    {
+      "i": 31,
+      "kind": "legislation",
+      "category": "legislation",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "County of Washtenaw commissioner (bill text)",
+      "context": "Its short title. 2026-003 (enacted), introduced October 27, 2026 before the County of Washtenaw commissioner: it adopts \"Inclusionary requirement\" on the bill's own provision record.",
+      "situation": "Its short title. 2026-003 (enacted), introduced October 27, 2026 before the County of Washtenaw commissioner: it adopts \"Inclusionary requirement\" on the bill's own provision record.",
+      "prior": "",
+      "text": "This title may be cited as the \"Inclusionary requirement\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["legislation.short-title.this-title-may-be-cited-as-the"],
+      "lineParts": ["legislation.short-title.this-title-may-be-cited-as-the"],
+      "guard": {
+        "masks": ["Inclusionary requirement"],
+        "institutions": [],
+        "titles": ["Inclusionary requirement"]
+      },
+      "composer": "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+      "sourceRecordIds": [
+        "bill:office:gus2025:166614:board:2026-10-27:person_2dd62b6ad0a09312:2"
+      ],
+      "variants": []
+    },
+    {
+      "i": 32,
+      "kind": "notices",
+      "category": "notices",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "City of Macksburg council clerk",
+      "context": "A hearing notice for 2027-001, posted by the City of Macksburg council.",
+      "situation": "A hearing notice for 2027-001, posted by the City of Macksburg council.",
+      "prior": "",
+      "text": "NOTICE OF PUBLIC HEARING\nPROJECT NAME: \"Inclusionary requirement\"\nDATE OF MEETING: May 10, 2027",
+      "lie": false,
+      "emotion": [],
+      "parts": ["notice.hearing.public-hearing"],
+      "lineParts": ["notice.hearing.public-hearing"],
+      "guard": {
+        "masks": ["Inclusionary requirement"],
+        "institutions": [],
+        "titles": ["Inclusionary requirement"]
+      },
+      "composer": "composeFromBank over data/english/parts/notices.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2027-05-10:person_de0f310007681961:92"
+      ],
+      "variants": []
+    },
+    {
+      "i": 33,
+      "kind": "notices",
+      "category": "notices",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Dexter election office",
+      "context": "The notice of the November 5, 2030 election in Dexter, from the contests the elections module holds.",
+      "situation": "The notice of the November 5, 2030 election in Dexter, from the contests the elections module holds.",
+      "prior": "",
+      "text": "NOTICE OF ELECTION\nNOTICE IS HEREBY GIVEN that an election will be held in Dexter on November 5, 2030 for the following Officers: U.S. Senator, Governor, Lieutenant Governor, Attorney General, Secretary of State and State Senator.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["notice.election.notice-of-election"],
+      "lineParts": ["notice.election.notice-of-election"],
+      "guard": {
+        "masks": [
+          "Dexter",
+          "U.S. Senator",
+          "Governor",
+          "Lieutenant Governor",
+          "Attorney General",
+          "Secretary of State",
+          "State Senator"
+        ],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/notices.json",
+      "sourceRecordIds": [
+        "contest:seat:US-MI:us-senate:0:2030-11-05",
+        "contest:seat:US-MI:governor:2030-11-05",
+        "contest:seat:US-MI:lieutenant-governor:2030-11-05",
+        "contest:seat:US-MI:attorney-general:2030-11-05",
+        "contest:seat:US-MI:secretary-of-state:2030-11-05",
+        "contest:seat:US-MI:upper:014:0:2030-11-05"
+      ],
+      "variants": []
+    },
+    {
+      "i": 34,
+      "kind": "minutes",
+      "category": "minutes",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "City of Macksburg council (minutes)",
+      "context": "The discussion of \"Paid family leave\" at the October 27, 2026 meeting (2026-007).",
+      "situation": "The discussion of \"Paid family leave\" at the October 27, 2026 meeting (2026-007).",
+      "prior": "",
+      "text": "The staff provided an update on \"Paid family leave\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"],
+      "lineParts": ["minutes.discussion.the-staff-provided-an-update-on-topic"],
+      "guard": {
+        "masks": ["Paid family leave"],
+        "institutions": [],
+        "titles": ["Paid family leave"]
+      },
+      "composer": "composeFromBank over data/english/parts/minutes.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_de0f310007681961:6"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["minutes.discussion.the-manager-then-turned-to-topic"],
+          "partText": "The manager then turned to \"Paid family leave\".",
+          "text": "The manager then turned to \"Paid family leave\"."
+        },
+        {
+          "n": 2,
+          "axis": "length",
+          "parts": ["minutes.discussion.participants-discussed-topic"],
+          "partText": "Participants discussed \"Paid family leave\".",
+          "text": "Participants discussed \"Paid family leave\"."
+        }
+      ]
+    },
+    {
+      "i": 35,
+      "kind": "minutes",
+      "category": "minutes",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "County of Prince Georges commissioner (minutes)",
+      "context": "The roll call on 2026-003 (\"Allow multifamily in single family zones\") before the County of Prince Georges commissioner: 5 for, 2 against; the bill enacted. Each name is read from a member's recorded vote.",
+      "situation": "The roll call on 2026-003 (\"Allow multifamily in single family zones\") before the County of Prince Georges commissioner: 5 for, 2 against; the bill enacted. Each name is read from a member's recorded vote.",
+      "prior": "",
+      "text": "Voting for this action: Rowan Wilson, Emma Francis, Jennifer Tillman, Crystal Haynes and Joseph Blanchard.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["minutes.vote.voting-for-this-action-members"],
+      "lineParts": ["minutes.vote.voting-for-this-action-members"],
+      "guard": {
+        "masks": ["Crystal Haynes"],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/minutes.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:166367:board:2026-10-27:person_014c26499fffdc74:2"
+      ],
+      "variants": []
+    },
+    {
+      "i": 36,
+      "kind": "minutes",
+      "category": "minutes",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "County of Hancock Commissioner (minutes)",
+      "context": "The discussion of \"Rent stabilization\" at the October 27, 2026 meeting (2026-001).",
+      "situation": "The discussion of \"Rent stabilization\" at the October 27, 2026 meeting (2026-001).",
+      "prior": "",
+      "text": "Participants discussed \"Rent stabilization\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["minutes.discussion.participants-discussed-topic"],
+      "lineParts": ["minutes.discussion.participants-discussed-topic"],
+      "guard": {
+        "masks": ["Rent stabilization"],
+        "institutions": [],
+        "titles": ["Rent stabilization"]
+      },
+      "composer": "composeFromBank over data/english/parts/minutes.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:183964:board:2026-10-27:person_6093c0e32aa76a7b:6"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "length",
+          "parts": ["minutes.discussion.the-manager-then-turned-to-topic"],
+          "partText": "The manager then turned to \"Rent stabilization\".",
+          "text": "The manager then turned to \"Rent stabilization\"."
+        }
+      ]
+    },
+    {
+      "i": 37,
+      "kind": "minutes",
+      "category": "minutes",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "County of Nassau commissioner (minutes)",
+      "context": "The roll call on 2026-003 (\"Allow multifamily in single family zones\") before the County of Nassau commissioner: 6 for, 1 against; the bill enacted. Each name is read from a member's recorded vote.",
+      "situation": "The roll call on 2026-003 (\"Allow multifamily in single family zones\") before the County of Nassau commissioner: 6 for, 1 against; the bill enacted. Each name is read from a member's recorded vote.",
+      "prior": "",
+      "text": "Voting against this action: Daniel McKinney.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["minutes.vote.voting-against-this-action-members"],
+      "lineParts": ["minutes.vote.voting-against-this-action-members"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/minutes.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:170425:board:2026-10-27:person_c759b254c6ca7412:2"
+      ],
+      "variants": []
+    },
+    {
+      "i": 38,
+      "kind": "hearing",
+      "category": "hearing",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Madison McLean (witness)",
+      "context": "A hearing on 2026-005 (\"Right to counsel in eviction\") before the City of Macksburg council; the witness is Madison McLean, a resident.",
+      "situation": "A hearing on 2026-005 (\"Right to counsel in eviction\") before the City of Macksburg council; the witness is Madison McLean, a resident.",
+      "prior": "",
+      "text": "Thank you, sir.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": ["hearing.thanks.thank-you-sir"],
+      "lineParts": ["hearing.thanks.thank-you-sir"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/hearing.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_62351db23f710655:4"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["hearing.thanks.thank-you"],
+          "partText": "Thank you.",
+          "text": "Thank you."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["hearing.thanks.thank-you-madam-chair"],
+          "partText": "Thank you, Madam Chair.",
+          "text": "Thank you, Madam Chair."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["hearing.thanks.thank-you-mr-chairman"],
+          "partText": "Thank you, Mr. Chairman.",
+          "text": "Thank you, Mr. Chairman."
+        }
+      ]
+    },
+    {
+      "i": 39,
+      "kind": "hearing",
+      "category": "hearing",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Susan McLean (witness)",
+      "context": "A hearing on 2026-008 (\"Ban discrimination in housing and work\") before the City of Macksburg council; the witness is Susan McLean, a resident.",
+      "situation": "A hearing on 2026-008 (\"Ban discrimination in housing and work\") before the City of Macksburg council; the witness is Susan McLean, a resident.",
+      "prior": "",
+      "text": "Appreciate that.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["hearing.agree.appreciate-that"],
+      "lineParts": ["hearing.agree.appreciate-that"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/hearing.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_de0f310007681961:7"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["hearing.agree.that-is-great"],
+          "partText": "That is great.",
+          "text": "That is great."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["hearing.agree.i-appreciate-that"],
+          "partText": "I appreciate that.",
+          "text": "I appreciate that."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["hearing.agree.i-appreciate-that-very-much"],
+          "partText": "I appreciate that very much.",
+          "text": "I appreciate that very much."
+        }
+      ]
+    },
+    {
+      "i": 40,
+      "kind": "hearing",
+      "category": "hearing",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Melissa Whitfield (witness)",
+      "context": "A hearing on 2026-001 (\"Limit groundwater withdrawal\") before the City of Ellsworth council; the witness is Melissa Whitfield, a resident.",
+      "situation": "A hearing on 2026-001 (\"Limit groundwater withdrawal\") before the City of Ellsworth council; the witness is Melissa Whitfield, a resident.",
+      "prior": "",
+      "text": "That is great.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["hearing.agree.that-is-great"],
+      "lineParts": ["hearing.agree.that-is-great"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/hearing.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:105830:council:2026-10-27:person_442f96c2ee9c9824:0"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["hearing.agree.that-would-be-great"],
+          "partText": "That would be great.",
+          "text": "That would be great."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["hearing.agree.i-agree"],
+          "partText": "I agree.",
+          "text": "I agree."
+        }
+      ]
+    },
+    {
+      "i": 41,
+      "kind": "hearing",
+      "category": "hearing",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Thomas Weiss (witness)",
+      "context": "A hearing on 2026-002 (\"Civilian oversight of police\") before the County of Washtenaw commissioner; the witness is Thomas Weiss, a resident.",
+      "situation": "A hearing on 2026-002 (\"Civilian oversight of police\") before the County of Washtenaw commissioner; the witness is Thomas Weiss, a resident.",
+      "prior": "",
+      "text": "I know.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["hearing.agree.i-know"],
+      "lineParts": ["hearing.agree.i-know"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/hearing.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:166614:board:2026-10-27:person_2dd62b6ad0a09312:1"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["hearing.agree.i-appreciate-it"],
+          "partText": "I appreciate it.",
+          "text": "I appreciate it."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["hearing.agree.i-agree"],
+          "partText": "I agree.",
+          "text": "I agree."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["hearing.agree.i-appreciate-that-very-much"],
+          "partText": "I appreciate that very much.",
+          "text": "I appreciate that very much."
+        }
+      ]
+    },
+    {
+      "i": 42,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Morgan Ruiz (member)",
+      "context": "A member of the City of Macksburg council speaks to the chair during 2026-007 (\"Paid family leave\").",
+      "situation": "A member of the City of Macksburg council speaks to the chair during 2026-007 (\"Paid family leave\").",
+      "prior": "",
+      "text": "Chair Ruiz, I know of no further debate.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["meeting.procedural.i-know-of-no-further-debate"],
+      "lineParts": ["meeting.procedural.i-know-of-no-further-debate"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/meeting.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_de0f310007681961:6",
+        "person_62351cb23f7104a2"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["meeting.procedural.i-could-not-make-today-s-vote"],
+          "partText": "Chair Ruiz, I could not make today's vote.",
+          "text": "Chair Ruiz, I could not make today's vote."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["meeting.procedural.i-missed-a-series-of-votes"],
+          "partText": "Chair Ruiz, I missed a series of votes.",
+          "text": "Chair Ruiz, I missed a series of votes."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["meeting.procedural.may-i-ask-for-a-clarification"],
+          "partText": "Chair Ruiz, may I ask for a clarification?",
+          "text": "Chair Ruiz, may I ask for a clarification?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": [
+            "meeting.procedural.i-know-of-no-further-debate-on-the-nomination"
+          ],
+          "partText": "Chair Ruiz, I know of no further debate on the nomination.",
+          "text": "Chair Ruiz, I know of no further debate on the nomination."
+        }
+      ]
+    },
+    {
+      "i": 43,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Sara Weiss",
+      "context": "Sara Weiss speaks in the public comment period of a Dexter council meeting.",
+      "situation": "Sara Weiss speaks in the public comment period of a Dexter council meeting.",
+      "prior": "Sara Weiss: We need your help.",
+      "text": "Thank you.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": ["address.state-floor-close.thank-you"],
+      "lineParts": ["address.state-floor-close.thank-you"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register public-comment, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_5144d39636e65698"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.public-comment-close.thats-all-i-have"],
+          "partText": "That's all I have.",
+          "text": "That's all I have."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.public-comment-close.thank-you-for-listening"],
+          "partText": "Thank you for listening.",
+          "text": "Thank you for listening."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": [
+            "address.public-comment-close.thank-you-for-your-consideration"
+          ],
+          "partText": "Thank you for your consideration.",
+          "text": "Thank you for your consideration."
+        }
+      ]
+    },
+    {
+      "i": 44,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Nicole Choi (member)",
+      "context": "A member of the County of Nassau commissioner speaks to the chair during 2026-006 (\"Inclusionary requirement\").",
+      "situation": "A member of the County of Nassau commissioner speaks to the chair during 2026-006 (\"Inclusionary requirement\").",
+      "prior": "",
+      "text": "Madam Chair, I demand a recorded vote.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["meeting.procedural.i-demand-a-recorded-vote"],
+      "lineParts": ["meeting.procedural.i-demand-a-recorded-vote"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/meeting.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:170425:board:2026-11-11:person_641e1cada9628e95:6",
+        "person_362500d36bf94035"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["meeting.procedural.i-could-not-make-today-s-vote"],
+          "partText": "Madam Chair, I could not make today's vote.",
+          "text": "Madam Chair, I could not make today's vote."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["meeting.procedural.i-missed-a-vote-today"],
+          "partText": "Madam Chair, I missed a vote today.",
+          "text": "Madam Chair, I missed a vote today."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["meeting.procedural.may-i-ask-for-a-clarification"],
+          "partText": "Madam Chair, may I ask for a clarification?",
+          "text": "Madam Chair, may I ask for a clarification?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": ["meeting.procedural.i-ask-unanimous-consent-to-use-a-prop"],
+          "partText": "Madam Chair, I ask unanimous consent to use a prop.",
+          "text": "Madam Chair, I ask unanimous consent to use a prop."
+        }
+      ]
+    },
+    {
+      "i": 45,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Rowan Wilson (member)",
+      "context": "A member of the County of Prince Georges commissioner speaks to the chair during 2026-002 (\"Rent stabilization\").",
+      "situation": "A member of the County of Prince Georges commissioner speaks to the chair during 2026-002 (\"Rent stabilization\").",
+      "prior": "",
+      "text": "Mr. Chair, I withdraw my motion to proceed.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["meeting.procedural.i-withdraw-my-motion-to-proceed"],
+      "lineParts": ["meeting.procedural.i-withdraw-my-motion-to-proceed"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/meeting.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:166367:board:2026-10-27:person_014c26499fffdc74:1",
+        "person_73dc53c4c30fbcc5"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["meeting.procedural.i-could-not-make-today-s-vote"],
+          "partText": "Mr. Chair, I could not make today's vote.",
+          "text": "Mr. Chair, I could not make today's vote."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": [
+            "meeting.procedural.i-move-to-proceed-to-executive-session"
+          ],
+          "partText": "Mr. Chair, I move to proceed to executive session.",
+          "text": "Mr. Chair, I move to proceed to executive session."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["meeting.procedural.may-i-ask-for-a-clarification"],
+          "partText": "Mr. Chair, may I ask for a clarification?",
+          "text": "Mr. Chair, may I ask for a clarification?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": [
+            "meeting.procedural.i-have-a-motion-to-recommit-at-the-desk"
+          ],
+          "partText": "Mr. Chair, I have a motion to recommit at the desk.",
+          "text": "Mr. Chair, I have a motion to recommit at the desk."
+        }
+      ]
+    },
+    {
+      "i": 46,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Morgan Ruiz (chair)",
+      "context": "The City of Macksburg council takes up 2026-003 (\"Inclusionary requirement\"); the recorded result is failed.",
+      "situation": "The City of Macksburg council takes up 2026-003 (\"Inclusionary requirement\"); the recorded result is failed.",
+      "prior": "Chair: All in favor?",
+      "text": "The noes have it.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.chair-run-meeting.the-noes-have-it"],
+      "lineParts": ["address.chair-run-meeting.the-noes-have-it"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "the chair's run-meeting sentences in data/english/parts/address.json, picked by the bill's recorded step",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_de0f310007681961:2",
+        "person_62351cb23f7104a2"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.chair-run-meeting.ill-second"],
+          "partText": "I'll second.",
+          "text": "I'll second."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.chair-run-meeting.the-ayes-have-it"],
+          "partText": "The ayes have it.",
+          "text": "The ayes have it."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["address.chair-run-meeting.all-in-favor"],
+          "partText": "All in favor?",
+          "text": "All in favor?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": [
+            "address.chair-run-meeting.please-state-your-name-for-the-record"
+          ],
+          "partText": "Please state your name for the record.",
+          "text": "Please state your name for the record."
+        }
+      ]
+    },
+    {
+      "i": 47,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Morgan Ruiz (chair)",
+      "context": "The City of Macksburg council takes up 2026-001 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
+      "situation": "The City of Macksburg council takes up 2026-001 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
+      "prior": "Chair: All in favor?",
+      "text": "The motion carries.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.chair-run-meeting.the-motion-carries"],
+      "lineParts": ["address.chair-run-meeting.the-motion-carries"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "the chair's run-meeting sentences in data/english/parts/address.json, picked by the bill's recorded step",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_62351db23f710655:0",
+        "person_62351cb23f7104a2"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.chair-run-meeting.ill-second"],
+          "partText": "I'll second.",
+          "text": "I'll second."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.chair-run-meeting.the-motion-passes"],
+          "partText": "The motion passes.",
+          "text": "The motion passes."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["address.chair-run-meeting.is-there-a-motion"],
+          "partText": "Is there a motion?",
+          "text": "Is there a motion?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": ["address.chair-run-meeting.the-clerk-will-call-the-roll"],
+          "partText": "The clerk will call the roll.",
+          "text": "The clerk will call the roll."
+        }
+      ]
+    },
+    {
+      "i": 48,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Brian Palmer",
+      "context": "Brian Palmer speaks in the public comment period of a West Laurel council meeting.",
+      "situation": "Brian Palmer speaks in the public comment period of a West Laurel council meeting.",
+      "prior": "Brian Palmer: Thank you for having me.",
+      "text": "My name is Brian Palmer, and I live in West Laurel.",
+      "lie": false,
+      "emotion": [],
+      "parts": [
+        "address.public-comment-name.my-name-is-name-and-i-live-in-place"
+      ],
+      "lineParts": [
+        "address.public-comment-name.my-name-is-name-and-i-live-in-place"
+      ],
+      "guard": {
+        "masks": ["West Laurel", "Brian Palmer"],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register public-comment, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_111dc6f90b2a5fca"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "length",
+          "parts": ["address.public-comment-name.i-live-in-place"],
+          "partText": "I live in West Laurel.",
+          "text": "I live in West Laurel."
+        }
+      ]
+    },
+    {
+      "i": 49,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Crystal Haynes",
+      "context": "Crystal Haynes speaks in the public comment period of a West Laurel council meeting.",
+      "situation": "Crystal Haynes speaks in the public comment period of a West Laurel council meeting.",
+      "prior": "Crystal Haynes: My name is Crystal Haynes.",
+      "text": "We need your help.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.public-comment-ask.we-need-your-help"],
+      "lineParts": ["address.public-comment-ask.we-need-your-help"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register public-comment, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_014c26499fffdc74"],
+      "variants": []
+    },
+    {
+      "i": 50,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Morgan Ruiz (chair)",
+      "context": "The City of Macksburg council takes up 2026-001 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
+      "situation": "The City of Macksburg council takes up 2026-001 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
+      "prior": "",
+      "text": "The meeting will come to order.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"],
+      "lineParts": ["address.chair-run-meeting.the-meeting-will-come-to-order"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "the chair's run-meeting sentences in data/english/parts/address.json, picked by the bill's recorded step",
+      "sourceRecordIds": [
+        "bill:office:gus2025:126663:council:2026-10-27:person_62351db23f710655:0",
+        "person_62351cb23f7104a2"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "address.chair-run-meeting.please-state-your-name-for-the-record"
+          ],
+          "partText": "Please state your name for the record.",
+          "text": "Please state your name for the record."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": [
+            "address.chair-run-meeting.the-committee-will-come-to-order"
+          ],
+          "partText": "The committee will come to order.",
+          "text": "The committee will come to order."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["address.chair-run-meeting.is-there-a-motion"],
+          "partText": "Is there a motion?",
+          "text": "Is there a motion?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": ["address.chair-run-meeting.the-motion-carries"],
+          "partText": "The motion carries.",
+          "text": "The motion carries."
+        }
+      ]
+    },
+    {
+      "i": 51,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Douglas Stephens",
+      "context": "Douglas Stephens speaks in the public comment period of a Ellsworth council meeting.",
+      "situation": "Douglas Stephens speaks in the public comment period of a Ellsworth council meeting.",
+      "prior": "Douglas Stephens: We need your help.",
+      "text": "Thank you for your consideration.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": [
+        "address.public-comment-close.thank-you-for-your-consideration"
+      ],
+      "lineParts": [
+        "address.public-comment-close.thank-you-for-your-consideration"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register public-comment, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_01711da3ff909e7b"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.public-comment-close.thats-all-i-have"],
+          "partText": "That's all I have.",
+          "text": "That's all I have."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.public-comment-close.thank-you-for-your-service"],
+          "partText": "Thank you for your service.",
+          "text": "Thank you for your service."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.state-floor-close.thank-you"],
+          "partText": "Thank you.",
+          "text": "Thank you."
+        }
+      ]
+    },
+    {
+      "i": 52,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Dawn McLaughlin (member)",
+      "context": "A member of the County of Washtenaw commissioner speaks to the chair during 2026-006 (\"Allow multifamily in single family zones\").",
+      "situation": "A member of the County of Washtenaw commissioner speaks to the chair during 2026-006 (\"Allow multifamily in single family zones\").",
+      "prior": "",
+      "text": "Madam Chair, I move to proceed to executive session.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["meeting.procedural.i-move-to-proceed-to-executive-session"],
+      "lineParts": [
+        "meeting.procedural.i-move-to-proceed-to-executive-session"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/meeting.json",
+      "sourceRecordIds": [
+        "bill:office:gus2025:166614:board:2026-10-27:person_2dd62b6ad0a09312:5",
+        "person_d1f3e880f91c77ed"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["meeting.procedural.i-could-not-make-today-s-vote"],
+          "partText": "Madam Chair, I could not make today's vote.",
+          "text": "Madam Chair, I could not make today's vote."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["meeting.procedural.i-withdraw-my-motion-to-proceed"],
+          "partText": "Madam Chair, I withdraw my motion to proceed.",
+          "text": "Madam Chair, I withdraw my motion to proceed."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["meeting.procedural.may-i-ask-for-a-clarification"],
+          "partText": "Madam Chair, may I ask for a clarification?",
+          "text": "Madam Chair, may I ask for a clarification?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": ["meeting.procedural.i-was-unavoidably-detained"],
+          "partText": "Madam Chair, I was unavoidably detained.",
+          "text": "Madam Chair, I was unavoidably detained."
+        }
+      ]
+    },
+    {
+      "i": 53,
+      "kind": "meeting",
+      "category": "meeting",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Kevin Stephens",
+      "context": "Kevin Stephens speaks in the public comment period of a Ellsworth council meeting.",
+      "situation": "Kevin Stephens speaks in the public comment period of a Ellsworth council meeting.",
+      "prior": "Kevin Stephens: We need your help.",
+      "text": "Thank you for your time.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": ["address.public-comment-greet.thank-you-for-your-time"],
+      "lineParts": ["address.public-comment-greet.thank-you-for-your-time"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register public-comment, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_4a969d5982f57a75"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.public-comment-close.thats-all-i-have"],
+          "partText": "That's all I have.",
+          "text": "That's all I have."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": [
+            "address.public-comment-close.thank-you-for-your-consideration"
+          ],
+          "partText": "Thank you for your consideration.",
+          "text": "Thank you for your consideration."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.state-floor-close.thank-you"],
+          "partText": "Thank you.",
+          "text": "Thank you."
+        }
+      ]
+    },
+    {
+      "i": 54,
+      "kind": "campaign",
+      "category": "campaign",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Tracey Caldwell",
+      "context": "Tracey Caldwell speaks at a rally in Macksburg as a candidate for undefined.",
+      "situation": "Tracey Caldwell speaks at a rally in Macksburg as a candidate for undefined.",
+      "prior": "Tracey Caldwell: Tell your friends.",
+      "text": "Thank you, and God bless you.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": ["address.campaign-close.thank-you-and-god-bless-you"],
+      "lineParts": ["address.campaign-close.thank-you-and-god-bless-you"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-IA:us-senate:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "address.campaign-close.god-bless-you-and-god-bless-america"
+          ],
+          "partText": "God bless you, and God bless America.",
+          "text": "God bless you, and God bless America."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.campaign-thanks.thank-you-so-much"],
+          "partText": "Thank you so much.",
+          "text": "Thank you so much."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.state-floor-close.thank-you"],
+          "partText": "Thank you.",
+          "text": "Thank you."
+        }
+      ]
+    },
+    {
+      "i": 55,
+      "kind": "campaign",
+      "category": "campaign",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Heather Carey",
+      "context": "Heather Carey speaks at a rally in Dexter as a candidate for undefined.",
+      "situation": "Heather Carey speaks at a rally in Dexter as a candidate for undefined.",
+      "prior": "",
+      "text": "It's great to be back in Dexter.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.campaign-thanks.its-great-to-be-back-in-place"],
+      "lineParts": ["address.campaign-thanks.its-great-to-be-back-in-place"],
+      "guard": {
+        "masks": ["Dexter"],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json",
+      "sourceRecordIds": [
+        "official:term:seat:US-MI:university-boards:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.campaign-thanks.thank-you-all-for-coming"],
+          "partText": "Thank you all for coming.",
+          "text": "Thank you all for coming."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.campaign-thanks.its-great-to-be-here"],
+          "partText": "It's great to be here.",
+          "text": "It's great to be here."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.campaign-thanks.thank-you-so-much"],
+          "partText": "Thank you so much.",
+          "text": "Thank you so much."
+        }
+      ]
+    },
+    {
+      "i": 56,
+      "kind": "campaign",
+      "category": "campaign",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Sherry Davis",
+      "context": "Sherry Davis speaks at a rally in Ellsworth as a candidate for undefined.",
+      "situation": "Sherry Davis speaks at a rally in Ellsworth as a candidate for undefined.",
+      "prior": "Sherry Davis: It's great to be here.",
+      "text": "I was born and raised in Ellsworth.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.campaign-self.i-was-born-and-raised-in-place"],
+      "lineParts": ["address.campaign-self.i-was-born-and-raised-in-place"],
+      "guard": {
+        "masks": ["Ellsworth"],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_6093c0e32aa76a7b"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.campaign-self.im-a-small-business-owner"],
+          "partText": "I'm a small business owner.",
+          "text": "I'm a small business owner."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.campaign-self.i-grew-up-in-place"],
+          "partText": "I grew up in Ellsworth.",
+          "text": "I grew up in Ellsworth."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.campaign-self.im-a-farmer"],
+          "partText": "I'm a farmer.",
+          "text": "I'm a farmer."
+        }
+      ]
+    },
+    {
+      "i": 57,
+      "kind": "campaign",
+      "category": "campaign",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Robert Moon",
+      "context": "Robert Moon speaks at a rally in West Laurel as a candidate for undefined.",
+      "situation": "Robert Moon speaks at a rally in West Laurel as a candidate for undefined.",
+      "prior": "Robert Moon: Thank you.",
+      "text": "I grew up in West Laurel.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.campaign-self.i-grew-up-in-place"],
+      "lineParts": ["address.campaign-self.i-grew-up-in-place"],
+      "guard": {
+        "masks": ["West Laurel"],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json",
+      "sourceRecordIds": [
+        "official:term:seat:US-MD:lieutenant-governor:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.campaign-self.im-a-small-business-owner"],
+          "partText": "I'm a small business owner.",
+          "text": "I'm a small business owner."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.campaign-self.i-was-born-and-raised-in-place"],
+          "partText": "I was born and raised in West Laurel.",
+          "text": "I was born and raised in West Laurel."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.campaign-self.im-a-farmer"],
+          "partText": "I'm a farmer.",
+          "text": "I'm a farmer."
+        }
+      ]
+    },
+    {
+      "i": 58,
+      "kind": "campaign",
+      "category": "campaign",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Janice Lowe",
+      "context": "Janice Lowe speaks at a rally in Baldwin as a candidate for undefined.",
+      "situation": "Janice Lowe speaks at a rally in Baldwin as a candidate for undefined.",
+      "prior": "Janice Lowe: Tell your friends.",
+      "text": "God bless you, and God bless America.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.campaign-close.god-bless-you-and-god-bless-america"],
+      "lineParts": [
+        "address.campaign-close.god-bless-you-and-god-bless-america"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-NY:governor:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.campaign-close.thank-you-and-god-bless"],
+          "partText": "Thank you, and God bless.",
+          "text": "Thank you, and God bless."
+        },
+        {
+          "n": 2,
+          "axis": "length",
+          "parts": ["address.state-floor-close.thank-you"],
+          "partText": "Thank you.",
+          "text": "Thank you."
+        }
+      ]
+    },
+    {
+      "i": 59,
+      "kind": "campaign",
+      "category": "campaign",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Sydney Wilkerson",
+      "context": "Sydney Wilkerson speaks at a rally in Baldwin as a candidate for undefined.",
+      "situation": "Sydney Wilkerson speaks at a rally in Baldwin as a candidate for undefined.",
+      "prior": "Sydney Wilkerson: I grew up in Baldwin.",
+      "text": "Get out and vote.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.campaign-ask.get-out-and-vote"],
+      "lineParts": ["address.campaign-ask.get-out-and-vote"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-NY:upper:006:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.campaign-ask.lets-get-to-work"],
+          "partText": "Let's get to work.",
+          "text": "Let's get to work."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.campaign-ask.go-vote"],
+          "partText": "Go vote.",
+          "text": "Go vote."
+        }
+      ]
+    },
+    {
+      "i": 60,
+      "kind": "campaign",
+      "category": "campaign",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Donald McLeod",
+      "context": "Donald McLeod speaks at a rally in Macksburg as a candidate for undefined.",
+      "situation": "Donald McLeod speaks at a rally in Macksburg as a candidate for undefined.",
+      "prior": "",
+      "text": "It's good to be home.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.campaign-thanks.its-good-to-be-home"],
+      "lineParts": ["address.campaign-thanks.its-good-to-be-home"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json",
+      "sourceRecordIds": [
+        "official:term:seat:US-IA:lieutenant-governor:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.campaign-thanks.thank-you-all-for-coming"],
+          "partText": "Thank you all for coming.",
+          "text": "Thank you all for coming."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.campaign-thanks.its-great-to-be-home"],
+          "partText": "It's great to be home.",
+          "text": "It's great to be home."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.state-floor-close.thank-you"],
+          "partText": "Thank you.",
+          "text": "Thank you."
+        }
+      ]
+    },
+    {
+      "i": 61,
+      "kind": "campaign",
+      "category": "campaign",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Camila Wells",
+      "context": "Camila Wells speaks at a rally in Baldwin as a candidate for undefined.",
+      "situation": "Camila Wells speaks at a rally in Baldwin as a candidate for undefined.",
+      "prior": "Camila Wells: I grew up in Baldwin.",
+      "text": "Tell your friends.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["address.campaign-ask.tell-your-friends"],
+      "lineParts": ["address.campaign-ask.tell-your-friends"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_c759b254c6ca7412"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.campaign-ask.lets-get-to-work"],
+          "partText": "Let's get to work.",
+          "text": "Let's get to work."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.campaign-ask.i-need-your-help"],
+          "partText": "I need your help.",
+          "text": "I need your help."
+        }
+      ]
+    },
+    {
+      "i": 62,
+      "kind": "interview",
+      "category": "interview",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Erin Sargent",
+      "context": "A local reporter's interview of Erin Sargent (a candidate in Macksburg, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
+      "situation": "A local reporter's interview of Erin Sargent (a candidate in Macksburg, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
+      "prior": "Reporter: What are you going to do about \"Stand your ground\"?",
+      "text": "You have my word.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["interview.official-commit.you-have-my-word"],
+      "lineParts": ["interview.official-commit.you-have-my-word"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
+      "sourceRecordIds": [
+        "interview:outlet:cable:0:national:filing:contest:seat:US-IA:governor:2026-11-03:official:term:seat:US-IA:governor:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-IA:governor:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "partText": "I'll do it.",
+          "text": "I'll do it."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["interview.official-commit.i-will"],
+          "partText": "I will.",
+          "text": "I will."
+        }
+      ]
+    },
+    {
+      "i": 63,
+      "kind": "interview",
+      "category": "interview",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Veronica Miles",
+      "context": "A local reporter's interview of Veronica Miles (a candidate in Dexter, 2026-10-19); asked about \"Price carbon\"; the candidate's recorded answer is support.",
+      "situation": "A local reporter's interview of Veronica Miles (a candidate in Dexter, 2026-10-19); asked about \"Price carbon\"; the candidate's recorded answer is support.",
+      "prior": "Reporter: What would you do about \"Price carbon\"?",
+      "text": "I'm committed to \"Price carbon\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["interview.official-commit.im-committed-to-issue"],
+      "lineParts": ["interview.official-commit.im-committed-to-issue"],
+      "guard": {
+        "masks": ["Price carbon"],
+        "institutions": [],
+        "titles": ["Price carbon"]
+      },
+      "composer": "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
+      "sourceRecordIds": [
+        "interview:outlet:national-paper:0:national:filing:contest:seat:US-MI:attorney-general:2026-11-03:official:term:seat:US-MI:attorney-general:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-MI:attorney-general:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.you-have-my-word"],
+          "partText": "You have my word.",
+          "text": "You have my word."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "partText": "I'll do it.",
+          "text": "I'll do it."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["interview.official-commit.i-will"],
+          "partText": "I will.",
+          "text": "I will."
+        }
+      ]
+    },
+    {
+      "i": 64,
+      "kind": "interview",
+      "category": "interview",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Robert Alexander",
+      "context": "A local reporter's interview of Robert Alexander (a candidate in Macksburg, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
+      "situation": "A local reporter's interview of Robert Alexander (a candidate in Macksburg, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
+      "prior": "Reporter: What are you going to do about \"Stand your ground\"?",
+      "text": "That's a promise.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["interview.official-commit.thats-a-promise"],
+      "lineParts": ["interview.official-commit.thats-a-promise"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
+      "sourceRecordIds": [
+        "interview:outlet:cable:1:national:filing:contest:seat:US-IA:us-house:03:2026-11-03:official:term:seat:US-IA:us-house:03:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-IA:us-house:03:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.i-will"],
+          "partText": "I will.",
+          "text": "I will."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "partText": "I'll do it.",
+          "text": "I'll do it."
+        }
+      ]
+    },
+    {
+      "i": 65,
+      "kind": "interview",
+      "category": "interview",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Lori Blanchard",
+      "context": "A local reporter's interview of Lori Blanchard (a candidate in West Laurel, 2026-10-19); asked about \"Permit to carry concealed\"; the candidate's recorded answer is support.",
+      "situation": "A local reporter's interview of Lori Blanchard (a candidate in West Laurel, 2026-10-19); asked about \"Permit to carry concealed\"; the candidate's recorded answer is support.",
+      "prior": "Reporter: What would you do about \"Permit to carry concealed\"?",
+      "text": "I will.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["interview.official-commit.i-will"],
+      "lineParts": ["interview.official-commit.i-will"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
+      "sourceRecordIds": [
+        "interview:outlet:newspaper:0:jurisdiction_2d1795b7518834e1:filing:contest:seat:gus2025:166367:sheriff:0:2026-11-03:person_6484a75451becafb:2026-10-19:0",
+        "person_6484a75451becafb"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "partText": "I'll do it.",
+          "text": "I'll do it."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["interview.official-commit.you-have-my-word"],
+          "partText": "You have my word.",
+          "text": "You have my word."
+        }
+      ]
+    },
+    {
+      "i": 66,
+      "kind": "interview",
+      "category": "interview",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Veronica Miles",
+      "context": "A local reporter's interview of Veronica Miles (a candidate in Dexter, 2026-10-19); asked about \"End cash bail\"; the candidate's recorded answer is support.",
+      "situation": "A local reporter's interview of Veronica Miles (a candidate in Dexter, 2026-10-19); asked about \"End cash bail\"; the candidate's recorded answer is support.",
+      "prior": "Reporter: What would you do about \"End cash bail\"?",
+      "text": "I'll do it.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["interview.official-commit.ill-do-it"],
+      "lineParts": ["interview.official-commit.ill-do-it"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
+      "sourceRecordIds": [
+        "interview:outlet:newspaper:1:jurisdiction_f7f38b5671d51608:filing:contest:seat:US-MI:attorney-general:2026-11-03:official:term:seat:US-MI:attorney-general:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-MI:attorney-general:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.i-will"],
+          "partText": "I will.",
+          "text": "I will."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["interview.official-commit.thats-a-promise"],
+          "partText": "That's a promise.",
+          "text": "That's a promise."
+        }
+      ]
+    },
+    {
+      "i": 67,
+      "kind": "interview",
+      "category": "interview",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Richard Montgomery",
+      "context": "A local reporter's interview of Richard Montgomery (a candidate in Ellsworth, 2026-10-19); asked about \"Restrict abortion\"; the candidate's recorded answer is support.",
+      "situation": "A local reporter's interview of Richard Montgomery (a candidate in Ellsworth, 2026-10-19); asked about \"Restrict abortion\"; the candidate's recorded answer is support.",
+      "prior": "Reporter: What would you do about \"Restrict abortion\"?",
+      "text": "I'm committed to \"Restrict abortion\".",
+      "lie": false,
+      "emotion": [],
+      "parts": ["interview.official-commit.im-committed-to-issue"],
+      "lineParts": ["interview.official-commit.im-committed-to-issue"],
+      "guard": {
+        "masks": ["Restrict abortion"],
+        "institutions": [],
+        "titles": ["Restrict abortion"]
+      },
+      "composer": "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
+      "sourceRecordIds": [
+        "interview:outlet:television:0:jurisdiction_819127612a48723b:filing:contest:seat:US-ME:lower:013:0:2026-11-03:official:term:seat:US-ME:lower:013:0:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-ME:lower:013:0:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.you-have-my-word"],
+          "partText": "You have my word.",
+          "text": "You have my word."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "partText": "I'll do it.",
+          "text": "I'll do it."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["interview.official-commit.i-will"],
+          "partText": "I will.",
+          "text": "I will."
+        }
+      ]
+    },
+    {
+      "i": 68,
+      "kind": "interview",
+      "category": "interview",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Reese Riddle",
+      "context": "A local reporter's interview of Reese Riddle (a candidate in Ellsworth, 2026-10-19); asked about \"Require photo id to vote\"; the candidate's recorded answer is support.",
+      "situation": "A local reporter's interview of Reese Riddle (a candidate in Ellsworth, 2026-10-19); asked about \"Require photo id to vote\"; the candidate's recorded answer is support.",
+      "prior": "Reporter: What would you do about \"Require photo id to vote\"?",
+      "text": "You have my word.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["interview.official-commit.you-have-my-word"],
+      "lineParts": ["interview.official-commit.you-have-my-word"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
+      "sourceRecordIds": [
+        "interview:outlet:television:1:jurisdiction_819127612a48723b:filing:contest:seat:gus2025:183964:treasurer:0:2026-11-03:person_ef56f814c936c08e:2026-10-19:0",
+        "person_ef56f814c936c08e"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "partText": "I'll do it.",
+          "text": "I'll do it."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["interview.official-commit.i-will"],
+          "partText": "I will.",
+          "text": "I will."
+        }
+      ]
+    },
+    {
+      "i": 69,
+      "kind": "interview",
+      "category": "interview",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Robin Melton",
+      "context": "A local reporter's interview of Robin Melton (a candidate in Ellsworth, 2026-10-26); asked about \"Public sector collective bargaining\"; the candidate's recorded answer is support.",
+      "situation": "A local reporter's interview of Robin Melton (a candidate in Ellsworth, 2026-10-26); asked about \"Public sector collective bargaining\"; the candidate's recorded answer is support.",
+      "prior": "Reporter: What are you going to do about \"Public sector collective bargaining\"?",
+      "text": "I will.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["interview.official-commit.i-will"],
+      "lineParts": ["interview.official-commit.i-will"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows",
+      "sourceRecordIds": [
+        "interview:outlet:national-paper:0:national:filing:contest:seat:US-ME:upper:007:0:2026-11-03:official:term:seat:US-ME:upper:007:0:2026-10-12:2026-10-26:0",
+        "official:term:seat:US-ME:upper:007:0:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "partText": "I'll do it.",
+          "text": "I'll do it."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["interview.official-commit.you-have-my-word"],
+          "partText": "You have my word.",
+          "text": "You have my word."
+        }
+      ]
+    },
+    {
+      "i": 70,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Charles Greer",
+      "context": "Charles Greer lost the race for undefined to Donald McLeod (the voting module's recorded result) and concedes.",
+      "situation": "Charles Greer lost the race for undefined to Donald McLeod (the voting module's recorded result) and concedes.",
+      "prior": "",
+      "text": "We didn't win.",
+      "lie": false,
+      "emotion": ["disappointment"],
+      "parts": ["address.concession-concede.we-didnt-win"],
+      "lineParts": ["address.concession-concede.we-didnt-win"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register concession, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-IA:upper:017:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.concession-concede.we-will-be-back"],
+          "partText": "We will be back.",
+          "text": "We will be back."
+        }
+      ]
+    },
+    {
+      "i": 71,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Doris Montgomery",
+      "context": "Doris Montgomery lost the race for undefined to Robert Alexander (the voting module's recorded result) and concedes.",
+      "situation": "Doris Montgomery lost the race for undefined to Robert Alexander (the voting module's recorded result) and concedes.",
+      "prior": "",
+      "text": "I wish Robert Alexander well.",
+      "lie": false,
+      "emotion": ["goodwill"],
+      "parts": ["address.concession-concede.i-wish-opponent-well"],
+      "lineParts": ["address.concession-concede.i-wish-opponent-well"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register concession, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-IA:upper:025:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.concession-concede.thank-you-for-everything"],
+          "partText": "Thank you for everything.",
+          "text": "Thank you for everything."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.concession-concede.i-congratulate-opponent"],
+          "partText": "I congratulate Robert Alexander.",
+          "text": "I congratulate Robert Alexander."
+        }
+      ]
+    },
+    {
+      "i": 72,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Julia Bennett",
+      "context": "Julia Bennett lost the race for undefined to Kathryn Barton (the voting module's recorded result) and concedes.",
+      "situation": "Julia Bennett lost the race for undefined to Kathryn Barton (the voting module's recorded result) and concedes.",
+      "prior": "",
+      "text": "Thank you for everything.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": ["address.concession-concede.thank-you-for-everything"],
+      "lineParts": ["address.concession-concede.thank-you-for-everything"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register concession, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-IA:upper:039:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.concession-concede.the-fight-goes-on"],
+          "partText": "The fight goes on.",
+          "text": "The fight goes on."
+        }
+      ]
+    },
+    {
+      "i": 73,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Lance Summers",
+      "context": "The whole house honor turn, said in one go (a floor tribute).",
+      "situation": "The whole house honor turn, said in one go (a floor tribute).",
+      "prior": "",
+      "text": "Mr. Speaker, I rise to recognize Morgan Ruiz. Morgan Ruiz was born in Macksburg. I congratulate Morgan Ruiz. I yield back the balance of my time.",
+      "lie": false,
+      "emotion": ["joy"],
+      "parts": [
+        "address.house-floor-yield.i-yield-back-the-balance-of-my-time"
+      ],
+      "lineParts": [
+        "address.house-floor-address-chair.mr-speaker-i-rise-to-recognize-name",
+        "address.house-floor-tribute-story.name-was-born-in-place",
+        "address.house-floor-tribute-close.i-congratulate-name",
+        "address.house-floor-yield.i-yield-back-the-balance-of-my-time"
+      ],
+      "guard": {
+        "masks": ["Macksburg"],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress, register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_62351cb23f7104a2"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "address.house-floor-yield.madam-speaker-i-yield-back-the-balance-of-my-tim"
+          ],
+          "partText": "Madam Speaker, I yield back the balance of my time.",
+          "text": "Mr. Speaker, I rise to recognize Morgan Ruiz. Morgan Ruiz was born in Macksburg. I congratulate Morgan Ruiz. Madam Speaker, I yield back the balance of my time."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": [
+            "address.house-floor-yield.i-reserve-the-balance-of-my-time"
+          ],
+          "partText": "I reserve the balance of my time.",
+          "text": "Mr. Speaker, I rise to recognize Morgan Ruiz. Morgan Ruiz was born in Macksburg. I congratulate Morgan Ruiz. I reserve the balance of my time."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": [
+            "address.house-floor-yield.mr-speaker-i-yield-back-the-balance-of-my-time"
+          ],
+          "partText": "Mr. Speaker, I yield back the balance of my time.",
+          "text": "Mr. Speaker, I rise to recognize Morgan Ruiz. Morgan Ruiz was born in Macksburg. I congratulate Morgan Ruiz. Mr. Speaker, I yield back the balance of my time."
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": ["address.house-floor-yield.i-yield-back"],
+          "partText": "I yield back.",
+          "text": "Mr. Speaker, I rise to recognize Morgan Ruiz. Morgan Ruiz was born in Macksburg. I congratulate Morgan Ruiz. I yield back."
+        }
+      ]
+    },
+    {
+      "i": 74,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Donald McLeod",
+      "context": "Donald McLeod won the race for undefined against Charles Greer (the voting module's recorded result) and speaks on election night.",
+      "situation": "Donald McLeod won the race for undefined against Charles Greer (the voting module's recorded result) and speaks on election night.",
+      "prior": "",
+      "text": "I am honored.",
+      "lie": false,
+      "emotion": ["pride"],
+      "parts": ["address.victory-claim.i-am-honored"],
+      "lineParts": ["address.victory-claim.i-am-honored"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register victory, words from data/english/parts/address.json",
+      "sourceRecordIds": [
+        "official:term:seat:US-IA:lieutenant-governor:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.victory-claim.im-honored"],
+          "partText": "I'm honored.",
+          "text": "I'm honored."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.victory-claim.i-am-grateful"],
+          "partText": "I am grateful.",
+          "text": "I am grateful."
+        }
+      ]
+    },
+    {
+      "i": 75,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Michael Weaver",
+      "context": "Michael Weaver lost the race for undefined to Amy Cobb (the voting module's recorded result) and concedes.",
+      "situation": "Michael Weaver lost the race for undefined to Amy Cobb (the voting module's recorded result) and concedes.",
+      "prior": "",
+      "text": "This is not the end.",
+      "lie": false,
+      "emotion": ["resolve"],
+      "parts": ["address.concession-concede.this-is-not-the-end"],
+      "lineParts": ["address.concession-concede.this-is-not-the-end"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register concession, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-IA:upper:041:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.concession-concede.thank-you-for-everything"],
+          "partText": "Thank you for everything.",
+          "text": "Thank you for everything."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.concession-concede.the-fight-goes-on"],
+          "partText": "The fight goes on.",
+          "text": "The fight goes on."
+        }
+      ]
+    },
+    {
+      "i": 76,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Joyce Mercer",
+      "context": "Joyce Mercer lost the race for undefined to Laurie Jones (the voting module's recorded result) and concedes.",
+      "situation": "Joyce Mercer lost the race for undefined to Laurie Jones (the voting module's recorded result) and concedes.",
+      "prior": "",
+      "text": "We will be back.",
+      "lie": false,
+      "emotion": ["resolve"],
+      "parts": ["address.concession-concede.we-will-be-back"],
+      "lineParts": ["address.concession-concede.we-will-be-back"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register concession, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-IA:upper:049:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.concession-concede.we-didnt-win"],
+          "partText": "We didn't win.",
+          "text": "We didn't win."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.concession-concede.the-fight-goes-on"],
+          "partText": "The fight goes on.",
+          "text": "The fight goes on."
+        }
+      ]
+    },
+    {
+      "i": 77,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Reese Petty",
+      "context": "The whole house honor turn, said in one go (a floor tribute).",
+      "situation": "The whole house honor turn, said in one go (a floor tribute).",
+      "prior": "",
+      "text": "Madam Speaker, I rise today to celebrate Carrie Ford. Carrie Ford grew up in Baldwin. I thank Carrie Ford for her service. I yield back.",
+      "lie": false,
+      "emotion": ["gratitude", "joy"],
+      "parts": [
+        "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name"
+      ],
+      "lineParts": [
+        "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name",
+        "address.house-floor-tribute-story.name-grew-up-in-place",
+        "address.house-floor-tribute-close.i-thank-name-for-pronoun-service",
+        "address.house-floor-yield.i-yield-back"
+      ],
+      "guard": {
+        "masks": ["Baldwin"],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress, register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_6eb8812ba941b3c4"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-to-honor-name"
+          ],
+          "partText": "Madam Speaker, I rise to honor Carrie Ford.",
+          "text": "Madam Speaker, I rise to honor Carrie Ford. Carrie Ford grew up in Baldwin. I thank Carrie Ford for her service. I yield back."
+        },
+        {
+          "n": 2,
+          "axis": "sentence structure",
+          "parts": [
+            "address.house-floor-address-chair.mr-speaker-i-rise-today-to-celebrate-name"
+          ],
+          "partText": "Mr. Speaker, I rise today to celebrate Carrie Ford.",
+          "text": "Mr. Speaker, I rise today to celebrate Carrie Ford. Carrie Ford grew up in Baldwin. I thank Carrie Ford for her service. I yield back."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-today-to-honor-the-life-of"
+          ],
+          "partText": "Madam Speaker, I rise today to honor the life of Carrie Ford.",
+          "text": "Madam Speaker, I rise today to honor the life of Carrie Ford. Carrie Ford grew up in Baldwin. I thank Carrie Ford for her service. I yield back."
+        }
+      ]
+    },
+    {
+      "i": 78,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Stephanie Walters",
+      "context": "Stephanie Walters lost the race for undefined to Dawn Davenport (the voting module's recorded result) and concedes.",
+      "situation": "Stephanie Walters lost the race for undefined to Dawn Davenport (the voting module's recorded result) and concedes.",
+      "prior": "",
+      "text": "I want to congratulate Dawn Davenport.",
+      "lie": false,
+      "emotion": ["joy"],
+      "parts": ["address.concession-concede.i-want-to-congratulate-opponent"],
+      "lineParts": [
+        "address.concession-concede.i-want-to-congratulate-opponent"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register concession, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-IA:upper:035:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.concession-concede.thank-you-for-everything"],
+          "partText": "Thank you for everything.",
+          "text": "Thank you for everything."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.concession-concede.i-congratulate-opponent"],
+          "partText": "I congratulate Dawn Davenport.",
+          "text": "I congratulate Dawn Davenport."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.concession-concede.we-didnt-win"],
+          "partText": "We didn't win.",
+          "text": "We didn't win."
+        }
+      ]
+    },
+    {
+      "i": 79,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Neil Ward",
+      "context": "Neil Ward honors Warren Chambers, a fellow sitting official, on the floor.",
+      "situation": "Neil Ward honors Warren Chambers, a fellow sitting official, on the floor.",
+      "prior": "Neil Ward: Warren Chambers graduated from Woodland Elementary School.",
+      "text": "Please join me in congratulating Warren Chambers.",
+      "lie": false,
+      "emotion": ["joy"],
+      "parts": [
+        "address.house-floor-tribute-close.please-join-me-in-congratulating-name"
+      ],
+      "lineParts": [
+        "address.house-floor-tribute-close.please-join-me-in-congratulating-name"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_77698c81a5222c16"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.house-floor-tribute-close.name-will-be-missed"],
+          "partText": "Warren Chambers will be missed.",
+          "text": "Warren Chambers will be missed."
+        },
+        {
+          "n": 2,
+          "axis": "length",
+          "parts": ["address.house-floor-tribute-close.congratulations-name"],
+          "partText": "Congratulations, Warren Chambers.",
+          "text": "Congratulations, Warren Chambers."
+        }
+      ]
+    },
+    {
+      "i": 80,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Janet Mack",
+      "context": "Janet Mack honors Michael Weeks, a fellow sitting official, on the floor.",
+      "situation": "Janet Mack honors Michael Weeks, a fellow sitting official, on the floor.",
+      "prior": "Janet Mack: Michael Weeks was born in West Laurel.",
+      "text": "I congratulate Michael Weeks.",
+      "lie": false,
+      "emotion": ["joy"],
+      "parts": ["address.house-floor-tribute-close.i-congratulate-name"],
+      "lineParts": ["address.house-floor-tribute-close.i-congratulate-name"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-MD:us-senate:1:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["address.house-floor-tribute-close.congratulations-name"],
+          "partText": "Congratulations, Michael Weeks.",
+          "text": "Congratulations, Michael Weeks."
+        },
+        {
+          "n": 2,
+          "axis": "length",
+          "parts": [
+            "address.house-floor-tribute-close.please-join-me-in-congratulating-name"
+          ],
+          "partText": "Please join me in congratulating Michael Weeks.",
+          "text": "Please join me in congratulating Michael Weeks."
+        }
+      ]
+    },
+    {
+      "i": 81,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Dawn Brooks",
+      "context": "Dawn Brooks honors Christopher Chang, a fellow sitting official, on the floor.",
+      "situation": "Dawn Brooks honors Christopher Chang, a fellow sitting official, on the floor.",
+      "prior": "Dawn Brooks: Christopher Chang graduated from Chestnut Hill Elementary School.",
+      "text": "I thank Christopher Chang for his service.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": [
+        "address.house-floor-tribute-close.i-thank-name-for-pronoun-service"
+      ],
+      "lineParts": [
+        "address.house-floor-tribute-close.i-thank-name-for-pronoun-service"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_442f96c2ee9c9824"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "address.house-floor-tribute-close.please-join-me-in-congratulating-name"
+          ],
+          "partText": "Please join me in congratulating Christopher Chang.",
+          "text": "Please join me in congratulating Christopher Chang."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.house-floor-tribute-close.name-will-be-missed"],
+          "partText": "Christopher Chang will be missed.",
+          "text": "Christopher Chang will be missed."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.house-floor-tribute-close.i-congratulate-name"],
+          "partText": "I congratulate Christopher Chang.",
+          "text": "I congratulate Christopher Chang."
+        }
+      ]
+    },
+    {
+      "i": 82,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Laurie Jones",
+      "context": "Laurie Jones won the race for undefined against Joyce Mercer (the voting module's recorded result) and speaks on election night.",
+      "situation": "Laurie Jones won the race for undefined against Joyce Mercer (the voting module's recorded result) and speaks on election night.",
+      "prior": "",
+      "text": "I'm honored.",
+      "lie": false,
+      "emotion": ["pride"],
+      "parts": ["address.victory-claim.im-honored"],
+      "lineParts": ["address.victory-claim.im-honored"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register victory, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-IA:treasurer:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.victory-claim.i-am-honored"],
+          "partText": "I am honored.",
+          "text": "I am honored."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.victory-claim.im-grateful"],
+          "partText": "I'm grateful.",
+          "text": "I'm grateful."
+        }
+      ]
+    },
+    {
+      "i": 83,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Christopher Chang",
+      "context": "Christopher Chang honors Jason Rodgers, a fellow sitting official, on the floor.",
+      "situation": "Christopher Chang honors Jason Rodgers, a fellow sitting official, on the floor.",
+      "prior": "",
+      "text": "Mr. Speaker, I rise today to congratulate Jason Rodgers.",
+      "lie": false,
+      "emotion": ["joy"],
+      "parts": [
+        "address.house-floor-address-chair.mr-speaker-i-rise-today-to-congratulate-name"
+      ],
+      "lineParts": [
+        "address.house-floor-address-chair.mr-speaker-i-rise-today-to-congratulate-name"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_0a27e7fd2e764bc0"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "address.house-floor-address-chair.mr-speaker-i-rise-to-honor-name"
+          ],
+          "partText": "Mr. Speaker, I rise to honor Jason Rodgers.",
+          "text": "Mr. Speaker, I rise to honor Jason Rodgers."
+        },
+        {
+          "n": 2,
+          "axis": "sentence structure",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-today-to-congratulate-name"
+          ],
+          "partText": "Madam Speaker, I rise today to congratulate Jason Rodgers.",
+          "text": "Madam Speaker, I rise today to congratulate Jason Rodgers."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": [
+            "address.house-floor-address-chair.mr-speaker-i-rise-today-to-honor-the-life-of-nam"
+          ],
+          "partText": "Mr. Speaker, I rise today to honor the life of Jason Rodgers.",
+          "text": "Mr. Speaker, I rise today to honor the life of Jason Rodgers."
+        }
+      ]
+    },
+    {
+      "i": 84,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "John Wiggins",
+      "context": "John Wiggins won the race for undefined against Kelly O'Connor (the voting module's recorded result) and speaks on election night.",
+      "situation": "John Wiggins won the race for undefined against Kelly O'Connor (the voting module's recorded result) and speaks on election night.",
+      "prior": "",
+      "text": "I am humbled.",
+      "lie": false,
+      "emotion": ["pride"],
+      "parts": ["address.victory-claim.i-am-humbled"],
+      "lineParts": ["address.victory-claim.i-am-humbled"],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register victory, words from data/english/parts/address.json",
+      "sourceRecordIds": [
+        "official:term:seat:US-IA:attorney-general:2026-10-12"
+      ],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.victory-claim.im-grateful"],
+          "partText": "I'm grateful.",
+          "text": "I'm grateful."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.victory-claim.i-am-grateful"],
+          "partText": "I am grateful.",
+          "text": "I am grateful."
+        }
+      ]
+    },
+    {
+      "i": 85,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Michael Weeks",
+      "context": "The whole house honor turn, said in one go (a floor tribute).",
+      "situation": "The whole house honor turn, said in one go (a floor tribute).",
+      "prior": "",
+      "text": "Madam Speaker, I rise to honor Diana Stephenson. Diana Stephenson grew up in West Laurel. I thank Diana Stephenson for her service. Madam Speaker, I yield back the balance of my time.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": [
+        "address.house-floor-address-chair.madam-speaker-i-rise-to-honor-name"
+      ],
+      "lineParts": [
+        "address.house-floor-address-chair.madam-speaker-i-rise-to-honor-name",
+        "address.house-floor-tribute-story.name-grew-up-in-place",
+        "address.house-floor-tribute-close.i-thank-name-for-pronoun-service",
+        "address.house-floor-yield.madam-speaker-i-yield-back-the-balance-of-my-tim"
+      ],
+      "guard": {
+        "masks": ["West Laurel"],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress, register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["official:term:seat:US-MD:us-senate:0:2026-10-12"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name"
+          ],
+          "partText": "Madam Speaker, I rise today to celebrate Diana Stephenson.",
+          "text": "Madam Speaker, I rise today to celebrate Diana Stephenson. Diana Stephenson grew up in West Laurel. I thank Diana Stephenson for her service. Madam Speaker, I yield back the balance of my time."
+        },
+        {
+          "n": 2,
+          "axis": "sentence structure",
+          "parts": [
+            "address.house-floor-address-chair.mr-speaker-i-rise-to-honor-name"
+          ],
+          "partText": "Mr. Speaker, I rise to honor Diana Stephenson.",
+          "text": "Mr. Speaker, I rise to honor Diana Stephenson. Diana Stephenson grew up in West Laurel. I thank Diana Stephenson for her service. Madam Speaker, I yield back the balance of my time."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-today-to-honor-the-life-of"
+          ],
+          "partText": "Madam Speaker, I rise today to honor the life of Diana Stephenson.",
+          "text": "Madam Speaker, I rise today to honor the life of Diana Stephenson. Diana Stephenson grew up in West Laurel. I thank Diana Stephenson for her service. Madam Speaker, I yield back the balance of my time."
+        }
+      ]
+    },
+    {
+      "i": 86,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Carrie Ford",
+      "context": "Carrie Ford honors Bo Villegas, a fellow sitting official, on the floor.",
+      "situation": "Carrie Ford honors Bo Villegas, a fellow sitting official, on the floor.",
+      "prior": "",
+      "text": "Madam Speaker, I rise today to celebrate Bo Villegas.",
+      "lie": false,
+      "emotion": ["joy"],
+      "parts": [
+        "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name"
+      ],
+      "lineParts": [
+        "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_0b71789b03aa9e2b"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-to-honor-name"
+          ],
+          "partText": "Madam Speaker, I rise to honor Bo Villegas.",
+          "text": "Madam Speaker, I rise to honor Bo Villegas."
+        },
+        {
+          "n": 2,
+          "axis": "sentence structure",
+          "parts": [
+            "address.house-floor-address-chair.mr-speaker-i-rise-today-to-celebrate-name"
+          ],
+          "partText": "Mr. Speaker, I rise today to celebrate Bo Villegas.",
+          "text": "Mr. Speaker, I rise today to celebrate Bo Villegas."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-today-to-honor-the-life-of"
+          ],
+          "partText": "Madam Speaker, I rise today to honor the life of Bo Villegas.",
+          "text": "Madam Speaker, I rise today to honor the life of Bo Villegas."
+        }
+      ]
+    },
+    {
+      "i": 87,
+      "kind": "emotion",
+      "category": "emotion",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Reese Petty",
+      "context": "Reese Petty honors Carrie Ford, a fellow sitting official, on the floor.",
+      "situation": "Reese Petty honors Carrie Ford, a fellow sitting official, on the floor.",
+      "prior": "Reese Petty: Carrie Ford grew up in Baldwin.",
+      "text": "I thank Carrie Ford for her service.",
+      "lie": false,
+      "emotion": ["gratitude"],
+      "parts": [
+        "address.house-floor-tribute-close.i-thank-name-for-pronoun-service"
+      ],
+      "lineParts": [
+        "address.house-floor-tribute-close.i-thank-name-for-pronoun-service"
+      ],
+      "guard": {
+        "masks": [],
+        "institutions": [],
+        "titles": []
+      },
+      "composer": "composeAddress (src/presentation/english-composition.ts), register house-honor, words from data/english/parts/address.json",
+      "sourceRecordIds": ["person_6eb8812ba941b3c4"],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "address.house-floor-tribute-close.please-join-me-in-congratulating-name"
+          ],
+          "partText": "Please join me in congratulating Carrie Ford.",
+          "text": "Please join me in congratulating Carrie Ford."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["address.house-floor-tribute-close.name-will-be-missed"],
+          "partText": "Carrie Ford will be missed.",
+          "text": "Carrie Ford will be missed."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["address.house-floor-tribute-close.i-congratulate-name"],
+          "partText": "I congratulate Carrie Ford.",
+          "text": "I congratulate Carrie Ford."
+        }
+      ]
+    },
+    {
+      "i": 88,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Tyler McLean",
+      "context": "Tyler McLean talks with Madison McLean, in Macksburg, Iowa, on day 2. A reply the player could pick.",
+      "situation": "Tyler McLean talks with Madison McLean, in Macksburg, Iowa, on day 2. A reply the player could pick.",
+      "prior": "Madison McLean: Have you talked to Maya McLean?",
+      "text": "I talked to Maya McLean yesterday.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.mutual-answer-mine-saw.i-talked-to-name-my-when"],
+      "lineParts": [
+        "conversation.mutual-answer-mine-saw.i-talked-to-name-my-when"
+      ],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["conversation.mutual-answer-mine-saw.i-saw-name-my-when"],
+          "partText": "I saw Maya McLean yesterday.",
+          "text": "I saw Maya McLean yesterday."
+        },
+        {
+          "n": 2,
+          "axis": "sentence structure",
+          "parts": ["conversation.mutual-raise-seen.have-you-seen-name"],
+          "partText": "Have you seen Maya?",
+          "text": "Have you seen Maya?"
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["conversation.asked-mutual-answer-not.i-havent"],
+          "partText": "I haven't.",
+          "text": "I haven't."
+        }
+      ]
+    },
+    {
+      "i": 89,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Dexter, Michigan",
+      "life": 1,
+      "speaker": "Jose Rivas",
+      "context": "Jose Rivas talks with Ayanna Wyatt, a neighbor, in Dexter, Michigan, on day 6. A reply the player could pick.",
+      "situation": "Jose Rivas talks with Ayanna Wyatt, a neighbor, in Dexter, Michigan, on day 6. A reply the player could pick.",
+      "prior": "Ayanna Wyatt: Where do you come from?",
+      "text": "I'm from Dexter. What about you?",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.home-new-answer-plain.im-from-place"],
+      "lineParts": [
+        "conversation.home-new-answer-plain.im-from-place",
+        "conversation.greet-answer-fine.what-about-you"
+      ],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["conversation.home-new-answer-brief.here-in-place"],
+          "partText": "Here in Dexter.",
+          "text": "Here in Dexter. What about you?"
+        },
+        {
+          "n": 2,
+          "axis": "sentence structure",
+          "parts": ["conversation.home-new-ask-where.where-are-you-from"],
+          "partText": "Where are you from?",
+          "text": "Where are you from? What about you?"
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": [
+            "conversation.home-new-answer-always.i-was-born-and-raised-in-place"
+          ],
+          "partText": "I was born and raised in Dexter.",
+          "text": "I was born and raised in Dexter. What about you?"
+        }
+      ]
+    },
+    {
+      "i": 90,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Caleb Stephens",
+      "context": "Caleb Stephens talks with Melissa Whitfield, in Ellsworth, Maine, on day 2. A reply the player could pick.",
+      "situation": "Caleb Stephens talks with Melissa Whitfield, in Ellsworth, Maine, on day 2. A reply the player could pick.",
+      "prior": "Melissa Whitfield: Have you heard from Mary Whitfield?",
+      "text": "Have you seen Mary Whitfield?",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.mutual-raise-seen.have-you-seen-name"],
+      "lineParts": ["conversation.mutual-raise-seen.have-you-seen-name"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["conversation.greet-answer-fine.how-about-you"],
+          "partText": "How about you?",
+          "text": "How about you?"
+        },
+        {
+          "n": 2,
+          "axis": "sentence structure",
+          "parts": ["conversation.asked-mutual-answer-not.not-for-a-long-time"],
+          "partText": "Not for a long time.",
+          "text": "Not for a long time."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["conversation.asked-mutual-answer-turn.have-you"],
+          "partText": "Have you?",
+          "text": "Have you?"
+        }
+      ]
+    },
+    {
+      "i": 91,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "West Laurel, Maryland",
+      "life": 4,
+      "speaker": "Carrie Petty",
+      "context": "Noor Haynes talks with Carrie Petty, a neighbor, in West Laurel, Maryland, on day 3.",
+      "situation": "Noor Haynes talks with Carrie Petty, a neighbor, in West Laurel, Maryland, on day 3.",
+      "prior": "Carrie Petty: Sure.",
+      "text": "I have to go.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.farewell-leave-bye.i-have-to-go"],
+      "lineParts": ["conversation.farewell-leave-bye.i-have-to-go"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "personality fit",
+          "parts": ["conversation.farewell-leave-bye.have-a-nice-day"],
+          "partText": "Have a nice day.",
+          "text": "Have a nice day."
+        },
+        {
+          "n": 2,
+          "axis": "formality",
+          "parts": ["conversation.farewell-leave-bye.ive-got-to-go"],
+          "partText": "I've got to go.",
+          "text": "I've got to go."
+        },
+        {
+          "n": 3,
+          "axis": "word choice",
+          "parts": ["conversation.farewell-leave-bye.i-have-to-run"],
+          "partText": "I have to run.",
+          "text": "I have to run."
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": ["conversation.farewell-leave-bye.bye"],
+          "partText": "Bye.",
+          "text": "Bye."
+        }
+      ]
+    },
+    {
+      "i": 92,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Caleb Stephens",
+      "context": "Caleb Stephens talks with Judy Ortega, a neighbor, in Ellsworth, Maine, on day 2. A reply the player could pick.",
+      "situation": "Caleb Stephens talks with Judy Ortega, a neighbor, in Ellsworth, Maine, on day 2. A reply the player could pick.",
+      "prior": "Judy Ortega: Where did you go to school?",
+      "text": "I graduated from Ellsworth Elementary-Middle School.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.school-answer-at.i-graduated-from-school"],
+      "lineParts": ["conversation.school-answer-at.i-graduated-from-school"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["conversation.school-answer-at.im-at-school"],
+          "partText": "I'm at Ellsworth Elementary-Middle School.",
+          "text": "I'm at Ellsworth Elementary-Middle School."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["conversation.school-answer-at.i-go-to-school"],
+          "partText": "I go to Ellsworth Elementary-Middle School.",
+          "text": "I go to Ellsworth Elementary-Middle School."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["conversation.school-answer-done.i-graduated"],
+          "partText": "I graduated.",
+          "text": "I graduated."
+        }
+      ]
+    },
+    {
+      "i": 93,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Ivy Guerrero",
+      "context": "Ivy Guerrero talks with David Donovan, in Baldwin, New York, on day 2. A reply the player could pick.",
+      "situation": "Ivy Guerrero talks with David Donovan, in Baldwin, New York, on day 2. A reply the player could pick.",
+      "prior": "David Donovan: Remember Baldwin Middle School?",
+      "text": "That was 6 years ago.",
+      "lie": false,
+      "emotion": [],
+      "parts": [
+        "conversation.shared-school-reply-years.that-was-years-years-ago"
+      ],
+      "lineParts": [
+        "conversation.shared-school-reply-years.that-was-years-years-ago"
+      ],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "conversation.shared-school-answer-plain.ill-never-forget-it"
+          ],
+          "partText": "I'll never forget it.",
+          "text": "I'll never forget it."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-while-ago"
+          ],
+          "partText": "That was a while ago.",
+          "text": "That was a while ago."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["conversation.home-reply-answer-brief.sure"],
+          "partText": "Sure.",
+          "text": "Sure."
+        }
+      ]
+    },
+    {
+      "i": 94,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Tyler McLean",
+      "context": "Tyler McLean talks with Ruby Mays, a neighbor, in Macksburg, Iowa, on day 2. A reply the player could pick.",
+      "situation": "Tyler McLean talks with Ruby Mays, a neighbor, in Macksburg, Iowa, on day 2. A reply the player could pick.",
+      "prior": "Ruby Mays: Where do you come from?",
+      "text": "I grew up in Macksburg.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.home-new-answer-always.i-grew-up-in-place"],
+      "lineParts": ["conversation.home-new-answer-always.i-grew-up-in-place"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["conversation.home-new-answer-plain.im-from-place"],
+          "partText": "I'm from Macksburg.",
+          "text": "I'm from Macksburg."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["conversation.home-answer-always.i-grew-up-here"],
+          "partText": "I grew up here.",
+          "text": "I grew up here."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["conversation.greet-answer-fine.how-about-you"],
+          "partText": "How about you?",
+          "text": "How about you?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": ["conversation.home-new-answer-brief.right-here"],
+          "partText": "Right here.",
+          "text": "Right here."
+        }
+      ]
+    },
+    {
+      "i": 95,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Ellsworth, Maine",
+      "life": 2,
+      "speaker": "Caleb Stephens",
+      "context": "Caleb Stephens talks with Emma Stanley, in Ellsworth, Maine, on day 4. A reply the player could pick.",
+      "situation": "Caleb Stephens talks with Emma Stanley, in Ellsworth, Maine, on day 4. A reply the player could pick.",
+      "prior": "Emma Stanley: Do you remember Ellsworth Elementary-Middle School?",
+      "text": "I remember.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.shared-school-answer-plain.i-remember"],
+      "lineParts": ["conversation.shared-school-answer-plain.i-remember"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["conversation.shared-school-answer-plain.yes-i-remember"],
+          "partText": "Yes, I remember.",
+          "text": "Yes, I remember."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["conversation.shared-school-answer-plain.i-remember-that"],
+          "partText": "I remember that.",
+          "text": "I remember that."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-long-time-ago"
+          ],
+          "partText": "That was a long time ago.",
+          "text": "That was a long time ago."
+        }
+      ]
+    },
+    {
+      "i": 96,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "David Taylor",
+      "context": "Ivy Guerrero talks with David Taylor, a neighbor, in Baldwin, New York, on day 5.",
+      "situation": "Ivy Guerrero talks with David Taylor, a neighbor, in Baldwin, New York, on day 5.",
+      "prior": "Ivy Guerrero: I'm from Baldwin. How about you?",
+      "text": "I've got to go.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.farewell-leave-bye.ive-got-to-go"],
+      "lineParts": ["conversation.farewell-leave-bye.ive-got-to-go"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["conversation.farewell-leave-bye.i-have-to-go"],
+          "partText": "I have to go.",
+          "text": "I have to go."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["conversation.farewell-leave-bye.ive-got-to-run"],
+          "partText": "I've got to run.",
+          "text": "I've got to run."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["conversation.farewell-leave-bye.bye"],
+          "partText": "Bye.",
+          "text": "Bye."
+        }
+      ]
+    },
+    {
+      "i": 97,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Maya McLean",
+      "context": "Tyler McLean talks with Maya McLean, in Macksburg, Iowa, on day 3.",
+      "situation": "Tyler McLean talks with Maya McLean, in Macksburg, Iowa, on day 3.",
+      "prior": "Tyler McLean: How long have you been there?",
+      "text": "Stay in touch.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.farewell-leave-bye.stay-in-touch"],
+      "lineParts": ["conversation.farewell-leave-bye.stay-in-touch"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "personality fit",
+          "parts": ["conversation.farewell-leave-bye.have-a-nice-day"],
+          "partText": "Have a nice day.",
+          "text": "Have a nice day."
+        },
+        {
+          "n": 2,
+          "axis": "formality",
+          "parts": ["conversation.farewell-leave-bye.ill-see-you"],
+          "partText": "I'll see you.",
+          "text": "I'll see you."
+        },
+        {
+          "n": 3,
+          "axis": "word choice",
+          "parts": ["conversation.farewell-leave-bye.bye"],
+          "partText": "Bye.",
+          "text": "Bye."
+        }
+      ]
+    },
+    {
+      "i": 98,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Baldwin, New York",
+      "life": 3,
+      "speaker": "Ivy Guerrero",
+      "context": "Ivy Guerrero talks with Kai Palmer, in Baldwin, New York, on day 5. A reply the player could pick.",
+      "situation": "Ivy Guerrero talks with Kai Palmer, in Baldwin, New York, on day 5. A reply the player could pick.",
+      "prior": "Kai Palmer: Where are you from?",
+      "text": "I was born in Baldwin.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.home-new-answer-always.i-was-born-in-place"],
+      "lineParts": ["conversation.home-new-answer-always.i-was-born-in-place"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["conversation.home-new-answer-plain.im-from-place"],
+          "partText": "I'm from Baldwin.",
+          "text": "I'm from Baldwin."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": [
+            "conversation.home-new-answer-always.i-was-born-and-raised-in-place"
+          ],
+          "partText": "I was born and raised in Baldwin.",
+          "text": "I was born and raised in Baldwin."
+        },
+        {
+          "n": 3,
+          "axis": "sentence structure",
+          "parts": ["conversation.greet-answer-fine.how-about-you"],
+          "partText": "How about you?",
+          "text": "How about you?"
+        },
+        {
+          "n": 4,
+          "axis": "length",
+          "parts": ["conversation.home-new-answer-brief.right-here"],
+          "partText": "Right here.",
+          "text": "Right here."
+        }
+      ]
+    },
+    {
+      "i": 99,
+      "kind": "conversation",
+      "category": "conversation",
+      "place": "Macksburg, Iowa",
+      "life": 0,
+      "speaker": "Evan Roy",
+      "context": "Tyler McLean talks with Evan Roy, in Macksburg, Iowa, on day 6.",
+      "situation": "Tyler McLean talks with Evan Roy, in Macksburg, Iowa, on day 6.",
+      "prior": "Evan Roy: All right.",
+      "text": "Say hi to Madison.",
+      "lie": false,
+      "emotion": [],
+      "parts": ["conversation.farewell-leave-bye.say-hi-to-name"],
+      "lineParts": ["conversation.farewell-leave-bye.say-hi-to-name"],
+      "composer": "openConversation and say (src/director/conversation.ts), words from data/english/parts/conversation.json",
+      "sourceRecordIds": [],
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["conversation.farewell-leave-bye.say-hello-to-name"],
+          "partText": "Say hello to Madison.",
+          "text": "Say hello to Madison."
+        },
+        {
+          "n": 2,
+          "axis": "word choice",
+          "parts": ["conversation.farewell-leave-bye.ive-got-to-go"],
+          "partText": "I've got to go.",
+          "text": "I've got to go."
+        },
+        {
+          "n": 3,
+          "axis": "length",
+          "parts": ["conversation.farewell-leave-bye.bye"],
+          "partText": "Bye.",
+          "text": "Bye."
+        }
+      ]
+    }
+  ]
+}

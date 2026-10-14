@@ -1102,6 +1102,12 @@
       "tag": "TUNABLE",
       "source": "How much a colleague's pull to lead (sociability plus dutifulness, about -2 to 2, the rule an opening chair is read by) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
       "spread": [0.25, 1]
+    },
+    "floorConcernWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more a floor leader's calendar weighs a change as the share of the town's adults whose own life it touches rises (work, children at home, age): a change touching every resident counts its backers twice. Set so a widely felt change outranks an equally backed one nobody lives with, without overriding a clear majority of backers; checked against the spread.",
+      "spread": [0.5, 2]
     }
   }
 }
