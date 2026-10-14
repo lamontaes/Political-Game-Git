@@ -13,10 +13,10 @@ import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { ty
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
-import cps from "../../data/source/census-voting-registration/corpus.json" with { type: "json" };
 import { campaignParameter } from "./campaign-views";
 import { parameter } from "./parameters";
 import { corePlaceStateIdentities } from "./place-lookup";
+import { lazyValue, readJsonData } from "./reference/lazy-data";
 
 /** A place counted coarsely: how many may vote there and where it leans. */
 export interface ElectoratePlace {
@@ -38,7 +38,30 @@ interface CpsRow {
   recordId: string;
   metrics: Record<string, { value: { value?: number } }>;
 }
-const CPS = cps as unknown as readonly CpsRow[];
+// Read on first use; only the age and total rows this reads are kept, each
+// with the three measures it uses (the full corpus carries evidence for every cell).
+const CPS = lazyValue(() =>
+  (
+    readJsonData(
+      new URL(
+        "../../data/source/census-voting-registration/corpus.json",
+        import.meta.url,
+      ),
+    ) as readonly CpsRow[]
+  )
+    .filter((row) => row.dimension === "age" || row.dimension === "total")
+    .map((row): CpsRow => ({
+      dimension: row.dimension,
+      geographyName: row.geographyName,
+      group: row.group,
+      recordId: row.recordId,
+      metrics: Object.fromEntries(
+        ["votedCitizenPercent", "adultPopulation", "citizenAdultPopulation"]
+          .filter((key) => row.metrics[key] !== undefined)
+          .map((key) => [key, { value: { ...row.metrics[key]!.value } }]),
+      ),
+    })),
+);
 const CPS_CITATION =
   "U.S. Census Bureau, Current Population Survey, November 2024 Voting and Registration Supplement, table 4c";
 
@@ -79,7 +102,7 @@ export function cpsTurnout(
 } | null {
   const name = stateName(usps)?.toUpperCase();
   const find = (geography: string) =>
-    CPS.find(
+    CPS().find(
       (row) =>
         row.geographyName === geography &&
         (band

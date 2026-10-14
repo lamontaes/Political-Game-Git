@@ -50,9 +50,15 @@ export function traitLeanBetween(
   toward: readonly string[],
   over: readonly string[],
 ): number {
-  return (
-    (traitLean(core, person, toward) - traitLean(core, person, over)) /
-    parameter("traitLeanScale", core.data.parameters)
+  const p = (key: string) => parameter(key, core.data.parameters);
+  // Clamped to -1..1: the raw difference over the scale can reach 3.3, and every caller weighs the lean as a -1..1 term.
+  return Math.max(
+    p("negativeOne"),
+    Math.min(
+      p("one"),
+      (traitLean(core, person, toward) - traitLean(core, person, over)) /
+        p("traitLeanScale"),
+    ),
   );
 }
 

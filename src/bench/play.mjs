@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, Image, window */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, Image, window, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -14,6 +14,14 @@ async function api(path, method = "GET") {
   const value = await response.json();
   if (!response.ok) throw new Error(value.error);
   return value;
+}
+/** `v` and the release number: the bundler's define when built, else the server's. */
+async function displayVersion() {
+  const number =
+    typeof __RELEASE_VERSION__ === "string"
+      ? __RELEASE_VERSION__
+      : (await api("/api/version")).version;
+  return `v${number}`;
 }
 const post = (path) => api(path, "POST");
 const dollars = (minor) =>
@@ -1387,6 +1395,9 @@ const sheets = {
       });
       rows.push(skip);
     }
+    rows.push(
+      el("p", { className: "version", textContent: await displayVersion() }),
+    );
     const quit = el("button", { type: "button", textContent: "Quit to title" });
     quit.addEventListener("click", () => window.location.reload());
     rows.push(quit);
@@ -1577,6 +1588,9 @@ function worldSettings() {
   };
   return Object.keys(settings).length ? settings : undefined;
 }
+displayVersion().then((text) => {
+  $("version").textContent = text;
+});
 $("new-life").addEventListener("click", async () => {
   $("new-life").disabled = true;
   show("front-status", true);
