@@ -31,5 +31,16 @@
     "administration",
     "otherPrograms"
   ],
-  "stateTransfers": ["welfareAndMedicaid", "interest", "localAid"]
+  "stateTransfers": ["welfareAndMedicaid", "interest", "localAid"],
+  "transfersToPeople": [
+    "socialSecurity",
+    "medicare",
+    "health",
+    "incomeSecurity",
+    "veterans",
+    "agriculture",
+    "education"
+  ],
+  "stateTransfersToPeople": ["welfareAndMedicaid"],
+  "transfersNote": "Transfers to people (benefits, health coverage, student aid, farm payments) enter the national and regional steps at CBO's transfer multiplier; interest and aid to other governments do not."
 }

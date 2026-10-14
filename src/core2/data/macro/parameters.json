@@ -486,6 +486,17 @@
     "tag": "SOURCED",
     "citation": "A rise in federal purchases of 1% of output raises output 1.2% after one year and 1.5% after two (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics; Nakamura and Steinsson 2014 about 1.5); the long-run effect the public part of the gap moves toward."
   },
+  "macroTransfersMultiplier": {
+    "value": 1.25,
+    "tag": "TUNABLE",
+    "citation": "CBO, Estimated Impact of the American Recovery and Reinvestment Act on Employment and Economic Output in 2014 (February 2015), output multipliers: transfer payments to individuals 0.4 to 2.1 (midpoint 1.25), beside purchases of goods and services by the federal government 0.5 to 2.5 (midpoint 1.5, macroPurchasesMultiplier).",
+    "spread": {
+      "low": 0.4,
+      "high": 2.1,
+      "unit": "output per dollar of transfers",
+      "citation": "CBO, Estimated Impact of the American Recovery and Reinvestment Act on Employment and Economic Output in 2014 (February 2015), output multipliers: transfer payments to individuals 0.4 to 2.1 (midpoint 1.25), beside purchases of goods and services by the federal government 0.5 to 2.5 (midpoint 1.5, macroPurchasesMultiplier)."
+    }
+  },
   "macroPublicGapAdjustment": {
     "value": 0.126,
     "tag": "TUNABLE",

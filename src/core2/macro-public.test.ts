@@ -1,4 +1,4 @@
-/** Federal purchases legislated above their base raise the nation's output gap. Place and seed in the test name. */
+/** Federal purchases and transfers to people legislated above their base raise the nation's output gap. Place and seed in the test name. */
 import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
@@ -56,7 +56,7 @@ describe("public purchases and output", () => {
     const api = coreAPI(core);
     expect(federalPurchasesPct(api)).toBe(0);
     const federal = governments(api).find((g) => g.level === "federal")!;
-    // $100 billion more for defense: 1.4% of fiscal 2025 outlays.
+    // $100 billion more for defense: 1.4% of fiscal 2025 outlays; $60 billion more in income security (a transfer to people) and $50 billion more interest (which moves nothing).
     enactBudget(
       api,
       federal,
@@ -64,6 +64,8 @@ describe("public purchases and output", () => {
       "test",
       {
         nationalDefense: 100e9 * 100,
+        incomeSecurity: 60e9 * 100,
+        netInterest: 50e9 * 100,
       },
     );
     // And the state's own highways budget up by $50 per resident.
@@ -80,7 +82,11 @@ describe("public purchases and output", () => {
       state.residents * 50 * 100,
     );
     const share = federalPurchasesPct(api);
-    expect(share).toBeCloseTo((100e9 / 7.01e12) * 23.3, 2);
+    // Transfers count at CBO's transfer multiplier against its purchases multiplier (1.25 / 1.5).
+    expect(share).toBeCloseTo(
+      ((100e9 + (60e9 * 1.25) / 1.5) / 7.01e12) * 23.3,
+      2,
+    );
     advanceCore(core, `${opening.startedAt.slice(0, 4)}-03-02`);
     const months = api
       .moduleState(MACRO_MODULE_ID)
