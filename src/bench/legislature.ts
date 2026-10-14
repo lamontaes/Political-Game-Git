@@ -1,17 +1,14 @@
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import {
-  billOf,
   currentAmount,
   draftBill,
-  learnStake,
   memberKey,
-  offerDeal,
-  scheduleVote,
   votesOn,
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
+import { placeOnAgenda } from "../core2/modules/office-day";
 import type { TermRow } from "../core2/modules/offices";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
@@ -24,7 +21,8 @@ const LEGISLATURE = "core2-legislature-v1";
 function terms(core: CoreState) {
   return coreAPI(core).moduleState(OFFICES).table("terms");
 }
-function name(core: CoreState, key: string): string {
+/** A person's or a named official's name, by their key. */
+export function personName(core: CoreState, key: string): string {
   const person = core.people.get(key);
   if (person) return `${person.givenName} ${person.familyName}`;
   const term = terms(core).get(key.replace(/^official:/, "")) as
@@ -69,7 +67,7 @@ function bodiesOf(core: CoreState, personId: string) {
         kind: office.kind,
         members: members.map((row) => ({
           key: memberKey(row),
-          name: name(core, memberKey(row)),
+          name: personName(core, memberKey(row)),
           party: row.party,
           you: row.personId === personId,
         })),
@@ -91,7 +89,7 @@ export function seatView(core: CoreState, personId: string) {
       bill,
       votes: votesOn(api, bill.id).map((row) => ({
         ...row,
-        name: name(core, row.memberId),
+        name: personName(core, row.memberId),
       })),
     }));
   return {
@@ -114,65 +112,52 @@ export function seatView(core: CoreState, personId: string) {
   };
 }
 
-/** One act from your seat: draft, ask a colleague, offer a deal, schedule the vote. */
+/**
+ * Draft a bill from your seat: it goes on the body's next agenda that is not
+ * yet posted. Asking a colleague, offering a deal and taking the vote are
+ * acts in the day and the meeting scene (office-day), not buttons here.
+ */
 export function seatAct(
   core: CoreState,
   personId: string,
   input: {
     kind: string;
     officeId?: string;
-    billId?: string;
-    memberId?: string;
     series?: string;
     question?: string;
     /** A budget line the bill changes, by the amount in cents. */
     line?: string;
     value?: number;
-    deal?: string;
   },
 ) {
   const api = coreAPI(core);
-  if (input.billId && billOf(api, input.billId)?.sponsorId !== personId)
-    throw new Error("That is not your bill.");
-  switch (input.kind) {
-    case "draft": {
-      if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
-        throw new Error("You don't sit on that body.");
-      const provision: Provision = input.line
-        ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
-        : input.series
-          ? {
-              kind: "law-amount",
-              series: input.series,
-              value: input.value ?? 0,
-              unit:
-                lawHere(api).find((row) => row.series === input.series)?.unit ??
-                undefined,
-            }
-          : {
-              kind: "policy-question",
-              question: input.question ?? "",
-              value: input.value ?? 1,
-            };
-      return draftBill(api, {
-        bodyOfficeId: input.officeId!,
-        sponsorId: personId,
-        provisions: [provision],
-      });
-    }
-    case "stake":
-      return learnStake(api, input.billId!, input.memberId!, "conversation");
-    case "deal":
-      return offerDeal(api, {
-        billId: input.billId!,
-        memberId: input.memberId!,
-        kind: (input.deal ?? "favor") as "favor" | "back-their-item",
-      });
-    case "schedule":
-      return { date: scheduleVote(api, input.billId!) };
-    default:
-      throw new Error("Unknown act from your seat.");
-  }
+  if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
+  if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
+    throw new Error("You don't sit on that body.");
+  const provision: Provision = input.line
+    ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
+    : input.series
+      ? {
+          kind: "law-amount",
+          series: input.series,
+          value: input.value ?? 0,
+          unit:
+            lawHere(api).find((row) => row.series === input.series)?.unit ??
+            undefined,
+        }
+      : {
+          kind: "policy-question",
+          question: input.question ?? "",
+          value: input.value ?? 1,
+        };
+  const bill = draftBill(api, {
+    bodyOfficeId: input.officeId!,
+    sponsorId: personId,
+    provisions: [provision],
+  });
+  return bill.status === "drafted"
+    ? { ...bill, agendaDate: placeOnAgenda(api, bill.id) }
+    : bill;
 }
 
 /** The body in its meeting room: the player at the front, colleagues behind. */

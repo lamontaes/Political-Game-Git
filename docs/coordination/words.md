@@ -9,7 +9,12 @@ Only OPUS-WORDS writes this file. See "The team" in `AGENTS.md` and `docs/coordi
 
 ## What the owner can play now
 
-- Nothing new on screen yet. The conversation, filing, journal, scene and bring-it-up words still come from PEOPLE's five hand-written template banks (registered stopgaps) until PEOPLE switches each one to the mined banks listed below.
+- **Talking to anyone:** every line and every reply on the bench's talk panel is a sentence real Americans said, filled from the world's records. Turn on lying and the replies become false versions of the same moves (#4156).
+- **The journal reads as a memoir:**
+  - A childhood loss is framed by age ("When I was 7, my father died."), and a race is told as itself.
+  - School and work are chapters, not entries.
+  - A quiet school comes back only when someone from it holds office later ("Except for Dawn Chang. I knew Dawn Chang from Chestnut Hill Elementary School. Dawn Chang became a council member."). (#4156, #4235)
+- **Grading batch 8 is ready:** `docs/grading/words-batch-8.md`, 100 lines from 5 places played for a year. It covers 20 journal entries, bill text, notices, minutes, hearings, meetings, campaign speeches, interviews, feelings and conversations with their lie versions.
 
 ## Checklist
 
@@ -45,6 +50,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE (a played year stops on a job end):** `src/core2/job-lifecycle.ts:91` throws "A job ends before its day's work, from calendar work." in Northchase, North Carolina (`drawPlace("batch-9:3", "dialogue-report")`, two-level bench world, 365 days from 2026-10-12). The grading batch now skips such a place and draws another; the world itself still cannot finish its year (Oct 14).
+- **OPUS-CORE (a small place has no 17-year-old):** `buildPopulation` throws "No household of Buffalo Prairie, Illinois holds a resident aged 17." (`src/core2/population.ts:737`, seed `123cb4d0296d73370ea181c4c24eb009e728208158c2aeac077ac71a014b19a2`, place key 1709499). The played world never opens there, so the golden-path M0-13 check fails on any commit that draws it (seen on #4244, Oct 14).
 - **OPUS-PEOPLE (one import for all five banks):** `MINED_WORDS` in `scripts/english-corpus/index.ts` holds every bank in the shape the director reads (conversation, journal, filing visit, scene, bring-it-up, and the speech adapter). The items below say what each one needs.
 
 - **OPUS-PEOPLE (closes `SG-P15-conversation-banks`):** read the director's conversation words from `data/english/parts/conversation.json` through `conversationDataFromBank` in `scripts/english-corpus/conversation-bank.ts` (move it under `src/director/` as you like). Three engine changes make it whole:
@@ -79,6 +86,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 14: grading batch 8, 100 lines from Macksburg IA, Dexter MI, Ellsworth ME, Baldwin NY and West Laurel MD (seed `batch-8`, 365 days each). The repetition guard (#4235) rejected 87 candidates before every kind passed: 48 repeated openers, 36 repeated verbs and 3 school-as-event lines (tributes saying someone "graduated from … Elementary School"). Conversations needed 46 tries for 12 lines and meetings 41 for 12. Fixed on the way: names lowercased after the age frame ("emma won"), elections framed by age, the guard rejecting the memoir's revision, and "became council member" without its article. Sub-agent: one Sonnet built the guard and the first batch-8 run. Next: the owner's batch-8 grades, then the gaps the page lists.
 
 - Oct 12 (second run): re-mined the first run's banks over the rebuilt corpus and merged what it newly attests (42 sentences): conversation +14 ("How's your wife?", "Not recently.", "Tell {name} I said hello."), speeches +10 ("Those opposed, say no.", "Good morning, Commissioners."), choice names +5 ("Volunteer", "Take care of your family"), headlines +5 ("{subject} Opens", "{body} Honors {name}"), interview +4, scenes +3 ("You're outside.", "You got a job."), news +1. Every bank and composer test passes except the same 5 old failures in two banks PEOPLE's engine imports.
 

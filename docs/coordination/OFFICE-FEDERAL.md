@@ -1,38 +1,43 @@
 # OFFICE-FEDERAL status
 
-Only OFFICE-FEDERAL writes this file. Package: `docs/packages/office-play.md` (federal part). Branch: `office/federal`, from main.
+Only OFFICE-FEDERAL writes this file. Package: `docs/packages/office-play.md` (federal part). The first build merged as #4220, with its test fix #4243. The move onto the office-day engine is on branch `office/federal-engine`.
 
 ## What the owner can play now
 
-Nothing new yet. The branch was opened on October 14, 2026, with its contract.
+Once the `office/federal-engine` PR merges, in dev mode, from a script (no screen yet), on the same office-day engine as local office:
 
-## Contract
-
-Build the federal officeholder's day on OFFICE-LOCAL's one engine (`src/core2/modules/office-day.ts`), through GOV's engines, never forking them. FEDERAL writes only `src/core2/office-day-federal.ts`, its tests and its data rows.
-
-- **U.S. representative:** the Washington week or the district week, chosen by the player; Congress meets on its own calendar from data, cited; committee and subcommittee seats; the whip's ask before a vote; casework and district projects; town halls; the midterm on the election calendar.
-- **President:** the cabinet and nominations with Senate confirmation; executive orders; the budget request; the State of the Union on its date; pardons; the daily brief; the situation room when a crisis needs it; the press; the vice president; a trip to a town drawn at random to meet people.
-- **Simulate or do:** every act above can be done or simulated, with the same risks either way.
-
-**How it is checked:** ten days played as a U.S. representative and ten as president, in a generated world whose town is drawn at random from all 56 places, the seed named, record ids named. The golden-path suite, the speed guard and the dollar balance stay green; a year is measured before and after.
+- **Take the town's sitting U.S. representative.** The week is spent in Washington when the House sits that week, using its real 2025 and 2026 calendars, and at home otherwise, unless you choose. On the morning of a floor vote you are held to cast it: your own bill by default, any vote if you turn that on. A vote you leave is cast by your character from its own reasons. Spend that week at home and you miss the vote; the House records an abstention. The party whip asks before a vote you stand against your leader on. You are paid the House salary. A delegate does not vote on final passage. Office hours, town halls and interviews come from the local engine, which offers them to any officeholder you control.
+- **Take the sitting president.** Every cabinet post starts vacant. A vacant post holds you each morning to nominate, until you turn that stop off and your character names the rest. The Senate votes about ten sitting days later, by party, and can reject. The Senate votes whoever you are playing by then. The budget request holds you the morning it is due, the first Monday in February; your character sends it if you don't, and the proposed budget carries it to Congress. The joint address works the same way. The daily brief comes every working day. You can fly to any town and meet people there, or send the vice president.
 
 ## Checklist
 
-- [ ] Map the engines the federal day reads (offices, legislature, executive, pay, cases, press).
-- [ ] Congress's calendar as data, cited.
-- [ ] Federal acts as rows in the day's catalog.
-- [ ] Representative: Washington week, district week, committees, whip, casework, projects, town halls.
-- [ ] President: cabinet, nominations and confirmation, orders, budget request, State of the Union, pardons, brief, situation room, press, vice president, the town trip.
-- [ ] Ten days as each, written into the PR body.
+- [x] Congress's calendar as data, cited: House sitting days for 2025 and 2026, the Senate's work periods, holidays, the joint address.
+- [x] The federal day: where the member is, what holds the player (they choose, any day), simulate or do.
+- [x] Representative: floor votes, own bill, the whip, committee and subcommittee seats (40 committees, 174 subcommittees, cited), re-election filing as an act of the day, election day (the engine's polls).
+- [x] President: cabinet nominations and Senate confirmation, the budget request, the joint address, the daily brief, the trip, the vice president.
+- [x] On OFFICE-LOCAL's engine. The engine now provides the stop settings, holds, act record, the player's own vote, the desk, and interviews and town halls. The custom start, the stand-in tables, the casework stand-in and the age table are deleted.
+- [ ] Presidential orders, pardons, the situation room: registered stand-ins, waiting on GOV and on crisis records.
+- [ ] District projects (community project funding): waits on GOV for an appropriation with a named recipient government.
+- [ ] Casework for members of Congress: waits on GOV's cases engine routing residents' problems to them.
 
 ## Needs from other sessions
 
-- OFFICE-LOCAL: the engine `src/core2/modules/office-day.ts` is not on any branch yet; FEDERAL builds against the smallest registered stand-in until it lands.
+- OFFICE-LOCAL:
+  - `prepareAct` for any registered kit's act ids. The federal day keeps what the player prepares in its own table until then (`SG-OFFICE-FED-prepared`).
+  - The engine's own vote (`ownVote`) reads only the bill's first chamber. A senator the player controls who leaves a vote on a House bill is cast by the legislature with no act on the record.
+  - In one Maine run, the local kit's town hall was taken by a member's character five days in eight. Is there meant to be a cadence?
+- OPUS-GOV:
+  - Elections and offices: a sitting member of Congress was filed for town council by candidacy and lost the House seat when they won (Orem, Utah, seed `fed-filing-1`).
+  - Federal powers: federal executive orders; pardons (federal jurisdiction in justice); routing residents' problems to members of Congress.
+  - Congress: every House member on at least one committee; a floor agenda by date; Congress's floor days read from the House and Senate calendars.
+- OPUS-GOV (press): national outlets decline a sitting president as not newsworthy and print none of the president's acts.
+- OPUS-PEOPLE: the journal of a person the player continues as shows nothing of taking office, interviews or town halls.
 
 ## Sub-agents
 
-- Explore (read-only): map of the federal engines.
+- Explore (read-only): map of the federal engines. Finished.
+- Sonnet (general-purpose, one file): `src/core2/data/office-day/federal-committees.json`, the 119th Congress's standing committees and subcommittees with their subjects, from the House Clerk, the Senate and each committee's site. Finished in two passes.
 
 ## Questions for the owner
 
-None yet.
+None.

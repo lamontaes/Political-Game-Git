@@ -38,6 +38,7 @@ import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
+import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
 import { openThePast } from "../core2/past";
@@ -289,7 +290,7 @@ function* benchWorldStages(
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
-    data: renewalData(worldCoreData(peopleData(DEFAULT_DATA))),
+    data: officeDayData(renewalData(worldCoreData(peopleData(DEFAULT_DATA)))),
     modules: [
       ...WORLD_MODULES,
       // One area of the world moving another (M3-04): reads the economy's
@@ -340,6 +341,10 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
+  // calendar, the meeting as a scene, the player's chosen stops and the
+  // character's own votes and desk decisions when the player does not stop.
+  openOfficeDay(core, seed);
   // A state officeholder's day: the session calendar, per diem and the
   // acts of office (OFFICE-STATE), through the engines above.
   openOfficeDayState(core);

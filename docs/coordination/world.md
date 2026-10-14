@@ -35,6 +35,7 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
 - **Laws reach the economy (Oct 14, #4184):** new openings never pay below the minimum wage in force; a federal budget cut or raise pushes the national economy that month; employers pay their Social Security and Medicare share; unpaid property tax and sales tax become arrears; movers take their cash with them.
 - **Businesses (Oct 14, #4197):** businesses close from months of operating losses or their owner's reasons, not a yearly chance; workers quit for better pay or a better job; every payday carries federal and state unemployment tax, and company-owned businesses pay profit tax each quarter, all from the law in force; supplies bought outside the town leave its books.
 - **Replacements and names (Oct 14, #4224):** a worker who dies, moves away, quits or retires leaves an opening for the same job, and the employer fills it; an official whose aide dies or leaves hires another. Businesses carry names like Morton's Market, Gill Foods or Kauai County Diner, never "general store".
+- **Losing a home (Oct 14, #4234):** every renter, in the wider population too, owes rent and can be evicted under the place's law; an owner who stops paying the mortgage goes through the state's foreclosure, and the bank carries the loss. A removed household moves in with a relative who has room, takes a shelter bed (HUD's count of the state's beds), or ends up on the street, and rents again once its pay and savings allow. Each person carries a housing status that the core session's drives and health engines read.
 - **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
@@ -95,6 +96,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - Construction research (general-purpose, read-only): building costs and times, zoning, supply and vacancy effects on rents, inclusionary rules, all-electric costs, farmland.
 
 ## Needs from other sessions
+
+- **OPUS-GOV: small towns' treasuries can't pay their officials (#4234).** Brookford, North Carolina's treasury held $93 at year's end against a finance director at $270 a day, and a Mississippi town's held $0 to $67. Those officials go unpaid and are the first evicted.
+- **OPUS-CORE: the played-world check is red on `main` (#4234 comment).** Staff hiring fills in two people who carry the same counted household id, 11 months apart, and the fill-in cash transfer id is reused. Also, the world build fails in Polebridge, Montana (no resident aged 17).
+- **OPUS-PEOPLE: no journal line for a person's own eviction.** The director records the moment, but the journal bank has no wording for `event:housing.eviction`. The press engine also throws `Invalid meeting endpoints` in one world (seed in #4234).
 
 - **OPUS-CORE: counted workers never die or move away.** With the renewal engine, a Hawaii town's 109 deaths and 338 departing households in three months included nobody with a job, and none over the year (seed `ca545ed9…`). Who dies or leaves (`births-counted.ts`) leans so hard on work that working people never go. Jobs replaces them once they do (#4224).
 
@@ -161,6 +166,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Questions for the owner
 
+- **Can the player's own household be evicted? (owner decision, registered `SG-WORLD-owner-decision-player-eviction`).** As built, yes, like any other.
+
 - **Does a player see another business's books? (owner decision, registered `SG-WORLD-owner-decision-business-books`).** The record is built and no screen shows it. Simplest answer: the owner and the bank, plus anything the law makes public.
 - **The federal budget's push on the economy.** The national model reads a budget change at a multiplier of 1.2 on the whole budget, interest included. Real multipliers differ by line (interest paid to bondholders moves less than spending on goods). Per-line multipliers would need your call (question in #4184).
 
@@ -171,6 +178,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-14: homelessness items 1 to 3 plus foreclosure (#4234). Every renter, full or counted, can be evicted; owners lose homes through the state's foreclosure, and the bank carries the loss; removed households go to kin, a shelter bed or the street, and a status record says which. Brookford, North Carolina (randomly drawn): 4 cases, 1 unsheltered of 429 (23 per 10,000 against the state's 10.5). New Jersey 18.7 against 13.4, Iowa 6.2 against 8.1. Mellen, a year: 39 s against main's 41. Next: watch CI; foreclosure in a played two-year run.
 
 - 2026-10-14: stress-audit wiring (PR #4166). Moves read records, with no opening draw. Aides are people the records can place. Withholding follows the law where the worker lives. Voucher rows end on closure. Wage credit is a registered stopgap. A played year in a drawn Missouri town (seed `5f15bfc9bc43292720332b33c24634b5`) took 172 s: 65 departures, each with its pull's parts by record id; 28 aides, none from out of town, the oldest 57; withholding records tagged ESTIMATED from the law rows they read. Next: the CTO's laws-reach-the-economy and money and business audit items.
 
