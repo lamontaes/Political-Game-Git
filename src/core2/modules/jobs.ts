@@ -719,24 +719,24 @@ function reviewWorkers(api: CoreAPI): void {
         : []),
     ]);
     const chosen = result.selected!.definition.id;
-    if (chosen === jobsData.actions.look.id)
+    if (chosen === jobsData.actions.look.id) {
       if (ownerOf(api, job.organizationId) !== person.id)
         startSeeking(api, person.id, true, "looking-around", pay);
-      else if (chosen === jobsData.actions.leave.id) {
-        const retiring = result.selected!.targetId.startsWith("retire:");
-        api.endJob(job.id, `jobs:left-work:${api.state.date}`);
-        record(api, {
-          personId: person.id,
-          organizationId: job.organizationId,
-          jobId: job.id,
-          kind: "left-work",
-          reasonKey: retiring
-            ? jobsData.reasons.retired
-            : jobsData.reasons.leftWork,
-          decidedBy: person.id,
-          values: { bufferMonths, strain, age },
-        });
-      }
+    } else if (chosen === jobsData.actions.leave.id) {
+      const retiring = result.selected!.targetId.startsWith("retire:");
+      api.endJob(job.id, `jobs:left-work:${api.state.date}`);
+      record(api, {
+        personId: person.id,
+        organizationId: job.organizationId,
+        jobId: job.id,
+        kind: "left-work",
+        reasonKey: retiring
+          ? jobsData.reasons.retired
+          : jobsData.reasons.leftWork,
+        decidedBy: person.id,
+        values: { bufferMonths, strain, age },
+      });
+    }
   }
   reviewJobless(api);
   reviewCountedRetirements(api);
