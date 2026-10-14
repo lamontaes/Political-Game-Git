@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // The viewer: a random town in a named state (STATE="Ohio") or anywhere, YEARS years through dev mode, one report file.
 // Usage: STATE="Ohio" YEARS=1 OUT=out/ohio.txt node --max-old-space-size=4096 --import tsx scripts/trace/viewer.ts
 import { randomBytes } from "node:crypto";
