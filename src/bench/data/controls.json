@@ -119,5 +119,10 @@
     "every-meeting": "Every meeting",
     "desk": "Your desk",
     "ownChoice": "Decided for me"
+  },
+  "titleUnavailable": {
+    "watch": "Watching the world without a player is not on the new core yet.",
+    "saves": "Saved games come with the save format at early-access preparation.",
+    "patchNotes": "Patch notes have no page on the new core yet."
   }
 }

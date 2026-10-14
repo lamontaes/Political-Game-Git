@@ -119,6 +119,11 @@ export interface Provision {
   /** The catalog policy the section was drafted from, and what it does to it. */
   readonly policyId?: string;
   readonly operation?: string;
+  /**
+   * For a rate with a schedule (income tax): a flat rate, or a graduated
+   * schedule whose top rate is `value`. Left out, the shape in force stays.
+   */
+  readonly shape?: "flat" | "graduated";
 }
 
 export interface Authority {
@@ -978,6 +983,145 @@ function subjectKey(p: Provision): string {
  */
 export function motionOn(bill: BillRow): "adopt" | "pass" {
   return bill.form.kind === "ordinance" ? "adopt" : "pass";
+}
+
+/**
+ * A rate's shape as enacted: a schedule in force carries over, its every
+ * bracket's rate scaled so the top rate is the bill's (a graduated tax stays
+ * graduated unless the section says flat); a flat section sets one rate.
+ * Null for a series with no schedule.
+ */
+export function shapedRate(
+  current: LawRowInput | null,
+  provision: Provision,
+): { unit: string; terms: Record<string, unknown> } | null {
+  const schedules = current?.terms?.schedules as
+    Record<string, { brackets?: { over: number; rate: number }[] }> | undefined;
+  const shape = provision.shape ?? (schedules ? "graduated" : null);
+  if (shape === "flat")
+    return { unit: "percent-flat", terms: { system: "flat" } };
+  if (shape !== "graduated" || !schedules) return null;
+  // A filer's schedule is a list of brackets with numeric rates; anything
+  // else kept beside them (a note on a later change) is carried as it is.
+  const rated = (s: { brackets?: { over: number; rate: number }[] }) =>
+    Array.isArray(s.brackets) &&
+    s.brackets.length > 0 &&
+    s.brackets.every((b) => typeof b.rate === "number");
+  const top = Math.max(
+    0,
+    ...Object.values(schedules)
+      .filter(rated)
+      .flatMap((s) => s.brackets!.map((b) => b.rate)),
+  );
+  const scale = top > 0 ? provision.value / top : 1;
+  return {
+    unit: current?.unit ?? "percent-top-rate",
+    terms: {
+      ...(current?.terms ?? {}),
+      system: "graduated",
+      schedules: Object.fromEntries(
+        Object.entries(schedules).map(([filer, schedule]) => [
+          filer,
+          rated(schedule)
+            ? {
+                ...schedule,
+                brackets: schedule.brackets!.map((b) => ({
+                  ...b,
+                  rate: Math.round(b.rate * scale * 1000) / 1000,
+                })),
+              }
+            : schedule,
+        ]),
+      ),
+    },
+  };
+}
+
+/**
+ * One section of a bill as the record holds it, for the paper to word: what
+ * it changes (the series, question or budget line), the law in force before
+ * (its value, shape and the statute it cites), what the section makes it, and
+ * the terms the player may edit (the number, the date, the shape).
+ */
+export interface BillSection {
+  readonly index: number;
+  readonly kind: Provision["kind"];
+  readonly subject: string;
+  readonly before: {
+    readonly value: number | null;
+    readonly unit: string | null;
+    readonly shape: "flat" | "graduated" | null;
+    readonly lawId: string | null;
+    readonly statute: string | null;
+  };
+  readonly after: {
+    readonly value: number;
+    readonly unit: string | null;
+    readonly shape: "flat" | "graduated" | null;
+    readonly effectiveDate: string | null;
+  };
+  readonly editable: readonly ("value" | "effectiveDate" | "shape")[];
+}
+
+export function billSections(
+  api: CoreAPI,
+  bill: BillRow,
+): readonly BillSection[] {
+  return bill.provisions.map((p, index) => {
+    const series =
+      p.kind === "law-amount"
+        ? p.series
+        : p.kind === "policy-question"
+          ? p.question
+          : undefined;
+    const answer = series ? lawInForce(api, series) : null;
+    const row = answer ? (answer.levels.find((l) => l.row)?.row ?? null) : null;
+    const schedules = row?.terms?.schedules;
+    const shapeBefore: BillSection["before"]["shape"] = row
+      ? schedules
+        ? "graduated"
+        : row.unit === "percent-flat"
+          ? "flat"
+          : null
+      : null;
+    const before: BillSection["before"] =
+      p.kind === "budget-line"
+        ? {
+            value: p.of ?? null,
+            unit: "minor",
+            shape: null,
+            lawId: null,
+            statute: null,
+          }
+        : {
+            value: row?.value ?? null,
+            unit: row?.unit ?? null,
+            shape: shapeBefore,
+            lawId: row?.id ?? null,
+            statute: row
+              ? Array.isArray(row.source)
+                ? row.source.join("; ")
+                : String(row.source)
+              : null,
+          };
+    return {
+      index,
+      kind: p.kind,
+      subject: subjectKey(p),
+      before,
+      after: {
+        value: p.kind === "budget-line" ? (p.of ?? 0) + p.value : p.value,
+        unit: p.unit ?? before.unit,
+        shape: p.shape ?? before.shape,
+        effectiveDate: p.effectiveDate ?? null,
+      },
+      editable: [
+        ...(p.kind === "policy-question" ? [] : (["value"] as const)),
+        "effectiveDate" as const,
+        ...(shapeBefore ? (["shape"] as const) : []),
+      ],
+    };
+  });
 }
 
 /** Draft a bill: numbered, with its cost estimate and authority check. */
@@ -2737,13 +2881,20 @@ function enact(
       : `Ordinance ${bill.number}`;
   for (const provision of bill.provisions) {
     const effectiveDate = provision.effectiveDate ?? defaultDate;
-    if (provision.kind === "law-amount" && provision.series)
+    if (provision.kind === "law-amount" && provision.series) {
+      const shaped = shapedRate(
+        lawInForce(api, provision.series).levels.find(
+          (l) => l.jurisdiction === jurisdiction,
+        )?.row ?? null,
+        provision,
+      );
       enactLaw(api, {
         jurisdiction,
         level,
         series: provision.series,
         value: provision.value,
         unit:
+          shaped?.unit ??
           provision.unit ??
           (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
         effectiveDate,
@@ -2751,8 +2902,13 @@ function enact(
         citation,
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
-        terms: { ...(terms ?? {}), enactedByBill: bill.id },
+        terms: {
+          ...(shaped?.terms ?? {}),
+          ...(terms ?? {}),
+          enactedByBill: bill.id,
+        },
       });
+    }
     if (provision.kind === "budget-line" && provision.line)
       amendBudget(api, {
         governmentId: jurisdiction,
