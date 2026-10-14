@@ -50,6 +50,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE (a played year stops on a job end):** `src/core2/job-lifecycle.ts:91` throws "A job ends before its day's work, from calendar work." in Northchase, North Carolina (`drawPlace("batch-9:3", "dialogue-report")`, two-level bench world, 365 days from 2026-10-12). The grading batch now skips such a place and draws another; the world itself still cannot finish its year (Oct 14).
 - **OPUS-CORE (a small place has no 17-year-old):** `buildPopulation` throws "No household of Buffalo Prairie, Illinois holds a resident aged 17." (`src/core2/population.ts:737`, seed `123cb4d0296d73370ea181c4c24eb009e728208158c2aeac077ac71a014b19a2`, place key 1709499). The played world never opens there, so the golden-path M0-13 check fails on any commit that draws it (seen on #4244, Oct 14).
 - **OPUS-PEOPLE (one import for all five banks):** `MINED_WORDS` in `scripts/english-corpus/index.ts` holds every bank in the shape the director reads (conversation, journal, filing visit, scene, bring-it-up, and the speech adapter). The items below say what each one needs.
 
