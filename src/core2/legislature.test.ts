@@ -46,7 +46,15 @@ import {
   offerDeal,
   openLegislature,
   votesOn,
+  authorityFor,
+  askToCarry,
+  executiveOf,
+  proposalRight,
+  proposeAsExecutive,
+  reviseBill,
+  type Provision,
 } from "./modules/legislature";
+import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
 import { partySide } from "./appointments";
 import { officialLean, officialOf } from "./modules/officials";
 import {
@@ -503,6 +511,61 @@ describe(
       expect(() =>
         provisionFor({ policyId: wage.id, operation: "enact" }),
       ).toThrow();
+      // Every government sets its own employees' pay floor: a council may
+      // draft one with no state permission, as may a legislature or Congress.
+      const floor = all.find((p) => p.id === "law:public-pay-floor")!;
+      expect(floor.authority.allowed).toBe(true);
+      const floorBill = draftBill(api, {
+        bodyOfficeId: council[0]!.office.id,
+        sponsorId: council[0]!.holder!.personId!,
+        provisions: [
+          provisionFor({
+            policyId: floor.id,
+            operation: "raise",
+            amount: 70_000,
+          }),
+        ],
+      });
+      expect(floorBill.status).toBe("drafted");
+      expect(floorBill.provisions[0]).toMatchObject({
+        series: "public-pay-floor",
+        unit: "dollars/year",
+      });
+      // The paper is the bill: a section added, replaced and struck before
+      // the vote rewrites the one record, checked again each time.
+      expect(floorBill.provisions[0]).toMatchObject({
+        policyId: floor.id,
+        operation: "raise",
+      });
+      const parks = provisionFor({
+        policyId: "budget:parks",
+        operation: "expand",
+        amount: 1_000_000,
+      });
+      const added = reviseBill(api, floorBill.id, { add: parks });
+      expect(added.provisions).toHaveLength(2);
+      expect(added.authority).toHaveLength(2);
+      const lower = provisionFor({
+        policyId: floor.id,
+        operation: "raise",
+        amount: 60_000,
+      });
+      const replaced = reviseBill(api, floorBill.id, {
+        replace: 0,
+        with: lower,
+      });
+      expect(replaced.provisions[0]!.value).toBe(60_000);
+      expect(replaced.provisions[1]).toEqual(parks);
+      const struck = reviseBill(api, floorBill.id, { strike: 1 });
+      expect(struck.provisions).toEqual([lower]);
+      expect(billOf(api, floorBill.id)).toEqual(struck);
+      expect(() => reviseBill(api, floorBill.id, { strike: 5 })).toThrow();
+      for (const level of ["federal", "state", "city"] as const)
+        expect(
+          billCatalog(api, level)
+            .flatMap((m) => m.topics.flatMap((t) => t.policies))
+            .some((p) => p.id === floor.id),
+        ).toBe(true);
     });
 
     it("a town whose state preempts local minimum wages gets the block in the rule's words", () => {
@@ -523,9 +586,10 @@ describe(
       });
       expect(bill.status).toBe("blocked");
       expect(bill.authority[0]!.warning).toBe("preempted");
-      expect(bill.authority[0]!.reason).toMatch(
-        /preempts|no minimum-wage power/,
-      );
+      expect([
+        "state-preempts-local-minimum-wage",
+        "state-gives-no-local-minimum-wage",
+      ]).toContain(bill.authority[0]!.reason);
       expect(holdVote(api, bill.id).status).toBe("blocked");
     });
 
@@ -576,18 +640,28 @@ describe(
       const player = council[0]!.holder!.personId!;
       (core as unknown as { playerId: string }).playerId = player;
       const floor = lawInForce(api, "minimum-wage").value!;
+      // A raise where the state lets towns set a wage; elsewhere a policy
+      // question the town may answer.
+      const wage: Provision = {
+        kind: "law-amount",
+        series: "minimum-wage",
+        value: floor + 100,
+        unit: "minor/hour",
+      };
+      const provision =
+        [
+          wage,
+          ...PLATFORM_QUESTIONS.map((question): Provision => ({
+            kind: "policy-question",
+            question,
+            value: 1,
+          })),
+        ].find((p) => authorityFor(api, p).allowed) ?? wage;
       const draft = () =>
         draftBill(api, {
           bodyOfficeId: council[0]!.office.id,
           sponsorId: council[1]!.holder!.personId!,
-          provisions: [
-            {
-              kind: "law-amount",
-              series: "minimum-wage",
-              value: floor + 100,
-              unit: "minor/hour",
-            },
-          ],
+          provisions: [provision],
         });
       // Not cast: the player is never voted for, so they abstain.
       const first = draft();
@@ -625,9 +699,112 @@ describe(
       expect(waiting.status).toBe("awaiting-signature");
       const decided = executiveDecision(api, third.id, true);
       expect(["signed", "enacted"]).toContain(decided.status);
+      // Left on the desk past the office's window, a bill becomes law
+      // unsigned, and the law records that it did.
+      const fourth = draft();
+      for (const seat of council)
+        castMemberVote(api, fourth.id, seat.holder!.personId!, "yes");
+      holdVote(api, fourth.id);
+      const left = billOf(api, fourth.id) as typeof fourth & {
+        signBy?: string;
+      };
+      expect(left.status).toBe("awaiting-signature");
+      expect(left.signBy).toBeDefined();
+      const after = new Date(
+        Date.parse(`${left.signBy}T00:00:00Z`) + 86_400_000,
+      )
+        .toISOString()
+        .slice(0, 10);
+      advanceCore(core, after);
+      const law = api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .rows()
+        .find(
+          (row) =>
+            (row as { terms?: { enactedBy?: string } }).terms?.enactedBy ===
+            fourth.number,
+        ) as { terms?: { decision?: string; decidedBy?: string } } | undefined;
+      expect(law?.terms?.decision).toBe("unsigned");
+      expect(law?.terms?.decidedBy).toBe(mayor.holder!.personId);
     });
   },
 );
+
+describe("asking a member to carry a bill", () => {
+  it("the member answers from their own position, their tie to the asker and the asker's standing", () => {
+    const states = Object.keys(authority).sort();
+    const { core, api, council } = town(states, "carry");
+    const seated = new Set(council.map((s) => s.holder?.personId));
+    const asker = [...core.people.values()]
+      .filter((p) => p.alive && !seated.has(p.id) && p.tier !== "husk")
+      .sort(
+        (a, b) => b.knownIds.size - a.knownIds.size || a.id.localeCompare(b.id),
+      )[0]!;
+    const member = council[0]!.holder!.personId!;
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const before =
+      api.state.relationships.get([asker.id, member].sort().join(":"))?.level ??
+      0;
+    const asked = askToCarry(api, {
+      askerId: asker.id,
+      memberId: member,
+      bodyOfficeId: council[0]!.office.id,
+      provisions: [provision],
+    });
+    // The answer is the sum of the recorded reasons, never a roll.
+    expect(asked.carried).toBe(asked.position.total + asked.standing > 0);
+    expect(asked.standing).toBeGreaterThanOrEqual(0);
+    if (asked.carried) {
+      const bill = billOf(api, asked.billId!) as ReturnType<typeof billOf> & {
+        requestedBy?: string;
+      };
+      expect(bill.sponsorId).toBe(member);
+      expect(bill.requestedBy).toBe(asker.id);
+    } else expect(asked.billId).toBeNull();
+    // Asking is a conversation: the two know each other a little better.
+    expect(
+      api.state.relationships.get([asker.id, member].sort().join(":"))?.level ??
+        0,
+    ).toBeGreaterThan(before);
+  });
+
+  it("the executive brings a bill through the member most inclined to carry it", () => {
+    const states = Object.keys(authority).sort();
+    const { api, council } = town(states, "propose");
+    const body = council[0]!.office.id;
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const { office, term } = executiveOf(api, body);
+    const asked = proposeAsExecutive(api, {
+      bodyOfficeId: body,
+      provisions: [provision],
+    });
+    // No elected executive (a manager runs the town): nobody to propose.
+    if (!office || !term) {
+      expect(asked).toBeNull();
+      return;
+    }
+    expect(proposalRight(api, office.kind).mode).toBe("by-request");
+    expect(asked!.askerId).toBe(memberKey(term));
+    // The sitting executive is known to every member.
+    expect(asked!.standing).toBe(campaignParameter("carryStandingWeight"));
+    expect(asked!.carried).toBe(asked!.position.total + asked!.standing > 0);
+    if (asked!.carried)
+      expect(billOf(api, asked!.billId!).sponsorId).toBe(asked!.memberId);
+  });
+});
 
 describe("a Congress member from elsewhere", () => {
   // Regression (wire-all-modules, Oct 12): reading one member's lean rebuilt

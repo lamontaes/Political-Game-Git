@@ -7,6 +7,7 @@ import {
   campaignFor,
   commissionPoll,
   giveSpeech,
+  doorsKnockedOf,
   knockDoors,
   runAd,
   statementSpeechId,
@@ -51,7 +52,7 @@ export function campaignView(core: CoreState, personId: string) {
         campaign: {
           ...campaign,
           volunteers: campaign.volunteerIds.length,
-          doors: campaign.doorsKnocked.length,
+          doors: campaign.doorsKnockedCount ?? 0,
         },
         polls: polls.slice(-3),
       };
@@ -71,8 +72,9 @@ function fillDoors(core: CoreState, filingId: string, hours: number) {
   const reach = Math.ceil(
     hours * campaignParameter("doorsPerCanvasserHour") * 2,
   );
+  const knocked = new Set(doorsKnockedOf(api, campaign.id));
   const waiting = [...core.households.values()].filter(
-    (row) => row.placeId === town && !campaign.doorsKnocked.includes(row.id),
+    (row) => row.placeId === town && !knocked.has(row.id),
   ).length;
   const counted = [...runtime.households.values()]
     .filter((row) => row.household.placeId === town)
