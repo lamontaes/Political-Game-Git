@@ -8,6 +8,18 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 
 ## Ruled, October 14, 2026 (evening)
 
+- **What you know about a person:** faith and the rest come out only through what they say and do; the dossier shows what anyone would know (age, hometown, probably job), the rest emerges. The player's own traits emerge the same way, and people hold views on the player as they do on anyone.
+- **Starting age:** 17 turning 18 is the early-access default; starting older (with a job, a home and a record) is allowed; the old client had a randomized-age control and may again.
+- **Marriage and children:** the player has a household; how marriage works is not yet decided (the owner dislikes how The Political Process handles it). The world nudges the player toward politics: elections happen around them, and a player with a high-standing job may be propositioned to run for a seat someone needs filled (a Pendergast-style approach).
+- **Money's advantage** is time: a good job buys more time to campaign and less at work.
+- **A campaign day:** a handful of choices. **Debates are in early access.**
+- **Speeches:** the player composes a speech by picking one of four parts at a time, as Suzerain does; the parts come from the English engine's speech acts and the player's own record and positions.
+- **Writing a bill:** pick from the real policy list and set a value, then negotiate with named colleagues.
+- **The executive** gets all of it in early access: appointments, the budget, vetoes, emergency decisions.
+- **Time and scenes:** no skip-ahead control. The world runs day by day; scenes interrupt the player (major moments, filterable by kind), with short talk in the chat box between them; between scenes the player does the work through the interfaces. Scenes are the simulation's way of showing the character's view of what the player's actions did.
+- **World setup:** a custom start lives in dev mode; a normal game has little preparation (RimWorld's amount at most).
+- **Getting caught in a lie:** depends, as in life: the person's trust, and the press may or may not pick it up by its own reads.
+
 - **Dev mode (the old "watch the world", to be renamed):** one mode where the owner or a player can do anything: pass or repeal any law at any level instantly, make any person or body take any decision, jump time, trace any record's causes, and watch the world run. "What if" experiments live here and are a player feature in early access.
 - **Press:** the player can influence a paper and influence people; reporters are people in the world with their own records. Outlets have biases and owners: a landscape like today's (cable channels with a lean, a profile-writing magazine, an online opinion show, local papers), names generated, never real brands; owners are wealthy people whose relationships with politicians read into coverage of them and of their opponents, both ways. The world has to exist without the player: every outlet acts on everyone by the same reads.
 - **Indictment and prison:** if the player is caught, the trial plays in scenes; then the player is gone for the sentence while the world runs, and may die in prison. The game is real, not raunchy: temptation and scandal exist (an affair, a payoff), told without graphic detail.
