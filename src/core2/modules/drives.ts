@@ -520,6 +520,26 @@ function chooserDefinition(
   return definition;
 }
 
+/**
+ * The same response for the final choice among responses. Its trait lean is
+ * already inside each response's urgency, and for a lasting drive it is
+ * scaled by the person's agency (age and standing), so the chooser does not
+ * add it again: otherwise a young child with an activist's traits takes up a
+ * cause as readily as an adult (CTO ruling, Oct 14).
+ */
+const decisionDefinitions = new WeakMap<ResponseRow, ActionDefinition>();
+function decisionDefinition(
+  data: DrivesData,
+  row: ResponseRow,
+): ActionDefinition {
+  let definition = decisionDefinitions.get(row);
+  if (!definition) {
+    definition = { ...chooserDefinition(data, row), actKinds: [] };
+    decisionDefinitions.set(row, definition);
+  }
+  return definition;
+}
+
 const NO_URGENCY_OVERRIDES: Readonly<Record<string, number>> = Object.freeze(
   {},
 );
@@ -641,14 +661,18 @@ export function respond(
         };
       }),
     );
-    const decision = chooseAct(core(api), actor.id, offers, context);
+    const decided = offers.map((offer, position) => ({
+      ...offer,
+      definition: decisionDefinition(data, rows[position]!),
+    }));
+    const decision = chooseAct(core(api), actor.id, decided, context);
     const chosen = scored(decision);
     if (!chosen) continue;
     const runnerUp = scored(
       chooseAct(
         core(api),
         actor.id,
-        offers.filter((offer) => offer !== decision.selected),
+        decided.filter((offer) => offer !== decision.selected),
         context,
       ),
     );
