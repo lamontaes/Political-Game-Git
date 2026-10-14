@@ -63,6 +63,8 @@ interface LineRow {
   sameDay?: string;
   /** A fact told once: a later moment with the same text for it is skipped. */
   oncePer?: string;
+  /** What happens around a young person (a death, a move): their age frames it. */
+  framesAge?: boolean;
 }
 
 /** A journal row's structure before the mined bank words it. */
@@ -77,6 +79,7 @@ export interface RowShape {
   selfWhenNamed?: boolean;
   sameDay?: string;
   oncePer?: string;
+  framesAge?: boolean;
   /** The mined target whose sentences word this row, when it is not the row's own kind. */
   wordsFrom?: string;
   /** The row also has a line for someone else's moment. */
@@ -370,6 +373,14 @@ export function composeJournal(
     DEFAULT_DIRECTOR_DATA.parameters.directorInterruptImpact!.value;
   const lower = (text: string) =>
     text.charAt(zero).toLowerCase() + text.slice(one);
+  // A line that opens with a fact (a person's name) keeps its capital.
+  const opensWithFact = (
+    text: string,
+    facts: Readonly<Record<string, { text: string }>>,
+  ) =>
+    Object.values(facts).some(
+      (fact) => fact.text.length > zero && text.startsWith(fact.text),
+    );
 
   const chapters: (JournalChapter & {
     settingFactIds: string[];
@@ -546,8 +557,8 @@ export function composeJournal(
     const parts = [event];
     // When they were young, the age frames it: "When I was 7, my father died."
     // Only what happened around a young person (a death, a move, an
-    // illness), never their own child's birth.
-    if (young && !moment.causeKind.startsWith("family:child")) {
+    // illness), as the row says; never a race or their own child's birth.
+    if (young && row.framesAge) {
       const frame = render(
         "journal-memoir:when-age",
         memoir.whenAge,
@@ -562,7 +573,7 @@ export function composeJournal(
       if (frame)
         parts[zero] = {
           ...event,
-          text: `${frame.text.replace(/[.]$/, ",")} ${lower(event.text)}`,
+          text: `${frame.text.replace(/[.]$/, ",")} ${opensWithFact(event.text, facts) ? event.text : lower(event.text)}`,
           sourceRecordIds: [
             ...new Set([...frame.sourceRecordIds, ...event.sourceRecordIds]),
           ],
@@ -760,11 +771,18 @@ function officeHolding(
     ).find((row) => row.status === "serving");
     const office = term
       ? (offices.get(term.officeId) as unknown as
-          { title?: string } | undefined)
+          { title?: string; seats?: number } | undefined)
       : undefined;
-    return office?.title
-      ? { text: office.title, sourceRecordIds: [term!.id] }
-      : undefined;
+    if (!office?.title) return undefined;
+    // One of several seats takes an article: "a council member", but "mayor".
+    const article = /^[aeiou]/i.test(office.title) ? "an" : "a";
+    return {
+      text:
+        (office.seats ?? one) > one
+          ? `${article} ${office.title}`
+          : office.title,
+      sourceRecordIds: [term!.id],
+    };
   };
 }
 

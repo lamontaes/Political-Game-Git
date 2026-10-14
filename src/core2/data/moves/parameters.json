@@ -51,6 +51,16 @@
     "citation": "How much a job holds a person in place: 3.66% of employed civilians moved to a different county in the year to March 2023 against 5.93% of the unemployed (Census, CPS ASEC 2023, Table 2 'General Mobility by Labor Force Status', mig_02_2023_1yr.xlsx, rows 9 and 11, column I); ln(5.93/3.66) = 0.48. The unemployed sample is small (6.2 million people).",
     "stopgapId": "SG-P15-moves-weights"
   },
+  "movesOfficeHold": {
+    "value": 2.0,
+    "tag": "TUNABLE",
+    "citation": "How much holding an office holds its holder in town: the strongest hold, above owning a home (movesOwnerHold, 1.21), because moving out of the district gives up the seat (an office becomes vacant when its holder ceases to be an inhabitant of the jurisdiction, e.g. California Government Code section 1770(e)). While they serve, an officeholder's pull builds only from recorded events, never from their stage of life.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 1.3,
+      "high": 4
+    }
+  },
   "movesEvictedPull": {
     "value": 0.35,
     "tag": "ESTIMATED",
