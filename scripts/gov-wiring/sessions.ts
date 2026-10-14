@@ -19,6 +19,7 @@ import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../../src/core2/modules/legislature";
+import { budgetsOf, governments } from "../../src/core2/modules/budgets";
 
 setBookkeeping(false);
 const seed =
@@ -50,6 +51,13 @@ console.log(
       place: `${place.name} (${place.key})`,
       days,
       seconds: Math.round((Date.now() - started) / 1000),
+      budgets: governments(api).map((g) => ({
+        government: g.id,
+        level: g.level,
+        adopted: budgetsOf(api, g.id).map(
+          (b) => `${b.fiscalYear}: ${b.adoptedBy}`,
+        ),
+      })),
       sessions: legislativeSessionsOf(api).map((s) => {
         const mine = s.filings.flatMap((f) =>
           f.billId ? [bills.find((b) => b.id === f.billId)!] : [],

@@ -1072,6 +1072,18 @@
       "tag": "ESTIMATED",
       "source": "Days into a term before a recall petition may be filed against the officeholder: state recall statutes commonly bar a petition in a term's first 90 days to 6 months, and once a recall fails, for the rest of the term (NCSL, Recall of Local Officials; e.g., Cal. Elec. Code 11007 at 90 days, Mich. Comp. Laws 168.951a at 6 months). One national bar stands until each state's statute is read (SG-GOV-recall-bars-national).",
       "spread": [90, 365]
+    },
+    "budgetCompromiseRounds": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many times the leaders halve the change a failing budget's opponents object to most before dropping it: appropriations are settled by splitting differences line by line (topline deals, then conference) far more often than by striking a line outright (CRS, The Appropriations Process: A Brief Overview, R47106). Three halvings leave an eighth of the change.",
+      "spread": [1, 5]
+    },
+    "budgetFullStanceShare": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The change to a budget line, as a share of the line, at which a member's stance on it is as strong as on a yes-or-no question; a smaller change draws a proportionally smaller stance. Members fight over a few percent of a line far less than over a tenth of it: annual appropriations changes are mostly within a few percent of the prior year (CBO, budget function histories), and the large ones are the fought-over ones.",
+      "spread": [0.05, 0.25]
     }
   }
 }
