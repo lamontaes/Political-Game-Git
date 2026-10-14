@@ -1522,6 +1522,12 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
+        },
+        {
+          "move": "job-lost-reply-answer-brief",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "brief"
         }
       ],
       "transcriptsUsing": 3800,
@@ -5387,6 +5393,12 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
+        },
+        {
+          "move": "job-lost-reply-answer-brief",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "brief"
         }
       ],
       "transcriptsUsing": 669,
@@ -9082,6 +9094,12 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"]
+        },
+        {
+          "move": "job-lost-reply-answer-ask",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 243,
@@ -9414,6 +9432,12 @@
           "role": "answer",
           "choice": "ack-none",
           "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 249,
@@ -9534,6 +9558,12 @@
           "role": "answer",
           "choice": "ack-none",
           "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 44,
@@ -11684,6 +11714,12 @@
           "role": "answer",
           "choice": "ack-none",
           "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 622,
@@ -11728,6 +11764,12 @@
           "role": "answer",
           "choice": "ack-none",
           "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 4,
@@ -13170,6 +13212,12 @@
           "role": "answer",
           "choice": "ack-none",
           "stages": ["none"]
+        },
+        {
+          "move": "job-lost-reply-answer-comfort",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 2,

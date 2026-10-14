@@ -922,11 +922,15 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId) {
+async function talkTo(otherId, momentId) {
   lying = false;
   $("talk-name").textContent = "";
+  // From a scene, the talk is about the scene's moment.
+  const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
   renderTalk(
-    await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
+    await post(
+      `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
+    ),
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
@@ -1171,7 +1175,7 @@ async function showStory(momentId) {
   $("talk-choices").replaceChildren(
     ...(story.talkToId
       ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId),
+          talkTo(story.talkToId, momentId),
         )
       : []),
   );

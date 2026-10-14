@@ -1943,6 +1943,33 @@
         "I lost my job at {employer}.",
         "I got let go."
       ]
+    },
+    {
+      "move": "job-lost-reply-answer-comfort",
+      "subject": "job-lost-reply",
+      "role": "answer",
+      "choice": "comfort",
+      "candidates": [
+        "I'm sorry to hear that.",
+        "I'm sorry.",
+        "Oh, no.",
+        "Sorry to hear that.",
+        "That's too bad."
+      ]
+    },
+    {
+      "move": "job-lost-reply-answer-ask",
+      "subject": "job-lost-reply",
+      "role": "answer",
+      "choice": "ask",
+      "candidates": ["What happened?"]
+    },
+    {
+      "move": "job-lost-reply-answer-brief",
+      "subject": "job-lost-reply",
+      "role": "answer",
+      "choice": "brief",
+      "candidates": ["Okay.", "Oh."]
     }
   ]
 }

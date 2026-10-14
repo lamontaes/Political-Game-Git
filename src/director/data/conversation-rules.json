@@ -29,8 +29,8 @@
       "stage": "not-heard"
     },
     "job-lost": {
-      "kind": "other-work",
-      "stage": "none"
+      "kind": "job-lost-reply",
+      "stage": "default"
     }
   },
   "follows": {

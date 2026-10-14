@@ -107,6 +107,7 @@ for (let day = 0; day < days; day += 1) {
       ? openConversation(core, playerId, scene.talkToId, {
           presentIds: scene.presentIds,
           director,
+          occasionId: entry.momentId,
         })
       : null;
     report.scenes.push({

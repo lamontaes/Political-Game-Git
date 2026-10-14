@@ -47,6 +47,7 @@ import type {
 import { changesKnownTo } from "./bring-it-up";
 import { JOURNAL_DATA } from "./journal";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
+import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
 import { MINED_CONVERSATION } from "./mined/conversation-bank";
 import { renderLine, type Fact } from "./render";
@@ -180,6 +181,8 @@ export interface Conversation {
   topics: string[];
   /** The director's ledger, read for what happened to whom (internal). */
   director?: Director;
+  /** The moment the talk is the occasion of (a scene's), from the player's ledger. */
+  occasion?: Moment;
 }
 
 /**
@@ -320,22 +323,31 @@ function topicWeight(
       DEFAULT_DIRECTOR_DATA.parameters.directorTalkAddressImpact!.value
     );
   }
+  let weight = zero;
+  for (const moment of recentMoments(core, director, holderId))
+    if (isAbout(subject, moment, data) && moment.impact > weight)
+      weight = moment.impact;
+  return weight;
+}
+
+/**
+ * Whether a subject is about a moment: the moment's cause or counterpart in
+ * the subject's records, or a moment of the holder's own talked about as
+ * this subject by its label.
+ */
+function isAbout(subject: Subject, moment: Moment, data: ConversationData) {
   const ids = new Set<string>([
     ...Object.values(subject.facts).flatMap((fact) => fact.sourceRecordIds),
     ...(subject.aboutId ? [subject.aboutId] : []),
     ...(subject.own ? [subject.own.value] : []),
   ]);
-  let weight = zero;
-  for (const moment of recentMoments(core, director, holderId)) {
-    const about =
-      ids.has(moment.causeId) ||
-      (!!subject.aboutId &&
-        moment.counterpartIds.includes(subject.aboutId as PersonId)) ||
-      (data.topicOfLabel[moment.label] === subject.kind &&
-        !moment.counterpartIds.length);
-    if (about && moment.impact > weight) weight = moment.impact;
-  }
-  return weight;
+  return (
+    ids.has(moment.causeId) ||
+    (!!subject.aboutId &&
+      moment.counterpartIds.includes(subject.aboutId as PersonId)) ||
+    (data.topicOfLabel[moment.label] === subject.kind &&
+      !moment.counterpartIds.length)
+  );
 }
 
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
@@ -1077,13 +1089,19 @@ function mainTopic(
 ): { subject: Subject; asks: boolean } | null {
   const { playerId, otherId, director } = conversation;
   let best: { subject: Subject; asks: boolean; weight: number } | null = null;
+  // The occasion comes first: a talk a scene opens is about the scene's
+  // moment (owner, Oct 14, 2026, night: the place and the occasion).
+  const occasion = conversation.occasion;
   const consider = (subject: Subject, asks: boolean, holderId: PersonId) => {
     if (
       conversation.used.includes(subject.id) ||
       conversation.used.includes(`${otherId}>${subject.id}`)
     )
       return;
-    const weight = topicWeight(core, director, holderId, subject, data);
+    const weight =
+      occasion && isAbout(subject, occasion, data)
+        ? Number.POSITIVE_INFINITY
+        : topicWeight(core, director, holderId, subject, data);
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
@@ -1109,6 +1127,8 @@ export function openConversation(
     data?: ConversationData;
     /** The director's ledger, for what happened to whom. */
     director?: Director;
+    /** The id of the player's moment the talk is the occasion of (a scene's). */
+    occasionId?: string;
   } = {},
 ): Conversation {
   const data = options.data ?? CONVERSATION_DATA;
@@ -1126,30 +1146,41 @@ export function openConversation(
     topics: [],
     ...(options.director ? { director: options.director } : {}),
   };
+  const occasion = options.occasionId
+    ? options.director?.ledger.people
+        .get(playerId)
+        ?.momentsById.get(options.occasionId)
+    : undefined;
+  if (occasion) conversation.occasion = occasion;
   // A greeting first; a "How are you?" would need its own answer, so only a
   // greeting that asks nothing opens. The player's name only if they know it.
   const player = core.people.get(playerId)!;
   const knows = core.people.get(otherId)?.knownIds.has(playerId);
-  const greeting = words(
-    core,
-    data,
-    otherId,
-    "greet",
-    "open",
-    data.subjects.greet?.open?.filter((move) => !/\?$/.test(move.text)),
-    knows
-      ? {
-          name: {
-            text: player.givenName,
-            sourceRecordIds: [
-              core.people.get(otherId)?.knownIdSources?.[playerId]
-                ?.sourceFactId ?? playerId,
-            ],
-          },
-        }
-      : {},
-    `${playerId}:${otherId}:${core.date}:greet`,
-  );
+  // People who live together don't greet each other at home.
+  const housemate =
+    core.people.get(otherId)?.householdId === player.householdId;
+  const greeting = housemate
+    ? null
+    : words(
+        core,
+        data,
+        otherId,
+        "greet",
+        "open",
+        data.subjects.greet?.open?.filter((move) => !/\?$/.test(move.text)),
+        knows
+          ? {
+              name: {
+                text: player.givenName,
+                sourceRecordIds: [
+                  core.people.get(otherId)?.knownIdSources?.[playerId]
+                    ?.sourceFactId ?? playerId,
+                ],
+              },
+            }
+          : {},
+        `${playerId}:${otherId}:${core.date}:greet`,
+      );
   if (greeting)
     conversation.lines.push({
       speakerId: otherId,
