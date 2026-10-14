@@ -123,8 +123,50 @@
     "turnoutBase": {
       "value": -0.6,
       "tag": "TUNABLE",
-      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), their interest in the race and its cost. Checked so named adults in a local race on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 64% at this value.",
-      "spread": [-1.2, 0]
+      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), the stakes of the day's races, the campaigns' reach, their habit and the cost of voting; the sum is their turnout propensity through the logistic (src/core2/turnout.ts). Checked so the counted turnout in a presidential year lands near the state's CPS citizen turnout (src/core2/electorate.test.ts, tolerance countedTurnoutTolerance) and named adults on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald).",
+      "spread": [-1.2, 0.6]
+    },
+    "turnoutScale": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How gently the turnout propensity slides with a voter's reasons: the logistic's scale on the turnout scale (src/core2/turnout.ts). Near even odds, one unit of reasons moves the propensity by 1/(4 x scale). Checked against the spread of validated turnout by age and engagement: about 23% of citizens 18 to 24 and 65% of those 65 and over voted in the 2022 midterm (U.S. Census Bureau, CPS Voting and Registration Supplement 2022), a spread the age gradient in duty and engagement must reproduce without flipping anyone to always or never.",
+      "spread": [0.25, 1]
+    },
+    "turnoutStakesWeight": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How much the stakes of the day's races add to a voter's reason to vote, at most (times tanh of the gap between the candidates in their own eyes). People who care who wins vote more (the American National Election Studies' 'care who wins' item predicts reported turnout; ANES and Gallup, 'Lessons learned', electionstudies.org/2007anes_gallup_lessonslearned); the size here is not taken from a published figure and is checked only through the turnout totals (counted presidential turnout against the state's CPS rate, src/core2/electorate.test.ts). A race whose candidates a voter can't tell apart adds nothing.",
+      "spread": [0.2, 1.2]
+    },
+    "turnoutReachWeight": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "source": "What the campaigns' contacts add to a voter's reason to vote, at most, leveling off with repeated contact. Field experiments: a door-to-door contact raises turnout about 2.5 points in a low-salience election, and a mailer about 0.5 points; repeated contact adds less each time (Green and Gerber, 'Get Out the Vote', 4th ed. 2019, chapters 3 and 5). At the turnout scale (0.5), 0.2 is up to about 10 points for a voter near even odds, reached after several contacts.",
+      "spread": [0.05, 0.4]
+    },
+    "turnoutReachContacts": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many campaign contacts it takes to give about two thirds of the most reach can add (1 - e^-1). Repeated contacts show diminishing returns in field experiments (Green and Gerber 2019); checked so a voter knocked once gains about the 2.5 points a door gives.",
+      "spread": [1, 6]
+    },
+    "turnoutHabitWeight": {
+      "value": 0.4,
+      "tag": "ESTIMATED",
+      "source": "What a voter's own record of voting adds (times their share of elections voted, less one half, by how long the record is). Voting in one election raises the chance of voting in the next by about 10 points (Gerber, Green and Shachar 2003, 'Voting May Be Habit-Forming: Evidence from a Randomized Field Experiment', American Journal of Political Science 47(3):540-550); at the turnout scale, a record of always voting adds about 0.2, about 10 points near even odds.",
+      "spread": [0.2, 0.8]
+    },
+    "turnoutHabitFamiliarity": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many election days of record it takes for habit to carry half its weight: a record of one election says little, a record of many says more. Checked so a first-time voter's record moves their next turnout by a few points and a long record by about ten (Gerber, Green and Shachar 2003; Coppock and Green 2016, 'Is Voting Habit Forming?', American Journal of Political Science 60(4):1044-1062).",
+      "spread": [1, 6]
+    },
+    "recordFamiliarityItems": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many items an officeholder's record needs (votes, promises kept or broken) before a voter weighs it at about two thirds of its full weight: the record is an average, and a short record gives a voter less to go on. Keeps a busy incumbent's record within the size of a voter's other reasons (it summed to -8.2 for a 56-vote council member in the elections stress audit of Oct 14, 2026). Checked against roll-call accountability: members out of step with their districts lose a few points of vote share (Canes-Wrone, Brady and Cogan 2002, American Political Science Review 96(1)).",
+      "spread": [2, 12]
     },
     "turnoutWorkWeekMinutes": {
       "value": 2400,
@@ -159,7 +201,7 @@
     "recordVoteWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
-      "source": "How much each vote on the record moves a voter who knows the officeholder, toward or away by how close the vote sits to their own view. Checked against roll-call accountability studies (Canes-Wrone, Brady and Cogan 2002: members out of step with their districts lose a few points of vote share).",
+      "source": "How much an officeholder's voting record moves a voter who knows the officeholder, at most: the average over the record of their own stance times each vote's position (a vote they'd have cast counts for, one against their view against), by how much the record gives them to go on (recordFamiliarityItems). Checked against roll-call accountability studies (Canes-Wrone, Brady and Cogan 2002: members out of step with their districts lose a few points of vote share; at the electorate's appealPerShare a whole record against a voter is worth several points).",
       "spread": [0.1, 0.5]
     },
     "keptPromiseWeight": {
