@@ -625,6 +625,28 @@ function terms0(api: CoreAPI): MortgageTerms[] | undefined {
 function amortize(api: CoreAPI): void {
   const c = core(api),
     months = api.parameter("macroMonthsPerYear");
+  // The counted households' payments are one flow per holder, so the share paid is read from the month's
+  // requested and paid totals of mortgage payments; an unpaid part is not applied to the balance.
+  const totals = c.finance.totalsByKind.get("household.mortgage");
+  const seen = store(api).table("state").get("housing:mortgage-paid") as
+    { requestedMinor: number; paidMinor: number } | undefined;
+  const requested = (totals?.requestedMinor ?? 0) - (seen?.requestedMinor ?? 0);
+  const paidShare =
+    requested > 0
+      ? Math.max(
+          0,
+          Math.min(
+            1,
+            ((totals?.paidMinor ?? 0) - (seen?.paidMinor ?? 0)) / requested,
+          ),
+        )
+      : 1;
+  if (totals)
+    store(api).table("state").put({
+      id: "housing:mortgage-paid",
+      requestedMinor: totals.requestedMinor,
+      paidMinor: totals.paidMinor,
+    });
   for (const row of store(api)
     .table("mortgages")
     .rows() as unknown as (MortgageTerms & {
@@ -635,11 +657,17 @@ function amortize(api: CoreAPI): void {
     const bill = c.finance.contracts.get(row.id);
     if (bill && !bill.endedAt && bill.arrearsMinor > 0) continue;
     const interest = Math.round((row.balanceMinor * row.rate) / months);
-    const balance = Math.max(
-      0,
-      row.balanceMinor - (row.paymentMinor - interest),
-    );
-    const monthsLeft = balance > 0 ? row.monthsLeft - 1 : 0;
+    // Interest accrues in full; the balance falls only by what was paid past it (an unpaid part adds to it).
+    const paidMinor = c.finance.contracts.has(row.id)
+      ? row.paymentMinor
+      : Math.round(row.paymentMinor * paidShare);
+    const balance = Math.max(0, row.balanceMinor - (paidMinor - interest));
+    const monthsLeft =
+      balance > 0
+        ? paidShare < 1 && !c.finance.contracts.has(row.id)
+          ? row.monthsLeft
+          : row.monthsLeft - 1
+        : 0;
     store(api)
       .table("mortgages")
       .put({ ...row, balanceMinor: balance, monthsLeft });
@@ -853,11 +881,16 @@ function buyHomes(api: CoreAPI): void {
         source,
       );
     }
+    // The loan never exceeds what the down payment actually paid supports at the lender's loan-to-value rule.
+    const share = housingData.mortgage.downPayment.firstTime;
+    const supported = Math.floor(
+      (Math.max(0, Math.round(down) - owed) * (1 - share)) / share,
+    );
     const lent = lendMortgage(api, {
       householdId: household.id,
       borrowerId: head!.id,
       sellerId: seller,
-      principalMinor: principal,
+      principalMinor: Math.min(principal, supported),
       annualRate: rate,
       termMonths: term,
     });
@@ -913,7 +946,12 @@ function review(api: CoreAPI): void {
     law = steps(api);
   renew(api);
   amortize(api);
-  billPropertyTax(api, store(api).table("assessments"), ownedHomes(api));
+  billPropertyTax(
+    api,
+    store(api).table("assessments"),
+    ownedHomes(api),
+    store(api).table("taxArrears"),
+  );
   build(api);
   landlordPayout(api);
   buyHomes(api);
@@ -1458,6 +1496,7 @@ export const HOUSING_MODULE: CoreModule = {
       dwellings: {},
       counsel: {},
       assessments: {},
+      taxArrears: {},
       stock: {},
       projects: { indexes: { all: { fields: ["isProject"] } } },
       affordable: {},

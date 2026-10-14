@@ -2229,11 +2229,11 @@
     "kind": "estimated-parameter",
     "file": "src/core2/data/macro/parameters.json",
     "line": 309,
-    "whatItFakes": "Public budgets add no impulse to national output beyond their real average.",
-    "why": "M1-07 budgets have not landed; trend growth 1990-2019 already carries average public spending.",
+    "whatItFakes": "State and local budgets add no impulse to national output beyond their real average, and neither does the federal budget in a world without the budgets engine. Where the budgets engine runs, the federal budget's change from its base is read each month through macroFiscalMultiplier (Oct 14, OPUS-WORLD).",
+    "why": "Other states' and towns' budgets are not kept in the world, and one town's own budgets are too small a share of the nation to move it.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The national, state and local budgets' actual spending and taxes from M1-07, read as indexed totals each month.",
+    "replacement": "State and local budgets for every place read as indexed totals each month, at their own multiplier (below 1 for own-financed spending, Clemens and Miran 2012).",
     "status": "open"
   },
   {
@@ -3104,18 +3104,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-GOV-reconsideration-rule",
-    "kind": "owner-decision",
-    "file": "src/core2/modules/world-legislating.ts",
-    "line": 1,
-    "whatItFakes": "How soon a body may undo a law it passed: no place's data records a reconsideration rule, so a sliding reluctance (fresher law and wider margin, more reluctance; a member's own last vote) stands in for the rule.",
-    "why": "Laws stress audit defect 3 (Oct 14): a county repealed laws it passed two weeks earlier. The owner's exact rule is pending (CTO relay, Oct 14).",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "The owner's ruling on reconsideration, and each place's recorded rule as data where one exists.",
-    "status": "open"
-  },
-  {
     "id": "SG-PLAY-dev-law-reach-full-only",
     "kind": "missing-core-api",
     "file": "src/bench/dev-mode.ts",
@@ -3209,6 +3197,114 @@
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
     "replacement": "Each territory's certified 2024 delegate and governor returns (territorial election offices) as research data, read in place of the town's ballots.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-wages-skip-credit-line",
+    "kind": "skipped-mechanic",
+    "file": "src/core2/modules/residents.ts",
+    "line": 535,
+    "whatItFakes": "A counted employer short of cash on payday records a wage shortfall and never draws its approved credit line, though the line has room.",
+    "why": "The credit engine draws only against a standing finance contract; counted wages are residents flows paid by transfer, so a correct draw needs a finance-engine entry for flows (OPUS-CORE).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "A finance-engine draw for a residents wage flow (journal-balanced, up to the line's room), called from residents settle() before the shortfall is recorded.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-staff-husk-work",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/staff.ts",
+    "line": 218,
+    "whatItFakes": "A relative living out of town (a husk) is never an aide candidate, because the records hold no work for them, and an unknown job is not an empty one.",
+    "why": "Husks are kept as a name and family ties only; their place's work isn't modeled at the coarse level, so whether they are out of work, and so free to take the post, can't be read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Work for out-of-town relatives from their place's coarse population (jobs by age and place), after which those within commuting reach and out of work apply like anyone.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-withholding-residence-law",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 969,
+    "whatItFakes": "Payroll withholding for a worker who lives outside the town reads the law of the worker's residence from the starting-law rows (the town's recorded rows where a jurisdiction is shared with the town), so a law enacted in play in a jurisdiction the town does not share is not read; a residence the place lookup cannot resolve gets federal and payroll tax only.",
+    "why": "Enacted laws are recorded only for the town's own chain; other places' chains are not opened as worlds yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Each place's law chain recorded in the laws module, enacted acts included, read for every worker's residence.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-withholding-outside-governments",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1055,
+    "whatItFakes": "Income tax a worker owes a government with no treasury in the world (another state, or a county or city the world does not model) is not withheld, so the worker's pay is not reduced by it and no money moves.",
+    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Each such government gets a treasury (or an obligation-backed outside flow) and the withheld tax is paid to it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-withholding-local-base",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1035,
+    "whatItFakes": "A local flat income tax on a row whose base is wages or AGI is taken on the paycheck's gross pay (no pre-tax contributions or personal exemptions are modeled); a row whose base is taxable income is taken after the state (else federal) standard deduction only.",
+    "why": "The law rows name the base but carry no exemption or adjustment amounts, and workers' pre-tax deductions are not modeled.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Personal exemptions and adjustments read from the law rows and the worker's own records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-withholding-nonresident-local",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1039,
+    "whatItFakes": "A worker who lives outside the town pays no county or city income tax to the town's jurisdictions for working there (the rows' nonresident rate is not applied); local tax is withheld only by the law at the worker's residence.",
+    "why": "Where a worker works and which local jurisdiction taxes nonresident wages is not resolved per paycheck yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Resolve the workplace's local chain per paycheck and apply each row's nonresident rate to residents of other jurisdictions.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-employer-tax-counted-wages",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/employer-taxes.ts",
+    "line": 16,
+    "whatItFakes": "Employers pay no Social Security or Medicare share on wages paid to counted workers through the residents' merged wage flows; only full workers' paychecks carry the employer share.",
+    "why": "Counted wages are paid by the residents engine's merged flows, not the work payroll the employer-taxes module hooks, and that engine is OPUS-CORE's.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "A residents wage-flow payment hook (OPUS-CORE) that posts the same employer share from the law rows in force.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-staff-seat-applicant",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/staff.ts",
+    "line": 370,
+    "whatItFakes": "An official whose office sits outside the town (a state or federal office, at its seat of government) draws one applicant living where the office sits, generated from the world's seed and the office (name, age in the business-worker range, traits), and records them as a person only when hired.",
+    "why": "The owner ruled that such an official hires from where the office sits (Oct 14), but the seat's population isn't modeled, so there is no labor market there to read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The seat's coarse population (people by age and work, as the town's counted population is kept), from which the official's applicants come by the same reach and working-age reads.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-reconsideration-rule",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 1,
+    "whatItFakes": "How soon a body may undo a law it passed: no place's data records a reconsideration rule, so a sliding reluctance (fresher law and wider margin, more reluctance; a member's own last vote) stands in for the rule.",
+    "why": "Laws stress audit defect 3 (Oct 14): a county repealed laws it passed two weeks earlier. The owner's exact rule is pending (CTO relay, Oct 14).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling on reconsideration, and each place's recorded rule as data where one exists.",
     "status": "open"
   },
   {
