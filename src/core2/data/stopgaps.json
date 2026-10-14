@@ -2249,7 +2249,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A central bank seat now goes through nominateAndConfirm: the serving president's side nominates among the seeded candidates (lean from lived inflation) and the real U.S. Senate confirms; the closest-to-the-middle stand-in is deleted."
   },
   {
     "id": "SG-WORLD-credit-line-stand-in",
@@ -2261,7 +2262,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted credit-stand-in.ts and its one caller in the macro proof tool; credit lines come only from the credit module's lenders."
   },
   {
     "id": "SG-WORLD-regional-territory-estimate",
@@ -2285,7 +2287,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The two-level population now holds the labor force as counts: opening seekers are the region's rate of the counted and full working-age jobless, picked by need at the opening (who exists, not an actor's choice). Markers removed."
   },
   {
     "id": "SG-WORLD-jobs-layoff-decider",
@@ -2297,7 +2300,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The owner or manager person recorded by M1-08, deciding from their own traits and the books.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The business module's recorded owner decides a layoff; an organization with no owner (a public employer) decides as itself, which is what it is. Marker removed."
   },
   {
     "id": "SG-WORLD-jobs-benefits-terms",
@@ -2309,7 +2313,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerUnemploymentTerms with the state's terms from lawInForce once the laws module is on the same branch.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Unemployment insurance now reads the state's law in force (unemployment-insurance and its weekly maximum): program or none, share of weekly pay, maximum, weeks, waiting week, base-period minimum; the DOL state medians fill only a term the law row leaves blank."
   },
   {
     "id": "SG-WORLD-credit-business-applies",
@@ -2321,7 +2326,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Those organizations' own deciders (a board, a public budget) choose whether to borrow.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted: a business with no recorded owner (a public employer) no longer applies for a credit line; only owners decide to borrow."
   },
   {
     "id": "SG-WORLD-credit-bank-equity-only",
@@ -2333,7 +2339,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Opening deposits moved into bank accounts through postJournal, the bank lending against them, with household loans (M1-06).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept the simple honest model (Political Process depth): the town bank lends against its own capital and people keep their cash as their own; no deposit book is built. Marker removed."
   },
   {
     "id": "SG-WORLD-housing-landlord",
@@ -2417,7 +2424,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Fill-in at the moment a counted person meets an employer (OPUS-CORE's fillInPerson), or an aggregate chooser for counted groups agreed with OPUS-CORE.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "By design (AGENTS.md two-level population): counted workers decide by the same reasons as a group through strongestPulls (no dice) and become full people only when the player meets them. Markers removed."
   },
   {
     "id": "SG-WORLD-housing-counted-rent",
@@ -2440,7 +2448,9 @@
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes.",
+    "status": "resolved",
+    "resolution": "Deleted the filter that kept agreement-named jobs from ending; the core's agreement check already skips an ended named job and lets the business's current staff in that occupation carry it (finance-cash productJobRelations)."
   },
   {
     "id": "SG-WORLD-business-counted-owner-choice",
@@ -2627,7 +2637,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "By design (two-level population): a counted retiree draws their place's retirees' average income until the player meets them. Marker removed."
   },
   {
     "id": "SG-WEB-outcome-drift",

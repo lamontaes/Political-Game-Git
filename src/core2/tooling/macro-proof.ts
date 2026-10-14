@@ -1,4 +1,4 @@
-/** M1-02 proof in a generated world: national figures, every vote's reasons, and a named business's line repriced. */
+/** M1-02 proof in a generated world: national figures, every vote's reasons, and the credit lines repriced. */
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { performance } from "node:perf_hooks";
@@ -6,7 +6,6 @@ import { prepareWorldAt } from "./world-prepare";
 import { advanceCore, createLifeCore } from "../life";
 import { coreAPI } from "../state";
 import { MACRO_MODULE, macroCoreData, withCentralBank } from "../modules/macro";
-import { standInPrimeLine } from "../credit-stand-in";
 import { REGIONAL_MODULE } from "../modules/regional";
 import { buildOpeningEconomy } from "../opening-economy";
 import { checkBands, type MacroMonth } from "../macro-model";
@@ -44,27 +43,7 @@ if (!withMacro) {
   process.exit(0);
 }
 const api = coreAPI(core);
-const borrower = {
-  organizationId: [...core.organizations.values()]
-    .filter((row) => row.kind === "employer")
-    .sort((a, b) => a.id.localeCompare(b.id))[0]!.id,
-};
-const lender = [...core.organizations.values()]
-  .filter((row) => row.id !== borrower.organizationId)
-  .sort(
-    (a, b) =>
-      Number(/bank|credit/i.test(b.name)) -
-        Number(/bank|credit/i.test(a.name)) || a.id.localeCompare(b.id),
-  )[0]!;
 const started = performance.now();
-advanceCore(core, core.date);
-const facilityId = standInPrimeLine(
-  api,
-  borrower.organizationId,
-  lender.id,
-  1_000_000,
-  1.5,
-);
 advanceCore(core, through);
 const milliseconds = performance.now() - started;
 const snap = api.moduleState("macro").snapshot();
@@ -79,13 +58,6 @@ const result = {
   startedAt: input.startedAt,
   through,
   milliseconds,
-  business: {
-    id: borrower.organizationId,
-    name: core.organizations.get(borrower.organizationId)!.name,
-    lender: lender.name,
-    facilityId,
-    facility: core.finance.facilities.get(facilityId),
-  },
   repricings: snap.tables.repricings,
   meetings: snap.tables.meetings,
   votes: snap.tables.votes,
@@ -104,9 +76,6 @@ const result = {
     simulatedBase: bands.filter((row) => !row.baseIsHistory),
     historyBase: bands.filter((row) => row.baseIsHistory),
   },
-  conditions: core.finance.conditionsByPlace.get(
-    core.organizations.get(borrower.organizationId)!.placeId,
-  ),
 };
 writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
 console.log(

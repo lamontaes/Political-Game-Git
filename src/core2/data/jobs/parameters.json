@@ -228,7 +228,6 @@
     "tag": "ESTIMATED",
     "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
     "estimatedFrom": "Most states pay 1/26 of high-quarter wages (19 of the listed fractions are 1/23 to 1/26), about half the weekly wage.",
-    "stopgapId": "SG-WORLD-jobs-benefits-terms",
     "spread": {
       "low": 0.4,
       "high": 0.6,
@@ -241,7 +240,6 @@
     "tag": "ESTIMATED",
     "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
     "estimatedFrom": "Median of 53 state weekly maximums, January 2026 ($235 to $1,152).",
-    "stopgapId": "SG-WORLD-jobs-benefits-terms",
     "spread": {
       "low": 23500,
       "high": 115200,
@@ -254,7 +252,6 @@
     "tag": "ESTIMATED",
     "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
     "estimatedFrom": "Median maximum duration across the state programs, July 2026 (12 to 26 weeks).",
-    "stopgapId": "SG-WORLD-jobs-benefits-terms",
     "spread": {
       "low": 12,
       "high": 26,
@@ -267,7 +264,6 @@
     "tag": "ESTIMATED",
     "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
     "estimatedFrom": "Median minimum base-period wages across the state programs, July 2026.",
-    "stopgapId": "SG-WORLD-jobs-benefits-terms",
     "spread": {
       "low": 100000,
       "high": 600000,

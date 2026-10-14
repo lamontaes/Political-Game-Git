@@ -370,7 +370,7 @@ function review(api: CoreAPI): void {
     0,
     book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
   );
-  // The owner decides whether to borrow; a business with no recorded owner applies when its cash runs short.
+  // The owner decides whether to borrow.
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
@@ -395,11 +395,8 @@ function review(api: CoreAPI): void {
     if (!requested) continue;
     const ownerId = (owners?.get(id) as { ownerId?: string } | undefined)
       ?.ownerId;
-    if (!ownerId) {
-      stopgap("SG-WORLD-credit-business-applies");
-      wanted.push({ id, requested });
-      continue;
-    }
+    // A business with no recorded owner (a public employer runs on its budget) doesn't borrow.
+    if (!ownerId) continue;
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
     const reasons = {
       baseline: p("creditBorrowBaseline"),
@@ -656,8 +653,7 @@ export const CREDIT_MODULE: CoreModule = {
     const bank = [...core(api).organizations.values()].find(
       (row) => row.kind === creditData.bankKind,
     );
-    // Deposits move into bank accounts when the core's accounts land; until then the bank lends its equity.
-    stopgap("SG-WORLD-credit-bank-equity-only");
+    // The bank lends against its own capital; households and businesses keep their cash as their own.
     store(api)
       .table("banks")
       .put({
