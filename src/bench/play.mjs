@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -24,6 +24,51 @@ async function displayVersion() {
   return `v${number}`;
 }
 const post = (path) => api(path, "POST");
+/**
+ * Nothing inside a menu scrolls: what does not fit in `box` is split into pages, and the
+ * pager's Back and Continue turn them. Columns flow sideways; a plain list pages at a row.
+ */
+function pageIn(box, pager) {
+  box.scrollTo(0, 0);
+  const [back, next] = pager.querySelectorAll("button");
+  const stops = [0];
+  let sideways = false;
+  if (box.clientHeight > 0) {
+    if (box.scrollWidth > box.clientWidth + 2) {
+      sideways = true;
+      const step =
+        box.clientWidth + (parseFloat(getComputedStyle(box).columnGap) || 0);
+      for (let x = step; x < box.scrollWidth - 2; x += step) stops.push(x);
+    } else if (box.scrollHeight > box.clientHeight + 2) {
+      let top = 0;
+      for (const kid of box.querySelectorAll(
+        ":scope > *:not(.flow), :scope > .flow > *",
+      )) {
+        if (kid.offsetTop + kid.offsetHeight - top > box.clientHeight) {
+          top = kid.offsetTop;
+          stops.push(top);
+        }
+      }
+    }
+  }
+  let at = 0;
+  const go = (index) => {
+    at = index;
+    box.scrollTo(sideways ? stops[at] : 0, sideways ? 0 : stops[at]);
+    back.hidden = at === 0;
+    next.hidden = at === stops.length - 1;
+  };
+  back.onclick = () => go(at - 1);
+  next.onclick = () => go(at + 1);
+  pager.hidden = stops.length === 1;
+  go(0);
+}
+/** Pages again whenever the box's contents change (a search narrowing a list, a redrawn ballot). */
+function pageWhenChanged(box, pager) {
+  new MutationObserver(() =>
+    requestAnimationFrame(() => pageIn(box, pager)),
+  ).observe(box, { childList: true, subtree: true });
+}
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
 /** The player card's date, and the time under it: the only place either appears. */
@@ -251,6 +296,7 @@ function openNewsReader(news) {
   );
   show("news-reader", true);
 }
+pageWhenChanged($("news-reader-body"), $("news-reader-pager"));
 $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
@@ -1885,6 +1931,7 @@ const sheets = {
       el("p", { className: "version", textContent: await displayVersion() }),
     );
     const quit = el("button", { type: "button", textContent: "Quit to title" });
+    quit.dataset.testid = "quit-to-title";
     quit.addEventListener("click", () => window.location.reload());
     rows.push(quit);
     return rows;
@@ -2017,11 +2064,12 @@ async function openSheet(tab) {
     "cols",
     tab === "calendar" || body.length > 12,
   );
-  $("sheet-body").scrollTop = 0;
   show("sheet", true);
   show("menu", Boolean(me));
   $("game").classList.add("sheet-open");
 }
+pageWhenChanged($("sheet-body"), $("sheet-pager"));
+pageWhenChanged($("ballot-races"), $("ballot-pager"));
 for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")

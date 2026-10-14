@@ -507,3 +507,32 @@ export function addCountedRetiree(
   return monthly;
 }
 const RETIREES_ADDED = "residents:retirement:added:";
+
+/**
+ * A counted household's standing flow (its rent) pays a new amount from its
+ * next due date: zero while the household is behind, its rent again once it
+ * catches up. False when there is no such live flow.
+ */
+export function setResidentFlowAmount(
+  core: CoreState,
+  id: string,
+  amountMinor: number,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(id);
+  if (!flow || flow.endedAt) return false;
+  flow.amountMinor = Math.max(0, Math.round(amountMinor));
+  return true;
+}
+
+/** A counted household's standing flow ends today (a lease ended by removal). */
+export function endResidentFlow(
+  core: CoreState,
+  id: string,
+  reason: string,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(id);
+  if (!flow || flow.endedAt) return false;
+  flow.endedAt = makeIsoDate(core.date);
+  flow.endedReason = reason;
+  return true;
+}

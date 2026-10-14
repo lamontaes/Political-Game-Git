@@ -3,4 +3,4 @@ id: homelessness-package
 impact: none
 ---
 
-The homelessness package and one ruling, docs only. Nothing visible changes.
+The homelessness, foreclosure and estates package and the rulings beside it, docs only. Nothing visible changes.

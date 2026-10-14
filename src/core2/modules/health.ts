@@ -450,7 +450,10 @@ export function createHealthModule(
         found.deathEventId = event.id;
         api.updatePerson(id, { alive: false });
         row.deaths += api.parameter("one");
-        api.emit(event);
+        // A death is a public record (the death certificate) and local news
+        // (the obituary): the town's counts, the news, kin and the seat's
+        // vacancy rule all read it. An illness's onset stays private.
+        api.emit({ ...event, publicRecord: true, news: true });
         // Their cash passes to their heirs, or escheats (money audit defect 6).
         settleEstate(api, id, event.id);
       }

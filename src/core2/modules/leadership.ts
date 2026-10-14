@@ -29,6 +29,13 @@ import {
   registerCommitteeRosterProvider,
 } from "./legislature";
 import { partySide } from "../appointments";
+import {
+  COMMITTEES,
+  committeeTopics,
+  topicOf,
+} from "../legislature-committees";
+import { officialOf } from "./officials";
+import { concerns } from "./meetings";
 import { campaignParameter } from "../campaign-views";
 
 export const LEADERSHIP_MODULE_ID = "core2-leadership-v1";
@@ -57,8 +64,29 @@ function field<T>(template: Template, name: string): T {
   return row.value as T;
 }
 
-/** The subject committees a body refers bills to (the legislature's `committeeFor`). */
-export const COMMITTEES = ["finance", "labor", "general"] as const;
+/** The subject committees a body refers bills to (data, `committees.json`). */
+export { COMMITTEES };
+
+/**
+ * How much a committee's subject touches a member: an official's signature
+ * issues, or for a town member, whether it touches their own life (work,
+ * children at home, age; the meetings rule). Members ask for the committees
+ * their interests run to, and the assigning authority weighs it.
+ */
+function interestIn(api: CoreAPI, t: TermRow, committee: string): number {
+  const topics = committeeTopics(committee);
+  const official = officialOf(api, memberKey(t));
+  if (official)
+    return official.signature.some((s) => topics.includes(topicOf(s.question)))
+      ? 1
+      : 0;
+  const person = t.personId ? api.state.people.get(t.personId) : undefined;
+  if (!person) return 0;
+  const touches = concerns(api, person);
+  return topics.some((topic) => touches(`us-policy-positions:${topic}.any`))
+    ? 1
+    : 0;
+}
 
 export interface PostRow {
   readonly id: string;
@@ -486,6 +514,7 @@ function assignCommittees(
   const load = new Map<string, number>();
   const cap = Math.ceil((COMMITTEES.length * size) / all.length);
   const appoint = (
+    committee: string,
     authorityId: string | null,
     pool: readonly TermRow[],
     n: number,
@@ -495,7 +524,10 @@ function assignCommittees(
       .filter((t) => (load.get(memberKey(t)) ?? 0) < cap)
       .map((t) => ({
         t,
-        r: authority ? rating(api, authority, t, partisan) : 0,
+        r:
+          (authority ? rating(api, authority, t, partisan) : 0) +
+          campaignParameter("committeeInterestWeight") *
+            interestIn(api, t, committee),
       }))
       .sort(
         (a, b) =>
@@ -513,8 +545,10 @@ function assignCommittees(
   for (const committee of COMMITTEES) {
     const majorityPool = partisan ? majority : all;
     const seated = [
-      ...appoint(who.majority, majorityPool, size - minoritySeats),
-      ...(minoritySeats ? appoint(who.minority, minority, minoritySeats) : []),
+      ...appoint(committee, who.majority, majorityPool, size - minoritySeats),
+      ...(minoritySeats
+        ? appoint(committee, who.minority, minority, minoritySeats)
+        : []),
     ];
     if (!seated.length) continue;
     const eligible = seated.filter((t) => majorityPool.includes(t));

@@ -343,6 +343,32 @@ async function drawBodies() {
 }
 
 // 3. Trace -------------------------------------------------------------------
+/** One "why" panel: labeled rows (ids open in Trace) and, where an engine keeps no reason, the gap. */
+function whyView(panel) {
+  const box = el(
+    "details",
+    { className: "why", open: true },
+    el("summary", {}, panel.title),
+  );
+  for (const row of panel.rows)
+    box.append(
+      el(
+        "div",
+        { className: "kv" },
+        el("span", {}, `${row.label} `),
+        row.id
+          ? el(
+              "span",
+              { className: "id", onclick: () => traceId(row.id) },
+              String(row.value),
+            )
+          : el("span", {}, String(row.value)),
+      ),
+    );
+  if (panel.gap)
+    box.append(el("div", { className: "kv gap" }, `Gap: ${panel.gap}`));
+  return box;
+}
 // The clicked chain, root first: what Report writes out.
 let chain = [];
 function traceChild(child, path, depth) {
@@ -385,6 +411,7 @@ function traceChild(child, path, depth) {
           el("span", { className: "kind" }, node.kind),
           el("span", { className: "via" }, node.engine),
         ),
+        ...(node.why ?? []).map(whyView),
         tree(node.record, "record", 2),
         tree(node.resolver, "saved trace", 2),
         ...node.children.map((c) => traceChild(c, here, depth + 1)),

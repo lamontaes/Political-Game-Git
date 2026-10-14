@@ -1041,7 +1041,12 @@ export function interviewQuestions(
   }
   // The asking reporter's own causes on a policy question.
   const reporterId = outlet?.reporterIds
-    ? reporterFor(api, outlet as OutletRow, personId)
+    ? reporterFor(
+        api,
+        outlet as OutletRow,
+        personId,
+        asSpeaker(who).filing?.contestId ?? null,
+      )
     : null;
   const reporter = reporterId ? api.state.people.get(reporterId) : undefined;
   if (reporter)
@@ -1251,7 +1256,12 @@ function arrangeWith(
     answers: [] as InterviewAnswer[],
     audience: 0,
     newsworthiness: worth,
-    reporterId: reporterFor(api, outlet, speaker.personId),
+    reporterId: reporterFor(
+      api,
+      outlet,
+      speaker.personId,
+      filing?.contestId ?? null,
+    ),
     storyId: null,
   };
   const declined = (
@@ -1307,16 +1317,22 @@ function newsworthyBar(outlet: OutletRow): number {
 
 /**
  * Which of an outlet's reporters asks a candidate: the one closest to them
- * (a friend gets the friendly reporter), else its first.
+ * (a friend gets the friendly reporter), else its first. A reporter never
+ * covers themself or a race they are in (the outlet recuses them from the
+ * records), so a paper whose only reporter is the candidate has none to send.
  */
 function reporterFor(
   api: CoreAPI,
   outlet: OutletRow,
   candidateId: string,
+  contestId: string | null = null,
 ): string | null {
-  // A reporter who is the candidate does not interview themselves.
+  const rivals = new Set(
+    contestId ? ballot(api, contestId).map((f) => f.personId) : [],
+  );
   const reporters = (outlet.reporterIds ?? []).filter(
-    (id) => id !== candidateId && api.state.people.get(id)?.alive,
+    (id) =>
+      api.state.people.get(id)?.alive && id !== candidateId && !rivals.has(id),
   );
   if (!reporters.length) return null;
   // stopgapId: SG-PEOPLE-press-favors-and-leaks
@@ -1421,7 +1437,7 @@ function publish(
     (id) => id !== row.candidateId,
   );
   const reporterId =
-    row.reporterId ?? reporterFor(api, outlet, row.candidateId);
+    row.reporterId ?? reporterFor(api, outlet, row.candidateId, row.contestId);
   // The interview is time together: a reporter and a candidate who never
   // met now have, and those who had grow closer.
   if (reporterId && api.state.people.has(row.candidateId)) {

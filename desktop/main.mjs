@@ -3,11 +3,12 @@
  * Our Civic Duty — desktop shell main process.
  *
  * This process is a thin, hardened host for the compiled game. It owns
- * exactly three things: a stable application identity (which fixes the
+ * exactly four things: a stable application identity (which fixes the
  * storage origin and therefore the save profile), a restricted custom
- * protocol that serves the packaged build output, and the direct-update
- * seam (disabled until an endpoint is explicitly authorized, and hard
- * disabled in Steam-output builds).
+ * protocol that serves the packaged build output, the direct-update seam
+ * (disabled until an endpoint is explicitly authorized, and hard disabled in
+ * Steam-output builds), and the play server's utility process (below) that
+ * answers the page's /api requests.
  *
  * It deliberately owns nothing else. No game logic, no second save system,
  * no filesystem or shell bridge into the renderer. The game itself is the
@@ -21,6 +22,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import electron from "electron";
 import { runUpdateCheck, updateActivation } from "./updater.mjs";
+import { macUpdater } from "./mac-install.mjs";
 import { windowsAllClosed } from "./window-close.mjs";
 import { portableDownloadSavePath } from "./download-policy.mjs";
 import {
@@ -30,7 +32,17 @@ import {
   serveAppRequest,
 } from "./app-protocol.mjs";
 
-const { app, BrowserWindow, Menu, dialog, protocol, session, shell } = electron;
+const {
+  app,
+  BrowserWindow,
+  Menu,
+  dialog,
+  net,
+  protocol,
+  session,
+  shell,
+  utilityProcess,
+} = electron;
 
 const desktopRoot = path.dirname(fileURLToPath(import.meta.url));
 
@@ -71,6 +83,54 @@ const identity = readBuildIdentity();
 const contentRoot = app.isPackaged
   ? path.join(process.resourcesPath, "client")
   : path.join(desktopRoot, "staged", "client");
+
+/**
+ * The play server: the page's /api and /art requests are answered by the
+ * request handler bundled from src/bench/handler.ts (scripts/build-play-api.mjs),
+ * with the art and data it reads beside it. It runs in a utility process,
+ * because building a town holds a thread for tens of seconds and the window
+ * must stay responsive; there is no network listener. It reads those files and
+ * writes nothing, and the developer routes stay off. Started on the first
+ * request so the window opens at once.
+ */
+const playApiRoot = app.isPackaged
+  ? path.join(process.resourcesPath, "play-api")
+  : path.join(desktopRoot, "staged", "play-api");
+let playHost;
+const playPending = new Map();
+let playRequestId = 0;
+function startPlayHost() {
+  const host = utilityProcess.fork(
+    path.join(desktopRoot, "play-api-host.mjs"),
+    [],
+    {
+      serviceName: "Our Civic Duty play server",
+      env: { ...process.env, OCD_PLAY_API_ROOT: playApiRoot },
+      stdio: "inherit",
+    },
+  );
+  host.on("message", ({ id, reply, error }) => {
+    const waiting = playPending.get(id);
+    playPending.delete(id);
+    if (error !== undefined) waiting?.reject(new Error(error));
+    else waiting?.resolve(reply);
+  });
+  host.on("exit", (code) => {
+    if (playHost === host) playHost = undefined;
+    for (const waiting of playPending.values())
+      waiting.reject(new Error(`The play server stopped (exit ${code}).`));
+    playPending.clear();
+  });
+  return host;
+}
+function playApi(method, url) {
+  playHost ??= startPlayHost();
+  const id = ++playRequestId;
+  return new Promise((resolve, reject) => {
+    playPending.set(id, { resolve, reject });
+    playHost.postMessage({ id, method, url: url.href });
+  });
+}
 
 /**
  * Stable application identity and storage origin.
@@ -116,7 +176,7 @@ function readUpdateConfig() {
     if (typeof parsed !== "object" || parsed === null) throw new Error("bad");
     return parsed;
   } catch {
-    return { enabled: false, channel: "internal", feedURL: null };
+    return { enabled: false, channel: "latest", feedURL: null };
   }
 }
 
@@ -124,6 +184,8 @@ const updateConfig = readUpdateConfig();
 const activation = updateActivation(updateConfig, identity);
 
 let updateCheckInFlight = false;
+// While an install closes the windows, the last one closing does not quit.
+let holdQuit = false;
 
 /**
  * Asks every window to close through the normal close flow and reports
@@ -150,13 +212,24 @@ async function checkForUpdates() {
         const { default: updaterModule } = await import("electron-updater");
         const { autoUpdater } = updaterModule;
         autoUpdater.autoDownload = false;
-        autoUpdater.autoInstallOnAppQuit = false;
-        autoUpdater.channel = updateConfig.channel ?? "internal";
+        // The verified download installs at the latest on the player's own
+        // next quit (the flow's "Later"); "Restart and install" installs now.
+        autoUpdater.autoInstallOnAppQuit = true;
         autoUpdater.setFeedURL({
-          provider: "generic",
-          url: updateConfig.feedURL,
-          channel: updateConfig.channel ?? "internal",
+          provider: "github",
+          owner: updateConfig.owner,
+          repo: updateConfig.repo,
+          releaseType: "release",
         });
+        if (process.platform === "darwin")
+          return macUpdater({
+            autoUpdater,
+            fetch: (url) => net.fetch(url),
+            feed: { owner: updateConfig.owner, repo: updateConfig.repo },
+            workRoot: path.join(app.getPath("temp"), "our-civic-duty-update"),
+            onQuit: (run) => app.on("will-quit", run),
+            quit: () => app.quit(),
+          });
         return {
           checkForUpdates: () => autoUpdater.checkForUpdates(),
           downloadUpdate: () => autoUpdater.downloadUpdate(),
@@ -165,6 +238,16 @@ async function checkForUpdates() {
             autoUpdater.autoInstallOnAppQuit = value;
           },
         };
+      },
+      ...(process.platform === "darwin"
+        ? {
+            // stopgapId: SG-PLAY-desktop-update-dialog-text
+            installNote:
+              "When you quit, the new version replaces this one in the same folder and opens. Your saves stay where they are.",
+          }
+        : {}),
+      holdQuit: (on) => {
+        holdQuit = on;
       },
       ask: async (message, detail, buttons) => {
         const { response } = await dialog.showMessageBox({
@@ -202,6 +285,11 @@ function showAbout() {
   });
 }
 
+/** The window title: the game, its version and the commit it was built from. */
+function windowTitle() {
+  return `Our Civic Duty ${identity.version} (${identity.revisionShort})`;
+}
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1440,
@@ -210,7 +298,7 @@ function createWindow() {
     minHeight: 640,
     show: false,
     backgroundColor: "#1a1a1a",
-    title: "Our Civic Duty",
+    title: windowTitle(),
     icon: app.isPackaged
       ? path.join(process.resourcesPath, "branding", "icon.png")
       : path.join(desktopRoot, "build", "icon.png"),
@@ -225,6 +313,8 @@ function createWindow() {
       preload: undefined,
     },
   });
+  // The title keeps the build identity; the page does not replace it.
+  win.on("page-title-updated", (event) => event.preventDefault());
   // Open at the size of the screen rather than as a small window.
   win.once("ready-to-show", () => {
     win.maximize();
@@ -307,7 +397,7 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(() => {
     protocol.handle(APP_SCHEME, (request) =>
-      serveAppRequest(contentRoot, request),
+      serveAppRequest(contentRoot, request, playApi),
     );
 
     const ses = session.defaultSession;
@@ -359,7 +449,9 @@ if (!app.requestSingleInstanceLock()) {
     });
   });
 
+  app.on("will-quit", () => playHost?.kill());
+
   app.on("window-all-closed", () => {
-    app.quit();
+    if (!holdQuit) app.quit();
   });
 }
