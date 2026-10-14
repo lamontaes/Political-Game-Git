@@ -51,6 +51,7 @@ import {
   executiveOf,
   proposalRight,
   proposeAsExecutive,
+  reviseBill,
   type Provision,
 } from "./modules/legislature";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
@@ -530,6 +531,35 @@ describe(
         series: "public-pay-floor",
         unit: "dollars/year",
       });
+      // The paper is the bill: a section added, replaced and struck before
+      // the vote rewrites the one record, checked again each time.
+      expect(floorBill.provisions[0]).toMatchObject({
+        policyId: floor.id,
+        operation: "raise",
+      });
+      const parks = provisionFor({
+        policyId: "budget:parks",
+        operation: "expand",
+        amount: 1_000_000,
+      });
+      const added = reviseBill(api, floorBill.id, { add: parks });
+      expect(added.provisions).toHaveLength(2);
+      expect(added.authority).toHaveLength(2);
+      const lower = provisionFor({
+        policyId: floor.id,
+        operation: "raise",
+        amount: 60_000,
+      });
+      const replaced = reviseBill(api, floorBill.id, {
+        replace: 0,
+        with: lower,
+      });
+      expect(replaced.provisions[0]!.value).toBe(60_000);
+      expect(replaced.provisions[1]).toEqual(parks);
+      const struck = reviseBill(api, floorBill.id, { strike: 1 });
+      expect(struck.provisions).toEqual([lower]);
+      expect(billOf(api, floorBill.id)).toEqual(struck);
+      expect(() => reviseBill(api, floorBill.id, { strike: 5 })).toThrow();
       for (const level of ["federal", "state", "city"] as const)
         expect(
           billCatalog(api, level)

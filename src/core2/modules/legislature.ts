@@ -90,6 +90,9 @@ export interface Provision {
   readonly value: number;
   readonly unit?: string;
   readonly effectiveDate?: string;
+  /** The catalog policy the section was drafted from, and what it does to it. */
+  readonly policyId?: string;
+  readonly operation?: string;
 }
 
 export interface Authority {
@@ -812,17 +815,37 @@ export function draftBill(
     readonly provisions: readonly Provision[];
   },
 ): BillRow {
-  // A state chamber legislates within the state's own power; a town's body
-  // within what the state allows it.
-  const stateBody = /:(legislature-|us-house|us-senate)/.test(
-    input.bodyOfficeId,
-  );
-  const level = /:(us-house|us-senate)/.test(input.bodyOfficeId)
+  const bill: BillRow = {
+    id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,
+    number: nextNumber(api, input.bodyOfficeId),
+    bodyOfficeId: input.bodyOfficeId,
+    sponsorId: input.sponsorId,
+    introduced: api.state.date,
+    deals: [],
+    ...checkedText(api, input.bodyOfficeId, input.provisions),
+  };
+  table(api, "bills").put(bill as unknown as ModuleRow);
+  return bill;
+}
+
+/**
+ * A bill's text checked: each section's authority (a state chamber
+ * legislates within the state's own power, a town's body within what the
+ * state allows it) and what it costs; blocked while any section is beyond
+ * the body's power.
+ */
+function checkedText(
+  api: CoreAPI,
+  bodyOfficeId: string,
+  provisions: readonly Provision[],
+): Pick<BillRow, "provisions" | "costEstimate" | "authority" | "status"> {
+  const stateBody = /:(legislature-|us-house|us-senate)/.test(bodyOfficeId);
+  const level = /:(us-house|us-senate)/.test(bodyOfficeId)
     ? "federal"
     : stateBody
       ? "state"
       : "local";
-  const authority = input.provisions.map(
+  const authority = provisions.map(
     (p) =>
       // A level may only set the amounts the law gives it (no council sets
       // SNAP or the Medicare tax; audit 3).
@@ -836,20 +859,48 @@ export function draftBill(
           } as Authority)
         : authorityFor(api, p)),
   );
-  const bill: BillRow = {
-    id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,
-    number: nextNumber(api, input.bodyOfficeId),
-    bodyOfficeId: input.bodyOfficeId,
-    sponsorId: input.sponsorId,
-    introduced: api.state.date,
-    provisions: input.provisions,
-    costEstimate: costOf(api, input.provisions),
+  return {
+    provisions,
+    costEstimate: costOf(api, provisions),
     authority,
     status: authority.some((a) => !a.allowed) ? "blocked" : "drafted",
-    deals: [],
   };
-  table(api, "bills").put(bill as unknown as ModuleRow);
-  return bill;
+}
+
+/**
+ * The sponsor edits the bill on paper before its vote (the owner's
+ * bill-on-paper workflow, September 25, 2026): add a section, replace one or
+ * strike one. The paper is the one record of the bill: each edit rewrites
+ * its sections and checks them again. A bill already voted on is not edited.
+ */
+export function reviseBill(
+  api: CoreAPI,
+  billId: string,
+  edit:
+    | { readonly add: Provision }
+    | { readonly replace: number; readonly with: Provision }
+    | { readonly strike: number },
+): BillRow {
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  if (!bill) throw new Error(`No such bill: ${billId}`);
+  if (bill.status !== "drafted" && bill.status !== "blocked")
+    throw new Error(`Bill ${bill.number} is ${bill.status}, past editing.`);
+  const at =
+    "add" in edit ? -1 : "replace" in edit ? edit.replace : edit.strike;
+  if (!("add" in edit) && !bill.provisions[at])
+    throw new Error(`Bill ${bill.number} has no section ${at + 1}.`);
+  const provisions =
+    "add" in edit
+      ? [...bill.provisions, edit.add]
+      : "replace" in edit
+        ? bill.provisions.map((p, i) => (i === at ? edit.with : p))
+        : bill.provisions.filter((_, i) => i !== at);
+  const next: BillRow = {
+    ...bill,
+    ...checkedText(api, bill.bodyOfficeId, provisions),
+  };
+  table(api, "bills").put(next as unknown as ModuleRow);
+  return next;
 }
 
 /** Everyone serving in a body: every seat of the office, the town's or not. */
