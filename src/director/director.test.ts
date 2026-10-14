@@ -498,7 +498,7 @@ describe("story director on the new core", () => {
 
   it("keeps situation types to human moments, with no election-night type", () => {
     const types = SITUATION_LIBRARY.types;
-    expect(types).toHaveLength(31);
+    expect(types).toHaveLength(32);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));

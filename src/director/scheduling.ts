@@ -52,6 +52,8 @@ export interface SituationType {
   timing: string;
   causes: readonly SituationCause[];
   awaiting?: readonly string[];
+  /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
+  choice?: string;
 }
 
 export interface SituationLibrary {
