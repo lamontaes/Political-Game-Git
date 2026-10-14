@@ -586,7 +586,7 @@ Gap codes are defined in the last section.
 - American Heritage, "30 years ago: Gary Hart's monkey business", americanheritage.com
 - Time, Gary Hart and the press (2018), time.com/5444465/gary-hart-donna-rice/
 
-**Open items:** Exact withdrawal date differs between sources (7 or 8 May).
+**Open items:** Exact withdrawal date differs between sources (7 or May 8).
 
 ### 16. New York Times reporting on a president's taxes, Sept 2020
 
@@ -1040,7 +1040,7 @@ Gap codes are defined in the last section.
 - _The act:_ Strikes by truck drivers, council and hospital workers.
 - _Who could have known:_ Everyone; services stopped.
 - _What read it afterward:_ Voters; small parties; the opposition.
-- _Delay between act and consequence:_ Strikes Dec 1978-Feb 1979; confidence vote 28 March; election 3 May.
+- _Delay between act and consequence:_ Strikes Dec 1978-Feb 1979; confidence vote March 28; election May 3.
 - _Sliding factors:_ Government satisfaction (17 percent); Personal rating of the leader; Unemployment as the opposition's campaign point; One-vote margin.
 
 **Capability check.** Holds part of it: jobs, work, voting. Missing:

@@ -112,7 +112,6 @@ describe("the project is written in American English", () => {
       "AGENTS.md",
       "CLAUDE.md",
       "PATCH_NOTES.md",
-      "src/player/PlayerGame.tsx",
       "src/simulation/episode-bank.ts",
       "art/requests/asset-requests.json",
       ".agents/skills/civic-prose/SKILL.md",
@@ -120,6 +119,8 @@ describe("the project is written in American English", () => {
       "docs/decisions/DECISION-LOG.md",
     ])
       expect(scanned, file).toContain(file);
+    // Whatever the player-facing sources are called today, some are scanned.
+    expect(scanned.some(isPlayerSource)).toBe(true);
   });
 
   it("has no British spelling, day-first date or metric player text", () => {
@@ -152,40 +153,35 @@ describe("the project is written in American English", () => {
       )) {
         const locale = call[1]!.trim();
         if (/^"en-US(-[^"]*)?"$/.test(locale)) continue;
-        if (
-          file === "src/player/ux39-calendar-dates.ts" &&
-          locale === 'order === "day-month" ? "en-GB" : "en-US"'
-        )
-          continue;
         offenders.push(`${file}: ${call[0]}`);
       }
     }
     expect(offenders).toEqual([]);
-    const grid = readFileSync(
-      path.join(ROOT, "src/player/UX39CalendarGrid.tsx"),
-      "utf8",
-    );
-    expect(grid).toMatch(
-      /=== "day-month"\s*\?\s*"day-month"\s*:\s*"month-day"/,
-    );
   });
 });
 
 describe("the sweep bites", () => {
   // Each case puts a British form back into a real file of each kind and
-  // requires the scan to find it — and leaves an identifier alone.
+  // requires the scan to find it — and leaves an identifier alone. The player
+  // source files are the tree's own first and last, so nothing names one.
+  const playerSources = trackedFiles()
+    .filter(isPlayerSource)
+    .filter((file) => existsSync(path.join(ROOT, file)))
+    .sort();
+  const firstPlayerSource = playerSources[0]!;
+  const lastPlayerSource = playerSources.at(-1)!;
   const cases: { file: string; inject: (text: string) => string }[] = [
     {
       file: ".agents/skills/civic-prose/SKILL.md",
       inject: (text) => `${text}\nKeep the labour market in view.\n`,
     },
     {
-      file: "src/player/PlayerGame.tsx",
+      file: firstPlayerSource,
       inject: (text) =>
         `${text}\nexport const probe = "Pick a colour for the sign";\n`,
     },
     {
-      file: "src/player/PlayerGame.tsx",
+      file: firstPlayerSource,
       inject: (text) => `${text}\n// The town centre is quiet.\n`,
     },
     {
@@ -203,7 +199,7 @@ describe("the sweep bites", () => {
       inject: (text) => `${text}\nAccepted on 22 September 2026.\n`,
     },
     {
-      file: "src/presentation/map-place-demography.ts",
+      file: lastPlayerSource,
       inject: (text) => `${text}\nexport const probe = "about 3 km away";\n`,
     },
   ];
