@@ -11,7 +11,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
@@ -81,9 +80,7 @@ describe("elections in the two-level world", () => {
       )
       .sort((a, b) => a.id.localeCompare(b.id))[0]!;
     const core = createLifeCore(
-      withCountedVoterGroups(
-        collapseToTwoLevels({ ...full, playerId: player.id }),
-      ),
+      collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
     openOffices(core, seed);

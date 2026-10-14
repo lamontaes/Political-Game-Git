@@ -13,7 +13,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { residentsRuntime } from "./modules/residents";
 import { enactLaw, lawChain, lawInForce, openLaws } from "./modules/laws";
 import {
@@ -107,9 +106,7 @@ function build(): void {
     ).length;
     if (!teachers && attempt < 20) continue;
     core = createLifeCore(
-      withCountedVoterGroups(
-        collapseToTwoLevels({ ...full, playerId: player.id }),
-      ),
+      collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
     openBudgets(core);

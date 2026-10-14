@@ -10,6 +10,9 @@ import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
+import { countedResidents } from "./electorate";
+import { citizenShareOf } from "./electorate-places";
+import { lifePlaceByKey } from "../simulation/life-places";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -427,43 +430,29 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     ).toBe(true);
   }, 300_000);
 
-  it("gives the counted adults voter groups, and fill-in moves them out", () => {
-    const groups = two.voterGroups ?? [];
+  it("votes the counted adults from their own records, and fill-in moves them to the named route", () => {
     const start = Number(two.startedAt.slice(0, 4));
-    // Groups are the town's counted adults who are citizens (CPS 2024 share by
-    // state and age band); relatives counted elsewhere vote where they live.
     const town = two.people.find((row) => row.id === two.playerId)!.placeId;
-    const adults = two
-      .residents!.households.filter((row) => row.household.placeId === town)
-      .reduce(
-        (n, row) =>
-          n +
-          row.people.filter(
-            (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
-          ).length,
-        0,
-      );
-    const eligible = groups.reduce((n, row) => n + row.size, 0);
-    expect(groups.every((row) => row.placeId === town)).toBe(true);
-    expect(eligible).toBeLessThanOrEqual(adults);
-    // The town's own ACS citizen share of adults sets the floor.
+    const core = createLifeCore(two);
+    const counted = () =>
+      countedResidents(core).filter(
+        (row) =>
+          row.placeId === town &&
+          start - Number(row.birthDate.slice(0, 4)) >= 18,
+      ).length;
+    // Counted votes stand for the town's citizens: the place's ACS share of
+    // adults, blended with its state's.
+    const usps =
+      lifePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(3) ?? "";
+    const share = citizenShareOf(two.placeMetadata!.placeKey!, usps);
+    expect(share).toBeGreaterThan(0);
+    expect(share).toBeLessThanOrEqual(1);
     const citizens = (
       placeCitizenship.byPlace as unknown as Record<string, [number, number]>
     )[two.placeMetadata!.placeKey!];
-    const floor = citizens
-      ? Math.min(0.75, (0.8 * citizens[0]) / citizens[1])
-      : 0.75;
-    expect(eligible).toBeGreaterThan(adults * floor);
-    for (const row of groups) {
-      expect(row.turnout).toBeGreaterThan(0);
-      expect(row.turnout).toBeLessThanOrEqual(1);
-      expect(Math.abs(row.lean)).toBeLessThanOrEqual(1);
-    }
-    const core = createLifeCore(two);
-    const total = () =>
-      groups.reduce(
-        (n, row) => n + (coreAPI(core).voterGroups().get(row.id)?.size ?? 0),
-        0,
+    if (citizens)
+      expect(share).toBeGreaterThan(
+        Math.min(0.75, (0.8 * citizens[0]) / citizens[1]),
       );
     const record = two.residents!.households.find(
       (row) =>
@@ -472,11 +461,11 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
           (person) => start - Number(person.birthDate.slice(0, 4)) >= 25,
         ),
     )!;
-    const before = total();
+    const before = counted();
     fillInPerson(core, record.people[0]!.id);
     const grown = record.people.filter(
       (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
     ).length;
-    expect(before - total()).toBe(grown);
+    expect(before - counted()).toBe(grown);
   }, 300_000);
 });

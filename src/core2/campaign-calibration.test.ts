@@ -12,7 +12,6 @@ import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
@@ -80,9 +79,7 @@ describe("campaign calibration on totals", () => {
         );
       const player = adults[0]!;
       const core = createLifeCore(
-        withCountedVoterGroups(
-          collapseToTwoLevels({ ...full, playerId: player.id }),
-        ),
+        collapseToTwoLevels({ ...full, playerId: player.id }),
       );
       openLaws(core);
       openOffices(core, seed);
