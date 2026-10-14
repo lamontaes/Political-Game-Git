@@ -4,11 +4,15 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 
 ## Open
 
+- **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
+
 - **A player who loses an election (player-path audit, Oct 14), confirmed by the owner:** a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
 
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
 ## Ruled, October 14, 2026 (late)
+
+- **The opening's sequence:** the president's address with the vice president and key people behind them, pointed out by name and office as the camera passes; then Congress; then your governor with a few important state legislators; then your family, if you have one (else skip); then into the game at home. Cutaways during the address follow the sentence's subject.
 
 - **Election day is a scene.** The player goes to their polling place and marks a ballot there; the vote is cast in the scene, never in a menu. Firefly images already made may stand in for the place and the ballot while the screens are crude, on the kit.
 - **Unions and strikes: 1.0. Police, the National Guard and the war design: 1.0;** specific questions may be asked later.
