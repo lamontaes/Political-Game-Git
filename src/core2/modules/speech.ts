@@ -145,6 +145,7 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
         ).filter(
           (id) =>
             id !== listenerId &&
+            id !== speech.speakerId &&
             !audience.has(id) &&
             api.state.people.get(id)?.alive,
         )

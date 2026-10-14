@@ -91,6 +91,12 @@
       "tag": "TUNABLE",
       "citation": "How much a stance moves a person's current view on its question, on the same -1 to 1 scale as the opening lean along the question's axis. Persuasive messages move opinion by about 0.1 standard deviations on average (Coppock 2023, Persuasion in Parallel); opening views here spread about 0.5, so one message is worth about 0.05, which a typical in-person case (a stance change near 0.015) reaches at weight 3. Checked by votes moving only for members who heard cases. Spread 1.5 to 5.",
       "stopgapId": "SG-P15-views-first-version"
+    },
+    "repeatWearOut": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "How fast the same case from the same speaker on the same question loses force: the nth repeat moves a listener 1 / (1 + this \u00d7 n) as much as the first. Repeated messages wear out after the first few exposures (Cacioppo and Petty 1979, Journal of Personality and Social Psychology 37(1):97-109). No study sets the rate; checked by a household member sharing a cause daily not carrying a listener across a question within weeks. Spread 0.5 to 2.",
+      "stopgapId": "SG-P15-views-first-version"
     }
   },
   "labels": [

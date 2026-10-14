@@ -239,6 +239,17 @@ const result = {
         causes: (s.causes as { eventId: string; change: number }[])
           .slice(0, 4)
           .map((c) => `${c.eventId} ${c.change.toFixed(4)}`),
+        byKind: Object.entries(
+          (s.causes as { eventId: string; change: number }[]).reduce<
+            Record<string, number>
+          >((sum, c) => {
+            const kind = c.eventId.includes(":retold:")
+              ? "retold"
+              : c.eventId.split(":").slice(0, 2).join(":");
+            sum[kind] = (sum[kind] ?? 0) + c.change;
+            return sum;
+          }, {}),
+        ).map(([kind, total]) => `${kind} ${total.toFixed(3)}`),
       })),
     }))
     .sort((a, b) => Math.abs(a.total) - Math.abs(b.total))

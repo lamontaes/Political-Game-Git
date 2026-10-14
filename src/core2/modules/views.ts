@@ -125,7 +125,13 @@ export interface Stance {
   /** The change the person wants, and how strongly (0 to 1). */
   desiredChange: string;
   strength: number;
-  causes: readonly { eventId: string; date: string; change: number }[];
+  causes: readonly {
+    eventId: string;
+    date: string;
+    change: number;
+    /** Who made the case, when someone did. */
+    speakerId?: string;
+  }[];
 }
 
 /** A stable uniform value in (0, 1) for a key. */
@@ -460,11 +466,17 @@ export const viewsModule: CoreModule = {
       const nearness = speakerId
         ? standingWith(api, view, speakerId, event.topic, event.desiredChange)
         : v("one");
+      // The same case from the same speaker again persuades less each time.
+      const heard = speakerId
+        ? (prior?.causes.filter((c) => c.speakerId === speakerId).length ??
+          v("zero"))
+        : v("zero");
       const change =
-        v("stanceStep") *
-        size *
-        nearness *
-        (v("one") - v("tightness") * view.engagement);
+        (v("stanceStep") *
+          size *
+          nearness *
+          (v("one") - v("tightness") * view.engagement)) /
+        (v("one") + v("repeatWearOut") * heard);
       if (change <= v("zero")) continue;
       const same = prior?.desiredChange === event.desiredChange;
       const strength = Math.min(
@@ -487,7 +499,12 @@ export const viewsModule: CoreModule = {
         strength: Math.abs(strength),
         causes: [
           ...(prior?.causes ?? []),
-          { eventId: event.id, date: event.date, change },
+          {
+            eventId: event.id,
+            date: event.date,
+            change,
+            ...(speakerId ? { speakerId } : {}),
+          },
         ],
       };
       stancesTable(api).put(stance as unknown as { id: string });

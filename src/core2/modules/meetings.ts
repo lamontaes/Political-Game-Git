@@ -247,9 +247,18 @@ function publicComment(api: CoreAPI, billId: string): void {
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
   const already = new Set(remarksOn(api, billId).map((r) => r.personId));
+  // The body's own members vote on the bill; public comment is the public's.
+  const seated = new Set(
+    members(api, bill.bodyOfficeId).flatMap((t) =>
+      t.personId ? [t.personId] : [],
+    ),
+  );
   const speakers = townAdults(api)
     .filter(
-      (p) => !already.has(p.id) && p.id !== (api.state as CoreState).playerId,
+      (p) =>
+        !already.has(p.id) &&
+        !seated.has(p.id) &&
+        p.id !== (api.state as CoreState).playerId,
     )
     .map((p) => {
       const view =
