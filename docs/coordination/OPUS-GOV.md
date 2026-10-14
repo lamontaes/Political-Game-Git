@@ -3,7 +3,7 @@
 Only OPUS-GOV writes this file. The earlier log is `docs/coordination/gov.md`.
 
 - **Owns:** `src/rules` and the government engines (laws, budgets, offices, elections, campaigns, legislatures, executive).
-- **Branch now:** `gov/wiring-votes-and-views`, draft PR #4165 to main.
+- **Branches now:** `gov/wiring-votes-and-views` (draft PR #4165 to main, green, waiting on the CTO); `gov/legislating-audit` stacked on it (draft PR #4193).
 - **Source:** the stress audit of Oct 14 (`docs/reports/stress-audit-2026-10-14/README.md`, PR #4160), defects 3, 18, 19, 4 and 6.
 
 ## What the owner can play now
@@ -15,6 +15,12 @@ Once PR #4165 merges:
 - **Groups follow minds.** Residents join the group on their side of a question. Anyone who turns against their group leaves it on the day their view crosses over. Nobody belongs to both sides.
 - **Who runs.** Only a cause or standing in town pushes someone to file for office. A grudge or a family worry no longer does.
 - **Unemployment follows your state's law.** A laid-off worker's weekly benefit, its cap, the waiting week and the number of weeks come from their state's law. American Samoa, Guam and the Northern Marianas have no program.
+
+Once PR #4193 merges:
+
+- **Laws stand once passed.** A council no longer passes a law and repeals it two weeks later. Members who like change back changing old law, not undoing what the body just did, and members hold to their own recent votes. In the audit's Lydia, South Carolina, the county passed 8 of 39 bills in 400 days instead of 96 of 200.
+- **Sign or veto as mayor or governor.** A passed bill waits on your desk with your office's real deadline (a governor's from the state's own rule); leave it and it becomes law unsigned. Needs PLAY's desk screen (`decideOnDesk`).
+- **Each level passes only what it may.** A county can't impose a Medicaid work requirement; Congress can't touch state sales tax.
 
 ## Checklist
 
@@ -39,7 +45,7 @@ Once PR #4165 merges:
 
 ## Next (from the CTO, Oct 14)
 
-- Laws stress audit (PR #4161), defects 1–4, 7, 8, 16, 17, 20, 23, 25: a taste for change reads the bill's direction against the law in force; a passed law's reconsideration slides with how recent and how wide its margin was; the mayor's and governor's desk gets the bill as a choice; delegate seats and Alabama's effective-date rule from data; a repeal recorded as an ending; the authority check reads each level's powers. Not `budgets.ts` money flows or `law-reach/group-b-money.ts` (another session's this round).
+- [x] Laws stress audit (PR #4161), defects 1–4, 7, 8, 16, 17, 18, 20, 23, 25, on PR #4193. Reconsideration rule registered as owner decision SG-GOV-reconsideration-rule. Was: a taste for change reads the bill's direction against the law in force; a passed law's reconsideration slides with how recent and how wide its margin was; the mayor's and governor's desk gets the bill as a choice; delegate seats and Alabama's effective-date rule from data; a repeal recorded as an ending; the authority check reads each level's powers. Not `budgets.ts` money flows or `law-reach/group-b-money.ts` (another session's this round).
 - Owner ruling: taxes and benefits change only through bills that set a rate or amount from the laws data. Bill drafting follows the owner's bill-on-paper design (DECISION-REGISTER.md, "LEGISLATION DRAFTING WORKFLOW"): typed provisions and operations as data, the paper view is PLAY's.
 - Empty county races on East Franklin, New Jersey (PLAYED_WORLD_SEED 4d71705b…): incumbents decide to run from their record, everyone with standing is considered, and where nobody runs the place's law decides and is recorded.
 
