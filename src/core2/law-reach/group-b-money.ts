@@ -624,6 +624,7 @@ export function incomeTaxAct(
       citation: `Act ${input.lawId}`,
       ...(terms ? { terms } : {}),
     });
+  const hasTax = !!current && (current.value ?? 0) > 0;
   const scopeOf = input.level === "state" ? "state" : "local";
   const previous = (row: LawRowInput | null) =>
     row
@@ -637,7 +638,7 @@ export function incomeTaxAct(
     if (!prior || prior.undone || !prior.lawRowId) {
       // Repealing a graduated tax the level's standing law holds (no act of
       // ours adopted it): payroll withholds the flat rate instead.
-      if (input.graduated && current?.terms?.schedules) {
+      if (input.graduated && hasTax && current?.terms?.schedules) {
         const flat = enact(
           reachParameter(
             scopeOf === "state"
@@ -687,8 +688,7 @@ export function incomeTaxAct(
     return row;
   }
   if (prior && !prior.undone) return prior;
-  const hasTax = !!current && (current.value ?? 0) > 0;
-  const graduatedNow = !!current?.terms?.schedules;
+  const graduatedNow = hasTax && !!current?.terms?.schedules;
   const scope = input.level === "state" ? "state" : "local";
   let written: LawRowInput | null = null;
   if (!input.graduated && !hasTax)

@@ -782,7 +782,10 @@ describe("59 policies in the played world, 90 days or the next required event", 
           }
           if (question === "us-policy-positions:fiscal.graduated-income-tax") {
             const existing = oldIncomeTax.levels.find(
-              (row) => row.level === "state" && row.row?.terms?.schedules,
+              (row) =>
+                row.level === "state" &&
+                (row.row?.value ?? 0) > 0 &&
+                row.row?.terms?.schedules,
             );
             if (existing?.row)
               noOp = {
