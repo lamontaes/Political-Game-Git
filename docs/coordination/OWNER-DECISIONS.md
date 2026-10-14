@@ -146,3 +146,34 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 ## Ruling, October 14, 2026, evening (owner; relayed by the CTO)
 
 - **Sessions don't wait on GitHub Actions.** Each session runs its gate in its own session, on the files it changed only: typecheck, eslint, prettier and the tests for those files, never the full suite. A new file nothing else reads needs no run. The result goes as one line at the top of the PR body, and the CTO merges on that line.
+
+## Ruling, October 14, 2026, night (owner; relayed by the CTO)
+
+- **The art bench is removed; only the game client ships.** The private hub and controller (Art Desk, Agents and Settings tabs, the Follow main source selector), its packaging and smoke scripts, its update worker and received channel, the `internal-art-review` build profile and its CI row, and the Art Desk and art bench dev tools are deleted, not hidden. What remains is one desktop app: the game client, opening on the title screen, updating itself from GitHub Releases. The Mac package is the one that must pass; the Windows row stays allowed-to-fail (`SG-PLAY-windows-package-allowed-to-fail`) until early access.
+
+## Owner rulings from the Oct 14 night playthrough (recorded by the CTO)
+
+**Checks run in the session (owner, Oct 14, evening).** A PR merges on the builder's gate run in its own cloud session over the files that changed: typecheck, eslint, prettier and the tests for those files, written in one line at the top of the PR body. Never the full suite. A new file nothing else reads needs no run. GitHub's runs are not waited on; the Mac package still builds on GitHub's Mac machine because it must.
+
+**Only the game client ships (owner, Oct 14, night).** The art bench, the private hub and its Art Desk, Agents and Settings tabs, and the art-review build profile are removed. One desktop app: the game, opening on the title, updating itself from GitHub Releases, packaged for Mac.
+
+**Day advances time; scenes stop it (owner, Oct 14, night).** Pressing Day never opens a list of mundane choices ("Take it easy", "Take care of X", "Call X", "attend-school"); those are removed from the game. Calling or visiting a person happens from that person. What stops time is a scene the director fires from the simulation's records. A player may advance a day or a week and click around (meetings, people, places) when they want to; before the player holds an office the days are mostly quiet, and holding office is where day-level play (policy, talking, negotiating) begins. Options must not need a dozen interrupt toggles; the director decides what interrupts.
+
+**Scenes are the narrative (owner, Oct 14, night).** The President's address at the opening is the model: the director reads the records, picks from everything the simulation supports the scenes that apply to this person now, and fires one, told by the English engine. A scene is a rendered moment with place and people (a mother asking the player to sit down: a divorce, a lost job with hope for another) and its consequences play out over the following months through the engines (money tighter, a better job, a new partner met at work). Then play returns to the ordinary game. A parent interrupts the player when the simulation says so ("did you do your homework?"), never on a schedule.
+
+**Conversations (owner, Oct 14, night, answering the CTO's twelve questions).**
+
+- A talk starts from the place and the occasion, then from the biggest recorded event of either person or from the relationship (Q1: C).
+- A talk has one main topic with side remarks, and one topic may lead to a related one (Q3: A and B).
+- A listener brings up news they received first; public news only if they follow politics closely (Q4: C).
+- Family at home: the director picks the scene that applies from the household's own records (money, work, school, health), and it has consequences (Q5: by the director, from records).
+- A quiet day is quiet: the player can skip days at a time (Q6: nothing fires).
+- No cold "How is X?" questions about people not in the room unless something recorded happened to X (Q7: A, the CTO's reading of "mundane shit" being out).
+- How long a talk runs (Q2) the owner did not rule on; the CTO rules C: a talk runs until its topic is done, the other person closes it, and the player can start another.
+- Q8 to Q12 the owner said his words answer; the CTO reads them as: character shows (Q8: B and C), scenes for what matters and a plain text exchange for the rest (Q9: C), replies that matter in the scene with one "listen" and one "ask more" (Q10: C), a journal line for a talk that mattered (Q11: B), and memory of the last talk (Q12: C). Owner reviews by playing.
+
+**The player's choices are the player's (owner, Oct 14, night, restating the register).** Advancing the calendar made a 17-year-old a barista and the owner of a house without a choice. No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides. The household's home is the household's, shown as such.
+
+**Who you are is a character screen (owner, Oct 14, night).** Portrait, name, age, birthday, home and family, school or work, traits and views in words, money in one line, like any game's character screen. Law effects on the player belong under Politics, written as sentences, never as keys with "undefined".
+
+**Scenes carry the consequential dialogue; the day screen carries the dealing (owner, Oct 14, night, 9:25 p.m.).** A scene has a goal, is told as a narrative with the player's character, the narrator (already settled: second-person scene narration, first-person "My life" journal, grounded in records, register line 160) and the other people, and its dialogue is consequential: a family scene at home, or a tense floor vote where the goal is to convince one member to vote no on the amendment (the owner's example: McCain and the Obamacare repeal). The day screen is for dealing: "I'll do this if you do this", negotiating, talking with people, policy. The director fires a scene when the records make one apply; the scene plays the moment out, then play returns to the day screen.
