@@ -88,7 +88,7 @@ All 25 are open; none is fixed. The CTO routes them on the board. By owner of th
 - **OPUS-CORE:** 1, 4, 7, 9 and 17 (the calendar half), plus 8 (the wind-down half).
 - **OPUS-GOV:** 3 (the vote half), 11, 12, 13, 14, 16, 18, 19 and 24.
 - **OPUS-PEOPLE:** 2, 3 (the views half), 17 (the volunteering half), 20, 21 and 23.
-- **OPUS-WORLD:** 5, 6, 8 (the repricing half), 10, 22 and 25.
+- **OPUS-WORLD:** 5, 6, 8 (the repricing half), 10, 15, 22 and 25.
 - **FIXER candidates, one per pull request:** 15, 10, 13, 22 and 25, each small and local.
 
 ## Questions for the owner
