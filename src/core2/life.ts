@@ -480,7 +480,12 @@ function performPlanned(core: CoreState, act: PlannedAct): boolean {
   if (isExplicitlyControlledPersonV1(core, act.personId)) return false;
   const target = core.people.get(act.offer.targetId);
   if (target && !target.alive) return false;
-  if (act.offer.driveId && !actor.drives.has(act.offer.driveId)) return false;
+  // A drive that faded since the plan is written once at zero and retired.
+  if (
+    act.offer.driveId &&
+    !((actor.drives.get(act.offer.driveId)?.strength ?? 0) > 0)
+  )
+    return false;
   const hours = act.offer.effortHours ?? api.parameter("zero");
   if (hours > discretionaryHours(api, actor.id)) return false;
   if (!admits(core, api, actor, act.offer)) return false;
