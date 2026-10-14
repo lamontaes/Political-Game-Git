@@ -2376,7 +2376,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The courts port: a judge deciding from the record, the tenant's defenses and any right to counsel in the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the hearing, judgment, settlement plan and removal steps (courts come after early access): an eviction case now ends at filing after the cure deadline, the household stays with its arrears standing, and a right-to-counsel city still pays the tenant's lawyer at filing."
   },
   {
     "id": "SG-WORLD-business-opening-owners",
