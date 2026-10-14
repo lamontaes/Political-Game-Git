@@ -510,6 +510,32 @@ describe(
       expect(() =>
         provisionFor({ policyId: wage.id, operation: "enact" }),
       ).toThrow();
+      // Every government sets its own employees' pay floor: a council may
+      // draft one with no state permission, as may a legislature or Congress.
+      const floor = all.find((p) => p.id === "law:public-pay-floor")!;
+      expect(floor.authority.allowed).toBe(true);
+      const floorBill = draftBill(api, {
+        bodyOfficeId: council[0]!.office.id,
+        sponsorId: council[0]!.holder!.personId!,
+        provisions: [
+          provisionFor({
+            policyId: floor.id,
+            operation: "raise",
+            amount: 70_000,
+          }),
+        ],
+      });
+      expect(floorBill.status).toBe("drafted");
+      expect(floorBill.provisions[0]).toMatchObject({
+        series: "public-pay-floor",
+        unit: "dollars/year",
+      });
+      for (const level of ["federal", "state", "city"] as const)
+        expect(
+          billCatalog(api, level)
+            .flatMap((m) => m.topics.flatMap((t) => t.policies))
+            .some((p) => p.id === floor.id),
+        ).toBe(true);
     });
 
     it("a town whose state preempts local minimum wages gets the block in the rule's words", () => {

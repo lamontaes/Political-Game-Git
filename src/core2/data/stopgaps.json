@@ -3144,11 +3144,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/laws.ts",
     "line": 471,
-    "whatItFakes": "The public pay floor law was added by OPUS-PLAY in the GOV-owned law engine: its employer-to-level map is a first cut (public schools count as town employers), a later public hire is held to the floor at the next monthly review rather than on the day it is hired, and no bill catalog entry yet lets a legislature draft it.",
+    "whatItFakes": "The public pay floor's employer-to-level map is a first cut (public schools count as town employers), and a later public hire is held to the floor at the next monthly review rather than on the day it is hired. Councils, legislatures and Congress can now draft it from the bill catalog (OPUS-GOV, Oct 14).",
     "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-GOV owns the series: a bill catalog provision so councils and legislatures can pass it, school districts as their own level, and the hiring engines reading the floor when they set a new public hire's pay.",
+    "replacement": "School districts as their own level of government, and the hiring engines (OPUS-WORLD) reading the floor when they set a new public hire's pay.",
     "status": "open"
   },
   {
