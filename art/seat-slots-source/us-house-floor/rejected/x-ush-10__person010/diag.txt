@@ -1,0 +1,14 @@
+{
+  "source": "x-ush-10.jpg",
+  "instance": 10,
+  "chair": "chair-011-slot-17",
+  "reasons": [
+    "disconnected",
+    "too_wide"
+  ],
+  "room_pixel_share": 0.029368091074080185,
+  "shift": [
+    0,
+    -1
+  ]
+}

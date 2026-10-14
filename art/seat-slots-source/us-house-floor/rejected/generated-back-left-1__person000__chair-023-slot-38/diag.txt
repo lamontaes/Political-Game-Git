@@ -1,0 +1,13 @@
+{
+  "source": "../county-commission/generated-back-left-1.png",
+  "instance": 0,
+  "chair": "chair-023-slot-38",
+  "reasons": [
+    "visual_wrong_scale_or_occluded_head"
+  ],
+  "room_pixel_share": 0.0021436227224008574,
+  "shift": [
+    0,
+    0
+  ]
+}

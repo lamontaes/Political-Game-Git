@@ -1,0 +1,18 @@
+{
+  "place": "us-house-floor",
+  "chairs": 18,
+  "kept": 133,
+  "rejected": 283,
+  "rejected_by_reason": {
+    "too_wide": 81,
+    "room_pixels": 171,
+    "visual_occluded_or_incomplete_head": 12,
+    "no_chair": 24,
+    "disconnected": 20,
+    "visual_wrong_scale_or_occluded_head": 21,
+    "visual_visual_duplicate_bench_position": 2,
+    "visual_pose_does_not_fit_desk": 21
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

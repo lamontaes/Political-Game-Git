@@ -1,0 +1,13 @@
+{
+  "source": "x-ush-02.jpg",
+  "instance": 8,
+  "chair": "chair-027-slot-21",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.0864957264957265,
+  "shift": [
+    0,
+    -1
+  ]
+}

@@ -30,7 +30,7 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 | `state-house-chamber`                  |    17 |    101 |
 | `state-legislative-chamber-bicameral`  |    10 |     53 |
 | `state-legislative-chamber-unicameral` |     8 |     64 |
-| `us-house-floor`                       |    26 |    126 |
+| `us-house-floor`                       |    18 |    133 |
 | `us-senate-floor`                      |    32 |    148 |
 
 ## Rebuilt slots
@@ -56,3 +56,5 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 `council-chamber-large`: 23 fixed occupied chair/bench positions, 82 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.
 
 `us-senate-floor`: 32 fixed occupied chair/bench positions, 148 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.
+
+`us-house-floor`: 18 fixed occupied chair/bench positions, 133 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.

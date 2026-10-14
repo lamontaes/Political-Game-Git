@@ -1,0 +1,13 @@
+{
+  "source": "crowd-v5.jpg",
+  "instance": 4,
+  "chair": "chair-011-slot-17",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.07960199004975124,
+  "shift": [
+    0,
+    0
+  ]
+}
