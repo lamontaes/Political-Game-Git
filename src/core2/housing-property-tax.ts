@@ -156,12 +156,17 @@ function dueShare(usps: string, month: number): number | undefined {
   const row = (
     dueDates.places as Record<
       string,
-      { installments: { month: number; day: number }[] }
+      {
+        installments: { month: number; day: number }[];
+        verified?: { status: string };
+      }
     >
   )[usps];
   if (!row) return undefined;
   if (!row.installments.length) return 0;
-  stopgap("SG-WORLD-property-tax-due-dates-unverified");
+  // Where no official text could be read, or the statute leaves the dates to each town, the schedule is an estimate.
+  if (row.verified?.status === "unverified")
+    stopgap("SG-WORLD-property-tax-due-dates-unverified");
   return (
     row.installments.filter((due) => due.month === month).length /
     row.installments.length
