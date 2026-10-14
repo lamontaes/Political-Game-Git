@@ -1,11 +1,11 @@
 /** M1-06 checks on a recorded fixture: household loans balance; defaults follow circumstances. */
 import { drawPlace } from "../../scripts/core2-year/place";
 import { randomBytes } from "node:crypto";
+import { advanceCore, createLifeCore } from "./life";
 import { openLaws, enactLaw, lawChain } from "./modules/laws";
 import { lawChainForPlace } from "./laws-starting";
 import { extendData } from "./data";
 import { describe, expect, it } from "vitest";
-import { advanceCore, createLifeCore } from "./life";
 import { CREDIT_MODULE } from "./modules/credit";
 import { MACRO_MODULE, withCentralBank } from "./modules/macro";
 import { worldCoreData } from "./modules/world";
