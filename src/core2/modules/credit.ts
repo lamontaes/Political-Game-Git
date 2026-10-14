@@ -1181,7 +1181,8 @@ function countedApplications(
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const rt = residentsRuntime(c);
-  if (!rt || room <= 0) return room;
+  // Summed pulls keep their carry in the jobs engine: without it, the wider population doesn't apply.
+  if (!rt || room <= 0 || !c.modules.has("jobs")) return room;
   const store_ = rt.store;
   const groupPeople = new Map<number, number>();
   const shareOf = (group: number) => {
