@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
+import { gameStartDate } from "./game-start";
 import {
   OUTCOME_WEB_MODULE,
   OUTCOME_WEB_MODULE_ID,
@@ -36,6 +37,9 @@ const months = (api: CoreAPI, placeId: string) =>
   ].sort((a, b) => a.month.localeCompare(b.month));
 const monthOf = (api: CoreAPI, placeId: string, month: string) =>
   months(api, placeId).find((row) => row.month === month)!;
+/** The opening year: worlds open on the game start date (late January). */
+const Y = gameStartDate().slice(0, 4);
+
 describe("the outcome web's coverage", () => {
   it("lists every researched link as wired or waiting on a named measure, and the list matches the code", () => {
     const { wired, waiting, measuresWanted } = COVERAGE_DATA;
@@ -110,7 +114,7 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
         modules: [...WORLD_MODULES, OUTCOME_WEB_MODULE],
       },
     );
-    advanceCore(core, "2021-02-05");
+    advanceCore(core, `${Y}-02-05`);
     const api = coreAPI(core);
     const town = core.people.get(core.playerId!)!.placeId;
     // Twelve full workers lose their jobs over the next week (not ones a
@@ -129,15 +133,15 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
           // A job mid-shift ends another day.
         }
       }
-      advanceCore(core, `2021-02-${String(day).padStart(2, "0")}`);
+      advanceCore(core, `${Y}-02-${String(day).padStart(2, "0")}`);
     }
-    advanceCore(core, "2021-03-05");
-    const before = monthOf(api, town, "2021-02"),
-      after = monthOf(api, town, "2021-03");
+    advanceCore(core, `${Y}-03-05`);
+    const before = monthOf(api, town, `${Y}-02`),
+      after = monthOf(api, town, `${Y}-03`);
     const metrics = api
       .moduleState("world-metrics")
       .table("months")
-      .get(`metrics:${town}:2021-03-02`) as unknown as {
+      .get(`metrics:${town}:${Y}-03-02`) as unknown as {
       unemploymentRate: number;
     };
     // The web reads the economy's own record, as a percent.
@@ -211,33 +215,33 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
         },
       });
     };
-    lawEvent("2021-02-10", "1");
+    lawEvent(`${Y}-02-10`, "1");
     // Lag 3: the law reads as of three months back, so June 3 is the first month it acts.
-    advanceCore(core, "2021-07-05");
+    advanceCore(core, `${Y}-07-05`);
     const at = (month: string) => monthOf(api, town, month);
-    const snapBase = at("2021-01").bases["program.snap-receipt"]!;
-    const foodBase = at("2021-01").bases["household.food-insecurity"]!;
-    expect(at("2021-05").values["program.snap-receipt"]).toBeCloseTo(snapBase);
-    expect(at("2021-06").values["program.snap-receipt"]).toBeCloseTo(
+    const snapBase = at(`${Y}-01`).bases["program.snap-receipt"]!;
+    const foodBase = at(`${Y}-01`).bases["household.food-insecurity"]!;
+    expect(at(`${Y}-05`).values["program.snap-receipt"]).toBeCloseTo(snapBase);
+    expect(at(`${Y}-06`).values["program.snap-receipt"]).toBeCloseTo(
       snapBase * (1 + toParticipation.size!),
     );
     // Food insecurity reads SNAP receipt's moved part the month after it moves.
-    expect(at("2021-06").values["household.food-insecurity"]).toBeCloseTo(
+    expect(at(`${Y}-06`).values["household.food-insecurity"]).toBeCloseTo(
       foodBase,
     );
-    expect(at("2021-07").values["household.food-insecurity"]).toBeCloseTo(
+    expect(at(`${Y}-07`).values["household.food-insecurity"]).toBeCloseTo(
       foodBase * (1 + toFood.size! * snapBase * toParticipation.size!),
     );
 
     // Repeal: the lagged effect ends the day the law does, and food
     // insecurity follows the next month.
-    lawEvent("2021-08-10", "0");
+    lawEvent(`${Y}-08-10`, "0");
     expect(
-      monthOf(api, town, "2021-08").values["program.snap-receipt"],
+      monthOf(api, town, `${Y}-08`).values["program.snap-receipt"],
     ).toBeCloseTo(snapBase);
-    advanceCore(core, "2021-09-05");
+    advanceCore(core, `${Y}-09-05`);
     expect(
-      monthOf(api, town, "2021-09").values["household.food-insecurity"],
+      monthOf(api, town, `${Y}-09`).values["household.food-insecurity"],
     ).toBeCloseTo(foodBase);
     expect((core as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)).toBe(true);
   }, 300_000);
