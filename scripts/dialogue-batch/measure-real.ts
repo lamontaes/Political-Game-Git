@@ -1,5 +1,5 @@
 /**
- * Measures the repetition guard's three shares over real samples of the same
+ * Measures the repetition guard's four shares over real samples of the same
  * size as each kind's batch lines, and writes the thresholds into the
  * director's parameter table (ESTIMATED, with the spread). Development
  * tooling.
@@ -107,6 +107,7 @@ export function realMeasures(kind: string, draws = 400) {
   };
   const samples: Record<Measure, number[]> = {
     openers: [],
+    closers: [],
     shapes: [],
     verbs: [],
   };
@@ -181,7 +182,7 @@ if (process.argv[1]?.endsWith("measure-real.ts")) {
       rows[parameterKey(kind, measure)] = {
         value: row.threshold,
         tag: "ESTIMATED",
-        citation: `Share of ${measure === "openers" ? "distinct two-word openers" : measure === "shapes" ? "distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked)" : "distinct main verbs"} among ${spec.lines} ${kind} lines. Mean ${row.mean.toFixed(2)} minus one standard deviation (${row.sd.toFixed(2)}) over 400 draws of ${spec.lines} real sentences from the mined ${spec.banks.join(" and ")} bank${spec.moves ? ` (moves ${spec.moves.join(", ")})` : ""}, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.`,
+        citation: `Share of ${measure === "openers" ? "distinct two-word openers" : measure === "closers" ? "distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9)" : measure === "shapes" ? "distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked)" : "distinct main verbs"} among ${spec.lines} ${kind} lines. Mean ${row.mean.toFixed(2)} minus one standard deviation (${row.sd.toFixed(2)}) over 400 draws of ${spec.lines} real sentences from the mined ${spec.banks.join(" and ")} bank${spec.moves ? ` (moves ${spec.moves.join(", ")})` : ""}, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.`,
         estimatedFrom: `data/english/parts/${spec.banks[0]}.json real-use counts (${row.parts} parts)${kind === "conversation" || kind === "emotion" ? "; opener cross-check from data/english/counts/everyday.json" : ""}`,
         spread: {
           low: Number(row.low.toFixed(2)),

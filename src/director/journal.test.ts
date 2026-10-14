@@ -78,6 +78,23 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     }
   });
 
+  it("tells each child's birth in that child's chapter, and no look-back twice", () => {
+    const born = /^(My (?:son|daughter|child)) was born\b/;
+    const endings: string[] = [];
+    for (const chapter of chapters)
+      for (const line of chapter.lines) {
+        const child = born.exec(line.text)?.[1];
+        if (child && chapter.title.startsWith("My "))
+          expect(chapter.title).toBe(child);
+        const said = line.text.split(/(?<=[.!?])\s+/);
+        if (said.length > 1)
+          endings.push(
+            said.at(-1)!.toLowerCase().split(/\s+/).slice(-2).join(" "),
+          );
+      }
+    expect(new Set(endings).size).toBe(endings.length);
+  });
+
   it("names relatives by relation, never by name", () => {
     const person = core.people.get(player.id)!;
     const text = chapters.flatMap((row) => row.lines.map((l) => l.text));
