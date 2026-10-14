@@ -89,7 +89,7 @@ function unfilledSeats(core: CoreState, since: string): string[] {
       .sort()
       .at(-1)!;
     // A seat emptied before the world opened is history (a past cabinet).
-    if (last < since) continue;
+    if (last <= since) continue;
     if (daysBetween(last, core.date) > VACANCY_GRACE_DAYS)
       out.push(`${seatId} roster empty since ${last}`);
   }
@@ -97,11 +97,15 @@ function unfilledSeats(core: CoreState, since: string): string[] {
 }
 
 /**
- * Elected state and federal seats whose term ends after an even year's
+ * The town's elected state and federal seats whose term ends after an even year's
  * Election Day (by the next March) with no contest for that seat dated that
  * year; where a term's end isn't read, the office's own cycle says the year.
  */
-function missingContests(core: CoreState, year: number): string[] {
+function missingContests(
+  core: CoreState,
+  year: number,
+  due: { count: number },
+): string[] {
   const offices = new Map(
     rows(core, OFFICES, "offices").map((row) => [row.id as string, row]),
   );
@@ -110,27 +114,37 @@ function missingContests(core: CoreState, year: number): string[] {
       (row) => `${row.seatId}@${(row.electionDate as string).slice(0, 4)}`,
     ),
   );
-  const serving = new Map<string, Row>();
+  // Every term, serving or since ended: an election that has already been
+  // held leaves the term it closed behind as an ended row.
+  const ends = new Map<string, string[]>();
   for (const row of rows(core, OFFICES, "terms"))
-    if (row.status === "serving") serving.set(row.seatId as string, row);
+    if (typeof row.endDate === "string")
+      ends.set(row.seatId as string, [
+        ...(ends.get(row.seatId as string) ?? []),
+        row.endDate,
+      ]);
   const out: string[] = [];
   for (const seat of rows(core, OFFICES, "seats")) {
     const office = offices.get(seat.officeId as string);
     if (
       !office?.elected ||
+      !seat.coversTown ||
       !["state", "federal"].includes(office.level as string)
     )
       continue;
-    const term = serving.get(seat.id as string);
-    const end = term?.endDate as string | null | undefined;
-    const due = end
-      ? end > `${year}-11-01` && end <= `${year + 1}-03-01`
+    const seatEnds = ends.get(seat.id as string);
+    const isDue = seatEnds?.length
+      ? seatEnds.some(
+          (end) => end > `${year}-11-01` && end <= `${year + 1}-03-01`,
+        )
       : typeof office.nextElectionYear === "number" &&
         typeof office.termYears === "number" &&
-        year >= office.nextElectionYear &&
-        (year - office.nextElectionYear) % office.termYears === 0;
-    if (due && !contests.has(`${seat.id}@${year}`))
-      out.push(`${seat.id} (term ends ${end ?? "by cycle"})`);
+        Math.abs(year - office.nextElectionYear) % office.termYears === 0;
+    if (isDue) due.count += 1;
+    if (isDue && !contests.has(`${seat.id}@${year}`))
+      out.push(
+        `${seat.id} (${seatEnds?.length ? "term ends after the election" : "by the office's cycle"})`,
+      );
   }
   return out;
 }
@@ -185,13 +199,17 @@ function run(job: PlaceJob) {
       const evenYears = [startYear, startYear + 1].filter(
         (year) => year % 2 === 0 && `${year}-12-31` <= core.date,
       );
-      const missing = evenYears.flatMap((year) => missingContests(core, year));
+      const due = { count: 0 };
+      const missing = evenYears.flatMap((year) =>
+        missingContests(core, year, due),
+      );
       (result.years as Row[]).push({
         year: y,
         through: core.date,
         seconds: +((performance.now() - started) / 1000).toFixed(1),
         heapGB: +(v8.getHeapStatistics().used_heap_size / 1e9).toFixed(2),
         people: core.people.size,
+        ballotSeatsChecked: due.count,
         checks: {
           moneyBalances:
             balanceGapMinor === 0 ? true : `off by ${balanceGapMinor} cents`,
