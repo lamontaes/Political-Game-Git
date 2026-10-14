@@ -1,6 +1,6 @@
 # State treasuries fill up with a year of revenue and spend almost none of it
 
-You need to decide what a state treasury should spend in a played town. Today the California treasury opens Cutten, California, with nothing and ends the year with $541.6 billion. That is about 7,800 times the $69.4 million every person and business in town opened with. Each month, each state, county and city treasury receives a twelfth of its government's yearly revenue from outside the town and pays almost nothing out. The books still balance to the cent in every month of both years tested, because every dollar is booked as owed to the outside world. The game's dollar test accepts any amount owed outside, so it passes. This audit confirmed 17 defects.
+You need to decide what a state treasury should spend in a played town. In Cutten, California, the state treasury starts the year at $0 and ends it at $541.6 billion. That is about 7,800 times the $69.4 million every person and business in town started with. Each month, each state, county and city treasury receives a twelfth of its government's yearly revenue and pays almost nothing out. The books balance to the cent only because the outside world is recorded as owed every dollar. The 1,518 officials outside the town are never paid. This audit confirmed 19 defects.
 
 ## Where the money comes from, and where it goes
 
@@ -13,7 +13,7 @@ In Pike Creek, Delaware, the year went like this (measured):
 
 In Cutten, California, the 24 outside-revenue payments brought $542.6 billion (measured). About $541.6 billion went to the California treasury and about $1.0 billion to the Humboldt County treasury. The only cash a treasury paid out because of a budget line was law-driven assistance benefits: 18 payments, $8.0 million in all (measured).
 
-Why: each month the budgets engine pays every non-federal treasury a twelfth of its government's whole Census-based yearly revenue from the outside account (`src/core2/modules/budgets.ts:493`). That inflow is a registered stopgap, SG-GOV-outside-revenue-monthly. Nothing pays out the matching spending. Budget lines, amendments and money moved between lines change table numbers only. The one payment out of a treasury tied to a budget line is the assistance benefit.
+Why: each month the budgets engine pays every non-federal treasury a twelfth of its government's whole Census-based yearly revenue from the outside account (`src/core2/modules/budgets.ts:493`). That inflow is a registered stopgap, SG-GOV-outside-revenue-monthly. Nothing pays out the matching spending (read in code: budget lines, amendments and money moved between lines change table numbers only). The one payment out of a treasury tied to a budget line is the assistance benefit (read in code, `src/core2/law-reach/group-b-money.ts:311`).
 
 Counted residents (the wider population that is not followed one by one) show a milder version. All their money sits in one pooled account per place. In Cutten that pool grew from $8.6 million to $86.9 million (measured). Each counted household also carries a figure for its share of the pool, used when it moves away or is filled in as a full person. Those share figures fell by $109,597 in Cutten and $152,578 in Pike Creek (measured). They are shares, not money, so the gap is not a leak (`src/core2/modules/residents.ts:1334-1337`). Two pools for neighboring places in Cutten opened with every share at zero and ended the year holding $39.7 million and $2.3 million (measured). Nobody filled in from those places can take any of that money (inferred from `residents.ts:1402`).
 
@@ -30,12 +30,12 @@ Yes, to the cent, in all 13 monthly closes of each world (measured). Every perso
 | Wages for full workers (payroll, hourly, legacy) | balanced | |
 | Wages for counted workers | balanced | paid into the place's pooled account |
 | Payroll withholding (income tax, Social Security, Medicare) | balanced | counted workers never withheld (defect 4) |
-| Paid-leave premium | balanced | cap reads the wrong balance (defect 13) |
+| Paid-leave premium | balanced | cap reads the wrong balance (defect 15) |
 | Rent, full and counted households | balanced | |
 | Mortgage payments | balanced | counted loans shrink unpaid (defect 5) |
-| Arrears payments and home purchases | balanced | full loan on a short down payment (defect 12) |
-| Property tax collected and sent to treasuries | balanced | shortfalls vanish (defect 11) |
-| Sales tax | balanced | shortfalls vanish (defect 11) |
+| Arrears payments and home purchases | balanced | full loan on a short down payment (defect 14) |
+| Property tax collected and sent to treasuries | balanced | shortfalls vanish (defect 12) |
+| Sales tax | balanced | shortfalls vanish (defect 13) |
 | Outside revenue to state, county and city treasuries | balanced | never spent (defect 1) |
 | Social Security and unemployment benefits | balanced | |
 | SNAP and Medicaid payments | not built | registered stopgaps say so |
@@ -45,18 +45,18 @@ Yes, to the cent, in all 13 monthly closes of each world (measured). Every perso
 | Owner draws | balanced | |
 | Bank loans, repayments and interest | balanced | |
 | Business credit lines and their interest | balanced | |
-| Public staff and appointee pay | balanced | no budget check (defect 17) |
+| Public staff and appointee pay | balanced | no budget check (defect 19) |
 | Federal spending | none | the U.S. treasury only receives (defect 2) |
-| Campaign donations, ads and polls | balanced | polls filed as ads (defect 16) |
-| Interest-group dues, bribes, drive donations | balanced | bribe recorded before paid (defect 15) |
+| Campaign donations, ads and polls | balanced | polls filed as ads (defect 18) |
+| Interest-group dues, bribes, drive donations | balanced | bribe recorded before paid (defect 17) |
 | Fees and fines | not built | none exist |
 | Births | balanced | newborns start at $0 |
 | Deaths of full people | left on the dead | no inheritance (defect 6) |
 | Deaths of counted people | balanced | the share passes to a housemate |
-| Full person moves away | left in town | cash stays on their record (defect 7) |
+| Full person moves away | left in town | cash stays on their record (defect 8) |
 | Counted household moves away | balanced | pays its share to the outside world |
-| Filling in a counted person | balanced | zero-share pools give nothing (defect 9) |
-| Business closings | balanced | a dead owner can be paid (defect 6) |
+| Filling in a counted person | balanced | zero-share pools give nothing (defect 10) |
+| Business closings | balanced | a dead owner can be paid (defect 7) |
 
 No flow moves cash around the journal. Every defect below is a payment that is missing or the wrong size, or a record that disagrees with the money.
 
@@ -71,18 +71,20 @@ Each line is one bug a fixer could take. The Sonnet verifier confirmed every one
 | 3 | The dollar test (M0-08) accepts any amount owed to the outside world, and its test world has no budgets engine | `scripts/core2-year/closures.mjs:136` | measured: both worlds balance while owing $15.6 billion and $542.7 billion outside |
 | 4 | Counted workers' income tax is never withheld, though outside revenue assumes the town's own payroll pays the town's share | `budgets.ts:930-931` | read in code |
 | 5 | A counted household's mortgage balance falls every month whether or not it was paid | `src/core2/modules/housing.ts:635-645` | read in code |
-| 6 | A full person's cash stays on their record when they die, and a closing business can pay its proceeds to a dead owner | `src/core2/modules/business.ts:371-374` | read in code |
-| 7 | A full person who moves away keeps their cash in the town's books, while counted movers pay theirs out | `src/core2/modules/moves.ts:470` | measured: in Cutten, 152 moved-away and out-of-town records held $660,789 at year end |
-| 8 | All officials outside the town open with $0, no job and no pay, though the stopgap that promised them pay is marked resolved | `src/core2/data/stopgaps.json`, SG-CORE-identity-fill-in-traits | measured: in Cutten, 1,518 of 1,518 at $0 |
-| 9 | A counted pool whose households all opened with a zero share can never pay out what it receives | `src/core2/modules/residents.ts:1402` | measured pools of $39.7 million and $2.3 million; payout inferred |
-| 10 | Withholding lines with no matching government are skipped, but the record still lists them as withheld | `budgets.ts:961` | read in code |
-| 11 | Unpaid property tax and unremitted sales tax disappear, with no arrears and no record | `src/core2/modules/purchase-tax.ts:116` | read in code |
-| 12 | A home buyer short of the down payment still gets the full mortgage | `housing.ts:822` | read in code |
-| 13 | The paid-leave premium is capped by total cash but taken from spendable cash, so it can exceed what is spendable | `src/core2/law-reach/group-a-money.ts:128-131` | read in code |
-| 14 | Withholding records are written before the payment posts, so a failed payment leaves records of money that never moved | `budgets.ts:953` | read in code |
-| 15 | A bribe is recorded as taken before the money moves | `src/core2/modules/corruption.ts:207-213` | read in code |
-| 16 | Poll costs are filed under the ad-buy kind | `src/core2/modules/campaigns.ts:1349` | read in code |
-| 17 | Public staff and appointees are paid with no check against any budget line | `src/core2/modules/staff.ts:145-157` | read in code; partly covered by SG-P8-public-payroll-due-flow |
+| 6 | A full person's cash stays on their record when they die; nobody inherits it | `src/core2/modules/health.ts:334` | read in code |
+| 7 | A closing business whose dead owner has no living housemate pays its proceeds to the dead owner | `src/core2/modules/business.ts:371-374` | read in code |
+| 8 | A full person who moves away keeps their cash in the town's books, while counted movers pay theirs out | `src/core2/modules/moves.ts:470` | measured: in Cutten, 152 moved-away and out-of-town records held $660,789 at year end |
+| 9 | All officials outside the town open with $0, no job and no pay, though the stopgap that promised them pay is marked resolved | `src/core2/data/stopgaps.json`, SG-CORE-identity-fill-in-traits | measured: in Cutten, 1,518 of 1,518 at $0 |
+| 10 | A counted pool whose households all opened with a zero share can never pay out what it receives | `src/core2/modules/residents.ts:1402` | measured pools of $39.7 million and $2.3 million; payout inferred |
+| 11 | Withholding lines with no matching government are skipped, but the record still lists them as withheld | `budgets.ts:961` | read in code |
+| 12 | Unpaid property tax disappears, with no arrears and no record | `src/core2/housing-property-tax.ts:134` | read in code |
+| 13 | Sales tax a short seller cannot remit disappears, with no arrears and no record | `src/core2/modules/purchase-tax.ts:116` | read in code |
+| 14 | A home buyer short of the down payment still gets the full mortgage | `housing.ts:822` | read in code |
+| 15 | The paid-leave premium is capped by total cash but taken from spendable cash, so it can exceed what is spendable | `src/core2/law-reach/group-a-money.ts:128-131` | read in code |
+| 16 | Withholding records are written before the payment posts, so a failed payment leaves records of money that never moved | `budgets.ts:953` | read in code |
+| 17 | A bribe is recorded as taken before the money moves | `src/core2/modules/corruption.ts:207-213` | read in code |
+| 18 | Poll costs are filed under the ad-buy kind | `src/core2/modules/campaigns.ts:1349` | read in code |
+| 19 | Public staff and appointees are paid with no check against any budget line | `src/core2/modules/staff.ts:145-157` | read in code; partly covered by SG-P8-public-payroll-due-flow |
 
 Not counted as defects: the bank's opening capital has no payer, but no opening balance anywhere has one. The property-tax fallback that pays the outside account runs only when the budgets engine is absent.
 
@@ -92,14 +94,14 @@ Wages, rent, mortgage payments, sales and property tax collection, Social Securi
 
 ## What the agents could not reach
 
-- Whether anyone is actually filled in from defect 9's pools in play; the run did not log fill-ins by place.
+- Whether anyone is actually filled in from defect 10's pools in play; the run did not log fill-ins by place.
 - Why the two neighboring pools in Cutten fill up at all, possibly commuters' wages with no spending there; not traced.
 - The older simulation engine under `src/simulation/`, which keeps its own budget arithmetic.
 - Payments that end with a household's standing contracts when someone moves away.
 
 ## What happens next
 
-The decision above comes first: paying budget lines out as cash to the outside world would stop defect 1, at a speed cost not yet measured. Defects 1 to 3 go to OPUS-GOV and OPUS-CORE. Defects 4, 10, 14 and 17 go to OPUS-GOV. Defects 5, 9, 11 and 12 go to OPUS-WORLD. Defects 6 to 8 go to OPUS-PEOPLE and OPUS-CORE. Defects 13, 15 and 16 are small and suit the fixer. Nothing was fixed here; the audit changed no game code.
+The decision above comes first: paying budget lines out as cash to the outside world would stop defect 1, at a speed cost not yet measured. Defects 1 to 3 go to OPUS-GOV and OPUS-CORE. Defects 4, 11, 16 and 19 go to OPUS-GOV. Defects 5, 10, 12, 13 and 14 go to OPUS-WORLD. Defects 6 to 9 go to OPUS-PEOPLE and OPUS-CORE. Defects 15, 17 and 18 are small and suit the fixer. Nothing was fixed here; the audit changed no game code.
 
 ## Who did the work
 
@@ -110,7 +112,7 @@ The decision above comes first: paying budget lines out as cash to the outside w
 | Sonnet | 1 | reviewed this report | 25,004 | 31 seconds |
 | Opus | 1 | planned, ran both years, spot-checked 3 verdicts, wrote this | not visible | about 40 minutes |
 
-Opus re-read defects 1 and 5 and the counted-death code; all three matched the verifier.
+Of the verifier's verdicts, three were checked a second time by Opus (defects 1 and 5 and the counted-death code); all three held.
 
 ## Method
 
