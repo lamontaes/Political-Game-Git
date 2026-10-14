@@ -1043,13 +1043,13 @@ export function rerateCountedJob(
   )
     return false;
   const ratio = hourlyMinor / job.hourlyMinor;
+  const before = wageFlowTotal(flow),
+    old = flow.perDayMinorByJob[jobId]!;
   // The flow's own copy of its pay map, made once and changed in place after.
   const perDay = ownMap(flow.perDayMinorByJob);
-  perDay[jobId] = perDay[jobId]! * ratio;
+  perDay[jobId] = old * ratio;
   flow.perDayMinorByJob = perDay;
-  let total = 0;
-  for (const value of Object.values(perDay)) total += value;
-  flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+  setWageFlowTotal(flow, before - old + perDay[jobId]!);
   const rerated = {
     ...job,
     hourlyMinor,
@@ -1338,6 +1338,36 @@ const ownedMaps = new WeakSet<object>();
  * A merged flow holds a part for every counted household, so copying it on
  * every change was most of fill-in's cost.
  */
+/**
+ * A wage flow's total daily pay, kept beside it so a hire, an ending or a new
+ * rate changes it by the difference instead of summing every job again. The
+ * kept total holds only while the flow's pay map and amount are as it last
+ * set them; any other change sums afresh.
+ */
+const flowTotals = new WeakMap<
+  FlowState,
+  { map: object; amount: number; total: number }
+>();
+const NO_PAY: Readonly<Record<string, number>> = {};
+export function wageFlowTotal(flow: FlowState): number {
+  const map = flow.perDayMinorByJob ?? NO_PAY;
+  const kept = flowTotals.get(flow);
+  if (kept && kept.map === map && kept.amount === flow.amountMinor)
+    return kept.total;
+  let total = 0;
+  for (const value of Object.values(map)) total += value;
+  return total;
+}
+/** Sets a wage flow's amount from its total daily pay, and keeps the total. */
+export function setWageFlowTotal(flow: FlowState, total: number): void {
+  flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+  flowTotals.set(flow, {
+    map: flow.perDayMinorByJob ?? NO_PAY,
+    amount: flow.amountMinor,
+    total,
+  });
+}
+
 export function ownMap(
   map: Readonly<Record<string, number>>,
 ): Record<string, number> {

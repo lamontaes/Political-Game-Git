@@ -8,7 +8,9 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   ownMap,
   residentsRuntime,
+  setWageFlowTotal,
   syncCountedJobRecord,
+  wageFlowTotal,
 } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput } from "./types";
@@ -21,7 +23,7 @@ function recompute(flow: Flow): void {
   let total = 0;
   for (const value of Object.values(flow.perDayMinorByJob ?? {}))
     total += value;
-  flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+  setWageFlowTotal(flow, total);
 }
 
 /** A counted worker's job ends today: their employer's wage flow drops exactly their pay. */
@@ -33,12 +35,14 @@ export function endCountedJob(
   const job = rt?.jobs.get(jobId),
     flow = rt?.wageFlowByJob.get(jobId);
   if (!rt || !job || !flow || flow.endedAt) return undefined;
+  const before = wageFlowTotal(flow),
+    old = flow.perDayMinorByJob?.[jobId] ?? 0;
   // The flow's own copy of its pay map, made once and changed in place after.
   const perDay = ownMap(flow.perDayMinorByJob ?? {});
   delete perDay[jobId];
   flow.perDayMinorByJob = perDay;
   flow.jobIds = (flow.jobIds ?? []).filter((id) => id !== jobId);
-  recompute(flow);
+  setWageFlowTotal(flow, before - old);
   rt.wageFlowByJob.delete(jobId);
   const ended = { ...job, endsAt: makeIsoDate(core.date) };
   rt.jobs.set(jobId, ended);
@@ -119,11 +123,13 @@ export function addCountedJob(
     flow = find();
   }
   if (!flow) return false;
+  const before = wageFlowTotal(flow),
+    old = flow.perDayMinorByJob?.[job.id] ?? 0;
   const perDay = ownMap(flow.perDayMinorByJob ?? {});
   perDay[job.id] = job.wageDailyMinor;
   flow.perDayMinorByJob = perDay;
   flow.jobIds = [...(flow.jobIds ?? []), job.id];
-  recompute(flow);
+  setWageFlowTotal(flow, before - old + job.wageDailyMinor);
   rt.jobs.set(job.id, job);
   rt.wageFlowByJob.set(job.id, flow);
   syncCountedJobRecord(core, job);
@@ -241,6 +247,28 @@ export function countedJobsOf(
       out.push(job);
   }
   return out;
+}
+
+/** The first counted, open job of an employer (a role to copy), without listing them all. */
+export function firstCountedJobOf(
+  core: CoreState,
+  organizationId: string,
+): JobInput | undefined {
+  const rt = residentsRuntime(core);
+  if (!rt) return undefined;
+  for (const jobId of jobIndex(core).get(organizationId) ?? []) {
+    const flow = rt.wageFlowByJob.get(jobId),
+      job = rt.jobs.get(jobId);
+    if (
+      flow &&
+      !flow.endedAt &&
+      flow.organizationId === organizationId &&
+      job &&
+      job.endsAt === undefined
+    )
+      return job;
+  }
+  return undefined;
 }
 
 /** Counted jobs by employer, rebuilt once a day and kept current by this file's hires. */
