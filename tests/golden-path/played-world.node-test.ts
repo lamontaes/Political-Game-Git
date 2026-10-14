@@ -605,13 +605,37 @@ function playWorld(seed: string) {
       (f) => f.personId !== incumbentId && core.people.has(f.personId),
     );
   });
+  // The candidacy engine is calibrated so that few adults run (the stay-out
+  // pull sits above almost everyone's run score: a small town can have no
+  // challenger in a year with nothing wrong, as in Campbellsville, Kentucky
+  // and Venersborg, Washington). So the check is the mechanism: someone other
+  // than the incumbent who decided to run must be on the ballot.
+  const heldIds = new Set(held.map((c) => String(c.id)));
+  const incumbentIds = new Set(
+    held.map((c) => {
+      const incumbent = incumbentOf(api, String(c.id));
+      return incumbent
+        ? (incumbent.personId ?? officialCandidateId(incumbent.id))
+        : undefined;
+    }),
+  );
+  const wantedToRun = rowsOf(core, "candidacy", "decisions").filter(
+    (d) =>
+      d.run &&
+      heldIds.has(String(d.contestId)) &&
+      !incumbentIds.has(String(d.personId)),
+  );
   verdicts["a named challenger runs"] = !held.length
     ? unobserved("no race was decided in the run")
     : challengers.length
       ? pass(`${challengers.length} named challengers in ${held.length} races`)
-      : fail(
-          `In ${held.length} races decided in the run, no named person other than the incumbent was on the ballot. Who runs (src/core2/modules/candidacy.ts) must have named adults weigh running when a seat comes up.`,
-        );
+      : !wantedToRun.length
+        ? unobserved(
+            `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+          )
+        : fail(
+            `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+          );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(
