@@ -15,9 +15,35 @@ import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
-import type { CoreAPI, CoreModule, KnownFact, PersonId } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  KnownFact,
+  PersonId,
+  PersonState,
+} from "../types";
 import { decisionLean } from "../trait-decisions";
 import { viewOf } from "./views";
+
+const passOnLeans = new WeakMap<
+  object,
+  { date: string; by: Map<string, number> }
+>();
+
+/** A teller's lean toward passing a story on, worked out once per person per day. */
+function passOnLean(api: CoreAPI, person: PersonState): number {
+  let day = passOnLeans.get(api.state);
+  if (day?.date !== api.state.date) {
+    day = { date: api.state.date, by: new Map() };
+    passOnLeans.set(api.state, day);
+  }
+  let lean = day.by.get(person.id);
+  if (lean === undefined) {
+    lean = decisionLean(api.state, person, "news.pass-on", "tell", "keep");
+    day.by.set(person.id, lean);
+  }
+  return lean;
+}
 
 export const NEWS_MODULE_ID = "news";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -357,13 +383,7 @@ export function createNewsModule(
               api.parameter("one") +
                 (tellerPerson
                   ? n(api, "traitDecisionWeight") *
-                    decisionLean(
-                      api.state,
-                      tellerPerson,
-                      "news.pass-on",
-                      "tell",
-                      "keep",
-                    )
+                    passOnLean(api, tellerPerson)
                   : api.parameter("zero")),
             ),
         );
