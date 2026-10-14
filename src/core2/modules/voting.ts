@@ -34,17 +34,13 @@ import {
 import { electionLawTurnoutCost } from "../law-reach/group-a-voting";
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  personLean,
-  platformAgreement,
-  type Stance,
-} from "../campaign-views";
+import { campaignParameter, personLean, type Stance } from "../campaign-views";
 import { townDistrict } from "../offices-state";
 import {
   openNextContest,
@@ -75,7 +71,7 @@ export { candidateIdentity } from "../candidate-identity";
 import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
-import { VIEWS_DATA, VIEWS_MODULE_ID, viewOf } from "./views";
+import { agreementWith, VIEWS_DATA, VIEWS_MODULE_ID, viewOf } from "./views";
 import {
   citizenShareOf,
   countyPlaceIdOf,
@@ -396,13 +392,7 @@ function relationshipWith(
   candidateId: string,
 ): number {
   if (!voter.knownIds.has(candidateId)) return 0;
-  let level = 0;
-  for (const id of api.state.relationshipsByPerson.get(voter.id) ?? []) {
-    const row = api.state.relationships.get(id);
-    if (row && (row.otherId === candidateId || row.actorId === candidateId))
-      level = Math.max(-1, Math.min(1, row.level));
-  }
-  return level;
+  return closenessBetween(api.state, voter.id, candidateId);
 }
 
 /**
@@ -438,7 +428,7 @@ function appealFor(
     const impression = impressionOf(api, voter.id, filing.personId);
     const warmth = impression?.warmth ?? 0;
     const agreement = impression?.knowsPlatform
-      ? platformAgreement(lean, facts.platform)
+      ? agreementWith(api, voter.id, lean, facts.platform)
       : null;
     if (agreement !== null) heardPlatform = true;
     const tie = partyTie(api, voter.id);

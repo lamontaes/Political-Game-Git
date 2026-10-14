@@ -13,6 +13,7 @@ import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { countedResidents } from "./electorate";
 import { citizenShareOf } from "./electorate-places";
 import { lifePlaceByKey } from "../simulation/life-places";
+import { addDays } from "../simulation/dates";
 import type { CoreInput } from "./types";
 import { gameStartDate } from "./game-start";
 
@@ -38,6 +39,8 @@ const monthlyHouseholdPurchases = (input: CoreInput) =>
 describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let full: CoreInput, two: CoreInput;
   let collapsed: CoreInput;
+  // A day this many days after the opening, whatever date the game starts on.
+  const daysIn = (days: number) => addDays(two.startedAt, days);
   beforeAll(() => {
     full = generatedOpening(place);
     // The game's opening keeps a representative sample full too.

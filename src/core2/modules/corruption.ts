@@ -9,6 +9,7 @@
  * party falling out with the other and deciding to tell someone.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
+import { closenessBetween, currentCloseness } from "../closeness";
 import { decisionKinds, decisionLean } from "../trait-decisions";
 import rows from "../data/corruption/parameters.json" with { type: "json" };
 import type { CashJournalPosting } from "../journal";
@@ -76,11 +77,7 @@ function partiesOf(api: CoreAPI): Set<PersonId> {
 }
 
 function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
-  for (const id of api.state.relationshipsByPerson.get(a) ?? []) {
-    const row = api.state.relationships.get(id)!;
-    if (row.actorId === b || row.otherId === b) return row.level;
-  }
-  return api.parameter("zero");
+  return closenessBetween(api.state, a, b);
 }
 
 /** The person's lean toward a corrupt act, from every trait through the shared trait table, about -1..1. */
@@ -368,8 +365,9 @@ export const corruptionModule: CoreModule = {
           const other = row.actorId === tellerId ? row.otherId : row.actorId;
           if (other === otherId || !api.state.people.get(other)?.alive)
             continue;
-          if (row.level > best) {
-            best = row.level;
+          const level = currentCloseness(api.state, row);
+          if (level > best) {
+            best = level;
             listener = other;
           }
         }

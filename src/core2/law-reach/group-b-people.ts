@@ -98,6 +98,11 @@ export interface TownFacts {
 
 const cache = new WeakMap<object, { date: string; facts: TownFacts }>();
 
+/** A new pass reads the town as it stands now: births, moves and fill-ins since the last read the same day count. */
+export function forgetTownFacts(api: CoreAPI): void {
+  cache.delete(api.state as CoreState);
+}
+
 function activeMinutes(
   commitments: readonly WorkCommitmentInput[],
   date: string,

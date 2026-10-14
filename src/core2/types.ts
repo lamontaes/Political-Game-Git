@@ -1123,6 +1123,8 @@ export interface CoreAPI {
    */
   meet(actorId: PersonId, otherId: PersonId, encounter: Encounter): boolean;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
+  /** The person leaves the organization; nothing happens if they were not in it. */
+  leave(personId: PersonId, organizationId: string): void;
   emit(event: CoreEventInput): void;
   /** External consumers can subscribe without owning or scanning world state. */
   subscribeEvents(
@@ -1222,4 +1224,6 @@ export interface CoreAPI {
   updateDrive(personId: PersonId, drive: Drive): void;
   markOrganized(personId: PersonId, topic: string): void;
   requestCallback(event: CoreEventInput): void;
+  /** Close an answered (or moot) callback; the approach gate reopens. */
+  resolveCallback(callbackId: string): void;
 }

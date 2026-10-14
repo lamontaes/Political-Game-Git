@@ -1298,7 +1298,7 @@ describe("shared funding and retained finance obligations", () => {
     expect(snapshot(core)).toBe(settled);
   });
 
-  it("keeps actual principal and unpaid interest on the indexed monthly route after employer closure", () => {
+  it("closes the credit line with the employer: the lender writes off the principal and nothing is billed after", () => {
     const data = extendData(fixtureData, {
       parameters: {
         [interestParameter]: {
@@ -1348,41 +1348,33 @@ describe("shared funding and retained finance obligations", () => {
     );
     const cause = JSON.stringify(closure.cause);
     const interestId = `finance-interest:${facilityId}`;
-    expect(core.finance.facilities.get(facilityId)!.principalMinor).toBe(100);
-    expect(core.finance.contracts.get(interestId)!.endedAt).toBeUndefined();
-    expect(core.finance.contractsDueAt.get("2021-02-01")!.has(interestId)).toBe(
-      true,
-    );
-    advanceDate(core, "2021-02-01");
-    FINANCE_MODULE.onDay!(
-      api,
-      (id, offers, context) => chooseAct(core, id, offers, context),
-      () => undefined,
-    );
-    FINANCE_MODULE.onAfterDay!(api);
-    expect(core.finance.latestReceiptsByContract.get(interestId)).toMatchObject(
-      { date: "2021-02-01", requestedMinor: 4, paidMinor: 0, arrearsMinor: 4 },
-    );
-    expect(core.finance.contractsDueAt.get("2021-03-01")!.has(interestId)).toBe(
-      true,
-    );
-    advanceDate(core, "2021-03-01");
-    FINANCE_MODULE.onDay!(
-      api,
-      (id, offers, context) => chooseAct(core, id, offers, context),
-      () => undefined,
-    );
-    FINANCE_MODULE.onAfterDay!(api);
-    expect(core.finance.latestReceiptsByContract.get(interestId)).toMatchObject(
-      { date: "2021-03-01", requestedMinor: 8, paidMinor: 0, arrearsMinor: 8 },
-    );
-    expect(core.finance.facilities.get(facilityId)!.principalMinor).toBe(100);
-    expect(core.finance.facilities.get(facilityId)!.interestArrearsMinor).toBe(
-      8,
-    );
-    expect(core.finance.contractsDueAt.get("2021-04-01")!.has(interestId)).toBe(
-      true,
-    );
+    const line = core.finance.facilities.get(facilityId)!;
+    expect(line).toMatchObject({
+      active: false,
+      closedAt: startedAt,
+      principalMinor: 0,
+      interestArrearsMinor: 0,
+      settledMinor: 0,
+      writtenOffMinor: 100,
+    });
+    expect(closure.creditLines).toEqual([
+      { facilityId, settledMinor: 0, writtenOffMinor: 100 },
+    ]);
+    expect(core.finance.contracts.get(interestId)!.endedAt).toBe(startedAt);
+    const before = structuredClone(line);
+    for (const date of ["2021-02-01", "2021-03-01"]) {
+      advanceDate(core, date);
+      FINANCE_MODULE.onDay!(
+        api,
+        (id, offers, context) => chooseAct(core, id, offers, context),
+        () => undefined,
+      );
+      FINANCE_MODULE.onAfterDay!(api);
+    }
+    expect(
+      core.finance.latestReceiptsByContract.get(interestId),
+    ).toBeUndefined();
+    expect(core.finance.facilities.get(facilityId)).toEqual(before);
     expect(core.finance.businesses.get(employer)!.closedAt).toBe(startedAt);
     expect(core.people.get(worker)!.jobId).toBeUndefined();
     expect(JSON.stringify(closure.cause)).toBe(cause);

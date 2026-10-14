@@ -1272,6 +1272,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       });
       index(core.membershipsByPerson, personId, id);
     },
+    leave(personId, organizationId) {
+      const id = `${personId}:${organizationId}`;
+      if (!core.memberships.delete(id)) return;
+      core.membershipsByPerson.get(personId)?.delete(id);
+    },
     emit(event) {
       applyCoreEvent(core, event);
     },
@@ -1715,6 +1720,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           "Callback requires current or future time and recorded people.",
         );
       core.pendingCallbacks.set(event.id, { ...event });
+    },
+    resolveCallback(callbackId) {
+      if (!core.pendingCallbacks.delete(callbackId))
+        throw new Error(`No pending callback: ${callbackId}`);
     },
   };
   writerAPIs.set(core, api);

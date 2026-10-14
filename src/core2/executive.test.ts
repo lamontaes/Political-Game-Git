@@ -19,6 +19,7 @@ import { openRecord } from "./modules/record";
 import { mayorVeto, openLegislature } from "./modules/legislature";
 import {
   appoint,
+  experienceFromAge,
   appointmentsIn,
   issueOrder,
   openExecutive,
@@ -178,4 +179,25 @@ describe("the executive's desk", () => {
     advanceCore(core, "2026-01-10");
     expect(answerIn(api, state, question), where).toBe(-1);
   }, 300_000);
+
+  it("appointment qualification rises smoothly with adult years, so a young adult is eligible but rarely preferred", () => {
+    const date = "2026-06-01";
+    const born = (age: number) => ({ birthDate: `${2026 - age}-01-01` });
+    let previous = experienceFromAge(born(18), date);
+    expect(previous).toBe(0);
+    let biggestStep = 0;
+    for (let age = 19; age <= 90; age += 1) {
+      const now = experienceFromAge(born(age), date);
+      expect(now).toBeGreaterThan(previous);
+      biggestStep = Math.max(biggestStep, now - previous);
+      previous = now;
+    }
+    // No jump at 25 or anywhere else: the largest one-year gain is small.
+    expect(biggestStep).toBeLessThan(0.02);
+    // A 22-year-old counts (more than zero) but trails a 45-year-old.
+    expect(experienceFromAge(born(22), date)).toBeGreaterThan(0);
+    expect(experienceFromAge(born(22), date)).toBeLessThan(
+      experienceFromAge(born(45), date),
+    );
+  });
 });

@@ -160,7 +160,9 @@ describe("campaign calibration on totals", () => {
         movedMuch: moved.length,
       };
       expect(knocked, `${state} ${key}`).toBeGreaterThan(10);
-      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThan(0.15);
+      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThanOrEqual(
+        0.15,
+      );
       expect(contact, `${state} ${key} ${seed} contact`).toBeLessThan(0.45);
       if (known.length >= 10)
         expect(

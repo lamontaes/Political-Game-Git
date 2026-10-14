@@ -13,6 +13,7 @@ import { countyPopulationSharesForPlace } from "../../simulation/government-unit
 import { lifePlaceByKey } from "../../simulation/life-places";
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
+import territoryData from "../data/credit/territories.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
@@ -47,12 +48,12 @@ function table(text: string): Map<string, string> {
 }
 const COUNTY_POPULATION = table(countyRows.COUNTY_BUSINESS_ROWS);
 const COUNTY_DEPOSITS = table(depositRows.FDIC_COUNTY_DEPOSITS);
-const TERRITORY_FIPS: Readonly<Record<string, string>> = {
-  "US-AS": "60",
-  "US-GU": "66",
-  "US-MP": "69",
-  "US-VI": "78",
-};
+const TERRITORY_FIPS: ReadonlyMap<string, string> = new Map(
+  territoryData.territories.map((row) => [
+    row.stateJurisdictionKey,
+    row.stateFips,
+  ]),
+);
 const TERRITORY_PEOPLE = new Map(
   (regions.regions as { stateFips: string; kind: string; population: number }[])
     .filter((row) => row.kind === "territory")
@@ -60,7 +61,7 @@ const TERRITORY_PEOPLE = new Map(
 );
 /** Deposits a place's people hold where no county table covers it: its territory's FDIC deposits per resident, else the nation's. */
 function fallbackDeposits(usps: string | undefined): number | undefined {
-  const fips = usps ? TERRITORY_FIPS[usps] : undefined;
+  const fips = usps ? TERRITORY_FIPS.get(usps) : undefined;
   const sum = (filter: (county: string) => boolean) => {
     let total = 0;
     for (const [county, value] of COUNTY_DEPOSITS)
