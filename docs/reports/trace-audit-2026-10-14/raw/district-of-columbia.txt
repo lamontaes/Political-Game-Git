@@ -1,0 +1,451 @@
+# Washington, District of Columbia seed b4bfbf9faa9e start 2025-01-20 built in 44s people 1630 orgs 115
+player person_2f58906223220c84 Shannon Reese born 2007-01-23
+
+## year 1: 2025-01-20 -> 2026-01-20  49s  heap 1249MB  people 1658 alive 1655 orgs 126
+records this year: 3530; kinds: person.acted=3195, vote-recorded=90, news.read=71, committee-hearing=38, bill-held-in-committee=28, law-took-effect=27, legislative-vote=26, budget-line-changed=16, speech.heard=12, person.moved-away=7, organization.closed=6, business.closed=6, budget-adopted=3, official-appointed=2, housing.eviction=1, chamber-organized=1, candidate-filed=1
+news items: 243 (federal 29: law-took-effect=6, legislative-vote=8, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=70 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-04-19 organization.closed {"organization:organization_592bd9111a6239aa:status":"closed","organization:organization_592bd9111a6239aa:closure-source":"residents:wages:opening-payroll-calendar:organization_592bd9111a6239aa|residents:jurisdiction_7691c6e3ae48f824@2025-04-19"}
+  2025-04-19 business.closed {"organization:organization_592bd9111a6239aa:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-05-31 organization.closed {"organization:organization_3c07c8b29c421dec:status":"closed","organization:organization_3c07c8b29c421dec:closure-source":"residents:wages:opening-payroll-calendar:organization_3c07c8b29c421dec|residents:jurisdiction_7691c6e3ae48f824@2025-05-31"}
+  2025-05-31 business.closed {"organization:organization_3c07c8b29c421dec:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:3","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:3","number":"2025-004","chamber":"office:US-DC:legislature-unicameral","yes":"12","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:4","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:4","number":"2025-005","chamber":"office:US-DC:legislature-unicameral","yes":"12","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:5","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:5","number":"2025-006","chamber":"office:US-DC:legislature-unicameral","yes":"10","no":"2"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:6","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.public-funds-for-private-schooling","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.public-funds-for-private-schooling","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.public-funds-for-private-schooling","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.public-funds-for-private-schooling","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.public-funds-for-private-schooling","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:6","number":"2025-007","chamber":"office:US-DC:legislature-unicameral","yes":"11","no":"1"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:7","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:7","number":"2025-008","chamber":"office:US-DC:legislature-unicameral","yes":"11","no":"1"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:8","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:environment-energy.price-carbon","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:environment-energy.price-carbon","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:environment-energy.price-carbon","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:environment-energy.price-carbon","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:environment-energy.price-carbon","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:8","number":"2025-009","chamber":"office:US-DC:legislature-unicameral","yes":"10","no":"2"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:9","number":"2025-010","chamber":"office:US-DC:legislature-unicameral","yes":"10","no":"2"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:10","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:justice-public-safety.end-cash-bail","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:justice-public-safety.end-cash-bail","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:justice-public-safety.end-cash-bail","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:justice-public-safety.end-cash-bail","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:justice-public-safety.end-cash-bail","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:10","number":"2025-011","chamber":"office:US-DC:legislature-unicameral","yes":"11","no":"1"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:11","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.independent-redistricting","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:11","number":"2025-012","chamber":"office:US-DC:legislature-unicameral","yes":"10","no":"2"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:12","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:12","number":"2025-013","chamber":"office:US-DC:legislature-unicameral","yes":"10","no":"2"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:13","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:13","number":"2025-014","chamber":"office:US-DC:legislature-unicameral","yes":"9","no":"3"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:14","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:14","number":"2025-015","chamber":"office:US-DC:legislature-unicameral","yes":"10","no":"2"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:15","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:15","number":"2025-016","chamber":"office:US-DC:legislature-unicameral","yes":"11","no":"1"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:16","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:environment-energy.bottle-deposit","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:environment-energy.bottle-deposit","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:environment-energy.bottle-deposit","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:environment-energy.bottle-deposit","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:environment-energy.bottle-deposit","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:16","number":"2025-017","chamber":"office:US-DC:legislature-unicameral","yes":"10","no":"2"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:18","number":"2025-019","chamber":"office:US-DC:legislature-unicameral","yes":"9","no":"3"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:19","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:19","number":"2025-020","chamber":"office:US-DC:legislature-unicameral","yes":"6","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:20","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:21","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:21","number":"2025-022","chamber":"office:US-DC:legislature-unicameral","yes":"7","no":"5"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:22","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:004:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:government-operations.all-mail-voting","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:government-operations.all-mail-voting","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:government-operations.all-mail-voting","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:government-operations.all-mail-voting","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:government-operations.all-mail-voting","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:004:0:2025-01-20:23","number":"2025-024","chamber":"office:US-DC:legislature-unicameral","yes":"10","no":"2"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:24","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"11"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:004:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:004:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"2","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"2","no":"9"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:008:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:004:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:004:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:1:2025-01-20:35","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:1:2025-01-20:38","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:001:0:2025-01-20:0","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:2","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20:1","committee":"general","chair":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","yes":"0","no":"0"}
+  2025-07-01 law-took-effect {"lawId":"law:US-DC:state:minimum-wage:general:2025-07-01","series":"minimum-wage","level":"state","jurisdiction":"US-DC","tier":"general","value":"1795","unit":"minor/hour","change":"replaced","replacesLawId":"law:US-DC:state:minimum-wage:general:2024-07-01"}
+  2025-07-01 organization.closed {"organization:organization_b4d7ef60b57a9d1e:status":"closed","organization:organization_b4d7ef60b57a9d1e:closure-source":"owner-closed:2025-07-01:organization_b4d7ef60b57a9d1e"}
+  2025-07-01 business.closed {"organization:organization_b4d7ef60b57a9d1e:closing-reason":"losses-kept"}
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-09-29:2025-004","series":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","level":"state","jurisdict
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-09-29:2025-005","series":"us-policy-positions:business-commerce.legalize-cannabis-sales","level":"state","jurisdiction":"US-DC","tier":"general","value":"1","u
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-09-29:2025-006","series":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","level":"state","jurisdiction":"US-DC"
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:education.public-funds-for-private-schooling:general:2025-09-29:2025-007","series":"us-policy-positions:education.public-funds-for-private-schooling","level":"state","jurisdiction":"US-DC","tier":"general","value":
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-09-29:2025-008","series":"us-policy-positions:technology-privacy.consumer-data-privacy-law","level":"state","jurisdiction":"US-DC","tier":"general","value":
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:environment-energy.price-carbon:general:2025-09-29:2025-009","series":"us-policy-positions:environment-energy.price-carbon","level":"state","jurisdiction":"US-DC","tier":"general","value":"1","unit":"","change":"ne
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-09-29:2025-011","series":"us-policy-positions:justice-public-safety.end-cash-bail","level":"state","jurisdiction":"US-DC","tier":"general","value":"0","unit":"","cha
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:government-operations.independent-redistricting:general:2025-09-29:2025-012","series":"us-policy-positions:government-operations.independent-redistricting","level":"state","jurisdiction":"US-DC","tier":"general","v
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-09-29:2025-014","series":"us-policy-positions:fiscal.minimum-reserve-balance","level":"state","jurisdiction":"US-DC","tier":"general","value":"0","unit":"","change":"ende
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-09-29:2025-015","series":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","level":"state","jurisdiction":"US-DC","ti
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-09-29:2025-016","series":"us-policy-positions:government-operations.ban-lobbying-after-office","level":"state","jurisdiction":"US-DC","tier":"general","v
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:environment-energy.bottle-deposit:general:2025-09-29:2025-017","series":"us-policy-positions:environment-energy.bottle-deposit","level":"state","jurisdiction":"US-DC","tier":"general","value":"1","unit":"","change"
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-09-29:2025-019","series":"us-policy-positions:fiscal.fund-pensions-to-schedule","level":"state","jurisdiction":"US-DC","tier":"general","value":"0","unit":"","change":"
+  2025-09-29 budget-line-changed {"governmentId":"US-DC","level":"state","line":"retirementContributions","deltaMinor":"-4915750000","measureId":"law:US-DC:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-09-29:2025-019#2025-09-29#undo"}
+  2025-09-29 law-took-effect {"lawId":"law:US-DC:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-09-29:2025-022","series":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","level":"state","jurisdiction":"US-DC","tier":"general","value
+  2025-10-01 budget-adopted {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 260-173, 61-39 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+  2025-10-01 budget-adopted {"governmentId":"US-DC","fiscalYear":"2025","adoptedBy":"the legislature vote 12-0, 2025-040"}
+  2025-10-01 budget-adopted {"governmentId":"place:1150000","fiscalYear":"2025","adoptedBy":"carried forward by the budget rule until the council or legislature votes it"}
+  2025-10-15 organization.closed {"organization:organization_057b68f543cdc4d0:status":"closed","organization:organization_057b68f543cdc4d0:closure-source":"residents:wages:opening-payroll-calendar:organization_057b68f543cdc4d0|residents:jurisdiction_7691c6e3ae48f824@2025-10-15"}
+  2025-10-15 business.closed {"organization:organization_057b68f543cdc4d0:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-10-21 housing.eviction {}
+  2025-10-23 organization.closed {"organization:organization_8fe9dc57976eb0e4:status":"closed","organization:organization_8fe9dc57976eb0e4:closure-source":"residents:wages:opening-payroll-calendar:organization_8fe9dc57976eb0e4|residents:jurisdiction_7691c6e3ae48f824@2025-10-23"}
+  2025-10-23 business.closed {"organization:organization_8fe9dc57976eb0e4:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-11-16 official-appointed {"post":"planning","appointedBy":"official:term:seat:US-DC:mayor:2025-01-20"}
+  2025-12-01 business.closed {"organization:organization_13b073a93d99712c:closing-reason":"losses-kept"}
+  2025-12-15 chamber-organized {"council-president":"official:term:seat:US-DC:us-house:98:2025-01-20"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-FL:us-house:25:41","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:42","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"11","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:42","committee":"general","chair":"official:seat:US-OH:us-senate:0","yes":"11","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-FL:us-house:25:43","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-WA:us-house:07:44","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-MA:us-house:09:45","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:46","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"6","no":"5"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:46","committee":"general","chair":"official:seat:US-OH:us-senate:0","yes":"9","no":"2"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-MA:us-house:09:47","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-CA:us-house:07:48","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-CA:us-house:32:49","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:50","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"6","no":"5"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:50","committee":"general","chair":"official:seat:US-OH:us-senate:0","yes":"7","no":"4"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:51","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"6","no":"5"}
+  2025-12-15 committee-hearing {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:51","committee":"general","chair":"official:seat:US-OH:us-senate:0","yes":"6","no":"5"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-FL:us-house:25:52","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-TX:us-house:28:53","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-FL:us-house:25:54","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-FL:us-house:25:55","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+  2025-12-15 bill-held-in-committee {"billId":"bill:office:US-DC:us-house:2025-12-15:official:seat:US-TX:us-house:09:56","committee":"general","chair":"official:seat:US-PA:us-house:16","yes":"0","no":"0"}
+deaths: 0
+election-ish kinds: official-appointed=2
+  E 2025-02-19 official-appointed {"post":"public-works","appointedBy":"official:term:seat:US-DC:mayor:2025-01-20"}
+  E 2025-11-16 official-appointed {"post":"planning","appointedBy":"official:term:seat:US-DC:mayor:2025-01-20"}
+player: alive=true job=Cook cash=$2859 home=household_6afbd3cc70d3f810
+
+### trace speech:party-meeting:party:US-DC:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+speech:party-meeting:party:US-DC:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_9db764b5a37ec738
+  <- person_9db764b5a37ec738 [core.people person] via core.observe.perceived
+     value {"key":"views:speaker","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"views:speaker","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DC:democratic:2026-01-15:experienced","learnedAt":"20
+
+### trace law-took-effect:law:county:11001:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+law-took-effect:law:county:11001:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:11001:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:11001 tier=general value=0.585 unit=percent-of-home-value change=replaced replacesLawId=law:county:11001:county:property-tax:general:2026-01-01:from-start
+  <- law:county:11001:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-DC:us-house:2025-12-15:official:seat:US-NC:us-house:01:63:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+committee:bill:office:US-DC:us-house:2025-12-15:official:seat:US-NC:us-house:01:63:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-DC:us-house:2025-12-15:official:seat:US-NC:us-house:01:63 committee=general chair=official:seat:US-PA:us-house:16 yes=0 no=0
+  <- bill:office:US-DC:us-house:2025-12-15:official:seat:US-NC:us-house:01:63 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-DC:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace bill-vote:bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:51:federal:us-senate (legislative-vote 2025-12-15)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+bill-vote:bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:51:federal:us-senate [core.log legislative-vote]
+   facts billId=bill:office:US-DC:us-house:2025-12-15:official:seat:US-KY:us-house:01:51 number=2025-012 chamber=federal:us-senate yes=53 no=47
+  <- official:seat:US-AK:us-senate:0 [core.people person] via core.log.personIds.0
+    <- job:office:seat:US-AK:us-senate:0:official:seat:US-AK:us-senate:0 [core.jobs job] via saved-trace.job
+      <- official:seat:US-AK:us-senate:0 [core.people person] via core.jobs.personId
+        <- job:office:seat:US-AK:us-senate:0:official:seat:US-AK:us-senate:0 [core.jobs job] via saved-trace.job
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.personIds.14 | record:core.log.personIds.15 | record:core.log.personIds.16 | record:core.log.personIds.17 | record:core.log.personIds.18 | record:core.log.personIds.19 | record:core.log.personIds.20 | record:core.log.personIds.21 | record:core.log.personIds.22 | record:core.log.personIds.23 | record:core.log.personIds.24 | record:core.log.personIds.25 | record:core.log.personIds.26 | record:core.log.personIds.27 | record:core.log.personIds.28 | record:core.log.personIds.29 | record:core.log.personIds.30 | record:core.log.personIds.31 | record:core.log.personIds.32 | record:core.log.personIds.33 | record:core.log.personIds.34 | record:core.log.personIds.35 | record:core.log.personIds.36 | record:core.log.personIds.37 | record:core.log.personIds.38 | record:core.log.personIds.39 | record:core.log.personIds.40 | record:core.log.personIds.41 | record:core.log.personIds.42 | record:core.log.personIds.43 | record:core.log.personIds.44 | record:core.log.personIds.45 | record:core.log.personIds.46 | record:core.log.personIds.47 | record:core.log.person
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-003#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-003#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11084876196763 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-003#balance#2025-12-15
+  <- jurisdiction_7691c6e3ae48f824 [regional.places places] via core.log.placeId
+    <- region:11:metro:47900 [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace event:business.closed:organization_13b073a93d99712c (business.closed 2025-12-01)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+event:business.closed:organization_13b073a93d99712c [core.log business.closed]
+   facts organization:organization_13b073a93d99712c:closing-reason=losses-kept
+  <- organization_13b073a93d99712c [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2025-12-01:organization_13b073a93d99712c (organization.closed 2025-12-01)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+employer-closed:2025-12-01:organization_13b073a93d99712c [core.log organization.closed]
+   facts organization:organization_13b073a93d99712c:status=closed organization:organization_13b073a93d99712c:closure-source=owner-closed:2025-12-01:organization_13b073a93d99712c
+  <- person_ec46a8271e133182 [core.people person] via core.observe.perceived
+     value {"key":"event:employer-closed:2025-12-01:organization_13b073a93d99712c:experienced","learnedAt":"2025-12-01","access":"perceived"}
+
+  children: record:core.log.placeId | record:core.log.personIds.0 | learned:core.observe.perceived={"key":"event:employer-closed:2025-12-01:organization_13b073a93d99712c:experienced","learnedAt":"2025-12-01","access":"perceived"}
+
+### trace appointed:appointment:town:planning:2025-11-16 (official-appointed 2025-11-16)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+appointed:appointment:town:planning:2025-11-16 [core.log official-appointed]
+   facts post=planning appointedBy=official:term:seat:US-DC:mayor:2025-01-20
+  <- person:press:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:owner:0 [core.people person] via core.observe.perceived
+     value {"key":"event:appointed:appointment:town:planning:2025-11-16:experienced","learnedAt":"2025-11-16","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.appointedBy | learned:core.observe.perceived={"key":"event:appointed:appointment:town:planning:2025-11-16:experienced","learnedAt":"2025-11-16","access":"perceived"}
+
+### trace event:housing.eviction:eviction:lease:household_24cf94cc48d54445:2025-09-06 (housing.eviction 2025-10-21)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+event:housing.eviction:eviction:lease:household_24cf94cc48d54445:2025-09-06 [core.log housing.eviction]
+  <- person_7f89797454cd7c64 [core.people person] via core.observe.perceived
+     value {"key":"event:event:housing.eviction:eviction:lease:household_24cf94cc48d54445:2025-09-06:experienced","learnedAt":"2025-10-21","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:event:housing.eviction:eviction:lease:household_24cf94cc48d54445:2025-09-06:experienced","learnedAt":"2025-10-21","access":"perceived"} | learned:core.observe.perceived={"key":"event:event:housing.eviction:eviction:lease:household_24cf94cc48d54445:2025-09-06:experienced","learnedAt":"2025-10-21","access":"perceived"} | learned:core.observe.perceived={"key":"event:event:housing.eviction:eviction:lease:household_24cf94cc48d54445:2025-09-06:experienced","learnedAt":"2025-10-21","access":"perceived"}
+
+### trace budget-adopted:budget:place:1150000:2025 (budget-adopted 2025-10-01)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+budget-adopted:budget:place:1150000:2025 [core.log budget-adopted]
+   facts governmentId=place:1150000 fiscalYear=2025 adoptedBy=carried forward by the budget rule until the council or legislature votes it
+  <- place:1150000 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:place:1150000 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_7691c6e3ae48f824 [regional.places places] via core.organizations.placeId
+        <- region:11:metro:47900 [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId
+
+### trace vote-recorded:vote:2025-024:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20 (vote-recorded 2025-06-30)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+vote-recorded:vote:2025-024:official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20 [core.log vote-recorded]
+   facts measureId=2025-024 question=us-policy-positions:government-operations.all-mail-voting position=1
+  <- official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2025-06-30","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"measureId","learnedAt":"2025-06-30","access":"perceived"}
+
+### trace person.moved-away:person_ec46a8271e133182:2025-02-01 (person.moved-away 2025-02-01)
+trace report · seed b4bfbf9faa9e · place 1150000 · date 2026-01-20
+person.moved-away:person_ec46a8271e133182:2025-02-01 [core.log person.moved-away]
+   facts person:person_ec46a8271e133182:residence=jurisdiction_4e8b361474cdde9e
+  <- person_ec46a9271e133335 [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_ec46a8271e133182:2025-02-01:experienced","learnedAt":"2025-02-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_ec46a8271e133182:2025-02-01:experienced","learnedAt":"2025-02-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_ec46a8271e133182:2025-02-01:experienced","learnedAt":"2025-02-01","access":"perceived"}
+
+## core2-offices-v1.offices: 8 of 8
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-DC:us-house","level":"federal","jurisdiction":"US-DC","governmentName":"United States House of Representatives","kind":"us-house-delegate","title":"Delegate","seats":1,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-DC:mayor","level":"state","jurisdiction":"US-DC","governmentName":"US-DC","kind":"mayor","title":"Mayor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"D.C. Home Rule Act sec. 421(c)(2) https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":"{\"method\":\"special-election\",\"successor\":\"chairman of the Council (acting mayor) until a special election\",\"citation\":\"D.C. Home Rule Act sec. 421(c)(2)\",\"source\":\"https://en.wikipedia.org/wiki/Gubern…"}
+  {"id":"office:US-DC:attorney-general","level":"state","jurisdiction":"US-DC","governmentName":"US-DC","kind":"attorney-general","title":"Attorney General for the District of Columbia","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":{"method":"special-election","citation":"State constitution executive article / election code (generic rule; not verified per office)","source":"https://ballotpedia.org/State_executive_offices","estimate":true}}
+  {"id":"office:US-DC:council-chair","level":"state","jurisdiction":"US-DC","governmentName":"US-DC","kind":"council-chair","title":"Chairman of the Council (elected citywide)","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"Council (interim) until special election\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"htt…"}
+  {"id":"office:US-DC:state-board-of-education-president","level":"state","jurisdiction":"US-DC","governmentName":"US-DC","kind":"state-board-of-education-president","title":"State Board of Education at-large member/president (citywide, nonpartisan)","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"Council (interim) until special election\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"sourc
+  {"id":"office:US-DC:legislature-unicameral","level":"state","jurisdiction":"US-DC","governmentName":"Council (unicameral)","kind":"legislature-unicameral","title":"Legislator","seats":12,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/Comparison_of_U.S._state_and_territory_governments Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"D.C. Code sec. 1-204.01(d)","source":"https://en.wikipedia.org/wiki/Comparison_of_U.S._state_and_territory_governments","estimate":true}}
+
+## core2-offices-v1.seats: 18 of 19
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-DC:mayor","officeId":"office:US-DC:mayor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-DC:attorney-general","officeId":"office:US-DC:attorney-general","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-DC:council-chair","officeId":"office:US-DC:council-chair","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-DC:state-board-of-education-president","officeId":"office:US-DC:state-board-of-education-president","index":0,"coversTown":true}
+  {"id":"seat:US-DC:unicameral:001:0","officeId":"office:US-DC:legislature-unicameral","district":"001","index":0,"coversTown":false,"electionYear":2028,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:002:0","officeId":"office:US-DC:legislature-unicameral","district":"002","index":1,"coversTown":false,"electionYear":2026,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:003:0","officeId":"office:US-DC:legislature-unicameral","district":"003","index":2,"coversTown":false,"electionYear":2028,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:004:0","officeId":"office:US-DC:legislature-unicameral","district":"004","index":3,"coversTown":false,"electionYear":2026,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:005:0","officeId":"office:US-DC:legislature-unicameral","district":"005","index":4,"coversTown":true,"electionYear":2028,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:006:0","officeId":"office:US-DC:legislature-unicameral","district":"006","index":5,"coversTown":false,"electionYear":2026,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:007:0","officeId":"office:US-DC:legislature-unicameral","district":"007","index":6,"coversTown":false,"electionYear":2028,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:008:0","officeId":"office:US-DC:legislature-unicameral","district":"008","index":7,"coversTown":false,"electionYear":2026,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:At-Large:0","officeId":"office:US-DC:legislature-unicameral","district":"At-Large","index":8,"coversTown":true,"electionYear":2026,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:At-Large:1","officeId":"office:US-DC:legislature-unicameral","district":"At-Large","index":9,"coversTown":true,"electionYear":2026,"party":"Democratic"}
+  {"id":"seat:US-DC:unicameral:At-Large:2","officeId":"office:US-DC:legislature-unicameral","district":"At-Large","index":10,"coversTown":true,"electionYear":2026,"party":"Independent"}
+  {"id":"seat:US-DC:unicameral:At-Large:3","officeId":"office:US-DC:legislature-unicameral","district":"At-Large","index":11,"coversTown":true,"electionYear":2026,"party":"Independent"}
+
+## core2-offices-v1.terms: 33 of 38
+  {"id":"term:seat:US-DC:mayor:2025-01-20:past:2","seatId":"seat:US-DC:mayor","officeId":"office:US-DC:mayor","identity":{"givenName":"Eric","familyName":"Donovan","gender":"male","birthDate":"1972-03-01","homeState":"US-DC"},"party":"Democratic","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.56}}
+  {"id":"term:seat:US-DC:mayor:2025-01-20:past:1","seatId":"seat:US-DC:mayor","officeId":"office:US-DC:mayor","identity":{"givenName":"Eric","familyName":"Donovan","gender":"male","birthDate":"1972-03-01","homeState":"US-DC"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-DC:attorney-general:2025-01-20:past:1","seatId":"seat:US-DC:attorney-general","officeId":"office:US-DC:attorney-general","identity":{"givenName":"Adam","familyName":"Luna","gender":"male","birthDate":"1979-12-24","homeState":"US-DC"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-DC:council-chair:2025-01-20:past:1","seatId":"seat:US-DC:council-chair","officeId":"office:US-DC:council-chair","identity":{"givenName":"Sandra","familyName":"Reyes","gender":"female","birthDate":"1959-03-01","homeState":"US-DC"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-DC:state-board-of-education-president:2025-01-20:past:1","seatId":"seat:US-DC:state-board-of-education-president","officeId":"office:US-DC:state-board-of-education-president","identity":{"givenName":"Bonnie","familyName":"Wright","gender":"female","birthDate":"1959-09-27","homeState":"US-DC"},"startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-DC:unicameral:002:0:2025-01-20:past:2","seatId":"seat:US-DC:unicameral:002:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Brian","familyName":"Nichols","gender":"male","birthDate":"1980-02-10","homeState":"US-DC"},"party":"Democratic","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:002:0:2025-01-20:past:1","seatId":"seat:US-DC:unicameral:002:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Brian","familyName":"Nichols","gender":"male","birthDate":"1980-02-10","homeState":"US-DC"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:005:0:2025-01-20:past:1","seatId":"seat:US-DC:unicameral:005:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Lisa","familyName":"Cox","gender":"female","birthDate":"1961-12-27","homeState":"US-DC"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:006:0:2025-01-20:past:1","seatId":"seat:US-DC:unicameral:006:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"James","familyName":"Chang","gender":"male","birthDate":"1989-11-27","homeState":"US-DC"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:007:0:2025-01-20:past:4","seatId":"seat:US-DC:unicameral:007:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Steven","familyName":"Meyers","gender":"male","birthDate":"1971-07-04","homeState":"US-DC"},"party":"Democratic","startDate":"2009-01-01","endDate":"2013-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2009-01-01","endedBy":"re-elected","elected":{"date":"2008-11-04","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:007:0:2025-01-20:past:3","seatId":"seat:US-DC:unicameral:007:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Steven","familyName":"Meyers","gender":"male","birthDate":"1971-07-04","homeState":"US-DC"},"party":"Democratic","startDate":"2013-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2009-01-01","endedBy":"re-elected","elected":{"date":"2012-11-06","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:007:0:2025-01-20:past:2","seatId":"seat:US-DC:unicameral:007:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Steven","familyName":"Meyers","gender":"male","birthDate":"1971-07-04","homeState":"US-DC"},"party":"Democratic","startDate":"2017-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2009-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:007:0:2025-01-20:past:1","seatId":"seat:US-DC:unicameral:007:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Steven","familyName":"Meyers","gender":"male","birthDate":"1971-07-04","homeState":"US-DC"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2009-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:At-Large:0:2025-01-20:past:1","seatId":"seat:US-DC:unicameral:At-Large:0","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Michael","familyName":"Strickland","gender":"male","birthDate":"1955-02-20","homeState":"US-DC"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:At-Large:3:2025-01-20:past:1","seatId":"seat:US-DC:unicameral:At-Large:3","officeId":"office:US-DC:legislature-unicameral","identity":{"givenName":"Kevin","familyName":"Luna","gender":"male","birthDate":"1982-08-08","homeState":"US-DC"},"party":"Independent","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Renee","familyName":"Allen","gender":"female","birthDate":"1969-10-12","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Joe","familyName":"Goodwin","gender":"male","birthDate":"1958-07-08","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-DC:mayor:2025-01-20","seatId":"seat:US-DC:mayor","officeId":"office:US-DC:mayor","personId":"official:term:seat:US-DC:mayor:2025-01-20","identity":{"givenName":"Eric","familyName":"Donovan","gender":"male","birthDate":"1972-03-01","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2015-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-DC:attorney-general:2025-01-20","seatId":"seat:US-DC:attorney-general","officeId":"office:US-DC:attorney-general","personId":"official:term:seat:US-DC:attorney-general:2025-01-20","identity":{"givenName":"Adam","familyName":"Luna","gender":"male","birthDate":"1979-12-24","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-DC:council-chair:2025-01-20","seatId":"seat:US-DC:council-chair","officeId":"office:US-DC:council-chair","personId":"official:term:seat:US-DC:council-chair:2025-01-20","identity":{"givenName":"Sandra","familyName":"Reyes","gender":"female","birthDate":"1959-03-01","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-DC:state-board-of-education-president:2025-01-20","seatId":"seat:US-DC:state-board-of-education-president","officeId":"office:US-DC:state-board-of-education-president","personId":"official:term:seat:US-DC:state-board-of-education-president:2025-01-20","identity":{"givenName":"Bonnie","familyName":"Wright","gender":"female","birthDate":"1959-09-27","homeState":"US-DC"},"startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-DC:unicameral:001:0:2025-01-20","seatId":"seat:US-DC:unicameral:001:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:001:0:2025-01-20","identity":{"givenName":"William","familyName":"Wilkins","gender":"male","birthDate":"1971-05-26","homeState":"US-DC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:002:0:2025-01-20","seatId":"seat:US-DC:unicameral:002:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:002:0:2025-01-20","identity":{"givenName":"Brian","familyName":"Nichols","gender":"male","birthDate":"1980-02-10","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2015-01-01","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:003:0:2025-01-20","seatId":"seat:US-DC:unicameral:003:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:003:0:2025-01-20","identity":{"givenName":"Dawn","familyName":"Peck","gender":"female","birthDate":"1967-06-24","homeState":"US-DC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:004:0:2025-01-20","seatId":"seat:US-DC:unicameral:004:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:004:0:2025-01-20","identity":{"givenName":"Nancy","familyName":"Campos","gender":"female","birthDate":"1950-12-23","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:005:0:2025-01-20","seatId":"seat:US-DC:unicameral:005:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:005:0:2025-01-20","identity":{"givenName":"Lisa","familyName":"Cox","gender":"female","birthDate":"1961-12-27","homeState":"US-DC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-01","elected":{"date":"2024-11-05","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:006:0:2025-01-20","seatId":"seat:US-DC:unicameral:006:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:006:0:2025-01-20","identity":{"givenName":"James","familyName":"Chang","gender":"male","birthDate":"1989-11-27","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:007:0:2025-01-20","seatId":"seat:US-DC:unicameral:007:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:007:0:2025-01-20","identity":{"givenName":"Steven","familyName":"Meyers","gender":"male","birthDate":"1971-07-04","homeState":"US-DC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2009-01-01","elected":{"date":"2024-11-05","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:008:0:2025-01-20","seatId":"seat:US-DC:unicameral:008:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:008:0:2025-01-20","identity":{"givenName":"Robert","familyName":"Ward","gender":"male","birthDate":"1967-03-28","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:At-Large:0:2025-01-20","seatId":"seat:US-DC:unicameral:At-Large:0","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:At-Large:0:2025-01-20","identity":{"givenName":"Michael","familyName":"Strickland","gender":"male","birthDate":"1955-02-20","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:At-Large:1:2025-01-20","seatId":"seat:US-DC:unicameral:At-Large:1","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:At-Large:1:2025-01-20","identity":{"givenName":"Alexandria","familyName":"Holland","gender":"female","birthDate":"1995-02-09","homeState":"US-DC"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:At-Large:2:2025-01-20","seatId":"seat:US-DC:unicameral:At-Large:2","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20","identity":{"givenName":"Katherine","familyName":"Stewart","gender":"female","birthDate":"1987-11-17","homeState":"US-DC"},"party":"Independent","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-DC:unicameral:At-Large:3:2025-01-20","seatId":"seat:US-DC:unicameral:At-Large:3","officeId":"office:US-DC:legislature-unicameral","personId":"official:term:seat:US-DC:unicameral:At-Large:3:2025-01-20","identity":{"givenName":"Kevin","familyName":"Luna","gender":"male","birthDate":"1982-08-08","homeState":"US-DC"},"party":"Independent","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.635}}
+
+## core2-offices-v1.terms: 0 of 38
+
+## core2-elections-v1.contests: 0 of 11
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (64 bills)
+  office:US-DC:legislature-unicameral 2025-06-30: 39
+  office:US-DC:legislature-unicameral 2025-10-01: 1
+  office:US-DC:us-house 2025-10-01: 1
+  office:US-DC:us-house 2025-12-15: 23
+## bills by body and status
+  office:US-DC:legislature-unicameral enacted: 15
+  office:US-DC:legislature-unicameral failed: 22
+  office:US-DC:legislature-unicameral vetoed: 3
+  office:US-DC:us-house enacted: 3
+  office:US-DC:us-house failed: 21
+## sample federal bill
+  {"id":"bill:office:US-DC:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:39","number":"2025-001","bodyOfficeId":"office:US-DC:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":5053976881},{"kind":"budget-line","line":"transportation","value":14935681874},{"kind":"budget-line","line":"otherPrograms","value":-62523738179}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-DC:legislature-unicameral:2025-06-30:official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20:3","number":"2025-004","bodyOfficeId":"office:US-DC:legislature-unicameral","sponsorId":"official:term:seat:US-DC:unicameral:At-Large:2:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","value":1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted"}
+
+## federal and state log kinds: vote-recorded=90, committee-hearing=38, bill-held-in-committee=28, legislative-vote=26, law-took-effect=25, budget-line-changed=17, official-appointed=4, chamber-organized=4, budget-adopted=2, inauguration=1, president.address=1, candidate-filed=1
+
+## official-appointed (4)
+  2025-01-20 {"post":"public-works","appointedBy":"official:term:seat:US-DC:mayor:2025-01-20"}
+  2025-01-20 {"post":"planning","appointedBy":"official:term:seat:US-DC:mayor:2025-01-20"}
+  2025-02-19 {"post":"public-works","appointedBy":"official:term:seat:US-DC:mayor:2025-01-20"}
+  2025-11-16 {"post":"planning","appointedBy":"official:term:seat:US-DC:mayor:2025-01-20"}
+
+## budget-adopted (2)
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 260-173, 61-39 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+  2025-10-01 {"governmentId":"US-DC","fiscalYear":"2025","adoptedBy":"the legislature vote 12-0, 2025-040"}
+
+## chamber-organized (4)
+  2025-01-20 {"speaker":"official:seat:US-TX:us-house:36","majority-leader":"official:seat:US-PA:us-house:08","minority-leader":"official:seat:US-NY:us-house:26","majority-whip":"official:seat:US-AL:us-house:03","minority-whip":"official:seat:US-CA:us-house:46"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-SC:us-senate:1","majority-leader":"official:seat:US-ND:us-senate:1","minority-leader":"official:seat:US-MD:us-senate:1","majority-whip":"official:seat:US-TN:us-senate:0","minority-whip":"official:seat:US-HI:us-senate:1"}
+  2025-01-20 {"speaker":"official:term:seat:US-DC:unicameral:007:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-DC:us-house:98:2025-01-20"}
+
+## candidate-filed (1)
+  2026-01-17 {"filingId":"filing:contest:seat:US-DC:unicameral:At-Large:1:2026-11-03:person_a7779ea43a35c1f0","contestId":"contest:seat:US-DC:unicameral:At-Large:1:2026-11-03","office":"Legislator","electionDate":"2026-11-03","filedWith":"District of Columbia Board of Elections"}
+
+done 1.6 min

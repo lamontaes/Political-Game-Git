@@ -1,0 +1,451 @@
+# Río Lajas, Puerto Rico seed a54382d60bdb start 2025-01-20 built in 64s people 1763 orgs 124
+player person_2bcca00ca03c146d Audrey O'Connor born 2007-01-21
+
+## year 1: 2025-01-20 -> 2026-01-20  111s  heap 2606MB  people 1856 alive 1854 orgs 190
+records this year: 15517; kinds: person.acted=12974, vote-recorded=896, news.read=459, cause.shared=278, speech.retold=237, committee-hearing=98, cause-group.ad-ran=84, cause.donated=83, legislative-vote=75, bill-held-in-committee=73, law-took-effect=39, speech.heard=38, campaign-message=31, person.moved-away=16, budget-line-changed=16, election-result=15, candidate-filed=14, public-comment=13, took-office=13, cause.volunteered=11, chamber-organized=9, seat-vacated=7, organization.owner-changed=6, office.approached=5, office.replied=5, pay-raised-to-minimum-wage=3, housing.completed=3, drive.formed=2, initiative.organizing-started=2, cause-group.founded=2, organization.closed=2, business.closed=2, budget-adopted=2, drive.strengthened=1, organization.founded=1, association.requested=1, debate=1
+news items: 1337 (federal 32: law-took-effect=6, legislative-vote=11, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=76 percent
+  2025-01-21 law-took-effect {"lawId":"law:US-PR:state:minimum-wage:general:2025-01-21:law:US-PR:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting","series":"minimum-wage","level":"state","jurisdiction":"US-PR","tier":"general","value":"1500","unit":"minor/hour
+  2025-02-04 chamber-organized {"council-president":"person_28a6c2abded1c987"}
+  2025-02-04 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-04:person_ea8d22c653ade191:0","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-04:person_ea8d22c653ade191:0","number":"2025-001","chamber":"office:municipio:72051:board","yes":"12","no":"2"}
+  2025-02-04 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-04:person_ea8d22c653ade191:1","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-04:person_ea8d22c653ade191:1","number":"2025-002","chamber":"office:municipio:72051:board","yes":"12","no":"2"}
+  2025-02-04 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-04:person_ea8d22c653ade191:2","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-04:person_ea8d22c653ade191:2","number":"2025-003","chamber":"office:municipio:72051:board","yes":"12","no":"2"}
+  2025-02-04 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-04:person_ea8d22c653ade191:3","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-04:person_ea8d22c653ade191:3","number":"2025-004","chamber":"office:municipio:72051:board","yes":"12","no":"2"}
+  2025-02-04 public-comment {"billId":"bill:office:municipio:72051:board:2025-02-04:person_28287a33c2fd1988:4","for":"1","against":"1"}
+  2025-02-04 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-04:person_28287a33c2fd1988:4","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-04:person_28287a33c2fd1988:4","number":"2025-005","chamber":"office:municipio:72051:board","yes":"12","no":"2"}
+  2025-02-19 public-comment {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:10","for":"2","against":"1"}
+  2025-02-19 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:10","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:10","number":"2025-011","chamber":"office:municipio:72051:board","yes":"12","no":"2"}
+  2025-02-19 public-comment {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:11","for":"2","against":"0"}
+  2025-02-19 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:11","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:11","number":"2025-012","chamber":"office:municipio:72051:board","yes":"13","no":"1"}
+  2025-02-19 public-comment {"billId":"bill:office:municipio:72051:board:2025-02-19:person_ea8d22c653ade191:12","for":"4","against":"2"}
+  2025-02-19 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-19:person_ea8d22c653ade191:12","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-19:person_ea8d22c653ade191:12","number":"2025-013","chamber":"office:municipio:72051:board","yes":"12","no":"2"}
+  2025-02-19 public-comment {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:13","for":"2","against":"1"}
+  2025-02-19 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:13","committee":"general","chair":"person_28a6c2abded1c987","yes":"11","no":"0"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:13","number":"2025-014","chamber":"office:municipio:72051:board","yes":"12","no":"2"}
+  2025-02-19 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:14","committee":"general","chair":"person_28a6c2abded1c987","yes":"7","no":"4"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:municipio:72051:board:2025-02-19:person_28287a33c2fd1988:14","number":"2025-015","chamber":"office:municipio:72051:board","yes":"8","no":"6"}
+  2025-03-01 seat-vacated {"officeId":"office:municipio:72051:board","seatId":"seat:municipio:72051:board:3","cause":"moved away","rule":"appointment"}
+  2025-03-06 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-03-06:2025-001","series":"us-policy-positions:labor-workforce.paid-family-leave","level":"city","jurisdiction":"place:7271437","tier":"general","value":"1","uni
+  2025-03-06 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:2025-002","series":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","level":"city","jurisdiction":"place:7271437"
+  2025-03-06 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-03-06:2025-003","series":"us-policy-positions:business-commerce.legalize-cannabis-sales","level":"city","jurisdiction":"place:7271437","tier":"general",
+  2025-03-06 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:housing-land-use.rent-stabilization:general:2025-03-06:2025-004","series":"us-policy-positions:housing-land-use.rent-stabilization","level":"city","jurisdiction":"place:7271437","tier":"general","value":"1",
+  2025-03-06 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-03-06:2025-005","series":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","level":"city","jurisdiction":"
+  2025-03-06 chamber-organized {"council-president":"person_28a6c2abded1c987"}
+  2025-03-21 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-03-21:2025-011","series":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","level":"city","jurisdiction":"place:7271437","tier":"g
+  2025-03-21 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:education.universal-preschool:general:2025-03-21:2025-012","series":"us-policy-positions:education.universal-preschool","level":"city","jurisdiction":"place:7271437","tier":"general","value":"1","unit":"","c
+  2025-03-21 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-03-21:2025-013","series":"us-policy-positions:housing-land-use.inclusionary-requirement","level":"city","jurisdiction":"place:7271437","tier":"general",
+  2025-03-21 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-03-21:2025-014","series":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","level":"city","jurisdiction":"
+  2025-03-21 law-took-effect {"lawId":"law:place:7271437:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-21:2025-015","series":"us-policy-positions:government-operations.ban-lobbying-after-office","level":"city","jurisdiction":"place:7271437","tier
+  2025-04-01 organization.owner-changed {}
+  2025-04-01 seat-vacated {"officeId":"office:municipio:72051:board","seatId":"seat:municipio:72051:board:2","cause":"moved away","rule":"appointment"}
+  2025-04-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_83b03e6f44fad7f0:cause:us-policy-positions:technology-privacy.restrict-government-facial-recognition","spentMinor":"37057","balanceBeforeMinor":"49410","reached":"27"}
+  2025-04-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_98574c5e47a6bb2a:cause:us-policy-positions:business-commerce.legalize-cannabis-sales","spentMinor":"7411","balanceBeforeMinor":"9882","reached":"27"}
+  2025-04-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_ea8d22c653ade191:cause:us-policy-positions:business-commerce.legalize-cannabis-sales","spentMinor":"39069","balanceBeforeMinor":"52092","reached":"27"}
+  2025-04-05 chamber-organized {"council-president":"person_28287a33c2fd1988"}
+  2025-05-01 organization.owner-changed {}
+  2025-05-01 organization.founded {}
+  2025-05-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_98574c5e47a6bb2a:cause:us-policy-positions:business-commerce.legalize-cannabis-sales","spentMinor":"1853","balanceBeforeMinor":"2471","reached":"18"}
+  2025-06-01 organization.closed {"organization:organization_1f44b09c038a5753:status":"closed","organization:organization_1f44b09c038a5753:closure-source":"owner-closed:2025-06-01:organization_1f44b09c038a5753"}
+  2025-06-01 business.closed {"organization:organization_1f44b09c038a5753:closing-reason":"losses-kept"}
+  2025-06-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_98574c5e47a6bb2a:cause:us-policy-positions:business-commerce.legalize-cannabis-sales","spentMinor":"463","balanceBeforeMinor":"618","reached":"4"}
+  2025-06-04 committee-hearing {"billId":"bill:office:municipio:72051:board:2025-06-04:person_cb221829a853e96d:15","committee":"general","chair":"person_28287a33c2fd1988","yes":"2","no":"9"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:municipio:72051:board:0:2025-11-04:person_2074455bc3493744","contestId":"contest:seat:municipio:72051:board:0:2025-11-04","office":"Municipal Legislator","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:municipio:72051:board:0:2025-11-04:person_83b03e6f44fad7f0","contestId":"contest:seat:municipio:72051:board:0:2025-11-04","office":"Municipal Legislator","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:municipio:72051:board:1:2025-11-04:person_83b03f6f44fad9a3","contestId":"contest:seat:municipio:72051:board:1:2025-11-04","office":"Municipal Legislator","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:municipio:72051:board:11:2025-11-04:person_5e6a9831d2a485d1","contestId":"contest:seat:municipio:72051:board:11:2025-11-04","office":"Municipal Legislator","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:municipio:72051:board:12:2025-11-04:person_62574400572c2362","contestId":"contest:seat:municipio:72051:board:12:2025-11-04","office":"Municipal Legislator","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:municipio:72051:board:13:2025-11-04:person_791750f3d61e75d3","contestId":"contest:seat:municipio:72051:board:13:2025-11-04","office":"Municipal Legislator","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:municipio:72051:board:4:2025-11-04:person_919f41f2f78d0418","contestId":"contest:seat:municipio:72051:board:4:2025-11-04","office":"Municipal Legislator","electionDate":"2025-11-04","filedWith":"County clerk"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:municipio:72051:board:5:2025-11-04:person_98574c5e47a6bb2a","contestId":"contest:seat:municipio:72051:board:5:2025-11-04","office":"Municipal Legislator","electionDate":"2025-11-04","filedWith":"County clerk"}
+deaths: 0
+election-ish kinds: election-result=15
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:0:2025-11-04","office":"Municipal Legislator","winnerId":"person_83b03e6f44fad7f0","totals":"{\"person_2074455bc3493744\":52,\"person_83b03e6f44fad7f0\":2389}","views:speaker":"person_83b03e6
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:1:2025-11-04","office":"Municipal Legislator","winnerId":"person_83b03f6f44fad9a3","totals":"{\"person_83b03f6f44fad9a3\":2440}","views:speaker":"person_83b03f6f44fad9a3"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:2:2025-11-04","office":"Municipal Legislator","winnerId":"person_2074455bc3493744","totals":"{\"person_2074455bc3493744\":2435}","views:speaker":"person_2074455bc3493744"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:3:2025-11-04","office":"Municipal Legislator","winnerId":"","totals":"{}"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:4:2025-11-04","office":"Municipal Legislator","winnerId":"person_919f41f2f78d0418","totals":"{\"person_919f41f2f78d0418\":2440}","views:speaker":"person_919f41f2f78d0418"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:5:2025-11-04","office":"Municipal Legislator","winnerId":"person_98574c5e47a6bb2a","totals":"{\"person_98574c5e47a6bb2a\":2441}","views:speaker":"person_98574c5e47a6bb2a"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:6:2025-11-04","office":"Municipal Legislator","winnerId":"person_b4b0d4a5e025572f","totals":"{\"person_b4b0d4a5e025572f\":2440}","views:speaker":"person_b4b0d4a5e025572f"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:7:2025-11-04","office":"Municipal Legislator","winnerId":"person_ea8d22c653ade191","totals":"{\"person_ea8d22c653ade191\":2440}","views:speaker":"person_ea8d22c653ade191"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:8:2025-11-04","office":"Municipal Legislator","winnerId":"person_1f5cbcae2504f19e","totals":"{\"person_1f5cbcae2504f19e\":2441}","views:speaker":"person_1f5cbcae2504f19e"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:9:2025-11-04","office":"Municipal Legislator","winnerId":"person_28287a33c2fd1988","totals":"{\"person_28287a33c2fd1988\":2441}","views:speaker":"person_28287a33c2fd1988"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:10:2025-11-04","office":"Municipal Legislator","winnerId":"","totals":"{}"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:11:2025-11-04","office":"Municipal Legislator","winnerId":"person_5e6a9831d2a485d1","totals":"{\"person_5e6a9831d2a485d1\":2436}","views:speaker":"person_5e6a9831d2a485d1"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:12:2025-11-04","office":"Municipal Legislator","winnerId":"person_62574400572c2362","totals":"{\"person_62574400572c2362\":2441}","views:speaker":"person_62574400572c2362"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:board:13:2025-11-04","office":"Municipal Legislator","winnerId":"person_791750f3d61e75d3","totals":"{\"person_791750f3d61e75d3\":2441}","views:speaker":"person_791750f3d61e75d3"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:municipio:72051:executive:0:2025-11-04","office":"Mayor","winnerId":"person_7db227c68ed322ab","totals":"{\"person_7db227c68ed322ab\":2441}","views:speaker":"person_7db227c68ed322ab"}
+player: alive=true job=none cash=$0 home=household_d67bff8489564b7b
+
+### trace bill-vote:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:office:municipio:72051:board (legislative-vote 2026-01-15)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+bill-vote:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:office:municipio:72051:board [core.log legislative-vote]
+   facts billId=bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146 number=2026-002 chamber=office:municipio:72051:board yes=11 no=3
+  <- person_919f41f2f78d0418 [core.people person] via core.observe.perceived
+     value {"key":"billId","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chamber | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.percei
+
+### trace vote-recorded:vote:2026-002:person_791750f3d61e75d3 (vote-recorded 2026-01-15)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+vote-recorded:vote:2026-002:person_791750f3d61e75d3 [core.log vote-recorded]
+   facts measureId=2026-002 question=us-policy-positions:labor-workforce.raise-minimum-wage position=1
+  <- person_791750f3d61e75d3 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"measureId","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:remark:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:person:press:outlet:newspaper:1:jurisdiction_62814cca8fec5298:owner:0:retold:person_ea8d22c653ade191 (speech.retold 2026-01-15)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+speech:remark:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:person:press:outlet:newspaper:1:jurisdiction_62814cca8fec5298:owner:0:retold:person_ea8d22c653ade191 [core.log speech.retold]
+   facts views:speaker=person_ea8d22c653ade191
+  <- person_ea8d22c653ade191 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:remark:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:person:press:outlet:newspaper:1:jurisdiction_62814cca8fec5298:owner:0:retold:person_ea8d22c653ade191:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.placeId | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:person:press:outlet:newspaper:1:jurisdiction_62814cca8fec52 | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:person:press:outlet:newspaper:1:jurisdiction_62814cca8fec52 | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:person:press:outlet:newspaper:1:jurisdiction_62814cca8fec52 | learned:core.observe.perceived={"key":"event:speech:remark:bill:office:municipio:72051:board:2026-01-15:person_98574c5e47a6bb2a:146:person:press:outlet:newspaper:1:jurisdiction_62814cca8fec52
+
+### trace speech:party-meeting:party:US-PR:partido-nuevo-progresista:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+speech:party-meeting:party:US-PR:partido-nuevo-progresista:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_cb221829a853e96d
+  <- person_8fd7550a29b5e869 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-PR:partido-nuevo-progresista:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-PR:partido-nuevo-progresista:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-PR:partido-nuevo-progresista:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-PR:partido-nuevo-progresista:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-PR:partido-nuevo-progresista:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace law-took-effect:law:US-PR:state:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+law-took-effect:law:US-PR:state:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:US-PR:state:property-tax:general:2026-01-01 series=property-tax level=state jurisdiction=US-PR tier=general value=0.491 unit=percent-of-home-value change=replaced replacesLawId=law:US-PR:state:property-tax:general:2026-01-01:from-start
+  <- law:US-PR:state:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-PR:us-house:2025-12-15:official:seat:US-IL:us-house:08:142:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+committee:bill:office:US-PR:us-house:2025-12-15:official:seat:US-IL:us-house:08:142:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-PR:us-house:2025-12-15:official:seat:US-IL:us-house:08:142 committee=general chair=official:seat:US-NC:us-house:10 yes=0 no=0
+  <- bill:office:US-PR:us-house:2025-12-15:official:seat:US-IL:us-house:08:142 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-PR:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11084752168440 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_62814cca8fec5298 [regional.places places] via core.log.placeId
+    <- region:72:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace election-result:contest:seat:municipio:72051:executive:0:2025-11-04 (election-result 2025-11-04)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+election-result:contest:seat:municipio:72051:executive:0:2025-11-04 [core.log election-result]
+   facts contestId=contest:seat:municipio:72051:executive:0:2025-11-04 office=Mayor winnerId=person_7db227c68ed322ab totals={"person_7db227c68ed322ab":2441} views:speaker=person_7db227c68ed322ab
+  <- person_7db227c68ed322ab [core.people person] via core.observe.perceived
+     value {"key":"contestId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.contestId | learned:core.observe.perceived={"key":"contestId","learnedAt":"2025-11-04","access":"perceived"}
+
+### trace event:business.closed:organization_a942a640d91aa769 (business.closed 2025-11-01)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+event:business.closed:organization_a942a640d91aa769 [core.log business.closed]
+   facts organization:organization_a942a640d91aa769:closing-reason=losses-kept
+  <- organization_a942a640d91aa769 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2025-11-01:organization_a942a640d91aa769 (organization.closed 2025-11-01)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+employer-closed:2025-11-01:organization_a942a640d91aa769 [core.log organization.closed]
+   facts organization:organization_a942a640d91aa769:status=closed organization:organization_a942a640d91aa769:closure-source=owner-closed:2025-11-01:organization_a942a640d91aa769
+  <- jurisdiction_62814cca8fec5298 [regional.places places] via core.log.placeId
+    <- region:72:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace budget-adopted:budget:US:2025 (budget-adopted 2025-10-01)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+budget-adopted:budget:US:2025 [core.log budget-adopted]
+   facts governmentId=US fiscalYear=2025 adoptedBy=Congress vote 266-167, 68-32 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001
+  <- jurisdiction_62814cca8fec5298 [regional.places places] via core.log.placeId
+    <- region:72:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace person.moved-away:person_28287b33c2fd1b3b:2025-09-01 (person.moved-away 2025-09-01)
+trace report · seed a54382d60bdb · place 7271437 · date 2026-01-20
+person.moved-away:person_28287b33c2fd1b3b:2025-09-01 [core.log person.moved-away]
+   facts person:person_28287b33c2fd1b3b:residence=jurisdiction_42681804d213a771
+  <- person_28287a33c2fd1988 [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_28287b33c2fd1b3b:2025-09-01:experienced","learnedAt":"2025-09-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_28287b33c2fd1b3b:2025-09-01:experienced","learnedAt":"2025-09-01","access":"perceived"} | learned:core.observe.self={"key":"job:job:position:organization_8d7f4d87fb27a8fc:2025-03-01:4:person_28287b33c2fd1b3b:status","learnedAt":"2025-09-01","access":"self"}
+
+## core2-offices-v1.offices: 6 of 8
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":false,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":false,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-PR:us-house","level":"federal","jurisdiction":"US-PR","governmentName":"United States House of Representatives","kind":"us-house-delegate","title":"Resident Commissioner","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-PR:governor","level":"state","jurisdiction":"US-PR","governmentName":"US-PR","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"P.R. Const. art. IV sec. 8; Law No. 7 of 2005 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":"{\"method\":\"successor\",\"successor\":\"secretary of state\",\"citation\":\"P.R. Const. art. IV sec. 8; Law No. 7 of 2005\",\"source\":\"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_Unite…"}
+  {"id":"office:US-PR:legislature-upper","level":"state","jurisdiction":"US-PR","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":28,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/Comparison_of_U.S._state_and_territory_governments Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"presiding officer of the chamber, on the nomination of the predecessor's political party\",\"citation\":\"P.R. Const. art. III sec. 8\",\"source\":\"https://en.wikipedia…"}
+  {"id":"office:US-PR:legislature-lower","level":"state","jurisdiction":"US-PR","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":53,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/Comparison_of_U.S._state_and_territory_governments Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"presiding officer of the chamber, on the nomination of the predecessor's political party\",\"citation\":\"P.R. Const. art. III sec. 8\",\"source\":\"https://en.wikipedia…"}
+
+## core2-offices-v1.seats: 3 of 100
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":false,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":false,"party":"Republican"}
+  {"id":"seat:US-PR:governor","officeId":"office:US-PR:governor","index":0,"coversTown":true}
+
+## core2-offices-v1.terms: 16 of 172
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Nancy","familyName":"Davidson","gender":"female","birthDate":"1974-06-15","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Jennifer","familyName":"Franklin","gender":"female","birthDate":"1975-02-27","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-PR:governor:2025-01-20","seatId":"seat:US-PR:governor","officeId":"office:US-PR:governor","personId":"official:term:seat:US-PR:governor:2025-01-20","identity":{"givenName":"Ryan","familyName":"Muñiz","gender":"male","birthDate":"1974-12-14","homeState":"US-PR"},"startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:municipio:72051:board:0:2026-01-01:elected","seatId":"seat:municipio:72051:board:0","officeId":"office:municipio:72051:board","personId":"person_83b03e6f44fad7f0","identity":{"givenName":"Kathleen","familyName":"Quinn","gender":"recorded","birthDate":"1963-02-05","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:1:2026-01-01:elected","seatId":"seat:municipio:72051:board:1","officeId":"office:municipio:72051:board","personId":"person_83b03f6f44fad9a3","identity":{"givenName":"Teresa","familyName":"Paul","gender":"recorded","birthDate":"1978-11-27","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:2:2026-01-01:elected","seatId":"seat:municipio:72051:board:2","officeId":"office:municipio:72051:board","personId":"person_2074455bc3493744","identity":{"givenName":"Elizabeth","familyName":"McFarland","gender":"recorded","birthDate":"1971-10-02","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:4:2026-01-01:elected","seatId":"seat:municipio:72051:board:4","officeId":"office:municipio:72051:board","personId":"person_919f41f2f78d0418","identity":{"givenName":"Elizabeth","familyName":"Mathis","gender":"recorded","birthDate":"1999-04-16","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:5:2026-01-01:elected","seatId":"seat:municipio:72051:board:5","officeId":"office:municipio:72051:board","personId":"person_98574c5e47a6bb2a","identity":{"givenName":"Joel","familyName":"Gray","gender":"recorded","birthDate":"1980-05-04","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:6:2026-01-01:elected","seatId":"seat:municipio:72051:board:6","officeId":"office:municipio:72051:board","personId":"person_b4b0d4a5e025572f","identity":{"givenName":"Elizabeth","familyName":"Gibson","gender":"recorded","birthDate":"1958-04-24","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:7:2026-01-01:elected","seatId":"seat:municipio:72051:board:7","officeId":"office:municipio:72051:board","personId":"person_ea8d22c653ade191","identity":{"givenName":"Selena","familyName":"Maldonado","gender":"recorded","birthDate":"1979-04-20","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:8:2026-01-01:elected","seatId":"seat:municipio:72051:board:8","officeId":"office:municipio:72051:board","personId":"person_1f5cbcae2504f19e","identity":{"givenName":"Christine","familyName":"McFarland","gender":"recorded","birthDate":"1976-10-05","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:9:2026-01-01:elected","seatId":"seat:municipio:72051:board:9","officeId":"office:municipio:72051:board","personId":"person_28287a33c2fd1988","identity":{"givenName":"Charles","familyName":"Wilson","gender":"recorded","birthDate":"1966-01-23","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:11:2026-01-01:elected","seatId":"seat:municipio:72051:board:11","officeId":"office:municipio:72051:board","personId":"person_5e6a9831d2a485d1","identity":{"givenName":"Christine","familyName":"Glover","gender":"recorded","birthDate":"1965-09-11","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:12:2026-01-01:elected","seatId":"seat:municipio:72051:board:12","officeId":"office:municipio:72051:board","personId":"person_62574400572c2362","identity":{"givenName":"Elizabeth","familyName":"Singh","gender":"recorded","birthDate":"1974-04-11","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:board:13:2026-01-01:elected","seatId":"seat:municipio:72051:board:13","officeId":"office:municipio:72051:board","personId":"person_791750f3d61e75d3","identity":{"givenName":"River","familyName":"Middleton","gender":"recorded","birthDate":"1967-03-07","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+  {"id":"term:seat:municipio:72051:executive:0:2026-01-01:elected","seatId":"seat:municipio:72051:executive:0","officeId":"office:municipio:72051:executive","personId":"person_7db227c68ed322ab","identity":{"givenName":"Anya","familyName":"Stevens","gender":"recorded","birthDate":"1973-06-05","homeState":"US-PR"},"startDate":"2026-01-01","endEstimated":false,"reached":"elected 2025-11-04","status":"serving"}
+
+## core2-offices-v1.terms: 137 of 172
+  {"id":"term:seat:US-PR:upper:001:0:2025-01-20:past:1","seatId":"seat:US-PR:upper:001:0","officeId":"office:US-PR:legislature-upper","identity":{"givenName":"John","familyName":"González","gender":"male","birthDate":"1995-10-21","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:upper:002:0:2025-01-20:past:1","seatId":"seat:US-PR:upper:002:0","officeId":"office:US-PR:legislature-upper","identity":{"givenName":"Robert","familyName":"Morales","gender":"male","birthDate":"1962-04-04","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:upper:004:0:2025-01-20:past:2","seatId":"seat:US-PR:upper:004:0","officeId":"office:US-PR:legislature-upper","identity":{"givenName":"Michael","familyName":"Ortiz","gender":"male","birthDate":"1993-12-13","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.635}}
+  {"id":"term:seat:US-PR:upper:004:0:2025-01-20:past:1","seatId":"seat:US-PR:upper:004:0","officeId":"office:US-PR:legislature-upper","identity":{"givenName":"Michael","familyName":"Ortiz","gender":"male","birthDate":"1993-12-13","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:upper:005:1:2025-01-20:past:1","seatId":"seat:US-PR:upper:005:1","officeId":"office:US-PR:legislature-upper","identity":{"givenName":"Pamela","familyName":"Rodríguez","gender":"female","birthDate":"1952-12-17","homeState":"US-PR"},"party":"Partido Popular Democrático","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:upper:007:0:2025-01-20:past:1","seatId":"seat:US-PR:upper:007:0","officeId":"office:US-PR:legislature-upper","identity":{"givenName":"Margaret","familyName":"Osuna","gender":"female","birthDate":"1961-05-27","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:upper:008:0:2025-01-20:past:1","seatId":"seat:US-PR:upper:008:0","officeId":"office:US-PR:legislature-upper","identity":{"givenName":"Kelsey","familyName":"Barceló","gender":"female","birthDate":"1996-05-26","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:upper:At-Large:2:2025-01-20:past:1","seatId":"seat:US-PR:upper:At-Large:2","officeId":"office:US-PR:legislature-upper","identity":{"givenName":"Brenda","familyName":"Colón","gender":"female","birthDate":"1945-01-21","homeState":"US-PR"},"party":"Partido Independentista Puertorriqueño","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:lower:001:0:2025-01-20:past:1","seatId":"seat:US-PR:lower:001:0","officeId":"office:US-PR:legislature-lower","identity":{"givenName":"Linda","familyName":"Soto","gender":"female","birthDate":"1956-06-06","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:lower:004:0:2025-01-20:past:2","seatId":"seat:US-PR:lower:004:0","officeId":"office:US-PR:legislature-lower","identity":{"givenName":"Robert","familyName":"Dávila","gender":"male","birthDate":"1948-10-22","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.635}}
+  {"id":"term:seat:US-PR:lower:004:0:2025-01-20:past:1","seatId":"seat:US-PR:lower:004:0","officeId":"office:US-PR:legislature-lower","identity":{"givenName":"Robert","familyName":"Dávila","gender":"male","birthDate":"1948-10-22","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-PR:lower:008:0:2025-01-20:past:1","seatId":"seat:US-PR:lower:008:0","officeId":"office:US-PR:legislature-lower","identity":{"givenName":"Juan","familyName":"Santana","gender":"male","birthDate":"1995-07-08","homeState":"US-PR"},"party":"Partido Nuevo Progresista","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+
+## core2-elections-v1.contests: 0 of 60
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (147 bills)
+  office:US-PR:legislature-lower 2025-06-30: 52
+  office:US-PR:legislature-lower 2025-07-01: 1
+  office:US-PR:legislature-lower 2025-11-18: 47
+  office:US-PR:us-house 2025-10-01: 1
+  office:US-PR:us-house 2025-12-15: 25
+  office:municipio:72051:board 2025-02-04: 10
+  office:municipio:72051:board 2025-02-19: 5
+  office:municipio:72051:board 2025-06-04: 1
+  office:municipio:72051:board 2025-07-04: 2
+  office:municipio:72051:board 2025-12-16: 1
+  office:municipio:72051:board 2026-01-15: 2
+## bills by body and status
+  office:US-PR:legislature-lower enacted: 2
+  office:US-PR:legislature-lower failed: 74
+  office:US-PR:legislature-lower overridden: 14
+  office:US-PR:legislature-lower vetoed: 10
+  office:US-PR:us-house enacted: 4
+  office:US-PR:us-house failed: 22
+  office:municipio:72051:board enacted: 12
+  office:municipio:72051:board failed: 7
+  office:municipio:72051:board vetoed: 2
+## sample federal bill
+  {"id":"bill:office:US-PR:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:71","number":"2025-001","bodyOfficeId":"office:US-PR:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":5388172808},{"kind":"budget-line","line":"transportation","value":15923308880},{"kind":"budget-line","line":"otherPrograms","value":-66658141472}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-PR:legislature-lower:2025-06-30:official:term:seat:US-PR:lower:At-Large:3:2025-01-20:17","number":"2025-002","bodyOfficeId":"office:US-PR:legislature-lower","sponsorId":"official:term:seat:US-PR:lower:At-Large:3:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:civil-family-community.restrict-abortion","value":1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"overridden"}
+
+## federal and state log kinds: vote-recorded=700, committee-hearing=82, bill-held-in-committee=73, legislative-vote=61, law-took-effect=39, budget-line-changed=16, chamber-organized=8, seat-vacated=4, pay-raised-to-minimum-wage=3, budget-adopted=2, inauguration=1, president.address=1
+
+## seat-vacated (4)
+  2025-06-14 {"officeId":"office:US-PR:legislature-lower","seatId":"seat:US-PR:lower:At-Large:12","cause":"death","rule":"appointment"}
+  2025-07-01 {"officeId":"office:US-PR:legislature-lower","seatId":"seat:US-PR:lower:023:0","cause":"moved away","rule":"appointment"}
+  2025-07-01 {"officeId":"office:US-PR:legislature-upper","seatId":"seat:US-PR:upper:At-Large:2","cause":"moved away","rule":"appointment"}
+  2025-10-01 {"officeId":"office:US-PR:legislature-upper","seatId":"seat:US-PR:upper:008:0","cause":"moved away","rule":"appointment"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-PR","fiscalYear":"2025","adoptedBy":"the legislature vote 53-0, 28-0, 2025-053"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 266-167, 68-32 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (8)
+  2025-01-20 {"speaker":"official:seat:US-TX:us-house:01","majority-leader":"official:seat:US-IL:us-house:15","minority-leader":"official:seat:US-CA:us-house:42","majority-whip":"official:seat:US-MI:us-house:05","minority-whip":"official:seat:US-OH:us-house:09"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-AL:us-senate:0","majority-leader":"official:seat:US-AK:us-senate:1","minority-leader":"official:seat:US-NJ:us-senate:0","majority-whip":"official:seat:US-IN:us-senate:0","minority-whip":"official:seat:US-CO:us-senate:0"}
+  2025-01-20 {"speaker":"official:term:seat:US-PR:lower:040:0:2025-01-20","majority-leader":"official:term:seat:US-PR:lower:011:0:2025-01-20","minority-leader":"official:term:seat:US-PR:lower:032:0:2025-01-20","majority-whip":"official:term:seat:US-PR:lower:038:0:2025-01-20","minority-whip":"official:term:seat:US-PR:lower:039:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-PR:upper:004:0:2025-01-20","majority-leader":"official:term:seat:US-PR:upper:007:0:2025-01-20","minority-leader":"official:term:seat:US-PR:upper:005:1:2025-01-20","majority-whip":"official:term:seat:US-PR:upper:008:0:2025-01-20","minority-whip":"official:term:seat:US-PR:upper:At-Large:9:2025-01-20"}
+  2025-06-30 {"speaker":"official:term:seat:US-PR:lower:040:0:2025-01-20","majority-leader":"official:term:seat:US-PR:lower:011:0:2025-01-20","minority-leader":"official:term:seat:US-PR:lower:032:0:2025-01-20","majority-whip":"official:term:seat:US-PR:lower:038:0:2025-01-20","minority-whip":"official:term:seat:US-PR:lower:039:0:2025-01-20"}
+  2025-11-18 {"speaker":"official:term:seat:US-PR:lower:040:0:2025-01-20","majority-leader":"official:term:seat:US-PR:lower:011:0:2025-01-20","minority-leader":"official:term:seat:US-PR:lower:032:0:2025-01-20","majority-whip":"official:term:seat:US-PR:lower:038:0:2025-01-20","minority-whip":"official:term:seat:US-PR:lower:039:0:2025-01-20"}
+  2025-11-18 {"president-pro-tempore":"official:term:seat:US-PR:upper:004:0:2025-01-20","majority-leader":"official:term:seat:US-PR:upper:007:0:2025-01-20","minority-leader":"official:term:seat:US-PR:upper:005:1:2025-01-20","majority-whip":"official:term:seat:US-PR:upper:001:0:2025-01-20","minority-whip":"official:term:seat:US-PR:upper:At-Large:9:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-PR:us-house:98:2025-01-20"}
+
+done 2.9 min
