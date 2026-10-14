@@ -1,0 +1,8 @@
+{
+  "method": "Complete sheet review",
+  "rejected": {
+    "crowd-v2__person004": "two_people",
+    "crowd-v4__person004": "occluded_or_incomplete_head",
+    "x-sth-02__person005": "occluded_or_incomplete_head"
+  }
+}

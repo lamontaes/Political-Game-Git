@@ -27,7 +27,7 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 | `county-commission-rural`              |    12 |     48 |
 | `public-meeting-room`                  |    14 |     48 |
 | `school-board-room`                    |     7 |     27 |
-| `state-house-chamber`                  |    18 |    129 |
+| `state-house-chamber`                  |    17 |    101 |
 | `state-legislative-chamber-bicameral`  |    13 |     70 |
 | `state-legislative-chamber-unicameral` |     8 |     64 |
 | `us-house-floor`                       |    26 |    126 |
@@ -48,3 +48,5 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 `state-legislative-chamber-unicameral`: 8 fixed occupied chair/bench positions, 64 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.
 
 `council-chamber`: 26 fixed occupied chair/bench positions, 110 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.
+
+`state-house-chamber`: 17 fixed occupied chair/bench positions, 101 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.

@@ -1,0 +1,15 @@
+{
+  "source": "y-sth-03.jpg",
+  "instance": 7,
+  "chair": "chair-010",
+  "reasons": [
+    "disconnected",
+    "too_wide",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.06800379776881083,
+  "shift": [
+    0,
+    -2
+  ]
+}
