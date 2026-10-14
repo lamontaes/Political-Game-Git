@@ -123,6 +123,14 @@ console.log(
       bribesOffered: crimes.length,
       crimes,
       bribesTaken: crimes.filter((c) => c.taken).length,
+      complaints: api
+        .moduleState("core2-justice-v1")
+        .table("complaints")
+        .rows(),
+      investigations: api
+        .moduleState("core2-justice-v1")
+        .table("investigations")
+        .rows(),
       chains: justiceChains(api),
     },
     null,

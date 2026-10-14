@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { afterAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { BenchPlayer } from "../bench/player";
@@ -34,15 +35,49 @@ const api = coreAPI(core);
 const rows = <T>(name: string) =>
   api.moduleState(JUSTICE_MODULE_ID).table(name).rows() as unknown as T[];
 
-const members = (
-  api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .rows() as unknown as TermRow[]
-)
-  .filter((t) => t.status === "serving" && t.personId)
-  .map((t) => t.personId!)
-  .filter((id, i, all) => all.indexOf(id) === i && core.people.get(id)?.alive);
+// Whom the town's lobbying reaches (as the interest groups engine does): the
+// members of its own council or county board, else its own legislators.
+const offices = api.moduleState(OFFICES_MODULE_ID);
+const terms = offices.table("terms").rows() as unknown as TermRow[];
+const persons = (rows: readonly TermRow[]) =>
+  rows
+    .filter((t) => t.status === "serving" && t.personId)
+    .map((t) => t.personId!)
+    .filter(
+      (id, i, all) => all.indexOf(id) === i && core.people.get(id)?.alive,
+    );
+const bodies = new Set(
+  (
+    offices.table("offices").rows() as unknown as {
+      id: string;
+      kind: string;
+      coversTown?: boolean;
+    }[]
+  )
+    .filter(
+      (o) =>
+        (o.kind === "council" || o.kind === "county-board") && o.coversTown,
+    )
+    .map((o) => o.id),
+);
+const townSeats = new Set(
+  (
+    offices.table("seats").rows() as unknown as {
+      id: string;
+      coversTown?: boolean;
+    }[]
+  )
+    .filter((seat) => seat.coversTown)
+    .map((seat) => seat.id),
+);
+const local = persons(terms.filter((t) => bodies.has(t.officeId)));
+const members = local.length
+  ? local
+  : persons(
+      terms.filter(
+        (t) => townSeats.has(t.seatId) && /:legislature-/.test(t.officeId),
+      ),
+    );
 const accounts = core.cashJournal.residualAccountByOwner;
 const town = lawChain(api).townPlaceId;
 const candidates = [...core.people.values()]
@@ -117,12 +152,19 @@ if (playerId) {
 const logOn = (date: string) =>
   Math.max(0, ...[...logAt].filter(([d]) => d <= date).map(([, n]) => n));
 
-// JUSTICE_PRINT=1 prints the player's case as its chain of record ids.
+// JUSTICE_PRINT=<file> writes the player's case as its chain of record ids.
 afterAll(() => {
   if (process.env.JUSTICE_PRINT)
-    console.log(
+    writeFileSync(
+      process.env.JUSTICE_PRINT,
       JSON.stringify(
-        justiceChains(api).filter((c) => c.defendantId === playerId),
+        {
+          seed,
+          place: lawChain(api).placeName,
+          playerId,
+          scenes,
+          chains: justiceChains(api),
+        },
         null,
         1,
       ),

@@ -856,7 +856,6 @@ function imprison(
   sentence: SentenceRow,
   jobIds: readonly string[],
 ): void {
-  for (const jobId of jobIds) api.endJob(jobId, sentence.id);
   const prior = holdInCustody(api, sentence.personId);
   const custody: CustodyRow = {
     id: `custody:${sentence.id}`,
@@ -868,6 +867,8 @@ function imprison(
     priorEligible: prior ?? null,
   };
   table(api, "custody").put(custody as unknown as ModuleRow);
+  // The jobs end the next morning, before any shift: today's may be worked.
+  if (jobIds.length) keepFromWork(api);
   emit(
     api,
     "justice.imprisoned",
@@ -1033,8 +1034,19 @@ function justiceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (
       custody?.status === "serving" &&
       currentJobs(api, custody.personId).includes(jobId)
-    )
-      api.endJob(jobId, `${custody.id}:${api.state.date}`);
+    ) {
+      const state = api.state as CoreState;
+      if (state.work.lastAttendanceByJob.get(jobId)?.date === api.state.date)
+        // Worked today already: end it tomorrow, before the day's work.
+        api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
+          key: `${work.key}:${api.state.date}`,
+          date: addDays(api.state.date, 1),
+          kind: work.kind,
+          source: work.source,
+          sourceRecordIds: work.sourceRecordIds,
+        });
+      else api.endJob(jobId, `${custody.id}:${api.state.date}`);
+    }
   }
 }
 
