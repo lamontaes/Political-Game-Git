@@ -908,14 +908,7 @@ export async function benchRequest(
       if (request.method === "POST" && url.pathname === "/api/resume") {
         if (!player) throw new Error("Generate a town first.");
         const pauseId = url.searchParams.get("pauseId") ?? "";
-        const result =
-          url.searchParams.get("kind") === "choice"
-            ? player.resume({
-                kind: "choice",
-                pauseId,
-                offerId: url.searchParams.get("offerId") ?? "",
-              })
-            : player.resume({ kind: "stop", pauseId });
+        const result = player.resume({ kind: "stop", pauseId });
         send(200, {
           ...result,
           names: namesFor(result.packet),
