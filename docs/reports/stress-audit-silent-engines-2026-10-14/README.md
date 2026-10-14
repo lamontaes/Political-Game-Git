@@ -88,7 +88,7 @@ All fixes go to the sessions that own the engines; this audit changed no game co
 - **Government session:** the four-year election rule (Mississippi), the Alabama year conflict, the vote tally for recalls, governors and other states' legislatures, the case list, the town hall as a choice, and a wage-amount bill from a cause.
 - **People session:** a first bribe from someone who stands to lose money; the news outlet replaced by the press's.
 - **Play session:** the case list and an interview request on the player's screens.
-- **Fixer:** the four corrections above.
+- **Fixer:** the three corrections above.
 
 A repeat run in a place with a 2025 town election, or over a year that includes November 2026, would show the election engines working. This audit did not run one.
 
