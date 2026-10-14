@@ -907,6 +907,8 @@ async function sayLine(key) {
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
 async function talkTo(otherId) {
+  // The menu hides the conversation, so a conversation closes it first.
+  closeSheet();
   lying = false;
   $("talk-name").textContent = "";
   renderTalk(
