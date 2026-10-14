@@ -34,6 +34,7 @@ import {
 import { electionLawTurnoutCost } from "../law-reach/group-a-voting";
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -396,13 +397,7 @@ function relationshipWith(
   candidateId: string,
 ): number {
   if (!voter.knownIds.has(candidateId)) return 0;
-  let level = 0;
-  for (const id of api.state.relationshipsByPerson.get(voter.id) ?? []) {
-    const row = api.state.relationships.get(id);
-    if (row && (row.otherId === candidateId || row.actorId === candidateId))
-      level = Math.max(-1, Math.min(1, row.level));
-  }
-  return level;
+  return closenessBetween(api.state, voter.id, candidateId);
 }
 
 /**

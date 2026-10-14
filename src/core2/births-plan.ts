@@ -10,6 +10,7 @@ import {
 } from "../simulation/living-world/town-rent";
 import type { EntityId } from "../simulation/types";
 import { healthReport } from "./modules/health";
+import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { decisionKinds } from "./trait-decisions";
@@ -190,7 +191,10 @@ export function birthCircumstances(
       (p("renewalConditionWeight") * conditions) / (conditions + p("one")),
     closeness:
       p("renewalClosenessWeight") *
-      (p("two") * (relationship?.level ?? p("renewalUnknownCloseness")) -
+      (p("two") *
+        (relationship
+          ? currentCloseness(api.state, relationship)
+          : p("renewalUnknownCloseness")) -
         p("one")),
     partnership:
       mother.householdId === partner.householdId

@@ -70,6 +70,23 @@ export function currentCloseness(
   );
 }
 
+// stopgapId: SG-CORE-closeness-gov-raw-reads (candidacy.ts and legislature.ts still read the stored level)
+/**
+ * How close two people are today: the one closeness read every engine uses
+ * (stress audit defect 21). The stored level is closeness as of the last
+ * contact; this fades it to today. Zero for people with no tie.
+ */
+export function closenessBetween(
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  a: PersonId,
+  b: PersonId,
+): number {
+  const row = core.relationships.get([a, b].sort().join(":"));
+  return row
+    ? currentCloseness(core, row)
+    : parameter("zero", core.data.parameters);
+}
+
 /** Hours of time together the tie has lost since its last contact. */
 export function hoursLost(
   core: Pick<CoreState, "data" | "date">,
