@@ -1,5 +1,13 @@
 /** A closed employer's counted workers look for work (sim stories, Oct 12, item 14). */
 import { describe, expect, it } from "vitest";
+import { createHash } from "node:crypto";
+import { openLaws } from "./modules/laws";
+import { unemploymentTerms } from "./jobs-benefits";
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
 import { advanceCore, createLifeCore } from "./life";
 import { JOBS_MODULE } from "./modules/jobs";
 import { macroCoreData } from "./modules/macro";
@@ -7,6 +15,26 @@ import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, PersonInput, Source } from "./types";
+
+// A random place from all 56 (the golden-path seed when the suite runs it).
+const seed =
+  process.env.GOLDEN_PATH_SEED ??
+  createHash("sha256").update(`jobs-benefits:${Date.now()}`).digest("hex");
+function drawPlace(): { key: string; state: string } {
+  const states = [...lifePlaceStateIdentities()]
+    .map((s) => s.jurisdictionKey)
+    .sort();
+  const hash = createHash("sha256").update(`${seed}:benefits`).digest("hex");
+  const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
+  const places = [
+    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    }),
+  ].sort((a, b) => a.key.localeCompare(b.key));
+  const place = places[parseInt(hash.slice(8, 16), 16) % places.length]!;
+  return { key: place.key, state };
+}
 
 const data = macroCoreData();
 const start = "2021-01-01",
@@ -47,8 +75,9 @@ const jobs = workers.map((row) => ({
   source: src,
 }));
 
-function input(): CoreInput {
+function input(placeKey: string): CoreInput {
   return {
+    placeMetadata: { placeKey },
     seed: "closure-fixture",
     startedAt: start,
     people: [],
@@ -121,8 +150,13 @@ function input(): CoreInput {
 
 describe("a closed employer's counted workers", () => {
   it("end their jobs, file claims and join the job seekers the day it closes", () => {
-    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+    const drawn = drawPlace();
+    const core = createLifeCore(input(drawn.key), {
+        data,
+        modules: [JOBS_MODULE],
+      }),
       api = coreAPI(core);
+    openLaws(core);
     const book = {
       organizationId: employer,
       kindId: "manufacturing",
@@ -154,10 +188,16 @@ describe("a closed employer's counted workers", () => {
       );
     }
     const claims = api.moduleState("jobs").table("claims").rows();
-    expect(claims.map((row) => row.personId).sort()).toEqual([
-      "c1",
-      "c2",
-      "c3",
-    ]);
+    // The state's law decides who qualifies: none where it records no
+    // program, and every claim cites the law row it was fixed under.
+    const terms = unemploymentTerms(api);
+    if (!terms.hasProgram) expect(claims).toEqual([]);
+    else {
+      expect(claims.length).toBeGreaterThan(0);
+      for (const row of claims) {
+        expect(["c1", "c2", "c3"]).toContain(row.personId);
+        expect(row.lawId).toBe(terms.lawId);
+      }
+    }
   });
 });

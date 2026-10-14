@@ -5,13 +5,14 @@
  * to the state's maximum) until they're hired or their weeks run out. A
  * worker who quits for a better job or leaves work has no claim.
  *
- * The program's terms come from the law in force (OPUS-GOV's
- * `lawInForce(api, "unemployment-insurance")`), registered with
- * `registerUnemploymentTerms`; until that's on this branch, a national
- * estimate from DOL's state provisions stands in.
+ * Every claim reads the law in force directly (`lawInForce` on the
+ * `unemployment-insurance` and `unemployment-weekly-maximum` series), so a
+ * law enacted in play changes the next claim; a filed claim keeps the terms
+ * it was filed under and cites the law row.
  */
 import type { ModuleTable } from "./module-state";
-import { stopgap } from "./stopgaps";
+import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import type { LawRowInput } from "./laws-starting";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { decisionLean } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
@@ -26,6 +27,8 @@ export interface UnemploymentTerms {
   readonly waitingWeek: boolean;
   /** Earnings in the base period (the last year) a claim needs. */
   readonly minimumBasePeriodMinor: number;
+  /** The law row the terms were read from. */
+  readonly lawId?: string;
   readonly source: Source;
 }
 
@@ -42,50 +45,110 @@ export interface ClaimRow {
   weeksLeft: number;
   paidMinor: number;
   reasonKey: string;
+  /** The law row whose terms fixed this claim. */
+  lawId?: string;
+  source?: Source;
   endedAt?: string;
   endReason?: "hired" | "exhausted" | "no-payer";
 }
 
-type TermsSource = (
-  api: CoreAPI,
-  placeId: string,
-) => UnemploymentTerms | undefined;
-let termsSource: TermsSource | undefined;
+const DAYS_PER_WEEK = 7;
+const QUARTERS_PER_YEAR = 4;
 
-/** The law in force answers for the program's terms (OPUS-GOV registers it). */
-export function registerUnemploymentTerms(source: TermsSource): void {
-  termsSource = source;
+/**
+ * How many quarters of pay a state's recorded benefit fraction applies to,
+ * read from the row's own description of its basis (weekly wage already,
+ * the high quarter, the two highest quarters, or the base period's year).
+ */
+function basisQuarters(basis: string): number | undefined {
+  const text = basis.toLowerCase();
+  if (/aww|average weekly wage|hqw\/13/.test(text)) return 0;
+  if (/2 highest|2 consecutive|last 2|sum of 2/.test(text)) return 2;
+  if (/high.quarter/.test(text)) return 1;
+  if (/base.period|annual/.test(text)) return QUARTERS_PER_YEAR;
+  return undefined;
 }
 
-function standIn(api: CoreAPI): UnemploymentTerms {
-  stopgap("SG-WORLD-jobs-benefits-terms");
-  const p = (key: string) => api.parameter(key);
+function lawSource(row: LawRowInput, asOf: string): Source {
+  const where = Array.isArray(row.source)
+    ? row.source.join(" ; ")
+    : (row.source as string);
+  const citation = `${row.id}: ${where}`;
+  return row.estimate
+    ? { tag: "ESTIMATED", asOf, citation, estimatedFrom: citation }
+    : { tag: "SOURCED", asOf, citation };
+}
+
+const NO_PROGRAM = (asOf: string): UnemploymentTerms => ({
+  hasProgram: false,
+  weeklyShare: 0,
+  weeklyMaximumMinor: 0,
+  maxWeeks: 0,
+  waitingWeek: false,
+  minimumBasePeriodMinor: 0,
+  source: {
+    tag: "ESTIMATED",
+    asOf,
+    citation: "No unemployment insurance law is in force here.",
+    estimatedFrom: "The laws module's starting law records no program.",
+  },
+});
+
+/**
+ * The state's unemployment insurance as the law in force records it (the
+ * laws module's `unemployment-insurance` and `unemployment-weekly-maximum`
+ * series). A world without the laws module open, or a state whose row says
+ * it has no program, has no claims.
+ */
+export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
+  const asOf = api.state.date;
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID))
+    return NO_PROGRAM(asOf);
+  const row = lawInForce(api, "unemployment-insurance").governing;
+  const t = row?.terms as
+    | {
+        hasProgram?: boolean;
+        waitingWeek?: boolean;
+        maxWeeks?: number | null;
+        weeklyBenefitFraction?: number | null;
+        weeklyBenefitAppliesTo?: string;
+        baseEarnings?: {
+          minimumBasePeriodWages?: number | null;
+          minimumHighQuarterWages?: number | null;
+        };
+      }
+    | undefined;
+  const maximum = lawInForce(api, "unemployment-weekly-maximum").value;
+  if (!row || !t || t.hasProgram !== true) return NO_PROGRAM(asOf);
+  if (typeof t.maxWeeks !== "number" || maximum === null)
+    return NO_PROGRAM(asOf);
+  const minor = api.parameter("minorPerDollar");
+  const quarterWeeks =
+    api.parameter("jobsDaysPerYear") / DAYS_PER_WEEK / QUARTERS_PER_YEAR;
+  const quarters = basisQuarters(t.weeklyBenefitAppliesTo ?? "");
+  // A fraction of the basis wages is a share of weekly pay once the basis's
+  // weeks are counted; a row that gives none falls to the program's median.
+  const weeklyShare =
+    typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
+      ? t.weeklyBenefitFraction * (quarters === 0 ? 1 : quarters * quarterWeeks)
+      : api.parameter("jobsBenefitWeeklyShare");
+  const wages =
+    t.baseEarnings?.minimumBasePeriodWages ??
+    t.baseEarnings?.minimumHighQuarterWages;
   return {
     hasProgram: true,
-    weeklyShare: p("jobsBenefitWeeklyShare"),
-    weeklyMaximumMinor: p("jobsBenefitWeeklyMaximumMinor"),
-    maxWeeks: p("jobsBenefitMaxWeeks"),
-    waitingWeek: true,
-    minimumBasePeriodMinor: p("jobsBenefitMinimumBasePeriodMinor"),
-    source: {
-      tag: "ESTIMATED",
-      asOf: api.state.date,
-      citation:
-        "U.S. Department of Labor, Significant Provisions of State UI Laws, January and July 2026: medians across the states.",
-      estimatedFrom:
-        "Half the weekly wage (1/26 of high-quarter pay), the states' median weekly maximum and base-period minimum, 26 weeks, one waiting week.",
-    },
+    weeklyShare,
+    weeklyMaximumMinor: maximum * minor,
+    maxWeeks: t.maxWeeks,
+    waitingWeek: t.waitingWeek === true,
+    minimumBasePeriodMinor:
+      typeof wages === "number"
+        ? Math.round(wages * minor)
+        : api.parameter("jobsBenefitMinimumBasePeriodMinor"),
+    lawId: row.id,
+    source: lawSource(row, asOf),
   };
 }
-
-export function unemploymentTerms(
-  api: CoreAPI,
-  placeId: string,
-): UnemploymentTerms {
-  return termsSource?.(api, placeId) ?? standIn(api);
-}
-
-const DAYS_PER_WEEK = 7;
 
 function weeksAfter(date: string, weeks: number): string {
   const at = new Date(`${date}T00:00:00Z`);
@@ -121,7 +184,7 @@ export function fileClaim(
     : residentsRuntime(c)?.input.accounts.find((row) => row.placeId === placeId)
         ?.accountId;
   if (!payee) return undefined;
-  const terms = unemploymentTerms(api, placeId);
+  const terms = unemploymentTerms(api);
   if (!terms.hasProgram) return undefined;
   const weeklyPay = job.wageDailyMinor * DAYS_PER_WEEK;
   // Base-period earnings: the lost job's pay over the weeks of the last year it ran.
@@ -147,6 +210,8 @@ export function fileClaim(
     weeksLeft: terms.maxWeeks,
     paidMinor: 0,
     reasonKey,
+    lawId: terms.lawId,
+    source: terms.source,
   };
   table.put({ ...row });
   return row;
@@ -175,7 +240,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       fund.id,
       row.payeeAccountOwnerId,
       row.weeklyMinor,
-      unemploymentTerms(api, row.placeId).source,
+      row.source ?? unemploymentTerms(api).source,
     );
     const weeksLeft = row.weeksLeft - 1;
     table.put({
