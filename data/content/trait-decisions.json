@@ -1254,6 +1254,22 @@
           "actKinds": ["keep-same", "withdraw", "take-risk"]
         }
       ]
+    },
+    {
+      "id": "legislature.attend-sitting",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "sitting-miss",
+          "actKinds": ["withdraw", "play-safe"]
+        },
+        {
+          "id": "sitting-attend",
+          "actKinds": ["follow-rules", "commit", "engage"]
+        }
+      ]
     }
   ],
   "outside": [
