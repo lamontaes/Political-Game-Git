@@ -3903,7 +3903,7 @@
     "id": "SG-OFFICE-FED-federal-casework",
     "kind": "missing-mechanic",
     "file": "src/core2/office-day-federal.ts",
-    "line": 988,
+    "line": 996,
     "whatItFakes": "A member of Congress's district office takes cases through the cases engine, but the engine brings residents' problems only to the town's own council members and mayor, so a member of Congress receives none.",
     "why": "The cases engine (OPUS-GOV) lists only local officials as people a resident may bring a problem to.",
     "replacement": "OPUS-GOV routes a resident's problem to the town's members of Congress as well (a federal problem, such as a wage complaint under the federal floor, to the federal office), and the federal day reads those cases unchanged.",

@@ -713,11 +713,19 @@ export function askForInterview(
   personId: string,
   outletId?: string,
 ): InterviewRow {
-  // The town's own outlets first: a national desk rarely takes a member it
-  // has not heard of (the press engine decides either way).
-  const here = outletsHere(api);
+  // No one is interviewed by the outlet they work for or own. Among the
+  // rest, the town's own outlets first: a national desk rarely takes a
+  // member it has not heard of (the press engine decides either way).
+  const others = outletsHere(api).filter(
+    (o) =>
+      !o.reporterIds.includes(personId) &&
+      o.headId !== personId &&
+      o.ownerId !== personId,
+  );
+  if (outletId && !others.some((o) => o.id === outletId))
+    throw new Error(`${personId} works for or owns ${outletId}`);
   const outlet =
-    outletId ?? (here.find((o) => o.tier !== "national") ?? here[0])?.id;
+    outletId ?? (others.find((o) => o.tier !== "national") ?? others[0])?.id;
   if (!outlet) throw new Error("No outlet to ask");
   return requestInterview(api, { outletId: outlet, personId });
 }
