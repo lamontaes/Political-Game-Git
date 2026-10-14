@@ -1,4 +1,5 @@
 import { personOrFillIn } from "../core2/state";
+import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
 import {
   relatedGuideTerms,
@@ -11,11 +12,11 @@ import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
-import { openingShots } from "./opening";
+import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
-import { economyView, worldPanels } from "./economy";
+import { economyView } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { bodyScene, seatAct, seatView } from "./legislature";
 import { budgetView, setPriority } from "./budget";
@@ -28,6 +29,7 @@ import {
   type BenchFilingVisit,
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
+import { pollingScene } from "./polling";
 import {
   openConversation,
   say,
@@ -35,7 +37,6 @@ import {
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
 import { fileForOffice, governmentView } from "./government";
-import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -43,7 +44,7 @@ import { townPlaces, visitPlace } from "./places";
 import { lawChanges } from "./changes";
 import { choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
-import { playerApiReadiness } from "./api-readiness";
+import { handleDev } from "./dev-api";
 
 // This is a reference to engine-owned state, not a parallel state or writer.
 let core: CoreState | undefined;
@@ -60,7 +61,8 @@ let buildProgress: { stage: string; done: number; total: number } = {
   total: 0,
 };
 // The opening, prepared during loading.
-let opening: ReturnType<typeof openingShots> | undefined;
+
+let opening: ReturnType<typeof openingFrames> | null | undefined;
 // What the other person brought up when the conversation opened (OPUS-PEOPLE's
 // "bring it up"): their lines come first in the conversation.
 let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
@@ -85,11 +87,8 @@ const talkView = (value: Conversation | undefined) =>
     lie: value.lie,
   };
 const assets = new Map([
-  ["/", { file: "index.html", type: "text/html; charset=utf-8" }],
-  [
-    "/client.mjs",
-    { file: "client.mjs", type: "text/javascript; charset=utf-8" },
-  ],
+  // The old developer page is folded into Dev mode (owner, Oct 14, 2026).
+  ["/", { file: "dev.html", type: "text/html; charset=utf-8" }],
   ["/play", { file: "play.html", type: "text/html; charset=utf-8" }],
   ["/play.mjs", { file: "play.mjs", type: "text/javascript; charset=utf-8" }],
   ["/play.css", { file: "play.css", type: "text/css; charset=utf-8" }],
@@ -163,6 +162,20 @@ const server = createServer(async (request, response) => {
       response.end(content);
       return;
     }
+    // Dev mode's page and routes (dev-api.ts).
+    if (
+      await handleDev(
+        request,
+        url,
+        send,
+        (status, type, content) => {
+          response.writeHead(status, { "Content-Type": type });
+          response.end(content);
+        },
+        () => ({ core, director, player, placeId }),
+      )
+    )
+      return;
     const shared = publicFile.exec(url.pathname);
     if (request.method === "GET" && shared) {
       const content = await readFile(new URL(shared[1]!, PUBLIC));
@@ -207,7 +220,13 @@ const server = createServer(async (request, response) => {
         const entrant = { personId: world.playerId! };
         player.select(entrant.personId);
         // The opening is prepared during loading; its whole figures are files.
-        opening = openingShots(world.core, entrant.personId);
+        opening = world.director.ledger.opening
+          ? openingFrames(
+              world.core,
+              entrant.personId,
+              world.director.ledger.opening,
+            )
+          : null;
         buildProgress = { stage: "done", done: 0, total: 0 };
         send(200, {
           personId: entrant.personId,
@@ -256,12 +275,19 @@ const server = createServer(async (request, response) => {
       // Someone still in the counts is filled in the moment they're looked at.
       if (!personOrFillIn(current, id))
         throw new Error("Resident does not exist in core records.");
+      const playing = player?.personId === id;
+      // The opening day ends at home that evening, where the news is.
+      const openingDay =
+        playing &&
+        !player!.packet &&
+        director?.ledger.opening?.date === current.date;
       send(
         200,
         benchScene(
           current,
           id,
-          player?.personId === id ? player.packet : undefined,
+          playing ? player!.packet : undefined,
+          openingDay ? OPENING_EVENING_MINUTE : undefined,
         ),
       );
       return;
@@ -398,6 +424,29 @@ const server = createServer(async (request, response) => {
       send(200, buildProgress);
       return;
     }
+    // The player's interrupt setting (owner, Oct 14, 2026): which kinds of
+    // scene may stop the day. A director record its scheduling reads.
+    if (url.pathname === "/api/scene-filter") {
+      if (!director || !player?.personId)
+        throw new Error("Start a life first.");
+      if (request.method === "POST") {
+        const kinds = url.searchParams.get("kinds");
+        director.setSceneFilter(
+          player.personId,
+          kinds === null || kinds === "all"
+            ? null
+            : kinds.split(",").filter(Boolean),
+          requireCore().date,
+        );
+      }
+      const filter = director.ledger.sceneFilters.get(player.personId);
+      send(200, {
+        kinds: SITUATION_LIBRARY.types.map((row) => row.key),
+        allowed: filter?.allowedKinds ?? null,
+        ...(filter ? { recordId: filter.id } : {}),
+      });
+      return;
+    }
     if (request.method === "GET" && url.pathname === "/api/controls") {
       send(200, { ...controls, policyNames: policyNames() });
       return;
@@ -464,10 +513,6 @@ const server = createServer(async (request, response) => {
         200,
         economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
       );
-      return;
-    }
-    if (request.method === "GET" && url.pathname === "/api/world") {
-      send(200, worldPanels(requireCore(), placeId));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/story") {
@@ -564,7 +609,9 @@ const server = createServer(async (request, response) => {
         200,
         opening && player?.personId === id
           ? opening
-          : openingShots(requireCore(), id),
+          : director?.ledger.opening
+            ? openingFrames(requireCore(), id, director.ledger.opening)
+            : null,
       );
       return;
     }
@@ -603,10 +650,6 @@ const server = createServer(async (request, response) => {
       );
       return;
     }
-    if (request.method === "GET" && url.pathname === "/api/capabilities") {
-      send(200, playerApiReadiness());
-      return;
-    }
     if (request.method === "POST" && url.pathname === "/api/advance") {
       if (!player) throw new Error("Generate a town first.");
       const result = player.advance(
@@ -618,7 +661,45 @@ const server = createServer(async (request, response) => {
         ...result,
         names: namesFor(result.packet),
         progress: benchProgress(requireCore(), placeId, player?.personId),
+        pollingPlace: player.pollingPlace
+          ? pollingScene(requireCore(), player.pollingPlace)
+          : null,
       });
+      return;
+    }
+    // Election day at the polls: the ballot, marked race by race, or left.
+    if (request.method === "GET" && url.pathname === "/api/polling-place") {
+      send(
+        200,
+        player?.pollingPlace
+          ? pollingScene(requireCore(), player.pollingPlace)
+          : null,
+      );
+      return;
+    }
+    if (
+      request.method === "POST" &&
+      url.pathname === "/api/polling-place/mark"
+    ) {
+      if (!player) throw new Error("Generate a town first.");
+      const record = player.markBallot(
+        url.searchParams.get("contestId") ?? "",
+        url.searchParams.get("candidateId") || null,
+      );
+      send(200, {
+        record,
+        pollingPlace: player.pollingPlace
+          ? pollingScene(requireCore(), player.pollingPlace)
+          : null,
+      });
+      return;
+    }
+    if (
+      request.method === "POST" &&
+      url.pathname === "/api/polling-place/leave"
+    ) {
+      if (!player) throw new Error("Generate a town first.");
+      send(200, { record: player.leavePolls(), pollingPlace: null });
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/resume") {
@@ -650,11 +731,6 @@ const server = createServer(async (request, response) => {
         packet: player.packet,
         selfChosen: player.selfChosen.slice(-50),
       });
-      return;
-    }
-    if (request.method === "GET" && url.pathname === "/api/trace") {
-      if (!player) throw new Error("Generate a town first.");
-      send(200, player.trace(url.searchParams.get("id") ?? ""));
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/build") {
@@ -705,32 +781,6 @@ const server = createServer(async (request, response) => {
       } finally {
         building = false;
       }
-      return;
-    }
-    if (request.method === "GET" && url.pathname === "/api/resident") {
-      const current = requireCore();
-      const id = url.searchParams.get("id") ?? "";
-      const person = personOrFillIn(current, id);
-      if (!person) throw new Error("Resident does not exist in core records.");
-      send(200, {
-        playing: player?.personId === id,
-        date: current.date,
-        packet: player?.packet,
-        person,
-        household: current.households.get(person.householdId),
-        job: person.jobId ? current.jobs.get(person.jobId) : undefined,
-        offers: availableActs(current, id),
-        director: director?.ledger.people.get(id),
-        relationships: [...(current.relationshipsByPerson.get(id) ?? [])]
-          .map((recordId) => current.relationships.get(recordId))
-          .filter((record) => record !== undefined),
-        payments: [...(current.cashJournal.detailedByOwner.get(id) ?? [])]
-          .map((recordId) => current.cashJournal.detailedReceipts.get(recordId))
-          .filter((record) => record !== undefined),
-        records: [...(current.logByPerson.get(id) ?? [])]
-          .map((recordId) => current.durableLog.get(recordId))
-          .filter((record) => record !== undefined),
-      });
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/seed") {

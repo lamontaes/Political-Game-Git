@@ -1,6 +1,7 @@
 import { OPENING_KIN } from "./opening-kin";
 import { addOpeningFallingOuts } from "./opening-falling-outs";
 import { addOpeningFavors } from "./opening-favors";
+import { addFamilyHistories } from "./past-family";
 import {
   buildOpeningPeerContacts,
   DEFAULT_OPENING_PEER_DATA,
@@ -685,6 +686,9 @@ export function buildDeepPast(
       ? { organizationId: job.organizationId, title: job.title }
       : undefined;
   };
+  // The world has a past: each household's shared history and the moments
+  // its members remember (owner, Oct 14, 2026).
+  withPast = addFamilyHistories(withPast, OPENING_KIN.kinTier, data.version);
   for (const circle of circles)
     withPast = buildOpeningPeerContacts(withPast, {
       personIds: residentIds,
