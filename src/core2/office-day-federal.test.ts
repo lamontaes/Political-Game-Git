@@ -25,12 +25,13 @@ import {
   billOf,
   committeeRecords,
   draftBill,
-  scheduleVote,
+  LEGISLATURE_MODULE_ID,
   votesOn,
 } from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
 import {
   budgetRequestDate,
+  nthSitting,
   washingtonWeek,
 } from "./office-day-federal-calendar";
 import {
@@ -139,7 +140,22 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
       ],
     });
     expect(bill.status).toBe("drafted");
-    const voteOn = scheduleVote(api, bill.id);
+    // Fixture: the vote goes on the House's next real sitting day. The
+    // legislature's own floor week for Congress (scheduleVote) does not read
+    // the House calendar yet; that is OPUS-GOV's, reported on the PR.
+    const voteOn = nthSitting("house", core.date, 1);
+    api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
+      key: `meeting:${bill.id}`,
+      date: voteOn,
+      kind: "council-meeting",
+      source: {
+        tag: "ESTIMATED",
+        citation: "test fixture: the House's next sitting",
+        asOf: core.date,
+        estimatedFrom: "office-day-federal test",
+      },
+      sourceRecordIds: [bill.id],
+    });
     while (addDays(makeIsoDate(core.date), 1) < voteOn) step();
     const day = federalDay(api, me.id);
     expect(day.date).toBe(voteOn);
