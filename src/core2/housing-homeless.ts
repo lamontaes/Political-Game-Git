@@ -343,6 +343,14 @@ export function reviewHomeless(
       );
       continue;
     }
+    // A household that moved on is without a home where it went, not here.
+    if (household.placeId !== row.placeId) {
+      table(api, "statuses").put({
+        ...row,
+        placeId: household.placeId,
+      } as unknown as ModuleRow);
+      continue;
+    }
     let daily = 0;
     for (const id of living) {
       const job = c.jobs.get(c.people.get(id)?.jobId ?? "");
