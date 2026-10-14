@@ -11,7 +11,8 @@ import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { placeLocalities } from "./places";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
+import type { CoreEventInput } from "./types";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { stancesOf } from "./modules/views";
@@ -120,6 +121,16 @@ describe("estate and inheritance taxes", () => {
     expect(decedent, `${where}: no one with living kin`).toBeDefined();
     // An estate of $20 million, so every estate tax in force applies (an
     // edge case a played town rarely holds).
+    // The settlement and the heirs' notices, as they happen (the durable log
+    // keeps only what the player could see).
+    const heard: CoreEventInput[] = [];
+    registerModule(core, {
+      id: "test:estate-reader",
+      eventKinds: ["estate.settled", "law.effect-learned"],
+      onEvent: (_api, event) => {
+        heard.push(event);
+      },
+    });
     api.updatePerson(decedent!.id, { liquidMinor: 20_000_000_00 });
     api.updatePerson(decedent!.id, { alive: false });
     settleEstate(api, decedent!.id, "event:death");
@@ -128,7 +139,7 @@ describe("estate and inheritance taxes", () => {
       core,
       addDays(makeIsoDate(core.date), api.parameter("probateDays") + 1),
     );
-    const log = [...core.durableLog.values()];
+    const log = heard;
     const settled = log.find(
       (e) =>
         e.kind === "estate.settled" && e.facts?.decedentId === decedent!.id,
