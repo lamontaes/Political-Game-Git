@@ -71,6 +71,16 @@ console.log(
   `${vacated.length} seats vacated by a death in the log; first: ${vacated.slice(0, 2).join(", ")}`,
 );
 const printed = core.modules.has("news")
-  ? (api.moduleState("news").table("stories").rows() as { id: string; kind: string }[]).filter((row) => row.id.includes("life.death"))
+  ? (
+      api.moduleState("news").table("stories").rows() as {
+        id: string;
+        kind: string;
+      }[]
+    ).filter((row) => row.id.includes("life.death"))
   : [];
-console.log(`${printed.length} printed stories name a death; first: ${printed.slice(0, 2).map((row) => `${row.id} (${row.kind})`).join(", ")}`);
+console.log(
+  `${printed.length} printed stories name a death; first: ${printed
+    .slice(0, 2)
+    .map((row) => `${row.id} (${row.kind})`)
+    .join(", ")}`,
+);
