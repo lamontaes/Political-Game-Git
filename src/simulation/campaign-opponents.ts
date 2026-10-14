@@ -6,7 +6,7 @@ import {
 } from "./campaigns";
 import { suggestedAdvertising } from "./campaign-weekly-plans";
 import { contestDistrictGeography } from "./campaign-geography";
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { eventById } from "./event-index";
 import { jailTermOn } from "./justice/jail-terms";
 import {

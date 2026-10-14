@@ -33,7 +33,7 @@ import {
   inventedPersonAge,
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "../invented-person-age";
+} from "../../core2/gov-rules/invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
