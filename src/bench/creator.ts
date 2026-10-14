@@ -5,7 +5,10 @@ import {
   getNameCorpus,
   givenNamePoolForStatedGender,
 } from "../simulation/names-data";
-import { searchCorePlaces, corePlaceStateIdentities } from "../core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../core2/place-lookup";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import type { EngineRecipe } from "../presentation/appearance-engine/pack";
 
