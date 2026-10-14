@@ -95,10 +95,16 @@ export const OFFICIALS_MODULE: CoreModule = {
       loaded: {},
       /** Who runs for a state or federal seat, and the reasons they weighed. */
       candidates: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** An official who ran for another seat and lost: they keep the seat they hold. */
+      losses: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
-  eventKinds: ["took-office"],
+  eventKinds: ["took-office", "election-result"],
   onEvent: (api, event) => {
+    if (event.kind === "election-result") {
+      recordLosses(api, event);
+      return;
+    }
     const seatId = event.facts?.["seatId"];
     const winner = event.personIds[0];
     if (typeof seatId === "string" && winner) tookOffice(api, winner, seatId);
@@ -107,6 +113,73 @@ export const OFFICIALS_MODULE: CoreModule = {
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(OFFICIALS_MODULE_ID).table(name);
+
+/** An official who ran for a seat and lost the count. */
+export interface RaceLossRow {
+  /** `<contest id>|<person id>`. */
+  readonly id: string;
+  readonly personId: string;
+  readonly contestId: string;
+  /** The seat they ran for. */
+  readonly seatId: string;
+  /** The seat they hold and keep. */
+  readonly keptSeatId: string;
+  readonly winnerId: string;
+  readonly date: string;
+}
+
+/**
+ * The count is in: each official who stood for another seat and did not win
+ * it keeps the seat they hold, and the loss is kept as a record the press and
+ * the director read (`raceLossesOf`). A seat is vacated only when its holder
+ * takes the higher office (`tookOffice`), never for running.
+ */
+function recordLosses(
+  api: CoreAPI,
+  event: {
+    readonly personIds: readonly string[];
+    readonly facts?: Readonly<Record<string, string | number | boolean>>;
+  },
+): void {
+  const contestId = event.facts?.["contestId"];
+  const winnerId = event.facts?.["winnerId"];
+  if (typeof contestId !== "string" || typeof winnerId !== "string") return;
+  // The elections engine's contest table, read by name (its module imports this one).
+  const contest = api
+    .moduleState("core2-elections-v1")
+    .table("contests")
+    .get(contestId) as unknown as { seatId: string } | undefined;
+  if (!contest) return;
+  for (const personId of event.personIds) {
+    const held = officialOf(api, personId);
+    if (!held || personId === winnerId || held.seatId === contest.seatId)
+      continue;
+    table(api, "losses").put({
+      id: `${contestId}|${personId}`,
+      personId,
+      contestId,
+      seatId: contest.seatId,
+      keptSeatId: held.seatId,
+      winnerId,
+      date: api.state.date,
+    } as unknown as ModuleRow);
+  }
+}
+
+/** The races an official stood in and lost, soonest first. */
+export function raceLossesOf(
+  api: CoreAPI,
+  personId: string,
+): readonly RaceLossRow[] {
+  if (!api.state.modules.has(OFFICIALS_MODULE_ID)) return [];
+  return (
+    table(api, "losses").query("byPerson", [
+      personId,
+    ]) as unknown as RaceLossRow[]
+  )
+    .slice()
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
 
 const weight = (key: keyof typeof OFFICIALS_DATA.weights) =>
   OFFICIALS_DATA.weights[key].value;
@@ -1351,7 +1424,9 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
         .table("terms")
         .query("bySeatStatus", [held.seatId, "serving"]) as unknown as TermRow[]
     ).some((t) => t.personId === personId);
-    if (below) vacateSeat(api, held.seatId, "took higher office");
+    // Only the day the higher office is theirs: the winner's term has begun.
+    if (below && term.startDate <= api.state.date)
+      vacateSeat(api, held.seatId, "took higher office");
   }
   const party = term.party ?? held?.party ?? ran?.party ?? null;
   const lean = seatLean(

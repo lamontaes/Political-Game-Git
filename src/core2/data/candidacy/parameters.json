@@ -115,5 +115,131 @@
     "tag": "TUNABLE",
     "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAmbitionWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on the person's ambition (their enterprising and risk-taking traits, the officials engine's formula): progressive ambition spurs officeholders and others to seek the next seat (Schlesinger 1966, Ambition and Politics; Fox and Lawless 2005, American Journal of Political Science 49(3):642-659). Applies to anyone drawn from the standing pool of a race. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyChanceWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on the chance the record gives: how far the person's own lean sits from the race's electorate (-1 to 1 scale). Strategic politicians run where they can win (Black 1972, American Political Science Review 66(1):144-159; Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections). Spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyBackingWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on party backing: the share of the state's vote the person's own party draws, in a partisan race. A party's organization and donors back its candidates where it is strong (Herrnson 2012, Congressional Elections: Campaigning at Home and in Washington, ch. 4). Spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyMeansWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on means: the person's own cash against the days of living cost a statewide campaign asks them to carry. Personal wealth makes running possible (Carnes 2018, The Cash Ceiling; Lawless and Fox 2010, ch. 3). Spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyMeansRunwayDays": {
+    "value": 365,
+    "tag": "ESTIMATED",
+    "citation": "The days of living cost a would-be candidate for a wide race wants set aside before running; at that much cash the means term is in full. Campaigns for statewide and federal office run a year or more before the election (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96).",
+    "estimatedFrom": "Candidate Emergence Study; spread 180 to 730 days"
+  },
+  "candidacyReachExponent": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How quickly standing from an office carries into a wider race: the share of the race's voters the person's seat already covers, raised to this power (a seat covering a tenth of the electorate gives a third of full standing at 0.5). Officeholders carry name recognition into higher races in proportion to the constituency they already serve (Squire 1992, Challenger Quality and Voting Behavior in U.S. Senate Elections, Legislative Studies Quarterly 17(2):247-263). Spread 0.3 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyMunicipalReach": {
+    "value": 0.0026,
+    "tag": "ESTIMATED",
+    "citation": "The share of a state's voters a city or town seat covers: about 19,500 incorporated places across 50 states (Census Bureau, Census of Governments 2022), so about 390 per state and one 390th of the voters on average.",
+    "estimatedFrom": "Census of Governments 2022 counts of municipal governments; spread 0.0005 to 0.01"
+  },
+  "candidacyCountyReach": {
+    "value": 0.016,
+    "tag": "ESTIMATED",
+    "citation": "The share of a state's voters a county seat covers: 3,031 counties and county equivalents across 50 states (Census Bureau, Census of Governments 2022), about 61 per state, one 61st of the voters on average.",
+    "estimatedFrom": "Census of Governments 2022 counts of county governments; spread 0.005 to 0.05"
+  },
+  "candidacyChairStanding": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Standing in a state race of a party's local chair or other officer, 0 to 1: the people who recruit candidates and run the party's organization are known to its members and donors (Lawless and Fox 2010, ch. 5; Sanbonmatsu 2006, Where Women Run, ch. 4). Spread 0.4 to 0.8.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyFormerStanding": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Standing of someone who ran before and lost, 0 to 1: a past campaign leaves a name, a donor list and a volunteer base for the next one (Maisel and Stone 1997; Jacobson 1989, Strategic Politicians and the Dynamics of U.S. House Elections, APSR 83(3)). Spread 0.3 to 0.7.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyProminentStanding": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "Standing of a business owner, a press outlet's owner or head, or a group's lobbyist, 0 to 1: prominent citizens are recruited to run because people know them and they have means (Lawless and Fox 2010, ch. 5; Carnes 2018). Spread 0.2 to 0.6.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyStatewideWeight": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "The pull a statewide or congressional race loses against a town seat: more ground, more voters and a far costlier campaign, above the countywide loss (see candidacyCountywideWeight). Checked against the share of statewide and U.S. House general elections with more than one major-party candidate: in 2022 and 2024 about 90 percent of U.S. House and nearly all governor and U.S. Senate races had a candidate from each major party (Ballotpedia, 'Uncontested elections'; Federal Election Commission candidate summaries). Spread 0.4 to 1.2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAskedWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "The pull of being asked by one's party's officers to run: recruitment by party leaders is among the strongest spurs to run (Lawless and Fox 2010, ch. 5; Sanbonmatsu 2006, Where Women Run, ch. 4). Applies only to someone the party asked. Spread 1 to 3.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyRecruitAsks": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "How many people a party's officers ask in turn, strongest standing first, to fill a seat its side has no candidate for, before they give up. Party recruiters work down a short list (Sanbonmatsu 2006, ch. 4; Kazee 1994, Who Runs for Congress?, ch. 5). Spread 3 to 10.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyScreenMargin": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How far below the stay-out pull a person's summed reasons can sit and still be weighed by the full chooser in a wide race; the chooser's own score sits within 0.12 of the reason sum, so people further below never choose to run and are counted as weighed without being asked one by one. Spread 0.25 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAppointPartyWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "The pull of an appointee standing under the party the seat is held under: appointing authorities fill vacancies mostly from their own party's side (Squire 1992 on gubernatorial Senate appointments; Ballotpedia, 'Vacancies in state legislatures': in most states the vacating member's party names the replacement or the governor's party does). Spread 1 to 3.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAppointLoyaltyWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The pull of a recorded closeness (0 to 1) between the appointer and the person appointed: appointments reward people the appointer knows and trusts (Mayhew 1974 and the patronage literature; Arnold 1979). Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAppointStandingWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The pull of the appointee's standing in the seat's jurisdiction (0 to 1, the pool's standing): appointers prefer people the voters will accept at the next election. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAppointSuitWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "The pull of how well the person suits the work, the sum of their sociability, duty and reliability traits (each about -1 to 1, as the offices engine has always ranked residents for a local seat). Spread 0.1 to 0.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAppointMinimumAge": {
+    "value": 25,
+    "tag": "TUNABLE",
+    "citation": "The youngest a resident can be and be named to a local seat by appointment; the offices engine has always ranked residents of 25 and older for a vacancy. Local offices commonly set a minimum age of 18 to 25 (state municipal codes). Spread 18 to 30.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAppointMaximumAge": {
+    "value": 80,
+    "tag": "TUNABLE",
+    "citation": "The oldest a resident can be and still be named to a local seat by appointment; the offices engine has always passed over residents of 81 and older (the age at which few take up a new public duty: Census Bureau labor-force participation of those 80 and older). Spread 75 to 85.",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }

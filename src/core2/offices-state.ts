@@ -18,6 +18,7 @@ import partyCounts from "../../data/research/offices/legislature-party-counts-20
 import filingResearch from "../../data/research/elections/filing-requirements.json" with { type: "json" };
 import statewideParties from "../../data/research/offices/statewide-executive-parties-2026.json" with { type: "json" };
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
+import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { placeDistrictJoin } from "../districts/place-membership";
 import { largestPopulationShareDistrict } from "../districts/place-population-share";
@@ -472,6 +473,16 @@ function statewidePartyOf(stateKey: string, key: string): string | null {
   return row.party;
 }
 
+/** Whether the state elects its legislature without party labels (Nebraska's unicameral). */
+function legislatureNonpartisan(stateKey: string): boolean {
+  const by = (
+    nominationRules as unknown as {
+      places: Record<string, { methodByOffice?: Record<string, string> }>;
+    }
+  ).places[stateKey]?.methodByOffice;
+  return /^nonpartisan/.test(by?.["state-legislature"] ?? "");
+}
+
 /** The governor, every statewide elected office, and both legislative chambers. */
 export function stateOffices(
   stateKey: string,
@@ -505,6 +516,11 @@ export function stateOffices(
             }
           : {}),
         elected: true,
+        // A nonpartisan statewide office has no party primary or labels.
+        ...(STATEWIDE.places[stateKey]?.[executive.key]?.partisanElection ===
+        false
+          ? { partisan: false }
+          : {}),
         districted: false,
         coversTown: true,
         source: [executive.citation, executive.source]
@@ -594,6 +610,28 @@ export function stateOffices(
     }
     for (const [name, members] of Object.entries(rows))
       if (!matched.has(name) && /large/i.test(name)) add(name, members, true);
+    // A chamber with a researched size but neither district geography nor a
+    // roster (the territories' legislatures) seats its researched number of
+    // members, each elected by the whole territory the town lies in.
+    if (seats.length === 0 && chamberRead?.seats) {
+      // stopgapId: SG-GOV-territory-legislature-seats
+      stopgap("SG-GOV-territory-legislature-seats");
+      for (let member = 0; member < chamberRead.seats; member += 1)
+        seats.push({
+          id: `seat:${stateKey}:${key}:at-large:${member}`,
+          officeId: id,
+          district: "at-large",
+          index: seats.length,
+          coversTown: true,
+          electionYear: seatElectionYear(
+            stateKey,
+            chamberRead,
+            String(member + 1),
+            Number(date.slice(0, 4)),
+          ),
+          party: null,
+        });
+    }
     offices.push({
       office: {
         id,
@@ -610,6 +648,7 @@ export function stateOffices(
         seats: seats.length,
         termYears: chamberRead?.termYears ?? null,
         elected: true,
+        ...(legislatureNonpartisan(stateKey) ? { partisan: false } : {}),
         districted: true,
         coversTown: seats.some((s) => s.coversTown),
         source: [

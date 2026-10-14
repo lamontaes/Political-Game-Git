@@ -1,11 +1,921 @@
 {
-  "about": "The month and day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). Read by src/core2/elections-calendar.ts termStartAfter. Rows are keyed by state and office family; the default stands in where a state's rule is not yet read (SG-GOV-term-end-estimate).",
+  "about": "The day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). A rule is data, never a fixed date: fixed (month, day); nth-weekday (month, weekday 0=Sunday, nth); weekday-after (the first weekday strictly after the anchor nth anchorWeekday of the month); weekday-after-day (the first weekday strictly after the month and day). Rows are keyed by state and then an office key (an office's own row wins) or office family. Read by src/core2/elections-calendar.ts termStartAfter. A state with no row for a family takes the default (SG-GOV-term-end-estimate). Legislator rows are listed only where the start differs from the executive's or is known; county and municipal terms come from their own calendars.",
   "stopgap": "SG-GOV-term-end-estimate",
   "default": {
+    "rule": {
+      "kind": "fixed",
+      "month": 1,
+      "day": 1
+    },
     "monthDay": "01-01",
     "tag": "ESTIMATED",
-    "estimatedFrom": "Most state and local terms begin in early January after the November election (state constitutions and charters); the exact day varies by state and is not yet read.",
+    "estimatedFrom": "Most state and local terms begin in early January after the November election (state constitutions and charters); a state with no row here is not yet read.",
     "spread": ["01-01", "01-20"]
   },
-  "states": {}
+  "states": {
+    "US-AL": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 3
+        },
+        "tag": "SOURCED",
+        "citation": "Ala. Const. art. V, sec. 117 (third Monday in January)"
+      }
+    },
+    "US-AK": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Alaska Const. art. III, sec. 4 (first Monday in December)"
+      }
+    },
+    "US-AZ": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Ariz. Const. art. V, sec. 1 (first Monday in January)"
+      }
+    },
+    "US-AR": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 1,
+          "anchorNth": 2,
+          "weekday": 2
+        },
+        "tag": "ESTIMATED",
+        "citation": "Ark. Const. art. VI (Tuesday after the second Monday in January; inaugurations 2019, 2023)",
+        "spread": ["01-01", "01-20"],
+        "estimatedFrom": "Ark. Const. art. VI (Tuesday after the second Monday in January; inaugurations 2019, 2023)"
+      }
+    },
+    "US-CA": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after-day",
+          "month": 1,
+          "day": 1,
+          "weekday": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Cal. Const. art. V, sec. 2 (first Monday after January 1)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Cal. Const. art. IV, sec. 3(a) (Legislature convenes the first Monday in December after the election)"
+      }
+    },
+    "US-CO": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Colo. Const. art. IV, sec. 1 (second Tuesday in January)"
+      }
+    },
+    "US-CT": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 3
+        },
+        "tag": "SOURCED",
+        "citation": "Conn. Const. art. IV, sec. 1 (Wednesday after the first Monday in January)"
+      }
+    },
+    "US-DE": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 3
+        },
+        "tag": "SOURCED",
+        "citation": "Del. Const. art. III, sec. 3 (third Tuesday in January)"
+      }
+    },
+    "US-FL": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Fla. Const. art. IV, sec. 5(a) (first Tuesday after the first Monday in January)"
+      }
+    },
+    "US-GA": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Ga. Const. art. V, sec. 1, para. V (installed at the General Assembly's convening, the second Monday in January)"
+      }
+    },
+    "US-HI": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Haw. Const. art. V, sec. 1 (first Monday in December)"
+      }
+    },
+    "US-ID": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "Idaho Const. art. IV, sec. 5 and Idaho Code title 59 (first Monday in January; inauguration practice varies by a week)",
+        "spread": ["01-01", "01-09"],
+        "estimatedFrom": "Idaho Const. art. IV, sec. 5 and Idaho Code title 59 (first Monday in January; inauguration practice varies by a week)"
+      }
+    },
+    "US-IL": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Ill. Const. art. V, sec. 2 (second Monday in January next after the election)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 2
+        },
+        "tag": "ESTIMATED",
+        "citation": "Ill. Const. art. IV, sec. 5 (General Assembly convenes the second Wednesday in January)",
+        "spread": ["01-01", "01-14"],
+        "estimatedFrom": "Ill. Const. art. IV, sec. 5 (General Assembly convenes the second Wednesday in January)"
+      }
+    },
+    "US-IN": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Ind. Const. art. V, sec. 1 and Ind. Code 5-8-1 (second Monday in January)"
+      }
+    },
+    "US-IA": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Iowa Const. art. IV, sec. 2 (second Monday in January)"
+      }
+    },
+    "US-KS": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Kan. Const. art. 1, sec. 1 (second Monday in January)"
+      }
+    },
+    "US-KY": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 12,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "tag": "ESTIMATED",
+        "citation": "Ky. Const. sec. 71 and KRS 118 (December inauguration; observed Tuesday after the first or second Monday)",
+        "spread": ["12-01", "12-14"],
+        "estimatedFrom": "Ky. Const. sec. 71 and KRS 118 (December inauguration; observed Tuesday after the first or second Monday)"
+      }
+    },
+    "US-LA": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "La. Const. art. IV, sec. 5 (second Monday in January)"
+      }
+    },
+    "US-ME": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Me. Const. art. V, pt. 1, sec. 2 (first Wednesday in January)"
+      }
+    },
+    "US-MD": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 3
+        },
+        "tag": "SOURCED",
+        "citation": "Md. Const. art. II, sec. 1B (third Wednesday in January)"
+      }
+    },
+    "US-MA": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Mass. Const. pt. 2, ch. 2, sec. 1, art. 1 as amended by amend. art. 82 (first Wednesday in January)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Mass. Const. pt. 2, ch. 1, sec. 2, art. 1 (first Wednesday in January)"
+      }
+    },
+    "US-MI": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Mich. Const. art. V, sec. 21 (term begins at noon on January 1)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Mich. Const. art. IV, sec. 3 (terms begin January 1)"
+      }
+    },
+    "US-MN": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Minn. Const. art. V, sec. 2 and Minn. Stat. 4.01 (first Monday in January)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "Minn. Const. art. IV (legislature convenes the first Tuesday after the first Monday in January)",
+        "spread": ["01-01", "01-10"],
+        "estimatedFrom": "Minn. Const. art. IV (legislature convenes the first Tuesday after the first Monday in January)"
+      }
+    },
+    "US-MS": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 1,
+          "anchorNth": 1,
+          "weekday": 2
+        },
+        "tag": "ESTIMATED",
+        "citation": "Miss. Const. art. 5, sec. 116 (January after the election; Tuesday after the first Monday)",
+        "spread": ["01-01", "01-14"],
+        "estimatedFrom": "Miss. Const. art. 5, sec. 116 (January after the election; Tuesday after the first Monday)"
+      }
+    },
+    "US-MO": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Mo. Const. art. IV, sec. 12 (second Monday in January)"
+      }
+    },
+    "US-MT": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Mont. Const. art. VI, sec. 2 and MCA 2-16 (first Monday in January)"
+      }
+    },
+    "US-NE": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 2,
+          "anchorNth": 1,
+          "weekday": 4
+        },
+        "tag": "SOURCED",
+        "citation": "Neb. Const. art. IV, sec. 1 (first Thursday after the first Tuesday after the first Monday in January)"
+      }
+    },
+    "US-NV": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Nev. Const. art. 5, sec. 1 (first Monday in January)"
+      }
+    },
+    "US-NH": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 4,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "N.H. Const. pt. 2, art. 46 (first Thursday in January; actual inauguration has moved a week)",
+        "spread": ["01-01", "01-14"],
+        "estimatedFrom": "N.H. Const. pt. 2, art. 46 (first Thursday in January; actual inauguration has moved a week)"
+      }
+    },
+    "US-NJ": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 3
+        },
+        "tag": "SOURCED",
+        "citation": "N.J. Const. art. V, sec. 1, para. 1 (third Tuesday in January)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "N.J. Const. art. IV, sec. 2, para. 2 (Legislature meets the second Tuesday in January)"
+      }
+    },
+    "US-NM": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "N.M. Const. art. V, sec. 1 (term begins January 1)"
+      }
+    },
+    "US-NY": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "N.Y. Const. art. IV, sec. 1 (term begins January 1)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "N.Y. Const. art. III, sec. 2 and Public Officers Law 5 (terms begin January 1)"
+      }
+    },
+    "US-NC": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "N.C. Const. art. III, sec. 2 (first day of January next after the election)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "N.C. Const. art. II, sec. 2 and G.S. 120-1 (term begins January 1)"
+      }
+    },
+    "US-ND": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 15
+        },
+        "tag": "SOURCED",
+        "citation": "N.D. Const. art. V, sec. 1 (December 15)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "N.D. Const. art. IV, sec. 4 (terms begin December 1)"
+      }
+    },
+    "US-OH": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Ohio Const. art. III, sec. 1 (second Monday in January)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Ohio Const. art. II, sec. 2 (terms begin January 1)"
+      }
+    },
+    "US-OK": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Okla. Const. art. VI, sec. 3 (second Monday in January)"
+      }
+    },
+    "US-OR": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "Or. Const. art. V, sec. 1 and ORS 240 (first Monday in January; the 2023 inauguration fell on the second)",
+        "spread": ["01-01", "01-09"],
+        "estimatedFrom": "Or. Const. art. V, sec. 1 and ORS 240 (first Monday in January; the 2023 inauguration fell on the second)"
+      }
+    },
+    "US-PA": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 3
+        },
+        "tag": "SOURCED",
+        "citation": "Pa. Const. art. IV, sec. 3 (third Tuesday in January)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Pa. Const. art. II, sec. 2 (terms begin the first day of December next after the election)"
+      }
+    },
+    "US-RI": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "R.I. Const. art. IX, sec. 1 (first Tuesday in January)"
+      }
+    },
+    "US-SC": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 2
+        },
+        "tag": "ESTIMATED",
+        "citation": "S.C. Const. art. IV, sec. 2 (second Wednesday in January after the election, as inaugurated 2019 and 2023)",
+        "spread": ["01-01", "01-14"],
+        "estimatedFrom": "S.C. Const. art. IV, sec. 2 (second Wednesday in January after the election, as inaugurated 2019 and 2023)"
+      }
+    },
+    "US-SD": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 6,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "S.D. Const. art. IV, sec. 2 and SDCL 3-1 (first Saturday in January, as inaugurated 2019)",
+        "spread": ["01-01", "01-08"],
+        "estimatedFrom": "S.D. Const. art. IV, sec. 2 and SDCL 3-1 (first Saturday in January, as inaugurated 2019)"
+      }
+    },
+    "US-TN": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 6,
+          "nth": 3
+        },
+        "tag": "ESTIMATED",
+        "citation": "Tenn. Const. art. III, sec. 2 (January after the election; third Saturday as inaugurated 2019 and 2023)",
+        "spread": ["01-01", "01-21"],
+        "estimatedFrom": "Tenn. Const. art. III, sec. 2 (January after the election; third Saturday as inaugurated 2019 and 2023)"
+      }
+    },
+    "US-TX": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 2,
+          "anchorNth": 2,
+          "weekday": 2
+        },
+        "tag": "SOURCED",
+        "citation": "Tex. Const. art. IV, sec. 4 (first Tuesday after the legislature organizes on the second Tuesday in January)"
+      }
+    },
+    "US-UT": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Utah Const. art. VII, sec. 3 (first Monday in January)"
+      }
+    },
+    "US-VT": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 3,
+          "anchorNth": 1,
+          "weekday": 4
+        },
+        "tag": "SOURCED",
+        "citation": "Vt. Const. ch. II, sec. 49 and 17 V.S.A. (first Thursday after the first Wednesday in January)"
+      }
+    },
+    "US-VA": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 3,
+          "anchorNth": 2,
+          "weekday": 6
+        },
+        "tag": "SOURCED",
+        "citation": "Va. Const. art. V, sec. 1 (Saturday after the second Wednesday in January)"
+      }
+    },
+    "US-WA": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "anchorWeekday": 1,
+          "anchorNth": 2,
+          "weekday": 3
+        },
+        "tag": "ESTIMATED",
+        "citation": "Wash. Const. art. III and RCW 43.01 (Wednesday after the second Monday in January, as inaugurated 2017 and 2025)",
+        "spread": ["01-01", "01-16"],
+        "estimatedFrom": "Wash. Const. art. III and RCW 43.01 (Wednesday after the second Monday in January, as inaugurated 2017 and 2025)"
+      }
+    },
+    "US-WV": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "ESTIMATED",
+        "citation": "W. Va. Const. art. VII, sec. 1 (second Monday in January since the 2004 change; before, the fourth Monday)",
+        "spread": ["01-08", "01-27"],
+        "estimatedFrom": "W. Va. Const. art. VII, sec. 1 (second Monday in January since the 2004 change; before, the fourth Monday)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "W. Va. Const. art. VI, sec. 2 (terms begin the first day of December after the election)"
+      }
+    },
+    "US-WI": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "Wis. Const. art. V (four-year term; first Monday in January as inaugurated 2019 and 2023)",
+        "spread": ["01-01", "01-09"],
+        "estimatedFrom": "Wis. Const. art. V (four-year term; first Monday in January as inaugurated 2019 and 2023)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "Wis. Stat. ch. 13 (Legislature convenes the first Monday in January)",
+        "spread": ["01-01", "01-09"],
+        "estimatedFrom": "Wis. Stat. ch. 13 (Legislature convenes the first Monday in January)"
+      },
+      "superintendent": {
+        "rule": {
+          "kind": "fixed",
+          "month": 7,
+          "day": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Wis. Const. art. X, sec. 1 (state superintendent holds office four years from the succeeding first day of July)"
+      },
+      "countyOffice": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "Wis. Stat. ch. 59 (county officers elected in November take office on the first Monday of January)",
+        "estimatedFrom": "Wis. Stat. chapter 59 (county officers' terms begin the first Monday of January)",
+        "spread": ["01-01", "01-09"]
+      }
+    },
+    "US-WY": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "Wyo. Const. art. 4, sec. 2 (first Monday in January)"
+      }
+    },
+    "US-DC": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 2
+        },
+        "tag": "SOURCED",
+        "citation": "D.C. Code 1-204.01 (the Mayor's term begins January 2)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 2
+        },
+        "tag": "ESTIMATED",
+        "citation": "D.C. Code 1-204.01 (Council terms begin January 2, with the Mayor's)",
+        "spread": ["01-01", "01-14"],
+        "estimatedFrom": "D.C. Code 1-204.01 (Council terms begin January 2, with the Mayor's)"
+      }
+    },
+    "US-PR": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 2
+        },
+        "tag": "SOURCED",
+        "citation": "P.R. Const. art. IV, sec. 2 (January 2 after the election)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 2
+        },
+        "tag": "SOURCED",
+        "citation": "P.R. Const. art. III, sec. 4 and art. IV (Legislative Assembly terms begin January 2)"
+      }
+    },
+    "US-GU": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "48 U.S.C. 1422 and 3 G.C.A. (first Monday in January)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "ESTIMATED",
+        "citation": "48 U.S.C. 1423 and 3 G.C.A. (Guam legislators take office the first Monday in January)",
+        "spread": ["01-01", "01-14"],
+        "estimatedFrom": "48 U.S.C. 1423 and 3 G.C.A. (Guam legislators take office the first Monday in January)"
+      }
+    },
+    "US-VI": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "tag": "SOURCED",
+        "citation": "48 U.S.C. 1591 and 3 V.I.C. (first Monday in January)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "ESTIMATED",
+        "citation": "V.I. Code tit. 2, sec. 1 (Legislature convenes the second Monday in January)",
+        "spread": ["01-01", "01-14"],
+        "estimatedFrom": "V.I. Code tit. 2, sec. 1 (Legislature convenes the second Monday in January)"
+      }
+    },
+    "US-AS": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 3
+        },
+        "tag": "ESTIMATED",
+        "citation": "Rev. Const. of American Samoa art. IV, sec. 3 (January 3, as inaugurated 2017)",
+        "spread": ["01-01", "01-05"],
+        "estimatedFrom": "Rev. Const. of American Samoa art. IV, sec. 3 (January 3, as inaugurated 2017)"
+      }
+    },
+    "US-MP": {
+      "statewideExecutive": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "N.M.I. Const. art. III (second Monday in January)"
+      },
+      "stateLegislative": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "tag": "SOURCED",
+        "citation": "N.M.I. Const. art. II (the Commonwealth Legislature convenes the second Monday in January)"
+      }
+    }
+  }
 }

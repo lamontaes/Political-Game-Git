@@ -379,6 +379,10 @@ function noteEstimates(api: CoreAPI, dates: ElectionDates): void {
     // stopgapId: SG-GOV-filing-deadline-estimate
     api.stopgap("SG-GOV-filing-deadline-estimate");
   }
+  if (dates.nonpartisanPrimary) {
+    // stopgapId: SG-GOV-nonpartisan-primary-not-run
+    api.stopgap("SG-GOV-nonpartisan-primary-not-run");
+  }
 }
 
 /**

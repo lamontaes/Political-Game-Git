@@ -1,0 +1,12 @@
+{
+  "about": "What happens to a seat when its regular election produces no winner (no one filed, or no one drew a vote): by the law of the place the sitting officer holds over until a successor is elected and qualifies, and the seat's next election comes a full term on. Rows are keyed by state; the default stands in where a state's holdover provision is not yet read (SG-GOV-holdover-law-estimate). Read by src/core2/modules/offices.ts holdOver.",
+  "stopgap": "SG-GOV-holdover-law-estimate",
+  "default": {
+    "rule": "holdover",
+    "tag": "ESTIMATED",
+    "citation": "State constitutions and codes generally provide that an officer continues to serve until a successor is elected and qualifies (for example Wis. Stat. 17.01 on holding over; Ill. Const. art. XIII, sec. 4; Cal. Gov. Code 1302); the state's own provision is not yet read for each office.",
+    "estimatedFrom": "Common state law: an officer holds over until a successor qualifies.",
+    "spread": ["holdover", "appointment"]
+  },
+  "states": {}
+}

@@ -72,6 +72,12 @@
       "tag": "TUNABLE",
       "source": "Days between a local election and the term it fills, where the term doesn't start in January (most local terms start one to two months after the election).",
       "spread": [30, 120]
+    },
+    "pastHoldersRecorded": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How many of an office's holders before the current one the opening records, each with a career of their own: enough that an office's past is a line of different people (a player asking who held the seat before sees them), few enough to keep the opening's records small.",
+      "spread": [1, 4]
     }
   }
 }

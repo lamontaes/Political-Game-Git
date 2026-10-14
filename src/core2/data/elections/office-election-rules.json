@@ -1,0 +1,83 @@
+{
+  "about": "An office's own election law where it differs from the state's November general election and party primary: a spring election day, the filing window that goes with it, and a nonpartisan primary the law holds. Offices are keyed by state and office kind. A nonpartisan office (OfficeInput.partisan false) has no party primary; a primary of its own is carried on the contest for the voting engine (stopgap SG-GOV-nonpartisan-primary-not-run). Read by src/core2/elections-calendar.ts stateAndFederal.",
+  "states": {
+    "US-WI": {
+      "superintendent": {
+        "general": {
+          "kind": "nth-weekday",
+          "month": 4,
+          "weekday": 2,
+          "nth": 1,
+          "citation": "Wis. Const. art. X, sec. 1 (the state superintendent is chosen at the same time and in the same manner as supreme court justices) and Wis. Stat. 5.02(21) (spring election: the first Tuesday in April)"
+        },
+        "filing": {
+          "opens": "12-01",
+          "yearOffsetOpens": -1,
+          "deadline": "01-02",
+          "citation": "Wis. Stat. 8.10 (nomination papers circulate from December 1 and are filed by 5 p.m. on January 2 before the spring election)"
+        },
+        "nonpartisanPrimary": {
+          "rule": {
+            "kind": "nth-weekday",
+            "month": 2,
+            "weekday": 2,
+            "nth": 3
+          },
+          "onlyIf": "more than two candidates file",
+          "citation": "Wis. Stat. 5.02(20) and 8.11 (spring primary on the third Tuesday in February, held only when more than twice as many candidates as seats file)"
+        }
+      }
+    },
+    "US-CA": {
+      "superintendent": {
+        "nonpartisanPrimary": {
+          "sameAsStatePrimary": true,
+          "onlyIf": "no candidate wins a majority in the primary",
+          "citation": "Cal. Const. art. IX, sec. 2 and Cal. Elec. Code (nonpartisan office: the primary decides it outright on a majority, else the top two meet in November) - ESTIMATED, section not read"
+        }
+      }
+    },
+    "US-WA": {
+      "superintendent": {
+        "nonpartisanPrimary": {
+          "sameAsStatePrimary": true,
+          "onlyIf": "more than two candidates file (top two advance)",
+          "citation": "RCW 28A.300.010 and RCW 29A.52 (nonpartisan office: the top two in the primary advance) - ESTIMATED, section not read"
+        }
+      }
+    },
+    "US-ND": {
+      "superintendent": {
+        "nonpartisanPrimary": {
+          "sameAsStatePrimary": true,
+          "onlyIf": "more than twice as many candidates as seats file",
+          "citation": "N.D. Cent. Code ch. 16.1-11 (nonpartisan office on the June primary ballot) - ESTIMATED, section not read"
+        }
+      }
+    },
+    "US-OR": {
+      "labor-commissioner": {
+        "nonpartisanPrimary": {
+          "sameAsStatePrimary": true,
+          "onlyIf": "no candidate wins a majority in the May primary",
+          "citation": "Or. Const. art. II, sec. 14 and ORS 254 (nonpartisan office: a majority in the primary elects) - ESTIMATED, section not read"
+        }
+      }
+    }
+  },
+  "countyRowOffices": {
+    "about": "County row offices (sheriff, clerk, treasurer, prosecutor, coroner) that are elected on the state's general election cycle rather than on the county governing body's calendar. cycleYears and the residues (year mod cycleYears) per office kind; read by elections-calendar.ts. A state not listed keeps the county body's calendar for its row offices.",
+    "states": {
+      "US-WI": {
+        "cycleYears": 4,
+        "default": [2],
+        "byKind": {
+          "county-prosecutor": [0]
+        },
+        "tag": "ESTIMATED",
+        "citation": "Wis. Const. art. VI, sec. 4 and Wis. Stat. 59.20 (sheriff, clerk, treasurer, register of deeds and coroner are elected at the November general election every four years from 2022; the district attorney from 2024); county board supervisors are nonpartisan, in the April election",
+        "spread": [2, 4]
+      }
+    }
+  }
+}

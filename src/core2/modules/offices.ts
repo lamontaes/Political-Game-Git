@@ -26,7 +26,6 @@
  */
 import { registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
-import { decisionLean } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -42,9 +41,14 @@ import {
   electionInYear,
   specialElectionDate,
   staggeredSeatElection,
+  termEndAfter,
   termStartAfter,
+  termStartInYear,
 } from "../elections-calendar";
 import { MOVED_AWAY_EVENT } from "./moves";
+import { appointeeFor } from "../candidate-pool";
+import { POLICY_QUESTIONS } from "../policy-answers";
+import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
 import {
   federalOffices,
@@ -56,9 +60,8 @@ import {
 import { drawOfficialIdentity } from "../officials-identity";
 import { createHash } from "node:crypto";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
+import holdoverLaw from "../data/offices/holdover.json" with { type: "json" };
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
-import { POLICY_QUESTIONS } from "../policy-answers";
-import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { isRealOfficeholderName } from "../officials-names";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
@@ -87,6 +90,8 @@ export interface TermRow {
   readonly reached: string;
   readonly status: "serving" | "ended";
   readonly endedBy?: string;
+  /** Set when the seat's election produced no winner and the holder stays by law. */
+  readonly heldOver?: { readonly since: string; readonly citation: string };
   /**
    * The election that seated the holder, for terms the world opened with
    * (history before the start): its date and the winner's estimated share.
@@ -129,8 +134,13 @@ export const OFFICES_MODULE: CoreModule = {
       loaded: {},
     },
   },
-  eventKinds: ["life.death", MOVED_AWAY_EVENT],
+  eventKinds: ["life.death", MOVED_AWAY_EVENT, "election-result"],
   onEvent: (api, event) => {
+    if (event.kind === "election-result") {
+      if (event.facts?.winnerId === "")
+        seatWithoutWinner(api, String(event.facts?.contestId ?? ""));
+      return;
+    }
     for (const personId of event.personIds)
       for (const term of servingTermsOf(api, personId)) {
         if (event.kind === "life.death") vacateSeat(api, term.seatId, "death");
@@ -222,10 +232,15 @@ function termEnd(
         electionInYear({ ...where, year, onDate: `${year - 1}-07-01` })
       : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
   if (election) return termStartAfter(office, election.electionDate);
-  const starts = office.termStarts ?? "01-01";
-  if (year !== undefined) return `${year + 1}-${starts}`;
-  const offset = seat.index % Math.max(1, office.termYears);
-  return `${Number(date.slice(0, 4)) + offset + 1}-${starts}`;
+  // No election found on the calendar: the term ends at the start day after
+  // the seat's election year (the start rule in term-starts.json).
+  const endYear =
+    year !== undefined
+      ? year + 1
+      : Number(date.slice(0, 4)) +
+        (seat.index % Math.max(1, office.termYears)) +
+        1;
+  return termStartInYear(office, endYear) ?? `${endYear}-01-01`;
 }
 
 function municipalVacancyRule(stateUsps: string): VacancyRule {
@@ -301,6 +316,26 @@ function putOffice(api: CoreAPI, entry: OfficeWithSeats): void {
     table(api, "seats").put(seat as unknown as ModuleRow);
 }
 
+function officialRole(office: OfficeInput) {
+  return /legislature|us-house|us-senate/.test(office.kind)
+    ? ("sitting-legislator-at-opening" as const)
+    : ("executive-officeholder-at-opening" as const);
+}
+
+/** A legislator's constitutional minimum age (U.S. Const. art. I, secs. 2-3; state law 21). */
+function legalAge(office: OfficeInput): { legalMinimumAge?: number } {
+  return officialRole(office) === "sitting-legislator-at-opening"
+    ? {
+        legalMinimumAge:
+          office.kind === "us-senate"
+            ? 30
+            : office.kind.startsWith("us-house")
+              ? 25
+              : 21,
+      }
+    : {};
+}
+
 function seatNamedOfficial(
   api: CoreAPI,
   worldSeed: string,
@@ -312,9 +347,7 @@ function seatNamedOfficial(
   const stateUsps = office.jurisdiction.startsWith("US-")
     ? office.jurisdiction.slice(3)
     : "US";
-  const role = /legislature|us-house|us-senate/.test(office.kind)
-    ? "sitting-legislator-at-opening"
-    : "executive-officeholder-at-opening";
+  const role = officialRole(office);
   // A vice president isn't related to the president: no shared family name.
   const president =
     seat.id === "seat:US:vice-president"
@@ -332,16 +365,7 @@ function seatNamedOfficial(
     role,
     referenceDate: date,
     ...(president ? { avoidFamilyNames: [president.identity.familyName] } : {}),
-    ...(role === "sitting-legislator-at-opening"
-      ? {
-          legalMinimumAge:
-            office.kind === "us-senate"
-              ? 30
-              : office.kind.startsWith("us-house")
-                ? 25
-                : 21,
-        }
-      : {}),
+    ...legalAge(office),
   });
   // stopgapId: SG-GOV-official-identity-only
   api.stopgap("SG-GOV-official-identity-only");
@@ -545,19 +569,25 @@ const TENURE = (
 const tenureYears = (key: string) => TENURE[key]!.value;
 const shiftYears = (date: string, years: number) =>
   `${Number(date.slice(0, 4)) + years}${date.slice(4)}`;
+/** A date moved whole terms, a state or federal term landing on its start rule's day. */
+const shiftTerms = (office: OfficeInput, date: string, years: number) =>
+  termStartInYear(office, Number(date.slice(0, 4)) + years) ??
+  shiftYears(date, years);
+
 const LEGISLATIVE = /^(council|county-board|legislature-)/;
 const TERM_LIMITS =
   "us-policy-positions:government-operations.legislative-term-limits";
 
 /**
- * The career behind a holder at the opening (M1-14 part 2): their current
- * term began a full term before it ends, and before it they won the seat
- * some number of times, recorded as ended terms. How many follows the mean
- * service of sitting officials of that kind (a geometric spread, drawn once
- * per seat from the world's seed: who exists, not what anyone decides), never
- * younger than the minimum age at the first term, and never past the state's
- * legislative term limit where it has one. The presidency keeps its real
- * record (`federal-executive-2026.json`).
+ * The record behind a seat at the opening (M1-14 part 2): the current term
+ * began a full term before it ends; before it the holder won the seat some
+ * number of times (their own career), and before them the office's earlier
+ * holders, each a different person with a career of their own, all recorded
+ * as ended terms. Each career follows the mean service of sitting officials
+ * of that kind (a geometric spread, drawn once per seat and holder from the
+ * world's seed: who exists, not what anyone decides), never starting below
+ * the minimum age and never past the state's legislative term limit. The
+ * presidency keeps its real record (`federal-executive-2026.json`).
  */
 function pastTerms(
   api: CoreAPI,
@@ -569,7 +599,7 @@ function pastTerms(
   const years = office.termYears;
   const opening = api.state.date;
   if (!years || !term.endDate) return;
-  const start = shiftYears(term.endDate, -years);
+  const start = shiftTerms(office, term.endDate, -years);
   // The federal executive keeps its real record: the current term began a
   // full term before it ends (January 20), with no earlier terms invented.
   if (office.kind === "president" || office.kind === "vice-president") {
@@ -601,62 +631,126 @@ function pastTerms(
             : "localOfficialTenureYears";
   const mean = Math.max(0, tenureYears(tenureKey) / years - 0.5);
   const q = mean / (1 + mean);
-  const hash = createHash("sha256")
-    .update(`${worldSeed}:${seat.id}:career`)
-    .digest("hex");
-  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
-  let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
-  // No one first served younger than the minimum age.
-  const born = Number(term.identity.birthDate.slice(0, 4));
-  const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
-  while (
-    prior > 0 &&
-    firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm")
-  )
-    prior -= 1;
-  // A state that limits legislative terms caps the service before today.
+  // How many terms someone served before a given term: the mean service of
+  // sitting officials of that kind, a geometric spread drawn once per seat
+  // and holder from the world's seed (who exists, not what anyone decides),
+  // never younger than the minimum age at the first term, and never past the
+  // state's legislative term limit where it has one.
   const state = (table(api, "loaded").get("town") as { stateKey?: string })
     ?.stateKey;
-  if (
+  const limited =
     LEGISLATIVE.test(office.kind) &&
-    state &&
-    POLICY_QUESTIONS[TERM_LIMITS]?.answers[state]?.answer === "yes"
-  )
-    prior = Math.max(
-      0,
-      Math.min(
-        prior,
-        Math.ceil(
-          (
-            reachA as unknown as {
-              parameters: Record<string, { value: number }>;
-            }
-          ).parameters.termLimitYears!.value / years,
-        ) - 2,
-      ),
-    );
-  const serviceStart = shiftYears(start, -prior * years);
+    !!state &&
+    POLICY_QUESTIONS[TERM_LIMITS]?.answers[state]?.answer === "yes";
+  const careerBefore = (key: string, before: string, born: number) => {
+    const u =
+      parseInt(
+        createHash("sha256")
+          .update(`${worldSeed}:${seat.id}:${key}`)
+          .digest("hex")
+          .slice(0, 8),
+        16,
+      ) / 0x1_0000_0000;
+    let terms = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
+    const firstYear = (k: number) => Number(before.slice(0, 4)) - k * years;
+    while (
+      terms > 0 &&
+      firstYear(terms) - born < tenureYears("minimumAgeAtFirstTerm")
+    )
+      terms -= 1;
+    if (limited)
+      terms = Math.max(
+        0,
+        Math.min(
+          terms,
+          Math.ceil(
+            (
+              reachA as unknown as {
+                parameters: Record<string, { value: number }>;
+              }
+            ).parameters.termLimitYears!.value / years,
+          ) - 2,
+        ),
+      );
+    return terms;
+  };
   const won = (from: string) =>
     office.elected ? { elected: electionBehind(office, from) } : {};
+  // The holder's own career: the terms they won before this one.
+  const own = careerBefore(
+    "career",
+    start,
+    Number(term.identity.birthDate.slice(0, 4)),
+  );
+  const serviceStart = shiftTerms(office, start, -own * years);
   table(api, "terms").put({
     ...term,
     startDate: start,
     serviceStart,
     ...won(start),
   } as unknown as ModuleRow);
-  for (let k = prior; k >= 1; k -= 1) {
-    const from = shiftYears(start, -k * years);
+  for (let k = own; k >= 1; k -= 1) {
+    const from = shiftTerms(office, start, -k * years);
     table(api, "terms").put({
       ...term,
       id: `${term.id}:past:${k}`,
       startDate: from,
       serviceStart,
-      endDate: shiftYears(from, years),
+      endDate: shiftTerms(office, from, years),
       reached: "elected",
       status: "ended",
       endedBy: "re-elected",
       ...won(from),
     } as unknown as ModuleRow);
+  }
+  // Before them, the office's earlier holders, each a different person with
+  // a career of their own (drawn from the world's seed and the seat; a stable
+  // identity, filled in when met).
+  const stateUsps = office.jurisdiction.startsWith("US-")
+    ? office.jurisdiction.slice(3)
+    : (state?.slice(3) ?? "US");
+  let next = serviceStart;
+  let k = own;
+  for (let h = 1; h <= tenureYears("pastHoldersRecorded"); h += 1) {
+    const holder = drawOfficialIdentity({
+      worldSeed,
+      seatKey: `${seat.id}:past-holder:${h}`,
+      stateUsps,
+      role: officialRole(office),
+      referenceDate: next,
+      ...legalAge(office),
+    });
+    const terms =
+      careerBefore(
+        `past-holder:${h}`,
+        next,
+        Number(holder.birthDate.slice(0, 4)),
+      ) + 1;
+    const theirStart = shiftTerms(office, next, -terms * years);
+    for (let t = 0; t < terms; t += 1) {
+      k += 1;
+      const from = shiftTerms(office, next, -(t + 1) * years);
+      table(api, "terms").put({
+        ...term,
+        id: `${term.id}:past:${k}`,
+        personId: null,
+        identity: {
+          givenName: holder.givenName,
+          familyName: holder.familyName,
+          gender: holder.gender,
+          birthDate: holder.birthDate,
+          homeState: office.jurisdiction,
+        },
+        startDate: from,
+        serviceStart: theirStart,
+        endDate: shiftTerms(office, from, years),
+        reached: "elected",
+        status: "ended",
+        endedBy: t === 0 ? "term ended" : "re-elected",
+        ...won(from),
+      } as unknown as ModuleRow);
+    }
+    next = theirStart;
   }
 }
 
@@ -884,40 +978,17 @@ function fillVacancy(
     worldSeed: string;
   };
   const appoint = (reached: string): VacancyRow => {
-    const holder =
-      office.level === "city" ||
-      office.level === "county" ||
-      office.level === "township"
-        ? suitedResidents(
-            api.state as CoreState,
-            date,
-            new Set([
-              // The person who just left the seat isn't appointed back to it.
-              ...(previous.personId ? [previous.personId] : []),
-              ...(
-                table(api, "terms").query("byStatus", [
-                  "serving",
-                ]) as unknown as TermRow[]
-              ).flatMap((t) => (t.personId ? [t.personId] : [])),
-            ]),
-            (
-              table(api, "loaded").get("town") as unknown as {
-                townPlaceId: string;
-              }
-            ).townPlaceId,
-          ).find(
-            (suited) =>
-              decisionLean(
-                api.state,
-                suited.person,
-                "offices.accept-appointment",
-                "accept",
-                "decline",
-              ) >= 0,
-          )
-        : undefined;
-    const term = holder
-      ? seatResident(api, office, seat, holder.person.id, date, reached)
+    // The appointer chooses from everyone with standing for the seat, by
+    // party, loyalty and standing, with the reasons recorded.
+    const chosen = appointeeFor(api, {
+      seatId: seat.id,
+      officeId: office.id,
+      previousPersonId: previous.personId,
+      party: previous.party,
+      appointedBy: rule.appointedBy ?? null,
+    });
+    const term = chosen
+      ? seatResident(api, office, seat, chosen.personId, date, reached)
       : seatNamedOfficial(
           api,
           `${town.worldSeed}:${date}`,
@@ -1055,6 +1126,11 @@ function officesCalendarWork(
     work.sourceRecordIds[0]!,
   ) as unknown as VacancyRow | undefined;
   if (!vacancy || vacancy.status !== "awaiting-election") return;
+  fillAwaitingVacancy(api, vacancy);
+}
+
+/** Fill a seat awaiting its special election where no vote filled it (stand-in until the race runs). */
+function fillAwaitingVacancy(api: CoreAPI, vacancy: VacancyRow): void {
   // stopgapId: SG-GOV-special-election-appointee
   api.stopgap("SG-GOV-special-election-appointee");
   const office = table(api, "offices").get(
@@ -1098,4 +1174,91 @@ function officesCalendarWork(
     ...filled,
     status: "filled",
   } as unknown as ModuleRow);
+}
+
+interface ContestLike {
+  readonly id: string;
+  readonly seatId: string;
+  readonly officeId: string;
+  readonly electionDate: string;
+  readonly special?: { readonly vacancyId: string };
+}
+
+/**
+ * A seat whose election produced no winner is never left without a holder:
+ * the sitting officer holds over until a successor is elected and qualifies
+ * (`data/offices/holdover.json`), the term running a full term on from the
+ * election; a special election with no winner is filled the way the vacancy
+ * would have been without one. A tie goes to its second election instead.
+ */
+function seatWithoutWinner(api: CoreAPI, contestId: string): void {
+  const elections = api.state.modules.has("core2-elections-v1")
+    ? api.moduleState("core2-elections-v1").table("contests")
+    : null;
+  const contest = elections?.get(contestId) as unknown as
+    ContestLike | undefined;
+  if (!contest) return;
+  const office = table(api, "offices").get(contest.officeId) as unknown as
+    (OfficeInput & { vacancyRule: VacancyRule }) | undefined;
+  if (!office || office.kind === "president") return;
+  const pendingSecond = (
+    elections!.query("bySeat", [contest.seatId]) as unknown as ContestLike[]
+  ).some((c) => c.electionDate > api.state.date && c.id.endsWith(":second"));
+  if (pendingSecond) return;
+  const date = api.state.date;
+  if (contest.special) {
+    const vacancy = table(api, "vacancies").get(
+      contest.special.vacancyId,
+    ) as unknown as VacancyRow | undefined;
+    if (vacancy?.status === "awaiting-election")
+      fillAwaitingVacancy(api, vacancy);
+    return;
+  }
+  const holder = table(api, "terms").query("bySeatStatus", [
+    contest.seatId,
+    "serving",
+  ])[0] as TermRow | undefined;
+  // No holder: the seat is already a vacancy, filled by its own rule.
+  if (!holder) return;
+  const law = holdoverLaw as unknown as {
+    default: { citation: string };
+    states: Record<string, { citation: string }>;
+  };
+  const row =
+    law.states[
+      office.jurisdiction.startsWith("US-")
+        ? office.jurisdiction
+        : ((
+            table(api, "loaded").get("town") as unknown as
+              { stateKey?: string } | undefined
+          )?.stateKey ?? "")
+    ] ?? law.default;
+  if (row === law.default) {
+    // stopgapId: SG-GOV-holdover-law-estimate
+    api.stopgap("SG-GOV-holdover-law-estimate");
+  }
+  const endDate = termEndAfter(office, contest.electionDate) ?? holder.endDate;
+  table(api, "terms").put({
+    ...holder,
+    endDate,
+    endEstimated: false,
+    heldOver: { since: date, citation: row.citation },
+  } as unknown as ModuleRow);
+  api.emit({
+    id: `seat-held-over:${contest.seatId}:${date}`,
+    date,
+    kind: "seat-held-over",
+    personIds: holder.personId ? [holder.personId] : [],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: source(row.citation, date, row === law.default),
+    publicRecord: true,
+    facts: {
+      officeId: office.id,
+      seatId: contest.seatId,
+      contestId,
+      termEnds: endDate ?? "",
+    },
+  });
 }

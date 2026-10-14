@@ -213,13 +213,24 @@ describe("M2-01 offices and seats, every level", () => {
         expect(p.status).toBe("ended");
         expect(p.endDate).toBe(past[i + 1]?.startDate ?? t.startDate);
       }
-      expect(past[0]?.startDate ?? t.startDate).toBe(t.serviceStart);
-      // Nobody first served under the minimum age.
-      expect(
-        Number(t.serviceStart!.slice(0, 4)) -
-          Number(t.identity.birthDate.slice(0, 4)),
-        `${placeKey} ${t.seatId}`,
-      ).toBeGreaterThanOrEqual(21);
+      // The holder's own career: their past terms carry their name and
+      // begin at their first service; earlier terms are other people's.
+      const who = (x: TermRow) =>
+        `${x.identity.givenName} ${x.identity.familyName} ${x.identity.birthDate}`;
+      const own = past.filter((p) => who(p) === who(t));
+      expect(own[0]?.startDate ?? t.startDate).toBe(t.serviceStart);
+      const earlier = past.filter((p) => who(p) !== who(t));
+      for (const p of earlier)
+        expect(p.startDate < t.serviceStart!, `${placeKey} ${t.seatId}`).toBe(
+          true,
+        );
+      // Nobody served under the minimum age.
+      for (const held of [...past, t])
+        expect(
+          Number(held.startDate.slice(0, 4)) -
+            Number(held.identity.birthDate.slice(0, 4)),
+          `${placeKey} ${t.seatId}`,
+        ).toBeGreaterThanOrEqual(21);
     }
     expect(before, placeKey).toBeGreaterThan(0);
     expect(withPast, placeKey).toBeGreaterThan(0);

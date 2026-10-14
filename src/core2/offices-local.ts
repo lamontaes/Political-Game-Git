@@ -17,6 +17,7 @@ import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rule
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
 import type { GovernmentUnitIdentity } from "./reference/government-units";
+import { countyRowTermYears } from "./elections-calendar";
 
 export type OfficeLevel = "federal" | "state" | "county" | "city" | "township";
 
@@ -36,6 +37,8 @@ export interface OfficeInput {
   /** The month and day a new term starts (MM-DD), where read. */
   readonly termStarts?: string;
   readonly elected: boolean;
+  /** False for a nonpartisan office: no party primary or party labels (absent means partisan). */
+  readonly partisan?: boolean;
   /** Seats elected by district, or at large. */
   readonly districted: boolean;
   /** True when the office's seats represent the player's town. */
@@ -169,7 +172,8 @@ function boardOffices(
         kind: `county-${row.office}`,
         title: row.title,
         seats: 1,
-        termYears,
+        // A row office elected on the state's cycle serves that cycle's term.
+        termYears: countyRowTermYears(`US-${unit.stateUsps}`) ?? termYears,
         elected: row.elected,
         districted: false,
         coversTown: true,

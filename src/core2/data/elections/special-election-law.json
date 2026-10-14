@@ -1,5 +1,5 @@
 {
-  "about": "When a state's law schedules the special election for a vacancy, by office family. kind: days-after-vacancy (days, a nominal value inside the statutory window), next-general (no special election; the seat waits for the next general election, an appointee serving), unread (the estimate in parameters.json stands in: SG-GOV-special-election-timing). The method (special election, appointment, succession) is read from data/research/offices/state-offices.json by offices-state.ts; this table is only the date. Read by src/core2/elections-calendar.ts specialElectionDate.",
+  "about": "When a state's law schedules the special election for a vacancy, by office family. kind: days-after-vacancy (days, a nominal value inside the statutory window), weekday-after-days (the first given weekday, 0=Sunday, on or after the vacancy plus days: a writ within so many days and an election on a Tuesday so many days after it), next-general (no special election; the seat waits for the next general election, an appointee serving), unread (the estimate in parameters.json stands in: SG-GOV-special-election-timing). The method (special election, appointment, succession) is read from data/research/offices/state-offices.json by offices-state.ts; this table is only the date. Read by src/core2/elections-calendar.ts specialElectionDate.",
   "stopgap": "SG-GOV-special-election-timing",
   "states": {
     "US-CA": {
@@ -16,6 +16,52 @@
         "tag": "ESTIMATED",
         "citation": "Cal. Const. art. IV sec. 2(d); Cal. Elec. Code sec. 10703",
         "spread": [140, 154]
+      }
+    },
+    "US-WI": {
+      "usHouse": {
+        "kind": "weekday-after-days",
+        "days": 69,
+        "weekday": 2,
+        "tag": "ESTIMATED",
+        "citation": "Wis. Stat. 8.50(4) (the governor issues the writ within 7 days of the vacancy; the special election is held on a Tuesday at least 62 days after the writ) - 69 days after the vacancy",
+        "spread": [69, 84]
+      },
+      "stateLegislative": {
+        "kind": "weekday-after-days",
+        "days": 69,
+        "weekday": 2,
+        "tag": "ESTIMATED",
+        "citation": "Wis. Stat. 8.50(4) (the governor issues the writ within 7 days of the vacancy; the special election is held on a Tuesday at least 62 days after the writ) - 69 days after the vacancy",
+        "spread": [69, 84]
+      }
+    },
+    "US-NY": {
+      "usHouse": {
+        "kind": "weekday-after-days",
+        "days": 75,
+        "weekday": 2,
+        "tag": "ESTIMATED",
+        "citation": "N.Y. Pub. Off. Law 42 and Elec. Law 6-114 (the governor proclaims a special election held 70 to 80 days after the proclamation) - 75 days after the vacancy",
+        "spread": [70, 90]
+      },
+      "stateLegislative": {
+        "kind": "weekday-after-days",
+        "days": 75,
+        "weekday": 2,
+        "tag": "ESTIMATED",
+        "citation": "N.Y. Pub. Off. Law 42 and Elec. Law 6-114 (the governor proclaims a special election held 70 to 80 days after the proclamation) - 75 days after the vacancy",
+        "spread": [70, 90]
+      }
+    },
+    "US-NJ": {
+      "usHouse": {
+        "kind": "weekday-after-days",
+        "days": 85,
+        "weekday": 2,
+        "tag": "ESTIMATED",
+        "citation": "N.J.S.A. 19:3-26 (special election 70 to 80 days after the governor's writ, issued within 10 days) - 85 days after the vacancy",
+        "spread": [70, 100]
       }
     }
   }

@@ -31,6 +31,7 @@ import municipalCycleData from "./data/elections/municipal-cycles.json" with { t
 import termStartData from "./data/elections/term-starts.json" with { type: "json" };
 import specialLawData from "./data/elections/special-election-law.json" with { type: "json" };
 import electionParameters from "./data/elections/parameters.json" with { type: "json" };
+import officeElectionData from "./data/elections/office-election-rules.json" with { type: "json" };
 
 /** A number from `data/elections/parameters.json`. */
 export function electionsParameter(key: string): number {
@@ -65,6 +66,16 @@ export interface ElectionDates {
   /** "read" where each date comes from a law or official calendar; "estimated" otherwise. */
   readonly basis: "read" | "estimated";
   readonly sources: readonly string[];
+  /**
+   * A nonpartisan office's own primary where its law has one (Wisconsin's
+   * February primary when more than two file): the date, when it is held and
+   * the law. Nonpartisan offices hold no party primary (`primaryDate` null).
+   */
+  readonly nonpartisanPrimary?: {
+    readonly date: string;
+    readonly onlyIf: string;
+    readonly citation: string;
+  };
 }
 
 interface DateRule {
@@ -134,39 +145,102 @@ function nominationKey(office: OfficeInput): string {
   return "all";
 }
 
+interface OfficeElectionRow {
+  readonly general?: DateRule & { readonly citation: string };
+  readonly filing?: {
+    readonly opens: string;
+    readonly deadline: string;
+    readonly yearOffsetOpens: number;
+    readonly citation: string;
+  };
+  readonly nonpartisanPrimary?: {
+    readonly rule?: DateRule;
+    readonly sameAsStatePrimary?: boolean;
+    readonly onlyIf: string;
+    readonly citation: string;
+  };
+}
+const officeElection = (
+  officeElectionData as unknown as {
+    states: Record<string, Record<string, OfficeElectionRow>>;
+  }
+).states;
+
+/** The office's own election law for its state (spring election, nonpartisan primary), if read. */
+function officeElectionRow(
+  office: OfficeInput,
+  stateKey: string,
+): OfficeElectionRow | undefined {
+  return officeElection[stateKey]?.[office.kind];
+}
+
 function stateAndFederal(
   office: OfficeInput,
   stateKey: string,
   year: number,
 ): ElectionDates {
   const place = places[stateKey] ?? {};
-  const electionDate = novemberGeneralElectionDay(year);
+  const own = officeElectionRow(office, stateKey);
+  const electionDate = own?.general
+    ? ruleDate(own.general, year)
+    : novemberGeneralElectionDay(year);
   const key = nominationKey(office);
   const read2026 = (table?: Readonly<Record<string, string>>) =>
     year === 2026 ? (table?.[key] ?? table?.all ?? null) : null;
-  const primaryDate =
+  const partyPrimary =
     read2026(place.primary?.dates2026) ??
     (place.primary?.rule ? ruleDate(place.primary.rule, year) : null);
-  const deadline =
-    read2026(place.filing?.deadlines2026) ??
-    (primaryDate && place.filing?.daysBeforePrimary
-      ? addDays(makeIsoDate(primaryDate), -place.filing.daysBeforePrimary)
-      : null);
+  // A spring office is filed for by the date its own law sets; others by the
+  // state's party-primary filing deadline.
+  const deadline = own?.filing
+    ? `${year}-${own.filing.deadline}`
+    : (read2026(place.filing?.deadlines2026) ??
+      (partyPrimary && place.filing?.daysBeforePrimary
+        ? addDays(makeIsoDate(partyPrimary), -place.filing.daysBeforePrimary)
+        : null));
+  // A nonpartisan office holds no party primary; a primary of its own is
+  // carried on the dates for the voting engine to read.
+  const nonpartisan = office.partisan === false || own?.general !== undefined;
+  const primaryDate = own?.general || nonpartisan ? null : partyPrimary;
+  const np = own?.nonpartisanPrimary;
+  const npDate = np
+    ? np.sameAsStatePrimary
+      ? partyPrimary
+      : np.rule
+        ? ruleDate(np.rule, year)
+        : null
+    : null;
   return {
     electionDate,
     primaryDate,
-    filingOpens: null,
+    filingOpens: own?.filing
+      ? `${year + own.filing.yearOffsetOpens}-${own.filing.opens}`
+      : null,
     filingDeadline:
       deadline ??
       addDays(makeIsoDate(primaryDate ?? electionDate), -FILING_LEAD_DAYS),
     basis:
-      deadline && (primaryDate || !place.primary?.rule) ? "read" : "estimated",
-    sources: [
-      place.source,
-      place.primary?.cite,
-      place.filing?.cite,
-      deadline ? null : FILING_LEAD_SOURCE,
-    ].filter((s): s is string => Boolean(s)),
+      own?.filing || (deadline && (partyPrimary || !place.primary?.rule))
+        ? "read"
+        : "estimated",
+    sources: (own?.general
+      ? [own.general.citation, own.filing?.citation]
+      : [
+          place.source,
+          place.primary?.cite,
+          place.filing?.cite,
+          deadline ? null : FILING_LEAD_SOURCE,
+        ]
+    ).filter((s): s is string => Boolean(s)),
+    ...(np && npDate
+      ? {
+          nonpartisanPrimary: {
+            date: npDate,
+            onlyIf: np.onlyIf,
+            citation: np.citation,
+          },
+        }
+      : {}),
   };
 }
 
@@ -417,6 +491,52 @@ function municipal(
   return null;
 }
 
+interface CountyRowRule {
+  readonly cycleYears: number;
+  readonly default: readonly number[];
+  readonly byKind?: Readonly<Record<string, readonly number[]>>;
+  readonly citation: string;
+}
+const countyRows = (
+  officeElectionData as unknown as {
+    countyRowOffices: { states: Record<string, CountyRowRule> };
+  }
+).countyRowOffices.states;
+
+/** The cycle years of a county row office elected on the state's general election cycle, if its state's law says so. */
+function countyRowRule(
+  office: OfficeInput,
+  stateKey: string,
+): { rule: CountyRowRule; residues: readonly number[] } | null {
+  const rule = countyRows[stateKey];
+  if (!rule || office.level !== "county" || office.kind === "county-board")
+    return null;
+  return { rule, residues: rule.byKind?.[office.kind] ?? rule.default };
+}
+
+/** The term in years of a state's county row offices where their election cycle is read, else null. */
+export function countyRowTermYears(stateKey: string): number | null {
+  return countyRows[stateKey]?.cycleYears ?? null;
+}
+
+/** A county row office's next election on the state's general election day, in its cycle years. */
+function countyRowElection(
+  office: OfficeInput,
+  stateKey: string,
+  from: number,
+  onDate: string,
+): ElectionDates | null {
+  const found = countyRowRule(office, stateKey);
+  if (!found) return null;
+  for (let year = from; year < from + found.rule.cycleYears + 1; year += 1) {
+    if (!found.residues.includes(year % found.rule.cycleYears)) continue;
+    const dates = stateAndFederal(office, stateKey, year);
+    if (dates.electionDate > onDate)
+      return { ...dates, sources: [...dates.sources, found.rule.citation] };
+  }
+  return null;
+}
+
 /** The office's next election from `onDate`, its calendar read from `year` on. */
 function nextFrom(
   office: OfficeInput,
@@ -429,6 +549,8 @@ function nextFrom(
   if (office.level === "federal" || office.level === "state")
     return stateAndFederal(office, stateKey, from);
   if (office.level === "county") {
+    const rowDates = countyRowElection(office, stateKey, from, onDate);
+    if (rowDates) return rowDates;
     const unit = governmentUnit(office.jurisdiction);
     const read = unit ? nextCountyElection(unit, makeIsoDate(onDate)) : null;
     if (read?.status === "read") {
@@ -569,38 +691,114 @@ export function staggeredSeatElection(input: {
   return held.length ? held[index % held.length]! : null;
 }
 
+type StartRule =
+  | { readonly kind: "fixed"; readonly month: number; readonly day: number }
+  | {
+      readonly kind: "nth-weekday";
+      readonly month: number;
+      readonly weekday: number;
+      readonly nth: number;
+    }
+  | {
+      readonly kind: "weekday-after";
+      readonly month: number;
+      readonly anchorWeekday: number;
+      readonly anchorNth: number;
+      readonly weekday: number;
+    }
+  | {
+      readonly kind: "weekday-after-day";
+      readonly month: number;
+      readonly day: number;
+      readonly weekday: number;
+    };
 interface TermStartRow {
-  readonly monthDay: string;
+  readonly rule: StartRule;
 }
+
+/** The first `weekday` strictly after an ISO date. */
+function weekdayAfterDate(date: string, weekday: number): string {
+  const dow = new Date(`${date}T00:00:00Z`).getUTCDay();
+  return addDays(makeIsoDate(date), ((weekday - dow + 6) % 7) + 1);
+}
+
+/** The day a start rule falls on in one year. */
+function startRuleDate(rule: StartRule, year: number): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  if (rule.kind === "fixed")
+    return `${year}-${pad(rule.month)}-${pad(rule.day)}`;
+  if (rule.kind === "nth-weekday")
+    return nthWeekday(year, rule.month, rule.weekday, rule.nth);
+  if (rule.kind === "weekday-after")
+    return weekdayAfterDate(
+      nthWeekday(year, rule.month, rule.anchorWeekday, rule.anchorNth),
+      rule.weekday,
+    );
+  return weekdayAfterDate(
+    `${year}-${pad(rule.month)}-${pad(rule.day)}`,
+    rule.weekday,
+  );
+}
+
 /**
- * The start day of a term where the office carries none: the state's row for
- * the office's family in `data/elections/term-starts.json`, else the data's
- * default (an estimate: SG-GOV-term-end-estimate).
+ * The start rule of a term where the office carries none: the state's row for
+ * the office itself, else for its family, in `data/elections/term-starts.json`,
+ * else the data's default (an estimate: SG-GOV-term-end-estimate).
  */
-function termStartDefault(office: OfficeInput): string {
+function termStartRule(office: OfficeInput): StartRule {
   const data = termStartData as unknown as {
     default: TermStartRow;
     states: Record<string, Record<string, TermStartRow>>;
   };
   const stateKey = office.jurisdiction.startsWith("US-")
     ? office.jurisdiction.slice(0, 5)
-    : "";
-  return (
-    data.states[stateKey]?.[officeFamily(office)]?.monthDay ??
-    data.default.monthDay
-  );
+    : officeStateKey(office);
+  const rows = data.states[stateKey];
+  return (rows?.[office.kind] ?? rows?.[officeFamily(office)] ?? data.default)
+    .rule;
+}
+
+/** The state a county office lies in, from its government unit. */
+function officeStateKey(office: OfficeInput): string {
+  const usps = governmentUnit(office.jurisdiction)?.stateUsps;
+  return usps ? `US-${usps}` : "";
+}
+
+/**
+ * The day a state or federal office's term starts in one calendar year by its
+ * start rule, or null for a county or town office (their calendars say).
+ */
+export function termStartInYear(
+  office: OfficeInput,
+  year: number,
+): string | null {
+  if (office.level !== "federal" && office.level !== "state") return null;
+  return startRuleDate(startRuleOf(office), year);
+}
+
+function startRuleOf(office: OfficeInput): StartRule {
+  return office.termStarts
+    ? {
+        kind: "fixed",
+        month: Number(office.termStarts.slice(0, 2)),
+        day: Number(office.termStarts.slice(3, 5)),
+      }
+    : termStartRule(office);
 }
 
 /**
  * The day a term won at `electionDate` starts: the county's own calendar
- * where it is read, else the office's recorded start day (January 1 where
- * none is read) after the election.
+ * where it is read, else the office's own start day (federal offices carry
+ * theirs; a state's by its law in `term-starts.json`) after the election.
  */
 export function termStartAfter(
   office: OfficeInput,
   electionDate: string,
 ): string {
-  if (office.level === "county") {
+  if (
+    office.level === "county" &&
+    !countyRowRule(office, officeStateKey(office))
+  ) {
     const unit = governmentUnit(office.jurisdiction);
     const year = electionDate.slice(0, 4);
     const read = unit
@@ -613,10 +811,10 @@ export function termStartAfter(
     )
       return read.dates.termStarts;
   }
-  const starts = office.termStarts ?? termStartDefault(office);
+  const rule = startRuleOf(office);
   const year = Number(electionDate.slice(0, 4));
-  const same = `${year}-${starts}`;
-  return same > electionDate ? same : `${year + 1}-${starts}`;
+  const same = startRuleDate(rule, year);
+  return same > electionDate ? same : startRuleDate(rule, year + 1);
 }
 
 /** When a term won at `electionDate` ends: the start of the term elected a full term on. */
@@ -630,8 +828,9 @@ export function termEndAfter(
 }
 
 interface SpecialLawRow {
-  readonly kind: "days-after-vacancy" | "next-general";
+  readonly kind: "days-after-vacancy" | "weekday-after-days" | "next-general";
   readonly days?: number;
+  readonly weekday?: number;
   readonly tag: string;
   readonly citation: string;
 }
@@ -663,6 +862,18 @@ export function specialElectionDate(input: {
         thisYear > vacancyDate
           ? thisYear
           : novemberGeneralElectionDay(year + 1),
+      basis: row.tag === "SOURCED" ? "read" : "estimated",
+      source: row.citation,
+    };
+  }
+  if (row?.kind === "weekday-after-days") {
+    const earliest = addDays(makeIsoDate(vacancyDate), row.days ?? 0);
+    const dow = new Date(`${earliest}T00:00:00Z`).getUTCDay();
+    return {
+      electionDate: addDays(
+        makeIsoDate(earliest),
+        ((((row.weekday ?? 2) - dow) % 7) + 7) % 7,
+      ),
       basis: row.tag === "SOURCED" ? "read" : "estimated",
       source: row.citation,
     };
