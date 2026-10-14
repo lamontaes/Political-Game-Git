@@ -1,0 +1,481 @@
+# Warsaw, North Carolina seed d48ede07ab82 start 2025-01-20 built in 47s people 1852 orgs 123
+player person_779e9c04a4ad2068 Jeffrey Williamson born 2007-01-22
+
+## year 1: 2025-01-20 -> 2026-01-20  126s  heap 1946MB  people 1943 alive 1939 orgs 202
+records this year: 16782; kinds: person.acted=13110, cause.shared=892, speech.retold=601, news.read=484, cause.donated=321, vote-recorded=194, campaign-message=194, speech.heard=146, drive.strengthened=118, cause-group.ad-ran=103, legislative-vote=64, drive.formed=60, committee-hearing=53, office.approached=46, bill-held-in-committee=46, office.replied=45, case.made=35, cause.volunteered=34, cause-group.joined=33, budget-line-changed=31, law-took-effect=30, candidate-filed=23, public-comment=20, person.moved-away=17, seat-vacated=12, chamber-organized=8, initiative.organizing-started=8, cause-group.founded=7, official-appointed=7, association.requested=6, housing.completed=5, interview-published=5, organization.owner-changed=4, budget-adopted=4, election-result=4, took-office=4, debate=3, organization.closed=2, business.closed=2, housing.eviction=1
+news items: 491 (federal 43: law-took-effect=10, legislative-vote=18, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties value=1 
+  FED 2025-12-15 us-policy-positions:government-operations.ban-lobbying-after-office value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.fund-pensions-to-schedule value=1 
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=64.62 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:131680:prosecutor","seatId":"seat:gus2025:131680:prosecutor:0","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:131680:clerk","seatId":"seat:gus2025:131680:clerk:0","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:131680:board","seatId":"seat:gus2025:131680:board:2","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:171189:council","seatId":"seat:gus2025:171189:council:3","cause":"moved away","rule":"appointment"}
+  2025-02-04 chamber-organized {"council-president":"person_996218c37462ee6c"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-04:person_1167390397d096f0:0","number":"2025-001","chamber":"office:gus2025:131680:board","yes":"6","no":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-04:person_1167390397d096f0:1","number":"2025-002","chamber":"office:gus2025:131680:board","yes":"6","no":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-04:person_7ccb95af4ef63a85:2","number":"2025-003","chamber":"office:gus2025:131680:board","yes":"5","no":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-04:person_7ccb95af4ef63a85:3","number":"2025-004","chamber":"office:gus2025:131680:board","yes":"5","no":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-04:person_7ccb95af4ef63a85:4","number":"2025-005","chamber":"office:gus2025:131680:board","yes":"5","no":"2"}
+  2025-02-04 chamber-organized {"mayor-pro-tem":"person_ede611fa0332bffd"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-19 official-appointed {"post":"city-attorney","appointedBy":"person_779e9d04a4ad221b"}
+  2025-02-19 official-appointed {"post":"finance-director","appointedBy":"person_779e9d04a4ad221b"}
+  2025-02-19 official-appointed {"post":"fire-chief","appointedBy":"person_779e9d04a4ad221b"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-19:person_1167390397d096f0:19","number":"2025-013","chamber":"office:gus2025:131680:board","yes":"5","no":"2"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-19:person_1167390397d096f0:20","number":"2025-014","chamber":"office:gus2025:131680:board","yes":"5","no":"2"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-19:person_196ff34b4331de16:21","number":"2025-015","chamber":"office:gus2025:131680:board","yes":"2","no":"5"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-19:person_196ff34b4331de16:22","number":"2025-016","chamber":"office:gus2025:131680:board","yes":"2","no":"5"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-02-19:person_196ff34b4331de16:23","number":"2025-017","chamber":"office:gus2025:131680:board","yes":"2","no":"5"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:131680:clerk","seatId":"seat:gus2025:131680:clerk:0","cause":"moved away","rule":"appointment"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:131680:board","seatId":"seat:gus2025:131680:board:4","cause":"moved away","rule":"appointment"}
+  2025-03-06 law-took-effect {"lawId":"law:county:37061:county:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-03-06:2025-001","series":"us-policy-positions:business-commerce.legalize-cannabis-sales","level":"county","jurisdiction":"county:37061","tier":"general
+  2025-03-06 law-took-effect {"lawId":"law:county:37061:county:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-03-06:2025-002","series":"us-policy-positions:labor-workforce.raise-minimum-wage","level":"county","jurisdiction":"county:37061","tier":"general","value":"1",
+  2025-03-06 law-took-effect {"lawId":"law:county:37061:county:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-03-06:2025-003","series":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","level":"county","juri
+  2025-03-06 law-took-effect {"lawId":"law:county:37061:county:us-policy-positions:labor-workforce.paid-family-leave:general:2025-03-06:2025-004","series":"us-policy-positions:labor-workforce.paid-family-leave","level":"county","jurisdiction":"county:37061","tier":"general","value":"1","u
+  2025-03-06 law-took-effect {"lawId":"law:county:37061:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:2025-005","series":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","level":"county","jurisdiction":"county:3706
+  2025-03-06 law-took-effect {"lawId":"law:place:3771160:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-03-06:2025-001","series":"us-policy-positions:housing-land-use.inclusionary-requirement","level":"city","jurisdiction":"place:3771160","tier":"general",
+  2025-03-06 law-took-effect {"lawId":"law:place:3771160:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-03-06:2025-002","series":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","level":"city","jurisdiction":"
+  2025-03-06 law-took-effect {"lawId":"law:place:3771160:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-03-06:2025-003","series":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","level":"city","jurisdiction":"
+  2025-03-06 law-took-effect {"lawId":"law:place:3771160:city:us-policy-positions:education.universal-preschool:general:2025-03-06:2025-004","series":"us-policy-positions:education.universal-preschool","level":"city","jurisdiction":"place:3771160","tier":"general","value":"1","unit":"","c
+  2025-03-06 law-took-effect {"lawId":"law:place:3771160:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-03-06:2025-005","series":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","level":"city","jurisdiction":"place:3771160","tier":"g
+  2025-03-06 chamber-organized {"council-president":"person_3208149250c17359"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-03-06 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-03-06:person_196ff34b4331de16:25","number":"2025-019","chamber":"office:gus2025:131680:board","yes":"3","no":"4"}
+  2025-03-06 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-03-06 legislative-vote {"billId":"bill:office:gus2025:131680:board:2025-03-06:person_196ff34b4331de16:26","number":"2025-020","chamber":"office:gus2025:131680:board","yes":"3","no":"4"}
+  2025-03-06 chamber-organized {"mayor-pro-tem":"person_ede611fa0332bffd"}
+  2025-03-07 law-took-effect {"lawId":"law:county:37061:county:minimum-wage:general:2025-03-07:law:county:37061:county:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-03-06:2025-002","series":"minimum-wage","level":"county","jurisdiction":"county:37061","tier":"general
+  2025-03-21 official-appointed {"post":"city-attorney","appointedBy":"person_be4195f37279ccb8"}
+  2025-03-21 official-appointed {"post":"fire-chief","appointedBy":"person_be4195f37279ccb8"}
+  2025-03-21 law-took-effect {"lawId":"law:county:37061:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-03-21:2025-013","series":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","level":"cou
+  2025-03-21 law-took-effect {"lawId":"law:county:37061:county:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-03-21:2025-014","series":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","level":"county","jurisdicti
+  2025-04-01 seat-vacated {"officeId":"office:gus2025:171189:council","seatId":"seat:gus2025:171189:council:1","cause":"moved away","rule":"appointment"}
+  2025-04-01 seat-vacated {"officeId":"office:gus2025:131680:board","seatId":"seat:gus2025:131680:board:2","cause":"moved away","rule":"appointment"}
+  2025-04-05 chamber-organized {"council-president":"person_409f9adc36a70399"}
+  2025-04-05 chamber-organized {"mayor-pro-tem":"person_ede611fa0332bffd"}
+  2025-04-20 official-appointed {"post":"finance-director","appointedBy":"person_be4195f37279ccb8"}
+  2025-05-19 candidate-filed {"filingId":"filing:contest:seat:gus2025:171189:council:0:2025-11-04:person_1167390397d096f0","contestId":"contest:seat:gus2025:171189:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-05-19 candidate-filed {"filingId":"filing:contest:seat:gus2025:171189:council:0:2025-11-04:person_409f9adc36a70399","contestId":"contest:seat:gus2025:171189:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-05-19 candidate-filed {"filingId":"filing:contest:seat:gus2025:171189:council:0:2025-11-04:person_421c254c72ce9083","contestId":"contest:seat:gus2025:171189:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-05-19 candidate-filed {"filingId":"filing:contest:seat:gus2025:171189:council:0:2025-11-04:person_7ccb95af4ef63a85","contestId":"contest:seat:gus2025:171189:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-05-19 candidate-filed {"filingId":"filing:contest:seat:gus2025:171189:council:2:2025-11-04:person_568cfe80d9fbcd9a","contestId":"contest:seat:gus2025:171189:council:2:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-05-19 candidate-filed {"filingId":"filing:contest:seat:gus2025:171189:council:4:2025-11-04:person_bf7bde0923b501ab","contestId":"contest:seat:gus2025:171189:council:4:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-05-19 candidate-filed {"filingId":"filing:contest:seat:gus2025:171189:council:4:2025-11-04:person_ede611fa0332bffd","contestId":"contest:seat:gus2025:171189:council:4:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"County board of elections (counter: 
+  2025-05-19 candidate-filed {"filingId":"filing:contest:seat:gus2025:171189:mayor:0:2025-11-04:person_3208139250c171a6","contestId":"contest:seat:gus2025:171189:mayor:0:2025-11-04","office":"Mayor","electionDate":"2025-11-04","filedWith":"County board of elections (counter: director of e
+  2025-06-01 organization.closed {"organization:organization_1e6f37a62a39888e:status":"closed","organization:organization_1e6f37a62a39888e:closure-source":"owner-closed:2025-06-01:organization_1e6f37a62a39888e"}
+  2025-06-01 business.closed {"organization:organization_1e6f37a62a39888e:closing-reason":"losses-kept"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-NC:lower:075:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:government-operations.broaden-local-authority","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:27","number":"2025-001","chamber":"office:US-NC:legislature-lower","yes":"103","no":"17"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-NC:upper:036:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:government-operations.broaden-local-authority","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:27","number":"2025-001","chamber":"office:US-NC:legislature-upper","yes":"47","no":"3"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-NC:lower:075:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:28","number":"2025-002","chamber":"office:US-NC:legislature-lower","yes":"84","no":"36"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-NC:upper:036:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:28","number":"2025-002","chamber":"office:US-NC:legislature-upper","yes":"38","no":"12"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-NC:lower:075:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.cap-consumer-loan-rates","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:29","number":"2025-003","chamber":"office:US-NC:legislature-lower","yes":"74","no":"46"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-NC:upper:036:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:business-commerce.cap-consumer-loan-rates","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:29","number":"2025-003","chamber":"office:US-NC:legislature-upper","yes":"30","no":"20"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-NC:lower:075:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:30","number":"2025-004","chamber":"office:US-NC:legislature-lower","yes":"91","no":"29"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-NC:upper:036:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:30","number":"2025-004","chamber":"office:US-NC:legislature-upper","yes":"31","no":"19"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-NC:lower:075:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-NC:lower:075:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:32","number":"2025-006","chamber":"office:US-NC:legislature-lower","yes":"75","no":"45"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-NC:upper:036:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:32","number":"2025-006","chamber":"office:US-NC:legislature-upper","yes":"38","no":"12"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-NC:lower:075:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:33","number":"2025-007","chamber":"office:US-NC:legislature-lower","yes":"91","no":"29"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-NC:upper:036:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:33","number":"2025-007","chamber":"office:US-NC:legislature-upper","yes":"40","no":"10"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-NC:lower:075:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:justice-public-safety.permit-to-carry-concealed","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:34","number":"2025-008","chamber":"office:US-NC:legislature-lower","yes":"72","no":"48"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:007:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-NC:upper:036:0:2025-01-20","yes":"7","no":"4"}
+deaths: 0
+election-ish kinds: official-appointed=7, election-result=4
+  E 2025-02-19 official-appointed {"post":"city-attorney","appointedBy":"person_779e9d04a4ad221b"}
+  E 2025-02-19 official-appointed {"post":"finance-director","appointedBy":"person_779e9d04a4ad221b"}
+  E 2025-02-19 official-appointed {"post":"fire-chief","appointedBy":"person_779e9d04a4ad221b"}
+  E 2025-03-21 official-appointed {"post":"city-attorney","appointedBy":"person_be4195f37279ccb8"}
+  E 2025-03-21 official-appointed {"post":"fire-chief","appointedBy":"person_be4195f37279ccb8"}
+  E 2025-03-21 official-appointed {"post":"public-works","appointedBy":"person_be4195f37279ccb8"}
+  E 2025-04-20 official-appointed {"post":"finance-director","appointedBy":"person_be4195f37279ccb8"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:171189:council:0:2025-11-04","office":"Council member","winnerId":"person_409f9adc36a70399","totals":"{\"person_1167390397d096f0\":223,\"person_409f9adc36a70399\":805,\"person_421c254c72ce9083\":3,\"person
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:171189:council:2:2025-11-04","office":"Council member","winnerId":"person_568cfe80d9fbcd9a","totals":"{\"person_4da2e8080bf22293\":100,\"person_568cfe80d9fbcd9a\":1487}","views:speaker":"person_568cfe80d9f
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:171189:council:4:2025-11-04","office":"Council member","winnerId":"person_ede611fa0332bffd","totals":"{\"person_bf7bde0923b501ab\":150,\"person_ede611fa0332bffd\":1437}","views:speaker":"person_ede611fa033
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:171189:mayor:0:2025-11-04","office":"Mayor","winnerId":"person_3208139250c171a6","totals":"{\"person_3208139250c171a6\":1586}","views:speaker":"person_3208139250c171a6"}
+player: alive=true job=Server cash=$2146 home=household_fd3f16fcdb31d5a0
+
+### trace speech:party-meeting:party:US-NC:democratic:2026-01-15:retold:person_daa43c81f42501bb (speech.retold 2026-01-15)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+speech:party-meeting:party:US-NC:democratic:2026-01-15:retold:person_daa43c81f42501bb [core.log speech.retold]
+   facts views:speaker=person_daa43c81f42501bb
+  <- person_daa43b81f4250008 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:retold:person_daa43c81f42501bb:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:retold:person_daa43c81f42501bb:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:retold:person_daa43c81f42501bb:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-NC:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+speech:party-meeting:party:US-NC:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_421c254c72ce9083
+  <- person_7ccb94af4ef638d2 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NC:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":
+
+### trace campaign-message:filing:contest:seat:gus2025:131680:sheriff:0:2026-11-03:person_421c254c72ce9083:2026-01-09 (campaign-message 2026-01-09)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+campaign-message:filing:contest:seat:gus2025:131680:sheriff:0:2026-11-03:person_421c254c72ce9083:2026-01-09 [core.log campaign-message]
+   facts campaignId=filing:contest:seat:gus2025:131680:sheriff:0:2026-11-03:person_421c254c72ce9083 candidateId=person_421c254c72ce9083 views:speaker=person_421c254c72ce9083
+  <- person_421c254c72ce9083 [core.people person] via core.observe.perceived
+     value {"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.placeId | record:core.log.facts.campaignId | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"event:campaign-message:filing:contest:seat:gus2025:131680:sheriff:0:2026-11-03:person_421c254c72ce9083:2026-01-09:experienced","learnedAt":"2026-01-09", | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2026-01-09","access":"perceived"} | learned:core.observe.perceived={"key":"event:campaign-message:filing:contest:seat:gus2025:131680:sheriff:0:2026-11-03:person_421c254c72ce9083:2026-01-09:experienced","learnedAt":"2026-01-09",
+
+### trace person.moved-away:person_1d5c5262d643e7a1:2026-01-01 (person.moved-away 2026-01-01)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+person.moved-away:person_1d5c5262d643e7a1:2026-01-01 [core.log person.moved-away]
+   facts person:person_1d5c5262d643e7a1:residence=jurisdiction_9bf7e2c099b36a6c
+  <- person_1d5c5262d643e7a1 [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_1d5c5262d643e7a1:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_1d5c5262d643e7a1:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+### trace law-took-effect:law:county:37061:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+law-took-effect:law:county:37061:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:37061:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:37061 tier=general value=0.691 unit=percent-of-home-value change=replaced replacesLawId=law:county:37061:county:property-tax:general:2026-01-01:from-start
+  <- law:county:37061:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:37061 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:37061 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_262161ba3d6fb0fe [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-NC:us-house:2025-12-15:official:seat:US-SC:us-house:06:112:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+committee:bill:office:US-NC:us-house:2025-12-15:official:seat:US-SC:us-house:06:112:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-NC:us-house:2025-12-15:official:seat:US-SC:us-house:06:112 committee=general chair=official:seat:US-TN:us-house:06 yes=0 no=0
+  <- bill:office:US-NC:us-house:2025-12-15:official:seat:US-SC:us-house:06:112 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-NC:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace bill-vote:bill:office:US-NC:us-house:2025-12-15:official:seat:US-AL:us-house:01:108:federal:us-house (legislative-vote 2025-12-15)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+bill-vote:bill:office:US-NC:us-house:2025-12-15:official:seat:US-AL:us-house:01:108:federal:us-house [core.log legislative-vote]
+   facts billId=bill:office:US-NC:us-house:2025-12-15:official:seat:US-AL:us-house:01:108 number=2025-021 chamber=federal:us-house yes=204 no=229
+  <- official:seat:US-AK:us-house:00 [core.people person] via core.log.personIds.0
+    <- job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00 [core.jobs job] via saved-trace.job
+      <- official:seat:US-AK:us-house:00 [core.people person] via core.jobs.personId
+        <- job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00 [core.jobs job] via saved-trace.job
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.personIds.14 | record:core.log.personIds.15 | record:core.log.personIds.16 | record:core.log.personIds.17 | record:core.log.personIds.18 | record:core.log.personIds.19 | record:core.log.personIds.20 | record:core.log.personIds.21 | record:core.log.personIds.22 | record:core.log.personIds.23 | record:core.log.personIds.24 | record:core.log.personIds.25 | record:core.log.personIds.26 | record:core.log.personIds.27 | record:core.log.personIds.28 | record:core.log.personIds.29 | record:core.log.personIds.30 | record:core.log.personIds.31 | record:core.log.personIds.32 | record:core.log.personIds.33 | record:core.log.personIds.34 | record:core.log.personIds.35 | record:core.log.personIds.36 | record:core.log.personIds.37 | record:core.log.personIds.38 | record:core.log.personIds.39 | record:core.log.personIds.40 | record:core.log.personIds.41 | record:core.log.personIds.42 | record:core.log.personIds.43 | record:core.log.personIds.44 | record:core.log.personIds.45 | record:core.log.personIds.46 | record:core.log.personIds.47 | record:core.log.person
+
+### trace vote-recorded:vote:2025-021:official:term:seat:US-NC:us-house:03:2025-01-20 (vote-recorded 2025-12-15)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+vote-recorded:vote:2025-021:official:term:seat:US-NC:us-house:03:2025-01-20 [core.log vote-recorded]
+   facts measureId=2025-021 question=us-policy-positions:fiscal.adopt-income-tax position=-1
+  <- official:term:seat:US-NC:us-house:03:2025-01-20 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.question | learned:core.observe.perceived={"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11082764246434 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_262161ba3d6fb0fe [regional.places places] via core.log.placeId
+    <- region:37:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace election-result:contest:seat:gus2025:171189:mayor:0:2025-11-04 (election-result 2025-11-04)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+election-result:contest:seat:gus2025:171189:mayor:0:2025-11-04 [core.log election-result]
+   facts contestId=contest:seat:gus2025:171189:mayor:0:2025-11-04 office=Mayor winnerId=person_3208139250c171a6 totals={"person_3208139250c171a6":1586} views:speaker=person_3208139250c171a6
+  <- person_3208139250c171a6 [core.people person] via core.observe.perceived
+     value {"key":"contestId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.contestId | learned:core.observe.perceived={"key":"contestId","learnedAt":"2025-11-04","access":"perceived"}
+
+### trace interview-published:interview:outlet:television:3:jurisdiction_262161ba3d6fb0fe:filing:contest:seat:gus2025:171189:council:2:2025-11-04:person_4da2e8080bf22293:2025-10-06:0 (interview-published 2025-10-06)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+interview-published:interview:outlet:television:3:jurisdiction_262161ba3d6fb0fe:filing:contest:seat:gus2025:171189:council:2:2025-11-04:person_4da2e8080bf22293:2025-10-06:0 [core.log interview-published]
+   facts interviewId=interview:outlet:television:3:jurisdiction_262161ba3d6fb0fe:filing:contest:seat:gus2025:171189:council:2:2025-11-04:person_4da2e8080bf22293:2025-10-06:0 outletId=outlet:television:3:jurisdiction_262161ba3d6fb0fe candidateId=person_4da2e8080bf22293 contestId=contest:seat:gus2025:171189:council:2:2025-11-04 answered=3 declined=0 storyId=printed:outlet:television:3:jurisdiction_262161ba3d6fb0fe:interview:outlet:television:3:jurisdiction_262161ba3d6fb0fe:filing:contest:seat:gus2025:171189:council:2:2025-11-04:person_4da2e8080bf22293:2025-10-06:0
+  <- person_4da2e8080bf22293 [core.people person] via core.observe.perceived
+     value {"key":"interviewId","learnedAt":"2025-10-06","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.interviewId | record:core.log.facts.outletId | record:core.log.facts.contestId | record:core.log.facts.storyId | learned:core.observe.perceived={"key":"interviewId","learnedAt":"2025-10-06","access":"perceived"}
+
+### trace event:business.closed:organization_818a0b3cf1a804c9 (business.closed 2025-10-01)
+trace report · seed d48ede07ab82 · place 3771160 · date 2026-01-20
+event:business.closed:organization_818a0b3cf1a804c9 [core.log business.closed]
+   facts organization:organization_818a0b3cf1a804c9:closing-reason=losses-kept
+  <- organization_818a0b3cf1a804c9 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom
+
+## core2-offices-v1.offices: 16 of 24
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-NC:us-senate","level":"federal","jurisdiction":"US-NC","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor, from a list of 3 nominees submitted by the former senator's party\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Resea…"}
+  {"id":"office:US-NC:us-house","level":"federal","jurisdiction":"US-NC","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":14,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-NC:governor","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"N.C. Const. art. III sec. 3; G.S. 147-11.1 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":"{\"method\":\"successor\",\"successor\":\"lieutenant governor\",\"citation\":\"N.C. Const. art. III sec. 3; G.S. 147-11.1\",\"source\":\"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_…"}
+  {"id":"office:US-NC:lieutenant-governor","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":{"method":"remains-vacant","citation":"State constitution executive article / election code (generic rule; not verified per office)","source":"https://ballotpedia.org/State_executive_offices","estimate":true}}
+  {"id":"office:US-NC:attorney-general","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"attorney-general","title":"Attorney General","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (Council of State vacancy; by practice from the predecessor's party)\",\"citation\":\"State constitution executive article / election code (generic rule; no…"}
+  {"id":"office:US-NC:secretary-of-state","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"secretary-of-state","title":"Secretary of State","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (Council of State vacancy; by practice from the predecessor's party)\",\"citation\":\"State constitution executive article / election code (generic rule; no…"}
+  {"id":"office:US-NC:treasurer","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"treasurer","title":"Treasurer","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (Council of State vacancy; by practice from the predecessor's party)\",\"citation\":\"State constitution executive article / election code (generic rule; no…"}
+  {"id":"office:US-NC:auditor","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"auditor","title":"State Auditor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (Council of State vacancy; by practice from the predecessor's party)\",\"citation\":\"State constitution executive article / election code (generic rule; no…"}
+  {"id":"office:US-NC:superintendent","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"superintendent","title":"Superintendent of Public Instruction","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (Council of State vacancy; by practice from the predecessor's party)\",\"citation\":\"State constitution executive article / election code (generic rule; no…"}
+  {"id":"office:US-NC:agriculture-commissioner","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"agriculture-commissioner","title":"Commissioner of Agriculture","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (Council of State vacancy; by practice from the predecessor's party)\",\"citation\":\"State constitution executive article / election code (generic rule; no…"}
+  {"id":"office:US-NC:insurance-commissioner","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"insurance-commissioner","title":"Insurance Commissioner","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (Council of State vacancy; by practice from the predecessor's party)\",\"citation\":\"State constitution executive article / election code (generic rule; no…"}
+  {"id":"office:US-NC:labor-commissioner","level":"state","jurisdiction":"US-NC","governmentName":"US-NC","kind":"labor-commissioner","title":"Commissioner of Labor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (Council of State vacancy; by practice from the predecessor's party)\",\"citation\":\"State constitution executive article / election code (generic rule; no…"}
+  {"id":"office:US-NC:legislature-upper","level":"state","jurisdiction":"US-NC","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":50,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor, appointing the person recommended by the predecessor's party district executive committee\",\"citation\":\"N.C. Gen. Stat. sec. 163-11\",\"source\":\"https://b…"}
+  {"id":"office:US-NC:legislature-lower","level":"state","jurisdiction":"US-NC","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":120,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor, appointing the person recommended by the predecessor's party district executive committee\",\"citation\":\"N.C. Gen. Stat. sec. 163-11\",\"source\":\"https://b…"}
+
+## core2-offices-v1.seats: 14 of 216
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-NC:us-senate:0","officeId":"office:US-NC:us-senate","index":0,"coversTown":true,"party":"Republican","electionYear":2026}
+  {"id":"seat:US-NC:us-senate:1","officeId":"office:US-NC:us-senate","index":1,"coversTown":true,"party":"Republican","electionYear":2028}
+  {"id":"seat:US-NC:governor","officeId":"office:US-NC:governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-NC:lieutenant-governor","officeId":"office:US-NC:lieutenant-governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-NC:attorney-general","officeId":"office:US-NC:attorney-general","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-NC:secretary-of-state","officeId":"office:US-NC:secretary-of-state","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-NC:treasurer","officeId":"office:US-NC:treasurer","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-NC:auditor","officeId":"office:US-NC:auditor","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-NC:superintendent","officeId":"office:US-NC:superintendent","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-NC:agriculture-commissioner","officeId":"office:US-NC:agriculture-commissioner","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-NC:insurance-commissioner","officeId":"office:US-NC:insurance-commissioner","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-NC:labor-commissioner","officeId":"office:US-NC:labor-commissioner","index":0,"coversTown":true,"party":"Republican"}
+
+## core2-offices-v1.terms: 16 of 723
+  {"id":"term:seat:US-NC:lieutenant-governor:2025-01-20:past:1","seatId":"seat:US-NC:lieutenant-governor","officeId":"office:US-NC:lieutenant-governor","identity":{"givenName":"Ann","familyName":"Brown","gender":"female","birthDate":"1967-08-28","homeState":"US-NC"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US-NC:secretary-of-state:2025-01-20:past:1","seatId":"seat:US-NC:secretary-of-state","officeId":"office:US-NC:secretary-of-state","identity":{"givenName":"Maria","familyName":"Mullen","gender":"female","birthDate":"1974-08-22","homeState":"US-NC"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US-NC:agriculture-commissioner:2025-01-20:past:1","seatId":"seat:US-NC:agriculture-commissioner","officeId":"office:US-NC:agriculture-commissioner","identity":{"givenName":"Monica","familyName":"Yoder","gender":"female","birthDate":"1970-11-09","homeState":"US-NC"},"party":"Republican","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US-NC:insurance-commissioner:2025-01-20:past:1","seatId":"seat:US-NC:insurance-commissioner","officeId":"office:US-NC:insurance-commissioner","identity":{"givenName":"Angela","familyName":"Harper","gender":"female","birthDate":"1980-03-23","homeState":"US-NC"},"party":"Republican","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"John","familyName":"Rasmussen","gender":"male","birthDate":"1973-05-28","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Lisa","familyName":"Caldwell","gender":"female","birthDate":"1967-01-02","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-NC:governor:2025-01-20","seatId":"seat:US-NC:governor","officeId":"office:US-NC:governor","personId":"official:term:seat:US-NC:governor:2025-01-20","identity":{"givenName":"David","familyName":"Torres","gender":"male","birthDate":"1961-10-10","homeState":"US-NC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:lieutenant-governor:2025-01-20","seatId":"seat:US-NC:lieutenant-governor","officeId":"office:US-NC:lieutenant-governor","personId":"official:term:seat:US-NC:lieutenant-governor:2025-01-20","identity":{"givenName":"Ann","familyName":"Brown","gender":"female","birthDate":"1967-08-28","homeState":"US-NC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:attorney-general:2025-01-20","seatId":"seat:US-NC:attorney-general","officeId":"office:US-NC:attorney-general","personId":"official:term:seat:US-NC:attorney-general:2025-01-20","identity":{"givenName":"Lisa","familyName":"Clark","gender":"female","birthDate":"1973-08-28","homeState":"US-NC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:secretary-of-state:2025-01-20","seatId":"seat:US-NC:secretary-of-state","officeId":"office:US-NC:secretary-of-state","personId":"official:term:seat:US-NC:secretary-of-state:2025-01-20","identity":{"givenName":"Maria","familyName":"Mullen","gender":"female","birthDate":"1974-08-22","homeState":"US-NC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:treasurer:2025-01-20","seatId":"seat:US-NC:treasurer","officeId":"office:US-NC:treasurer","personId":"official:term:seat:US-NC:treasurer:2025-01-20","identity":{"givenName":"Susan","familyName":"Kent","gender":"female","birthDate":"1976-11-26","homeState":"US-NC"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:auditor:2025-01-20","seatId":"seat:US-NC:auditor","officeId":"office:US-NC:auditor","personId":"official:term:seat:US-NC:auditor:2025-01-20","identity":{"givenName":"Kimberly","familyName":"Rodgers","gender":"female","birthDate":"1977-02-08","homeState":"US-NC"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:superintendent:2025-01-20","seatId":"seat:US-NC:superintendent","officeId":"office:US-NC:superintendent","personId":"official:term:seat:US-NC:superintendent:2025-01-20","identity":{"givenName":"Terry","familyName":"Tyler","gender":"male","birthDate":"1968-12-14","homeState":"US-NC"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:agriculture-commissioner:2025-01-20","seatId":"seat:US-NC:agriculture-commissioner","officeId":"office:US-NC:agriculture-commissioner","personId":"official:term:seat:US-NC:agriculture-commissioner:2025-01-20","identity":{"givenName":"Monica","familyName":"Yoder","gender":"female","birthDate":"1970-11-09","homeState":"US-NC"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:insurance-commissioner:2025-01-20","seatId":"seat:US-NC:insurance-commissioner","officeId":"office:US-NC:insurance-commissioner","personId":"official:term:seat:US-NC:insurance-commissioner:2025-01-20","identity":{"givenName":"Angela","familyName":"Harper","gender":"female","birthDate":"1980-03-23","homeState":"US-NC"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2021-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-NC:labor-commissioner:2025-01-20","seatId":"seat:US-NC:labor-commissioner","officeId":"office:US-NC:labor-commissioner","personId":"official:term:seat:US-NC:labor-commissioner:2025-01-20","identity":{"givenName":"Lisa","familyName":"Hutchinson","gender":"female","birthDate":"1977-12-19","homeState":"US-NC"},"party":"Republican","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+
+## core2-offices-v1.terms: 586 of 723
+  {"id":"term:seat:US-NC:upper:001:0:2025-01-20:past:4","seatId":"seat:US-NC:upper:001:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Patricia","familyName":"Lewis","gender":"female","birthDate":"1946-06-28","homeState":"US-NC"},"party":"Republican","startDate":"2017-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-NC:upper:001:0:2025-01-20:past:3","seatId":"seat:US-NC:upper:001:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Patricia","familyName":"Lewis","gender":"female","birthDate":"1946-06-28","homeState":"US-NC"},"party":"Republican","startDate":"2019-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-NC:upper:001:0:2025-01-20:past:2","seatId":"seat:US-NC:upper:001:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Patricia","familyName":"Lewis","gender":"female","birthDate":"1946-06-28","homeState":"US-NC"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-NC:upper:001:0:2025-01-20:past:1","seatId":"seat:US-NC:upper:001:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Patricia","familyName":"Lewis","gender":"female","birthDate":"1946-06-28","homeState":"US-NC"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-NC:upper:002:0:2025-01-20:past:4","seatId":"seat:US-NC:upper:002:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Robert","familyName":"Michael","gender":"male","birthDate":"1961-11-11","homeState":"US-NC"},"party":"Republican","startDate":"2017-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-NC:upper:002:0:2025-01-20:past:3","seatId":"seat:US-NC:upper:002:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Robert","familyName":"Michael","gender":"male","birthDate":"1961-11-11","homeState":"US-NC"},"party":"Republican","startDate":"2019-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-NC:upper:002:0:2025-01-20:past:2","seatId":"seat:US-NC:upper:002:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Robert","familyName":"Michael","gender":"male","birthDate":"1961-11-11","homeState":"US-NC"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-NC:upper:002:0:2025-01-20:past:1","seatId":"seat:US-NC:upper:002:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Robert","familyName":"Michael","gender":"male","birthDate":"1961-11-11","homeState":"US-NC"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-NC:upper:003:0:2025-01-20:past:1","seatId":"seat:US-NC:upper:003:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"William","familyName":"Gonzalez","gender":"male","birthDate":"1972-02-26","homeState":"US-NC"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2023-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-NC:upper:005:0:2025-01-20:past:5","seatId":"seat:US-NC:upper:005:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Kristina","familyName":"Gibson","gender":"female","birthDate":"1985-12-01","homeState":"US-NC"},"party":"Democratic","startDate":"2015-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.635}}
+  {"id":"term:seat:US-NC:upper:005:0:2025-01-20:past:4","seatId":"seat:US-NC:upper:005:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Kristina","familyName":"Gibson","gender":"female","birthDate":"1985-12-01","homeState":"US-NC"},"party":"Democratic","startDate":"2017-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-NC:upper:005:0:2025-01-20:past:3","seatId":"seat:US-NC:upper:005:0","officeId":"office:US-NC:legislature-upper","identity":{"givenName":"Kristina","familyName":"Gibson","gender":"female","birthDate":"1985-12-01","homeState":"US-NC"},"party":"Democratic","startDate":"2019-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2015-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+
+## core2-elections-v1.contests: 0 of 38
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (114 bills)
+  office:US-NC:legislature-lower 2025-06-30: 53
+  office:US-NC:legislature-lower 2025-07-01: 1
+  office:US-NC:us-house 2025-10-01: 1
+  office:US-NC:us-house 2025-12-15: 25
+  office:gus2025:131680:board 2025-02-04: 12
+  office:gus2025:131680:board 2025-02-19: 6
+  office:gus2025:131680:board 2025-03-06: 2
+  office:gus2025:131680:board 2025-07-01: 1
+  office:gus2025:131680:board 2025-09-02: 3
+  office:gus2025:131680:board 2025-09-17: 2
+  office:gus2025:171189:council 2025-02-04: 7
+  office:gus2025:171189:council 2025-07-01: 1
+## bills by body and status
+  office:US-NC:legislature-lower enacted: 1
+  office:US-NC:legislature-lower failed: 41
+  office:US-NC:legislature-lower vetoed: 12
+  office:US-NC:us-house enacted: 7
+  office:US-NC:us-house failed: 19
+  office:gus2025:131680:board enacted: 8
+  office:gus2025:131680:board failed: 18
+  office:gus2025:171189:council enacted: 6
+  office:gus2025:171189:council failed: 2
+## sample federal bill
+  {"id":"bill:office:US-NC:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:88","number":"2025-001","bodyOfficeId":"office:US-NC:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":10744229693},{"kind":"budget-line","line":"transportation","value":31751707708},{"kind":"budget-line","line":"otherPrograms","value":-132918970565}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-NC:legislature-lower:2025-06-30:official:term:seat:US-NC:upper:027:0:2025-01-20:27","number":"2025-001","bodyOfficeId":"office:US-NC:legislature-lower","sponsorId":"official:term:seat:US-NC:upper:027:0:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:government-operations.broaden-local-authority","value":1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"vetoed"}
+
+## federal and state log kinds: vote-recorded=57, committee-hearing=53, bill-held-in-committee=46, legislative-vote=42, case.made=35, law-took-effect=29, budget-line-changed=23, campaign-message=10, chamber-organized=5, candidate-filed=5, seat-vacated=3, budget-adopted=2, inauguration=1, president.address=1, drive.formed=1
+
+## seat-vacated (3)
+  2025-09-01 {"officeId":"office:US-NC:legislature-upper","seatId":"seat:US-NC:upper:050:0","cause":"moved away","rule":"appointment"}
+  2025-10-01 {"officeId":"office:US-NC:legislature-lower","seatId":"seat:US-NC:lower:075:0","cause":"moved away","rule":"appointment"}
+  2025-11-01 {"officeId":"office:US-NC:legislature-lower","seatId":"seat:US-NC:lower:104:0","cause":"moved away","rule":"appointment"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-NC","fiscalYear":"2025","adoptedBy":"the legislature vote 114-6, 48-2 (amended: welfareAndMedicaid, naturalResources, police, localAid, housing, higherEducation, healthAndHospitals, schools, otherPrograms, administration, corrections dropped), 2025-054"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 267-166, 70-30 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (5)
+  2025-01-20 {"speaker":"official:seat:US-CO:us-house:05","majority-leader":"official:seat:US-TN:us-house:05","minority-leader":"official:seat:US-CA:us-house:44","majority-whip":"official:seat:US-NY:us-house:02","minority-whip":"official:seat:US-NJ:us-house:10"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-TX:us-senate:0","majority-leader":"official:seat:US-PA:us-senate:1","minority-leader":"official:seat:US-MN:us-senate:1","majority-whip":"official:seat:US-SD:us-senate:0","minority-whip":"official:seat:US-CO:us-senate:0"}
+  2025-01-20 {"speaker":"official:term:seat:US-NC:lower:083:0:2025-01-20","majority-leader":"official:term:seat:US-NC:lower:013:0:2025-01-20","minority-leader":"official:term:seat:US-NC:lower:112:0:2025-01-20","majority-whip":"official:term:seat:US-NC:lower:105:0:2025-01-20","minority-whip":"official:term:seat:US-NC:lower:048:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-NC:upper:048:0:2025-01-20","majority-leader":"official:term:seat:US-NC:upper:043:0:2025-01-20","minority-leader":"official:term:seat:US-NC:upper:022:0:2025-01-20","majority-whip":"official:term:seat:US-NC:upper:010:0:2025-01-20","minority-whip":"official:term:seat:US-NC:upper:017:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-NC:us-house:13:2025-01-20"}
+
+## candidate-filed (5)
+  2025-12-19 {"filingId":"filing:contest:seat:US-NC:us-senate:0:2026-11-03:official:term:seat:US-NC:us-senate:0:2025-01-20","contestId":"contest:seat:US-NC:us-senate:0:2026-11-03","office":"U.S. Senator","electionDate":"2026-11-03","filedWith":"North Carolina State Board of Elections"}
+  2025-12-19 {"filingId":"filing:contest:seat:US-NC:us-senate:0:2026-11-03:official:term:seat:US-NC:lieutenant-governor:2025-01-20","contestId":"contest:seat:US-NC:us-senate:0:2026-11-03","office":"U.S. Senator","electionDate":"2026-11-03","filedWith":"North Carolina State Board of Elections"}
+  2025-12-19 {"filingId":"filing:contest:seat:US-NC:us-house:03:2026-11-03:official:term:seat:US-NC:us-house:03:2025-01-20","contestId":"contest:seat:US-NC:us-house:03:2026-11-03","office":"U.S. Representative","electionDate":"2026-11-03","filedWith":"North Carolina State Board of Elections"}
+  2025-12-19 {"filingId":"filing:contest:seat:US-NC:upper:009:0:2026-11-03:official:term:seat:US-NC:upper:009:0:2025-01-20","contestId":"contest:seat:US-NC:upper:009:0:2026-11-03","office":"State Senator","electionDate":"2026-11-03","filedWith":"State Board of Elections (multi-county districts) or the county board of elections (single-county districts)"}
+  2025-12-19 {"filingId":"filing:contest:seat:US-NC:lower:004:0:2026-11-03:official:term:seat:US-NC:lower:004:0:2025-01-20","contestId":"contest:seat:US-NC:lower:004:0:2026-11-03","office":"State Representative","electionDate":"2026-11-03","filedWith":"State Board of Elections (multi-county districts) or the county board of elections (single-county districts)"}
+
+done 2.9 min
