@@ -71,6 +71,8 @@ interface PolicyDef {
   readonly kind: string;
   readonly people?: PeopleSelector;
   readonly organizations?: readonly string[];
+  /** The employers it binds gain by it (it pays them or exempts their sales), so they don't organize against it. */
+  readonly employersGain?: boolean;
   readonly terms?: Readonly<Record<string, string>>;
   readonly enforcer: string;
   readonly source: string;

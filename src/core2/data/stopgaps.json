@@ -3597,7 +3597,9 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "One 'who loses money on this bill' reading over every provision kind, read by both employer groups and bribes.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-14",
+    "resolution": "Employer groups now form over any bill that binds employers (employerStakes), and their lobbyist weighs a bribe at the first meeting; the remaining estimate is SG-GOV-bound-employer-cost-estimate (OPUS-GOV)."
   },
   {
     "id": "SG-GOV-case-referral-unread",
@@ -3609,6 +3611,18 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-bound-employer-cost-estimate",
+    "kind": "estimated-parameter",
+    "file": "src/core2/modules/interest-groups.ts",
+    "line": 1,
+    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), not the law's own cost, because most law-reach policies record who is bound and move no money.",
+    "why": "The CTO's item (Oct 14): employers organize from who loses money on any bill (the owner's Sept 26 ruling). Law-reach measures a money effect per employer only for the wage floor.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Each law-reach policy that binds employers moves its own money (a price, a fee, a compliance cost), and the stake reads that.",
     "status": "open"
   }
 ]
