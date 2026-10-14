@@ -14,7 +14,7 @@ Five questions need your ruling first. They are listed in "Your decisions", the 
 
 ## The cafe's year
 
-Wynn's Cafe opened the game with 104 workers, all counted. On its second day, January 21, its owner was chosen from them: the server with the highest wage, $15.47 an hour, who then became a named person (measured; table row 11 shows where the jobs came from). Several other opening servers earned the same $15.47.
+Wynn's Cafe opened the game with 104 workers, all counted. On its second day, January 21, its owner was chosen from them: the server with the highest wage, $15.47 an hour, who then became a named person (measured; a registered stopgap picks the owner, `business.ts:155`). Several other opening servers earned the same $15.47.
 
 Over the year the cafe's customers paid it $12.49 million, about $120,000 for each of its 104 opening workers (measured). That is high for a restaurant; the size comes from the opening spending estimates and was not traced further. The cafe paid $2.24 million in wages and $4.89 million to the town's wholesale food supplier (measured). Its other costs went to the outside market. The owner drew $834,134 in 12 monthly draws, the largest $142,587 on January 1, 2026 (measured). Draws are the owner's profit, separate from the owner's wage as a server. The cafe ended the year with $1.07 million in cash and never closed, drew on its credit line or laid anyone off (measured).
 
@@ -28,7 +28,7 @@ The Federal Reserve's 12 voting members each voted from their own reading of inf
 
 The economy had four routes to the cafe's books, and one carried money:
 
-- **Customer demand** moved the cafe's internal estimate of its sales and staffing, which drove its hiring (inferred from the code). This is the one route that worked.
+- **Customer demand** moved the cafe's internal estimate of its sales and staffing, which set its staffing target and so its hiring (inferred from the code, `jobs.ts:467-476`). This is the one route that worked.
 - **Interest rates** repriced a credit line that never held any debt, so they changed nothing (measured; row 12).
 - **Prices.** Inflation moved the cafe's internal price, but named households never read that price. Each household's monthly spending at each seller was fixed on the first day (confirmed in code; row 19).
 - **Unemployment** never changed how many of the cafe's counted servers quit, were hired or looked for work (confirmed in code; row 18).
@@ -45,18 +45,18 @@ Both sides of every payday and every meal posted to the books and balanced (meas
 
 ## Confirmed defects
 
-Each line was traced against the code and the run's records, then confirmed by a second, stronger model. "Measured" means the run's records show the defect. "Code" means the code path is confirmed but did not fire in this run.
+"Measured" means the run's records show the defect. "Code" means the code path is confirmed but did not fire in this run.
 
 | # | Rule broken | Where | Record | The bug |
 | --- | --- | --- | --- | --- |
 | 1 | Records match | `jobs.ts:984-1000`, `jobs.ts:1087-1099` | `job-change:2026-01-05:work-relationship_8c473d3a3b737c56:quit` | Counted workers take offers at the same or lower pay, and the quit is labeled "better-offer": 79 of 83 at the cafe, 444 of 623 in town (measured). |
 | 2 | No dice | `jobs.ts:1305`, `jobs.ts:1148` | 43 "left-job" quits at Wynn's | A fixed industry quit rate sets how many counted workers quit each month; pay only ranks who goes (measured). |
-| 3 | Registered stopgap | `stopgaps.json:2408` | row SG-WORLD-jobs-counted-choices | The stopgap row names retirement and hiring and an old line; quits and counted closures also run through it and are not named (code). |
+| 3 | Registered stopgap | `stopgaps.json:2408` | row SG-WORLD-jobs-counted-choices | The stopgap row names retirement and hiring and points at line 902, while the call now sits at line 1142; quits and counted closures also run through it and are not named (code). |
 | 4 | No dice | `business.ts:579` | `closure:organization_56f7c2db924977d5` | Where the owner is counted, a fixed baseline sets how many businesses close each month (measured). |
 | 5 | Sliding scales and causes | `business.ts:543`, `business.ts:595` | `closure:organization_56f7c2db924977d5` | "Losses" means cash below opening cash, so a phone company still holding about $2.07 million closed for losses (measured). |
 | 6 | Records match | `business.ts:1485` | `closure:organization_56f7c2db924977d5` | The closure records 0 workers affected while 24 counted workers lost their jobs in it (measured). |
 | 7 | Two-level population | `jobs.ts:1126`, `jobs.ts:1622` | named hires at Wynn's | A named hire is recorded as decided by the business, a counted hire by the owner: one event, two models (measured). |
-| 8 | Two-level population | `budgets.ts:924-926`, `group-a-money.ts:126` | 33 withholding rows for 6 people at Wynn's | Only named workers have taxes and the leave premium taken from pay; about $2.24 million of counted wages at the cafe carried none (measured). |
+| 8 | Two-level population | `budgets.ts:924-926`, `group-a-money.ts:126` | 33 withholding rows for 6 people at Wynn's | Only named workers have taxes and the leave premium taken from pay; of the cafe's $2.24 million in wages, the counted workers' share carried none (measured). |
 | 9 | Two-level population | `scene.ts:445-459`, `places.ts:182-187` | Wynn's staff | A work scene shows every named coworker, a visit shows only those on shift: two staff lists for one room (code). |
 | 10 | Sliding scales and causes | `jobs.ts:485-491` | any employer | Every open position is withdrawn at once when staff reach the target (code). |
 | 11 | Wire to the world | `jobs.ts:497-499` | 140 Server positions at Wynn's | New positions copy only named workers' jobs, so a restaurant never hires a cook or dishwasher; no stopgap row (measured). |
@@ -67,10 +67,10 @@ Each line was traced against the code and the run's records, then confirmed by a
 | 16 | Effect is a read | `regional-model.ts:201` | `region:26:metro:19820` | The regional price level is set once, never updated and read by no engine, yet the player is shown it (measured: 100.298 every month). |
 | 17 | Wire to the world | `macro.ts:195-200` | national month rows | The town's income growth is a neutral stand-in for the first two years, so the town never feeds the national model; no stopgap row (measured: 4.933% every month). |
 | 18 | Wire to the world | `jobs.ts:380-397` | Wynn's quits | Unemployment is read only on the opening day, never by counted quits, entry or job search (code). |
-| 19 | Effect is a read | `opening-customers.ts:1597-1599`, `cost-of-living.ts:186-190` | `living:household_2630cb4fc589a32d:*` | A named household's spending is split equally among sellers on the first day and never reads price, inflation or income; the record's source claims capacity weights (measured). |
+| 19 | Effect is a read | `opening-customers.ts:1597-1599`, `cost-of-living.ts:186-190` | `living:household_2630cb4fc589a32d:*` | A named household's spending is split equally among sellers on the first day and never reads price, inflation or income; the record's source claims capacity weights (code). |
 | 20 | Wire to the world | `credit.ts:705-726` | `application:2025-09-01:household_2630cb4fc589a32d` | The bank counts a full-time calendar wage, not the hours worked and paid, so a part-time server is approved as if full time (measured). |
 | 21 | Every dollar balancing | `housing.ts:634-645` | `mortgage:household_2630cb4fc589a32d` | The mortgage balance falls on schedule whenever no arrears are recorded, without reading what was paid (code). |
-| 22 | Every dollar balancing | `residents.ts:443`, `business.ts:595` | Wynn's owner row | Business books carry fractions of a cent: kept earnings of 4,752,898.96 cents (measured). |
+| 22 | Every dollar balancing | `residents.ts:443`, `business.ts:595` | Wynn's owner row | Business books carry fractions of a cent: kept earnings of 4,752,898.96 cents (measured). Kept earnings are profit kept since the opening day, not cash on hand. |
 | 23 | No hand-written player text | `play.mjs:949`, `play.mjs:1256`, `play.mjs:1262-1265` | the economy screen | Labels such as "Unemployment", "Policy rate" and "Jobs here" are typed in the screen code, and the region row prints raw field names (code). |
 
 ## The paths that came back clean
@@ -101,7 +101,7 @@ What the audit could not reach:
 - Each customer's full monthly spending at the cafe. Detailed receipts are kept only for people in the player's view, so the household's meals are a sample.
 - The cafe's internal price and demand by month, which the run's tables do not save.
 - The exact sales-tax dollars collected.
-- Clicking a counted worker in a live game to watch them become a named person. Only the five already-named servers were checked against their position rows, and all five matched.
+- Clicking a counted worker in a live game to watch them become a named person. Only the five named servers hired in the year were checked against their position rows, and all five matched; the owner's row was not checked.
 
 ## Method and usage
 
