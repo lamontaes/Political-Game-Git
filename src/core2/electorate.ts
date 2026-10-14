@@ -20,11 +20,12 @@ import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { residentsRuntime } from "./modules/residents";
+import { isDemoted } from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
-import type { CoreState, PersonInput } from "./types";
+import type { CoreState } from "./types";
 
 export interface CountedVoter {
   readonly id: string;
@@ -41,31 +42,37 @@ const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
   const hit = cache.get(core);
   // Kept for the day, until someone is filled in or the people change.
-  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.filledIn.size ?? 0}`;
+  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   if (hit && hit.date === key) return hit.rows;
   const rt = residentsRuntime(core);
   const rows: CountedVoter[] = [];
-  if (rt)
-    for (const record of rt.households.values()) {
-      if (rt.filledIn.has(record.household.id)) continue;
+  if (rt) {
+    // Read straight from the counted groups' columns: traits in place, no
+    // record per person (one model, two tiers).
+    const store = rt.store;
+    for (const h of store.liveHouseholds()) {
       const minutes = new Map<string, number>();
-      for (const c of record.workCommitments)
+      for (const c of h.workCommitments)
         if (c.endsAt === undefined || c.endsAt > core.date)
           minutes.set(
             c.personId,
             (minutes.get(c.personId) ?? 0) + c.expectedWeeklyMinutes,
           );
-      for (const person of record.people as readonly PersonInput[]) {
-        if (core.people.has(person.id)) continue;
+      for (const m of store.countedMembers(h)) {
+        const id = store.ids[m]!;
+        // A full person returned to the counts votes as counted.
+        const full = core.people.get(id);
+        if (full && !isDemoted(full)) continue;
         rows.push({
-          id: person.id,
-          birthDate: person.birthDate,
-          placeId: person.placeId,
-          traits: person.traits,
-          weeklyMinutes: minutes.get(person.id) ?? 0,
+          id,
+          birthDate: store.born[m]!,
+          placeId: store.text(store.placeIx[m]!)!,
+          traits: store.packedTraits(m),
+          weeklyMinutes: minutes.get(id) ?? 0,
         });
       }
     }
+  }
   rows.sort((a, b) => a.id.localeCompare(b.id));
   cache.set(core, { date: key, rows });
   return rows;
@@ -199,8 +206,12 @@ export interface CountedFieldEntry {
   /** The share of the town's named adults who have heard of the candidate. */
   readonly recognition: number;
   readonly platform: readonly Stance[];
-  /** What the candidate's place on the printed ballot brings, appeal units (the first-listed edge). */
-  readonly ballotCue?: number;
+  /**
+   * What the candidate's place on each form of the printed ballot brings,
+   * appeal units (the first-listed edge); one form unless the law rotates
+   * names (`ballot-order.ts`).
+   */
+  readonly ballotCues?: readonly number[];
 }
 
 /** One counted voter's appeal for a candidate, with its parts. */
@@ -232,6 +243,8 @@ export function countedAppeal(
     readonly inTown: boolean;
     readonly local: boolean;
     readonly incumbentLean: number;
+    /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
+    readonly ballotForm?: number;
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
@@ -244,7 +257,10 @@ export function countedAppeal(
           platformAgreement(lean, entry.platform))
       : 0;
     const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
-    const ballot = entry.ballotCue ?? 0;
+    const cues = entry.ballotCues ?? [];
+    const ballot = cues.length
+      ? cues[(where.ballotForm ?? 0) % cues.length]!
+      : 0;
     appeal[entry.id] = {
       total: party + standing + recognition + incumbent + ballot,
       party,
@@ -259,8 +275,9 @@ export function countedAppeal(
 
 /**
  * The candidate a voter backs: the one they rank first, where something
- * separates them from the next; a lone candidate only where the voter is
- * for them. With nothing to separate the candidates, the race is left blank.
+ * separates them from the next; a lone candidate unless the voter is against
+ * them (the named voters' rule in voting.ts). With nothing to separate the
+ * candidates, the race is left blank.
  */
 export function countedChoice(
   appeal: Readonly<Record<string, { readonly total: number }>>,
@@ -269,7 +286,7 @@ export function countedChoice(
     (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
   );
   if (ranked.length === 1)
-    return ranked[0]![1].total > 0 ? ranked[0]![0] : null;
+    return ranked[0]![1].total >= 0 ? ranked[0]![0] : null;
   return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
     ? ranked[0]![0]
     : null;
@@ -403,7 +420,7 @@ export function countPlaces(
     // town's own people stand where the town's order puts them).
     const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
-      for (const voter of voters) {
+      for (const [form, voter] of voters.entries()) {
         const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;
@@ -417,6 +434,8 @@ export function countPlaces(
           inTown: place.inTown ?? false,
           local: place.local ?? false,
           incumbentLean: voter.incumbentLean,
+          // The place's voters hold each form of a rotated ballot in turn.
+          ballotForm: form,
         });
         // The one turnout rule (`turnout.ts`): each sample voter stands for
         // the place's people like them, who turn out at their propensity.

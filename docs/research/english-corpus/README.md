@@ -49,6 +49,16 @@ The cloud container that held the first corpus was reclaimed, so the second run 
 | usa.gov pages                                                                                     | 260       | usa.gov                                                                        |
 | Federal counter pages (IRS, Social Security, National Archives, GSA, Postal Service)              | 330       | each agency's site (only .gov pages can be a source)                           |
 
+### Oral-history rebuild for the memoir journal (October 14, 2026)
+
+The memoir shapes (`memoir-*` groups in `shapes/journal.json`) were mined over a smaller oral-history corpus, 1,095 transcripts. The first run's journal parts keep their entries; the memoir parts are added beside them.
+
+| Source                     | Documents | Where             |
+| -------------------------- | --------- | ----------------- |
+| NASA oral histories        | 981       | nasa.gov          |
+| U.S. House oral histories  | 107       | history.house.gov |
+| U.S. Senate oral histories | 7         | senate.gov        |
+
 Kept out: 424 Truman Library interviews, which carry the notice "may not be published in full except by permission". A bank's shapes may name the collections it counts (`sources`); the opening speech counts only what Presidents said.
 
 ## Rebuilding the banks

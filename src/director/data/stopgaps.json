@@ -173,11 +173,11 @@
     "file": "src/director/data/journal.json",
     "line": 1,
     "whatItFakes": "The journal's line templates, written by hand instead of composed from mined real speech.",
-    "why": "The first new-core journal needs words now; the templates copy only recorded facts and hold no feeling words.",
+    "why": "The first new-core journal needs words now; the templates copy only recorded facts and hold no feeling words. Resolved Oct 14 (words/mined-banks-in-play): the journal is worded from data/english/parts/journal.json via src/director/mined/journal-bank.ts; journal.json is deleted, its sentence-free rows live in journal-rows.json, and unworded moments are left out.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from the mined first-person corpus in the speech research, refined by the owner's grades (M4-03).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-conversation-banks",
@@ -185,11 +185,11 @@
     "file": "src/director/data/conversation.json",
     "line": 1,
     "whatItFakes": "Conversation line templates written by hand instead of composed from mined real speech.",
-    "why": "The first new-core conversations need words now; each template copies only recorded facts.",
+    "why": "The first new-core conversations need words now; each template copies only recorded facts. Resolved Oct 14 (words/mined-banks-in-play): the director's conversation words are mined public-domain sentences from data/english/parts/conversation.json via src/director/mined/conversation-bank.ts; the hand-written bank is deleted and a moment no mined sentence covers is left unsaid.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from the mined speech corpus and register cards, refined by the owner's grades (M4-02).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-scene-banks",
@@ -197,11 +197,11 @@
     "file": "src/director/data/scene-words.json",
     "line": 1,
     "whatItFakes": "Scene narration templates written by hand instead of composed from mined real speech and narration.",
-    "why": "The first new-core scenes need words now; each template copies only recorded facts.",
+    "why": "The first new-core scenes need words now; each template copies only recorded facts. Resolved Oct 14 (words/mined-banks-in-play): scenes are worded from data/english/parts/scene-words.json via src/director/mined/scene-bank.ts; scene-words.json is deleted and unmined settings are left unnarrated.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Narration composed from the mined corpus, refined by the owner's grades (M4-03).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-filing-visit-banks",
@@ -209,11 +209,11 @@
     "file": "src/director/data/filing-visit.json",
     "line": 1,
     "whatItFakes": "The filing clerk's line templates, written by hand instead of composed from mined real speech.",
-    "why": "Step 3 needs the clerk's words now; each template copies only GOV's filing records.",
+    "why": "Step 3 needs the clerk's words now; each template copies only GOV's filing records. Resolved Oct 14 (words/mined-banks-in-play): the clerk speaks mined sentences from data/english/parts/filing-visit.json via src/director/mined/filing-bank.ts; filing-visit.json is deleted; fees and signatures stay record data and control names.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Clerk lines composed from mined public-counter speech and refined by the owner's grades (M4-02).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-bring-it-up-banks",
@@ -221,11 +221,11 @@
     "file": "src/director/data/bring-it-up.json",
     "line": 1,
     "whatItFakes": "The templates people use to bring up a change and say who caused it, and the one trait that sends blame toward authority.",
-    "why": "M4-05's first version needs words and a blame lean now; each template copies only what the speaker heard.",
+    "why": "M4-05's first version needs words and a blame lean now; each template copies only what the speaker heard. Resolved Oct 14 (words/mined-banks-in-play): bring-it-up lines are mined from data/english/parts/bring-it-up.json via src/director/mined/scene-bank.ts; bring-it-up.json is deleted and the unmined told-blame line is left out.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from mined speech; blame leaning on views, trust and the person's own experience of each official (M4-05).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-opening-goal-words",
@@ -285,6 +285,18 @@
     "addedBy": "director/scenes-and-filters",
     "addedAt": "2026-10-14",
     "replacement": "GOV's polling-place record (`polling-place:<precinct>` with `pollWorkerIds`), read by the poll-workers fill.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-choices-per-turn",
+    "kind": "owner-decision",
+    "file": "src/director/data/conversation-rules.json",
+    "line": 1,
+    "whatItFakes": "How many choices a conversation turn offers: only the distinct answer moves the mined bank words, one to three per turn, with no unrelated subject tacked on to reach a count.",
+    "why": "Two owner rulings pull apart: Sept 29, 'options come from context, 3 to 5 at a time'; Oct 14 (grading batch 6), a reply's second move must follow from the first. The newer one is applied until the owner rules.",
+    "addedBy": "words/mined-banks-in-play",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling: either fewer choices are right, or OPUS-WORDS mines more answer moves per subject until three to five follow naturally.",
     "status": "open"
   }
 ]
