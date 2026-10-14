@@ -29,7 +29,8 @@ export function endCountedJob(
   const job = rt?.jobs.get(jobId),
     flow = rt?.wageFlowByJob.get(jobId);
   if (!rt || !job || !flow || flow.endedAt) return undefined;
-  const perDay = { ...(flow.perDayMinorByJob ?? {}) };
+  // The flow's own copy of its pay map, made once and changed in place after.
+  const perDay = ownMap(flow.perDayMinorByJob ?? {});
   delete perDay[jobId];
   flow.perDayMinorByJob = perDay;
   flow.jobIds = (flow.jobIds ?? []).filter((id) => id !== jobId);
@@ -53,13 +54,25 @@ export function addCountedJob(
   const rt = residentsRuntime(core);
   if (!rt || (rt.jobs.has(job.id) && rt.jobs.get(job.id)!.endsAt === undefined))
     return false;
-  const find = () =>
-    [...rt.flows.values()].find(
+  const find = () => {
+    // The employer's wage flow through one of its counted jobs, else a scan.
+    for (const id of jobIndex(core).get(job.organizationId) ?? []) {
+      const row = rt.wageFlowByJob.get(id);
+      if (
+        row &&
+        row.kind === "wages" &&
+        !row.endedAt &&
+        row.organizationId === job.organizationId
+      )
+        return row;
+    }
+    return [...rt.flows.values()].find(
       (row) =>
         row.kind === "wages" &&
         !row.endedAt &&
         row.organizationId === job.organizationId,
     );
+  };
   let flow = find();
   // The template's own wage flow, else any live wage flow in the place (its payday cadence is all that's copied).
   const placeId0 = core.organizations.get(job.organizationId)?.placeId;
@@ -101,10 +114,9 @@ export function addCountedJob(
     flow = find();
   }
   if (!flow) return false;
-  flow.perDayMinorByJob = {
-    ...(flow.perDayMinorByJob ?? {}),
-    [job.id]: job.wageDailyMinor,
-  };
+  const perDay = ownMap(flow.perDayMinorByJob ?? {});
+  perDay[job.id] = job.wageDailyMinor;
+  flow.perDayMinorByJob = perDay;
   flow.jobIds = [...(flow.jobIds ?? []), job.id];
   recompute(flow);
   rt.jobs.set(job.id, job);
