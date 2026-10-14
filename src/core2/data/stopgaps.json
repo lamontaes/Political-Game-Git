@@ -3248,6 +3248,30 @@
     "status": "open"
   },
   {
+    "id": "SG-CORE-owner-decision-player-offered-post",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/executive.ts",
+    "line": 1,
+    "whatItFakes": "No appointer ever names the player to a town post; the player holds a post only by appointing others as the executive or by winning a seat.",
+    "why": "Trace audit (Oct 14), item 3: in Tillamook, Oregon (seed 19a393194ce9) the player was appointed public works director with no choice of theirs. The player's decisions are always theirs. Whether an appointer may offer the player a post, for the player to accept or decline, is the owner's call.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling: either the player is never appointed, or an appointer's choice of the player becomes an offer the player accepts or declines in the conversation, and only an accepted offer fills the post.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-giving-stand-in",
+    "kind": "counted-giving",
+    "file": "src/core2/modules/drives.ts",
+    "line": 1,
+    "whatItFakes": "Counted adults who give to a cause group give the mean of what the group's full members' own gift rule gives, once a month, because a counted giver has no drive or cash of their own.",
+    "why": "CTO, Oct 14: groups raise from the counted population as well as from full people, by the same rule times the count.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "Counted groups carry their own concern by topic and their cash above the buffer, so the same gift rule reads them directly, at the frequency full givers give.",
+    "status": "open"
+  },
+  {
     "id": "SG-CORE-closeness-gov-raw-reads",
     "kind": "closeness-read",
     "file": "src/core2/closeness.ts",
