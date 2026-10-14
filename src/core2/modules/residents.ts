@@ -1264,6 +1264,27 @@ function ownMap(map: Readonly<Record<string, number>>): Record<string, number> {
 }
 
 /** Remove counted jobs from their employers' wage flows (the worker is gone). */
+/**
+ * Every job row the counted books hold for these people: the household's
+ * opening jobs and the ones its members were hired into since (those live in
+ * `rt.jobs` only), so a leaver never leaves a job standing for a person who
+ * is gone.
+ */
+function countedJobIdsOf(
+  rt: ResidentsRuntime,
+  record: ResidentHouseholdRecord,
+  personIds: ReadonlySet<PersonId>,
+): Set<string> {
+  const ids = new Set(
+    record.jobs
+      .filter((row) => personIds.has(row.personId))
+      .map((row) => row.id),
+  );
+  for (const job of rt.jobs.values())
+    if (personIds.has(job.personId)) ids.add(job.id);
+  return ids;
+}
+
 function dropCountedJobs(rt: ResidentsRuntime, jobIds: ReadonlySet<string>) {
   if (!jobIds.size) return;
   for (const flow of rt.flows.values()) {
@@ -1326,8 +1347,7 @@ export function removeCountedPerson(core: CoreState, personId: PersonId): void {
   if (!rt || !householdId) return;
   const record = rt.households.get(householdId)!;
   const person = record.people.find((row) => row.id === personId)!;
-  const jobs = record.jobs.filter((row) => row.personId === personId);
-  dropCountedJobs(rt, new Set(jobs.map((row) => row.id)));
+  dropCountedJobs(rt, countedJobIdsOf(rt, record, new Set([personId])));
   const awards = record.contracts.filter(
     (row) => row.recipientIncome?.personId === personId,
   );
@@ -1392,7 +1412,10 @@ export function departCountedHousehold(
   const rt = runtimes.get(core);
   const record = rt?.households.get(householdId);
   if (!rt || !record) return undefined;
-  dropCountedJobs(rt, new Set(record.jobs.map((row) => row.id)));
+  dropCountedJobs(
+    rt,
+    countedJobIdsOf(rt, record, new Set(record.people.map((row) => row.id))),
+  );
   dropCountedContracts(
     rt,
     new Set([
