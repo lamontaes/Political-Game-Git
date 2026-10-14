@@ -5,7 +5,8 @@ import {
   registerModuleStopV1,
   releaseModuleStopV1,
 } from "../core2/player-stops-v1";
-import { BenchPlayer, ownPick } from "./player";
+import { advancePlayerV1 } from "../core2/player-v1";
+import { BenchPlayer } from "./player";
 import type { CoreInput } from "../core2/types";
 
 // Controlled edge fixtures only; screen-receipt.json proves ordinary generated worlds.
@@ -105,17 +106,14 @@ describe("bench public player adapter", () => {
     expect(trace.scoresStatus).toBe("none-saved");
     expect(core.sequence).toBe(before);
   });
-  it("lets the character answer its own choices while skipping", () => {
+  it("lets the character answer its own choices when the day advances", () => {
     const { player, core } = fixture();
-    const first = player.advance("day").packet;
-    if (first.kind !== "choice") throw new Error("Expected a choice");
-    const pick = ownPick(first)!;
+    const day = player.advance("day");
+    // Day never opens a choice list (owner, Oct 14, 2026).
+    expect(day.packet.kind).toBe("complete");
+    expect(day.selfChosen.length).toBeGreaterThan(0);
+    expect(day.selfChosen[0]).toMatchObject({ why: "advancing" });
     const result = player.advance("skip");
-    expect(result.selfChosen[0]).toMatchObject({
-      pauseId: first.pauseId,
-      offerId: pick.offerId,
-      why: "skipping",
-    });
     expect(result.selfChosen.length).toBeGreaterThan(1);
     // Nothing needs the player in a year here: the skip runs to its lookahead.
     expect(result.packet.kind).toBe("complete");
@@ -142,11 +140,9 @@ describe("bench public player adapter", () => {
   });
   it("switches residents mid-day: the first finishes its day on its own", () => {
     const { player, core } = fixture();
-    const packet = player.advance("day").packet;
-    expect(packet.kind).toBe("choice");
+    player.advance("day");
     player.select("other");
     expect(player.personId).toBe("other");
-    expect(player.selfChosen.at(-1)?.why).toBe("finishing-day-before-switch");
     const next = player.advance("day").packet;
     expect(next.controlledPersonId).toBe("other");
     expect(core.date >= "2021-01-02").toBe(true);
@@ -158,9 +154,13 @@ describe("bench public player adapter", () => {
   });
   it("keeps an issued choice pending when an unavailable offer is submitted", () => {
     const { player, core } = fixture();
-    const packet = player.advance("day").packet;
+    const packet = advancePlayerV1(core, {
+      controlledPersonId: "person",
+      through: { date: "2021-01-03", minuteOfDay: 0 },
+    });
     expect(packet.kind).toBe("choice");
     if (packet.kind !== "choice") throw new Error("Expected issued choice");
+    player.packet = packet;
     const before = core.sequence;
     expect(() =>
       player.resume({
