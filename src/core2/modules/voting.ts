@@ -117,6 +117,7 @@ import {
   type CandidateReasons,
 } from "../electorate-inputs";
 import { scandalsOf } from "./corruption";
+import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
 
 function electionsParameter(key: string): number {
@@ -545,7 +546,7 @@ function appealFor(
     const scandal = heardScandal(
       api,
       voter.id,
-      scandalsOf(api, entry.id, api.state.date),
+      scandalStoriesOf(api, entry.id, api.state.date),
     )
       ? -appealOfShare(electorateParameter("scandalShare")) *
         trustWeight(api, lean)
@@ -699,13 +700,31 @@ function scandalAppeal(
   candidateId: string,
   named: readonly Readonly<PersonState>[],
 ): number {
-  const stories = scandalsOf(api, candidateId, api.state.date);
+  const stories = scandalStoriesOf(api, candidateId, api.state.date);
   if (!stories.length || !named.length) return 0;
   const reached = named.filter((p) => heardScandal(api, p.id, stories)).length;
   return (
     appealOfShare(electorateParameter("scandalShare")) *
     (reached / named.length)
   );
+}
+
+/**
+ * The news stories that make a candidate's scandal, by the date: a taken
+ * bribe someone reported to the press, and a conviction the court made
+ * public. Voters read only the ones that reached them.
+ */
+export function scandalStoriesOf(
+  api: CoreAPI,
+  candidateId: string,
+  date: string,
+): readonly string[] {
+  return [
+    ...scandalsOf(api, candidateId, date),
+    ...convictionsOf(api, candidateId, date).map(
+      (row) => `justice.convicted:${row.id}`,
+    ),
+  ];
 }
 
 /** Whether a scandal story about the candidate reached this person. */

@@ -465,22 +465,6 @@ function reportToPress(
   });
 }
 
-/** Whether someone already offered a bribe over this decision (one ask per decision). */
-export function askedOver(
-  api: CoreAPI,
-  offererId: PersonId,
-  subjectId: string,
-): boolean {
-  return (
-    api.state.modules.has(CORRUPTION_MODULE_ID) &&
-    (
-      table(api, "crimes").query("byOfferer", [
-        offererId,
-      ]) as unknown as CrimeRecord[]
-    ).some((row) => row.subjectId === subjectId)
-  );
-}
-
 /**
  * What the bribes an official took on one decision pull them toward: each
  * taken bribe's amount against a month of the official's living costs,
