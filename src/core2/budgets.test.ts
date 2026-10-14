@@ -70,7 +70,6 @@ describe(
           minimumPeople: 30,
         }),
       );
-      core.observer = true; // keep the journal's receipts to read the police bills
       openLaws(core);
       const govs = openBudgets(core);
       const api = coreAPI(core);
@@ -122,21 +121,19 @@ describe(
           );
       // Every withheld dollar, every sales-tax dollar and every dollar of
       // revenue from outside the town is in a treasury (nothing else pays
-      // into them), less the bills its police line paid the facial
-      // recognition vendor (the only thing this world spends from them).
+      // into them), less what the treasury paid out: a standing school
+      // eligibility law's seats, a pension contribution, the police line's
+      // facial recognition bills (the only things this world spends).
       const salesTax = purchaseTaxes(core);
-      const policeBills = (govId: string) =>
-        [...core.cashJournal.detailedReceipts.values()]
-          .filter((row) =>
-            row.sourceRef.id.startsWith(`police-technology:${govId}:`),
-          )
-          .reduce((n, row) => n + row.grossDebitMinor, 0);
+      const spent = (orgId: string) =>
+        core.cashJournal.totalsByAccount.get(`cash:${orgId}:residual`)
+          ?.grossDebitMinor ?? 0;
       for (const gov of govs)
         expect(cash(gov.organizationId), gov.id).toBe(
           (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
             (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
             outsideRevenueOf(api, gov.id) -
-            policeBills(gov.id),
+            spent(gov.organizationId),
         );
       // Aid, fees and the rest arrive each month for the local governments.
       for (const gov of govs.filter((g) => g.level !== "federal"))
