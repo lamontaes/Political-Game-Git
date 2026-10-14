@@ -306,6 +306,41 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     ).toBe(true);
   });
 
+  it("tells a relative's race by the record's result, never the other way", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find(
+      (id) => core.people.get(id)?.alive && id !== player.id,
+    )!;
+    const rivalId = [...core.people.keys()].find(
+      (id) => id !== relativeId && id !== player.id,
+    )!;
+    // As the voting module records a count: the relative lost.
+    applyCoreEvent(core, {
+      id: "election-result:fixture-loss",
+      date: core.date,
+      kind: "election-result",
+      personIds: [relativeId, rivalId],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "City Council, Seat 3", winnerId: rivalId },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-loss"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) expect(line.text).not.toMatch(/\b(won|elected)\b/);
+  });
+
   it("writes a relative moving away, as the moves engine records it", () => {
     // A watched person with a relative in town (a grown child moving out, a
     // sibling across town).

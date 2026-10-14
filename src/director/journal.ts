@@ -50,7 +50,11 @@ interface LineRow {
   /** Facts read from the causing event's own record. */
   eventFacts?: Readonly<Record<string, { fact: string; format: string }>>;
   line: readonly { key: string; text: string }[];
-  otherLine?: readonly { key: string; text: string }[];
+  otherLine?: readonly {
+    key: string;
+    text: string;
+    stages?: readonly string[];
+  }[];
   repeatLine?: readonly { key: string; text: string }[];
   title?: readonly { key: string; text: string }[];
   /** The person's own moment when the causing event names them among its people. */
@@ -599,6 +603,12 @@ export function composeJournal(
         facts,
         moment.id,
         sourceIds,
+        // Someone else's race is told by the record's result for them.
+        !own && row.ownLine
+          ? facts.winner?.text === moment.counterpartIds[zero]
+            ? "won"
+            : "lost"
+          : undefined,
       );
     if (!event) continue;
     const parts = [event];
