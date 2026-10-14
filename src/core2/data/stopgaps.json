@@ -3912,5 +3912,17 @@
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-local-bill-numbering",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 1,
+    "whatItFakes": "Every town's and county's body numbers its ordinances the same way, by the year and order of introduction (\"2026-12\"), and opens them with the same 'Be it ordained by' clause, not each place's own style.",
+    "why": "The owner's ruling (Oct 14): bills follow the real form of their body. States and Congress have recorded numbering and enacting clauses; local bodies' styles are not in the data yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Each place's ordinance numbering and enacting clause read from its code of ordinances into the municipal rule pack, the way its recall rules are.",
+    "status": "open"
   }
 ]
