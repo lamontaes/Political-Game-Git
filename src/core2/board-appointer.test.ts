@@ -26,6 +26,8 @@ it("names a governor by the president's choice and the Senate's vote, with the r
     placeKey: draw.key,
   });
   const api = coreAPI(core);
+  // The board's members are on the record from the first day.
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const board = () =>
     api.moduleState("macro").table("members").query("all", [true]);
   const before = new Map(board().map((row) => [String(row.seatId), row]));
