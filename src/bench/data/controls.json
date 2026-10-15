@@ -134,5 +134,15 @@
   },
   "travel": {
     "staff": "staff"
+  },
+  "calendar": {
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "today": "Today",
+    "upcoming": "Coming up",
+    "advance": "Live until this day",
+    "back": "Back",
+    "next": "Continue",
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   }
 }

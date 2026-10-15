@@ -1180,71 +1180,114 @@ body.dev .dev-ring {
 }
 #game.sheet-open #talk,
 #game.sheet-open #person,
-#game.sheet-open #journal-note {
+#game.sheet-open #journal-note,
+#game.sheet-open #news-surface {
   visibility: hidden;
 }
 
-/* Calendar: two months on ruled lines, today underlined in gold. */
-#sheet-body .month {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  column-gap: 6px;
-  margin-bottom: 18px;
-}
-.month h3 {
-  grid-column: 1 / -1;
-  font: 800 16px var(--name);
-  letter-spacing: 0.06em;
-  margin: 4px 0 6px;
-}
-.month .weekday {
-  font: 600 10.5px var(--ui);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--gold);
-  padding-bottom: 4px;
-}
-/* The calendar is an opaque panel in the kit's dark, so its cells read. */
-#sheet:has(.month) {
+/* Calendar uses the existing panel frame and Kit 13 controls. */
+#sheet:has(.calendar-layout) {
   background: linear-gradient(#262628, #151517);
-  -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
-.month .day {
-  min-height: 52px;
-  padding: 4px 6px;
-  font-size: 12px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  border-top: 1px solid rgba(214, 189, 132, 0.55);
-  margin-bottom: 4px;
+#sheet-body:has(.calendar-layout) {
+  max-width: none;
 }
-.month .day b {
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--text);
+.calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.7fr) minmax(170px, 1fr) minmax(
+      170px,
+      1fr
+    );
+  gap: 24px;
+}
+.calendar-layout h3 {
+  font: 600 17px var(--name);
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+.calendar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.calendar-heading h3 {
+  margin: 0;
+  text-align: center;
+}
+.calendar-heading button {
+  font-size: 11px;
+  padding: 6px;
+}
+#sheet-body .month {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.month .weekday {
+  font: 500 11px var(--ui);
+  color: var(--gold);
+  text-align: center;
+  padding-bottom: 8px;
+}
+.month .day {
+  min-height: 44px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
 }
 .month .day.today {
-  background: rgba(214, 189, 132, 0.2);
-  outline: 2px solid var(--gold);
-  outline-offset: -2px;
+  color: var(--gold);
+  background: rgba(214, 189, 132, 0.16);
 }
-.month .day.today b {
-  color: var(--brass-hi);
+.month .day.selected {
+  outline: 1px solid var(--gold);
+  outline-offset: -1px;
 }
-.month .day.jump {
-  cursor: pointer;
-}
-.month .day.jump:hover b {
-  color: #fff;
-  text-shadow: var(--glow);
+.month .day::after {
+  display: none;
 }
 .month .entry {
   display: block;
   color: var(--gold);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  line-height: 8px;
+}
+.calendar-event {
+  margin-bottom: 20px;
+}
+.calendar-event p {
+  font: 17px/1.4 var(--speech);
+  margin: 5px 0;
+}
+.calendar-paging {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.calendar-upcoming > div > button {
+  padding-left: 0;
+  color: var(--gold);
+}
+@media (max-width: 1100px) {
+  .calendar-layout {
+    grid-template-columns: minmax(300px, 1.6fr) 1fr;
+    gap: 18px;
+  }
+  .calendar-upcoming {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 20px;
+    align-items: start;
+  }
+  .calendar-upcoming > div {
+    flex: 1;
+  }
+  .calendar-event p {
+    font-size: 14px;
+  }
 }
 
 /* Family: each member where they are now. */
