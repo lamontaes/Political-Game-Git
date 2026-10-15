@@ -57,6 +57,7 @@ type Payment = {
   paidMinor: number;
   cashBeforeMinor: number;
   standing: string;
+  payoff?: boolean;
 };
 const credit = api.moduleState("credit");
 const loans = [...credit.table("loans").rows()] as unknown as Loan[];
@@ -76,7 +77,8 @@ for (const loan of loans) {
   // (1) The balance replays from the principal and what was paid.
   let balance = loan.principalMinor;
   for (const row of payments) {
-    const interest = (balance * loan.annualRate) / months;
+    // A payoff (the home sold) settles the balance that day, with no month's interest.
+    const interest = row.payoff ? 0 : (balance * loan.annualRate) / months;
     balance = Math.round(Math.max(0, balance + interest - row.paidMinor));
   }
   if (Math.abs(balance - loan.balanceMinor) > payments.length + 1)

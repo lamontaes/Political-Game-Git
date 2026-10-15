@@ -358,6 +358,21 @@ export function settleDepartedHomeLoans(
         estimatedFrom: `The home of a household no longer in the town, sold to a buyer from outside, repays ${loan.id}.`,
       },
     );
+    // The payoff is on the loan's record of payments, so its balance replays.
+    store(api)
+      .table("payments")
+      .put({
+        id: `payoff:${loan.id}:${c.date}`,
+        loanId: loan.id,
+        date: c.date,
+        dueMinor: loan.balanceMinor,
+        paidMinor: paid,
+        interestMinor: 0,
+        cashBeforeMinor: 0,
+        employed: false,
+        standing: "paid",
+        payoff: true,
+      });
     store(api)
       .table("loans")
       .put({
