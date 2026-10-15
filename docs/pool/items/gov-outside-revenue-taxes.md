@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** TODO
 
 **Notes.** TODO
+
+Also carries the one aid-type line the plug still pays: the state's `intergovernmental` revenue from its local governments (from the dropped item gov-outside-revenue-aid). Other places' governments are the payers.
