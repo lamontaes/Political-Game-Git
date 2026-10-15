@@ -7,6 +7,14 @@ Only OPUS-WORLD writes this file. See "The team" in `AGENTS.md` and `docs/coordi
 - **Model:** Opus, medium: engines with clear designs in the M1 work orders.
 - **Starts from:** The national economy branch (#3959, research done) and the economy data tables already on main (#3973).
 
+## Stopped (Oct 15, evening): Opus sessions don't build
+
+The owner's ruling on main (OWNER-DECISIONS.md, "Oct 15, afternoon: usage"): "Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind." This session runs on Opus, so it stopped building when it read that, after pushing d230f13b. For whoever takes the World area next, from the pool:
+
+- **#3996 conflicts with main again** (43 commits since the merge at 90d54b99): `docs/coordination/OWNER-DECISIONS.md`, `src/core2/data/stopgaps.json` and `src/core2/modules/housing.ts`. Merge main in, don't rebase.
+- **Already done on the branch:** main merged once with one version of each economy engine (see Needs for the CTO). Savings at the bank count wherever money is weighed. Checks passed on the merged head: the golden-path suite (M0-02 fails as on main), M1-05 in Waterloo, Alabama and M1-06 in Park Center, Colorado. One played year in Salem, West Virginia takes 54 s.
+- **Unfinished:** M1-08 and M1-04 were running on d230f13b when it stopped; their results aren't recorded. M1-04 still fails on low quits in commuter towns, waiting on the owner's answer on unfilled-offer pay (`SG-WORLD-owner-decision-unfilled-offer-pay`).
+
 ## What the owner can play now
 
 Nothing on a screen of its own yet; the economy runs in every new game started with `newGame(recipe, worldGameOptions())`, and the bench reads it through `worldPanels` (more panels are listed for PLAY under Needs). A town opens with its real history since 2000 and runs on its own:
@@ -306,6 +314,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-15 (evening): savings at the bank now count wherever money is weighed (a business's credit line, a household's loan, the owner's draw and a branch's sweep, a worker's days of money, a homeless household's first month's rent), so nobody borrows or goes without while their savings sit in the bank. The closure test now closes its employer through the core (it failed on main too, because its hand-made event carried no closure record).
 - 2026-10-15 (evening): on the merged head (90d54b99), one played year in Salem, West Virginia runs in 54 s with 7 homes bought, no lease in arrears and no group fund below zero; M1-06 passes in Park Center, Colorado (61 loans, none paid short) and M1-05 in Waterloo, Alabama; the golden-path suite passes (M0-02 fails as on main).
 - 2026-10-15 (evening): main merged into `opus-world` (14 files in conflict), #3996's engines as the base and Session B's features ported onto them; the choices are under Needs for the CTO. Main's tests of its features pass on the merged engines (custody, staffing from sales, rehiring, rate cap, rent stabilization, deposits), with two changed to the branch's rules: a counted applicant meets an employer at the matching rate, so the experience test keeps both seekers counted and looking; counted rent renewals are keyed by the household's lease. Found and fixed one defect the merge would have shipped: with savings at the bank, a household's cash could fall below its rent, so rent went into arrears and nobody bought a home; households now keep a month of their bills in hand.
 - 2026-10-15 (afternoon): check tools for the economy's parts of M1-13 and M1-14. M1-14's found D.C. and Rhode Island opening on their multistate metros' unemployment (D.C. 2.9% against its own 6.1%); a state that is all metro now takes its own rate, and it passes in Emelle, Alabama (192 national figures and 1,664 regional months on the record). M1-13's shows every region stepping and 672 state jobs reports a year, and three places shrinking too fast under the core's counted moves (noted for OPUS-CORE). The regions' own migration now answers the change in their unemployment gap, as their pay does.
