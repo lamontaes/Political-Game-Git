@@ -4,6 +4,7 @@ title: "M4-06 The record follows you (step 11)"
 area: director
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

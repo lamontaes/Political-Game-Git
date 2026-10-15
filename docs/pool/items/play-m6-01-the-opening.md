@@ -4,6 +4,7 @@ title: "M6-01 The opening"
 area: play
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:
