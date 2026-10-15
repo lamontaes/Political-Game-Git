@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-confirm-hooks
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T22:57:41.626Z
 ---
 
 **What.** TODO
