@@ -1436,7 +1436,12 @@ export function openConversation(
       ? askSubject(core, conversation, data, main.subject)
       : raiseSubject(core, conversation, data, main.subject)
     : false;
-  if (!opened && !otherAsks(core, conversation, data, OPENING_ORDER))
+  // A scene's talk keeps to its occasion: if nothing can be said about it,
+  // the talk doesn't turn to small talk instead.
+  if (
+    !opened &&
+    (occasion || !otherAsks(core, conversation, data, OPENING_ORDER))
+  )
     endConversation(core, conversation, data);
   return conversation;
 }
