@@ -4,12 +4,13 @@ title: "Finish #4347: households occupy new rentals, with the rent cap read"
 area: world
 kind: wiring
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-new-homes-finish
 pr: #4347
 blocked-on:
 milestone:
 source: "reissue item 4; PR #4347 branch world/session-b-new-homes"
+claimed-at: 2026-10-15T22:37:08.428Z
 ---
 
 **What.** The new-homes pull request moved rental renewal into housing-occupancy.ts renewRentalLeases, but main's housing.ts renew became renewRents with the rent-stabilization cap read, so renewals on the branch ignore the cap. Merge main, port the cap read (or call renewRents), keep housing-laws.test.ts passing, and give the moves table a reader in play (the director's ledger or the news). A player would notice a rent-stabilized rental not jumping past the cap when a new household moves in.

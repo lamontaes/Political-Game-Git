@@ -4,12 +4,13 @@ title: "The opening's key people list per the ruling"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-opening-key-people
+pr: #4501
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
+claimed-at: 2026-10-15T22:41:25.676Z
 ---
 
 **What.** The opening needs a ruled list of key people and today it has none that both the opening story and the Politics hub read. Per the owner's Oct 15 afternoon ruling the key people are the president and vice president; the state's legislators; the most powerful person in each chamber (the one chamber where a state has only one); and the player's own representatives (council member, state legislators, U.S. representative and senators). The player would see the opening story and the Politics hub name exactly these people and no others.

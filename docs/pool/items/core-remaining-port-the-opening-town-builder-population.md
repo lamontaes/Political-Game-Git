@@ -4,12 +4,13 @@ title: "Remaining port, the opening town builder (population.ts, opening-employm
 area: core
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-remaining-port-opening-builder
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/core.md line 27 (unchecked checklist line)"
+claimed-at: 2026-10-15T22:52:03.121Z
 ---
 
 **What.** The opening town builder (population.ts, opening-employment.ts and opening-work.ts) still writes into an old-engine world, and porting it frees 886 old files. People (traits, upbringing, names) and jobs, pay and schedules must come out as core records instead. The player would notice nothing different at the start of a game, which is the test: the same town, built without the old engine. Build only what the golden path needs, and write fresh where that is simpler.
