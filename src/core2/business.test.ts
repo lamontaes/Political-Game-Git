@@ -412,6 +412,32 @@ describe("founding a business where a market has room", () => {
     expect(money(core)).toBe(total);
   });
 
+  it("an unserved market elsewhere does not block a viable local founder", async () => {
+    const core = await foundingCore(false);
+    const remote = "diner:remote";
+    core.organizations.set(remote, {
+      ...core.organizations.get("diner:a")!,
+      id: remote,
+      placeId: "place:unpopulated",
+    });
+    core.finance.businesses.set(remote, {
+      ...core.finance.businesses.get("diner:a")!,
+      organizationId: remote,
+      annualDemandMinor: 1_000_000_000,
+      capacityMinor: 1_000,
+    });
+    const runtime = residentsRuntime(core)!;
+    runtime.flows.set("purchase:remote", {
+      ...runtime.flows.get("purchase:diner:a")!,
+      id: "purchase:remote",
+      payeeId: remote,
+    });
+    advanceCore(core, "2026-12-15");
+    const foundings = api(core).moduleState("business").snapshot().tables
+      .foundings as unknown as Founding[];
+    expect(foundings.some((row) => row.founderId === "founder")).toBe(true);
+  });
+
   it("a founder of modest means in a big market opens small, borrows what the bank underwrites, buys its supplies and pays its owner", async () => {
     const core = await foundingCore(false, false, true);
     const total = money(core);
