@@ -1572,3 +1572,39 @@ body.dev .dev-ring {
   display: grid;
   gap: 6px;
 }
+
+#sheet-body:has(.travel-destinations) {
+  max-width: 1100px;
+}
+.travel-place {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  min-height: 84px;
+  margin: 20px 0;
+}
+.travel-info {
+  flex: 1;
+}
+.travel-info h3 {
+  font: 600 22px var(--name);
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+.travel-info p {
+  font: 17px var(--speech);
+  margin: 0;
+}
+.travel-image {
+  width: 150px;
+  height: 90px;
+  object-fit: cover;
+}
+.travel-pager {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+#game.sheet-open #news-surface {
+  visibility: hidden;
+}
