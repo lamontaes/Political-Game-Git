@@ -4434,9 +4434,9 @@
     "kind": "missing-mechanic",
     "file": "src/core2/policy-authority.ts",
     "line": 150,
-    "whatItFakes": "A powers-catalog cell explicitly marked limited retains a disputed grant; its qualitative conditions are not yet all encoded as executable predicates.",
-    "why": "The shared research catalog records some conditional powers in prose rather than structured constraints.",
-    "replacement": "Structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive order.",
+    "whatItFakes": "Inherited game-profile powers cells are provisional estimates; a cell explicitly marked limited retains a disputed grant while its qualitative conditions are not yet all executable predicates.",
+    "why": "The shared research catalog includes unsourced game-profile cells and records some conditional powers in prose rather than structured constraints.",
+    "replacement": "Sourced per-place cells and structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive order.",
     "addedBy": "Session D (second pool worker)",
     "addedAt": "2026-10-15",
     "status": "open"

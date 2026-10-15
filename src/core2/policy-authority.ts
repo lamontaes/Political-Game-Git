@@ -97,6 +97,8 @@ export function policyAuthority(
     return result(false, "level-lacks-power");
   const cell = DIALS.get(row.dial)?.[column];
   const basis = `data/research/powers-catalog/catalog.json#${row.dial}/${column}`;
+  if (cell?.status === "game-profile")
+    api.stopgap("SG-GOV-policy-power-conditions");
   if (cell?.may === "no") return result(false, "level-lacks-power", basis);
   const local = column === "county" || column === "city";
   if (local) {
