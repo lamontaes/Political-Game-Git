@@ -62,3 +62,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 3. First faked-mechanic engine, central bank appointments — `pool/central-bank-appointments` (Session D, claimed October 15, 2026).
 
 - 3. Next faked-mechanic engine, credit-line stand-in — `pool/credit-line-retirement` (second Session D, claimed October 15, 2026; SG-WORLD-credit-line-stand-in only).
+
+- 3. Business engine faked mechanics — `pool/business-owner-decisions` (second Session D; SG-WORLD-business-counted-owner-choice and SG-WORLD-business-no-successor; earlier jobs, credit deposits and housing engines belong to active Session B work, return to remaining gaps after its unmerged work).
