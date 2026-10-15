@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-bank-checks-red-on-main
 pr:
 blocked-on:
 source: found by a Claude session while changing the bank gates (words-authored-pieces-gate)
+claimed-at: 2026-10-15T22:03:23.508Z
 ---
 
 **What.** TODO
