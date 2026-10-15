@@ -4,10 +4,10 @@ title: "Empty races: state holdover rules, repeated empty specials, a failed pre
 area: gov
 kind: feature
 priority: 1
-status: blocked
+status: in-pr
 claimed-by:
-pr:
-blocked-on: gov-empty-special-repeats
+pr: #4426
+blocked-on:
 milestone:
 source: "reissue item 12 (Session C leftovers)"
 ---
