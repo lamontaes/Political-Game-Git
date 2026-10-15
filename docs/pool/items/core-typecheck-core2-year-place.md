@@ -6,7 +6,7 @@ kind: bug
 priority: 1
 status: in-pr
 claimed-by: claude/core-typecheck-core2-year-place
-pr: "#PENDING"
+pr: "#4411"
 blocked-on:
 milestone:
 source: "found while running typecheck on claude/laws-reach-group-b-failures"
