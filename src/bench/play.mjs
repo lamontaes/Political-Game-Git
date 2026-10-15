@@ -2011,20 +2011,116 @@ const sheets = {
     });
   },
   async jobs() {
-    const j = me.card.job;
-    return [
-      ...(j
-        ? [
-            row(j.title, j.employer),
-            row("Pay", `${dollars(j.wageDailyMinor)} / day`),
-            row("Hours", `${j.hoursDaily.toFixed(1)} / day`),
-          ]
-        : []),
-      // Study: the schools on your record, newest first.
-      ...[...(me.card.schools ?? [])]
-        .reverse()
-        .map((school) => row(school.date.slice(0, 4), school.name)),
-    ];
+    const labels = controls.jobs;
+    const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`);
+    const job = me.card.job;
+    const work = el(
+      "section",
+      { className: "work-overview" },
+      el("h3", { textContent: labels.work }),
+    );
+    if (job) {
+      if (job.presentation?.imageUrl) {
+        const image = el("img", {
+          src: job.presentation.imageUrl,
+          alt: "",
+          className: "workplace-image",
+        });
+        image.onerror = () => image.remove();
+        work.append(image);
+      }
+      work.append(
+        el("h2", { textContent: job.title }),
+        el("p", {
+          className: "work-employer",
+          textContent: job.employer ?? "",
+        }),
+        el(
+          "div",
+          { className: "work-stats" },
+          el(
+            "div",
+            {},
+            el("span", { className: "label", textContent: labels.pay }),
+            el("strong", {
+              textContent: `${dollars(job.wageDailyMinor)} ${labels.daily}`,
+            }),
+          ),
+          el(
+            "div",
+            {},
+            el("span", { className: "label", textContent: labels.hours }),
+            el("strong", {
+              textContent: `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
+            }),
+          ),
+        ),
+      );
+    } else
+      work.append(
+        el("p", { className: "work-empty", textContent: labels.noJob }),
+      );
+    const result = [work];
+    if (view.offers.length)
+      result.push(
+        el("h3", { className: "work-heading", textContent: labels.offers }),
+      );
+    for (const offer of view.offers) {
+      const card = el(
+        "section",
+        { className: "job-offer" },
+        el("h3", { textContent: offer.title }),
+        el("p", { textContent: offer.employer }),
+        row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
+        row(labels.deadline, offer.deadline),
+      );
+      const status = el("p", { className: "offer-status", role: "status" });
+      const actions = el("div", { className: "offer-actions" });
+      for (const [answer, label] of [
+        ["accept", labels.accept],
+        ["decline", labels.decline],
+      ]) {
+        const button = el("button", { type: "button", textContent: label });
+        button.onclick = async () => {
+          for (const b of actions.children) b.disabled = true;
+          try {
+            const response = await post(
+              `/api/jobs/answer?${new URLSearchParams({ offerId: offer.id, answer })}`,
+            );
+            await refresh();
+            if (response.answered) await openSheet("jobs");
+            else {
+              status.textContent = labels.unavailable;
+              actions.remove();
+            }
+          } catch {
+            status.textContent = labels.failed;
+            for (const b of actions.children) b.disabled = false;
+          }
+        };
+        actions.append(button);
+      }
+      card.append(actions, status);
+      result.push(card);
+    }
+    const schools = [...(me.card.schools ?? [])].reverse();
+    const education = el(
+      "section",
+      { className: "study-overview" },
+      el("h3", { textContent: labels.study }),
+    );
+    education.append(
+      ...schools.map((s) =>
+        el(
+          "article",
+          { className: "school-record" },
+          el("span", { className: "label", textContent: s.date.slice(0, 4) }),
+          el("h4", { textContent: s.name }),
+        ),
+      ),
+    );
+    result.push(education);
+    return result;
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);

@@ -2163,3 +2163,68 @@ body.dev .dev-ring {
 #game.sheet-open #news-surface {
   visibility: hidden;
 }
+
+#sheet-body:has(.work-overview) {
+  max-width: 1050px;
+}
+.work-overview,
+.job-offer,
+.study-overview {
+  margin: 20px 0 34px;
+}
+.work-overview h3,
+.study-overview h3,
+.work-heading {
+  font: 600 20px var(--name);
+  color: var(--gold);
+}
+.work-overview h2 {
+  font: 600 34px var(--name);
+  margin: 16px 0;
+}
+.work-employer,
+.work-empty {
+  font: 22px var(--speech);
+}
+.work-stats {
+  display: flex;
+  gap: 64px;
+  margin-top: 28px;
+}
+.work-stats strong {
+  display: block;
+  font: 24px var(--speech);
+  margin-top: 8px;
+}
+.workplace-image {
+  float: left;
+  width: 40%;
+  max-height: 260px;
+  object-fit: cover;
+  margin: 0 28px 20px 0;
+}
+.job-offer h3 {
+  font: 600 23px var(--name);
+  color: var(--gold);
+}
+.job-offer p {
+  font: 18px var(--speech);
+}
+.offer-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+}
+.school-record {
+  display: flex;
+  gap: 28px;
+  align-items: baseline;
+  margin: 18px 0;
+}
+.school-record h4 {
+  font: 22px var(--speech);
+  margin: 0;
+}
+#game.sheet-open #news-surface {
+  visibility: hidden;
+}
