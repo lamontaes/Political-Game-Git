@@ -70,6 +70,35 @@ try {
   await page.screenshot({
     path: "docs/reports/calendar-readable-2026-10-14/calendar.png",
   });
+  // A future day shows a skip-forward icon with no label text; it runs time to that day.
+  const skip = page.locator(".calendar-details .skip-forward");
+  assert.equal(await skip.count(), 1);
+  assert.equal((await skip.innerText()).trim(), "");
+  assert.ok(await skip.getAttribute("aria-label"));
+  await page.screenshot({
+    path: "docs/reports/play-time-controls-2026-10-15/calendar.png",
+  });
+  const target = await page
+    .locator(".month .day.selected")
+    .getAttribute("data-date");
+  await skip.click();
+  await page.waitForFunction(
+    (before) =>
+      document.getElementById("card-clock").textContent.trim() !== before,
+    clock,
+  );
+  const jumped = await page.locator("#card-clock").innerText();
+  console.log("Calendar jump to", target, "->", jumped);
+  // Week advances seven days, Day one.
+  const week = page.locator("#week");
+  assert.ok((await week.innerText()).trim());
+  await week.click();
+  await page.waitForFunction(
+    (before) =>
+      document.getElementById("card-clock").textContent.trim() !== before,
+    jumped,
+  );
+  console.log("Week ->", await page.locator("#card-clock").innerText());
   await page.setViewportSize({ width: 1024, height: 768 });
   const box = await page.locator("#sheet").boundingBox();
   assert.ok(
