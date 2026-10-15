@@ -1143,6 +1143,60 @@ function readGroundwaterLaw(api: CoreAPI): void {
   }
 }
 
+/**
+ * A consumer data privacy law binds the town's employing businesses to honor
+ * customers' requests to see and delete their data. The duty costs a share of
+ * the business's other operating costs (paid monthly like any compliance
+ * cost, so the books and a closure review read it); a repeal ends it.
+ */
+const DATA_PRIVACY_QUESTION =
+  "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+
+function readDataPrivacyLaw(api: CoreAPI): void {
+  const c = core(api);
+  if (!c.modules.has(LAWS_MODULE_ID)) return;
+  const law = lawInForce(api, DATA_PRIVACY_QUESTION);
+  const town = lawChain(api).townPlaceId;
+  const table = store(api).table("operating");
+  const cause = `law:${DATA_PRIVACY_QUESTION}`;
+  for (const [id, book] of c.finance.businesses) {
+    const org = c.organizations.get(id);
+    if (org?.placeId !== town) continue;
+    const ruleId = `cost:${id}:${cause}`;
+    const existing = table.get(ruleId);
+    const employing = (c.finance.jobsByOrganization.get(id)?.size ?? 0) > 0;
+    if (
+      book.closedAt ||
+      !classificationOf(c, id).startsWith("enterprise:") ||
+      !employing ||
+      law.value !== 1 ||
+      !law.governing
+    ) {
+      if (existing) endOperatingRule(api, table, ruleId);
+      continue;
+    }
+    // The cost stands while the same statute governs; a new one rewrites it.
+    if (
+      String(
+        (existing?.source as { citation?: string } | undefined)?.citation,
+      ).startsWith(`${law.governing.id}:`)
+    )
+      continue;
+    addRegulatoryCost(api, table, {
+      organizationId: id,
+      shareOfCosts: api.parameter("businessDataPrivacyShareOfCosts"),
+      cause,
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${businessParameters.businessDataPrivacyShareOfCosts.citation}`,
+        estimatedFrom:
+          businessParameters.businessDataPrivacyShareOfCosts.estimatedFrom,
+      },
+    });
+  }
+}
+
 function month(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -1150,6 +1204,7 @@ function month(api: CoreAPI): void {
   reviewClosures(api);
   membershipPayouts(api);
   readGroundwaterLaw(api);
+  readDataPrivacyLaw(api);
   routeCompliance(api);
   payCompliance(api);
   recordOutsideCosts(api);
