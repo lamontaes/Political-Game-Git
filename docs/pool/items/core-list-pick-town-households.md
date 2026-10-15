@@ -4,8 +4,8 @@ title: "Replace the list-pick at town-households.ts:45 (point -= share)"
 area: core
 kind: cleanup
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-list-pick-town-households
 pr:
 blocked-on:
 milestone:
