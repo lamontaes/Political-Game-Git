@@ -117,6 +117,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 15 (late): Order 2 bench at 180 items (`--max-per-type 20`) from 84 scenes in Brookside, Delaware, over 4 situation types. The news is now told at home, evictions included. Five profiles read differently on the same scenes. A synthetic grade of 1 on one opener changed "Can I tell you something?" to "We need to talk." in the eviction scene `event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06`, with the table restored afterward. The owner's own grade is still to come. Next: the reunion talks (pool `words-reunion-talks-the-shared-cause`) and more situation types (pool `director-situations-unfired-in-a-year`).
 - Oct 15 (evening, Words session): Order 1 up as #4398; Order 2 under way on `words/grading-bench`.
   - Authored to the batch-12 rulings: continuing family answers, place-naming lies, no spoken dates, scene settings, causes and openings, named births, rally core passages, a new job and family news told at home.
   - The renderer now reads the speaker's traits: on the bench the five profiles went from 100 identical items to none.
