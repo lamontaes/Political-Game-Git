@@ -4,12 +4,13 @@ title: "Forfeiture of the bribe at sentencing (SG-GOV-justice-no-forfeiture)."
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-bribe-forfeiture
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 196 (unchecked checklist line)"
+claimed-at: 2026-10-15T22:04:48.835Z
 ---
 
 **What.** Forfeiture of the bribe at sentencing (SG-GOV-justice-no-forfeiture).
