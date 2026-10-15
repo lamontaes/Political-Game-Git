@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 status: blocked
-claimed-by:
+claimed-by: claude/core-outside-flow-gate-012x
 pr:
 blocked-on: gov-outside-revenue-real-payers
 milestone:

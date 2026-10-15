@@ -466,7 +466,7 @@ None.
 
 | id | title | area | kind | priority | size | claimed-by | pr | blocked-on |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [core-outside-flow-provenance-gate](items/core-outside-flow-provenance-gate.md) | Outside-flow provenance gate fails on main | core | bug | 1 | M |  |  | gov-outside-revenue-real-payers |
+| [core-outside-flow-provenance-gate](items/core-outside-flow-provenance-gate.md) | Outside-flow provenance gate fails on main | core | bug | 1 | M | claude/core-outside-flow-gate-012x |  | gov-outside-revenue-real-payers |
 | [core-town-size-census](items/core-town-size-census.md) | A town opens at its real Census size (population.ts still caps above 10,000) | core | bug | 1 | M |  |  | core-census-weight-model |
 | [gov-winner-is-seat-term-id](items/gov-winner-is-seat-term-id.md) | A race's winner is a seat-term id, not a person | elections | bug | 1 | M |  |  | gov-record-defects-finish |
 | [gov-body-named-by-member-title](items/gov-body-named-by-member-title.md) | A body is named by a member's title ("County of Darlington commissioner") | gov | bug | 1 | M |  |  | gov-record-defects-finish |
