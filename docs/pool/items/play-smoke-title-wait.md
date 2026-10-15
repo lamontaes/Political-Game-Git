@@ -4,7 +4,7 @@ title: "The packaged-app check waits for the title's picture (#4299)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4299
 blocked-on:

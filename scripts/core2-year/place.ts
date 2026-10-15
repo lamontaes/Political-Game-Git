@@ -1,6 +1,6 @@
 /** Test and measurement place draw: one of the 56 jurisdictions, then a recorded locality. */
 import { createHash } from "node:crypto";
-import { placeLocalities, placeStateKeys } from "../../src/core2/places.ts";
+import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 
 export interface DrawnPlace {
   seed: string;

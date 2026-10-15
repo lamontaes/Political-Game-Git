@@ -4,7 +4,7 @@ title: "Options drops the interrupt toggles (#4289)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4289
 blocked-on:
