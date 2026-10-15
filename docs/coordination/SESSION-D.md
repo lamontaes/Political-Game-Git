@@ -19,3 +19,6 @@
 
 - Item 10, health: draft #4367, 4/4 tests and changed-file gates pass; same drawn Elko year 107.08 seconds versus 107.85. Illness/death records survive focused restore and continuation. Whole-game coverage remains incomplete.
 - Item 9 new claim: `pool/counted-death-notices`, notify existing full relatives/acquaintances from actual monthly counted death rows. No new mortality selector or invented deaths; no English/director edits.
+
+- Item 9, counted notices: draft #4369, 8 targeted cases and changed-file gates pass; acceptance remains open because drawn Garden City had zero known counted deaths. Main 129.70 seconds, changed 137.53 (+6.03%); absolute speed fails on both. OPEN SG-CORE-counted-death-relations records missing opening closeness and full-family retention.
+- Next core-list claim: `pool/bench-opening-records`, reuse existing opening schools, tuition and sample; then return to full-to-counted family ties and the notice chain.

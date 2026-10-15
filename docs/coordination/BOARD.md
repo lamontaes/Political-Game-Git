@@ -97,3 +97,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 10. OPUS-GOV Needs, candidate platform reader — `pool/candidate-platform-reader` (second Session D; platformFromViews and its two filing arguments only, reusing candidatePlatform; checked #4343/#4350 and neither changes that function. Session C retains race eligibility, candidate pools and filing decisions).
 
 - 9. Counted deaths reaching known relatives — `pool/counted-death-notices` (first Session D; monthly renewal death rows already change population and income, but no life.death notification reaches the full people who know those residents; notification reader only, existing mortality and migration selection unchanged).
+
+- 10. Core handoff, played opening records — `pool/bench-opening-records` (first Session D; reuse core public schools, private tuition and representative sampling in the existing bench stages, retaining its 17-year-old player and all installed modules; second D retains shared settings work).
