@@ -83,7 +83,6 @@ export interface RequirementCheck {
     | "already-filed"
     | "minimum-age"
     | "residency"
-    | "registered-voter"
     | "party-member"
     | "term-limit"
     | "press-employment";
@@ -595,17 +594,9 @@ export function checkEligibility(
     source:
       "CTO ruling pending owner confirmation, October 14, 2026: press staff and owners cannot run while working for or owning an outlet",
   });
-  if (rules.registeredVoter) {
-    // stopgapId: SG-GOV-voter-registration-assumed
-    api.stopgap("SG-GOV-voter-registration-assumed");
-    checks.push({
-      rule: "registered-voter",
-      met: age >= 18 && resident,
-      required: "registered to vote here",
-      actual: age >= 18 && resident ? "registered" : "not registered here",
-      source: rules.source,
-    });
-  }
+  // Registration is research metadata, not a modeled status. The game has
+  // no separate registration step (AGENTS.md: no paperwork); do not report
+  // an adult resident as registered without a registration record.
   // Filing under a party's label takes membership in it: the person's own
   // tie to that party (joining reads their views against the party's
   // positions, in the parties engine). Anyone else files as an independent,

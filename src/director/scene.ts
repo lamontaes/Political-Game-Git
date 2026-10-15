@@ -194,8 +194,16 @@ export function composeScene(
 
   // Who is there. Two people with the same relation ("your son", "your
   // son") are said by their given names instead, so each is someone.
+  // Only the people the scene is about are named: the one who opens it and
+  // whoever its record names, never a roll call of everyone in the house
+  // (batch 11: "Timothy, your daughter, Ahmad, your father, ... are here.").
+  const opener = binding.roles.find((row) => row.role === binding.opener);
+  const about = new Set<string>([
+    ...(opener?.personIds ?? []),
+    ...moment.counterpartIds,
+  ]);
   const here = binding.presentIds.filter(
-    (id) => id !== personId && core.people.get(id)?.alive,
+    (id) => id !== personId && core.people.get(id)?.alive && about.has(id),
   );
   const said = here.map(who);
   const counts = new Map<string, number>();
@@ -263,7 +271,6 @@ export function composeScene(
     if (line) narration.push(line);
   }
 
-  const opener = binding.roles.find((row) => row.role === binding.opener);
   const talkToId =
     opener?.personIds.find((id) => id !== personId) ??
     moment.counterpartIds.find((id) => binding.presentIds.includes(id));

@@ -1,3 +1,4 @@
+import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
  * executive acts), on one engine for every level: appointments with
@@ -20,6 +21,7 @@
  *   executive can revoke; it reaches people through the same law effects as a
  *   statute. Only orders an engine can carry are offered.
  */
+import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -95,6 +97,7 @@ export const EXECUTIVE_MODULE: CoreModule = {
     tables: {
       appointments: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
+      nominations: {},
       desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
       review: {},
     },
@@ -227,11 +230,10 @@ function fillTownPost(
       .map((a) => a.holderId),
   );
   // The player's decisions are theirs: nobody appoints the player to a post
-  // they didn't choose (trace audit item 3). Stopgap
-  // SG-CORE-owner-decision-player-offered-post: whether an appointer may
-  // offer the player a post to accept is the owner's call.
-  const playerId = (api.state as CoreState).playerId;
-  if (playerId) api.stopgap("SG-CORE-owner-decision-player-offered-post");
+  // they didn't choose (owner, Oct 14: the engine offers, the player decides).
+  const playerId =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
   const pool = [...(api.state.peopleByPlace.get(town) ?? [])]
     .map((id) => api.state.people.get(id))
     .filter(
@@ -320,7 +322,9 @@ function appointTownDepartments(api: CoreAPI): void {
     )
   )
     return;
-  const playerId = (api.state as CoreState).playerId;
+  const playerId =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
   for (const spec of RESEARCH.local.city[townForm(api)] ?? []) {
     // The player's own posts wait for their choice (`appoint`).
     if (townAppointer(api, spec.appointedBy)?.personId === playerId) continue;
@@ -441,12 +445,167 @@ export function appointmentsIn(
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/** A governor chooses a named person for a post the place gives them power to fill. */
+export function appointStatePost(
+  api: CoreAPI,
+  input: {
+    readonly executiveId: string;
+    readonly post: string;
+    readonly personId?: string;
+  },
+): AppointmentRow | null {
+  const state = lawChain(api).stateKey;
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || memberKey(governor) !== input.executiveId)
+    throw new Error("Only the sitting governor can appoint a state post.");
+  const spec = RESEARCH.places[state]?.cabinet?.positions?.find(
+    (p) => p.key === input.post && /governor/.test(p.appointedBy),
+  );
+  if (!spec) throw new Error("This post is not appointed by the governor.");
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const holding = new Set(
+    appointmentsIn(api, state)
+      .filter((p) => p.post !== input.post)
+      .map((p) => p.holderId),
+  );
+  const pool = [...api.state.people.values()]
+    .filter(
+      (person) =>
+        (!input.personId || person.id === input.personId) &&
+        person.alive &&
+        person.id !== input.executiveId &&
+        ageOn(person, api.state.date) >=
+          campaignParameter("appointmentAdulthoodAge") &&
+        !holding.has(person.id) &&
+        !(
+          offices
+            .table("terms")
+            .query("byPerson", [person.id]) as unknown as TermRow[]
+        ).some((t) => t.status === "serving") &&
+        (!person.jobId ||
+          (api.state as CoreState).jobs.get(person.jobId)?.endsAt !==
+            undefined),
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  // Same temporary job-transition boundary as department-head appointments.
+  // stopgapId: SG-GOV-staff-hire-out-of-work
+  api.stopgap("SG-GOV-staff-hire-out-of-work");
+  if (input.personId && !pool.length)
+    throw new Error(
+      "The nominee must be a living adult who holds no other office or job.",
+    );
+  const senate = (
+    offices.table("offices").query("byJurisdiction", [state]) as unknown as {
+      id: string;
+      kind: string;
+      title: string;
+    }[]
+  ).find(
+    (o) =>
+      o.kind === "legislature-upper" || o.kind === "legislature-unicameral",
+  );
+  const confirmation = /senate|legislature/.test(spec.confirmedBy);
+  if (confirmation && !senate)
+    throw new Error("No confirming chamber is recorded.");
+  const appointment = nominateAndConfirm({
+    seatKey: `cabinet:${state}:${spec.key}`,
+    appointerSide: leanOf(api, input.executiveId),
+    candidates: pool.map((person) => ({
+      id: person.id,
+      lean: personLean(api.state.people, person, 0),
+      qualification: qualification(api, person, spec.key, api.state.date),
+      known: (api.state as CoreState).relationships.has(
+        [input.executiveId, person.id].sort().join(":"),
+      ),
+    })),
+    confirmingBody: confirmation
+      ? {
+          name: senate!.title,
+          sides: members(api, senate!.id).map((t) => partySide(t.party)),
+        }
+      : null,
+    tolerance: campaignParameter("confirmationTolerance"),
+  });
+  const nominationId = `nomination:${state}:${spec.key}:${input.personId ?? "own-choice"}:${api.state.date}`;
+  table(api, "nominations").put({
+    id: nominationId,
+    executiveId: input.executiveId,
+    personId: appointment.nomineeId,
+    post: spec.key,
+    date: api.state.date,
+    confirmation: appointment.confirmation,
+    reasons: appointment.reasons,
+    appointed: false,
+  } as unknown as ModuleRow);
+  if (!appointment.nomineeId) return null;
+  const person = api.state.people.get(appointment.nomineeId)!;
+  const gov = governments(api).find((g) => g.id === state);
+  if (!gov) throw new Error("No state treasury is recorded.");
+  const prior = appointmentsIn(api, state).find((p) => p.post === spec.key);
+  const priorPerson = prior ? api.state.people.get(prior.holderId) : undefined;
+  const priorJob = priorPerson?.jobId
+    ? (api.state as CoreState).jobs.get(priorPerson.jobId)
+    : undefined;
+  const row: AppointmentRow = {
+    id: `appointment:${state}:${spec.key}`,
+    government: state,
+    post: spec.key,
+    title: spec.title,
+    holderId: person.id,
+    identity: { givenName: person.givenName, familyName: person.familyName },
+    appointedBy: input.executiveId,
+    confirmation: appointment.confirmation,
+    reasons: appointment.reasons,
+    since: api.state.date,
+  };
+  const jobId = startPublicJob(api, {
+    personId: person.id,
+    employerId: gov.organizationId,
+    post: `state:${spec.key}`,
+    title: spec.title,
+    hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+    citation: `Appointment ${row.id}`,
+  });
+  if (!jobId) return null;
+  if (priorJob?.organizationId === gov.organizationId && !priorJob.endsAt)
+    api.endJob(priorJob.id, `appointment-replaced:${state}:${spec.key}`);
+  table(api, "nominations").put({
+    ...table(api, "nominations").get(nominationId)!,
+    appointed: true,
+    jobId,
+  } as unknown as ModuleRow);
+  table(api, "appointments").put(row as unknown as ModuleRow);
+  api.emit({
+    id: `appointed:${row.id}:${api.state.date}`,
+    date: api.state.date,
+    kind: "official-appointed",
+    personIds: [person.id, input.executiveId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Appointment ${row.id}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: { post: spec.key, appointedBy: input.executiveId },
+  });
+  return row;
+}
+
 /** The orders this executive may issue that an engine can carry. */
 export function orderableBy(api: CoreAPI): readonly string[] {
   const state = lawChain(api).stateKey;
   const raw = RESEARCH.places[state]?.canOrder ?? [];
   const keys = Array.isArray(raw) ? raw.map((r) => r.key) : Object.keys(raw);
-  return keys.filter((k) => k in ORDERABLE).sort();
+  return keys
+    .filter(
+      (k) =>
+        k in ORDERABLE && policyAuthority(api, ORDERABLE[k]!, "state").allowed,
+    )
+    .sort();
 }
 
 /**
@@ -465,6 +624,7 @@ export function issueOrder(
   if (!orderableBy(api).includes(input.order))
     throw new Error(`This office can't order ${input.order} here.`);
   const state = lawChain(api).stateKey;
+  const authority = policyAuthority(api, ORDERABLE[input.order]!, "state");
   const tomorrow = new Date(
     Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
   )
@@ -481,7 +641,7 @@ export function issueOrder(
     effectiveDate: tomorrow,
     measureId,
     citation: `Executive order ${measureId} by ${input.executiveId}`,
-    terms: { executiveOrder: true, issuedBy: input.executiveId },
+    terms: { executiveOrder: true, issuedBy: input.executiveId, authority },
   });
   table(api, "orders").put({
     id: measureId,
@@ -489,6 +649,7 @@ export function issueOrder(
     order: input.order,
     revoke: input.revoke ?? false,
     lawId: row.id,
+    authority,
     date: api.state.date,
   } as unknown as ModuleRow);
   return { lawId: row.id };
@@ -536,7 +697,9 @@ export function decideOnDesk(
 ): BillRow {
   const row = table(api, "desk").get(`desk:${billId}`) as unknown as
     DeskRow | undefined;
-  const playerId = (api.state as CoreState).playerId;
+  const playerId =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
   if (!row || row.status !== "awaiting" || row.executiveId !== playerId)
     throw new Error(`No bill ${billId} is waiting on your desk.`);
   return executiveDecision(api, billId, sign);
@@ -583,7 +746,9 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "desk-review") return;
   scheduleReview(api, api.state.date);
   const town = lawChain(api).townPlaceId;
-  const playerId = (api.state as CoreState).playerId;
+  const playerId =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
   const posts = RESEARCH.local.city[townForm(api)] ?? [];
   for (const row of appointmentsIn(api, town)) {
     const holder = api.state.people.get(row.holderId);
@@ -622,23 +787,41 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     appointStateCabinet(api, worldSeed, `${governor.id}:`);
   const executiveId = memberKey(governor);
   if (executiveId === playerId) return;
+  for (const order of pendingGovernorOrders(api, executiveId))
+    issueOrder(api, { executiveId, ...order });
+}
+
+/** Orders the governor wants from their views and the current law, shared by autonomous and played days. */
+export function pendingGovernorOrders(
+  api: CoreAPI,
+  executiveId: string,
+): readonly { order: string; revoke: boolean }[] {
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || memberKey(governor) !== executiveId) return [];
+  const state = lawChain(api).stateKey;
   const lean = leanOf(api, executiveId);
   const given = table(api, "orders").rows() as unknown as {
     executiveId: string;
     order: string;
     revoke: boolean;
+    date: string;
   }[];
-  for (const order of orderableBy(api)) {
-    const question = ORDERABLE[order]!;
-    const want = Math.sign(personStance(lean, question));
-    const now = answerIn(api, state, question);
-    // An order sets what the office may set alone; one can undo only an
-    // earlier executive's order, never a statute.
-    const undoable = given.some(
-      (o) => o.order === order && !o.revoke && o.executiveId !== executiveId,
-    );
-    if (want > 0 && now !== 1) issueOrder(api, { executiveId, order });
-    else if (want < 0 && now === 1 && undoable)
-      issueOrder(api, { executiveId, order, revoke: true });
-  }
+  return orderableBy(api).flatMap<{ order: string; revoke: boolean }>(
+    (order) => {
+      if (given.some((o) => o.order === order && o.date === api.state.date))
+        return [];
+      const want = Math.sign(personStance(lean, ORDERABLE[order]!));
+      const now = answerIn(api, state, ORDERABLE[order]!);
+      const undoable = given.some(
+        (o) => o.order === order && !o.revoke && o.executiveId !== executiveId,
+      );
+      return want > 0 && now !== 1
+        ? [{ order, revoke: false }]
+        : want < 0 && now === 1 && undoable
+          ? [{ order, revoke: true }]
+          : [];
+    },
+  );
 }

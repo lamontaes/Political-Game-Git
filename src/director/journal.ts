@@ -200,6 +200,7 @@ export function composeJournal(
   if (!person || !book) return [];
   const kin = relatives(person);
   const named = new Set<PersonId>();
+  const saidAs = new Map<string, PersonId>();
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
 
   // How the person refers to someone: a relative by relation, anyone else by
@@ -212,11 +213,18 @@ export function composeJournal(
       const words = data.relationWords[relation.relation];
       const gender = row.looks?.gender ?? "other";
       const word = words?.[gender] ?? words?.other;
-      if (word)
-        return {
-          text: `${data.possessive.journal} ${word}`,
-          sourceRecordIds: [relation.factId],
-        };
+      if (word) {
+        // Two relatives with one relation (two daughters) are not both "my
+        // daughter": the first keeps it, the next is said by their given name
+        // (batch 11: "My daughter was born." twice in one chapter).
+        const text = `${data.possessive.journal} ${word}`;
+        const holder = saidAs.get(text);
+        if (!holder || holder === id) {
+          saidAs.set(text, id);
+          return { text, sourceRecordIds: [relation.factId] };
+        }
+        return { text: row.givenName, sourceRecordIds: [relation.factId, id] };
+      }
     }
     const known = person.knownIdSources?.[id];
     if (!person.knownIds.has(id)) return undefined;

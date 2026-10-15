@@ -17,6 +17,7 @@
  * (SG-CORE-counted-unkeyed-money).
  */
 import { transferSplit } from "./accounts";
+import { paidLeaveProgram, paidLeavePremium } from "./paid-leave";
 import { withholdingFor } from "./tax-withholding";
 import { governments } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
@@ -446,6 +447,7 @@ export function payGroups(
   const wages = input.flow.kind === "wages";
   const workers = wages ? workersByGroup(rt, input.flow) : undefined;
   const law = wages ? paydayLaw(api) : undefined;
+  const leave = wages ? paidLeaveProgram(api) : undefined;
   const periodDays =
     input.flow.cadence.kind === "days"
       ? input.flow.cadence.every
@@ -469,6 +471,23 @@ export function payGroups(
         const key = `${rt.store.groups[group]!.id}|${api.state.date.slice(0, 4)}|${line.jurisdiction}|${line.tax}`;
         rt.withheld.set(key, (rt.withheld.get(key) ?? 0) + minor);
       }
+    if (leave && rt.store.groups[group]!.placeId === leave.townPlaceId) {
+      const premium = paidLeavePremium(
+        gross,
+        gross - taxes,
+        leave.share,
+        workers!.get(group) ?? 0,
+      );
+      if (premium > 0) {
+        lines.push({
+          accountId: `cash:${leave.treasuryId}:residual`,
+          deltaMinor: premium,
+        });
+        taxes += premium;
+        const key = `${rt.store.groups[group]!.id}|${api.state.date.slice(0, 4)}|${leave.lawId}|paid-leave`;
+        rt.withheld.set(key, (rt.withheld.get(key) ?? 0) + premium);
+      }
+    }
     lines.push({
       accountId: fundOf(api, rt, group),
       deltaMinor: gross - taxes,
@@ -480,7 +499,12 @@ export function payGroups(
       id: input.id,
       lines,
       reasonKey: input.reasonKey,
-      source: input.source,
+      source: leave
+        ? {
+            ...input.source,
+            citation: `${input.source.citation}; paid-leave contribution under ${leave.lawId}`,
+          }
+        : input.source,
     });
   return net;
 }

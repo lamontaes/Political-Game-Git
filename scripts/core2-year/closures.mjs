@@ -7,6 +7,7 @@
 // the sixth check rejects any money owed to the outside world that no
 // recorded exchange matches (src/core2/data/outside-flows.json).
 import { resolve } from "node:path";
+import { performance } from "node:perf_hooks";
 import { pathToFileURL } from "node:url";
 const args = process.argv.slice(2);
 const value = (name, fallback) =>
@@ -19,23 +20,24 @@ const { coreAPI } = await at("src/core2/state.ts");
 const { drawPlace } = await at("scripts/core2-year/place.ts");
 const { advanceCore } = await at("src/core2/life.ts");
 const outsideFlows = (await at("src/core2/data/outside-flows.json")).default;
-const { addDays, makeIsoDate } = await at("src/simulation/dates.ts");
+const { addDays, makeIsoDate } = await at("src/core2/kernel/dates.ts");
 const seed = value(
   "--seed",
   process.env.GOLDEN_PATH_SEED ??
     (await import("node:crypto")).randomBytes(16).toString("hex"),
 );
-const { lifePlaceByKey } = await at("src/simulation/life-places.ts");
+const { corePlaceByKey } = await at("src/core2/place-lookup.ts");
 const givenKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const place = givenKey
   ? {
       seed,
       key: givenKey,
-      name: lifePlaceByKey(givenKey)?.formalName ?? givenKey,
-      state: lifePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
+      name: corePlaceByKey(givenKey)?.formalName ?? givenKey,
+      state: corePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
     }
   : drawPlace(seed, "core2-year");
 setBookkeeping(false);
+const started = performance.now();
 const world = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
   placeKey: place.key,
@@ -207,6 +209,18 @@ console.log(
   JSON.stringify(
     {
       place: `${place.name} (${place.state})`,
+      placeKey: place.key,
+      span: [input.startedAt, core.date],
+      seconds: (performance.now() - started) / 1000,
+      closureRecords: [...core.finance.closures.values()].map((row) => ({
+        organizationId: row.organizationId,
+        date: row.date,
+        sourceReceiptId: row.sourceReceiptId,
+        affectedPersonIds: row.affectedPersonIds,
+        affectedCountedPersonIds: row.affectedCountedPersonIds,
+        endedJobIds: row.endedJobIds,
+        endedCountedJobIds: row.endedCountedJobIds,
+      })),
       seed,
       checks: {
         "1 under 10% close": `${closed} of ${rows.length} (${((100 * closed) / rows.length).toFixed(1)}%)`,
