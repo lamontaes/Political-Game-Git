@@ -3,10 +3,10 @@
   "note": "How a scene with a purpose plays (owner, Oct 15, evening: a setup, a person with a purpose, stakes, and an exchange that plays to resolved or refused). Moves only: no sentence is here; the English engine words each move from data/english/parts/scene-talk.json. A purpose names what the asker states and the player's four reply moves; `follow` is how the asker answers each reply move, chosen by the asker's traits (each candidate's pulls, summed over the asker's trait levels; the highest wins, so no roll decides it); `again` is the player's four replies to that answer; `close` ends the exchange by its outcome. A yes or a no never ends a talk: the asker answers it, and the exchange closes only when the purpose is resolved or refused. A purpose may carry its own `follow` and `again`; the engine reads them before the shared ones, so a family talk never borrows a vote's answers.",
   "parameters": {
     "rounds": {
-      "value": 2,
+      "value": 5,
       "tag": "TUNABLE",
-      "spread": [1, 3],
-      "checkedAgainst": "Player replies before the exchange must close; two rounds read as a full exchange on the bench without the asker repeating the ask."
+      "spread": [3, 6],
+      "checkedAgainst": "Player replies before the exchange must close; the owner asked for multi-exchange scenes (Oct 15, night), and five rounds let a bargain, a push-back and a lie play out on the bench."
     },
     "baseWeight": {
       "value": 1,
@@ -18,27 +18,40 @@
   "purposes": {
     "ask-vote": {
       "state": "request",
-      "replies": ["agree", "refuse", "bargain", "stall"]
+      "replies": ["agree", "refuse", "bargain", "stall", "lie"]
     },
     "confirm-vote": {
       "state": "ask",
-      "replies": ["agree", "withdraw", "bargain", "stall"]
+      "replies": ["agree", "withdraw", "bargain", "stall", "lie"]
     },
     "carry-bill": {
       "state": "request",
-      "replies": ["agree", "decline", "bargain", "stall"]
+      "replies": ["agree", "decline", "bargain", "stall", "lie"],
+      "continue": [
+        {
+          "on": "bargain",
+          "asker": "ask",
+          "replies": ["ask", "offer", "request"]
+        }
+      ]
     },
     "donor-ask": {
       "state": "request",
-      "replies": ["agree", "refuse", "bargain", "deflect"]
+      "replies": ["agree", "refuse", "bargain", "deflect", "lie"]
     },
     "party-ask": {
       "state": "request",
-      "replies": ["agree", "refuse", "bargain", "stall"]
+      "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+      "auto": [
+        {
+          "after": "state",
+          "move": "ask"
+        }
+      ]
     },
     "press-comment": {
       "state": "ask",
-      "replies": ["answer", "deflect", "refuse", "confront"],
+      "replies": ["answer", "deflect", "refuse", "confront", "lie"],
       "follow": {
         "answer": [
           {
@@ -99,7 +112,7 @@
     },
     "constituent-help": {
       "state": "request",
-      "replies": ["promise", "ask", "decline", "offer"],
+      "replies": ["promise", "ask", "decline", "offer", "lie"],
       "follow": {
         "promise": [
           {
@@ -156,7 +169,7 @@
     },
     "family-filing": {
       "state": "ask",
-      "replies": ["tell", "request", "deflect", "comfort"],
+      "replies": ["tell", "request", "deflect", "comfort", "lie"],
       "follow": {
         "tell": [
           {
@@ -249,7 +262,13 @@
         "plea": ["tell", "apologize", "promise"],
         "promise": ["thank", "promise"],
         "decline": ["request", "accept"]
-      }
+      },
+      "auto": [
+        {
+          "after": "state",
+          "move": "ask"
+        }
+      ]
     },
     "family-win": {
       "state": "congratulate",
@@ -368,7 +387,7 @@
     },
     "family-absence": {
       "state": "confront",
-      "replies": ["apologize", "promise", "deflect", "blame"],
+      "replies": ["apologize", "promise", "deflect", "blame", "lie"],
       "follow": {
         "apologize": [
           {
@@ -472,7 +491,7 @@
     },
     "rally-opponent": {
       "state": "confront",
-      "replies": ["disagree", "deflect", "confront", "boast"],
+      "replies": ["disagree", "deflect", "confront", "boast", "lie"],
       "follow": {
         "disagree": [
           {
@@ -553,7 +572,7 @@
     },
     "staff-news": {
       "state": "deliver-news",
-      "replies": ["ask", "blame", "accept", "deflect"],
+      "replies": ["ask", "blame", "accept", "deflect", "lie"],
       "follow": {
         "ask": [
           {
@@ -607,7 +626,7 @@
     },
     "section-bargain": {
       "state": "bargain",
-      "replies": ["agree", "refuse", "bargain", "stall"]
+      "replies": ["agree", "refuse", "bargain", "stall", "lie"]
     }
   },
   "outcomes": {
@@ -903,5 +922,19 @@
     "resolved": ["thank", "promise"],
     "refused": ["accept", "warn"],
     "open": ["press", "warn"]
+  },
+  "lie": {
+    "note": "A lie is caught only when the asker holds the record that contradicts it (fact knows-truth, naming its source); otherwise it is believed and stands until the record surfaces. No roll decides it.",
+    "caught": {
+      "move": "confront",
+      "requiresFacts": ["knows-truth"],
+      "replies": ["confess", "deflect", "lie"]
+    },
+    "believed": ["thank", "accept"],
+    "afterCaught": {
+      "confess": ["accept", "comfort"],
+      "deflect": ["press"],
+      "lie": ["close"]
+    }
   }
 }

@@ -1054,6 +1054,14 @@
       {
         "move": "^[a-z]+-ask$",
         "tag": "ask"
+      },
+      {
+        "move": "^[a-z]+-confess$",
+        "tag": "confess"
+      },
+      {
+        "move": "^[a-z]+-lie$",
+        "tag": "lie"
       }
     ]
   }
