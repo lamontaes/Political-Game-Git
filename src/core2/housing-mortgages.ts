@@ -165,12 +165,9 @@ export function openingMortgages(input: {
     const balance = Math.round(balanceAfter(original, r, termMonths, paid));
     if (payment <= 0 || balance <= 0) continue;
     const id = `${MORTGAGE_PREFIX}${owner.id}`;
-    // stopgapId: SG-WORLD-housing-mortgage-holder-tiers
-    // A full household's standing bill can only pay a recorded local account, so the bank holds those loans.
+    // Loans past the bank's room are held outside town, for both tiers.
     const holderId =
-      !input.outsideId || !owner.counted || balance <= room
-        ? input.bankId
-        : input.outsideId;
+      !input.outsideId || balance <= room ? input.bankId : input.outsideId;
     if (holderId === input.bankId) room -= balance;
     terms.push({
       householdId: owner.id,

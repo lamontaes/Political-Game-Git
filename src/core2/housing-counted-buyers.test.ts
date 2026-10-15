@@ -13,12 +13,10 @@ import {
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "housing-counted-buyers",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "housing-counted-buyers");
 
-describe(`counted renters buy new houses (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`counted renters buy new houses (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("sells finished new houses to the wider population's renters", () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),

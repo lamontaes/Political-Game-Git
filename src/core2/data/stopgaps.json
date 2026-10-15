@@ -4093,18 +4093,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORLD-housing-mortgage-holder-tiers",
-    "kind": "faked-mechanic",
-    "file": "src/core2/housing-mortgages.ts",
-    "line": 168,
-    "whatItFakes": "Once the town bank's lending room runs out, a counted household's new mortgage goes to an outside holder while a full household's stays at the bank past its room.",
-    "why": "A full household's standing bill can only pay a recorded local account.",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-14",
-    "replacement": "Loans past the bank's room go to an outside holder for both tiers, with a payable outside account for full households.",
-    "status": "open"
-  },
-  {
     "id": "SG-CORE-owner-decision-player-offered-post",
     "kind": "owner-decision",
     "file": "src/core2/modules/executive.ts",
