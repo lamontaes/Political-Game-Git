@@ -2174,7 +2174,7 @@ export function obligationsOf(
 }
 
 /** The bill's chambers, in order: the town's body, or the state's chambers starting where it was introduced. */
-function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
+export function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
   const office = bodyOf(api, bill.bodyOfficeId);
   if (office?.kind.startsWith("us-house") || office?.kind === "us-senate")
     return office.kind === "us-senate"
