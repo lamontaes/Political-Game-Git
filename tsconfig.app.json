@@ -23,6 +23,7 @@
   },
   "files": [
     "data/research/laws/starting-law-2026/index.ts",
+    "scripts/core2-year/place.ts",
     "src/source/domains/census-voting-registration/types.ts",
     "src/source/core/value.ts",
     "src/source/core/errors.ts"

@@ -4,9 +4,9 @@ title: "npm run typecheck fails on main: scripts/core2-year/place.ts import and 
 area: core
 kind: bug
 priority: 1
-status: claimed
-claimed-by: claude/political-game-pool-g2977r
-pr:
+status: in-pr
+claimed-by:
+pr: #4410
 blocked-on:
 milestone:
 source: "found while running typecheck on claude/laws-reach-group-b-failures"
