@@ -4,6 +4,10 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
+## 2026-10-15 — Session B, unassigned households take new apartments (draft #4347)
+
+Unassigned households in either population tier can now take a completed apartment when income and cash qualify. The existing lease or rent-flow writer bills it, and occupancy consumes one vacancy. `src/core2/housing-occupancy.ts:548` reads those qualifications and starts the payment. All 14 housing tests pass. Five ordinary years in the drawn Vaitogi world produce 30 counted-household moves and end with 25 distinct occupied units. Cash balances at every annual checkpoint. Build plus first year takes 74.776 seconds against the rounded 66-second base. Opening-stock assignment, commute and family-space matching remain registered gaps. The run does not identify which movers arrived during play. Next: closure job-loss records and the bank's Money screen; no pool claim or self-merge.
+
 ## 2026-10-15 — Session B, a signed lease before rehousing (draft #4347)
 
 Households recovering from homelessness can now take a completed rental unit when income and cash qualify them. The signed lease consumes one vacancy; no lease means they remain homeless. All 13 focused housing tests pass. The same five-year Vaitogi run balances, retains 30 local moves and has 25 distinct occupied units. No household qualified for the new rehousing route in that run, so that edge is proved only by its focused test. Build plus first year took 74.506 seconds against the rounded 66-second base. Incoming-household, job-location and family-space matching remain registered gaps. Layoffs still miss their calibration bands; no pool claim or self-merge.

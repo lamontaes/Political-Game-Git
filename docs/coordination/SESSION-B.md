@@ -34,7 +34,7 @@ The JOLTS check fails for all three series. The proof excludes government and ot
 
 Runtime access needs `network.enabled` on remote commands. Dependencies are installed in the existing checkout. Storage state is `/workspace/.session-b-storage`; no second repository copy was made.
 
-Builder: Codex; no helpers. Exact deployment effort, usage and total session cost are unavailable. No PR was merged.
+Builder: Codex; one read-only report reviewer used the inherited session model and effort. No coding helpers. Exact deployment effort, usage and total session cost are unavailable. No PR was merged.
 
 ## New homes observation
 
@@ -71,3 +71,15 @@ The same drawn Anon Raices year was rerun after the fix. It took 3.423 seconds t
 A household whose income and cash reach a completed rental can now sign its lease, occupy its actual unit and consume one vacancy. A failed lease callback no longer clears homelessness. Departed or evicted occupants release their old unit before a new lease is considered. The existing eviction path fills counted households in, so those households reach this same rehousing rule.
 
 All 13 focused housing tests pass. The rehousing case verifies a completed unit, its actual lease amount, one fewer vacancy, and unchanged homeless status without a signed lease. Changed-file typecheck has zero diagnostics, four unchanged dependencies excluded; eslint passes. Source `a8c25251e9` was played in the same Vaitogi world for five years. All five annual cash checks are zero. Its 30 local counted-household moves are retained, and 25 occupied unit IDs are distinct. No household met the rehousing conditions in that run; that new edge remains unit-tested only. Build 30.187 seconds plus first year 44.319 = 74.506; the slowest year is 51.733 seconds, within the speed limits against the rounded 66-second base. No new seed was drawn to seek the event.
+
+## New households occupy completed homes
+
+Unassigned households now take completed apartments when their own income and cash qualify. Full leases and counted rent flows use the same offer and vacancy reservation. The counted household changes to its renter group through the existing money writer. A later fill-in retains its actual lease. `src/core2/housing-occupancy.ts:548` qualifies households and starts their payment writer. `src/core2/housing-occupancy.ts:451` reserves the unit and changes its vacancy. The fill-in check is in `src/core2/housing-construction.test.ts:230`. All 14 housing tests pass, and the four construction tests pass again after limiting matching to places with available units. The first payment assertion exposed a fixture without full-person finance; enabling finance made both rents pay without weakening the assertion.
+
+Source `342b7b5d13` was played for five years in the same drawn Vaitogi world. It produces 30 moves by unassigned counted households, with 25 occupied units at the end. Each move consumes one vacancy. Thirty assignments into 25 units indicate five replacement occupancies. Final vacancy is 110 of 1,655 rentals. The run does not separately establish which movers arrived during play. No full-household or homeless-recovery move occurred; those routes have focused tests.
+
+Move `housing-move:household_410ba24866650ac7:2028-09-06` houses members `person_71a8a7d5cd5fc53e` and `person_71a8a8d5cd5fc6f1` in unit 0. Rent is 93,992 minor units, monthly income 283,617, and cash 1,127,310. Flow `rent:household_410ba24866650ac7` later reads 95,849 after renewal, advances through January 2030 and has zero arrears. Renewal `rent:household_ae089cdbc3d1e4d8` reads vacancy 0.0664652568 and changes rent from 98,904 to 101,313 after regional pay and vacancy together.
+
+All five annual cash checks are zero. Build 29.792 seconds plus first year 44.984 equals 74.776, within 20% of the rounded 66-second base. Later years take 42.537, 36.426, 49.075 and 43.191 seconds. An earlier slow run was interrupted, but its child survived and overlapped the next attempt. Both were explicitly terminated. Those incomplete timings are discarded; the reported run had one world process. No seed or place changed.
+
+The vacancy stopgap now covers opening-stock unit assignment. The new-rental coverage stopgap retains commute and family-space matching; neither row was deleted. Next: repair closure handling for workers already seeking another job and expose bank books on Money and property. No pool claim or self-merge.
