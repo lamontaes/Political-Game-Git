@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/world-commuters-in-opening
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "gov-stopgap-budgets-faked-mechanic, found claiming it"
-claimed-at: 2026-10-15T23:57:19.652Z
+claimed-at:
 ---
 
 **What.** In the two-level opening the town's full people all live in the town, and the rest of the town is counted, so nobody lives in one place and works in another. Real towns have commuters in both directions. Give the opening some full workers who live in a neighboring place and work for a town employer, and some town residents who work for an employer elsewhere, drawn from the Census commuting flows for the place. Their pay, tax and spending then cross the town line the way the data says.
