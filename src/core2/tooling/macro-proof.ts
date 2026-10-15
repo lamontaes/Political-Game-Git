@@ -15,6 +15,9 @@ import { checkBands, type MacroMonth } from "../macro-model";
 // An optional seed replays the draw; callers cannot select a favorable place.
 const [output, replaySeed] = process.argv.slice(2);
 if (!output) throw new Error("Usage: macro-proof <output> [replaySeed]");
+const head = execFileSync("git", ["rev-parse", "HEAD"], {
+  encoding: "utf8",
+}).trim();
 const seed = replaySeed ?? randomBytes(20).toString("hex");
 const place = drawPlace(seed, "macro-played-year");
 console.log(JSON.stringify({ seed, place }));
@@ -51,7 +54,7 @@ if (facilities.some((facility) => facility.id.startsWith("facility:stand-in:")))
   throw new Error("A synthetic credit facility survived in the played world");
 const result = {
   schema: "macro-proof-v2",
-  head: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+  head,
   seed,
   place,
   startedAt,
