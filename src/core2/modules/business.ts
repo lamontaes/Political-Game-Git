@@ -887,6 +887,9 @@ function bookedMonth(
   };
 }
 
+const CLEAN_AIR_QUESTION =
+  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties";
+
 /**
  * A place out of attainment of an air quality standard (EPA Green Book) puts a
  * clean air plan's compliance duty on its stationary emitters; the duty slides
@@ -897,6 +900,12 @@ function routeCompliance(api: CoreAPI): void {
   const c = core(api),
     table = store(api).table("operating");
   const county = c.placeMetadata?.housingCounty ?? "";
+  // The duty is federal (Clean Air Act, nonattainment areas) whatever a state
+  // says; where a state's clean air plan is law, the cost cites that row.
+  const plan = c.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, CLEAN_AIR_QUESTION)
+    : undefined;
+  const governing = plan?.value === 1 ? plan.governing : null;
   const year = Number(c.date.slice(0, 4));
   const standards = county
     ? countyNonattainment(county, year).filter((row) => !row.revoked)
@@ -914,12 +923,22 @@ function routeCompliance(api: CoreAPI): void {
     if (book.closedAt || !businessData.compliance.kinds.includes(book.kindId))
       continue;
     const ruleId = `cost:${id}:${businessData.compliance.cause}`;
-    const existing = table.get(ruleId) as { share: number } | undefined;
+    const existing = table.get(ruleId) as
+      { share: number; source?: { citation?: string } } | undefined;
     if (share <= 0) {
       if (existing) endOperatingRule(api, table, ruleId);
       continue;
     }
-    if (existing && existing.share === share) continue;
+    // The cost stands while the same share and the same law row govern.
+    const cited = governing
+      ? `${governing.id}: ${String(governing.source)}; ${businessData.compliance.citation}`
+      : businessData.compliance.citation;
+    if (
+      existing &&
+      existing.share === share &&
+      existing.source?.citation === cited
+    )
+      continue;
     stopgap("SG-WORLD-business-compliance-cost");
     addRegulatoryCost(api, table, {
       organizationId: id,
@@ -928,7 +947,7 @@ function routeCompliance(api: CoreAPI): void {
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: businessData.compliance.citation,
+        citation: cited,
         estimatedFrom: `${county} misses ${standards.length} air quality standard(s) in ${year} (EPA Green Book); a clean air plan costs ${share} of other operating costs.`,
       },
     });
