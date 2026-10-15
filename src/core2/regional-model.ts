@@ -179,6 +179,18 @@ export function openingRegionMonths(
     const metroPop = metros.reduce((sum, row) => sum + row.population, 0);
     const rest = rows.find((row) => row.kind !== "metro");
     const restPop = rest?.population ?? 0;
+    // A state that is all metro (D.C., Rhode Island) takes its own rate: its
+    // metros' LAUS areas reach into other states, so they're scaled to it.
+    if (restPop <= 0 && metroPop > 0) {
+      const average =
+        metros.reduce(
+          (sum, row) => sum + metroU.get(row.id)! * row.population,
+          0,
+        ) / metroPop;
+      if (average > 0)
+        for (const row of metros)
+          metroU.set(row.id, (metroU.get(row.id)! * stateU) / average);
+    }
     // The rest of the state is what the state's figure leaves after its metros, by population.
     const solve = (
       stateValue: number,
