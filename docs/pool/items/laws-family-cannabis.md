@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/laws-family-cannabis-v2
-pr: "#0"
+pr: "#4444"
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
