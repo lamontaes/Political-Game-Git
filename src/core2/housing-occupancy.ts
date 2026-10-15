@@ -2,8 +2,15 @@
 import { regionalLevel, regionalRegistered } from "./modules/regional";
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ProjectRow, StockRow } from "./housing-construction";
-import { householdIncome, residentsRuntime } from "./modules/residents";
-import { setResidentFlowAmount } from "./residents-economy";
+import {
+  householdIncome,
+  regroupHousehold,
+  residentsRuntime,
+} from "./modules/residents";
+import { fundBalance, peopleInGroup } from "./counted-money";
+import { makeIsoDate } from "./kernel/dates";
+import { nextDue } from "./housing-homeless";
+import { addResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import type { CoreAPI, CoreState } from "./types";
 
 interface Tenant {
@@ -440,7 +447,7 @@ export function completedRentalOffer(
   )[0];
 }
 
-/** A signed lease houses someone without a home, consuming one actual vacancy. */
+/** A signed lease or counted rent flow consumes one actual vacant unit. */
 export function occupyRehousedRental(
   api: CoreAPI,
   offer: CompletedRentalOffer,
@@ -448,8 +455,15 @@ export function occupyRehousedRental(
   leaseId: string,
 ): void {
   const c = api.state as CoreState;
-  const house = c.households.get(householdId);
-  const lease = c.finance.contracts.get(leaseId);
+  const rt = residentsRuntime(c);
+  const full = c.households.get(householdId);
+  const countedIndex = rt?.store.householdOf.get(householdId);
+  const counted =
+    countedIndex === undefined ? undefined : rt!.store.households[countedIndex];
+  const house = full ?? rt?.households.get(householdId)?.household;
+  const lease = full
+    ? c.finance.contracts.get(leaseId)
+    : rt?.flows.get(leaseId);
   const stock = table(api, "stock").get(
     `stock:${offer.project.placeId}`,
   ) as unknown as StockRow | undefined;
@@ -457,7 +471,9 @@ export function occupyRehousedRental(
     !house ||
     !lease ||
     lease.endedAt ||
-    lease.householdId !== householdId ||
+    (full
+      ? !("householdId" in lease) || lease.householdId !== householdId
+      : leaseId !== `rent:${householdId}`) ||
     lease.payeeId !== offer.project.payerId ||
     lease.amountMinor !== offer.rentMinor ||
     !stock ||
@@ -483,9 +499,13 @@ export function occupyRehousedRental(
     unit: offer.unit,
     affordable: offer.affordable,
     leaseId,
-    tier: "full",
+    tier: full ? "full" : "counted",
     since: c.date,
   });
+  if (!full && counted && rt) {
+    counted.tenure = "rent";
+    regroupHousehold(rt, counted, c.date);
+  }
   table(api, "stock").put({ ...stock, vacantRental: stock.vacantRental - 1 });
   table(api, "dwellings").put({
     ...table(api, "dwellings").get(`dwelling:${householdId}`),
@@ -511,7 +531,7 @@ export function occupyRehousedRental(
     id: `housing-move:${householdId}:${c.date}`,
     householdId,
     personIds: [...house.memberIds],
-    tier: "full",
+    tier: full ? "full" : "counted",
     projectId: offer.project.id,
     leaseId,
     unit: offer.unit,
@@ -522,4 +542,157 @@ export function occupyRehousedRental(
     vacancyDelta: -1,
     reasonKey: "income-and-cash-reach-a-vacant-home",
   });
+}
+
+/** New households take a real vacant home once their own income and cash qualify. */
+export function houseUnassignedHouseholds(api: CoreAPI): void {
+  const c = api.state as CoreState;
+  const rt = residentsRuntime(c);
+  const months = api.parameter("macroMonthsPerYear");
+  const days = api.parameter("jobsDaysPerYear");
+  const candidates: {
+    id: string;
+    placeId: string;
+    members: readonly string[];
+    income: number;
+    cash: number;
+    counted: boolean;
+  }[] = [];
+  const contracted = new Set<string>();
+  const retirement = new Map<string, number>();
+  for (const contract of c.finance.contracts.values()) {
+    if (contract.endedAt) continue;
+    if (
+      contract.householdId &&
+      (contract.id.startsWith("lease:") || contract.id.startsWith("mortgage:"))
+    )
+      contracted.add(contract.householdId);
+    if (contract.kind === "income.retirement" && contract.recipientIncome) {
+      const id = contract.recipientIncome.personId;
+      retirement.set(
+        id,
+        (retirement.get(id) ?? 0) +
+          contract.amountMinor / Math.max(1, contract.periodMonths),
+      );
+    }
+  }
+  for (const house of c.households.values()) {
+    if (
+      contracted.has(house.id) ||
+      table(api, "dwellings").get(`dwelling:${house.id}`) ||
+      table(api, "statuses").get(house.id)
+    )
+      continue;
+    const members = house.memberIds.filter((id) => c.people.get(id)?.alive);
+    if (!members.length) continue;
+    const income = members.reduce((sum, id) => {
+      const job = c.jobs.get(c.people.get(id)?.jobId ?? "");
+      return (
+        sum +
+        (retirement.get(id) ?? 0) +
+        (job && !job.endsAt ? (job.wageDailyMinor * days) / months : 0)
+      );
+    }, 0);
+    candidates.push({
+      id: house.id,
+      placeId: house.placeId,
+      members,
+      income,
+      cash: members.reduce((sum, id) => sum + c.people.get(id)!.liquidMinor, 0),
+      counted: false,
+    });
+  }
+  if (rt)
+    for (const house of rt.store.liveHouseholds()) {
+      if (
+        house.gone ||
+        house.tenure !== "other" ||
+        c.households.has(house.id) ||
+        rt.flows.has(`rent:${house.id}`) ||
+        table(api, "statuses").get(house.id)
+      )
+        continue;
+      const people = peopleInGroup(rt, house.group);
+      const cash =
+        rt.funded && people > 0
+          ? Math.floor(
+              (fundBalance(api, rt, house.group) *
+                rt.store.countedCount(house)) /
+                people,
+            )
+          : 0;
+      candidates.push({
+        id: house.id,
+        placeId: house.placeId,
+        members: rt.households.get(house.id)?.household.memberIds ?? [],
+        income: householdIncome(rt, house) / months,
+        cash,
+        counted: true,
+      });
+    }
+  // Lowest incomes reach set-aside homes first; equal circumstances use stable IDs.
+  candidates.sort((a, b) => a.income - b.income || a.id.localeCompare(b.id));
+  for (const house of candidates) {
+    const offer = completedRentalOffer(api, house.placeId, house.income);
+    if (
+      !offer ||
+      house.cash < offer.rentMinor ||
+      !c.organizations.has(offer.project.payerId)
+    )
+      continue;
+    const source = {
+      tag: "ESTIMATED" as const,
+      asOf: c.date,
+      citation: construction.source.citation,
+      estimatedFrom:
+        "A completed vacant unit, recorded household income and cash, and the landlord income qualification.",
+    };
+    const dueAt = makeIsoDate(nextDue(c.date));
+    const leaseId = house.counted
+      ? `rent:${house.id}`
+      : `lease:${house.id}:${c.date}`;
+    if (house.counted) {
+      const account = rt!.input.accounts.find(
+        (row) => row.placeId === house.placeId,
+      )?.accountId;
+      if (!account) continue;
+      addResidentFlow(c, {
+        id: leaseId,
+        kind: "purchase",
+        financeKind: "household.rent",
+        payerId: account,
+        payeeId: offer.project.payerId,
+        residentsId: account,
+        placeId: house.placeId,
+        amountMinor: offer.rentMinor,
+        firstAt: dueAt,
+        cadence: { kind: "months", every: 1, day: 1 },
+        salesReceipt: false,
+        marketAdjusted: false,
+        source,
+      });
+    } else {
+      api.addFinanceContract({
+        id: leaseId,
+        householdId: house.id,
+        payerIds: house.members,
+        payeeId: offer.project.payerId,
+        kind: "household-purchase",
+        amountMinor: offer.rentMinor,
+        dueAt,
+        periodMonths: 1,
+        accruesArrears: true,
+        source,
+      });
+    }
+    occupyRehousedRental(api, offer, house.id, leaseId);
+    const moveId = `housing-move:${house.id}:${c.date}`;
+    table(api, "moves").put({
+      ...table(api, "moves").get(moveId)!,
+      monthlyIncomeMinor: house.income,
+      cashMinor: house.cash,
+      previousHousingStatus: "unassigned",
+      reasonKey: "income-and-cash-reach-a-vacant-home",
+    });
+  }
 }

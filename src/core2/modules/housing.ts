@@ -45,6 +45,7 @@ import {
 } from "../housing-prices";
 import {
   occupyCompletedRentals,
+  houseUnassignedHouseholds,
   releaseVacatedRentals,
   completedRentalOffer,
   occupyRehousedRental,
@@ -990,6 +991,7 @@ function review(api: CoreAPI): void {
     store(api).table("taxArrears"),
   );
   build(api);
+  houseUnassignedHouseholds(api);
   occupyCompletedRentals(api);
   landlordPayout(api);
   buyHomes(api);

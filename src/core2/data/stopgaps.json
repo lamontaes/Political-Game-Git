@@ -2565,11 +2565,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/housing-occupancy.ts",
     "line": 161,
-    "whatItFakes": "Vacancy moves rent in both population tiers; local tenants and households recovering from homelessness can occupy completed rentals. Incoming households are not yet assigned to completed units. Local relocations free an old unit; rehousing consumes a vacancy.",
-    "why": "Incoming-household assignment remains unwired; local moves and signed-lease rehousing now use completed units.",
+    "whatItFakes": "Completed rentals now admit unassigned households in either tier once income and cash qualify, and consume an actual vacancy. Existing-stock arrivals and departures still lack unit-level assignment.",
+    "why": "New-unit occupancy and its vacancy changes are recorded; the opening rental stock has no individual unit inventory.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE arrivals: households moving into the town fill vacancies, at a pace from the region's jobs and the town's rents.",
+    "replacement": "Record opening rental units and route their arrivals and departures through the same assignment and release rules.",
     "status": "open"
   },
   {
@@ -4422,11 +4422,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/housing-occupancy.ts",
     "line": 159,
-    "whatItFakes": "Completed-rental matching handles local tenants choosing lower rent with the same landlord, and homeless households whose income and cash reach a signed lease. Job-location, family-space and incoming household assignment are not modeled.",
-    "why": "The old completion discount had no occupancy. Both tiers now change their rent writers, and rehousing consumes actual vacancies, but broader arrival matching remains.",
+    "whatItFakes": "Completed rentals match local rent-saving tenants, recovered homeless households, and unassigned households in either tier. Job-location and family-space matching are not modeled.",
+    "why": "Rent, income and cash are read; dwelling capacity and commute preferences still lack records.",
     "addedBy": "SESSION-B",
     "addedAt": "2026-10-15",
-    "replacement": "Read recorded job locations, dwelling capacity and arriving households to assign vacant units, preserving the same decision rule and stock accounting.",
+    "replacement": "Read recorded job locations and dwelling capacity to weigh commute and family-space changes with the same decision rule in both tiers.",
     "status": "open"
   }
 ]
