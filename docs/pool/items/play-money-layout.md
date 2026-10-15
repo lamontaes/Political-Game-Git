@@ -4,7 +4,7 @@ title: "Money gets a dedicated account overview (#4321)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4321
 blocked-on:
@@ -21,3 +21,4 @@ source: "astra order 1; PR #4321 branch play/money-layout"
 **Files.** src/bench/*, src/bench/controls.json
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
+Sent back 2026-10-15 from PR #4321 (branch play/money-layout): code conflict with main in src/bench/play.mjs; finish on that branch, merge main into it first.

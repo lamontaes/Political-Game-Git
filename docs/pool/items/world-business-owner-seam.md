@@ -4,7 +4,7 @@ title: "Finish #4338: business owners' decisions with the core-to-module seam in
 area: world
 kind: wiring
 priority: 1
-status: in-pr
+status: open
 claimed-by:
 pr: #4338
 blocked-on:
@@ -21,3 +21,4 @@ source: "reissue item 7; PR #4338 branch pool/business-owner-decisions"
 **Files.** src/core2/choice.ts, modules/residents.ts
 
 **Notes.** None.
+Sent back 2026-10-15 from PR #4338 (branch pool/business-owner-decisions): code conflict with main in src/core2/modules/business.ts, src/core2/business.test.ts, stopgaps.json; finish on that branch, merge main into it first.

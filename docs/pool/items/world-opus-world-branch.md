@@ -4,7 +4,7 @@ title: "OPUS-WORLD economy engines branch (#3996)"
 area: world
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #3996
 blocked-on:
@@ -21,3 +21,4 @@ source: "open PR #3996"
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+Sent back 2026-10-15 from PR #3996 (branch opus-world): code conflict with main in src/core2/modules/housing.ts, src/core2/data/stopgaps.json, housing.ts; finish on that branch, merge main into it first.
