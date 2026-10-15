@@ -1372,6 +1372,21 @@ const SHARED_KINDS = ["shared-school", "shared-work"];
 /** The key a listener remembers the last talk's topic under. */
 const lastTalkKey = (playerId: PersonId) => `talk:${playerId}:topic`;
 
+/** The subjects a person tells as news of their own life; a reaction to one is never answered with small talk. */
+const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
+  "job-lost",
+  "job-cause",
+  "job-hope",
+  "eviction",
+  "eviction-cause",
+  "eviction-where",
+  "death-news",
+  "illness-news",
+  "prison-news",
+  "job-new",
+  "job-new-told",
+]);
+
 /** The kind of a subject the talk opened, by its id ("own-work:...", "them>mutual:..."). */
 function subjectKindOf(subjectId: string): string {
   const own = subjectId.replace(/^[^>]*>/, "");
@@ -2262,6 +2277,25 @@ export function say(
     otherId,
     conversation.director,
   ).find((row) => row.id === choice.raises);
+  if (
+    !raised &&
+    NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))
+  ) {
+    // Bad news told and reacted to (comfort, a reaction, a plain answer): the
+    // teller never answers with small-talk "Huh."; they carry on to the one
+    // related thing they have to say (a lost job: that they are looking; an
+    // eviction: where they go), else the talk ends.
+    const related =
+      data.related[subjectKindOf(conversation.topics[zero]!)] ?? [];
+    if (conversation.topics.length === one && !doubted)
+      for (const kind of related) {
+        const next = tellable(core, conversation, data, kind);
+        if (next && raiseSubject(core, conversation, data, next, true))
+          return conversation;
+      }
+    endConversation(core, conversation, data);
+    return conversation;
+  }
   if (!raised) {
     // Nothing new raised: the other person takes the answer in, as people do
     // in small talk, then carries on with something else.
