@@ -28,6 +28,10 @@
         "document": "East Oregonian, December 22, 1904",
         "date": "1904-12-22",
         "url": "https://www.loc.gov/resource/sn88086023/1904-12-22/ed-1/?st=text"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -41,6 +45,10 @@
         "document": "Pine Bluff Daily Graphic, August 6, 1907",
         "date": "1907-08-06",
         "url": "https://www.loc.gov/resource/sn89051168/1907-08-06/ed-1/?sp=1&st=text"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -54,6 +62,10 @@
         "document": "The McCook Tribune, April 18, 1902",
         "date": "1902-04-18",
         "url": "https://www.loc.gov/resource/sn94056415/1902-04-18/ed-1/?st=text"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -67,6 +79,10 @@
         "document": "Aberdeen Sunday World, July 18, 1915",
         "date": "1915-07-18",
         "url": "https://tile.loc.gov/storage-services/service/ndnp/wa/batch_wa_icicle_ver01/data/sn87093220/00200290471/1915071801/0266.pdf"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -80,6 +96,10 @@
         "document": "Evening Star, December 16, 1947",
         "date": "1947-12-16",
         "url": "https://www.loc.gov/resource/sn83045462/1947-12-16/ed-1/?sp=23&st=text"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -93,6 +113,10 @@
         "document": "The Savannah Morning News, June 11, 1902",
         "date": "1902-06-11",
         "url": "https://chroniclingamerica.loc.gov/lccn/sn89053684/1902-06-11/ed-1/seq-10/"
+      },
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     }
   ]

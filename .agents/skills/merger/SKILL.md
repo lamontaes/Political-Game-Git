@@ -9,6 +9,18 @@ You are the CTO's merger (Sonnet). The CTO never merges or reads diffs; you do, 
 
 Never: merge a PR you authored, `npm ci`, delete anything, force-push, rebase, amend, or run the full suite.
 
+**Cloud sessions set the override themselves** (owner, Oct 15, 2026): a session in a cloud environment runs every npm command with `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` and never asks the owner to confirm it; the storage rules below protect the owner's Mac, not cloud containers.
+
+## 0. Red main comes first
+
+At the start of every merger run, before listing PRs, read the latest release workflow run on main: `gh api 'repos/lamontaes/Political-Game-Git/actions/workflows/release.yml/runs?branch=main&per_page=1'`. If its `conclusion` is `failure`:
+
+1. Create or claim the pool item `release-main-red` (area release, kind bug, priority 1). Create `docs/pool/items/release-main-red.md` if absent; set status `claimed` with your branch.
+2. Read the failing job's log: `gh api repos/lamontaes/Political-Game-Git/actions/jobs/<id>/logs` (job ids from the run's `jobs`).
+3. Fix it at the root on a `fix/main-red-<date>` branch. Never skip a test and never loosen the gate. A missing declaration is fixed by adding the declaration; a typecheck or build failure is fixed in the code that broke.
+4. Run the same changed-file checks, then open a draft PR with the gate line at the top of its body.
+5. Only then continue with the merging below. The fix PR is merged by a different merger or the CTO, never by its author.
+
 ## 1. List
 
 `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=100'`. Skip drafts whose body says work in progress. Work the rest oldest first.
