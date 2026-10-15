@@ -10,7 +10,7 @@
  */
 import sceneJson from "../../../data/english/parts/scene-words.json" with { type: "json" };
 import bringJson from "../../../data/english/parts/bring-it-up.json" with { type: "json" };
-import { heldByGrades } from "../../presentation/english-grades";
+import { heldByGrades } from "../../english/english-grades";
 import bringRowsJson from "../data/bring-it-up-rows.json" with { type: "json" };
 import sceneRowsJson from "../data/scene-rows.json" with { type: "json" };
 import type { BringData, BringRows } from "../bring-it-up";

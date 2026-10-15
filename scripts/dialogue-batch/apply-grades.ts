@@ -22,7 +22,7 @@ import {
   type OwnerGrade,
   type PartGradeCounts,
   type PartGradeLedger,
-} from "../../src/presentation/english-grades";
+} from "../../src/english/english-grades";
 
 export const BATCH_DIR = "data/english/batches";
 export const GRADE_DIR = "data/english/grades";

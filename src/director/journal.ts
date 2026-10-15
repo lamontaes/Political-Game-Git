@@ -1,33 +1,15 @@
-/**
- * "My life" on the new core: a first-person memoir in chapters, written by
- * the English engine from the story director's moments and the person's own
- * records (owner, Sept 22 and Oct 1; Oct 14: "a dramatized story, not a list
- * of facts").
- *
- * A school or a job is a setting, never an entry and never a chapter: it is
- * kept only as where the person knew someone who matters later. Each
- * entry is a scene: the event, framed by the person's age when they were
- * young ("When I was 7, my father died."), a hard time after a loss, and a
- * look-back when the moment's hindsight (its impact grown by how much the
- * people in it matter now) reaches the interrupt line. Running, winning and
- * losing are entries. The journal is composed when it is read, so it is
- * revised as life goes on: a schoolmate or co-worker who later holds office
- * is remembered in the latest chapter ("I knew {name} from {school}. {name}
- * became mayor."). Every slot is a recorded fact;
- * a feeling is never invented.
- */
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   renderGroundedEnglish,
   type AuthoredEnglishBank,
   type GroundedEnglishPacket,
   type GroundedEnglishKnowledge,
-} from "../presentation/grounded-english";
+} from "../english/grounded-english";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { properName } from "./words";
 import { journalDataFromBank } from "./mined/journal-bank";
@@ -235,7 +217,7 @@ export function composeJournal(
       : null;
   };
   const placeName = (placeId: string | undefined) => {
-    const place = placeId ? lifePlaceByJurisdictionId(placeId as never) : null;
+    const place = placeId ? corePlaceByJurisdictionId(placeId as never) : null;
     return place
       ? { text: place.displayName, sourceRecordIds: [placeId!] }
       : null;
@@ -391,6 +373,17 @@ export function composeJournal(
   let chapter: (typeof chapters)[number] | undefined;
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
+  // How each closing line (a hard time, a look-back) ends, its last two
+  // words, so none is said twice in one journal.
+  const closedWith = new Set<string>();
+  const closing = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/[^a-z' ]/g, "")
+      .trim()
+      .split(/\s+/)
+      .slice(-P.two)
+      .join(" ");
   const open = (key: string, title: string, date: IsoDate) => {
     chapter = {
       key,
@@ -464,10 +457,27 @@ export function composeJournal(
     }
     // A turn opens a chapter titled by its record (a race, a child), unless
     // the chapter began with the same kind of turn.
-    if (!chapter || (row.turn && chapterKind !== row.kindPrefix)) {
+    // A turn of the same kind about someone else opens its own chapter: a
+    // daughter's birth is never told under "My son".
+    const ownTitle =
+      row.turn && chapterKind === row.kindPrefix
+        ? render(
+            `journal-title:${row.kindPrefix}`,
+            row.title,
+            facts,
+            `${moment.id}:title`,
+            sourceIds,
+          )
+        : null;
+    if (
+      !chapter ||
+      (row.turn && chapterKind !== row.kindPrefix) ||
+      (ownTitle && ownTitle.text !== chapter.title)
+    ) {
       chapterKind = row.turn ? row.kindPrefix : undefined;
       const place = placeName(person.placeId);
       const title =
+        ownTitle ??
         render(
           `journal-title:${row.kindPrefix}`,
           row.title,
@@ -589,12 +599,15 @@ export function composeJournal(
     ) {
       const hard = render(
         "journal-memoir:hard",
-        memoir.hard,
+        memoir.hard?.filter((row) => !closedWith.has(closing(row.text))),
         facts,
         `${moment.id}:hard`,
         sourceIds,
       );
-      if (hard) parts.push(hard);
+      if (hard) {
+        closedWith.add(closing(hard.text));
+        parts.push(hard);
+      }
     }
     // Looking back: a moment whose weight grew with the people in it, when
     // life went on after it.
@@ -605,14 +618,18 @@ export function composeJournal(
         row.counterpartIds.some((id) => moment.counterpartIds.includes(id)),
     );
     if (later && moment.hindsight >= interrupt) {
+      // A look-back is said once: no two end the same way ("at the time").
       const hook = render(
         "journal-memoir:hook",
-        memoir.hook,
+        memoir.hook?.filter((row) => !closedWith.has(closing(row.text))),
         facts,
         `${moment.id}:hook`,
         sourceIds,
       );
-      if (hook) parts.push(hook);
+      if (hook) {
+        closedWith.add(closing(hook.text));
+        parts.push(hook);
+      }
     }
     chapter!.lines.push({
       id: moment.id,

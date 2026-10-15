@@ -714,11 +714,6 @@ input[type="range"]::-moz-range-thumb {
   letter-spacing: 0.07em;
   color: var(--gold);
 }
-.sub {
-  font: 500 14.5px var(--speech);
-  color: var(--text-2);
-  margin: 6px 0 18px;
-}
 .item {
   display: block;
   width: 100%;
@@ -730,37 +725,124 @@ input[type="range"]::-moz-range-thumb {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.item span {
-  display: block;
-  font: 400 13px var(--ui);
-  color: var(--text-2);
-  margin-top: 2px;
-}
 #new-life b {
   color: #fff;
 }
 #front-status:empty {
   display: none;
 }
-#custom {
-  margin-top: 8px;
+#front .title {
+  margin-bottom: 14px;
+}
+.seed-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.seed-row input {
+  width: 150px;
+}
+#front.loading {
+  top: 56px;
+  transform: none;
+}
+/* The title's build version, bottom right (#4014). */
+.title-version {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  color: var(--text-3);
+  font: 400 11px var(--ui);
+}
+.item small {
+  display: block;
+  font: 400 12.5px var(--ui);
+  color: var(--text-2);
+  margin-top: 2px;
+}
+/* The creator (the Oct 12 SetupScreen's steps). */
+#front:has(#cr-character:not([hidden])),
+#front:has(#cr-place:not([hidden])),
+#front:has(#cr-look:not([hidden])) {
+  width: 420px;
+}
+.summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
+}
+.summary-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--text);
+}
+.summary-name {
+  font: 700 15px var(--name);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+.summary-edit {
+  color: var(--gold);
+  font: 600 12px var(--ui);
+}
+#front h2.label {
+  margin: 12px 0 6px;
+}
+.group {
+  border: 0;
+  padding: 0;
+  margin: 0 0 10px;
+}
+.choices {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.choice-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 6px;
+}
+#front input[type="search"] {
+  width: 100%;
+}
+.look-row {
+  display: grid;
+  grid-template-columns: 110px 34px 1fr 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+.look-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--brass);
+}
+.portrait {
+  display: block;
+  height: 260px;
+  margin: 0 auto 4px;
+}
+#front .acts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
 }
 /* About keeps the version; the title never shows one. */
 .version {
   margin-top: 12px;
   color: var(--text-3);
-}
-/* New game, second step: Random, or a typed place. */
-#front-place .field input {
-  width: 220px;
-}
-/* No chevron at rest: the suggestions open as the player types. */
-#place::-webkit-calendar-picker-indicator {
-  display: none !important;
-}
-#front-place .acts {
-  justify-content: space-between;
-  margin-top: 12px;
 }
 /* Progress: a brass frame, the fill running dark to light gold. */
 .progress {
@@ -933,10 +1015,6 @@ body.dev .dev-ring {
 .chat .acts {
   margin-top: 8px;
 }
-#choices {
-  padding: 13px 18px;
-}
-
 /* A journal line, bottom right. */
 .journal {
   right: var(--gutter);
@@ -1101,7 +1179,6 @@ body.dev .dev-ring {
   display: contents;
 }
 #game.sheet-open #talk,
-#game.sheet-open #choices,
 #game.sheet-open #person,
 #game.sheet-open #journal-note {
   visibility: hidden;

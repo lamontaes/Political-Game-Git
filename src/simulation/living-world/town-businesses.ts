@@ -5,7 +5,7 @@ import {
   recordOrganizationProfile,
   recordWorkStatus,
 } from "../life";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { jailTermOn } from "../justice/jail-terms";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
@@ -16,7 +16,7 @@ import {
   kinshipRelationshipsAt,
   workRoleAt,
 } from "../life-queries";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { localBusinessWageMinor } from "../recorded-employer";
 import type {
   EntityId,

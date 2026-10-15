@@ -14,7 +14,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { setBookkeeping } from "./bookkeeping";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { followersOf, outletsHere, storiesPrinted } from "./modules/press";
 import { stancesOf } from "./modules/views";
 

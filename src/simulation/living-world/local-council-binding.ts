@@ -1,4 +1,4 @@
-import type { GovernmentUnitIdentity } from "../government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { municipalRulePackFor } from "../municipal-government";
 import { ensureJurisdiction } from "../national-election-geography";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";

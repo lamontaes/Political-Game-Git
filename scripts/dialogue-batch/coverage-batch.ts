@@ -42,10 +42,10 @@ import { composeJournal } from "../../src/director/journal";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
 import type { EnglishBank } from "./bank-compose";
-import { composeAddress } from "../../src/presentation/english-composition";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
-import { REGISTER_CARDS } from "../../src/presentation/speech-registers";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { composeAddress } from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
+import { REGISTER_CARDS } from "../../src/english/speech-registers";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 import {
   addressMoves,
@@ -62,7 +62,7 @@ import {
   type GuardLine,
   type Rejection,
 } from "./repetition-guard";
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   AXES,
   minedParts,
@@ -857,7 +857,7 @@ function readWorld(place: Place): {
         text: move.text,
         parts: move.parts.map((part) => part.variantKey),
         moment: `address|${subject}/${role}`,
-        composer: `composeAddress (src/presentation/english-composition.ts), register ${turn.register}, words from data/english/parts/address.json`,
+        composer: `composeAddress (src/english/english-composition.ts), register ${turn.register}, words from data/english/parts/address.json`,
         sourceRecordIds: [turn.personId],
       });
     });
@@ -1477,6 +1477,7 @@ type PageBatch = {
       kind: string;
       lines: number;
       openers: number;
+      closers: number;
       shapes: number;
       verbs: number;
     }[];
@@ -1495,7 +1496,7 @@ function guardSection(batch: PageBatch): string {
   const g = batch.guard;
   const rows = g.measured.map((m) => {
     const t = g.thresholds[m.kind]!;
-    return `| ${KIND_TITLES[m.kind] ?? m.kind} | ${m.lines} | ${m.openers.toFixed(2)} (${t.openers}) | ${m.shapes.toFixed(2)} (${t.shapes}) | ${m.verbs.toFixed(2)} (${t.verbs}) | ${g.candidates[m.kind]} | ${g.tried[m.kind]} |`;
+    return `| ${KIND_TITLES[m.kind] ?? m.kind} | ${m.lines} | ${m.openers.toFixed(2)} (${t.openers}) | ${m.closers.toFixed(2)} (${t.closers}) | ${m.shapes.toFixed(2)} (${t.shapes}) | ${m.verbs.toFixed(2)} (${t.verbs}) | ${g.candidates[m.kind]} | ${g.tried[m.kind]} |`;
   });
   const byRule = new Map<string, Map<string, number>>();
   for (const row of g.rejections) {
@@ -1516,10 +1517,10 @@ function guardSection(batch: PageBatch): string {
   const grades = g.byGrades
     ? `Your grades were applied first: ${g.byGrades.lines} candidate lines and ${g.byGrades.alternatives} alternatives used a part you failed (a school or a job as an entry, "The bill passed.", "the manager turned to"), and ${g.byGrades.ungrammatical} lines or alternatives were not whole English (such as "My daughter was born years old."); none of them is on this page.\n\n`
     : "";
-  return `${grades}Before this page was written, every kind was checked for repetition (owner, Oct 14: batch 7 was "still super repetitive"). Each kind is measured on the share of distinct openers (first two words), distinct sentence shapes (names, titles, numbers and dates masked) and distinct main verbs; a kind under its threshold, or any line whose event is a school, a workplace, an institution or a filing office, or a bill title worded as a bare command, fails. The thresholds are estimated from real samples of the same size (\`src/director/data/director.json\`, \`dialogueGuard*\` rows). The worlds were played ${batch.days} days each.
+  return `${grades}Before this page was written, every kind was checked for repetition (owner, Oct 14: batch 7 was "still super repetitive"). Each kind is measured on the share of distinct openers (first two words), distinct closers (last two words), distinct sentence shapes (names, titles, numbers and dates masked) and distinct main verbs; a kind under its threshold, or any line whose event is a school, a workplace, an institution or a filing office, or a bill title worded as a bare command, fails. The thresholds are estimated from real samples of the same size (\`src/director/data/director.json\`, \`dialogueGuard*\` rows). The worlds were played ${batch.days} days each.
 
-| Kind | Lines | Openers (threshold) | Shapes (threshold) | Verbs (threshold) | Candidates | Looked at before it passed |
-| --- | --- | --- | --- | --- | --- | --- |
+| Kind | Lines | Openers (threshold) | Closers (threshold) | Shapes (threshold) | Verbs (threshold) | Candidates | Looked at before it passed |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ${rows.join("\n")}
 
 Rejected: ${g.rejected} candidates.

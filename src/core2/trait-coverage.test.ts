@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import coverageData from "../../data/content/trait-coverage.json" with { type: "json" };
 import actKindsData from "../../data/content/act-kinds.json" with { type: "json" };
 import { drawPlace } from "../../scripts/core2-year/place";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { chooseAct, traitLean } from "./choice";
 import { createLifeCore } from "./life";
 import { buildPopulation } from "./population";

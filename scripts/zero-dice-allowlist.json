@@ -3,15 +3,25 @@
   "scannedAt": "48b3e24c4",
   "entries": [
     {
-      "file": "src/presentation/campus-backdrops.ts",
-      "kind": "list-pick",
-      "build": null,
+      "file": "src/presentation/appearance-engine/assemble.ts",
+      "kind": "fixed-share",
+      "build": "Build 6",
       "count": 1,
-      "code": "let hash = 2166136261; for (let i = 0; i < name.length; i += 1) { hash = Math.imul(hash ^ name.charCodeAt(i), 16777619) >>> 0; } const sorted = [...records].sort((a, b) => a.campus.localeCompare(b.campus)); return sorted[hash % sorted.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "college name hash",
-      "reason": "Stable pick among equally good campus pictures so a college keeps its picture.",
-      "replacement": null
+      "code": "export const HEAD_FEATHER_SHARE = 0.02;"
+    },
+    {
+      "file": "src/presentation/appearance-engine/assemble.ts",
+      "kind": "fixed-share",
+      "build": "Build 6",
+      "count": 1,
+      "code": "export const COLLAR_BAND_SHARE = 0.03;"
+    },
+    {
+      "file": "src/presentation/appearance-engine/fabric.ts",
+      "kind": "fixed-share",
+      "build": "Build 6",
+      "count": 1,
+      "code": "export const INK_SHARE = 0.55;"
     },
     {
       "file": "src/presentation/character-components.ts",
@@ -41,72 +51,6 @@
       "build": "Build 6",
       "count": 1,
       "code": ".next() < (slot.presence_rate ?? 0);"
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const start = bodies.length ? rng.integer(0, bodies.length) : 0;",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting body family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const headStart = heads.length ? rng.integer(0, heads.length) : 0;",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting head family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "initialFamilies[kind] = rng .fork(`wardrobe:${kind}`) .pick(choices);",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + wardrobe kind",
-      "reason": "Starting wardrobe family per outfit kind drawn from the person's seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const hairStart = hairFamilies.length ? rng.integer(0, hairFamilies.length)",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting hair family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/engine-people29-data.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "palettes[channel] = rng.fork(channel).pick(choices);",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + channel (skin, hair, top, bottom)",
-      "reason": "Skin, hair and garment palette channel drawn from the seed among authored swatches; a look.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/engine-people29-data.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "variant: rng.fork(kind).pick(choices),",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + feature kind",
-      "reason": "Eye, brow, nose and mouth variant drawn from the seed; a face.",
-      "replacement": null
     },
     {
       "file": "src/simulation/candidate-petitions.ts",
@@ -505,31 +449,6 @@
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "point -= share;",
-      "class": "GENERATION",
-      "keyedBy": "town id + household index",
-      "reason": "Household shape drawn from real shares for a household's own index; members' ages follow from it.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (point < 0) return shape;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "for (let c = 0; c < children; c += 1)"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
       "kind": "fixed-share",
       "build": "Build 24",
       "count": 1,
@@ -793,61 +712,6 @@
       "class": "IDENTITY",
       "keyedBy": "world seed + starting-person label",
       "reason": "Second family name for two-surname corpora for the starting player; a name.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const givenName = rng.pick(corpus.givenNames);",
-      "class": "IDENTITY",
-      "keyedBy": "caller rng stream",
-      "reason": "Given name from the unrestricted corpus draw; a name with no claim about background.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const familyName = rng.pick(corpus.familyNames);",
-      "class": "IDENTITY",
-      "keyedBy": "caller rng stream",
-      "reason": "Family name from the unrestricted corpus draw; a name.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "corpus.surnamesCarried === 2 ? `${familyName} ${rng.pick(corpus.familyNames)}`",
-      "class": "IDENTITY",
-      "keyedBy": "caller rng stream",
-      "reason": "Second family name for two-surname corpora; a name.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "givenName: rng.fork(\"canonical-name:gendered-given-name\").pick(pool),",
-      "class": "IDENTITY",
-      "keyedBy": "caller rng fork (canonical name)",
-      "reason": "Gendered given name drawn from the gender pool; a name.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "`canonical-name:gendered-given-name:${drawn.givenName}:${drawn.familyName}`, ) .integer(0, pool.length);",
-      "class": "IDENTITY",
-      "keyedBy": "drawn given and family names",
-      "reason": "Offset into the gender pool for a canonical name; a name.",
       "replacement": null
     },
     {
@@ -1221,7 +1085,7 @@
       "kind": "list-pick",
       "build": null,
       "count": 1,
-      "code": "`${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;",
+      "code": "`${rng.pick(SCHOOL_NAMES.features)} ${stage.nameSuffix}`;",
       "class": "GENERATION",
       "keyedBy": "school id (place and stage)",
       "reason": "Generated name pattern for a school that has no record; who exists, not what anyone does.",
@@ -1236,6 +1100,17 @@
       "class": "IDENTITY",
       "keyedBy": "caller rng stream (person name)",
       "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from src/simulation/given-name-cohorts.ts); who they are, not what they do.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/modules/counted-moves.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "stableHash(`${core.seed}:arrival:${key}:${date}:${rt.serial}`).slice( 0, 8, ), 16, ); const template = shapes[pick % shapes.length]!;",
+      "class": "GENERATION",
+      "keyedBy": "the arriving household's own serial (its id), with its origin and age band",
+      "reason": "Who a newcomer household is: its shape is drawn from the place's households of its head's age band, keyed to that household's own serial; how many arrive and from where follows from the pull.",
       "replacement": null
     },
     {
@@ -1294,6 +1169,61 @@
       "replacement": null
     },
     {
+      "file": "src/core2/person-names.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const givenName = rng.pick(corpus.givenNames);",
+      "class": "IDENTITY",
+      "keyedBy": "caller rng stream",
+      "reason": "Given name from the unrestricted corpus draw; a name with no claim about background.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/person-names.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const familyName = rng.pick(corpus.familyNames);",
+      "class": "IDENTITY",
+      "keyedBy": "caller rng stream",
+      "reason": "Family name from the unrestricted corpus draw; a name.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/person-names.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "corpus.surnamesCarried === 2 ? `${familyName} ${rng.pick(corpus.familyNames)}`",
+      "class": "IDENTITY",
+      "keyedBy": "caller rng stream",
+      "reason": "Second family name for two-surname corpora; a name.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/person-names.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "givenName: rng.fork(\"canonical-name:gendered-given-name\").pick(pool),",
+      "class": "IDENTITY",
+      "keyedBy": "caller rng fork (canonical name)",
+      "reason": "Gendered given name drawn from the gender pool; a name.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/person-names.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "`canonical-name:gendered-given-name:${drawn.givenName}:${drawn.familyName}`, ) .integer(0, pool.length);",
+      "class": "IDENTITY",
+      "keyedBy": "drawn given and family names",
+      "reason": "Offset into the gender pool for a canonical name; a name.",
+      "replacement": null
+    },
+    {
       "file": "src/core2/population.ts",
       "kind": "list-pick",
       "build": null,
@@ -1307,7 +1237,7 @@
     {
       "file": "src/core2/press-staff.ts",
       "kind": "list-pick",
-      "build": "OPUS-PEOPLE",
+      "build": null,
       "count": 1,
       "code": "name = `${town} ${draw.pick(MASTHEADS.newspaperWords.rows)}`.trim();",
       "class": "IDENTITY",
@@ -1318,7 +1248,7 @@
     {
       "file": "src/core2/press-staff.ts",
       "kind": "list-pick",
-      "build": "OPUS-PEOPLE",
+      "build": null,
       "count": 1,
       "code": "letters += LETTERS[draw.integer(0, LETTERS.length)];",
       "class": "IDENTITY",
@@ -1329,7 +1259,18 @@
     {
       "file": "src/core2/press-staff.ts",
       "kind": "list-pick",
-      "build": "OPUS-PEOPLE",
+      "build": null,
+      "count": 1,
+      "code": "const name = `${input.prefix}${rng.fork(String(attempt)).pick(input.words)}${input.suffix}`;",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + outlet id + attempt",
+      "reason": "A national outlet's generated name from its kind's words; who the outlet is, never a real brand.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/press-staff.ts",
+      "kind": "list-pick",
+      "build": null,
       "count": 1,
       "code": "names.pick( givenNamePoolForCorpus( corpus, gender === \"female\" || gender === \"male\" ? gender : \"nonbinary\", ), );",
       "class": "IDENTITY",
@@ -1340,7 +1281,7 @@
     {
       "file": "src/core2/press-staff.ts",
       "kind": "list-pick",
-      "build": "OPUS-PEOPLE",
+      "build": null,
       "count": 1,
       "code": "familyName = names.pick(corpus.familyNames);",
       "class": "IDENTITY",
@@ -1349,25 +1290,14 @@
       "replacement": null
     },
     {
-      "file": "src/core2/press-staff.ts",
-      "kind": "list-pick",
-      "build": "OPUS-PEOPLE",
-      "count": 1,
-      "code": "const name = `${input.prefix}${rng.fork(String(attempt)).pick(input.words)}${input.suffix}`;",
-      "class": "IDENTITY",
-      "keyedBy": "world seed + outlet id + attempt",
-      "reason": "A national outlet's generated name from its kind's words; who the outlet is, never a real brand.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/modules/counted-moves.ts",
+      "file": "src/core2/town-households.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
-      "code": "stableHash(`${core.seed}:arrival:${key}:${date}:${rt.serial}`).slice( 0, 8, ), 16, ); const template = shapes[pick % shapes.length]!;",
+      "code": "point -= share;",
       "class": "GENERATION",
-      "keyedBy": "the arriving household's own serial (its id), with its origin and age band",
-      "reason": "Who a newcomer household is: its shape is drawn from the place's households of its head's age band, keyed to that household's own serial; how many arrive and from where follows from the pull.",
+      "keyedBy": "town id + household index",
+      "reason": "Household shape drawn from real shares for a household's own index; members' ages follow from it.",
       "replacement": null
     }
   ]

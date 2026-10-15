@@ -1,6 +1,6 @@
 import { eventById } from "./event-index";
-import { addDays, makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   buildLegislativeVoteRecord,
   measureEnactment,

@@ -1,4 +1,4 @@
-import type { IsoDate } from "../types";
+import type { IsoDate } from "../../core2/kernel/brands";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { LEGISLATIVE_RULE_PACKS } from "../legislature-rule-packs";
 import { officeQualifications } from "../office-qualification-rules";

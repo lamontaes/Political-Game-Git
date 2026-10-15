@@ -9,7 +9,7 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import type { MacroStartingConditionsRecord } from "../world-setup/types";
-import { detExp } from "../world-setup/deterministic-math";
+import { detExp } from "../../core2/kernel/deterministic-math";
 import {
   annualizedQuarterlyGrowthPct,
   roundMacro,

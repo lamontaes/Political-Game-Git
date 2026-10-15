@@ -20,7 +20,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { setBookkeeping } from "./bookkeeping";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { housingStatusCounts } from "./housing-homeless";
 import hud from "../../docs/research/cloud-b-outcomes-2024/homelessness-hud-2024.json" with { type: "json" };

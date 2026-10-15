@@ -89,6 +89,10 @@ export interface Accounts {
   endObligation(id: string): void;
   /** Ends every open standing payment into this account (a benefit stops at the payee's death); returns their ids. */
   endObligationsTo(accountId: string): string[];
+  /** The open standing payments out of this account (what a dead person's estate owes), by id. */
+  obligationsFrom(
+    accountId: string,
+  ): readonly (Readonly<ObligationState> & { readonly id: string })[];
   /** v21: payments due from now on are this amount (a rent cap, a new benefit level). */
   setObligationAmount(id: string, amountMinor: number, source: Source): void;
 }
@@ -442,6 +446,14 @@ export function accountsFacade(core: CoreState, api: CoreAPI): Accounts {
           ended.push(id);
         }
       return ended;
+    },
+    obligationsFrom(accountId) {
+      return [...rt.obligations]
+        .filter(
+          ([, row]) => row.from === accountId && row.endedAt === undefined,
+        )
+        .map(([id, row]) => ({ ...row, id }))
+        .sort((a, b) => a.id.localeCompare(b.id));
     },
     setObligationAmount(id, amountMinor, source) {
       const row = rt.obligations.get(id);

@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { applyCoreEvent } from "../core2/state";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
 import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
@@ -76,6 +76,23 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
           expect(resolves(core, id), id).toBe(true);
       }
     }
+  });
+
+  it("tells each child's birth in that child's chapter, and no look-back twice", () => {
+    const born = /^(My (?:son|daughter|child)) was born\b/;
+    const endings: string[] = [];
+    for (const chapter of chapters)
+      for (const line of chapter.lines) {
+        const child = born.exec(line.text)?.[1];
+        if (child && chapter.title.startsWith("My "))
+          expect(chapter.title).toBe(child);
+        const said = line.text.split(/(?<=[.!?])\s+/);
+        if (said.length > 1)
+          endings.push(
+            said.at(-1)!.toLowerCase().split(/\s+/).slice(-2).join(" "),
+          );
+      }
+    expect(new Set(endings).size).toBe(endings.length);
   });
 
   it("names relatives by relation, never by name", () => {
@@ -438,7 +455,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const moved = named.filter((line) => /^We /.test(line));
     expect(moved).toHaveLength(1);
     expect(moved[0]).toContain(
-      lifePlaceByJurisdictionId(mover.placeId as never)!.displayName,
+      corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
     );
     expect(named.some((line) => /^I /.test(line))).toBe(false);
     // A place with no name leaves nothing to say.

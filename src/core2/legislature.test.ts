@@ -62,11 +62,7 @@ import {
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
 import { partySide } from "./appointments";
 import { officialLean, officialOf } from "./modules/officials";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { billCatalog, provisionFor } from "./bill-catalog";
 
 const START = "2026-01-05";
@@ -89,7 +85,7 @@ function town(states: readonly string[], salt: string) {
   for (let attempt = 0; attempt < 12; attempt += 1) {
     const state = pick(states, `${salt}:${attempt}`);
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -874,11 +870,11 @@ describe("a Congress member from elsewhere", () => {
   // official record, and the parties' medians sit on their own sides.
   it("leans by their own position, as the chamber lists them", () => {
     const state = pick(
-      [...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
+      [...corePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
       "congress-lean:state",
     );
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

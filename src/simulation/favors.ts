@@ -1,6 +1,6 @@
-import { daysBetween, makeIsoDate } from "./dates";
+import { daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { eventById } from "./event-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { personTrait } from "./people-traits";
 import { inferredProtegeOf } from "./person-context";
 import type { StandingBand } from "./relationship-standing";

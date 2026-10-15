@@ -2,7 +2,7 @@ import { considerationScore, evaluateDecision } from "../decisions";
 import { eventById } from "../event-index";
 import { recordsByKey } from "../history-index";
 import { eventsOfType } from "../justice/jail-terms";
-import { addDays, ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../../core2/kernel/dates";
 import { personTrait } from "../people-traits";
 import type {
   DecisionConsideration,

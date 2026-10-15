@@ -5,15 +5,14 @@ name: Desktop packaging (read only)
 # uploads the files with checksums. Read only: no signing secrets and no
 # publication. The release workflow publishes; this one only proves.
 
+# Pull requests that change the desktop shell only (owner, Oct 14, 2026): the
+# game's screens change many times a day, and the release's own package step
+# is the Mac build of the game.
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - "desktop/**"
-      - "src/bench/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/desktop-package.yml"
 
 permissions:
   contents: read
@@ -31,15 +30,9 @@ jobs:
           - os: macos-latest
             command: "node scripts/package.mjs --mac --arm64"
             name: mac-arm64
-            profile: production
-          - os: macos-latest
-            command: "node scripts/package.mjs --mac --arm64"
-            name: mac-arm64-art-review
-            profile: internal-art-review
           - os: windows-latest
             command: "node scripts/package.mjs --win --x64"
             name: win-x64
-            profile: production
             optional: true
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -66,13 +59,10 @@ jobs:
         env:
           NODE_OPTIONS: --max-old-space-size=4096
           PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
-          VITE_OCD_BUILD_PROFILE: ${{ matrix.profile }}
         run: npm run build
 
       - name: Install desktop shell dependencies
-        run: |
-          npm ci --no-audit --no-fund
-          npm ci --prefix private-controller --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
         working-directory: desktop
 
       - name: Prove the shell and update decisions
@@ -108,14 +98,6 @@ jobs:
         working-directory: desktop
         run: node scripts/smoke-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty" --shell
 
-      - name: Package and launch the private Play/Update controller (macOS art review)
-        if: runner.os == 'macOS' && matrix.profile == 'internal-art-review'
-        working-directory: desktop
-        run: |
-          node scripts/package-private-controller.mjs
-          controller="controller-release-artifacts/Our Civic Duty Private.app/Contents/MacOS/Electron"
-          node scripts/controller-smoke-test.mjs --app "$controller"
-
       - name: Record checksums and source identity
         shell: bash
         working-directory: desktop
@@ -131,27 +113,6 @@ jobs:
           } > SHA256SUMS-${{ matrix.name }}.txt
           cat SHA256SUMS-${{ matrix.name }}.txt
           ls -la
-          if [ -d ../controller-release-artifacts ]; then
-            {
-              echo "source revision: $(git rev-parse HEAD)"
-              echo "workflow run: $GITHUB_RUN_ID"
-              cat ../staged/build-identity.json
-              shasum -a 256 ../controller-release-artifacts/*.zip
-            } > ../controller-release-artifacts/SHA256SUMS-private-controller.txt
-          fi
-
-      # Artifact transfers do not keep an unpacked .app's modes or symlinks;
-      # deliver the ditto archive instead.
-      - name: Upload the install-once private Mac archive
-        if: runner.os == 'macOS' && matrix.profile == 'internal-art-review'
-        uses: actions/upload-artifact@v7
-        with:
-          name: private-mac-arm64-art-review
-          path: |
-            desktop/controller-release-artifacts/*.zip
-            desktop/controller-release-artifacts/SHA256SUMS-private-controller.txt
-          if-no-files-found: error
-          retention-days: 14
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7

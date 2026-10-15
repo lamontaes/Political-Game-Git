@@ -13,7 +13,7 @@
  */
 import type { CoreAPI } from "./types";
 import type { ModuleRow } from "./module-data";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { closenessBetween } from "./closeness";
 import { candidateStance } from "./campaign-stances";
 import { nominateAndConfirm, partySide, senateSides } from "./appointments";

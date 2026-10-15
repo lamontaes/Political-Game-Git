@@ -1,5 +1,5 @@
 import { stateCandidacyPack } from "../candidacy-packs";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   SENATE_SELECTION_OFFICE_KEY,
   enactedRuleChanges,

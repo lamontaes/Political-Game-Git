@@ -1808,7 +1808,8 @@
     },
     "look": {
       "id": "jobs-look",
-      "actKinds": ["change", "take-risk"]
+      "actKinds": ["change", "take-risk"],
+      "goalKinds": ["secure-home"]
     },
     "leave": {
       "id": "jobs-leave-work",
@@ -1816,7 +1817,8 @@
     },
     "apply": {
       "id": "jobs-apply",
-      "actKinds": ["engage", "change"]
+      "actKinds": ["engage", "change"],
+      "goalKinds": ["secure-home"]
     },
     "wait": {
       "id": "jobs-wait",
@@ -1853,7 +1855,8 @@
     "traitDrawn": "trait-drawn",
     "died": "died",
     "movedAway": "moved-away",
-    "replacement": "replaces-leaver"
+    "replacement": "replaces-leaver",
+    "offered": "job-offered"
   },
   "tenureByAge": {
     "source": "BLS, Employee Tenure in 2022 (USDL-22-1894), Table 1: median years with current employer, wage and salary workers, January 2022.",

@@ -17,7 +17,7 @@ import type {
 import type { ElectiveOfficeRef } from "./types";
 import type { MunicipalMinimumAgeEstimate } from "./municipal-qualification-estimate";
 import { candidateQualificationRuleSet } from "./candidate-qualification";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { stateExecutiveCandidacyPacks } from "./nationwide-world/state-executive-candidacy-packs";
 import {
   congressCandidacyPack,

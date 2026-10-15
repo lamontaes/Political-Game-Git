@@ -1,5 +1,5 @@
 import table from "../../../data/research/government/county-row-offices-by-state.json" with { type: "json" };
-import type { GovernmentUnitIdentity } from "../government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { countyGoverningBodyRules } from "./county-governing-body-rules";
 
 /**

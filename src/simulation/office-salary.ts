@@ -7,7 +7,7 @@ import {
   recordById,
   type GrowingIndexKind,
 } from "./history-index";
-import { addDays, daysBetween } from "./dates";
+import { addDays, daysBetween } from "../core2/kernel/dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import {
   currentLifeCutoff,

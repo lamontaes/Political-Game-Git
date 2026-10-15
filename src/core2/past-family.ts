@@ -23,7 +23,7 @@
  * Children hold their parents' story from when they were old enough to be
  * told it (September 29 ruling: family knows what such a person would know).
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
   pastParameter,
   seededBetween,

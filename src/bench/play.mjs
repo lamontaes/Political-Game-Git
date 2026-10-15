@@ -263,12 +263,12 @@ function showNewsSurface(news) {
   $("news-surface-label").textContent = controls.opening?.news ?? "";
   $("news-surface-headline").textContent =
     story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
-  $("news-surface").onclick = () => openNewsReader(news);
-  show("news-surface", true);
+  $("news-surface").onclick = () => {
+    coachUsed("news-surface");
+    openNewsReader(news);
+  };
   // The paper stays on the table for the evening; living on clears it.
-  $("day").addEventListener("click", () => show("news-surface", false), {
-    once: true,
-  });
+  show("news-surface", true);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -305,28 +305,28 @@ $("news-reader-close").addEventListener("click", () =>
  * The first choices, pointed out one at a time: the news, the people you
  * know, then living the day. Each glows until it is used; nothing to read.
  */
+const COACH_ORDER = ["news-surface", "people-tab", "day"];
+const coachDone = new Set();
+const coachNode = (id) =>
+  id === "people-tab"
+    ? document.querySelector('#rings [data-tab="people"]')
+    : $(id);
+/** Glows the first choice not yet used; each clears however it is used. */
+function coachRender() {
+  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
+  const next = COACH_ORDER.find((id) => {
+    const node = coachNode(id);
+    return !coachDone.has(id) && node && !node.hidden;
+  });
+  if (next) coachNode(next).classList.add("coach");
+}
+function coachUsed(...ids) {
+  for (const id of ids) coachDone.add(id);
+  coachRender();
+}
 function coachFirstChoices() {
-  const steps = ["news-surface", "people-tab", "day"]
-    .map((id) =>
-      id === "people-tab"
-        ? document.querySelector('#rings [data-tab="people"]')
-        : $(id),
-    )
-    .filter((node) => node && !node.hidden);
-  const next = () => {
-    const node = steps.shift();
-    if (!node) return;
-    node.classList.add("coach");
-    node.addEventListener(
-      "click",
-      () => {
-        node.classList.remove("coach");
-        next();
-      },
-      { once: true },
-    );
-  };
-  next();
+  coachDone.clear();
+  coachRender();
 }
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
@@ -340,9 +340,12 @@ async function renderScene() {
   $("backdrop").src = scene.backdrop.url;
   drawPeople(scene.people, showPerson);
   me.scene = scene;
+  // The look chosen in the creator is the player's own portrait.
   setBust(
     "card-bust",
-    scene.people.find((p) => p.personId === me.id)?.figureUrl,
+    me.portrait
+      ? `/api/portrait?id=${encodeURIComponent(me.id)}`
+      : scene.people.find((p) => p.personId === me.id)?.figureUrl,
   );
 }
 
@@ -432,45 +435,40 @@ function termLabel(text) {
   return b;
 }
 
-// Control names for the choice buttons, loaded once.
 let controls = {};
+/** A slug or camelCase key as words: "snap-maximum" and "snapMaximum" read "Snap maximum". */
+const words = (key) => {
+  const text = String(key ?? "")
+    .split(":")
+    .pop()
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .toLowerCase();
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+};
+/** A title that is a bare slug reads as words; a name or a sentence stays as it is. */
+const slugWords = (text) =>
+  /^[a-z][a-z0-9-]*$/.test(text) ? words(text) : text;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
-const amount = (value, unit) =>
-  unit?.startsWith("minor")
-    ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
-    : `${value ?? ""}${unit ? ` ${unit}` : ""}`;
-/** A policy question by its name on the bill catalog, else its key's last part. */
+// A percent reads with its sign, any other unit in words.
+const amount = (value, unit) => {
+  if (unit?.startsWith("minor"))
+    return `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+  if (unit?.startsWith("percent"))
+    return `${value}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
+  if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
+  return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
+};
+/** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
-  controls.policyNames?.[question] ?? question.split(":").pop();
+  controls.policyNames?.[question] ?? words(question);
 api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
   packet = value ?? packet;
-  const open = packet && packet.kind !== "complete";
+  const open = packet?.kind === "stop";
   $("day").disabled = busy || open;
   show("continue", packet?.kind === "stop");
-  show("choices", packet?.kind === "choice" && !talk);
-  if (packet?.kind === "choice")
-    $("choice-list").replaceChildren(
-      ...packet.offers.map((offer) => {
-        const target = me.names?.[offer.targetId] ?? "";
-        const b = el("button", {
-          type: "button",
-          className: "reply",
-          // The mined name ("Call Sarah Sykes."), else the control name and target.
-          textContent:
-            me.names?.[offer.offerId] ??
-            `${controls.actions?.[offer.actionId] ?? offer.actionId}${target ? ` · ${target}` : ""}`,
-          title: `${offer.durationMinutes} min`,
-        });
-        b.addEventListener("click", () =>
-          act(
-            `/api/resume?${new URLSearchParams({ kind: "choice", pauseId: packet.pauseId, offerId: offer.offerId })}`,
-          ),
-        );
-        return b;
-      }),
-    );
   if (packet) setClock(packet.at);
   $("card-why").textContent = endedBy(packet);
 }
@@ -478,7 +476,6 @@ function renderPacket(value) {
 /** What stopped the clock, from the stop's own records. */
 function endedBy(value) {
   const words = controls.endedBy ?? {};
-  if (value?.kind === "choice") return words.choice ?? "";
   if (value?.kind !== "stop") return "";
   const work = value.stop.work?.reasons?.[0];
   if (work)
@@ -518,10 +515,9 @@ async function refresh() {
     return;
   }
   // A law that took effect: what changed in town.
-  if (newChanges(await changeCount())) {
-    await openSheet("changes");
-    return;
-  }
+  // A short notice on the card, not a screen taken over mid-play.
+  if (newChanges(await changeCount()))
+    $("card-why").textContent = controls.endedBy?.law ?? "";
   if (openTab) await openSheet(openTab);
 }
 
@@ -789,7 +785,12 @@ function atThePolls(scene) {
   });
 }
 // The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
-$("day").addEventListener("click", () => act("/api/advance?mode=day"));
+$("day").addEventListener("click", () => {
+  // Living on puts the evening's paper away and ends the first-choice glow.
+  show("news-surface", false);
+  coachUsed(...COACH_ORDER);
+  return act("/api/advance?mode=day");
+});
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -867,9 +868,8 @@ document.addEventListener("keydown", (event) => {
     $("game").classList.contains("sheet-open")
   )
     return;
-  const panel = !$("talk").hidden ? "talk-choices" : "choice-list";
-  if (!$(panel).offsetParent) return;
-  $(panel).children[n - 1]?.click();
+  if (!$("talk-choices").offsetParent) return;
+  $("talk-choices").children[n - 1]?.click();
 });
 function setScales({ available, on }) {
   $("talk-lie").disabled = !available;
@@ -879,7 +879,6 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
-  show("choices", !value && packet?.kind === "choice");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -904,6 +903,8 @@ async function sayLine(key) {
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
 async function talkTo(otherId) {
+  // The menu hides the conversation, so a conversation closes it first.
+  closeSheet();
   lying = false;
   $("talk-name").textContent = "";
   renderTalk(
@@ -943,7 +944,6 @@ function renderFiling(value) {
   if (!value) return;
   $("backdrop").src = value.backdrop.url;
   drawPeople(value.people);
-  show("choices", false);
   show("talk", true);
   const clerkName = value.visit.clerkId
     ? value.names[value.visit.clerkId]
@@ -1140,7 +1140,6 @@ async function showStory(momentId) {
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
   drawPeople(story.people);
-  show("choices", false);
   show("talk", true);
   show("talk-who", false);
   $("talk-name").textContent = "";
@@ -1623,7 +1622,7 @@ const sheets = {
         "div",
         { className: "row race" },
         el("b", {
-          textContent: `${gov.name} · ${gov.level}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
+          textContent: `${gov.name} · ${controls.levels?.[gov.level] ?? words(gov.level)}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
         }),
       );
       if (!gov.latest) return box;
@@ -1634,11 +1633,13 @@ const sheets = {
       );
       for (const r of gov.latest.revenue.slice(0, 3))
         box.append(
-          el("div", { textContent: `+ ${r.line} · ${dollars(r.minor)}` }),
+          el("div", {
+            textContent: `+ ${words(r.line)} · ${dollars(r.minor)}`,
+          }),
         );
       for (const r of gov.latest.spending.slice(0, 6)) {
         const line = el("div", {
-          textContent: `− ${r.line} · ${dollars(r.minor)} `,
+          textContent: `− ${words(r.line)} · ${dollars(r.minor)} `,
         });
         if (gov.youAreExecutive)
           for (const [label, sign] of [
@@ -1706,7 +1707,10 @@ const sheets = {
         }
         const kinds = new Map();
         for (const item of byDate.get(iso) ?? [])
-          kinds.set(item.kind, [...(kinds.get(item.kind) ?? []), item.title]);
+          kinds.set(item.kind, [
+            ...(kinds.get(item.kind) ?? []),
+            slugWords(item.title),
+          ]);
         for (const [kind, names] of kinds)
           cell.append(
             el("span", {
@@ -1738,7 +1742,12 @@ const sheets = {
             "div",
             { className: "row" },
             el("b", { textContent: i.date }),
-            el("span", {}, termLabel(kindName(i.kind)), ` · ${i.title}`),
+            el(
+              "span",
+              {},
+              termLabel(kindName(i.kind)),
+              ` · ${slugWords(i.title)}`,
+            ),
           ),
         ),
     ];
@@ -1808,7 +1817,7 @@ const sheets = {
             .filter((level) => level.row)
             .map((level) =>
               el("div", {
-                textContent: `${level.level} · ${level.jurisdiction} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
+                textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
               }),
             ),
           ...law.pending.map((row) =>
@@ -1952,7 +1961,7 @@ const sheets = {
         { className: "row" },
         el("b", { textContent: p.name }),
         [
-          String(p.staff),
+          `${p.staff} ${controls.travel?.staff ?? ""}`.trim(),
           ...p.known.map((k) => k.name),
           ...p.actions.map((a) => controls.actions?.[a] ?? a),
         ].join(" · ") + " ",
@@ -2042,6 +2051,7 @@ const groups = {
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
+  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
@@ -2094,29 +2104,56 @@ function closeSheet() {
 $("sheet-close").addEventListener("click", closeSheet);
 
 // ---- New life ----
-// The title screen: a national convention hall at night, full window (owner,
-// Oct 8: a recognizable national civic scene, never a state capitol).
-const TITLE_BACKDROP = "/art/backdrops/convention-hall__night.jpg";
-$("backdrop").src = TITLE_BACKDROP;
-api("/api/seed").then((value) => {
-  $("seed").value = value.seed;
-  $("date").value = value.date;
+// The title screen: a national scene or event, full window, that moves on with
+// each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
+let titleLife = null;
+api("/api/title").then((title) => {
+  if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
+  titleLife = title.life;
+  $("front-continue").disabled = !titleLife;
+  $("front-continue-life").textContent = titleLife
+    ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
+    : "";
 });
-let placeRows = [];
-const typedPlace = () => placeRows.find((row) => row.name === $("place").value);
-$("place").addEventListener("input", async () => {
-  const typed = $("place").value;
-  const rows = await api(`/api/places?q=${encodeURIComponent(typed)}`);
-  if ($("place").value !== typed) return;
-  placeRows = rows;
-  $("places").replaceChildren(
-    ...placeRows.map((row) => el("option", { value: row.name })),
-  );
-  $("place-begin").disabled = !typedPlace();
+// The build version, bottom right of the title (#4014).
+void displayVersion().then((v) => ($("title-version").textContent = v));
+// Not yet routes on the new core: said on the control itself.
+for (const [id, key] of [
+  ["front-watch", "watch"],
+  ["front-saves", "saves"],
+  ["front-patch-notes", "patchNotes"],
+])
+  $(id).title = controls.titleUnavailable?.[key] ?? "";
+$("front-continue").addEventListener("click", async () => {
+  const life = titleLife;
+  if (!life) return;
+  me = {
+    id: life.personId,
+    placeName: life.placeName,
+    date: life.date,
+    names: {},
+    portrait: life.portrait,
+  };
+  seenChanges = await changeCount();
+  show("front", false);
+  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  $("game").classList.add("in-play");
+  if (life.packet) renderPacket(life.packet);
+  await refresh();
 });
-$("place").addEventListener("keydown", (event) => {
-  if (event.key === "Enter" && typedPlace()) void startLife(typedPlace());
-});
+// The desktop window closes (and the app quits); a browser tab has no Quit.
+if (window.location.protocol === "app:") {
+  show("front-quit", true);
+  $("front-quit").addEventListener("click", () => window.close());
+}
+// The seed draws a world; Random draws a new one (Oct 13 front).
+const drawSeed = () =>
+  api("/api/seed").then((value) => {
+    $("seed").value = value.seed;
+    $("date").value = value.date;
+  });
+void drawSeed();
+$("seed-random").addEventListener("click", () => void drawSeed());
 /** What the player changed from real data; nothing means a real world. */
 function worldSettings() {
   const read = (id) => {
@@ -2150,23 +2187,371 @@ $("front-options").addEventListener("click", () => openSheet("options"));
 $("dev-toggle").addEventListener("click", () =>
   document.body.classList.toggle("dev"),
 );
-// New game opens its second step: where the life begins.
-function frontStep(place) {
-  show("front-main", !place);
-  show("front-place", place);
-  if (place) $("place-random").focus();
+// New game: Custom world (the world's settings, then the creator), Start a
+// life (the creator) or New world (straight in, a random person and place).
+const FRONT_PANELS = [
+  "front-main",
+  "front-new",
+  "front-custom",
+  "cr-character",
+  "cr-place",
+  "cr-look",
+];
+function frontPanel(name) {
+  for (const id of FRONT_PANELS) show(id, id === name);
+  // The loading card (no panel) sits in the top-left corner (owner, Oct 14).
+  $("front").classList.toggle("loading", name === null);
 }
-$("new-life").addEventListener("click", () => frontStep(true));
-$("place-back").addEventListener("click", () => frontStep(false));
-$("place-random").addEventListener("click", () => startLife(undefined));
-$("place-begin").addEventListener("click", () => startLife(typedPlace()));
-const placeControls = ["place-random", "place", "place-back", "place-begin"];
-async function startLife(chosen) {
+// What the creator has chosen so far (the Oct 12 SetupScreen's setup).
+const setup = {
+  custom: false,
+  seed: "",
+  gender: null,
+  nameDraws: 0,
+  birthdayDraws: 0,
+  appearanceDraws: 0,
+  state: null,
+  town: null,
+  recipe: null,
+  initial: null,
+  previous: [],
+};
+const MONTHS = Array.from({ length: 12 }, (_, i) =>
+  new Date(Date.UTC(2000, i, 1)).toLocaleString("en-US", {
+    month: "long",
+    timeZone: "UTC",
+  }),
+);
+const proseDate = (iso) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+const genderName = (g) =>
+  document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
+$("cr-month").replaceChildren(
+  ...MONTHS.map((name, i) =>
+    el("option", { value: String(i + 1), textContent: name }),
+  ),
+);
+function fillDays() {
+  const month = Number($("cr-month").value);
+  const length = new Date(Date.UTC(2001, month, 0)).getUTCDate();
+  const keep = Number($("cr-day").value) || 1;
+  $("cr-day").replaceChildren(
+    ...Array.from({ length }, (_, i) =>
+      el("option", { value: String(i + 1), textContent: String(i + 1) }),
+    ),
+  );
+  $("cr-day").value = String(Math.min(keep, length));
+}
+async function fillYears(keepYear) {
+  const { start, years } = await api(
+    `/api/creator/years?month=${$("cr-month").value}&day=${$("cr-day").value}`,
+  );
+  setup.start = start;
+  const want = keepYear ?? Number($("cr-year").value);
+  $("cr-year").replaceChildren(
+    ...years.map((row) =>
+      el("option", { value: String(row.year), textContent: row.label }),
+    ),
+  );
+  const nearest = years.reduce(
+    (best, row) =>
+      Math.abs(row.year - want) < Math.abs(best.year - want) ? row : best,
+    years[0],
+  );
+  $("cr-year").value = String(nearest.year);
+  derivedAge();
+}
+function chosenAge() {
+  return /\(age (\d+)\)/.exec(
+    $("cr-year").selectedOptions[0]?.textContent ?? "",
+  )?.[1];
+}
+function derivedAge() {
+  $("cr-derived-age").textContent =
+    `${chosenAge() ?? ""} · ${setup.start ? proseDate(setup.start) : ""}`;
+}
+$("cr-month").addEventListener("change", async () => {
+  fillDays();
+  await fillYears();
+});
+$("cr-day").addEventListener("change", () => fillYears());
+$("cr-year").addEventListener("change", derivedAge);
+function pickGender(g) {
+  setup.gender = g;
+  for (const b of document.querySelectorAll("[data-gender]")) {
+    const on = b.dataset.gender === g;
+    b.classList.toggle("primary", on);
+    b.setAttribute("aria-pressed", String(on));
+  }
+}
+for (const b of document.querySelectorAll("[data-gender]"))
+  b.addEventListener("click", () => pickGender(b.dataset.gender));
+$("cr-random-name").addEventListener("click", async () => {
+  setup.nameDraws++;
+  const name = await api(
+    `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
+  );
+  $("cr-given").value = name.givenName;
+  $("cr-family").value = name.familyName;
+});
+async function randomBirthday() {
+  setup.birthdayDraws++;
+  const b = await api(
+    `/api/creator/birthday?${new URLSearchParams({ seed: setup.seed, draw: setup.birthdayDraws })}`,
+  );
+  $("cr-month").value = String(b.month);
+  fillDays();
+  $("cr-day").value = String(b.day);
+  await fillYears(b.year);
+}
+$("cr-random-birthday").addEventListener("click", () => void randomBirthday());
+
+/** Opens the creator for Start a life or Custom world. */
+async function openCreator(custom) {
+  setup.custom = custom;
+  if (!setup.seed) setup.seed = (await api("/api/seed")).seed;
+  $("cr-route-name").textContent = $(
+    custom ? "new-custom" : "new-start",
+  ).textContent.trim();
+  if (!$("cr-year").options.length) await randomBirthday();
+  frontPanel("cr-character");
+}
+$("new-life").addEventListener("click", () => frontPanel("front-new"));
+$("new-back").addEventListener("click", () => frontPanel("front-main"));
+$("new-custom").addEventListener("click", () => frontPanel("front-custom"));
+$("new-start").addEventListener("click", () => void openCreator(false));
+$("new-world").addEventListener("click", () => startLife({}));
+$("custom-back").addEventListener("click", () => frontPanel("front-new"));
+$("custom-next").addEventListener("click", () => void openCreator(true));
+$("cr-route").addEventListener("click", () => frontPanel("front-new"));
+$("cr-character-back").addEventListener("click", () =>
+  frontPanel(setup.custom ? "front-custom" : "front-new"),
+);
+$("cr-character-next").addEventListener("click", () => {
+  const given = $("cr-given").value.trim();
+  const family = $("cr-family").value.trim();
+  if (!setup.gender || !given || !family) {
+    $("front-status").textContent = !setup.gender
+      ? $("cr-character").querySelector("legend").textContent
+      : $("cr-random-name").textContent;
+    return;
+  }
+  $("front-status").textContent = "";
+  $("cr-summary-name").textContent = `${given} ${family}`;
+  $("cr-summary-age").textContent =
+    `Age ${chosenAge()} · ${genderName(setup.gender)}`;
+  const pad = (n) => String(n).padStart(2, "0");
+  $("cr-summary-born").textContent =
+    `Born ${proseDate(`${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`)}`;
+  frontPanel("cr-place");
+  void showStates();
+});
+$("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
+$("cr-place-back").addEventListener("click", () => frontPanel("cr-character"));
+
+// Where are you from: a state, then a city or town with its population.
+let states = [];
+async function showStates() {
+  if (!states.length) states = await api("/api/creator/states");
+  const show2 = !setup.state;
+  show("cr-state-pick", show2);
+  show("cr-town-pick", !show2);
+  if (show2) listStates();
+  else void listTowns();
+}
+function listStates() {
+  const q = $("cr-state-search").value.trim().toLowerCase();
+  $("cr-states").replaceChildren(
+    ...states
+      .filter((s) => s.name.toLowerCase().includes(q))
+      .map((s) => {
+        const b = el("button", {
+          type: "button",
+          className: "item",
+          textContent: s.name,
+        });
+        b.dataset.testid = `state-${s.key}`;
+        b.addEventListener("click", () => {
+          setup.state = s;
+          $("cr-state-name").textContent = s.name;
+          $("cr-town-search").value = "";
+          void showStates();
+        });
+        return b;
+      }),
+  );
+}
+$("cr-state-search").addEventListener("input", listStates);
+$("cr-state").addEventListener("click", () => {
+  setup.state = null;
+  setup.town = null;
+  void showStates();
+});
+let townAsk = 0;
+async function listTowns() {
+  const ask = ++townAsk;
+  const towns = await api(
+    `/api/creator/towns?${new URLSearchParams({ state: setup.state.key, q: $("cr-town-search").value })}`,
+  );
+  if (ask !== townAsk) return;
+  const count = new Intl.NumberFormat("en-US");
+  $("cr-towns").replaceChildren(
+    ...towns.map((t) => {
+      const b = el(
+        "button",
+        { type: "button", className: "item" },
+        el("b", { textContent: t.name }),
+        ...(t.population
+          ? [
+              el("small", {
+                textContent: `${count.format(t.population)} people`,
+              }),
+            ]
+          : []),
+      );
+      b.addEventListener("click", () => {
+        setup.town = t;
+        void openLook();
+      });
+      return b;
+    }),
+  );
+}
+$("cr-town-search").addEventListener("input", () => void listTowns());
+
+// Character appearance: the people engine's portrait and arrows.
+function showLook(view) {
+  setup.recipe = view.recipe;
+  $("cr-portrait").src =
+    `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
+  $("cr-rows").replaceChildren(
+    ...view.rows.map((row) => {
+      const arrow = (by, glyph) => {
+        const b = el("button", {
+          type: "button",
+          className: "action small",
+          textContent: glyph,
+        });
+        b.setAttribute(
+          "aria-label",
+          `${by < 0 ? "Previous" : "Next"} ${row.label.toLowerCase()}`,
+        );
+        b.addEventListener("click", () => void moveLook(row.id, by));
+        return b;
+      };
+      const value = el("span", { className: "look-value" });
+      if (row.swatch)
+        value.append(
+          Object.assign(el("i", { className: "swatch" }), {
+            style: `background:${row.swatch}`,
+          }),
+        );
+      value.append(row.value);
+      const line = el(
+        "div",
+        { className: "look-row" },
+        el("span", { className: "label", textContent: row.label }),
+        arrow(-1, "‹"),
+        value,
+        arrow(1, "›"),
+      );
+      line.dataset.testid = `engine-appearance-${row.id}`;
+      return line;
+    }),
+  );
+  $("cr-reset").disabled =
+    JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);
+  $("cr-undo").disabled = setup.previous.length === 0;
+}
+const lookQuery = (extra) =>
+  new URLSearchParams({
+    seed: setup.seed,
+    gender: setup.gender,
+    draw: setup.appearanceDraws,
+    ...extra,
+  });
+async function openLook() {
+  if (!setup.recipe || setup.lookGender !== setup.gender) {
+    setup.lookGender = setup.gender;
+    setup.previous = [];
+    const view = await api(`/api/creator/appearance?${lookQuery({})}`);
+    setup.initial = view.recipe;
+    showLook(view);
+  } else
+    showLook(
+      await api(
+        `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe) })}`,
+      ),
+    );
+  frontPanel("cr-look");
+}
+async function moveLook(row, by) {
+  const view = await post(
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, by })}`,
+  );
+  setup.previous = [...setup.previous, setup.recipe].slice(-20);
+  showLook(view);
+}
+async function setLook(recipe, keepHistory) {
+  if (keepHistory)
+    setup.previous = [...setup.previous, setup.recipe].slice(-20);
+  showLook(
+    await api(
+      `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(recipe) })}`,
+    ),
+  );
+}
+$("cr-randomize").addEventListener("click", async () => {
+  setup.appearanceDraws++;
+  const view = await api(`/api/creator/appearance?${lookQuery({})}`);
+  await setLook(view.recipe, true);
+});
+$("cr-reset").addEventListener(
+  "click",
+  () => void setLook(setup.initial, true),
+);
+$("cr-undo").addEventListener("click", () => {
+  const last = setup.previous.pop();
+  if (last) void setLook(last, false);
+});
+$("cr-look-back").addEventListener("click", () => {
+  frontPanel("cr-place");
+  void showStates();
+});
+$("cr-begin").addEventListener("click", () =>
+  startLife({
+    custom: setup.custom,
+    placeKey: setup.town.key,
+    person: {
+      givenName: $("cr-given").value.trim(),
+      familyName: $("cr-family").value.trim(),
+      gender: setup.gender,
+      birthYear: Number($("cr-year").value),
+      birthMonth: Number($("cr-month").value),
+      birthDay: Number($("cr-day").value),
+      recipe: setup.recipe,
+    },
+  }),
+);
+const placeControls = ["new-world", "cr-begin"];
+
+async function startLife({ custom = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
+  // The loading card: the panel holds only the progress over the scene.
+  frontPanel(null);
   show("front-status", true);
   document.querySelector("#front .progress").hidden = false;
   try {
-    const settings = worldSettings();
+    const settings = custom ? worldSettings() : undefined;
+    // Outside Custom world, a fresh seed draws the world.
+    const seed = custom
+      ? $("seed").value
+      : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
     const bar = document.querySelector("#front .progress span");
     bar.classList.add("steady");
@@ -2178,9 +2563,11 @@ async function startLife(chosen) {
       "government",
       "opening",
     ];
+    // A poll still in flight when the build ends leaves the line alone.
+    let built = false;
     const poll = setInterval(async () => {
       const p = await api("/api/newlife/progress").catch(() => undefined);
-      if (!p) return;
+      if (!p || built) return;
       const at =
         p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
       const within = p.total ? p.done / p.total : 0;
@@ -2191,10 +2578,11 @@ async function startLife(chosen) {
     let life;
     try {
       life = await post(
-        `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
+        `/api/newlife?${new URLSearchParams({ seed, date: $("date").value, ...(placeKey ? { placeKey } : {}), ...(person ? { person: JSON.stringify(person) } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
       );
     } finally {
       clearInterval(poll);
+      built = true;
     }
     // Every picture the opening shows is loaded before it plays.
     const opening = await api(
@@ -2231,6 +2619,7 @@ async function startLife(chosen) {
       placeName: life.placeName,
       date: life.date,
       names: life.names,
+      portrait: Boolean(person?.recipe),
     };
     // What was already law at the start isn't news; only what changes after.
     seenChanges = await changeCount();
@@ -2248,7 +2637,7 @@ async function startLife(chosen) {
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
-    $("place-begin").disabled = !typedPlace();
+    frontPanel(person ? "cr-look" : "front-new");
   } finally {
     document.querySelector("#front .progress").hidden = true;
   }

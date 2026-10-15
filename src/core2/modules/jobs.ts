@@ -58,6 +58,13 @@ import type {
   Source,
 } from "../types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
+import {
+  playerClockFrontierV1,
+  registerModuleStopV1,
+  releaseModuleStopV1,
+  type ModuleStopTokenV1,
+} from "../player-stops-v1";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
@@ -84,6 +91,24 @@ interface PositionRow {
   /** The job of the worker this opening replaces (who died, moved, quit or retired), and who held it. */
   replacesJobId?: string;
   replacesPersonId?: string;
+  /** Held for the person the player controls while they decide on its offer. */
+  offeredTo?: string;
+  offerId?: string;
+}
+/** A job offered to the person the player controls: theirs to accept or decline. */
+export interface JobOfferRow {
+  id: string;
+  personId: string;
+  positionId: string;
+  organizationId: string;
+  title: string;
+  hourlyMinor: number;
+  fit: number;
+  offeredAt: string;
+  /** The last day to answer; the employer withdraws the offer after it. */
+  deadline: string;
+  status: "pending" | "accepted" | "declined" | "lapsed" | "withdrawn";
+  answeredAt?: string;
 }
 interface SeekerRow {
   id: string;
@@ -227,6 +252,14 @@ function actorOf(
   );
 }
 
+/**
+ * The person the player controls decides their own work: the engine never
+ * chooses for them whether to look, apply, take, quit or leave a job.
+ */
+function controlled(c: CoreState, personId: string): boolean {
+  return personId === c.playerId || isExplicitlyControlledPersonV1(c, personId);
+}
+
 function isCounted(api: CoreAPI, personId: string): boolean {
   return !core(api).people.has(personId);
 }
@@ -236,7 +269,8 @@ function definition(kind: Kind): ActionDefinition {
   return {
     id: row.id,
     actKinds: row.actKinds,
-    goalKinds: [],
+    // A goal the act serves (securing a home again) adds its urgency.
+    goalKinds: (row as { goalKinds?: readonly string[] }).goalKinds ?? [],
     need: jobsData.need,
     effortParameter: jobsData.effortParameter,
     effectParameter: jobsData.effectParameter,
@@ -513,6 +547,7 @@ function openSeekers(api: CoreAPI, unemploymentPct: number): void {
     return (
       person.alive &&
       !person.jobId &&
+      !controlled(c, person.id) &&
       age >= young &&
       age < old &&
       c.households.has(person.householdId) &&
@@ -1354,7 +1389,7 @@ function reviewWorkers(api: CoreAPI): void {
   for (const job of c.jobs.values()) {
     if (job.endsAt !== undefined || pinned(c).has(job.id)) continue;
     const person = c.people.get(job.personId);
-    if (!person || !person.alive) continue;
+    if (!person || !person.alive || controlled(c, person.id)) continue;
     // A worker already looking around still weighs leaving and retiring; only the look itself is behind them.
     const looking = store(api).table("seekers").get(person.id) as
       SeekerRow | undefined;
@@ -1529,6 +1564,7 @@ function reviewJobless(api: CoreAPI): void {
     if (
       !person.alive ||
       person.jobId ||
+      controlled(c, person.id) ||
       store(api).table("seekers").get(person.id)
     )
       continue;
@@ -1641,13 +1677,16 @@ const acceptLeans = new WeakMap<CoreState, Map<string, number>>();
 function runWeek(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  // A position held for the player's answer is no one else's this week.
   const positions = (
     store(api)
       .table("positions")
       .query("byStatus", ["open"]) as unknown as PositionRow[]
   ).filter(
     // A closed business's openings went with it.
-    (row) => !c.finance.businesses.get(row.organizationId)?.closedAt,
+    (row) =>
+      !row.offeredTo &&
+      !c.finance.businesses.get(row.organizationId)?.closedAt,
   );
   if (!positions.length) return;
   const inPlace = new Map<string, PositionRow[]>();
@@ -1686,7 +1725,8 @@ function runWeek(api: CoreAPI): void {
     .query("all", [true]) as unknown as SeekerRow[]) {
     const nearby = byPlace.get(seeker.placeId);
     const person = c.people.get(seeker.personId);
-    if (!nearby || !person || !person.alive) continue;
+    if (!nearby || !person || !person.alive || controlled(c, person.id))
+      continue;
     const reference = seeker.referenceHourlyMinor;
     const scored = scoreOffers(c, person.id, [
       offer("wait", seeker.id, {}),
@@ -1711,6 +1751,13 @@ function runWeek(api: CoreAPI): void {
       )
         apply(row.offer.targetId, seeker);
   }
+  // The person the player controls, out of work and of working age, is
+  // considered for every opening near them; an employer that picks them makes
+  // an offer, and the player answers it.
+  const player = openToOffers(api);
+  if (player)
+    for (const position of byPlace.get(player.placeId) ?? [])
+      apply(position.id, player);
   // Counted seekers apply to every opening in their place; they decide nothing through the chooser until filled in (stopgap).
   const counted = (
     store(api)
@@ -2015,6 +2062,12 @@ function runWeek(api: CoreAPI): void {
       best = following;
     }
     if (settled) continue;
+    if (controlled(c, best.personId)) {
+      offerToPlayer(api, position, best.personId, fit(best));
+      // Held for the player's answer: no other opening this week.
+      hired.add(best.personId);
+      continue;
+    }
     const held = best.employed
       ? c.jobs.get(c.people.get(best.personId)?.jobId ?? "")
       : undefined;
@@ -2674,6 +2727,204 @@ function roleTemplate(
     : undefined;
 }
 
+/** Stops registered for each pending offer, released when it is answered. */
+const offerStops = new WeakMap<CoreState, Map<string, ModuleStopTokenV1[]>>();
+
+/**
+ * The person the player controls as an applicant this week: out of work, of
+ * working age, at home in town, with no offer waiting on them. They decide
+ * nothing by applying; an offer is the employer's act.
+ */
+function openToOffers(api: CoreAPI): SeekerRow | undefined {
+  const c = core(api),
+    person = c.playerId ? c.people.get(c.playerId) : undefined,
+    [young, old] = jobsData.workingAge as [number, number];
+  if (!person?.alive || person.jobId || !c.households.has(person.householdId))
+    return undefined;
+  const age =
+    daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+    api.parameter("jobsDaysPerYear");
+  if (age < young || age >= old) return undefined;
+  if (
+    store(api).table("offers").query("byPerson", [person.id, "pending"]).length
+  )
+    return undefined;
+  return {
+    id: person.id,
+    personId: person.id,
+    placeId: person.placeId,
+    employed: false,
+    since: c.date,
+    reasonKey: jobsData.reasons.offered,
+    referenceHourlyMinor: lastPay(api, person.id),
+  };
+}
+
+/**
+ * The employer picked the person the player controls: it offers them the
+ * job and holds the position until the deadline. The clock stops now so the
+ * player sees the offer, and again on the deadline.
+ */
+function offerToPlayer(
+  api: CoreAPI,
+  position: PositionRow,
+  personId: string,
+  fit: number,
+): void {
+  const c = core(api);
+  const id = `job-offer:${position.id}:${personId}`;
+  if (store(api).table("offers").get(id)) return;
+  const deadline = addDays(makeIsoDate(c.date), api.parameter("jobsOfferDays"));
+  const row: JobOfferRow = {
+    id,
+    personId,
+    positionId: position.id,
+    organizationId: position.organizationId,
+    title: position.title,
+    hourlyMinor: position.hourlyMinor,
+    fit,
+    offeredAt: c.date,
+    deadline,
+    status: "pending",
+  };
+  store(api)
+    .table("offers")
+    .put({ ...row } as never);
+  store(api)
+    .table("positions")
+    .put({ ...position, offeredTo: personId, offerId: id });
+  api.moduleCalendar(JOBS_MODULE_ID).schedule({
+    key: `jobs-offer-lapse:${id}`,
+    date: addDays(makeIsoDate(deadline), 1),
+    kind: "jobs-offer-lapse",
+    source: source(
+      api,
+      `The employer withdraws ${id} unanswered after ${deadline}.`,
+    ),
+    sourceRecordIds: [id],
+  });
+  if (!isExplicitlyControlledPersonV1(c, personId)) return;
+  stopgap("SG-WORLD-jobs-offer-deadline-reminder");
+  const stopSource = source(
+    api,
+    `${position.organizationId} offered ${position.title} at ${position.hourlyMinor} cents an hour (${id}).`,
+  );
+  const now = playerClockFrontierV1(c, personId) ?? {
+    date: addDays(makeIsoDate(c.date), 1),
+    minuteOfDay: 0,
+  };
+  offerStops.set(c, offerStops.get(c) ?? new Map());
+  offerStops.get(c)!.set(id, [
+    registerModuleStopV1(c, {
+      moduleId: JOBS_MODULE_ID,
+      recordId: `${id}:offered`,
+      controlledPersonId: personId,
+      at: now,
+      kind: "interrupt",
+      reasonKey: jobsData.reasons.offered,
+      source: stopSource,
+      hold: false,
+    }),
+    registerModuleStopV1(c, {
+      moduleId: JOBS_MODULE_ID,
+      recordId: `${id}:deadline`,
+      controlledPersonId: personId,
+      at: { date: deadline, minuteOfDay: 0 },
+      // A reminder, not a hold: until the play screen can answer an offer
+      // (OPUS-PLAY), a held deadline would stop the clock for good.
+      // stopgapId: SG-WORLD-jobs-offer-deadline-reminder
+      kind: "interrupt",
+      reasonKey: jobsData.reasons.offered,
+      source: stopSource,
+      hold: false,
+    }),
+  ]);
+}
+
+/** Closes an offer: its stops released, its position free for others again. */
+function settleOffer(
+  api: CoreAPI,
+  row: JobOfferRow,
+  status: JobOfferRow["status"],
+): void {
+  const c = core(api);
+  for (const token of offerStops.get(c)?.get(row.id) ?? []) {
+    try {
+      releaseModuleStopV1(c, token);
+    } catch {
+      // A one-shot interrupt the player already acknowledged is gone.
+    }
+  }
+  offerStops.get(c)?.delete(row.id);
+  store(api)
+    .table("offers")
+    .put({ ...row, status, answeredAt: c.date } as never);
+  const position = store(api).table("positions").get(row.positionId) as
+    PositionRow | undefined;
+  if (position?.offerId === row.id) {
+    const { offeredTo, offerId, ...rest } = position;
+    void offeredTo;
+    void offerId;
+    store(api)
+      .table("positions")
+      .put({ ...rest });
+  }
+}
+
+/** The job offers made to a person, newest first. */
+export function jobOffersFor(api: CoreAPI, personId: string): JobOfferRow[] {
+  return (
+    store(api)
+      .table("offers")
+      .query("byPerson", [personId, "pending"]) as unknown as JobOfferRow[]
+  ).sort((a, b) => b.offeredAt.localeCompare(a.offeredAt));
+}
+
+/**
+ * The player takes the offered job: hired into the position as anyone the
+ * employer picks is. False when the offer is no longer open (answered,
+ * lapsed, or the employer withdrew the position).
+ */
+export function acceptJobOffer(api: CoreAPI, offerId: string): boolean {
+  const row = store(api).table("offers").get(offerId) as
+    JobOfferRow | undefined;
+  if (row?.status !== "pending") return false;
+  const position = store(api).table("positions").get(row.positionId) as
+    PositionRow | undefined;
+  if (position?.status !== "open" || position.offerId !== offerId) {
+    settleOffer(api, row, "withdrawn");
+    return false;
+  }
+  settleOffer(api, row, "accepted");
+  const { offeredTo, offerId: held, ...open } = position;
+  void offeredTo;
+  void held;
+  hire(
+    api,
+    open,
+    {
+      id: row.personId,
+      personId: row.personId,
+      placeId: position.placeId,
+      employed: false,
+      since: row.offeredAt,
+      reasonKey: jobsData.reasons.offered,
+      referenceHourlyMinor: lastPay(api, row.personId),
+    },
+    row.fit,
+  );
+  return core(api).people.get(row.personId)?.jobId !== undefined;
+}
+
+/** The player turns the offer down; the position is open to others again. */
+export function declineJobOffer(api: CoreAPI, offerId: string): boolean {
+  const row = store(api).table("offers").get(offerId) as
+    JobOfferRow | undefined;
+  if (row?.status !== "pending") return false;
+  settleOffer(api, row, "declined");
+  return true;
+}
+
 function hire(
   api: CoreAPI,
   position: PositionRow,
@@ -2810,6 +3061,7 @@ export const JOBS_MODULE: CoreModule = {
         },
       },
       seekers: { indexes: { all: { fields: ["isSeeker"] } } },
+      offers: { indexes: { byPerson: { fields: ["personId", "status"] } } },
       pay: {},
       unions: {},
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
@@ -2945,6 +3197,11 @@ export const JOBS_MODULE: CoreModule = {
         ),
       );
       scheduleReview(api);
+    } else if (work.kind === "jobs-offer-lapse") {
+      const row = store(api)
+        .table("offers")
+        .get(work.sourceRecordIds[0] ?? "") as JobOfferRow | undefined;
+      if (row?.status === "pending") settleOffer(api, row, "lapsed");
     } else if (work.kind === "jobs-week") {
       payClaims(api, store(api).table("claims"));
       runWeek(api);

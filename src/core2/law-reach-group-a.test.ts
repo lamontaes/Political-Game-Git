@@ -54,18 +54,14 @@ import {
   SAME_DAY,
   termLimitReached,
 } from "./law-reach/group-a-voting";
-import { governmentUnitsForPlace } from "../simulation/government-units";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { governmentUnitsForPlace } from "./reference/government-units";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`reach-a:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -86,7 +82,7 @@ function openTown(): void {
   for (let attempt = 0; attempt < 30; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -290,12 +286,17 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       lawInForce(api, "minimum-wage").levels.find((l) => l.level === "city")
         ?.row?.value ?? null;
     const prior = city();
+    // The wage that governs before: a raise always raises it, to the $15
+    // standard or the next step above a floor already there.
+    const governing = lawInForce(api, "minimum-wage").value ?? 0;
     recordRoundTrip(
       key,
-      () =>
+      () => {
         expect(city()!, where).toBeGreaterThanOrEqual(
           reachParameter("stateMinimumWageTargetMinor"),
-        ),
+        );
+        expect(city()!, where).toBeGreaterThan(governing);
+      },
       () => {
         if (prior !== null) expect(city(), where).toBe(prior);
       },

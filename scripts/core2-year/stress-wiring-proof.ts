@@ -13,7 +13,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { composeJournal } from "../../src/director/journal";
 import { stancesOf } from "../../src/core2/modules/views";
 import { drawPlace } from "./place";

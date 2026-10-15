@@ -17,7 +17,7 @@ import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
  * time it is read.
  */
 
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import {
   laborLawOfficeKey,
   ruleValueInWorld,

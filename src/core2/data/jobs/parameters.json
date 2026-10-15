@@ -480,5 +480,16 @@
       "unit": "openings per unemployed worker",
       "citation": "Job openings per unemployed person in the nation, January 2025: about 7.7 million openings (BLS JOLTS) against 6.8 million unemployed (BLS CPS), 1.1; the 2001-2019 average was about 0.6 and the 2022 peak about 2.0."
     }
+  },
+  "jobsOfferDays": {
+    "value": 7,
+    "tag": "TUNABLE",
+    "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control.",
+    "spread": {
+      "low": 3,
+      "high": 14,
+      "unit": "days an offer stays open",
+      "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control."
+    }
   }
 }

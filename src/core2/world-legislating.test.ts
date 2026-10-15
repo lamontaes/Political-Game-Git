@@ -30,18 +30,14 @@ import {
   windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`world-legislating:${Date.now()}`).digest("hex");
 // Places whose legislature sits in 2026 after the start.
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter((k) => windowsIn(k, 2026).some((w) => w.adjournAt > START))
   .sort();
@@ -57,7 +53,7 @@ describe("M3-10 other governments legislate", () => {
     for (let attempt = 0; attempt < 6 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -127,6 +123,55 @@ describe("M3-10 other governments legislate", () => {
           `${bill.number}: not on the press wire`,
         ).not.toBeNull();
       }
+      // A section traded for a vote is in the bill, on the record, and the
+      // member who took it voted for the bill; a poison pill's mover against.
+      const amendments = [...core.durableLog.values()].filter(
+        (e) => e.kind === "bill-amendment",
+      );
+      const votes = api.moduleState("core2-legislature-v1").table("votes");
+      for (const bill of api
+        .moduleState("core2-legislature-v1")
+        .table("bills")
+        .rows() as unknown as {
+        id: string;
+        status: string;
+        provisions: { question?: string }[];
+        deals: { memberId: string; kind: string; terms: string }[];
+      }[])
+        for (const deal of bill.deals.filter((d) =>
+          ["trade-amendment", "poison-pill"].includes(d.kind),
+        )) {
+          const question = deal.terms.split(" ")[1];
+          expect(
+            bill.provisions.some((p) => p.question === question),
+            `${bill.id}: ${deal.terms} not in the bill`,
+          ).toBe(true);
+          const record = amendments.find(
+            (e) =>
+              e.facts?.billId === bill.id && e.facts?.movedBy === deal.memberId,
+          );
+          expect(record, `${bill.id}: no amendment record`).toBeDefined();
+          const vote = (
+            votes.get(`vote:${bill.id}:${deal.memberId}`) as unknown as
+              { vote: string } | undefined
+          )?.vote;
+          // A section taken in markup on a bill that died before its floor
+          // vote has no floor vote to check.
+          if (
+            vote === undefined &&
+            record!.facts?.stage === "committee" &&
+            bill.status === "failed"
+          )
+            continue;
+          // A pill adopted after a trade may break it.
+          const pilled = bill.deals.some((d) => d.kind === "poison-pill");
+          expect(
+            deal.kind === "trade-amendment"
+              ? ["yes", "absent", ...(pilled ? ["no"] : [])]
+              : ["no", "absent"],
+            `${bill.id}: ${deal.kind} by ${deal.memberId} voted ${vote}`,
+          ).toContain(vote);
+        }
       const passed = session!.bills.filter((b) =>
         ["enacted", "signed", "overridden"].includes(b.status),
       );
@@ -173,7 +218,7 @@ describe("M3-10 other governments legislate", () => {
     const start = "2026-01-02";
     const state = pick(states, "congress:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -235,7 +280,7 @@ describe("M3-10 other governments legislate", () => {
   it("the town's council and county board bring their own ordinances on their schedule", () => {
     const state = pick(states, "local:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -321,7 +366,7 @@ describe("M3-10 other governments legislate", () => {
   it("Congress votes the federal budget on the fiscal year's first day, the Senate by cloture", () => {
     const state = pick(states, "budget:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -364,7 +409,7 @@ describe("M3-10 other governments legislate", () => {
   it("a federal act with no date of its own takes effect the day it's signed and reaches the town", () => {
     const state = pick(states, "federal-now:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -407,7 +452,7 @@ describe("a session already over when the world opens", () => {
   // legislature passed nothing all year.
   it("opens its next session on the calendar's convening day", () => {
     const opened = "2026-10-12";
-    const over = [...lifePlaceStateIdentities()]
+    const over = [...corePlaceStateIdentities()]
       .map((s) => s.jurisdictionKey)
       .filter(
         (k) =>
@@ -417,7 +462,7 @@ describe("a session already over when the world opens", () => {
       .sort();
     const state = pick(over, "over:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

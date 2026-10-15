@@ -1,6 +1,11 @@
-import { addDays, daysBetween, makeIsoDate, spokenDate } from "./dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+  spokenDate,
+} from "../core2/kernel/dates";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import { statuteEffectiveRule } from "./governing/statute-effective-date";
 import { enactingGovernmentForPack } from "./legislation-drafting";

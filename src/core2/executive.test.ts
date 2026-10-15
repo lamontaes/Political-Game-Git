@@ -28,11 +28,7 @@ import {
 } from "./modules/executive";
 import { answerIn } from "./modules/world-legislating";
 import { governments, openBudgets } from "./modules/budgets";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -45,7 +41,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function world(states: readonly string[], salt: string) {
   const state = pick(states, `${salt}:state`);
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -73,7 +69,7 @@ function world(states: readonly string[], salt: string) {
     where: `seed ${seed}, ${state} place ${key}`,
   };
 }
-const all = [...lifePlaceStateIdentities()]
+const all = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 

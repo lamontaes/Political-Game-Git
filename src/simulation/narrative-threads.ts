@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { daysBetween, spokenDate } from "./dates";
+import { daysBetween, spokenDate } from "../core2/kernel/dates";
 import {
   activeCareResponsibilitiesAt,
   activeEducationEnrollmentsAt,

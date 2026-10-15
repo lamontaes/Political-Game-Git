@@ -795,11 +795,11 @@ export function sourceHash(): {
     fileCount: files.length,
     files: manifest,
     directRuntimeDependencies: [
-      "src/simulation/dates.ts",
-      "src/simulation/ids.ts",
-      "src/simulation/life-places.ts",
-      "src/simulation/living-costs-data.ts",
-      "src/simulation/living-costs-category-data.ts",
+      "src/core2/kernel/dates.ts",
+      "src/core2/kernel/ids.ts",
+      "src/core2/place-lookup.ts",
+      "src/core2/reference/living-costs-data.ts",
+      "src/core2/reference/living-costs-category-data.ts",
       "data/content/act-kinds.json",
       "data/content/trait-act-pulls.json",
     ].map((path) => {

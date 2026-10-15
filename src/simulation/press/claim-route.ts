@@ -1,5 +1,5 @@
 import type { ClaimStance } from "../claim-stances";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { hasPersonDiscoveredEvidence } from "../evidence";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import type { ProcedureKey } from "./records";

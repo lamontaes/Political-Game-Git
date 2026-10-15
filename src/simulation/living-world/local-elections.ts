@@ -1,5 +1,10 @@
 import { nextCountyElection } from "../nationwide-world/county-election-calendar";
-import { addDays, ageOnDate, dateAtAge, makeIsoDate } from "../dates";
+import {
+  addDays,
+  ageOnDate,
+  dateAtAge,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { candidacyEligibility } from "../candidacy";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
@@ -29,8 +34,8 @@ import {
   cancelFutureDueItem,
   scheduleFutureDueItem,
 } from "../future-transitions";
-import { governmentUnit } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { governmentUnit } from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import {
   createOrganizationParticipation,
   recordOrganizationParticipationState,

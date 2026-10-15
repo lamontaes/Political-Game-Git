@@ -14,11 +14,7 @@ import { lawChain, lawInForce, openLaws } from "./modules/laws";
 import { openBudgets, withholdingOf } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -97,12 +93,12 @@ describe("the record's tag follows the law rows read (audit 13)", () => {
 
 describe("pay to a worker who lives outside the town (audit 12, 13)", () => {
   it("has federal and state tax withheld, balanced on the journal, and the tag follows the rows", () => {
-    const states = [...lifePlaceStateIdentities()]
+    const states = [...corePlaceStateIdentities()]
       .map((s) => s.jurisdictionKey)
       .sort();
     const placesIn = (stateKey: string) =>
       [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: stateKey,
           scope: "locality",
         }),

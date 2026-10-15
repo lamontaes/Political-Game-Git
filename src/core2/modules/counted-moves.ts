@@ -21,7 +21,7 @@ import regions from "../data/regional/regions.json" with { type: "json" };
 import { scheduleTax } from "../tax-withholding";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { REGIONAL_MODULE_ID } from "./regional";
@@ -297,7 +297,7 @@ function runtimeOf(api: CoreAPI): Runtime | undefined {
   if (rt) return rt;
   const town = townPlaceOf(core);
   const key = town
-    ? lifePlaceByJurisdictionId(town as never)?.stateJurisdictionKey
+    ? corePlaceByJurisdictionId(town as never)?.stateJurisdictionKey
     : undefined;
   if (!key) return undefined;
   rt = {
@@ -352,7 +352,7 @@ function headOf(
 }
 
 const stateOfPlace = (placeId: string) =>
-  lifePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey?.slice(
+  corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey?.slice(
     "US-".length,
   );
 

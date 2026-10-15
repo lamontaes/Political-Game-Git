@@ -78,7 +78,7 @@
 
       <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
-        <p class="sub">A life in American government.</p>
+        <!-- The title menu as the Oct 12 title had it (TitleScreen.tsx, 29be9982f5^). -->
         <div id="front-main">
           <button
             id="new-life"
@@ -86,7 +86,34 @@
             type="button"
             data-testid="new-game"
           >
-            <b>New game</b><span>Begin a life in a real place.</span>
+            <b>New game</b>
+          </button>
+          <button
+            id="front-watch"
+            class="item"
+            type="button"
+            data-testid="watch-world"
+            disabled
+          >
+            <b>Watch the world</b>
+          </button>
+          <button
+            id="front-continue"
+            class="item"
+            type="button"
+            data-testid="continue"
+            disabled
+          >
+            <b>Continue</b><small id="front-continue-life"></small>
+          </button>
+          <button
+            id="front-saves"
+            class="item"
+            type="button"
+            data-testid="open-saves"
+            disabled
+          >
+            <b>Saved games</b>
           </button>
           <button
             id="front-options"
@@ -96,47 +123,81 @@
           >
             <b>Options</b>
           </button>
-        </div>
-        <!-- New game, second step: where the life begins. -->
-        <div id="front-place" data-testid="new-game-place" hidden>
           <button
-            id="place-random"
+            id="front-patch-notes"
             class="item"
             type="button"
-            data-testid="place-random"
+            data-testid="title-patch-notes"
+            disabled
           >
-            <b>Random</b>
+            <b>Patch notes</b>
           </button>
-          <label class="field"
-            ><span class="label">Place</span>
-            <input id="place" list="places" autocomplete="off"
-          /></label>
-          <datalist id="places"></datalist>
-          <div class="acts">
-            <button id="place-back" class="action small" type="button">
-              Back
-            </button>
-            <button
-              id="place-begin"
-              class="action primary small"
-              type="button"
-              data-testid="place-begin"
-              disabled
-            >
-              Begin
-            </button>
-          </div>
+          <!-- Quit is the desktop's; a browser tab has none to offer. -->
+          <button
+            id="front-quit"
+            class="item"
+            type="button"
+            data-testid="quit"
+            hidden
+          >
+            <b>Quit</b>
+          </button>
+          <small
+            id="title-version"
+            class="title-version"
+            data-testid="title-version"
+          ></small>
         </div>
-        <div class="progress" hidden><span></span></div>
-        <p
-          id="front-status"
-          class="when"
-          role="status"
-          data-testid="loading-line"
-        ></p>
-        <div id="custom" class="dev-only">
-          <p class="label">Customize the world</p>
-          <label class="field">Seed <input id="seed" /></label>
+        <!-- New game: how the world begins. -->
+        <div id="front-new" data-testid="new-game-choice" hidden>
+          <button
+            id="new-custom"
+            class="item"
+            type="button"
+            data-testid="custom-world"
+          >
+            <b>Custom world</b>
+          </button>
+          <button
+            id="new-start"
+            class="item"
+            type="button"
+            data-testid="start-life"
+          >
+            <b>Start a life</b>
+          </button>
+          <button
+            id="new-world"
+            class="item"
+            type="button"
+            data-testid="new-world"
+          >
+            <b>New world</b>
+          </button>
+          <button
+            id="new-back"
+            class="item"
+            type="button"
+            data-testid="new-game-back"
+          >
+            <b>Back</b>
+          </button>
+        </div>
+        <!-- Custom world: the Oct 13 front's settings. -->
+        <div id="front-custom" data-testid="custom-world-panel" hidden>
+          <div class="field">
+            <label for="seed">Seed</label>
+            <span class="seed-row"
+              ><input id="seed" /><button
+                id="seed-random"
+                class="action small"
+                type="button"
+                data-testid="seed-random"
+              >
+                Random
+              </button></span
+            >
+          </div>
           <label class="field"
             >Opening date <input id="date" type="date" readonly
           /></label>
@@ -200,7 +261,231 @@
               step="0.05"
               placeholder="1"
           /></label>
+
+          <div class="acts">
+            <button id="custom-back" class="action small" type="button">
+              Back
+            </button>
+            <button
+              id="custom-next"
+              class="action primary small"
+              type="button"
+              data-testid="custom-continue"
+            >
+              Continue
+            </button>
+          </div>
         </div>
+        <!-- The creator, step by step as the Oct 12 SetupScreen had it. -->
+        <div id="cr-character" data-testid="creator-stage-character" hidden>
+          <button
+            id="cr-route"
+            class="summary"
+            type="button"
+            data-testid="creator-summary-route"
+          >
+            <span id="cr-route-name" class="summary-value"></span
+            ><span class="summary-edit">Change</span>
+          </button>
+          <h2 class="label">Your character</h2>
+          <fieldset class="group" data-testid="gender-choices">
+            <legend class="label">Gender (required)</legend>
+            <div class="choices">
+              <button
+                type="button"
+                class="action small"
+                data-gender="female"
+                data-testid="gender-female"
+              >
+                Female
+              </button>
+              <button
+                type="button"
+                class="action small"
+                data-gender="male"
+                data-testid="gender-male"
+              >
+                Male
+              </button>
+              <button
+                type="button"
+                class="action small"
+                data-gender="nonbinary"
+                data-testid="gender-nonbinary"
+              >
+                Non-binary
+              </button>
+            </div>
+          </fieldset>
+          <div class="group">
+            <span class="label">Name</span>
+            <label class="field"
+              >First name
+              <input id="cr-given" maxlength="40" autocomplete="off"
+            /></label>
+            <label class="field"
+              >Last name
+              <input id="cr-family" maxlength="40" autocomplete="off"
+            /></label>
+            <button
+              id="cr-random-name"
+              class="action small"
+              type="button"
+              data-testid="creator-randomize-name"
+            >
+              Randomize name
+            </button>
+          </div>
+          <fieldset class="group" data-testid="creator-birthday">
+            <legend class="label">Birthday</legend>
+            <label class="field"
+              >Month
+              <select id="cr-month" data-testid="start-birth-month"></select
+            ></label>
+            <label class="field"
+              >Day
+              <select id="cr-day" data-testid="start-birth-day"></select
+            ></label>
+            <label class="field"
+              >Year
+              <select id="cr-year" data-testid="start-birth-year"></select
+            ></label>
+            <button
+              id="cr-random-birthday"
+              class="action small"
+              type="button"
+              data-testid="creator-randomize-birthday"
+            >
+              Randomize birthday
+            </button>
+            <p
+              id="cr-derived-age"
+              class="when"
+              data-testid="creator-derived-age"
+            ></p>
+          </fieldset>
+          <div class="acts">
+            <button id="cr-character-back" class="action small" type="button">
+              Back
+            </button>
+            <button
+              id="cr-character-next"
+              class="action primary small"
+              type="button"
+              data-testid="creator-continue-character"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+        <div id="cr-place" data-testid="creator-stage-place" hidden>
+          <button
+            id="cr-summary"
+            class="summary"
+            type="button"
+            data-testid="creator-summary-character"
+          >
+            <span class="summary-value"
+              ><strong id="cr-summary-name" class="summary-name"></strong
+              ><span id="cr-summary-age"></span
+              ><span id="cr-summary-born"></span></span
+            ><span class="summary-edit">Change</span>
+          </button>
+          <h2 class="label">Where are you from?</h2>
+          <div id="cr-state-pick">
+            <label class="field" for="cr-state-search">Choose a state</label>
+            <input
+              id="cr-state-search"
+              type="search"
+              autocomplete="off"
+              data-testid="state-search"
+            />
+            <div
+              id="cr-states"
+              class="choice-list"
+              data-testid="state-choices"
+            ></div>
+          </div>
+          <div id="cr-town-pick" hidden>
+            <button
+              id="cr-state"
+              class="summary"
+              type="button"
+              data-testid="creator-change-state"
+            >
+              <span id="cr-state-name" class="summary-value"></span
+              ><span class="summary-edit">Change</span>
+            </button>
+            <label class="field" for="cr-town-search">Search</label>
+            <input
+              id="cr-town-search"
+              type="search"
+              autocomplete="off"
+              data-testid="place-search"
+            />
+            <div
+              id="cr-towns"
+              class="choice-list"
+              data-testid="place-choices"
+            ></div>
+          </div>
+          <div class="acts">
+            <button id="cr-place-back" class="action small" type="button">
+              Back
+            </button>
+          </div>
+        </div>
+        <div id="cr-look" data-testid="creator-stage-appearance" hidden>
+          <img
+            id="cr-portrait"
+            class="portrait"
+            alt=""
+            data-testid="creator-engine-figure"
+          />
+          <h2 class="label">Character appearance</h2>
+          <div id="cr-rows" data-testid="engine-appearance-controls"></div>
+          <button id="cr-randomize" class="action small" type="button">
+            Randomize
+          </button>
+          <div class="acts">
+            <button
+              id="cr-reset"
+              class="action small"
+              type="button"
+              data-testid="creator-reset-appearance"
+            >
+              Reset appearance
+            </button>
+            <button
+              id="cr-undo"
+              class="action small"
+              type="button"
+              data-testid="creator-undo-appearance"
+            >
+              Undo
+            </button>
+          </div>
+          <div class="acts">
+            <button id="cr-look-back" class="action small" type="button">
+              Back
+            </button>
+            <button
+              id="cr-begin"
+              class="action primary small"
+              type="button"
+              data-testid="begin"
+            >
+              Begin
+            </button>
+          </div>
+        </div>
+        <div class="progress" hidden><span></span></div>
+        <p
+          id="front-status"
+          class="when"
+          role="status"
+          data-testid="loading-line"
+        ></p>
       </section>
 
       <nav id="menu" class="panel" hidden>
@@ -351,10 +636,6 @@
           <button type="button" class="action small">Back</button>
           <button type="button" class="action primary small">Continue</button>
         </div>
-      </section>
-
-      <section id="choices" class="panel chat" hidden>
-        <div id="choice-list" class="replies"></div>
       </section>
 
       <section id="talk" class="panel chat" hidden>

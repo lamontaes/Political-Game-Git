@@ -1,4 +1,4 @@
-import { createStableId } from "../../../ids";
+import { createStableId } from "../../../../core2/kernel/ids";
 import { recordById } from "../../../history-index";
 import { organizationProfileAt, workStatusAt } from "../../../life-queries";
 import { lawEffectStamp } from "../../../law-effect-stamp";

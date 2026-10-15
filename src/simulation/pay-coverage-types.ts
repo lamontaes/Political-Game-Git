@@ -1,4 +1,4 @@
-import type { EntityId, IsoDate } from "./types";
+import type { EntityId, IsoDate } from "../core2/kernel/brands";
 
 /** A work relationship's dated facts, never a copied wage amount. */
 export interface WorkPayCoverageDeterminationRecord {

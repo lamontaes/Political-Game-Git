@@ -26,11 +26,11 @@ import { drawOfficialIdentity } from "../officials-identity";
 import { openingTemperaments } from "../opening-personality";
 import { countedResidents } from "../electorate";
 import {
-  lifePlaceByJurisdictionId,
-  seatOfGovernmentPlace,
-} from "../../simulation/life-places";
-import { countyPopulationSharesForPlace } from "../../simulation/government-units";
-import type { EntityId } from "../../simulation/types";
+  corePlaceByJurisdictionId,
+  coreSeatOfGovernmentPlace,
+} from "../place-lookup";
+import { countyPopulationSharesForPlace } from "../reference/government-units";
+import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
@@ -38,7 +38,7 @@ import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { startPublicJob } from "../public-payroll";
@@ -199,7 +199,7 @@ function officeSiteOf(api: CoreAPI, officialId: string): OfficeSite {
   )?.office;
   if (!office || (office.level !== "state" && office.level !== "federal"))
     return town;
-  const seat = seatOfGovernmentPlace(
+  const seat = coreSeatOfGovernmentPlace(
     office.level === "federal" ? "US-FEDERAL" : office.jurisdiction,
   );
   if (!seat) return town;
@@ -242,7 +242,7 @@ function readReach(
   if (placeId === site.placeId) return { reach: 1, reachBasis: "town" };
   if (countyGeoids.some((county) => site.countyGeoids.includes(county)))
     return { reach: 1, reachBasis: "county" };
-  const place = lifePlaceByJurisdictionId(placeId as EntityId);
+  const place = corePlaceByJurisdictionId(placeId as EntityId);
   const state =
     place?.scope === "state" ? place.key : place?.stateJurisdictionKey;
   // A place the records can't put in the state reads as out of it.
@@ -257,7 +257,7 @@ function readReach(
 /** The counties a person's home lies in, from their recorded county. */
 function homeCounties(countyId: string | undefined): readonly string[] {
   const geoid = countyId
-    ? lifePlaceByJurisdictionId(countyId as EntityId)?.sourceGeoid
+    ? corePlaceByJurisdictionId(countyId as EntityId)?.sourceGeoid
     : undefined;
   return geoid ? [geoid] : [];
 }

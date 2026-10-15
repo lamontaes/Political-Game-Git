@@ -65,7 +65,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -129,7 +131,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "people-mind-v1:conflict": {
@@ -174,7 +177,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -214,7 +218,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "people-mind-v1:deliberation": {
@@ -279,7 +285,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -331,7 +339,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "people-mind-v1:reliability": {
@@ -381,7 +391,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -430,7 +442,9 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "people-mind-v1:risk": {
@@ -487,7 +501,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -550,7 +566,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "people-mind-v1:sociability": {
@@ -602,7 +620,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -663,7 +683,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:action-despite-fear": {
@@ -727,7 +749,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -790,7 +814,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:bond-loyalty": {
@@ -854,7 +880,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -906,7 +933,9 @@
         "school.attend",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:concern-for-distress": {
@@ -957,7 +986,8 @@
         "school.attend",
         "justice.report",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -1006,7 +1036,8 @@
         "meetings.take-part",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-acquisitive": {
@@ -1050,7 +1081,8 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1128,7 +1160,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1184,7 +1218,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-ambitious": {
@@ -1241,7 +1276,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1299,7 +1336,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-analytical": {
@@ -1347,7 +1386,8 @@
         "press.tip",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1399,7 +1439,8 @@
         "meetings.take-part",
         "school.attend",
         "justice.prosecute",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-approval-seeking": {
@@ -1449,7 +1490,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1480,7 +1523,8 @@
         "press.dig",
         "school.attend",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-arbitrary": {
@@ -1521,7 +1565,9 @@
         "press.follow-news",
         "meetings.take-part",
         "justice.report",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1564,7 +1610,9 @@
         "news.pass-on",
         "press.tip",
         "school.attend",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-argumentative": {
@@ -1604,7 +1652,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1632,7 +1681,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-assertive": {
@@ -1666,7 +1716,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1731,7 +1782,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1763,7 +1815,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-brazen": {
@@ -1818,7 +1871,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -1853,7 +1908,8 @@
         "press.dig",
         "press.tip",
         "meetings.take-part",
-        "justice.plea"
+        "justice.plea",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-brooding": {
@@ -1915,7 +1971,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -1969,7 +2026,8 @@
         "school.attend",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-calm": {
@@ -2036,7 +2094,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -2085,7 +2145,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-charming": {
@@ -2138,7 +2199,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -2184,7 +2247,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-closeness-seeking": {
@@ -2243,7 +2307,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -2295,7 +2361,8 @@
         "school.attend",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-cocky": {
@@ -2352,7 +2419,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -2398,7 +2467,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-comforting": {
@@ -2448,7 +2519,9 @@
         "school.attend",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -2486,7 +2559,8 @@
         "meetings.take-part",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-competitive": {
@@ -2545,7 +2619,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -2573,7 +2649,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-contented": {
@@ -2638,7 +2715,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -2687,7 +2766,8 @@
         "meetings.take-part",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-cruel": {
@@ -2721,7 +2801,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -2746,7 +2827,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-curious": {
@@ -2804,7 +2886,8 @@
         "meetings.take-part",
         "justice.report",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -2859,7 +2942,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-cynical": {
@@ -2910,7 +2995,8 @@
         "legislature.sign-or-veto",
         "press.dig",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-daydreaming": {
@@ -2961,7 +3047,8 @@
         "school.attend",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -3004,7 +3091,8 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-defensive": {
@@ -3037,7 +3125,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3100,7 +3189,9 @@
         "school.attend",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3121,7 +3212,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-devoted": {
@@ -3178,7 +3270,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -3273,7 +3366,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3371,7 +3466,9 @@
         "meetings.take-part",
         "school.attend",
         "justice.prosecute",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3388,7 +3485,9 @@
         "press.follow-news",
         "meetings.take-part",
         "justice.report",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-enterprising": {
@@ -3451,7 +3550,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3506,7 +3607,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-entitled": {
@@ -3553,7 +3656,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3588,7 +3692,8 @@
         "school.attend",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-envious": {
@@ -3641,7 +3746,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3694,7 +3801,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-excitable": {
@@ -3752,7 +3860,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3810,7 +3920,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-fair-minded": {
@@ -3846,7 +3957,9 @@
         "meetings.take-part",
         "school.attend",
         "justice.report",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3863,7 +3976,9 @@
         "press.follow-news",
         "meetings.take-part",
         "justice.report",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-fickle": {
@@ -3916,7 +4031,9 @@
         "press.tip",
         "school.attend",
         "justice.report",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -3965,7 +4082,8 @@
         "press.tip",
         "school.attend",
         "justice.report",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-forgiving": {
@@ -3998,7 +4116,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4021,7 +4140,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-friendly": {
@@ -4070,7 +4190,9 @@
         "meetings.take-part",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4119,7 +4241,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-generous": {
@@ -4156,7 +4279,8 @@
         "press.dig",
         "school.attend",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4241,7 +4365,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4270,7 +4395,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-guarded": {
@@ -4324,7 +4450,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -4364,7 +4491,8 @@
         "press.dig",
         "meetings.take-part",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-hostile": {
@@ -4401,7 +4529,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4432,7 +4561,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-hot-headed": {
@@ -4482,7 +4612,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4519,7 +4650,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-humble": {
@@ -4562,7 +4694,8 @@
         "justice.report",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4697,7 +4830,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-independent": {
@@ -4747,7 +4882,8 @@
         "press.dig",
         "school.attend",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4777,7 +4913,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-informal": {
@@ -4810,7 +4948,9 @@
         "press.tip",
         "school.attend",
         "justice.prosecute",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4853,7 +4993,9 @@
         "news.pass-on",
         "press.tip",
         "school.attend",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-intimacy-guarded": {
@@ -4923,7 +5065,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -4977,7 +5121,8 @@
         "school.attend",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-inventive": {
@@ -5028,7 +5173,8 @@
         "meetings.take-part",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -5072,7 +5218,9 @@
         "news.pass-on",
         "press.tip",
         "school.attend",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-light-hearted": {
@@ -5130,7 +5278,9 @@
         "justice.report",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -5181,7 +5331,9 @@
         "school.attend",
         "justice.report",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-manipulative": {
@@ -5222,7 +5374,8 @@
         "meetings.take-part",
         "school.attend",
         "justice.report",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -5245,7 +5398,9 @@
         "meetings.take-part",
         "school.attend",
         "justice.report",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-mediating": {
@@ -5293,7 +5448,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -5339,7 +5496,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-meticulous": {
@@ -5384,7 +5542,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -5416,7 +5576,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-mischievous": {
@@ -5464,7 +5626,9 @@
         "meetings.take-part",
         "school.attend",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -5507,7 +5671,9 @@
         "news.pass-on",
         "press.tip",
         "school.attend",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-nostalgic": {
@@ -5558,7 +5724,8 @@
         "press.tip",
         "justice.report",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "drives.respond",
@@ -5646,7 +5813,9 @@
         "school.attend",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -5684,7 +5853,8 @@
         "meetings.take-part",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-observant": {
@@ -5730,7 +5900,9 @@
         "meetings.take-part",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -5780,7 +5952,9 @@
         "school.attend",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-open-minded": {
@@ -5840,7 +6014,8 @@
         "meetings.take-part",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -5949,7 +6124,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -6004,7 +6181,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-persistent": {
@@ -6062,7 +6241,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -6111,7 +6292,8 @@
         "school.attend",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-philanthropic": {
@@ -6155,7 +6337,8 @@
         "meetings.take-part",
         "school.attend",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -6238,7 +6421,9 @@
         "school.attend",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -6263,7 +6448,9 @@
         "meetings.take-part",
         "school.attend",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-practical": {
@@ -6316,7 +6503,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -6363,7 +6552,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-proud": {
@@ -6492,7 +6683,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -6541,7 +6733,8 @@
         "press.tip",
         "school.attend",
         "justice.report",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-sassy": {
@@ -6575,7 +6768,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -6607,7 +6801,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-self-conscious": {
@@ -6668,7 +6863,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -6724,7 +6921,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-self-serving": {
@@ -6744,7 +6942,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "school.attend",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -6764,7 +6963,9 @@
         "press.follow-news",
         "meetings.take-part",
         "justice.report",
-        "justice.prosecute"
+        "justice.prosecute",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-sensitive": {
@@ -6823,7 +7024,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -6870,7 +7073,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-shy": {
@@ -6928,7 +7133,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -6975,7 +7181,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-sincere": {
@@ -7015,7 +7222,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "drives.respond",
@@ -7046,7 +7255,8 @@
         "press.tip",
         "meetings.take-part",
         "justice.report",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-skeptical": {
@@ -7124,7 +7334,8 @@
         "press.dig",
         "meetings.take-part",
         "school.attend",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-slow-to-warm-up": {
@@ -7182,7 +7393,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -7228,7 +7440,8 @@
         "school.attend",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-smug": {
@@ -7377,7 +7590,8 @@
         "school.attend",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -7440,7 +7654,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-supportive": {
@@ -7490,7 +7705,9 @@
         "school.attend",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -7528,7 +7745,8 @@
         "meetings.take-part",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-tactful": {
@@ -7583,7 +7801,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -7615,7 +7835,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-teasing": {
@@ -7670,7 +7891,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -7726,7 +7948,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-tender-hearted": {
@@ -7765,7 +7988,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -7794,7 +8018,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-thrill-seeking": {
@@ -7860,7 +8085,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -7915,7 +8142,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "justice.plea"
+        "justice.plea",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-vindictive": {
@@ -7955,7 +8184,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -7979,7 +8209,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:facet-work-centered": {
@@ -8033,7 +8264,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -8096,7 +8328,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:facet-zealous": {
@@ -8164,7 +8397,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -8218,7 +8453,8 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:initial-trust": {
@@ -8263,7 +8499,9 @@
         "meetings.take-part",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -8314,7 +8552,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:method-revision": {
@@ -8368,7 +8608,8 @@
         "justice.report",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -8419,7 +8660,8 @@
         "meetings.take-part",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:outward-emotional-display": {
@@ -8462,7 +8704,8 @@
         "meetings.take-part",
         "justice.report",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -8521,7 +8764,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     },
     "personality-v1:patience": {
@@ -8585,7 +8829,9 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -8639,7 +8885,9 @@
         "school.attend",
         "justice.prosecute",
         "justice.plea",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:playful-manner": {
@@ -8699,7 +8947,8 @@
         "meetings.take-part",
         "justice.report",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ],
       "low": [
         "life.daily-act",
@@ -8745,7 +8994,9 @@
         "meetings.take-part",
         "school.attend",
         "justice.plea",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:self-confidence": {
@@ -8811,7 +9062,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -8877,7 +9130,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:truthfulness": {
@@ -8917,7 +9172,9 @@
         "school.attend",
         "justice.report",
         "justice.prosecute",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -8950,7 +9207,9 @@
         "meetings.take-part",
         "justice.report",
         "justice.prosecute",
-        "meetings.hold-town-hall"
+        "meetings.hold-town-hall",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:uncertain-outlook": {
@@ -9014,7 +9273,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -9073,7 +9334,9 @@
         "justice.prosecute",
         "justice.plea",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ]
     },
     "personality-v1:voluntary-effort": {
@@ -9132,7 +9395,9 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting",
+        "legislature.poison-pill"
       ],
       "low": [
         "life.daily-act",
@@ -9197,7 +9462,8 @@
         "justice.report",
         "justice.prosecute",
         "meetings.hold-town-hall",
-        "campaigns.party-firmness"
+        "campaigns.party-firmness",
+        "legislature.attend-sitting"
       ]
     }
   }

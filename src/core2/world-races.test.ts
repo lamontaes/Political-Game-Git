@@ -24,11 +24,7 @@ import {
 } from "./modules/legislature";
 import { openWorldRaces, presidentialOf, racesOf } from "./modules/world-races";
 import { partySide } from "./appointments";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";
 const seed =
@@ -38,7 +34,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 // Independents in Congress caucus with the Democrats.
@@ -59,7 +55,7 @@ describe("M2-10 state and federal races in the world", () => {
   it("every race this November resolves, and winners take their seats on the real dates", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -162,7 +158,7 @@ describe("M2-10 state and federal races in the world", () => {
   it("the presidency is won in the electoral college, and the winner and running mate take office January 20", () => {
     const state = pick(states, "pres:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
