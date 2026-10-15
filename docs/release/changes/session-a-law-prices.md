@@ -1,7 +1,7 @@
 ---
 id: session-a-law-prices
 impact: patch
-section: changed
+section: Changed
 title: Price laws change household payments
 ---
 
