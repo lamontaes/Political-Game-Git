@@ -975,5 +975,12 @@ describe("retained counted family relationships", () => {
     expect(() =>
       coreAPI(core).relationship(outsider, huskId, "family", 1),
     ).toThrow("Invalid relationship");
+    const before = structuredClone(core.relationships.get(id));
+    promoteHusk(
+      core,
+      promotedPerson({ familyIds: [circle, player], knownIds: [] }),
+    );
+    expect(core.relationships.get(id)).toEqual(before);
+    expect(core.people.has(huskId)).toBe(true);
   });
 });
