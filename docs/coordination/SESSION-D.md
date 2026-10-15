@@ -25,3 +25,6 @@
 
 - Item 10 opening: draft #4370 has four passing focused tests and a completed Garden City year, 137.53 vs 129.70 seconds. Teacher payroll reads the new job but pays zero from empty funds; tuition payment remains unproved.
 - Next claim: `pool/counted-family-ties`, retain opening family relationships to existing counted identities through the shared relationship writer and existing closeness rule; no custody API edits. Prerequisite for #4369, which remains unfinished.
+
+- Item 10 family ties: draft #4373, 50 changed-file tests pass. Combined #4369/#4370/#4373 year 137.03 seconds; native counted death reaches knowledge, grief and chooser, with record IDs in all three PRs. Prerequisites remain separate drafts; speed and tuition remain open. CTO has merged #4341/#4364/#4367 independently.
+- Next core-list claim: `pool/core-year-speed`, profile the failed Garden City played year on current main, then repair one measured core hot path. Scope excludes other workers’ jobs/custody, law and screen changes.
