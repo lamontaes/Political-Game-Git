@@ -135,6 +135,12 @@ type BuildOptions = {
    * filled in when met. The player is the 17-year-old who turns 18 soonest.
    */
   twoLevel?: boolean;
+  /**
+   * With `twoLevel`: real households each counted household of the town
+   * stands for (default one). A town opened from a sample of its Census
+   * count sets it; every reader of a count multiplies by it.
+   */
+  countScale?: number;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
@@ -279,7 +285,18 @@ function* benchWorldStages(
     // (the central bank's board) are named officials and stay full people.
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
-      withWorldEconomy(collapseToTwoLevels(economy, { keep: kept })),
+      withWorldEconomy(
+        collapseToTwoLevels(economy, {
+          keep: kept,
+          ...(options.countScale && options.countScale !== 1
+            ? {
+                weights: {
+                  [place.context.jurisdiction.id]: options.countScale,
+                },
+              }
+            : {}),
+        }),
+      ),
     );
     releaseRecentHistory();
     forgetLastValidatedWorld();
