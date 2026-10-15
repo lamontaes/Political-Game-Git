@@ -56,6 +56,14 @@
   "opening": {
     "news": "News"
   },
+  "person": {
+    "age": "Age",
+    "work": "Work",
+    "place": "Home",
+    "talk": "Talk",
+    "back": "Back",
+    "continue": "Continue"
+  },
   "sceneFilter": "Scenes that stop your day",
   "sceneKinds": {
     "departure": "Departure",
