@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 1
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: gov-justice-incident-records
 milestone:
 source: "split from laws-remaining-families, Oct 15"
 ---
@@ -22,3 +22,5 @@ source: "split from laws-remaining-families, Oct 15"
 **Files.** src/core2/law-reach/*, src/core2/modules/ (the owning engine), src/core2/data/stopgaps.json
 
 **Notes.** SG-GOV-REACH-A-pretrial, -convictions, -firearms, -citizenship. Split into S/M sub-items by whoever claims it.
+
+**Oct 15 check.** Justice handles only officials' bribery cases (`src/core2/justice-law.ts`): no arrest, bail, conviction or sentence record exists for ordinary people, and no gun ownership or citizenship record exists. Until `gov-justice-incident-records` gives the first, bail and convictions have nothing to read; firearm storage and citizenship need their own records (people).

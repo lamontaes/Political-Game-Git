@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: gov-redistricting
 milestone:
 source: "split from laws-remaining-families, Oct 15"
 ---
@@ -22,3 +22,5 @@ source: "split from laws-remaining-families, Oct 15"
 **Files.** src/core2/law-reach/*, src/core2/modules/ (the owning engine), src/core2/data/stopgaps.json
 
 **Notes.** SG-GOV-REACH-A-redistricting.
+
+**Oct 15 check.** The only record-only government-operations law left is independent redistricting (broadening local authority is read by `policyAuthority`, PR for `laws-record-only-reads`). Districts are labels on seats (`src/core2/modules/elections.ts`); nobody draws lines. See `gov-redistricting`.
