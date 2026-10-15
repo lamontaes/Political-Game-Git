@@ -4,12 +4,13 @@ title: "Counted consumer credit: rebuild the slow part (#4379)"
 area: world
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-counted-credit-speed
 pr: #4379
 blocked-on:
 milestone:
 source: "reissue item 2; PR #4379 branch law/session-a-counted-consumer-credit"
+claimed-at: 2026-10-15T21:34:02.618Z
 ---
 
 **What.** The year runs 24.9% slower than main, most likely a scan of counted households. Make the read act on the day something changed or through an index, get under the 20% limit, and prove a native application, loan and payment in a drawn year.
