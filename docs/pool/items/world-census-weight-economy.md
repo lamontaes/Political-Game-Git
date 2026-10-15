@@ -5,12 +5,13 @@ area: world
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-census-weight-economy
 pr:
 blocked-on: core-census-weight-model
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
+claimed-at: 2026-10-15T22:01:44.414Z
 ---
 
 **What.** Businesses, job counts, housing units and local business counts for a town above 10,000 follow its Census size (the local business counts already read the reference population) instead of the 10,000 sample, and counted workers' weights fill those jobs.
