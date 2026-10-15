@@ -346,6 +346,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   const employerRecords = [
     Q("environment-energy.clean-air-plan-for-polluted-counties"),
+    Q("environment-energy.bottle-deposit"),
+    Q("agriculture-natural-resources.protect-farmland-from-development"),
     Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
   ];
   // Gas hookups and farmland protection are read by construction now.

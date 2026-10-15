@@ -7,6 +7,8 @@
  * adults choose whether to found one. Chains are repeated growth, never
  * scripted. Every payment moves through the ledger.
  */
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
@@ -1094,12 +1096,60 @@ function routeOutsideCosts(api: CoreAPI): void {
   }
 }
 
+/** Read the withdrawal statute where farm production limits are set. */
+function readGroundwaterLaw(api: CoreAPI): void {
+  const c = core(api);
+  if (!c.modules.has(LAWS_MODULE_ID)) return;
+  const question =
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal";
+  const law = lawInForce(api, question);
+  const town = lawChain(api).townPlaceId;
+  const table = store(api).table("operating");
+  const prefix = `law:${question}:`;
+  for (const [id, book] of c.finance.businesses) {
+    if (c.organizations.get(id)?.placeId !== town) continue;
+    const ruleId = `limit:${id}:groundwater`;
+    const existing = table.get(ruleId);
+    const owned = String(existing?.cause ?? "").startsWith(prefix);
+    if (
+      book.closedAt ||
+      classificationOf(c, id) !== "enterprise:agriculture" ||
+      law.value !== 1 ||
+      !law.governing
+    ) {
+      if (owned) endOperatingRule(api, table, ruleId);
+      continue;
+    }
+    // This input slot may already be owned by another recorded restriction.
+    if (existing && !owned) continue;
+    const cause = `${prefix}${law.governing.id}`;
+    if (existing?.cause === cause) continue;
+    // stopgapId: SG-GOV-REACH-B-business-cost — farm irrigation exposure,
+    // pumping records and crop-specific responses are not present yet.
+    api.stopgap("SG-GOV-REACH-B-business-cost");
+    setOperatingLimit(api, table, {
+      organizationId: id,
+      input: "groundwater",
+      share: 1 - resourceParameters.parameters.groundwaterWithdrawalShare.value,
+      cause,
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${resourceParameters.parameters.groundwaterWithdrawalShare.source}`,
+        estimatedFrom:
+          "Agricultural operating limit using the existing withdrawal estimate and irrigation-output elasticity; individual irrigation exposure is not recorded.",
+      },
+    });
+  }
+}
+
 function month(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   succeed(api);
   reviewClosures(api);
   membershipPayouts(api);
+  readGroundwaterLaw(api);
   routeCompliance(api);
   payCompliance(api);
   recordOutsideCosts(api);

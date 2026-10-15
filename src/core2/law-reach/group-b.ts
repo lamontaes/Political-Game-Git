@@ -57,6 +57,7 @@ import {
 
 type Mechanic =
   | "records"
+  | "farm-output"
   | "property-assessment"
   | "price-payment"
   | "housing-construction"
@@ -418,6 +419,8 @@ function runPolicy(
       });
       return;
     }
+    case "farm-output":
+      return; // The business engine reads the law when setting production limits.
     case "property-assessment":
       return; // The housing assessment reads the cap through budgets when billing.
     case "records":

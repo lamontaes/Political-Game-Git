@@ -1758,14 +1758,14 @@
   },
   {
     "id": "SG-GOV-REACH-B-business-cost",
-    "kind": "missing-engine",
+    "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 315,
-    "whatItFakes": "Groundwater limits and the natural resources line are compliance and service records on farms, mines and utilities; no output or cost changes.",
-    "why": "Business production costs don't read regulations or resource limits.",
+    "whatItFakes": "Groundwater law now reaches the existing agricultural output limit and outside-sales flows. The generic withdrawal share and irrigation elasticity stand in for actual farm pumping, irrigated acreage and crop response. Natural-resource budget services and non-farm water exposure remain unwired.",
+    "why": "No farm irrigation exposure or pumping record exists. No mine or utility water-use record justifies extending the agricultural elasticity to them. The one-input operating-rule slot cannot combine independent restrictions; an existing unrelated restriction is preserved. A received explanation and complete owner/director chain remain unproved.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD business engine: setOperatingLimit({ organizationId, input: \"groundwater\", share }) and regulatory cost read by business books.",
+    "replacement": "Read farm water use and crop exposure, statutory allocations and independent restrictions at production; wire non-farm use and resource services only from their own records, then prove sales, owner choice, received knowledge and director line.",
     "status": "open"
   },
   {
