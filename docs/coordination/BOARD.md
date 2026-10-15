@@ -54,3 +54,7 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 ## Open stand-ins
 
 `src/core2/data/stopgaps.json` is the list; the release build refuses while any is open. Owner-decision stopgaps are listed under **OWNER DECISIONS NEEDED** at the top of the PR that holds them and in `OWNER-DECISIONS.md`.
+
+## Pool claims
+
+- 1. Committee markup trades — `pool/committee-markup` (Session D, claimed October 15, 2026).
