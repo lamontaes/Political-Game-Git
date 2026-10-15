@@ -381,6 +381,18 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(checked).toBeGreaterThan(0);
   });
+  it("never asks the player what the asker already knows (a relative, where they live)", () => {
+    const kin = [...me.familyIds].filter((id) => core.people.get(id)?.alive);
+    for (const otherId of kin) {
+      const talk = openConversation(core, player.id, otherId, { director });
+      for (const line of talk.lines)
+        if (line.speakerId === otherId && line.act === "ask")
+          expect(line.subjectId, `${otherId}: ${line.text}`).not.toMatch(
+            new RegExp(`^(?:home|school):${player.id}$`),
+          );
+    }
+    expect(kin.length).toBeGreaterThan(0);
+  });
   it("remembers the last talk's topic and opens the next one with something else", () => {
     let checked = 0;
     for (const otherId of others.slice(0, 15)) {

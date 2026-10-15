@@ -1090,6 +1090,12 @@ function askSubject(
   subject: Subject,
 ): boolean {
   const { playerId, otherId } = conversation;
+  // Nobody asks what they already know (a relative asking "Where do you come
+  // from?", batch 11).
+  if (subject.own && knowsTruth(core, otherId, playerId, subject.own)) {
+    conversation.used.push(subject.id);
+    return false;
+  }
   const kind = askedKind(core, data, otherId, playerId, subject);
   const line = words(
     core,
@@ -1482,7 +1488,11 @@ function knowsTruth(
       !!knower.jobId &&
       core.jobs.get(knower.jobId)?.organizationId === own.value
     );
-  return knower.householdId === core.people.get(subjectId)?.householdId;
+  // Where someone lives and went to school: their household and family know.
+  return (
+    knower.householdId === core.people.get(subjectId)?.householdId ||
+    knower.familyIds.has(subjectId)
+  );
 }
 
 interface Claim {
