@@ -2717,7 +2717,10 @@ export function officialCandidateIdentity(
     seatKey: candidateId,
     stateUsps: town(api).stateKey.slice(3),
     role: "state-executive-challenger",
-    referenceDate: /\d{4}-\d{2}-\d{2}/.exec(candidateId)?.[0] ?? api.state.date,
+    referenceDate:
+      /\d{4}-\d{2}-\d{2}/.exec(candidateId)?.[0] ??
+      electionDate ??
+      api.state.date,
   });
   return {
     givenName: drawn.givenName,
