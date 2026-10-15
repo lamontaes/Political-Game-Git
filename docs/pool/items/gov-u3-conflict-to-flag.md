@@ -4,9 +4,9 @@ title: "U3 (conflict to flag):"
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-u3-scandal-knowledge
-pr:
+pr: #4495
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 202 (unchecked checklist line)"
