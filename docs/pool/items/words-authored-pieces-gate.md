@@ -4,12 +4,13 @@ title: "Let the bank checks accept authored parts (origin: authored)"
 area: words
 kind: cleanup
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-authored-pieces-gate
 pr:
 blocked-on:
 milestone:
 source: "text rule, OWNER-DECISIONS.md, Oct 15 evening"
+claimed-at: 2026-10-15T20:41:20.320Z
 ---
 
 **What.** Checks that reject a part with no source document or public-domain URL must accept parts tagged `origin: authored` with the author and date: `tests/english-parts-banks.test.ts` (source.document, source.date, source.url https, PUBLIC_DOMAIN_SOURCES match), `tests/english-exchanges.test.ts` and `tests/english-counts.test.ts` (counts-only pattern files: source, license, url; keep for pattern files), the `source` types and public-domain wording in `scripts/english-corpus/*-bank.ts` (address, choice-names, counter) and `scripts/english-corpus/mine-shapes.py`, and `tests/credits-list.test.ts` if it lists part sources.
