@@ -103,3 +103,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 10. OPUS-GOV Needs, custody core API — `pool/custody-person-update` (second Session D; allow discretionaryEligibleV1 through updatePerson and replace justice-custody's direct person writes; no custody/sentencing rules or director/English changes. Core review requested in the draft; no wait on review).
 
 - 10. Core handoff / counted death prerequisite — `pool/counted-family-ties` (first Session D; opening family initialization, relationship endpoints and existing closeness helper only. Second D retains updatePerson/custody. No new identity or mortality selector).
+
+- 10. OPUS-GOV Needs, prison hiring — `pool/jobs-custody-eligibility` (second Session D; jobs reads existing custody before seeking, applications and offer acceptance; replace justice's daily hire-then-dismiss fallback while retaining termination of jobs held at imprisonment. Checked #4329: no custody implementation; its demand/layoff work remains Session B's).
