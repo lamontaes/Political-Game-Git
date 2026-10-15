@@ -4,7 +4,7 @@ title: "OPUS-CORE status file update (#4208)"
 area: docs
 kind: cleanup
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4208
 blocked-on:
@@ -21,3 +21,4 @@ source: "open PR #4208"
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+Sent back 2026-10-15 from PR #4208 (branch core/status-oct14): PR body has no gate line; finish on that branch, merge main into it first.
