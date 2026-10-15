@@ -8,6 +8,7 @@
  * scripted. Every payment moves through the ledger.
  */
 import { chooseAct } from "../choice";
+import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -281,7 +282,9 @@ function netCash(c: CoreState, organizationId: string): number {
   for (const id of c.finance.facilitiesByBorrower.get(organizationId) ?? [])
     owed += c.finance.facilities.get(id)?.principalMinor ?? 0;
   return Math.round(
-    (c.organizations.get(organizationId)?.liquidMinor ?? 0) - owed,
+    (c.organizations.get(organizationId)?.liquidMinor ?? 0) +
+      depositsHeld(c, organizationId) -
+      owed,
   );
 }
 
@@ -297,6 +300,24 @@ function ownerPerson(c: CoreState, personId: string) {
         alive: true,
       }
     : undefined;
+}
+
+/** A household's common savings are available to a founder on the same per-person basis in either tier. */
+function founderSavings(
+  c: CoreState,
+  personId: string,
+): { holderId: string; minor: number } {
+  const person = c.people.get(personId) ?? residentPerson(c, personId);
+  const holderId = person?.householdId ?? "";
+  const full = c.households.get(holderId);
+  const counted = residentsRuntime(c)?.households.get(holderId);
+  const people = full
+    ? full.memberIds.filter((id) => c.people.get(id)?.alive).length
+    : (counted?.people.length ?? 0);
+  return {
+    holderId,
+    minor: people ? Math.floor(depositsHeld(c, holderId) / people) : 0,
+  };
 }
 
 /**
@@ -540,6 +561,19 @@ function closeByChoice(
   const account = ownerAccount(c, ownerId),
     book = c.finance.businesses.get(organizationId);
   if (!account || !book || book.closedAt) return false;
+  const closureSource = {
+    tag: "ESTIMATED" as const,
+    asOf: c.date,
+    citation: businessData.source.citation,
+    estimatedFrom: `${ownerId} closed ${organizationId}: ${reasonKey}.`,
+  };
+  withdrawSavings(c, api, {
+    id: `closure-savings:${organizationId}:${c.date}`,
+    holderId: organizationId,
+    customerAccountId: api.accounts().main(organizationId),
+    amountMinor: depositsHeld(c, organizationId),
+    source: closureSource,
+  });
   store(api)
     .table("choices")
     .put({
@@ -555,12 +589,7 @@ function closeByChoice(
     organizationId,
     ownerAccountId: api.accounts().main(account),
     reasonKey,
-    source: {
-      tag: "ESTIMATED",
-      asOf: c.date,
-      citation: businessData.source.citation,
-      estimatedFrom: `${ownerId} closed ${organizationId}: ${reasonKey}.`,
-    },
+    source: closureSource,
   });
   return true;
 }
@@ -1352,7 +1381,8 @@ function foundings(api: CoreAPI): void {
       const owner = ownerPerson(c, row.ownerId);
       if (!book || book.closedAt || book.kindId !== market.kindId) return;
       if (!owner?.alive) return;
-      const cash = c.organizations.get(row.id)!.liquidMinor;
+      const cash =
+        c.organizations.get(row.id)!.liquidMinor + depositsHeld(c, row.id);
       const cushion =
         (book.annualPayrollMinor / p("macroMonthsPerYear")) *
         p("businessCushionMonths");
@@ -1419,7 +1449,11 @@ function foundings(api: CoreAPI): void {
           prospect(market, incomeOf(person.id)),
         capital:
           -p("businessFoundCapitalWeight") *
-          capital(market, incomeOf(person.id), person.liquidMinor),
+          capital(
+            market,
+            incomeOf(person.id),
+            person.liquidMinor + founderSavings(c, person.id).minor,
+          ),
       }),
     ]);
     if (result.selected!.definition.id !== businessData.actions.found.id)
@@ -1457,7 +1491,11 @@ function foundings(api: CoreAPI): void {
           p("businessFoundProspectWeight") *
             prospect(market, incomeOf(person.id)) -
           p("businessFoundCapitalWeight") *
-            capital(market, incomeOf(person.id), person.liquidMinor),
+            capital(
+              market,
+              incomeOf(person.id),
+              person.liquidMinor + founderSavings(c, person.id).minor,
+            ),
       });
     }
   }
@@ -1531,13 +1569,25 @@ function found(
     fullStaff = market.staff * equal;
   const ownerFrom = location ? location.parentId : ownerAccount(c, founderId);
   if (!ownerFrom) return false;
+  const savings = location
+    ? { holderId: location.parentId, minor: depositsHeld(c, location.parentId) }
+    : founderSavings(c, founderId);
+  const beforeSavings = founder.liquidMinor;
+  const withdrawn = withdrawSavings(c, api, {
+    id: `startup-savings:${id}`,
+    holderId: savings.holderId,
+    customerAccountId: api.accounts().main(ownerFrom),
+    amountMinor: Math.min(savings.minor, Math.ceil(fullCost)),
+    source,
+  });
   const equityMinor = Math.min(
     Math.max(0, c.organizations.get(ownerFrom)?.liquidMinor ?? Infinity),
     location
       ? Math.max(0, location.fundsMinor)
       : Math.max(
           0,
-          founder.liquidMinor -
+          beforeSavings +
+            withdrawn -
             founder.livingCostDailyMinor *
               p("businessDaysPerMonth") *
               p("businessFounderReserveMonths"),
