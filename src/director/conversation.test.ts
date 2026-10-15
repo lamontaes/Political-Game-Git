@@ -20,6 +20,7 @@ import {
   type Conversation,
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
+import { CONVERSATION_RULES } from "./mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
@@ -142,7 +143,9 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         turns += 1;
       }
     }
-    expect(turns).toBeGreaterThan(15);
+    // Relatives talk personal subjects only and often have nothing to say
+    // (owner, Oct 15, evening), so fewer turns run than before.
+    expect(turns).toBeGreaterThan(8);
   });
 
   it("lets the player say nothing, and the other person carries on or the talk ends", () => {
@@ -213,6 +216,29 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       expect(lie.wording?.parts.length).toBeGreaterThan(0);
       expect(talk.choices.map((row) => row.text)).not.toContain(lie.text);
     }
+  });
+
+  it("talks personal subjects only between relatives: no work, school, home or mutual friends", () => {
+    const dropped = CONVERSATION_RULES.familyTalk.dropped;
+    const kin = [...me.familyIds].filter((id) => core.people.get(id)?.alive);
+    expect(kin.length).toBeGreaterThan(0);
+    for (const id of kin) {
+      for (const [from, to] of [
+        [me.id, id],
+        [id, me.id],
+      ] as const)
+        for (const row of subjectsBetween(core, from, to))
+          expect(dropped).not.toContain(row.kind);
+      const talk = openConversation(core, me.id, id);
+      for (const line of talk.lines)
+        expect(line.text).not.toMatch(/Have you talked to|Where do you work/);
+    }
+    // Outside the family the same subjects are still there.
+    expect(
+      strangers
+        .flatMap((row) => subjectsBetween(core, me.id, row.id))
+        .some((row) => dropped.includes(row.kind)),
+    ).toBe(true);
   });
 
   it("leaves a lie as a belief in everyone present, until someone who knows the truth tells them", () => {

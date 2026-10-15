@@ -1,0 +1,50 @@
+{
+  "about": "What each scene in a grading batch is for (owner, Oct 15, evening, batch 11 grading): a scene exists for money, a bill, or the player's political life; a family talk is a personal scene only. The batch page states the endpoint on every scene, and a scene with none is dropped. Authored descriptions; the class is chosen by the scene's kind, its cause record or its topic, never by a roll.",
+  "origin": "authored",
+  "author": "Words line, Claude Sonnet 5.5",
+  "date": "2026-10-15",
+  "classes": {
+    "money": "Money: it follows a household's income, rent or a public budget.",
+    "bill": "A bill: it is part of how a bill is named, noticed, argued, voted on or reported.",
+    "political-life": "The player's political life: it is a contact, a campaign, a vote or an office in the player's path.",
+    "personal": "A personal scene: the family's own news, with little bearing on play for now."
+  },
+  "byKind": {
+    "legislation": "bill",
+    "minutes": "bill",
+    "meeting": "bill",
+    "campaign": "political-life",
+    "emotion": "political-life",
+    "interview": "political-life",
+    "journal": "personal"
+  },
+  "notices": [
+    { "contextMatches": "election", "class": "political-life" },
+    { "contextMatches": ".", "class": "bill" }
+  ],
+  "byTopic": {
+    "job-lost": "money",
+    "job-cause": "money",
+    "job-hope": "money",
+    "eviction": "money",
+    "eviction-cause": "money",
+    "eviction-where": "money",
+    "own-work": "political-life",
+    "their-work": "political-life",
+    "their-tenure": "political-life",
+    "shared-work": "political-life",
+    "shared-school": "political-life",
+    "school": "political-life",
+    "their-school": "political-life",
+    "home": "political-life",
+    "mutual": "political-life",
+    "news": "political-life",
+    "address": "political-life",
+    "kin": "personal",
+    "family": "personal"
+  },
+  "byOccasionPrefix": {
+    "money:": "money",
+    "home:": "money"
+  }
+}
