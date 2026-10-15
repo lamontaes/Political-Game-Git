@@ -1445,6 +1445,11 @@ export function coreAPI(core: CoreState): CoreAPI {
     updatePerson(personId, changes) {
       const actor = core.people.get(personId);
       if (!actor) throw new Error(`Absent person: ${personId}`);
+      if (
+        changes.discretionaryEligibleV1 !== undefined &&
+        typeof changes.discretionaryEligibleV1 !== "boolean"
+      )
+        throw new Error("Choice eligibility must be a boolean or absent.");
       if (changes.tier !== undefined && !core.peopleByTier.has(changes.tier))
         throw new Error(`Unregistered tier: ${changes.tier}`);
       if (changes.affect) {
@@ -1478,6 +1483,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         index(core.peopleByTier, changes.tier, personId);
       }
       Object.assign(actor, changes);
+      // Explicitly clearing the optional flag restores the core's default rule.
+      if (
+        "discretionaryEligibleV1" in changes &&
+        changes.discretionaryEligibleV1 === undefined
+      )
+        delete actor.discretionaryEligibleV1;
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];

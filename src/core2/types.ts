@@ -1159,6 +1159,7 @@ export interface CoreAPI {
     reason: DecisionResult,
   ): string;
   stopgap(id: string): void;
+  /** An explicitly undefined choice-eligibility flag restores the default rule. */
   updatePerson(
     personId: PersonId,
     changes: Partial<
@@ -1172,6 +1173,7 @@ export interface CoreAPI {
         | "jobId"
         | "tier"
         | "lastActDate"
+        | "discretionaryEligibleV1"
       >
     >,
   ): void;

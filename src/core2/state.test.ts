@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA, extendData } from "./data";
+import { holdInCustody, releaseFromCustody } from "./justice-custody";
 import { parameter as p } from "./parameters";
 import {
   assertCoreIntegrity,
@@ -821,6 +822,42 @@ describe("P8 open module and tier registries", () => {
       eligibilityRules: operations.eligibilityRules,
     });
     expect(core.modules.size).toBe(p("two"));
+  });
+
+  it("restores absent, enabled and disabled choice eligibility after custody", () => {
+    const core = createCore(input());
+    const api = coreAPI(core);
+    for (const prior of [undefined, true, false]) {
+      api.updatePerson(outsider, { discretionaryEligibleV1: prior });
+      expect(holdInCustody(api, outsider)).toBe(prior);
+      expect(core.people.get(outsider)!.discretionaryEligibleV1).toBe(false);
+      releaseFromCustody(api, outsider, prior);
+      expect(core.people.get(outsider)!.discretionaryEligibleV1).toBe(prior);
+      expect(
+        Object.hasOwn(core.people.get(outsider)!, "discretionaryEligibleV1"),
+      ).toBe(prior !== undefined);
+    }
+    expect(() => assertCoreIntegrity(core)).not.toThrow();
+  });
+
+  it("rejects invalid eligibility before changing any person fields", () => {
+    const core = createCore(input());
+    const api = coreAPI(core);
+    const before = mutableSnapshot(core);
+    expect(() =>
+      api.updatePerson(outsider, {
+        tier: "daily",
+        discretionaryEligibleV1: null as unknown as boolean,
+      }),
+    ).toThrow("Choice eligibility");
+    expect(mutableSnapshot(core)).toEqual(before);
+    expect(holdInCustody(api, "absent-person")).toBeUndefined();
+    expect(() =>
+      releaseFromCustody(api, "absent-person", undefined),
+    ).not.toThrow();
+    expect(() =>
+      api.updatePerson("absent-person", { discretionaryEligibleV1: false }),
+    ).toThrow("Absent person");
   });
 
   it("admits a new data-defined tier and maintains town, county and tier indexes", () => {

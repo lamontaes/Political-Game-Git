@@ -1,3 +1,4 @@
+import type { ItemVetoSelection } from "../state-item-veto";
 /**
  * The officeholder's day (office play, OFFICE-LOCAL; one engine for every
  * level, `docs/packages/office-play.md`).
@@ -47,6 +48,7 @@ import {
   billOf,
   castMemberVote,
   executiveDecision,
+  executiveItemVeto,
   holdVote,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -74,8 +76,7 @@ export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
  * What can stop the player: the local kinds here, and whatever kinds the
  * other levels register (`office-day-registry.ts`). Election day always
  * stops them at the polls (the polling-place scene): whether the character
- * may cast the player's ballot when they choose not to stop is the owner's
- * call. stopgapId: SG-OFFICE-owner-decision-ballot-stop
+ * may not cast the player's ballot (owner, Oct 13).
  * An emergency stop waits on the disasters engine's declarations.
  */
 registerStopKinds([
@@ -143,6 +144,9 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     },
   },
   onCalendarWork: officeDayCalendar,
+  onAfterDay(api) {
+    for (const kit of officeActKits()) kit.onAfterDay?.(api);
+  },
   // Filled from every registered level's kit when the engine opens.
   offerProviders: {},
   effectHandlers: {},
@@ -157,6 +161,7 @@ export const OFFICE_DAY_MODULE: CoreModule = {
       scheduleOfficeReview(api);
     }
     if (payday) payStipends(api);
+    for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
 };
@@ -728,6 +733,27 @@ export function decideDesk(
     detail: sign ? "sign" : "veto",
   });
   const decided = executiveDecision(api, billId, sign);
+  releaseHeld(api, deskStopId(billId));
+  return decided;
+}
+
+/** The governor strikes appropriation items under the place's law and lets the body weigh overrides. */
+export function decideDeskItems(
+  api: CoreAPI,
+  billId: string,
+  itemIndices: readonly (number | ItemVetoSelection)[],
+): BillRow {
+  const player = playerOf(api);
+  if (!player) throw new Error("No officeholder is controlled.");
+  const decided = executiveItemVeto(api, billId, player, itemIndices);
+  keepAct(api, {
+    personId: player,
+    kind: "item-veto",
+    how: "did",
+    recordId: billId,
+    position: null,
+    detail: JSON.stringify(itemIndices),
+  });
   releaseHeld(api, deskStopId(billId));
   return decided;
 }

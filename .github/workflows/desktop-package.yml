@@ -36,7 +36,6 @@ jobs:
             optional: true
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
-    # stopgapId: SG-PLAY-windows-package-allowed-to-fail
     # The owner plays on a Mac; Windows may stay red until early access.
     continue-on-error: ${{ matrix.optional == true }}
     steps:

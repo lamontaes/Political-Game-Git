@@ -106,6 +106,19 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 15 (Words session): Order 4 done and up for the CTO.
+  - #4279 is on `main`.
+  - #4287 (the opening) and #4304 (the director's talks and family scenes) merged only into their stack branches, so #4324 brings both, and the fixes made since, to `main`.
+  - Batch 11 is #4323, in Pine Ridge, South Carolina: 30 scenes, 2 of them family scenes, with the talks opened from the director's ledger.
+  - The batch-11 page turned up five defects, all fixed with tests:
+    - news someone only read counted as something that happened to them;
+    - a toddler was given a family scene;
+    - "Have a seat." opened good news;
+    - a scene repeated "your son, your son";
+    - a relative asked where the player lives.
+  - A Sonnet helper rebuilt an 11,442-document corpus, and 44 new lines were mined from it.
+  - The first pass's Brownville Junction proof may have told a quit as "I lost my job."; a quit is now `money:job-left`.
+  - Next: the owner's grades on batch 11, and mining "I was laid off." and the eviction's why and where.
 - Oct 14 (night): the director package from the owner's playthrough (CTO's order), on its own branch stacked on the opening's (#4287).
   - **Talks:** a talk opens on the scene's moment when a scene opens it, else on the biggest recent recorded event of either person in the director's ledger, else on what they share. It keeps to that topic, may lead to one related topic, and the other person closes it. Someone absent is asked after only when something recorded happened to them, so the loop over every known person is gone. The President's address weighs by political engagement, the listener remembers the last talk's topic, and people who live together don't greet each other at home.
   - **Family scenes:** a household member's lost job, death or serious illness stages its family scene at home whatever its size. In Brownville Junction, Maine (seed `scenes-d`), the father's job ended on May 1, 2027; the scene opened "Your father is there.", he said "I lost my job.", and the player could answer "What happened?", "Oh.", "Sorry to hear that." or "All right."
