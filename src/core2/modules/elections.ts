@@ -1,3 +1,4 @@
+import { pressConflict } from "../press-conflict";
 /**
  * Elections, part one: contests and filing (golden path step 3).
  *
@@ -16,25 +17,30 @@
 import { registerElectorate } from "../electorate";
 import { termLimitReached } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
+import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
+import { partyName } from "../appointments";
+import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { lifePlaceByKey } from "../../simulation/life-places";
-import { nextElectionForSeat, type ElectionDates } from "../elections-calendar";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
+import {
+  municipalFilingDeadline,
+  nextElectionForSeat,
+  officeFamily,
+  specialElectionDate,
+  type ElectionDates,
+  type OfficeFamily,
+} from "../elections-calendar";
+import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
-import type { OfficeInput } from "../offices-local";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
-export type OfficeFamily =
-  | "statewideExecutive"
-  | "stateLegislative"
-  | "usHouse"
-  | "countyOffice"
-  | "municipalOffice";
+export { officeFamily, type OfficeFamily };
 
 export interface ContestRow extends ElectionDates {
   readonly id: string;
@@ -59,6 +65,10 @@ export interface FilingRequirements {
   readonly registeredVoter: boolean;
   readonly source: string;
   readonly estimate: boolean;
+  /** Which of these rules came from the fallback data, not the place's own row (SG-GOV-filing-fallbacks). */
+  readonly fallbacks: readonly (
+    "filedWith" | "minimumAge" | "registeredVoter"
+  )[];
   /** The side's own filing deadline where the law sets one apart (independents). */
   readonly deadline: string | null;
 }
@@ -73,8 +83,9 @@ export interface RequirementCheck {
     | "already-filed"
     | "minimum-age"
     | "residency"
-    | "registered-voter"
-    | "term-limit";
+    | "party-member"
+    | "term-limit"
+    | "press-employment";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -91,6 +102,8 @@ export interface FilingRow {
   /** The party label on the ballot, where the candidate runs under one. */
   readonly party?: string | null;
   readonly status: "on-ballot" | "withdrawn";
+  /** How a candidate the world put on the ballot came to stand (an incumbent again, a party's nominee). */
+  readonly how?: string;
 }
 
 export const ELECTIONS_MODULE: CoreModule = {
@@ -102,6 +115,7 @@ export const ELECTIONS_MODULE: CoreModule = {
         indexes: {
           byOffice: { fields: ["officeId"] },
           bySeat: { fields: ["seatId"] },
+          byDate: { fields: ["electionDate"] },
         },
       },
       filings: {
@@ -111,21 +125,21 @@ export const ELECTIONS_MODULE: CoreModule = {
         },
       },
       town: {},
+      // How the law settled an exact tie: a lot, or a deciding body's votes.
+      ties: {},
     },
+  },
+  // A holder who took office changes who the seat's open contests are
+  // against: the incumbent is the term serving when the vote comes.
+  eventKinds: ["took-office"],
+  onEvent: (api, event) => {
+    const seatId = event.facts?.seatId;
+    if (typeof seatId === "string") syncSeatContests(api, seatId);
   },
 };
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(ELECTIONS_MODULE_ID).table(name);
-}
-
-export function officeFamily(office: OfficeInput): OfficeFamily {
-  if (office.kind.startsWith("us-house")) return "usHouse";
-  if (office.kind.startsWith("legislature-")) return "stateLegislative";
-  if (office.level === "federal" || office.level === "state")
-    return "statewideExecutive";
-  if (office.level === "county") return "countyOffice";
-  return "municipalOffice";
 }
 
 interface ReadSide {
@@ -155,22 +169,6 @@ function readRequirements(
       places: Record<string, Record<string, ReadRequirements>>;
     }
   ).places[stateKey]?.[family];
-}
-
-/**
- * The local filing deadline the law states as days before the election
- * ("the 78th day before the election"), or null where it doesn't.
- */
-export function deadlineDaysBefore(
-  stateKey: string,
-  family: OfficeFamily,
-): number | null {
-  const rule = readRequirements(stateKey, family)?.filingDeadlineRule ?? "";
-  const found =
-    /(\d+)(?:st|nd|rd|th)?\s+days?\s+(?:before|prior to)\s+the\s+(?:general\s+|regular\s+|municipal\s+)?election/i.exec(
-      rule,
-    );
-  return found ? Number(found[1]) : null;
 }
 
 /** What one place requires to file for one family of offices. */
@@ -214,17 +212,31 @@ export function filingRequirements(
   ]
     .filter(Boolean)
     .join(" ; ");
+  const fallbacks: ("filedWith" | "minimumAge" | "registeredVoter")[] = [];
+  if (!read?.filedWith) fallbacks.push("filedWith");
+  if (typeof read?.minimumAge !== "number") fallbacks.push("minimumAge");
+  if (typeof read?.registeredVoterRequired !== "boolean")
+    fallbacks.push("registeredVoter");
   return {
     filedWith: read?.filedWith ?? localFilingOfficer(usps, family),
-    minimumAge: read?.minimumAge ?? 18,
+    minimumAge: read?.minimumAge ?? fallbackAge(family),
     residency: read?.residency ?? null,
-    registeredVoter: read?.registeredVoterRequired ?? true,
+    registeredVoter:
+      typeof read?.registeredVoterRequired === "boolean"
+        ? read.registeredVoterRequired
+        : fallbackData.registeredVoterRequired.value,
     source:
       source ||
       `data/research/elections/candidate-filing-terms.json: ${fallback?.estimatedFrom ?? "estimated"}`,
-    estimate: read ? (read.estimate ?? false) : true,
+    estimate: read ? (read.estimate ?? false) || fallbacks.length > 0 : true,
+    fallbacks,
     deadline: side?.deadline2026 ?? null,
   };
+}
+
+/** The minimum age to file where the place's row has none, from `filing-fallbacks.json`. */
+function fallbackAge(family: OfficeFamily): number {
+  return fallbackData.minimumAge[family].value;
 }
 
 /** The filing rules for one contest and side. */
@@ -234,6 +246,10 @@ export function filingRulesFor(
   side: FilingSide,
 ): FilingRequirements {
   const rules = filingRequirements(town(api).stateKey, contest.family, side);
+  if (rules.fallbacks.length) {
+    // stopgapId: SG-GOV-filing-fallbacks
+    api.stopgap("SG-GOV-filing-fallbacks");
+  }
   // A side's own deadline is read for the 2026 cycle only; other years'
   // contests keep the deadline from their own calendar.
   return contest.electionDate.startsWith("2026-")
@@ -253,14 +269,18 @@ function localFilingOfficer(usps: string, family: OfficeFamily): string {
   };
   const state = office.filingOfficers.states[usps];
   if (family === "countyOffice")
-    return state?.county?.title ?? office.clerkTitles.county ?? "County clerk";
+    return (
+      state?.county?.title ??
+      office.clerkTitles.county ??
+      fallbackData.filingOfficer.countyOffice
+    );
   if (family === "municipalOffice")
     return (
       state?.municipal?.title ??
       office.clerkTitles.municipality ??
-      "Municipal clerk"
+      fallbackData.filingOfficer.municipalOffice
     );
-  return "Secretary of State";
+  return fallbackData.filingOfficer[family];
 }
 
 /** Put every seat covering the town on its next contest. */
@@ -269,7 +289,7 @@ export function openElections(core: CoreState): void {
     registerModule(core, ELECTIONS_MODULE);
   registerElectorate(core);
   const api = coreAPI(core);
-  const place = lifePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
   if (!place?.stateJurisdictionKey) throw new Error("Elections need the town.");
   const stateKey = place.stateJurisdictionKey;
   const geoid = place.sourceGeoid ?? place.key;
@@ -334,22 +354,9 @@ function contestFor(
   }
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
-  const daysBefore =
-    family === "countyOffice" || family === "municipalOffice"
-      ? deadlineDaysBefore(stateKey, family)
-      : null;
-  const deadline =
-    daysBefore !== null && dates.basis === "estimated"
-      ? new Date(
-          Date.parse(`${dates.electionDate}T00:00:00Z`) -
-            daysBefore * 86_400_000,
-        )
-          .toISOString()
-          .slice(0, 10)
-      : dates.filingDeadline;
+  noteEstimates(api, dates);
   return {
     ...dates,
-    filingDeadline: deadline,
     id: `contest:${seat.id}:${dates.electionDate}`,
     officeId: office.id,
     seatId: seat.id,
@@ -359,6 +366,17 @@ function contestFor(
     family,
     incumbentTermId: holder?.id ?? null,
   };
+}
+
+/**
+ * A contest whose dates rest on an estimate registers it where it runs
+ * (the filing lead, SG-GOV-filing-deadline-estimate).
+ */
+function noteEstimates(api: CoreAPI, dates: ElectionDates): void {
+  if (dates.sources.includes(FILING_LEAD_SOURCE)) {
+    // stopgapId: SG-GOV-filing-deadline-estimate
+    api.stopgap("SG-GOV-filing-deadline-estimate");
+  }
 }
 
 /**
@@ -379,15 +397,36 @@ export function specialContestFor(
   const entry = townSeats(api).find((s) => s.seat.id === race.seatId);
   if (!entry || !entry.office.elected) return null;
   const family = officeFamily(entry.office);
-  const days =
-    (family === "countyOffice" || family === "municipalOffice"
-      ? deadlineDaysBefore(town(api).stateKey, family)
-      : null) ?? campaignParameter("specialFilingDaysBefore");
-  const deadline = new Date(
-    Date.parse(`${race.electionDate}T00:00:00Z`) - days * 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const { stateKey } = town(api);
+  const vacancy = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("vacancies")
+    .get(race.vacancyId) as unknown as { since: string } | undefined;
+  // The election day is the state's law for this office (or the estimate);
+  // a town's filing closes by its own state rule where read.
+  const day = specialElectionDate({
+    office: entry.office,
+    stateKey: entry.office.jurisdiction.startsWith("US-")
+      ? entry.office.jurisdiction
+      : stateKey,
+    vacancyDate: vacancy?.since ?? api.state.date,
+  });
+  if (day.basis === "estimated") {
+    // stopgapId: SG-GOV-special-election-timing
+    api.stopgap("SG-GOV-special-election-timing");
+  }
+  const own =
+    family === "municipalOffice"
+      ? municipalFilingDeadline(stateKey, race.electionDate)
+      : null;
+  const deadline =
+    own?.date ??
+    new Date(
+      Date.parse(`${race.electionDate}T00:00:00Z`) -
+        campaignParameter("specialFilingDaysBefore") * 86_400_000,
+    )
+      .toISOString()
+      .slice(0, 10);
   const contest: ContestRow = {
     id: `contest:${race.seatId}:${race.electionDate}:special`,
     officeId: entry.office.id,
@@ -401,8 +440,12 @@ export function specialContestFor(
     primaryDate: null,
     filingOpens: api.state.date,
     filingDeadline: deadline > api.state.date ? deadline : api.state.date,
-    basis: "estimated",
-    sources: [`vacancy ${race.vacancyId}`],
+    basis: own && !own.estimated && day.basis === "read" ? "read" : "estimated",
+    sources: [
+      `vacancy ${race.vacancyId}`,
+      day.source,
+      ...(own ? [own.source] : []),
+    ],
     special: { vacancyId: race.vacancyId, termEnd: race.termEnd },
   };
   if (table(api, "contests").get(contest.id)) return null;
@@ -439,6 +482,7 @@ function town(api: CoreAPI) {
 export function openContests(api: CoreAPI): readonly ContestRow[] {
   const today = api.state.date;
   return (table(api, "contests").rows() as unknown as ContestRow[])
+    .map((c) => syncIncumbent(api, c))
     .filter(
       (c) =>
         c.filingDeadline >= today &&
@@ -485,7 +529,27 @@ export function checkEligibility(
       personId,
     ]) as unknown as FilingRow[]
   ).some((f) => f.status !== "withdrawn" && f.contestId === contestId);
-  const resident = person.placeId === town(api).townPlaceId;
+  // Where they must live: the town for a local seat; the state for a state
+  // or federal one (a district's own residency rule is in the requirement
+  // text the place's records give).
+  // Whoever holds the seat met its residency rule when they took it.
+  const holdsSeat = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+  ).some((t) => t.personId === personId);
+  const national = contest.officeId === "office:US:president";
+  const resident =
+    holdsSeat ||
+    (contest.level === "federal" || contest.level === "state"
+      ? national
+        ? stateOfPlace(person.placeId) !== null
+        : stateOfPlace(person.placeId) === town(api).stateKey
+      : person.placeId === town(api).townPlaceId);
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
@@ -521,15 +585,45 @@ export function checkEligibility(
       source: rules.source,
     },
   ];
-  if (rules.registeredVoter) {
-    // stopgapId: SG-GOV-voter-registration-assumed
-    api.stopgap("SG-GOV-voter-registration-assumed");
+  const conflict = pressConflict(api, personId);
+  checks.push({
+    rule: "press-employment",
+    met: !conflict,
+    required: "no active press employment or ownership",
+    actual: conflict ? `${conflict.role}:${conflict.outletId}` : "none",
+    source:
+      "CTO ruling pending owner confirmation, October 14, 2026: press staff and owners cannot run while working for or owning an outlet",
+  });
+  // Registration is research metadata, not a modeled status. The game has
+  // no separate registration step (AGENTS.md: no paperwork); do not report
+  // an adult resident as registered without a registration record.
+  // Filing under a party's label takes membership in it: the person's own
+  // tie to that party (joining reads their views against the party's
+  // positions, in the parties engine). Anyone else files as an independent,
+  // on the independents' terms the place's records set. ("party" alone asks
+  // about a party filing in general, before a party is named.)
+  if (party && party !== "party" && api.state.modules.has(PARTIES_MODULE_ID)) {
+    const tie = partyTie(api, personId);
+    // An officeholder elected or appointed under the label is its member.
+    const held = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("byPerson", [personId]) as unknown as TermRow[]
+    ).some((t) => partyName(t.party) === partyName(party));
+    const member =
+      held || (tie?.tie === "party" && partyIdFor(api, party) === tie.partyId);
     checks.push({
-      rule: "registered-voter",
-      met: age >= 18 && resident,
-      required: "registered to vote here",
-      actual: age >= 18 && resident ? "registered" : "not registered here",
-      source: rules.source,
+      rule: "party-member",
+      met: member,
+      required: `member of the ${party} party`,
+      actual: member
+        ? "member"
+        : tie?.tie === "party"
+          ? "member of another party"
+          : "no party",
+      source:
+        "Party nomination rules (data/research/elections/party-nomination-rules-2026.json)",
     });
   }
   // A legislative term limit in force (law-reach, group A).
@@ -589,17 +683,45 @@ export function fileCandidacy(
   return { status: filing.status, filing };
 }
 
-function announce(api: CoreAPI, filing: FilingRow, contest: ContestRow): void {
+/** The state a place lies in, from the place records. */
+function stateOfPlace(placeId: string): string | null {
+  const place = corePlaceByJurisdictionId(placeId as never);
+  // An official kept at the state level is placed at the state itself.
+  if (!place) return /^US-[A-Z]{2}$/.test(placeId) ? placeId : null;
+  return place.stateJurisdictionKey ?? null;
+}
+
+/** The party organization a ballot label names in the town's state, by name. */
+function partyIdFor(api: CoreAPI, label: string): string | null {
+  const key = partyName(label)?.trim().toLowerCase();
+  return (
+    partiesHere(api).find(
+      (p) => partyName(p.name)?.trim().toLowerCase() === key,
+    )?.id ?? null
+  );
+}
+
+/** Announce a filing: a public record the news and the town learn. */
+export function announce(
+  api: CoreAPI,
+  filing: FilingRow,
+  contest: ContestRow,
+): void {
   api.emit({
     id: `candidate-filed:${filing.id}`,
     date: api.state.date,
     kind: "candidate-filed",
-    personIds: [filing.personId],
+    personIds: api.state.people.has(filing.personId) ? [filing.personId] : [],
     placeId: town(api).townPlaceId,
+    // The tag follows the contest's basis: its dates are read from the law
+    // or they are an estimate.
     source: {
-      tag: "SOURCED",
+      tag: contest.basis === "read" ? "SOURCED" : "ESTIMATED",
       citation: contest.sources.join(" ; "),
       asOf: api.state.date,
+      ...(contest.basis === "read"
+        ? {}
+        : { estimatedFrom: "SG-GOV-filing-deadline-estimate" }),
     },
     publicRecord: true,
     news: true,
@@ -622,11 +744,49 @@ export function ballot(api: CoreAPI, contestId: string): readonly FilingRow[] {
   ).filter((f) => f.status === "on-ballot");
 }
 
-/** The incumbent's term, for a contest's record. */
+/** The term serving on a seat today, or null. */
+function servingTerm(api: CoreAPI, seatId: string): TermRow | null {
+  return (api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .query("bySeatStatus", [seatId, "serving"])[0] ?? null) as TermRow | null;
+}
+
+/**
+ * Point a contest not yet held at the term serving on its seat now: a holder
+ * who left, an appointee or a special election's winner is the incumbent.
+ */
+export function syncIncumbent(api: CoreAPI, contest: ContestRow): ContestRow {
+  if (contest.electionDate < api.state.date) return contest;
+  const serving = servingTerm(api, contest.seatId);
+  if (!serving || serving.id === contest.incumbentTermId) return contest;
+  const next = { ...contest, incumbentTermId: serving.id };
+  table(api, "contests").put(next as unknown as ModuleRow);
+  return next;
+}
+
+/** Sync every open contest of one seat (called when a holder takes office). */
+export function syncSeatContests(api: CoreAPI, seatId: string): void {
+  for (const contest of table(api, "contests").query("bySeat", [
+    seatId,
+  ]) as unknown as ContestRow[])
+    syncIncumbent(api, contest);
+}
+
+/** The contests held on one date, each pointed at its seat's serving term. */
+export function contestsOnDate(
+  api: CoreAPI,
+  date: string,
+): readonly ContestRow[] {
+  return (
+    table(api, "contests").query("byDate", [date]) as unknown as ContestRow[]
+  ).map((c) => syncIncumbent(api, c));
+}
+
+/** The incumbent's term, for a contest's record: the term serving on the seat now. */
 export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
-  const contest = table(api, "contests").get(
-    contestId,
-  ) as unknown as ContestRow;
+  const found = table(api, "contests").get(contestId) as unknown as ContestRow;
+  const contest = syncIncumbent(api, found);
   return contest.incumbentTermId
     ? (api
         .moduleState(OFFICES_MODULE_ID)

@@ -8,7 +8,10 @@ import {
 } from "./opening-income";
 import { PARAMETERS, parameter as p, type Parameter } from "./parameters";
 import { stableHash } from "./kernel/ids";
-import { corePlaceStateIdentities } from "./place-lookup";
+import {
+  corePlaceStateIdentities,
+  coreStateJurisdiction,
+} from "./place-lookup";
 import type {
   CoreInput,
   OrganizationInput,
@@ -780,10 +783,8 @@ describe("pure qualified opening retirement-income records", () => {
     expect(identities).toHaveLength(56);
     const seen = new Set<string>();
     for (const identity of identities) {
-      const actual = {
-        id: `jurisdiction:${identity.jurisdictionKey}`,
-        name: identity.name,
-      };
+      const actual = coreStateJurisdiction(identity.jurisdictionKey);
+      expect(actual).not.toBeNull();
       const recordedPlace = {
         id: actual!.id,
         name: actual!.name,

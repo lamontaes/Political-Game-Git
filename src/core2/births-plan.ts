@@ -1,14 +1,6 @@
-import {
-  addDays,
-  ageOnDate,
-  daysBetween,
-  makeIsoDate,
-} from "../simulation/dates";
-import {
-  bedroomsForHousehold,
-  hudRentRowFor,
-} from "../simulation/living-world/town-rent";
-import type { EntityId } from "../simulation/types";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import type { EntityId } from "./kernel/brands";
 import { healthReport } from "./modules/health";
 import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";
@@ -40,6 +32,12 @@ const conditionIndexes = new WeakMap<
   object,
   ReadonlyMap<string, readonly string[]>
 >();
+
+/** A restored health runtime may supply a different conditions map. */
+export function forgetBirthConditions(core: object): void {
+  conditionIndexes.delete(core);
+}
+
 function conditionsOf(api: CoreAPI, personId: string): number {
   let index = conditionIndexes.get(api.state);
   if (!index) {

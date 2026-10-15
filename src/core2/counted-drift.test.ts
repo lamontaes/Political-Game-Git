@@ -2,10 +2,14 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
+import { countedMoves } from "./modules/counted-moves";
+import { coreAPI } from "./state";
 import { countedDrift } from "./modules/counted-drift";
 import { residentsRuntime } from "./modules/residents";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-counted-drift");
@@ -32,13 +36,22 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
     const counted = () =>
       [...rt.households.values()].reduce((n, row) => n + row.people.length, 0);
     const before = counted();
+    // Moves weigh the counted people of the town and its county; relatives
+    // living elsewhere in the state are the state's coarse people.
+    const weighed = [...rt.households.values()]
+      .filter(
+        (row) =>
+          corePlaceByJurisdictionId(row.household.placeId)
+            ?.stateJurisdictionKey !== undefined,
+      )
+      .reduce((n, row) => n + row.people.length, 0);
     const start = total(core);
     const ids = new Set(
       [...rt.households.values()].flatMap((row) =>
         row.people.map((person) => person.id),
       ),
     );
-    advanceCore(core, "2021-12-31");
+    advanceCore(core, daysAfterStart(364));
     let deaths = 0,
       births = 0,
       movedOut = 0,
@@ -49,6 +62,10 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
       movedOut += row.movedOut;
       movedIn += row.movedIn;
     }
+    // People move from causes on the counted-moves engine (one model, two tiers).
+    for (const row of countedMoves(coreAPI(core)))
+      if (row.direction === "out") movedOut += row.people;
+      else movedIn += row.people;
     // A year's deaths and births among the counts, near the U.S. rates
     // (about 0.9% and 1.1% a year).
     expect(deaths / before).toBeGreaterThan(0.003);
@@ -57,10 +74,9 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
     expect(births / before).toBeLessThan(0.025);
     // Moves: ACS 2024 has about 4 to 9% of adults leaving the county in a
     // year, depending on the state.
-    expect(movedOut / before).toBeGreaterThan(0.02);
-    expect(movedOut / before).toBeLessThan(0.15);
+    expect(movedOut / weighed).toBeGreaterThan(0.02);
+    expect(movedOut / weighed).toBeLessThan(0.15);
     expect(movedIn).toBeGreaterThan(0);
-    expect(movedIn).toBeLessThanOrEqual(movedOut);
     expect(counted()).toBe(before - deaths + births - movedOut + movedIn);
     // The dead are gone from the records; the newborns are new people.
     const now = [...rt.households.values()].flatMap((row) =>

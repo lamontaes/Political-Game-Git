@@ -1,8 +1,5 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import {
-  homePlaceFor,
-  workplacePlaceFor,
-} from "../presentation/place-backdrops";
+import { homePlaceFor, workplacePlaceFor } from "./backdrop-places";
 import {
   BACKDROP_ASPECT,
   backdropStaging,
@@ -392,9 +389,11 @@ export function scenePlace(
   personId: string,
   packet?: PlayerPacketV1,
   minuteOfDay = packet?.at.minuteOfDay ?? 12 * 60,
+  atHome = false,
 ): { place: string; why: string; targetId?: string } {
   const person = core.people.get(personId)!;
-  const act = doing(core, personId, packet);
+  // The opening's day ends at home after the address (owner, Oct 14, 2026).
+  const act = atHome ? undefined : doing(core, personId, packet);
   const tries = act ? (ACTIONS[act.actionId] ?? ["@home"]) : ["@home"];
   for (const step of tries) {
     const place =
@@ -707,9 +706,17 @@ export function benchScene(
   core: CoreState,
   personId: string,
   packet?: PlayerPacketV1,
+  /** The opening day: home after the address, by rule (owner, Oct 14, 2026). */
+  openingEvening?: number,
 ): BenchScene {
-  const { place, why, targetId } = scenePlace(core, personId, packet);
-  const minute = packet?.at.minuteOfDay ?? 12 * 60;
+  const minute = packet?.at.minuteOfDay ?? openingEvening ?? 12 * 60;
+  const { place, why, targetId } = scenePlace(
+    core,
+    personId,
+    packet,
+    minute,
+    openingEvening !== undefined,
+  );
   const ids = [personId, ...presentIds(core, personId, place, why, targetId)];
   const { people, unplaced } = stagePeople(
     core,

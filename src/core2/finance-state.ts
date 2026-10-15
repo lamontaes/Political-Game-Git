@@ -766,6 +766,29 @@ export function endStandingContract(
     removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
 }
 
+/** A person's own income (a pension, an annuity) stops paying at their death; returns the contracts ended. */
+export function endRecipientIncomeAtDeath(
+  core: CoreState,
+  personId: string,
+): string[] {
+  const ended: string[] = [];
+  for (const id of [
+    ...(core.finance.incomeContractsByPerson.get(personId) ?? []),
+  ]) {
+    const row = core.finance.contracts.get(id);
+    if (!row) continue;
+    if (!row.endedAt) {
+      row.endedAt = core.date;
+      ended.push(id);
+    }
+    removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
+    if (row.endsAt)
+      removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+    removeIndex(core.finance.incomeContractsByPerson, personId, row.id);
+  }
+  return ended;
+}
+
 export function retireFinanceBudget(
   core: CoreState,
   api: CoreAPI,

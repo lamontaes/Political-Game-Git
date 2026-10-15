@@ -12,7 +12,7 @@
  */
 import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
 import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
@@ -24,14 +24,20 @@ import { composeJournal } from "../../src/director/journal";
 import { createDirector } from "../../src/director/ledger";
 import { renderLine } from "../../src/director/render";
 import { composeScene } from "../../src/director/scene";
-import { FILING_BANK, filingWordsFromBank } from "./filing-bank";
-import { JOURNAL_BANK, journalDataFromBank } from "./journal-bank";
+import {
+  FILING_BANK,
+  filingWordsFromBank,
+} from "../../src/director/mined/filing-bank";
+import {
+  JOURNAL_BANK,
+  journalDataFromBank,
+} from "../../src/director/mined/journal-bank";
 import {
   BRING_BANK,
   bringDataFromBank,
   SCENE_BANK,
   sceneWordsFromBank,
-} from "./scene-bank";
+} from "../../src/director/mined/scene-bank";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {

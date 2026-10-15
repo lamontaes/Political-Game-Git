@@ -9,7 +9,7 @@
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
 import { closenessBetween } from "../core2/closeness";
 import { P, parameterValues } from "../core2/parameters";
@@ -28,7 +28,7 @@ import type {
   WorkResult,
 } from "../core2/types";
 import directorJson from "./data/director.json" with { type: "json" };
-import { scheduleMoment } from "./scheduling";
+import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
 import type {
@@ -40,6 +40,7 @@ import type {
   Ledger,
   Moment,
   PersonLedger,
+  SceneFilter,
   Thread,
 } from "./types";
 
@@ -91,6 +92,15 @@ export interface Director {
   watch(core: Readonly<CoreState>, personId: PersonId): void;
   /** "live" or "skipping": while skipping, waiting scenes become journal lines. */
   setMode(mode: "live" | "skipping"): void;
+  /**
+   * The player's interrupt setting: the scene kinds allowed to stop their
+   * day (situation-type keys), or null for every kind. Read by scheduling.
+   */
+  setSceneFilter(
+    personId: PersonId,
+    allowedKinds: readonly string[] | null,
+    date: IsoDate,
+  ): SceneFilter | null;
   /** A thread's importance on a date: the tie plus faded moment impacts. Pure. */
   importance(personId: PersonId, otherId: PersonId, date: IsoDate): number;
   /** How far a thread has faded on a date, from 0 to 1. Pure. */
@@ -107,6 +117,8 @@ export function createDirector(
     hitBy: new Map(),
     liesByLearner: new Map(),
     stopgapHits: new Set(),
+    sceneFilters: new Map(),
+    pollingVisits: new Map(),
   };
   const snapshots = new Map<PersonId, Snapshot>();
   const pending = new Map<PersonId, Pending>();
@@ -901,14 +913,32 @@ export function createDirector(
       for (const [memberId, priorJob] of before.memberJobs) {
         const nowJob = pay.jobs.get(memberId);
         if (priorJob === nowJob) continue;
-        const named = today.events.find((row) =>
-          [...row.event.personIds, ...(row.event.witnessIds ?? [])].includes(
-            memberId,
-          ),
+        // The work or employer record that day naming them (a layoff, a
+        // closure), else the job itself; never another event that only
+        // mentions them (a cause group's ad named a father whose job ended
+        // that day).
+        const named = today.events.find(
+          (row) =>
+            /^(?:work|organization)\./.test(row.event.kind) &&
+            [...row.event.personIds, ...(row.event.witnessIds ?? [])].includes(
+              memberId,
+            ),
+        );
+        // A job the worker chose to leave (a quit for another job, leaving
+        // work) is not a lost job: the worker's own record of the end says
+        // which (`job:<id>:status`, its source).
+        const endedBy = priorJob
+          ? core.knowledgeByPerson.get(memberId)?.get(`job:${priorJob}:status`)
+              ?.sourceId
+          : undefined;
+        const chosen = (data.chosenJobEnds ?? []).some((prefix) =>
+          endedBy?.startsWith(prefix),
         );
         const kind =
           priorJob && !nowJob
-            ? "job-ended"
+            ? chosen
+              ? "job-left"
+              : "job-ended"
             : !priorJob && nowJob
               ? "job-started"
               : "job-changed";
@@ -1174,9 +1204,11 @@ export function createDirector(
         });
       rescoreHindsight(book, otherId, date);
     }
+    const filter = ledger.sceneFilters.get(moment.personId);
     const entry = scheduleMoment(core, book, moment, {
       mode,
       interruptImpact: param("directorInterruptImpact"),
+      ...(filter ? { allowedKinds: new Set(filter.allowedKinds) } : {}),
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
@@ -1438,6 +1470,23 @@ export function createDirector(
     },
     setMode(next) {
       mode = next;
+    },
+    setSceneFilter(personId, allowedKinds, date) {
+      if (!allowedKinds) {
+        ledger.sceneFilters.delete(personId);
+        return null;
+      }
+      const known = new Set(SITUATION_LIBRARY.types.map((row) => row.key));
+      const filter: SceneFilter = {
+        id: `scene-filter:${personId}:${date}`,
+        personId,
+        allowedKinds: [...new Set(allowedKinds)]
+          .filter((key) => known.has(key))
+          .sort(),
+        setOn: date,
+      };
+      ledger.sceneFilters.set(personId, filter);
+      return filter;
     },
     importance(personId, otherId, date) {
       const book = ledger.people.get(personId);

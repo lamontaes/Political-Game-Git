@@ -15,6 +15,7 @@ const { generatedOpening } = await at("src/core2/tooling/generated-world.ts");
 const { drawPlace } = await at("scripts/core2-year/place.ts");
 const { createLifeCore, advanceCore } = await at("src/core2/life.ts");
 const { lifePlaceByKey } = await at("src/simulation/life-places.ts");
+const { customPolitics } = await at("src/core2/electorate.ts");
 const seed = value(
   "--seed",
   process.env.GOLDEN_PATH_SEED ??
@@ -57,14 +58,9 @@ const outsideSales = (input) =>
 const people = (input) =>
   input.people.length +
   sum(input.residents.households, (home) => home.people.length);
-const groups = (input) =>
-  new Map((input.voterGroups ?? []).map((row) => [row.id, row]));
 const near = (ratio, target, tolerance) =>
   Math.abs(ratio - target) <= tolerance * target;
 
-const realGroups = groups(real),
-  customGroups = groups(custom);
-const shared = [...customGroups.keys()].filter((id) => realGroups.has(id));
 const recorded = JSON.parse(custom.placeMetadata?.worldSettings ?? "{}");
 const checks = [];
 const check = (name, pass, detail) => checks.push({ name, pass, detail });
@@ -104,35 +100,22 @@ check(
   outsideSales(real) === 0 || outsideRatio < 1,
   `outside buyers' purchases ×${outsideRatio.toFixed(3)}`,
 );
+// The electorate reads the politics settings: the town's lean shifts and the
+// cost of voting scales (src/core2/electorate.ts customPolitics).
+const politics = customPolitics({ placeMetadata: custom.placeMetadata ?? {} });
+const realPolitics = customPolitics({
+  placeMetadata: real.placeMetadata ?? {},
+});
 check(
   "lean shift",
-  shared.length > 0 &&
-    shared.every(
-      (id) =>
-        Math.abs(
-          customGroups.get(id).lean -
-            Math.max(
-              -1,
-              Math.min(
-                1,
-                realGroups.get(id).lean + settings.politics.leanShift,
-              ),
-            ),
-        ) < 1e-9,
-    ),
-  `${shared.length} voter groups shifted by ${settings.politics.leanShift}`,
+  politics.leanShift === settings.politics.leanShift &&
+    realPolitics.leanShift === 0,
+  `the town's lean shifted by ${politics.leanShift}`,
 );
 check(
   "turnout",
-  shared.length > 0 &&
-    shared.every(
-      (id) =>
-        Math.abs(
-          customGroups.get(id).turnout -
-            Math.min(1, realGroups.get(id).turnout * settings.politics.turnout),
-        ) < 1e-9,
-    ),
-  `${shared.length} voter groups ×${settings.politics.turnout}`,
+  politics.turnout === settings.politics.turnout && realPolitics.turnout === 1,
+  `the cost of voting divided by ${politics.turnout}`,
 );
 // The custom world then runs by the same rules.
 const core = createLifeCore(custom);

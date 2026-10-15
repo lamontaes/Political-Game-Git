@@ -180,6 +180,12 @@
       "value": 365,
       "tag": "SOURCED",
       "source": "Civil calendar: a common year has 365 days."
+    },
+    "minimumWageNextStepShare": {
+      "value": 0.125,
+      "tag": "ESTIMATED",
+      "source": "Where a state's floor already meets the $15 standard, a raise follows the next proposals: California's Proposition 32 (2024) would have raised its $16.00 floor to $18.00, 12.5 percent; Washington and Seattle proposals of 2024 to 2025 ran 10 to 20 percent above their indexed floors. A raise sets the larger of the $15 standard and the floor in force raised by this share, to the nearest quarter.",
+      "spread": [0.08, 0.2]
     }
   }
 }

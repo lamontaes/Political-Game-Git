@@ -9,15 +9,27 @@
     "join-association": "Join",
     "organize-meeting": "Hold a meeting",
     "approach-office": "Visit the office",
-    "look-up-local-institution": "Look up"
+    "look-up-local-institution": "Look up",
+    "office-hours": "Office hours",
+    "town-hall": "Town hall",
+    "interview": "Interview",
+    "meet-department-head": "Meet",
+    "talk-to-colleague": "Talk about your bill",
+    "vote": "Vote",
+    "sign": "Sign",
+    "veto": "Veto",
+    "case": "Case",
+    "speak": "Spoke",
+    "state-of-the-city": "State of the city"
   },
   "endedBy": {
     "start": "Shift starts",
     "end": "Shift ends",
     "moment": "Something needs you",
-    "choice": "A choice",
     "results": "Election results",
-    "law": "A law took effect"
+    "law": "A law took effect",
+    "office-day.meeting": "The meeting",
+    "office-day.desk": "Your desk"
   },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
@@ -40,5 +52,70 @@
     "opening": "Preparing the opening",
     "pictures": "Loading the pictures",
     "done": "Ready"
+  },
+  "opening": {
+    "news": "News"
+  },
+  "options": {
+    "version": "Version",
+    "fullScreen": "Full screen",
+    "fullScreenUnavailable": "Full screen is unavailable.",
+    "continue": "Continue",
+    "skipOpening": "Skip opening",
+    "quitToTitle": "Quit to title"
+  },
+  "polling": {
+    "leaveBlank": "Leave blank",
+    "leave": "Leave"
+  },
+  "meeting": {
+    "yes": "Yes",
+    "no": "No",
+    "abstain": "Abstain",
+    "own": "Decide for me",
+    "adjourn": "Adjourn",
+    "for": "For",
+    "against": "Against",
+    "sign": "Signed",
+    "veto": "Vetoed",
+    "speakFor": "Speak for",
+    "speakAgainst": "Speak against"
+  },
+  "desk": {
+    "sign": "Sign",
+    "veto": "Veto",
+    "own": "Decide for me"
+  },
+  "officeStops": {
+    "own-bill-vote": "Your bill's vote",
+    "every-meeting": "Every meeting",
+    "desk": "Your desk",
+    "ownChoice": "Decided for me"
+  },
+  "titleUnavailable": {
+    "watch": "Watching the world without a player is not on the new core yet.",
+    "saves": "Saved games come with the save format at early-access preparation.",
+    "patchNotes": "Patch notes have no page on the new core yet."
+  },
+  "levels": {
+    "local": "Local",
+    "state": "State",
+    "federal": "Federal",
+    "county": "County",
+    "city": "City",
+    "township": "Township"
+  },
+  "travel": {
+    "staff": "staff"
+  },
+  "calendar": {
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "today": "Today",
+    "upcoming": "Coming up",
+    "advance": "Live until this day",
+    "back": "Back",
+    "next": "Continue",
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   }
 }

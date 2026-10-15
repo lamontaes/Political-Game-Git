@@ -19,14 +19,11 @@ import {
   allCases,
   handleCase,
   openCases,
+  casesOpenFor,
   problemOf,
 } from "./modules/constituent-cases";
-import { governmentUnitsForPlace } from "../simulation/government-units";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { governmentUnitsForPlace } from "./reference/government-units";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -36,7 +33,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
@@ -47,7 +44,7 @@ describe("M3-08 constituent cases", () => {
     for (let attempt = 0; attempt < 8 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -85,6 +82,13 @@ describe("M3-08 constituent cases", () => {
           problemOf(api, core.people.get(c.personId)!)?.problem ?? c.problem,
         ).toBe(c.problem);
       const [helped, declined] = [cases[0]!, cases[1]!];
+      // Each official's desk holds their open cases, soonest deadline first.
+      const desk = casesOpenFor(api, helped.officialId);
+      expect(desk.map((c) => c.id)).toContain(helped.id);
+      expect(desk.every((c) => c.status === "open")).toBe(true);
+      expect(
+        desk.every((c, i) => !i || desk[i - 1]!.respondBy <= c.respondBy),
+      ).toBe(true);
       const before =
         impressionOf(api, helped.personId, helped.officialId)?.warmth ?? 0;
       const beforeD =
@@ -107,6 +111,11 @@ describe("M3-08 constituent cases", () => {
       advanceCore(core, "2026-02-20");
       const done = allCases(api).filter((c) => c.opened <= "2026-02-05");
       expect(done.every((c) => c.status !== "open")).toBe(true);
+      expect(
+        casesOpenFor(api, helped.officialId).filter(
+          (c) => c.opened <= "2026-02-05",
+        ),
+      ).toEqual([]);
       report = {
         seed,
         state,

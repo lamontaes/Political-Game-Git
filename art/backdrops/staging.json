@@ -6046,23 +6046,23 @@
           "id": "diner:spot:3"
         },
         {
-          "x": 64.2,
-          "y": 65.5,
+          "x": 62.4,
+          "y": 81,
           "pose": "sit",
           "facing": "right",
-          "depth": 65.5,
-          "seatY": 59.8,
+          "depth": 81,
+          "seatY": 60.5,
           "group": "counter",
           "role": "customer",
           "id": "diner:spot:4"
         },
         {
-          "x": 67.8,
-          "y": 72.5,
+          "x": 64.7,
+          "y": 89,
           "pose": "sit",
           "facing": "right",
-          "depth": 72.5,
-          "seatY": 65,
+          "depth": 89,
+          "seatY": 65.5,
           "group": "counter",
           "role": "customer",
           "id": "diner:spot:5"
@@ -6075,9 +6075,76 @@
           "depth": 52,
           "role": "general",
           "id": "diner:spot:6"
+        },
+        {
+          "x": 64.5,
+          "y": 68,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 68,
+          "seatY": 54,
+          "group": "counter",
+          "role": "customer",
+          "id": "diner:spot:7"
+        },
+        {
+          "x": 60.4,
+          "y": 75,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 75,
+          "seatY": 57,
+          "group": "counter",
+          "role": "customer",
+          "id": "diner:spot:8"
+        },
+        {
+          "x": 68.6,
+          "y": 99,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 99,
+          "seatY": 72.8,
+          "group": "counter",
+          "role": "customer",
+          "id": "diner:spot:9"
+        },
+        {
+          "x": 39,
+          "y": 61.5,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 61.5,
+          "seatY": 52.1,
+          "group": "rear-booth",
+          "role": "customer",
+          "id": "diner:spot:10"
+        },
+        {
+          "x": 54,
+          "y": 61.5,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 61.5,
+          "seatY": 52.1,
+          "group": "rear-booth",
+          "role": "customer",
+          "id": "diner:spot:11"
+        },
+        {
+          "x": 27,
+          "y": 70,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 70,
+          "seatY": 61.6,
+          "group": "window-booth",
+          "role": "customer",
+          "id": "diner:spot:12",
+          "clipBelowY": 60
         }
       ],
-      "measuredFrom": "kept staged 35 / 0.62; checked against counter stools 0.75-0.8 m (x 71 foot 74.5 top 54; x 76.5 foot 83 top 57.5; x 84 foot 93 top 63: 0.65-0.71) and kitchen door 2.03 m foot 47 top 26 (0.86, painted large)",
+      "measuredFrom": "kept staged 35 / 0.62; checked against counter stools 0.75-0.8 m (x 71 foot 74.5 top 54; x 76.5 foot 83 top 57.5; x 84 foot 93 top 63: 0.65-0.71) and kitchen door 2.03 m foot 47 top 26 (0.86, painted large); October 7 ART-5: five counter stools with in-frame foot contacts recorded, existing two stool IDs moved to their current painted cushion centers; three booth positions added; visual estimates about 1–2 percentage points uncertainty, larger on hidden booth floors; nearest foreground stool and booth extend beyond the frame and remain pending off-frame calibration; floor scale retained",
       "surfaceSlots": [
         {
           "surfaceId": "diner-left-wall-board",
@@ -25439,7 +25506,7 @@
           "id": "family-court:spot:9"
         }
       ],
-      "measuredFrom": "tables 0.75 m (near foot 84 top 67) and chairs 0.45 m (seat 69 foot 84) give about 33 percent per metre at y 84, far chairs about 15 at y 66, judge chair back 0.95 m about 12 at y 51: compromise horizon 28, 0.57",
+      "measuredFrom": "tables 0.75 m (near foot 84 top 67) and chairs 0.45 m (seat 69 foot 84) give about 33 percent per meter at y 84, far chairs about 15 at y 66, judge chair back 0.95 m about 12 at y 51: compromise horizon 28, 0.57",
       "surfaceSlots": []
     },
     "federal-district-courtroom": {
@@ -27337,7 +27404,7 @@
           "id": "probate-family-court:spot:7"
         }
       ],
-      "measuredFrom": "high camera: table 0.75 m (top 42 foot 52.6) and counsel chairs 0.45 m (seat 49) about 10.6 percent per metre at y 54, near pew posts about 27 per metre at y 95 solve to horizon 25, 0.38; judge bench and witness box are raised floors with their own scale (judge chair back 0.95 m, seat 30)",
+      "measuredFrom": "high camera: table 0.75 m (top 42 foot 52.6) and counsel chairs 0.45 m (seat 49) about 10.6 percent per meter at y 54, near pew posts about 27 per meter at y 95 solve to horizon 25, 0.38; judge bench and witness box are raised floors with their own scale (judge chair back 0.95 m, seat 30)",
       "surfaceSlots": []
     },
     "public-defender-office": {
@@ -27427,7 +27494,7 @@
           "id": "public-defender-office:spot:7"
         }
       ],
-      "measuredFrom": "desk 0.75 m (front panel 49 to 66) and sofa seat 0.45 m foot 77 top 68 solve to about 17-21 percent per metre; horizon 15, 0.34 (high camera)",
+      "measuredFrom": "desk 0.75 m (front panel 49 to 66) and sofa seat 0.45 m foot 77 top 68 solve to about 17-21 percent per meter; horizon 15, 0.34 (high camera)",
       "surfaceSlots": []
     },
     "sheriff-office-lobby": {
@@ -29239,7 +29306,7 @@
           "id": "airport-concourse:spot:5"
         }
       ],
-      "measuredFrom": "departure waiting seats (seat cushion to floor 0.45 m, back 0.9 m, about 14 percent per metre near y 90, 7 far at y 65) and the check-in desk 1.1 m foot 57 top 46 fit horizon 33, 0.27",
+      "measuredFrom": "departure waiting seats (seat cushion to floor 0.45 m, back 0.9 m, about 14 percent per meter near y 90, 7 far at y 65) and the check-in desk 1.1 m foot 57 top 46 fit horizon 33, 0.27",
       "surfaceSlots": []
     },
     "airport-terminal": {
@@ -30070,7 +30137,7 @@
           "id": "community-garden:spot:6"
         }
       ],
-      "measuredFrom": "picnic table 0.75 m foot 55 top 42 and rain barrels about 0.95 m foot 55 top 38 give about 16 percent per metre at y 55; trellis arch about 2.6 m foot 89 top 9 gives about 30 at y 89: horizon 15, 0.4",
+      "measuredFrom": "picnic table 0.75 m foot 55 top 42 and rain barrels about 0.95 m foot 55 top 38 give about 16 percent per meter at y 55; trellis arch about 2.6 m foot 89 top 9 gives about 30 at y 89: horizon 15, 0.4",
       "surfaceSlots": []
     },
     "daycare-room": {
@@ -31758,7 +31825,7 @@
           "id": "highway-interchange:spot:6"
         }
       ],
-      "measuredFrom": "overpass-deck planter box 0.7 m foot 83 top 70 and trash can 0.9 m foot 88 top 70 solve to about 20 percent per metre across y 83-88; horizon from far hills at 24",
+      "measuredFrom": "overpass-deck planter box 0.7 m foot 83 top 70 and trash can 0.9 m foot 88 top 70 solve to about 20 percent per meter across y 83-88; horizon from far hills at 24",
       "surfaceSlots": []
     },
     "homeless-shelter": {
@@ -32148,7 +32215,7 @@
           "id": "little-league-field:spot:6"
         }
       ],
-      "measuredFrom": "dugout post 2.2 m foot 69 top 41.5, water cooler on stand 1.4 m foot 70.4 top 56, leaning bat 0.85 m foot 75.5 top 63 solve to about 12.5 percent per metre at y 70; horizon 40",
+      "measuredFrom": "dugout post 2.2 m foot 69 top 41.5, water cooler on stand 1.4 m foot 70.4 top 56, leaning bat 0.85 m foot 75.5 top 63 solve to about 12.5 percent per meter at y 70; horizon 40",
       "surfaceSlots": []
     },
     "lying-in-state-rotunda": {

@@ -1,12 +1,12 @@
 import { LOCAL_MEMBER_AGENDA_VERSION } from "../governing/member-agenda-settings";
 import hearingData from "../../../data/research/local-government/county-budget-hearings.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   countyGovernmentUnit,
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import { homePurchaseTerms } from "../home-purchase";
 import { introduceMeasure, measurePosition } from "../legislation";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";

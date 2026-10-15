@@ -1,25 +1,18 @@
 import { createPersonalityTendencyDefinition } from "./mind-catalog";
 import type { EntityId, PersonalityTendencyDefinition } from "./types";
 
-/**
- * The five PEOPLE tendency definitions (CRUNCH46 P2), kept apart from their
- * writers so the production catalog check can admit them without importing
- * the rest of the mind layer.
- */
-
-export const PEOPLE_MIND_VERSION = "people-mind-v1";
-
-export const PEOPLE_TRAITS = [
-  "deliberation",
-  "sociability",
-  "conflict",
-  "reliability",
-  "risk",
-] as const;
-export type PeopleTrait = (typeof PEOPLE_TRAITS)[number];
-
-/** −2 and −1 lean to the `low` pole; +1 and +2 to the `high` pole. */
-export type TraitValue = -2 | -1 | 0 | 1 | 2;
+import {
+  PEOPLE_MIND_VERSION,
+  PEOPLE_TRAITS,
+  type PeopleTrait,
+  type TraitValue,
+} from "../core2/people-mind";
+export {
+  PEOPLE_MIND_VERSION,
+  PEOPLE_TRAITS,
+  type PeopleTrait,
+  type TraitValue,
+};
 
 interface TraitShape {
   readonly label: string;

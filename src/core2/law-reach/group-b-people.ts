@@ -5,8 +5,12 @@
  * come from each person's own records (jobs, work commitments, household).
  */
 import parameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
-import { countedJob, residentsRuntime } from "../modules/residents";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import {
+  countedJob,
+  countedParameter,
+  residentsRuntime,
+} from "../modules/residents";
 import type {
   CoreAPI,
   CoreState,
@@ -71,6 +75,10 @@ export interface ResidentFacts {
   readonly age: number;
   readonly weeklyMinutes: number;
   readonly employed: boolean;
+  /** A counted member working without a recorded job: their share of the place's unplaced workers. */
+  readonly employedShare?: number;
+  /** How much of this resident a selection reached (1, or a working share). */
+  readonly weight?: number;
 }
 
 export interface HouseholdFacts {
@@ -89,6 +97,11 @@ export interface TownFacts {
 }
 
 const cache = new WeakMap<object, { date: string; facts: TownFacts }>();
+
+/** A new pass reads the town as it stands now: births, moves and fill-ins since the last read the same day count. */
+export function forgetTownFacts(api: CoreAPI): void {
+  cache.delete(api.state as CoreState);
+}
 
 function activeMinutes(
   commitments: readonly WorkCommitmentInput[],
@@ -159,40 +172,58 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
       ages,
     });
   }
-  // Counted residents: their household records.
+  // Counted residents: their groups' members, read from the packed columns
+  // (one model, two tiers). A working-age member without a recorded job
+  // works by their household's share of the place's unplaced workers.
   const rt = residentsRuntime(core);
-  if (rt)
-    for (const record of rt.households.values()) {
-      if (rt.filledIn.has(record.household.id)) continue;
-      if (record.household.placeId !== townPlaceId) continue;
-      const minutes = activeMinutes(record.workCommitments, date);
-      const jobs = record.jobs.filter(
+  if (rt) {
+    const store = rt.store;
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    for (const h of store.liveHouseholds()) {
+      if (h.placeId !== townPlaceId) continue;
+      const minutes = activeMinutes(h.workCommitments, date);
+      const jobs = h.jobs.filter(
         (job) => countedJob(core, job.id) !== undefined,
       );
       const workers = new Set(jobs.map((job) => job.personId));
-      const ages: number[] = [];
-      for (const person of record.people) {
-        if (core.people.has(person.id)) continue;
-        const age = ageOnDate(makeIsoDate(person.birthDate), date);
-        ages.push(age);
+      const members = store.countedMembers(h);
+      const ages = members.map((m) =>
+        ageOnDate(makeIsoDate(store.born[m]!), date),
+      );
+      const eligible = members.filter(
+        (m, i) =>
+          !workers.has(store.ids[m]!) && ages[i]! >= from && ages[i]! < below,
+      ).length;
+      const share = eligible > 0 ? h.unplacedWorkers / eligible : 0;
+      members.forEach((m, i) => {
+        const id = store.ids[m]!;
+        const open =
+          !workers.has(id) && ages[i]! >= from && ages[i]! < below && share > 0;
         residents.push({
-          id: person.id,
+          id,
           named: false,
-          householdId: record.household.id,
-          age,
-          weeklyMinutes: minutes.get(person.id) ?? 0,
-          employed: workers.has(person.id),
+          householdId: h.id,
+          age: ages[i]!,
+          weeklyMinutes: minutes.get(id) ?? 0,
+          employed: workers.has(id),
+          ...(open ? { employedShare: share } : {}),
         });
-      }
+      });
       if (ages.length)
-        households.set(record.household.id, {
-          id: record.household.id,
+        households.set(h.id, {
+          id: h.id,
           named: false,
           size: ages.length,
-          incomeDollars: jobIncome(jobs),
+          incomeDollars:
+            jobIncome(jobs) +
+            (h.unplacedWorkers * (rt.unplacedPerWorker.get(h.placeId) ?? 0)) /
+              cents +
+            h.retirementMinorYear / cents,
           ages,
         });
     }
+  }
   const facts = { residents, households, modeled: residents.length };
   cache.set(core, { date: core.date, facts });
   return facts;
@@ -235,7 +266,10 @@ export function selectResidents(
   for (const r of facts.residents) {
     if (ageFrom !== undefined && r.age < ageFrom) continue;
     if (ageBelow !== undefined && r.age >= ageBelow) continue;
-    if (selector.employed && !r.employed) continue;
+    // A counted member working without a recorded job is reached by their share.
+    const weight =
+      selector.employed && !r.employed ? (r.employedShare ?? 0) : 1;
+    if (weight <= 0) continue;
     if (weekly !== undefined && r.weeklyMinutes >= weekly) continue;
     const household = facts.households.get(r.householdId);
     if (!household) continue;
@@ -250,7 +284,7 @@ export function selectResidents(
       household.ages.some((age) => age < Math.min(childBelow, adult))
     )
       continue;
-    out.push(r);
+    out.push(weight === 1 ? r : { ...r, weight });
   }
   if (!selector.householdHead) return out.sort(byId);
   // One per household: its oldest matching member.

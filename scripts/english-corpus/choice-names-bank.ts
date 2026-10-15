@@ -17,7 +17,7 @@
  * OPUS-WORDS owns this file until PLAY folds it into the bench.
  */
 import bankJson from "../../data/english/parts/choice-names.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 
 interface MinedPart {
   key: string;

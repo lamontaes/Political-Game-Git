@@ -1,14 +1,14 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import { eventById } from "../event-index";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { electedExecutiveTermForRelationship } from "../executive-work-context";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {

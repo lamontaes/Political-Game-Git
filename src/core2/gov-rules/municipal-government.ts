@@ -15,7 +15,7 @@ import corpus from "./municipal-governments.json" with { type: "json" };
 import {
   governmentUnitsForPlace,
   type GovernmentUnitIdentity,
-} from "../../simulation/government-units";
+} from "../reference/government-units";
 
 /** The parts of a government's primary reading the town readers use. */
 export interface MunicipalReading {

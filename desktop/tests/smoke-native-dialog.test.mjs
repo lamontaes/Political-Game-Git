@@ -10,10 +10,10 @@ const source = readFileSync(
 );
 const launchSource = source.slice(
   source.indexOf("async function launch()"),
-  source.indexOf("// Fault injection"),
+  source.indexOf("// ---- Launch, title menu"),
 );
 
-async function launched({ hubPath = null, nativeSessionChecks = false } = {}) {
+async function launched({ hubPath = null } = {}) {
   const listeners = new Map();
   const messages = [];
   const page = {
@@ -25,7 +25,6 @@ async function launched({ hubPath = null, nativeSessionChecks = false } = {}) {
   const result = await runInNewContext(`${launchSource}\nlaunch();`, {
     _electron: { launch: async () => app },
     hubPath,
-    nativeSessionChecks,
     appPath: "isolated-client",
     profile: "isolated-profile",
     process: { env: {} },
@@ -39,10 +38,6 @@ async function launched({ hubPath = null, nativeSessionChecks = false } = {}) {
 for (const [name, options] of [
   ["standalone packaged client", {}],
   ["hub ordinary session", { hubPath: "isolated-hub" }],
-  [
-    "hub native-session proof",
-    { hubPath: "isolated-hub", nativeSessionChecks: true },
-  ],
 ]) {
   test(`${name} leaves beforeunload with the native owner rather than Playwright auto-dismiss`, async () => {
     const { listeners, messages } = await launched(options);

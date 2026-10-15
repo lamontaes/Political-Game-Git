@@ -126,6 +126,8 @@ function kindLean(
   const zero = table.zero;
   const sum = new Float64Array(KIND_INDEX.size);
   let perKind = zero;
+  // for...in also reads a counted person's traits, which are read in place
+  // from their group's columns (one model, two tiers).
   for (const id in actor.traits) {
     const raw = actor.traits[id]!;
     const row = table.rows.get(id);

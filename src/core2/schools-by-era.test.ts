@@ -2,12 +2,8 @@ import { describe, expect, it } from "vitest";
 import { buildDeepPast, schoolOpenBy } from "./deep-past";
 import { buildPopulation } from "./population";
 import schoolsJson from "./data/opening-schools.json" with { type: "json" };
-import { stableHash } from "../simulation/ids";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { stableHash } from "./kernel/ids";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const SCHOOLS = schoolsJson as { byGeoid: unknown };
 
@@ -46,9 +42,11 @@ describe(`schools by era in ${input.placeMetadata?.placeName} (seed ${seed})`, (
       ).toBe(true);
   });
 
+  // A well-formed school id that no directory lists (other keys are errors).
+  const UNLISTED_SCHOOL = "000000000000";
   it("checks the rule itself: later schools don't count for earlier years", () => {
-    expect(schoolOpenBy("no-such-school", 1970)).toBe(false);
-    expect(schoolOpenBy("no-such-school", 2030)).toBe(true);
+    expect(schoolOpenBy(UNLISTED_SCHOOL, 1970)).toBe(false);
+    expect(schoolOpenBy(UNLISTED_SCHOOL, 2030)).toBe(true);
   });
 });
 
@@ -56,9 +54,9 @@ describe(`schools by era in ${input.placeMetadata?.placeName} (seed ${seed})`, (
 // inside a large county, or a territory) sends its children to a few schools
 // nearby, so children of one year there have classmates. The place is drawn
 // at random from all such places.
-const unlisted = [...lifePlaceStateIdentities()]
+const unlisted = [...corePlaceStateIdentities()]
   .flatMap((identity) => [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: identity.jurisdictionKey,
       scope: "locality",
     }),

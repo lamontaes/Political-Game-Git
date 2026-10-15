@@ -211,6 +211,12 @@
       "tag": "TUNABLE",
       "source": "On a vote to override a veto, members of the executive's own party weigh standing with them: many who voted for the bill vote to sustain (Cameron 2000, Veto Bargaining: Presidents and the Politics of Negative Power: override votes are more partisan than passage votes, and fewer than one in ten regular presidential vetoes since 1945 were overridden; Senate Historical Office, Vetoes 1789 to present). Checked against that override rate and against governors' vetoes (NCSL and Book of the States Table 4.4: most state vetoes stand).",
       "spread": [0.3, 1]
+    },
+    "stateStake": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a member of Congress weighs what a federal budget line sends their state against the national average, read on a doubling scale: twice the average per resident pulls a full point toward more for that line, half the average a full point toward less, capped there. The same scale as their district's lean (district weight 0.5 times a lean of up to 1), so pork and principle can pull against each other. Checked against studies of distributive voting (Lee 2003 on Senate transportation votes; Berry, Burden and Howell 2010 on federal outlays to members' districts).",
+      "spread": [0.5, 2]
     }
   },
   "loyalty": {
@@ -294,6 +300,52 @@
       "tag": "TUNABLE",
       "source": "What a newcomer lacks against an officeholder: a record, a donor list and name recognition (Jacobson 1989, 'Strategic Politicians and the Dynamics of U.S. House Elections', APSR 83(3): experienced challengers win several times as often).",
       "spread": [0.1, 0.5]
+    }
+  },
+  "president": {
+    "about": "The small record a sitting President carries into the opening: the home state, the office held before, the 2024 election won, and the states the campaign reached. Who the President is (the home state, the office before, the day of each visit) is drawn once from the world's seed; which states were contested comes from the real 2024 map. Nothing here is a campaign: these are past facts the opening's address and screens read.",
+    "electionDay": {
+      "value": "2024-11-05",
+      "tag": "SOURCED",
+      "source": "Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024."
+    },
+    "campaignFrom": {
+      "value": "2024-09-02",
+      "tag": "SOURCED",
+      "source": "Labor Day 2024, the customary start of the general-election campaign (Holbrook 1996, Do Campaigns Matter?)."
+    },
+    "contestedMargin": {
+      "value": 0.029,
+      "tag": "TUNABLE",
+      "source": "How close to even a state's 2024 two-party presidential vote was for the campaigns to contest it. Checked against the seven states both 2024 campaigns treated as battlegrounds (Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, Wisconsin; Cook Political Report, 2024 Electoral College ratings): 0.029 keeps all seven and adds New Hampshire and Minnesota, which both campaigns also visited (AP campaign travel tracker, 2024).",
+      "spread": [0.02, 0.05]
+    },
+    "priorOffice": {
+      "about": "The last office the President held before the presidency, in the shares the Presidents from 1901 to 2021 held them: 8 Vice Presidents (T. Roosevelt, Coolidge, Truman, Johnson, Nixon, Ford, G. H. W. Bush, Biden), 6 governors (Wilson, F. Roosevelt, Carter, Reagan, Clinton, G. W. Bush), 3 senators (Harding, Kennedy, Obama), 2 cabinet secretaries (Taft, Hoover) and 2 with no prior elected or appointed civil office (Eisenhower, Trump). The governor and senator served the President's home state.",
+      "tag": "ESTIMATED",
+      "source": "Miller Center, University of Virginia, presidential biographies (millercenter.org/president), counted 2026-10-14.",
+      "shares": {
+        "vice-president": {
+          "value": 8,
+          "title": "Vice President"
+        },
+        "governor": {
+          "value": 6,
+          "title": "Governor"
+        },
+        "us-senate": {
+          "value": 3,
+          "title": "U.S. Senator"
+        },
+        "cabinet": {
+          "value": 2,
+          "title": "Cabinet Secretary"
+        },
+        "none": {
+          "value": 2,
+          "title": null
+        }
+      }
     }
   }
 }

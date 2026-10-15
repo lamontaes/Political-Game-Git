@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { backdropFile, scenePlace, stagePeople } from "./scene";
 import type { CoreState } from "../core2/types";
 import { relationWord } from "./words";

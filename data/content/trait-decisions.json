@@ -520,6 +520,22 @@
       ]
     },
     {
+      "id": "conversation.reply-reach",
+      "site": "src/director/conversation.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "carry-on",
+          "actKinds": ["engage", "speak-out"]
+        },
+        {
+          "id": "keep-short",
+          "actKinds": ["withdraw", "stay-quiet"]
+        }
+      ]
+    },
+    {
       "id": "moves.move-away",
       "site": "src/core2/modules/moves.ts",
       "owner": "OPUS-PEOPLE",
@@ -1080,6 +1096,38 @@
       ]
     },
     {
+      "id": "press.dig",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "let-go",
+          "actKinds": ["trust", "play-safe", "cooperate", "delay"]
+        },
+        {
+          "id": "dig",
+          "actKinds": ["distrust", "confront", "take-risk", "commit"]
+        }
+      ]
+    },
+    {
+      "id": "press.tip",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["stay-quiet", "play-safe", "keep-same"]
+        },
+        {
+          "id": "tip",
+          "actKinds": ["speak-out", "confront", "take-risk"]
+        }
+      ]
+    },
+    {
       "id": "meetings.take-part",
       "site": "src/core2/modules/meetings.ts",
       "owner": "OPUS-GOV",
@@ -1108,6 +1156,150 @@
         {
           "id": "stay-home-from-school",
           "actKinds": ["play-safe", "withdraw"]
+        }
+      ]
+    },
+    {
+      "id": "justice.report",
+      "site": "src/core2/modules/justice.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep-quiet",
+          "actKinds": ["stay-quiet", "keep-same", "play-safe"]
+        },
+        {
+          "id": "report",
+          "actKinds": ["speak-out", "follow-rules", "confront"]
+        }
+      ]
+    },
+    {
+      "id": "justice.prosecute",
+      "site": "src/core2/modules/justice.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["play-safe", "delay", "withdraw"]
+        },
+        {
+          "id": "pursue",
+          "actKinds": ["confront", "follow-rules", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "justice.plea",
+      "site": "src/core2/modules/justice.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "fight",
+          "actKinds": ["confront", "refuse", "take-risk"]
+        },
+        {
+          "id": "plead",
+          "actKinds": ["concede", "play-safe", "cooperate"]
+        }
+      ]
+    },
+    {
+      "id": "meetings.hold-town-hall",
+      "site": "src/core2/modules/meetings.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "skip",
+          "actKinds": ["withdraw", "stay-quiet", "concede"]
+        },
+        {
+          "id": "hold",
+          "actKinds": ["engage", "speak-out", "confront"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.party-firmness",
+      "site": "src/core2/campaign-stances.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-out",
+          "actKinds": ["withdraw", "delay"]
+        },
+        {
+          "id": "join",
+          "actKinds": ["commit", "engage", "cooperate"]
+        }
+      ]
+    },
+    {
+      "id": "estates.will",
+      "site": "src/core2/estates.ts",
+      "owner": "OPUS-CORE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "make-will",
+          "actKinds": ["follow-rules", "commit", "help-others", "play-safe"]
+        },
+        {
+          "id": "leave-it",
+          "actKinds": ["keep-same", "withdraw", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "legislature.attend-sitting",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "sitting-miss",
+          "actKinds": ["withdraw", "play-safe"]
+        },
+        {
+          "id": "sitting-attend",
+          "actKinds": ["follow-rules", "commit", "engage"]
+        }
+      ]
+    },
+    {
+      "id": "legislature.poison-pill",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "pill-hold",
+          "actKinds": ["follow-rules", "cooperate", "play-safe"]
+        },
+        {
+          "id": "pill-move",
+          "actKinds": ["bend-rules", "confront", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "office-day-state.attend",
+      "site": "src/core2/office-day-state.ts",
+      "owner": "OFFICE-STATE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "skip",
+          "actKinds": ["withdraw", "self-interest", "delay"]
+        },
+        {
+          "id": "attend",
+          "actKinds": ["commit", "follow-rules", "engage"]
         }
       ]
     }

@@ -126,10 +126,10 @@ function economyRuntimeDependencies() {
   // County owner validation reads these runtime identity/geography dependencies.
   const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../../");
   return [
-    "src/simulation/government-units.ts",
-    "src/simulation/government-units.generated.ts",
-    "src/simulation/place-county-relations.generated.ts",
-    "src/simulation/national-counties.generated.ts",
+    "src/core2/reference/government-units.ts",
+    "src/core2/reference/government-units.generated.ts",
+    "src/core2/reference/place-county-relations.generated.ts",
+    "src/core2/reference/national-counties.generated.ts",
     "data/research/local-government/county-governing-bodies.json",
     "data/research/money/place-population-acs-2024.json",
   ].map((path) => fileIdentity(resolve(root, path)));

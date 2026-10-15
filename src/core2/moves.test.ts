@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
-  lifePlaceByJurisdictionId,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "./place-lookup";
 import natality from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import { createRenewalCore } from "./births-setup";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
@@ -55,7 +55,7 @@ const adults = [...core.people.values()].filter(
   (row) => row.alive && row.tier !== "husk" && bandOf(row.birthDate),
 );
 const state =
-  lifePlaceByJurisdictionId(adults[0]!.placeId as never)
+  corePlaceByJurisdictionId(adults[0]!.placeId as never)
     ?.stateJurisdictionKey ?? "";
 const acs = (RATES.places[state] ?? RATES.national).departurePerYearByAge;
 // Half a year keeps the check inside the golden-path budget.
@@ -80,7 +80,7 @@ const NATALITY = natality as unknown as {
   areas: Record<string, { ageRates: Record<string, number | null> }>;
 };
 const stateName =
-  lifePlaceStateIdentities().find((row) => row.jurisdictionKey === state)
+  corePlaceStateIdentities().find((row) => row.jurisdictionKey === state)
     ?.name ?? "";
 const birthRates = (
   NATALITY.areas[stateName] ?? NATALITY.areas["United States"]!
@@ -148,6 +148,31 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
         expect(person.jobId).toBeUndefined();
       }
     }
+  });
+
+  it("builds each pull from the person's records, never a draw: the opening reads their pushes and holds", () => {
+    const pulls = api.moduleState("moves").table("pulls").rows() as unknown as {
+      causes: Record<string, number>;
+      reads: Record<string, readonly string[]>;
+      openingNet?: number;
+    }[];
+    const opened = pulls.filter((row) => row.causes.opening !== undefined);
+    expect(opened.length).toBeGreaterThan(0);
+    for (const row of opened) {
+      expect(row.reads.opening?.length).toBeGreaterThan(0);
+      expect(row.openingNet).toBeTypeOf("number");
+    }
+    // Higher net push stands further along at the opening.
+    const sorted = [...opened].sort((a, b) => a.openingNet! - b.openingNet!);
+    for (let i = 1; i < sorted.length; i += 1)
+      expect(sorted[i]!.causes.opening!).toBeGreaterThanOrEqual(
+        sorted[i - 1]!.causes.opening!,
+      );
+    for (const row of departures)
+      for (const key of Object.keys(row.reasons).filter((k) =>
+        k.startsWith("push:"),
+      ))
+        expect(row.reads[key.slice("push:".length)]?.length).toBeGreaterThan(0);
   });
 
   it("moves leavers to their destination: their place, household and the town's residents change with them", () => {
@@ -284,7 +309,35 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       }
     ).causes["housing.eviction"]!;
     expect(after).toBeGreaterThan(before);
-    const followed = departures.length
+    // Kin follow only where a leaver had a parent, child or sibling who
+    // stayed: the records now send first the people with no one holding them.
+    const parentsOf = (id: string) =>
+      [...core.familyLinks.values()]
+        .filter((link) => link.kind !== "partner" && link.personIds[1] === id)
+        .map((link) => link.personIds[0]);
+    const childrenOf = (id: string) =>
+      [...core.familyLinks.values()]
+        .filter((link) => link.kind !== "partner" && link.personIds[0] === id)
+        .map((link) => link.personIds[1]);
+    const leftKin = departures.some((row) =>
+      row.withIds.some((id) =>
+        [
+          ...parentsOf(id),
+          ...childrenOf(id),
+          ...parentsOf(id).flatMap(childrenOf),
+        ].some((other) => {
+          const person = core.people.get(other);
+          return (
+            !row.withIds.includes(other) &&
+            person?.alive &&
+            person.tier !== "husk" &&
+            ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >=
+              18
+          );
+        }),
+      ),
+    );
+    const followed = leftKin
       ? (
           api.moduleState("moves").table("pulls").rows() as unknown as {
             causes: Record<string, number>;

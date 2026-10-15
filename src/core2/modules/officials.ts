@@ -19,6 +19,7 @@
  * independent. Nothing is rolled: who each person is was drawn once when the
  * world was made, and every vote follows from it.
  */
+import { stateStake } from "../budget-stakes";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
@@ -41,6 +42,7 @@ import {
   type IndependentRecord,
   type SignatureIssue,
 } from "../officials-roster";
+import { recordPresident } from "../officials-president";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
@@ -512,6 +514,16 @@ export function openOfficials(core: CoreState): void {
     .get("town") as unknown as { worldSeed: string; stateKey: string };
   const all = specs(api, loaded.worldSeed, loaded.stateKey);
   seatAll(api, loaded.worldSeed, all, true);
+  // The sitting President's own record: home state, office before, the 2024
+  // election and the states the campaign reached.
+  for (const row of officialsIn(api, "US:president"))
+    recordPresident(core, {
+      seed: loaded.worldSeed,
+      personId: row.id,
+      party: row.party,
+      townState: loaded.stateKey,
+      date: api.state.date,
+    });
   table(api, "loaded").put({ id: "opening", officials: all.length });
 }
 
@@ -934,6 +946,8 @@ export interface OfficialParts {
   readonly wing: number;
   readonly ambition: number;
   readonly press: number;
+  /** For a member of Congress, what the bill's budget lines send their state (part of `constituents`). */
+  readonly stateStake: number;
 }
 
 interface BodyRead {
@@ -1037,7 +1051,26 @@ export function officialParts(
     (sum, s) => sum + supportAt(row.stateLean, s.question) * s.position,
     0,
   );
-  const constituents = weight("district") * district;
+  // A member of Congress also weighs what a budget line sends their state
+  // against the national average, on a doubling scale: twice the average
+  // pulls a full point toward more, half a full point toward less (a sliding
+  // scale, no threshold; an outlier like a capital's headquarters spending
+  // counts no more than twice).
+  const stake =
+    row.bodyKind === "us-house" || row.bodyKind === "us-senate"
+      ? stances.reduce(
+          (sum, s) =>
+            sum +
+            Math.max(
+              -1,
+              Math.min(1, Math.log2(stateStake(row.stateKey, s.question))),
+            ) *
+              s.position,
+          0,
+        )
+      : 0;
+  const stakePart = weight("stateStake") * stake;
+  const constituents = weight("district") * district + stakePart;
   let party = 0;
   let wing = 0;
   if (row.bodyKind !== "executive") {
@@ -1083,7 +1116,15 @@ export function officialParts(
     weight("press") *
     visibility *
     stances.reduce((sum, s) => sum + publicOffset(s.question) * s.position, 0);
-  return { views, constituents, party, wing, ambition, press };
+  return {
+    views,
+    constituents,
+    party,
+    wing,
+    ambition,
+    press,
+    stateStake: stakePart,
+  };
 }
 
 /** A would-be candidate's reasons for running, as recorded. */

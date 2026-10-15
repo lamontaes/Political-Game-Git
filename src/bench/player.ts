@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   advancePlayerV1,
   resumePlayerV1,
@@ -10,6 +10,12 @@ import {
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
+import {
+  leavePollingPlace,
+  markBallot,
+  pollingVisitDue,
+  type PollingVisit,
+} from "../director/polling-place";
 
 // Spec interrupt line, shown on screen; the director owns the stop itself.
 export const INTERRUPT_LINE = 0.5;
@@ -28,7 +34,7 @@ export interface SelfChosenAnswer {
   offerId: string;
   actionId: string;
   targetId: string;
-  why: "skipping" | "finishing-day-before-switch";
+  why: "advancing" | "finishing-day-before-switch";
 }
 
 /**
@@ -53,6 +59,11 @@ export class BenchPlayer {
   private clockBound = false;
   private destination?: { through: PlayerMomentV1; mode: string };
   readonly selfChosen: SelfChosenAnswer[] = [];
+  /**
+   * The polls, when the next day is an election the character may vote in:
+   * the day stops here, before the count that opens election day.
+   */
+  pollingPlace?: PollingVisit;
   constructor(
     readonly core: CoreState,
     readonly director: Director,
@@ -71,6 +82,14 @@ export class BenchPlayer {
     }
     this.personId = id;
     this.director.watch(this.core, id);
+    // Their household too: a talk at home opens on the biggest recorded
+    // event of either person, which the director reads from its ledger
+    // (owner, Oct 14, 2026, night).
+    const person = this.core.people.get(id)!;
+    for (const memberId of this.core.households.get(person.householdId)
+      ?.memberIds ?? [])
+      if (memberId !== id && this.core.people.get(memberId)?.alive)
+        this.director.watch(this.core, memberId);
   }
 
   /**
@@ -105,6 +124,20 @@ export class BenchPlayer {
     this.packet = packet;
   }
 
+  /**
+   * Dev mode takes the clock: the character lives out the rest of its day on
+   * its own choices and the core's player clock is retired. The character
+   * stays selected; the next play-screen advance binds the clock again.
+   */
+  release() {
+    if (!this.clockBound) return;
+    this.finishDay();
+    retirePlayerV1(this.core);
+    this.clockBound = false;
+    this.packet = undefined;
+    this.destination = undefined;
+  }
+
   /** The character makes the core's own pick, saved as its own decision. */
   private answerForSelf(packet: ChoicePacket, why: SelfChosenAnswer["why"]) {
     const offer = ownPick(packet);
@@ -130,8 +163,10 @@ export class BenchPlayer {
     if (!this.personId) throw new Error("Choose a resident first.");
     if (!["day", "week", "calendar", "skip"].includes(mode))
       throw new Error("Unknown time control.");
+    if (this.pollingPlace)
+      throw new Error("Vote or leave the polling place first.");
     const pending = this.packet && this.packet.kind !== "complete";
-    if (pending && !(mode === "skip" && this.packet!.kind === "choice"))
+    if (pending && this.packet!.kind !== "choice")
       throw new Error("Answer the open choice or stop first.");
     const at = this.packet?.at ?? {
       date: addDays(makeIsoDate(this.core.date), 1),
@@ -190,6 +225,19 @@ export class BenchPlayer {
           date: addDays(makeIsoDate(from.date), 1),
           minuteOfDay: from.minuteOfDay,
         };
+        // Election day is a scene (owner, Oct 14, 2026): the count opens the
+        // day, so the character's day stops at the polls before the core
+        // enters it. The clock's midnight is the start of the core's next day.
+        const polls = pollingVisitDue(
+          this.core,
+          this.director.ledger,
+          this.personId!,
+          addDays(makeIsoDate(this.core.date), 1),
+        );
+        if (polls) {
+          this.pollingPlace = polls;
+          break;
+        }
         packet = advancePlayerV1(this.core, {
           controlledPersonId: this.personId!,
           through: compareMoments(next, through) < 0 ? next : through,
@@ -197,11 +245,11 @@ export class BenchPlayer {
         this.clockBound = true;
         continue;
       }
-      // While skipping, the character answers its own choices with the
-      // core's selection; only a stop (a big moment, a fixed commitment or a
-      // deadline) ends the skip, at that stop's own time.
-      if (packet.kind === "choice" && skipping) {
-        packet = this.answerForSelf(packet, "skipping");
+      // Day never opens a choice list (owner, Oct 14, 2026): the character
+      // answers its own choices with the core's selection, and only a stop
+      // (a director scene, a fixed commitment or a deadline) ends the advance.
+      if (packet.kind === "choice") {
+        packet = this.answerForSelf(packet, "advancing");
         continue;
       }
       // A routine shift the character attends on its own never stops a
@@ -233,6 +281,30 @@ export class BenchPlayer {
       packet: this.packet,
       selfChosen: this.selfChosen.slice(answeredBefore),
     };
+  }
+
+  /** The character marks one race at the polls: a candidate, or null to leave it blank. */
+  markBallot(contestId: string, candidateId: string | null) {
+    const visit = this.pollingPlace;
+    if (!visit) throw new Error("The polls aren't open for this character.");
+    const record = markBallot(
+      this.core,
+      this.director.ledger,
+      visit,
+      contestId,
+      candidateId,
+    );
+    this.pollingPlace =
+      record.status === "voted" ? undefined : { ...visit, record };
+    return record;
+  }
+
+  /** The character leaves the polls; the races left unmarked are their own to decide. */
+  leavePolls() {
+    const visit = this.pollingPlace;
+    if (!visit) throw new Error("The polls aren't open for this character.");
+    this.pollingPlace = undefined;
+    return leavePollingPlace(this.director.ledger, visit);
   }
 
   trace(id: string) {

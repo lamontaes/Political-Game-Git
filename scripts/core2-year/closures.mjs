@@ -2,38 +2,93 @@
 // Per-business diagnosis of closures over one year in a drawn place.
 // Usage: CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs --seed S [--days 365]
 // M0-08's command: under the golden-path runner it takes GOLDEN_PATH_SEED and
-// GOLDEN_PATH_PLACE_KEY, and exits 1 when any of the five checks fails.
+// GOLDEN_PATH_PLACE_KEY, and exits 1 when any of the six checks fails. The
+// world is the played world (buildBenchWorld: two-level, every module), and
+// the sixth check rejects any money owed to the outside world that no
+// recorded exchange matches (src/core2/data/outside-flows.json).
 import { resolve } from "node:path";
+import { performance } from "node:perf_hooks";
 import { pathToFileURL } from "node:url";
 const args = process.argv.slice(2);
 const value = (name, fallback) =>
   args.includes(name) ? args[args.indexOf(name) + 1] : fallback;
 const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
-const { generatedOpening } = await at("src/core2/tooling/generated-world.ts");
+const { buildBenchWorld } = await at("src/bench/world.ts");
+const { gameStartDate } = await at("src/core2/game-start.ts");
+const { setBookkeeping } = await at("src/core2/bookkeeping.ts");
+const { coreAPI } = await at("src/core2/state.ts");
 const { drawPlace } = await at("scripts/core2-year/place.ts");
-const { createLifeCore, advanceCore } = await at("src/core2/life.ts");
-const { addDays, makeIsoDate } = await at("src/simulation/dates.ts");
+const { advanceCore } = await at("src/core2/life.ts");
+const outsideFlows = (await at("src/core2/data/outside-flows.json")).default;
+const { addDays, makeIsoDate } = await at("src/core2/kernel/dates.ts");
 const seed = value(
   "--seed",
   process.env.GOLDEN_PATH_SEED ??
     (await import("node:crypto")).randomBytes(16).toString("hex"),
 );
-const { lifePlaceByKey } = await at("src/simulation/life-places.ts");
+const { corePlaceByKey } = await at("src/core2/place-lookup.ts");
 const givenKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const place = givenKey
   ? {
       seed,
       key: givenKey,
-      name: lifePlaceByKey(givenKey)?.formalName ?? givenKey,
-      state: lifePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
+      name: corePlaceByKey(givenKey)?.formalName ?? givenKey,
+      state: corePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
     }
   : drawPlace(seed, "core2-year");
-const input = generatedOpening(place, {
+setBookkeeping(false);
+const started = performance.now();
+const world = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
-  ...(args.includes("--staff-to-customers") ? { staffToCustomers: true } : {}),
+  placeKey: place.key,
 });
-const core = createLifeCore(input);
-const orgs = new Map(input.organizations.map((o) => [o.id, o]));
+const core = world.core;
+// The opening's cash, kept for the closing comparison below.
+const input = {
+  startedAt: core.date,
+  organizations: [...core.organizations.values()].map((o) => ({
+    id: o.id,
+    name: o.name,
+    kind: o.kind,
+    liquidMinor: o.liquidMinor,
+  })),
+  people: [...core.people.values()].map((p) => ({
+    liquidMinor: p.liquidMinor,
+  })),
+};
+const orgs = new Map([...core.organizations.values()].map((o) => [o.id, o]));
+// Every journal entry that touches an outside account, matched to the
+// recorded exchange behind it.
+const journal = core.cashJournal;
+const flowRow = (entry) =>
+  outsideFlows.flows.find(
+    (row) =>
+      row.kind === entry.sourceRef.kind &&
+      (!row.idPrefix || entry.sourceRef.id.split(/[:@]/)[0] === row.idPrefix),
+  );
+const unmatched = new Map();
+const byClass = new Map();
+{
+  const api = coreAPI(core);
+  const post = api.postJournal.bind(api);
+  api.postJournal = (entry) => {
+    for (const posting of entry.postings) {
+      const owner = journal.accounts.get(posting.accountId)?.ownerId;
+      if (!owner || !journal.externalFlowsByOwner.has(owner)) continue;
+      const row = flowRow(entry);
+      const key = row
+        ? `${row.matchedBy}: ${row.kind}${row.idPrefix ? ` ${row.idPrefix}` : ""}`
+        : `${entry.sourceRef.kind} ${entry.sourceRef.id.split(/[:@]/)[0]}`;
+      const totals = row ? byClass : unmatched;
+      const t = totals.get(key) ?? { owedMinor: 0, entries: 0 };
+      // An outside account paying in (a negative posting) is money the town now owes it.
+      t.owedMinor -= posting.deltaMinor;
+      t.entries += 1;
+      totals.set(key, t);
+    }
+    return post(entry);
+  };
+}
 const opening = new Map(
   [...core.finance.businesses.values()].map((b) => [
     b.organizationId,
@@ -92,13 +147,23 @@ for (let i = 0; i < days; i++) {
   }
   cursor = next;
 }
-const $ = (m) => Math.round(m / 100);
+const $ = (m) => Math.round((m ?? 0) / 100);
 const rows = [...core.finance.businesses.values()].map((b) => {
-  const o = opening.get(b.organizationId);
-  const history = monthly.get(b.organizationId);
-  const last = history.at(-1);
+  // A business founded during the year opens at zero: its founding capital
+  // came by a journaled transfer, which the cash totals already count.
+  const o = opening.get(b.organizationId) ?? {
+    cash: 0,
+    annualPayroll: b.annualPayrollMinor,
+    annualDemand: b.annualDemandMinor,
+    annualOther: b.annualOtherCostsMinor,
+  };
+  const history = monthly.get(b.organizationId) ?? [];
+  const last = history.at(-1) ?? {};
   return {
-    name: orgs.get(b.organizationId)?.name,
+    name: (
+      orgs.get(b.organizationId) ?? core.organizations.get(b.organizationId)
+    )?.name,
+    founded: !opening.has(b.organizationId),
     kind: b.kindId,
     closedAt: b.closedAt ?? "",
     openingCash$: $(o.cash),
@@ -130,17 +195,32 @@ const sales = rows.reduce((n, r) => n + r.sales$, 0),
   wages = rows.reduce((n, r) => n + r.wagesRequested$, 0);
 const closed = rows.filter((r) => r.closedAt).length;
 const labeled = [...core.gaps].filter((g) => /condition|national/i.test(g));
+const plugs = [...byClass].filter(([key]) => key.startsWith("plug:"));
+const owedByPlugs = plugs.reduce((n, [, t]) => n + t.owedMinor, 0);
 const passed = {
   close: rows.length > 0 && closed / rows.length < 0.1,
   sales: sales > wages / 2,
   balances: openingCash - outsideNet === cashTotal(),
   outside: Object.keys(outside).length > 0,
   labeled: labeled.length > 0,
+  matched: unmatched.size === 0 && owedByPlugs === 0,
 };
 console.log(
   JSON.stringify(
     {
       place: `${place.name} (${place.state})`,
+      placeKey: place.key,
+      span: [input.startedAt, core.date],
+      seconds: (performance.now() - started) / 1000,
+      closureRecords: [...core.finance.closures.values()].map((row) => ({
+        organizationId: row.organizationId,
+        date: row.date,
+        sourceReceiptId: row.sourceReceiptId,
+        affectedPersonIds: row.affectedPersonIds,
+        affectedCountedPersonIds: row.affectedCountedPersonIds,
+        endedJobIds: row.endedJobIds,
+        endedCountedJobIds: row.endedCountedJobIds,
+      })),
       seed,
       checks: {
         "1 under 10% close": `${closed} of ${rows.length} (${((100 * closed) / rows.length).toFixed(1)}%)`,
@@ -148,6 +228,29 @@ console.log(
         "3 every dollar balances": openingCash - outsideNet === cashTotal(),
         "4 outside money reported": outside,
         "5 national conditions labeled": labeled,
+        "6 the outside is owed only for recorded exchanges": {
+          owedByPlugs$: $(owedByPlugs),
+          plugs: Object.fromEntries(
+            plugs.map(([key, t]) => [
+              key,
+              { owed$: $(t.owedMinor), entries: t.entries },
+            ]),
+          ),
+          unmatched: Object.fromEntries(
+            [...unmatched].map(([key, t]) => [
+              key,
+              { owed$: $(t.owedMinor), entries: t.entries },
+            ]),
+          ),
+          matched: Object.fromEntries(
+            [...byClass]
+              .filter(([key]) => !key.startsWith("plug:"))
+              .map(([key, t]) => [
+                key,
+                { owed$: $(t.owedMinor), entries: t.entries },
+              ]),
+          ),
+        },
       },
     },
     null,

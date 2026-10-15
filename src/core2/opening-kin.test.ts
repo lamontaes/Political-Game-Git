@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
+import { corePlaceStateIdentities } from "./place-lookup";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { buildPopulation } from "./population";
@@ -14,7 +14,7 @@ const startedAt = "2021-01-01";
 
 /** One locality drawn from all 56 states and territories by the seed, never named in logic. */
 function drawnPlace(drawSeed: string) {
-  const states = [...lifePlaceStateIdentities()].sort((a, b) =>
+  const states = [...corePlaceStateIdentities()].sort((a, b) =>
     stableHash(`${drawSeed}:${a.jurisdictionKey}`).localeCompare(
       stableHash(`${drawSeed}:${b.jurisdictionKey}`),
     ),

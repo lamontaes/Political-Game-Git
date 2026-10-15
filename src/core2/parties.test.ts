@@ -32,17 +32,16 @@ import {
 } from "./modules/parties";
 import { holdPrimary, openVoting } from "./modules/voting";
 import {
-  lifePlaceByKey,
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`parties:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -54,7 +53,7 @@ describe("M2-08 parties", () => {
   it("parties are organizations from data; ties come from views; no party and independent both exist; a primary picks one nominee", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -76,7 +75,7 @@ describe("M2-08 parties", () => {
     openVoting(core);
     const api = coreAPI(core);
     const parties = partiesHere(api);
-    const stateKey = lifePlaceByKey(place)!.stateJurisdictionKey!;
+    const stateKey = corePlaceByKey(place)!.stateJurisdictionKey!;
     expect(parties.map((p) => p.name).sort()).toEqual(
       stateParties(stateKey)
         .map((p) => p.name)
@@ -153,7 +152,7 @@ describe("M2-08 parties", () => {
         canvasserId: first.personId,
         hours: 6,
       });
-      const votes = holdPrimary(api, primaryContest);
+      const { votes, namedVotes } = holdPrimary(api, primaryContest);
       const left = ballot(api, primaryContest).filter(
         (f) => f.party === party.name,
       );
@@ -162,6 +161,10 @@ describe("M2-08 parties", () => {
       // town's named voters (audit 2, item 1).
       const total = Object.values(votes).reduce((a, b) => a + b, 0);
       expect(total).toBeGreaterThan(members.length);
+      // Same-party candidates no platform tells apart are still told apart
+      // by standing, reach and the ballot itself, so the party's voters
+      // beyond the town vote in it too (CTO, Oct 14).
+      expect(total).toBeGreaterThan(namedVotes);
       govReport(
         "parties",
         JSON.stringify({

@@ -1,6 +1,9 @@
 import placesData from "../../../data/research/elections/protest-places.json" with { type: "json" };
 import { modelCampaignFieldReach } from "../campaign-contact-calibration";
-import { compareSimulationMoments, makeSimulationMoment } from "../dates";
+import {
+  compareSimulationMoments,
+  makeSimulationMoment,
+} from "../../core2/kernel/dates";
 import {
   evaluateDecision,
   isSelectedDecision,

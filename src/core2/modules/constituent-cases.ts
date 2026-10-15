@@ -25,14 +25,24 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
 import { decisionLean } from "../trait-decisions";
 import { lawChain, lawInForce, raiseOne } from "./laws";
-import { members } from "./legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { townSeats, type TermRow } from "./offices";
 import { touchImpression } from "./campaigns";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
+import { makeCase, SPEECH_MODULE_ID } from "./speech";
+import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
 
 export const CASES_MODULE_ID = "core2-constituent-cases-v1";
 
 export type Problem = "looking-for-work" | "paid-under-minimum-wage";
+
+const PROBLEM_QUESTIONS = (
+  problemQuestions as unknown as {
+    problems: Record<
+      string,
+      { question: string; desiredChange: string } | null
+    >;
+  }
+).problems;
 
 export interface CaseRow {
   readonly id: string;
@@ -101,15 +111,23 @@ function scheduleOfficeHours(api: CoreAPI, from: string): void {
   });
 }
 
-/** The town's local officials residents can bring a problem to: council members and the mayor who live here. */
+/** Officials covering the town, including its state district office, chosen by the same ties and service rule. */
 function localOfficials(api: CoreAPI): readonly TermRow[] {
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  return (
-    offices.table("offices").rows() as unknown as { id: string; kind: string }[]
-  )
-    .filter((o) => o.kind === "council" || o.kind === "mayor")
-    .flatMap((o) => members(api, o.id))
-    .filter((t) => t.personId && api.state.people.has(t.personId))
+  return townSeats(api)
+    .filter(
+      ({ office, seat }) =>
+        seat.coversTown &&
+        [
+          "council",
+          "mayor",
+          "legislature-lower",
+          "legislature-upper",
+          "legislature-unicameral",
+        ].includes(office.kind),
+    )
+    .flatMap(({ holder }) =>
+      holder?.personId && api.state.people.has(holder.personId) ? [holder] : [],
+    )
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
@@ -234,6 +252,19 @@ function officeHours(api: CoreAPI): void {
     };
     table(api).put(row as unknown as ModuleRow);
     api.relationship(person.id, official.personId!, "contact", 0.05);
+    // Bringing the problem makes the resident's case on its question to the
+    // official, who is moved by the resident's standing with them.
+    const argues = PROBLEM_QUESTIONS[row.problem];
+    if (argues && api.state.modules.has(SPEECH_MODULE_ID))
+      makeCase(api, {
+        id: `case-made:${row.id}`,
+        speakerId: person.id,
+        listenerIds: [row.officialId],
+        placeId: town,
+        topic: argues.question,
+        desiredChange: argues.desiredChange,
+        citation: `Constituent case ${row.id}`,
+      });
     api.moduleCalendar(CASES_MODULE_ID).schedule({
       key: `case-due:${row.id}`,
       date: row.respondBy,
@@ -306,8 +337,11 @@ function resolve(
       asOf: api.state.date,
     });
     outcome = raised ? "referred-pay-raised" : "referred-no-finding";
-  } else if (decision === "help") outcome = "referred-to-workforce-office";
-  else outcome = "turned-away";
+  } else if (decision === "help") {
+    // stopgapId: SG-GOV-case-referral-unread (the jobs engine doesn't read a referral yet)
+    api.stopgap("SG-GOV-case-referral-unread");
+    outcome = "referred-to-workforce-office";
+  } else outcome = "turned-away";
   const done: CaseRow = {
     ...row,
     status: decision === "help" ? "helped" : "declined",
@@ -328,6 +362,23 @@ function resolve(
     rapport: 0,
   });
   return done;
+}
+
+/**
+ * The official's desk of cases: those still open, soonest deadline first. The
+ * player decides these (`handleCase`); one left past its deadline goes to the
+ * office's staff, or to the office's own habit where it has none.
+ */
+export function casesOpenFor(
+  api: CoreAPI,
+  officialId: string,
+): readonly CaseRow[] {
+  return (table(api).query("byStatus", ["open"]) as unknown as CaseRow[])
+    .filter((c) => c.officialId === officialId)
+    .sort(
+      (a, b) =>
+        a.respondBy.localeCompare(b.respondBy) || a.id.localeCompare(b.id),
+    );
 }
 
 export function casesFor(api: CoreAPI, officialId: string): readonly CaseRow[] {

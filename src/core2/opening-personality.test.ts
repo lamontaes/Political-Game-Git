@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { PEOPLE_MIND_VERSION } from "../simulation/people-trait-definitions";
+import { PEOPLE_MIND_VERSION } from "./people-mind";
 import { OPENING_KIN } from "./opening-kin";
 import {
   openingTemperaments,

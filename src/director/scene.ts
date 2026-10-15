@@ -1,11 +1,4 @@
-/**
- * Scenes on the new core (M4-03): when the director stages a moment, the
- * scene is built from blocks, not written: where you are (the setting's
- * record), who is there (the binding's present people), and what led here
- * (the moment's cause), narrated in second person by the English engine.
- * The scene then hands off to a conversation with the person who opens it.
- */
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -13,12 +6,11 @@ import {
   type AuthoredEnglishBank,
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
-} from "../presentation/grounded-english";
-import sceneJson from "./data/scene-words.json" with { type: "json" };
+} from "../english/grounded-english";
 import { JOURNAL_DATA } from "./journal";
 import type { Director } from "./ledger";
 import type { SceneBinding, ScheduleEntry } from "./scheduling";
-import { directorStopgap } from "./stopgaps";
+import { sceneWordsFromBank } from "./mined/scene-bank";
 import { properName, spoken } from "./words";
 
 const zero = P.zero;
@@ -31,13 +23,20 @@ interface Variant {
 }
 export interface SceneWords {
   version: string;
-  stopgapId: string;
   and: string;
   settings: Readonly<Record<string, Variant[]>>;
   present: Variant[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
 }
-export const SCENE_WORDS = sceneJson as SceneWords;
+/** `data/scene-rows.json`: the scene's structure, holding no sentences. */
+export interface SceneRows {
+  version: string;
+  and: string;
+  settings: readonly string[];
+  causes: readonly string[];
+}
+/** The default words are the mined bank's. */
+export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
 
 interface Fact {
   text: string;
@@ -82,7 +81,6 @@ export function composeScene(
     timing: "now",
     openUntil: moment.date,
   };
-  directorStopgap(words.stopgapId, director.ledger.stopgapHits);
 
   const relation = new Map<string, { relation: string; factId: string }>();
   for (const fact of person.pastFacts ?? [])
@@ -113,7 +111,7 @@ export function composeScene(
     };
   };
   const place = (id: string): Fact | null => {
-    const row = lifePlaceByJurisdictionId(id as never);
+    const row = corePlaceByJurisdictionId(id as never);
     return row ? { text: spoken(row), sourceRecordIds: [id] } : null;
   };
 
@@ -194,10 +192,32 @@ export function composeScene(
   );
   if (setting) narration.push(setting);
 
-  // Who is there.
-  const present = binding.presentIds
-    .filter((id) => id !== personId && core.people.get(id)?.alive)
-    .map(who)
+  // Who is there. Two people with the same relation ("your son", "your
+  // son") are said by their given names instead, so each is someone.
+  // Only the people the scene is about are named: the one who opens it and
+  // whoever its record names, never a roll call of everyone in the house
+  // (batch 11: "Timothy, your daughter, Ahmad, your father, ... are here.").
+  const opener = binding.roles.find((row) => row.role === binding.opener);
+  const about = new Set<string>([
+    ...(opener?.personIds ?? []),
+    ...moment.counterpartIds,
+  ]);
+  const here = binding.presentIds.filter(
+    (id) => id !== personId && core.people.get(id)?.alive && about.has(id),
+  );
+  const said = here.map(who);
+  const counts = new Map<string, number>();
+  for (const row of said)
+    if (row) counts.set(row.text, (counts.get(row.text) ?? zero) + one);
+  const present = said
+    .map((row, at) =>
+      row && (counts.get(row.text) ?? zero) > one
+        ? {
+            text: core.people.get(here[at]!)!.givenName,
+            sourceRecordIds: [...row.sourceRecordIds, here[at]!],
+          }
+        : row,
+    )
     .filter((row): row is Fact => row !== null);
   if (present.length) {
     const names = present.map((row) => row.text);
@@ -251,7 +271,6 @@ export function composeScene(
     if (line) narration.push(line);
   }
 
-  const opener = binding.roles.find((row) => row.role === binding.opener);
   const talkToId =
     opener?.personIds.find((id) => id !== personId) ??
     moment.counterpartIds.find((id) => binding.presentIds.includes(id));

@@ -20,19 +20,23 @@ import partyCounts from "../../../data/research/offices/legislature-party-counts
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
+import { partySide } from "../appointments";
+import { partyLean } from "../campaign-stances";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { lifePlaceByKey } from "../../simulation/life-places";
+import { corePlaceByKey } from "../place-lookup";
 import {
   personLean,
   personStance,
   PLATFORM_QUESTIONS,
 } from "../campaign-views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { MOVED_AWAY_EVENT } from "./moves";
+import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 
 export const PARTIES_MODULE_ID = "core2-parties-v1";
 
@@ -74,7 +78,19 @@ export const PARTIES_MODULE: CoreModule = {
         },
       },
       meetings: { indexes: { byParty: { fields: ["partyId"] } } },
+      chairs: { indexes: { byParty: { fields: ["partyId"] } } },
     },
+  },
+  // A chair who dies or moves away is replaced the same day.
+  eventKinds: ["life.death", MOVED_AWAY_EVENT],
+  onEvent: (api, event) => {
+    for (const party of partiesHere(api))
+      if (party.leaderId && event.personIds.includes(party.leaderId))
+        chooseChair(
+          api,
+          party,
+          event.kind === "life.death" ? "death" : "moved away",
+        );
   },
   onCalendarWork: (api, work) => partyMeeting(api, work),
 };
@@ -85,12 +101,6 @@ const NOT_PARTIES =
 function value(key: string): number {
   return (parameters as { parameters: Record<string, { value: number }> })
     .parameters[key]!.value;
-}
-
-function sideOf(name: string): number {
-  if (/^democrat|popular democr/i.test(name)) return -1;
-  if (/^republican|nuevo progresista/i.test(name)) return 1;
-  return 0;
 }
 
 /** The parties of one state, with their shares, from the 2024 ballot or the legislature. */
@@ -175,7 +185,7 @@ export function openParties(core: CoreState): void {
   if (!core.modules.has(PARTIES_MODULE_ID))
     registerModule(core, PARTIES_MODULE);
   const api = coreAPI(core);
-  const place = lifePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
   const stateKey = place!.stateJurisdictionKey!;
   api.moduleState(PARTIES_MODULE_ID).table("parties"); // tables exist even where elections are nonpartisan
   const rules = (
@@ -206,7 +216,7 @@ export function openParties(core: CoreState): void {
       stateKey,
       organizationId,
       share: party.share,
-      side: sideOf(party.name),
+      side: partySide(party.name),
       nominationMethod: rules?.method ?? null,
       voterAccess: rules?.voterAccess ?? null,
       leaderId: null,
@@ -342,6 +352,47 @@ function put(
   } as unknown as ModuleRow);
 }
 
+/**
+ * Join a party (the player's act, or anyone's): American parties take any
+ * voter who registers with them, so the tie is made, and the record keeps how
+ * the person's own views sit against the party's positions (their lean
+ * against the party's, -1 to 1: 1 the same, -1 opposite), which their
+ * loyalty and the party's other members read. Filing under the party's
+ * label reads this membership (`checkEligibility`).
+ */
+export function joinParty(
+  api: CoreAPI,
+  personId: string,
+  partyId: string,
+): { readonly tie: TieRow; readonly agreement: number } {
+  const person = api.state.people.get(personId);
+  if (!person) throw new Error(`No such person: ${personId}`);
+  const party = partiesHere(api).find((p) => p.id === partyId);
+  if (!party) throw new Error(`No party ${partyId} here`);
+  const own = personLean(
+    api.state.people,
+    person,
+    (
+      api
+        .moduleState("core2-campaigns-v1")
+        .table("town")
+        .get("town") as unknown as { lean: number } | undefined
+    )?.lean ?? 0,
+  );
+  const theirs = partyLean(api, party.name)?.lean ?? party.side;
+  const agreement = 1 - Math.abs(own - theirs);
+  put(
+    api.moduleState(PARTIES_MODULE_ID).table("ties"),
+    person,
+    "party",
+    party.id,
+    own,
+    api.state.date,
+    `joined; views against the party's positions ${agreement.toFixed(3)}`,
+  );
+  return { tie: partyTie(api, personId)!, agreement };
+}
+
 export function partyTie(api: CoreAPI, personId: string): TieRow | null {
   return (
     (api
@@ -392,14 +443,136 @@ function scheduleMeeting(api: CoreAPI, from: string): void {
   });
 }
 
-/** Who leads: the most outgoing, dutiful member in town. */
-function leaderAmong(members: readonly Readonly<PersonState>[]) {
+/** A party's choice of a new chair, kept as its record. */
+export interface ChairRow {
+  readonly id: string;
+  readonly partyId: string;
+  readonly date: string;
+  readonly cause: string;
+  readonly previousId: string | null;
+  readonly chosenId: string;
+  /** Each member's vote, by the colleague they backed. */
+  readonly votes: Readonly<Record<string, string>>;
+}
+
+/**
+ * The party's members in town choose a new chair, each backing the colleague
+ * they rate highest: how close they are to them, how near their views sit,
+ * and the colleague's own pull to lead (outgoing and dutiful, the rule an
+ * opening chair is read by). Nothing is drawn; the most votes win, a tie
+ * going to the stronger pull. The record and a news event follow the same
+ * day; returns null where the party has no member left in town.
+ */
+export function chooseChair(
+  api: CoreAPI,
+  party: PartyRow,
+  cause: string,
+): ChairRow | null {
+  const core = api.state as CoreState;
+  const date = core.date;
+  const town = corePlaceByKey(core.placeMetadata.placeKey ?? "")?.context
+    .jurisdiction.id;
+  const members = (
+    api
+      .moduleState(PARTIES_MODULE_ID)
+      .table("ties")
+      .query("byParty", [party.id]) as unknown as TieRow[]
+  )
+    .map((t) => core.people.get(t.personId))
+    .filter(
+      (p): p is PersonState =>
+        !!p &&
+        p.alive &&
+        p.id !== party.leaderId &&
+        p.placeId === town &&
+        core.memberships.has(`${p.id}:${party.organizationId}`),
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  if (!members.length) return null;
+  const townLean =
+    (
+      api
+        .moduleState("core2-campaigns-v1")
+        .table("town")
+        .get("town") as unknown as { lean: number } | undefined
+    )?.lean ?? 0;
+  const lean = new Map(
+    members.map((m) => [m.id, personLean(core.people, m, townLean)]),
+  );
   const pull = (p: Readonly<PersonState>) =>
     (p.traits["people-mind-v1:sociability"] ?? 0) +
     (p.traits["personality-v1:facet-duty-bound"] ?? 0);
-  return [...members].sort(
-    (a, b) => pull(b) - pull(a) || a.id.localeCompare(b.id),
-  )[0];
+  const votes: Record<string, string> = {};
+  const tally = new Map<string, number>();
+  for (const voter of members) {
+    let best: { id: string; score: number } | null = null;
+    for (const colleague of members) {
+      const score =
+        value("chairVoteRelationshipWeight") *
+          (colleague.id === voter.id
+            ? 0
+            : closenessBetween(core, voter.id, colleague.id)) +
+        value("chairVoteAgreementWeight") *
+          (1 - Math.abs(lean.get(voter.id)! - lean.get(colleague.id)!) / 2) +
+        value("chairVotePullWeight") * pull(colleague);
+      if (
+        !best ||
+        score > best.score ||
+        (score === best.score && colleague.id < best.id)
+      )
+        best = { id: colleague.id, score };
+    }
+    votes[voter.id] = best!.id;
+    tally.set(best!.id, (tally.get(best!.id) ?? 0) + 1);
+  }
+  const chosen = [...tally].sort(
+    (a, b) =>
+      b[1] - a[1] ||
+      pull(core.people.get(b[0])!) - pull(core.people.get(a[0])!) ||
+      a[0].localeCompare(b[0]),
+  )[0]![0];
+  const row: ChairRow = {
+    id: `party-chair:${party.id}:${date}`,
+    partyId: party.id,
+    date,
+    cause,
+    previousId: party.leaderId,
+    chosenId: chosen,
+    votes,
+  };
+  api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("chairs")
+    .put(row as unknown as ModuleRow);
+  api
+    .moduleState(PARTIES_MODULE_ID)
+    .table("parties")
+    .put({ ...party, leaderId: chosen } as unknown as ModuleRow);
+  api.emit({
+    id: row.id,
+    date,
+    kind: "party-chair-chosen",
+    personIds: [chosen, ...(party.leaderId ? [party.leaderId] : [])].filter(
+      (id) => core.people.has(id),
+    ),
+    placeId: core.people.get(chosen)!.placeId,
+    source: {
+      tag: "SOURCED",
+      citation: `${party.name} members' vote for chair (${cause})`,
+      asOf: date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      partyId: party.id,
+      cause,
+      previousId: party.leaderId ?? "",
+      chosenId: chosen,
+      votesFor: String(tally.get(chosen)),
+      voters: String(members.length),
+    },
+  });
+  return row;
 }
 
 /**
@@ -419,7 +592,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (!parties.length) return;
   const core = api.state as CoreState;
   const date = core.date;
-  const town = lifePlaceByKey(core.placeMetadata.placeKey ?? "")?.context
+  const town = corePlaceByKey(core.placeMetadata.placeKey ?? "")?.context
     .jurisdiction.id;
   if (!town) return;
   const townLean =
@@ -509,15 +682,11 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       )
       .map((t) => core.people.get(t.personId)!);
     if (!members.length) continue;
+    // A chair who left the party is replaced by the members' own choice.
     const leaderId =
       party.leaderId && members.some((m) => m.id === party.leaderId)
         ? party.leaderId
-        : leaderAmong(members)!.id;
-    if (leaderId !== party.leaderId)
-      api
-        .moduleState(PARTIES_MODULE_ID)
-        .table("parties")
-        .put({ ...party, leaderId } as unknown as ModuleRow);
+        : chooseChair(api, party, "left the party")!.chosenId;
     const attendeeIds = members
       .filter(
         (m) =>

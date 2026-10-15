@@ -4,8 +4,8 @@ import { groupedJsonTable, lazyValue } from "../../core2/reference/lazy-data";
 import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { recordsWithFieldValue } from "../history-index";
-import { governmentUnitsForState } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { governmentUnitsForState } from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { householdMembershipsAt } from "../life-queries";
 import { primaryDwellingOf } from "../resource-queries";
 import { TOWN_HOMES_VERSION } from "./town-homes";
@@ -21,11 +21,8 @@ import {
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
-import {
-  TOWN_RESIDENTS_VERSION,
-  UNKNOWN_TOWN_POPULATION,
-  townRoster,
-} from "./town-residents";
+import { TOWN_RESIDENTS_VERSION } from "../../core2/town-households";
+import { UNKNOWN_TOWN_POPULATION, townRoster } from "./town-residents";
 
 /**
  * TOWN WARDS (Build 25; CTO ruling of September 29, 10:02 a.m.: the

@@ -1,10 +1,11 @@
 /** M1-08 first cut: owners and owner draws from profit, on a recorded fixture. */
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
-import { BUSINESS_MODULE, ownerOf } from "./modules/business";
+import { BUSINESS_MODULE, estateHeir, ownerOf } from "./modules/business";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
+import { depositsHeld } from "./accounts";
 import { residentsRuntime } from "./modules/residents";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
@@ -371,7 +372,9 @@ describe("founding a business where a market has room", () => {
       .rows()
       .filter((row) => row.ownerId === "founder")
       .reduce((n, row) => n + Number(row.drawnMinor), 0);
-    expect(core.people.get("founder")!.liquidMinor).toBe(
+    const savings = depositsHeld(core, core.people.get("founder")!.householdId);
+    expect(savings).toBeGreaterThan(0);
+    expect(core.people.get("founder")!.liquidMinor + savings).toBe(
       2_000_000 - equity + drawn,
     );
     expect(
@@ -502,12 +505,14 @@ describe("closing by choice", () => {
     core.people.get("owner")!.birthDate = "1958-12-31";
     const owners = api.moduleState("business").table("owners");
     const row = owners.get(shop)!;
-    owners.put({ ...row, retainedMinor: -15_000_000 });
+    owners.put({ ...row, lossMonths: 8 });
     advanceCore(core, "2021-02-02");
     const choice = api
       .moduleState("business")
       .table("choices")
-      .get(`choice:${shop}:2021-02-01`) as { values: Record<string, number> };
+      .get(`choice:${shop}:2021-02-01`) as unknown as {
+      values: Record<string, number>;
+    };
     expect(choice.values.age).toBe(0);
   });
 
@@ -519,12 +524,16 @@ describe("closing by choice", () => {
       }),
       api = coreAPI(core),
       total = money(core);
+    const closed: { facts?: Readonly<Record<string, string>> }[] = [];
+    api.subscribeEvents("test", ["business.closed"], (_api, event) => {
+      closed.push(event);
+    });
     books(core);
     advanceCore(core, "2021-01-15");
     const owners = api.moduleState("business").table("owners");
     const row = owners.get(shop)!;
     // Losses kept: 15 months of the shop's payroll.
-    owners.put({ ...row, retainedMinor: -15_000_000 });
+    owners.put({ ...row, lossMonths: 8 });
     const before = core.people.get("owner")!.liquidMinor;
     advanceCore(core, "2021-02-02");
     const choice = api
@@ -540,6 +549,57 @@ describe("closing by choice", () => {
     expect(
       api.moduleState("business").table("closures").get(`closure:${shop}`),
     ).toMatchObject({ cause: "losses-kept" });
+    // The news record carries that same recorded reason as data.
+    expect(closed).toHaveLength(1);
+    expect(closed[0]!.facts).toEqual({
+      [`organization:${shop}:closing-reason`]: "losses-kept",
+    });
     expect(money(core)).toBe(total);
+  });
+});
+
+describe("a dead owner's closing proceeds", () => {
+  const stub = (alive: Record<string, boolean>, links: [string, string][]) => {
+    const people = new Map(
+      Object.entries(alive).map(([id, a]) => [
+        id,
+        { id, alive: a, householdId: `hh:${id}`, familyIds: [] as string[] },
+      ]),
+    );
+    const households = new Map(
+      [...people.keys()].map((id) => [`hh:${id}`, { memberIds: [id] }]),
+    );
+    const familyLinks = new Map(
+      links.map(([a, b], i) => [
+        `l${i}`,
+        { id: `l${i}`, kind: "parent-child", personIds: [a, b] },
+      ]),
+    );
+    const organizations = new Map([
+      ["biz", { id: "biz", placeId: "p" }],
+      ["out", { id: "out", placeId: "p", outsideFlow: {} }],
+    ]);
+    return {
+      state: { people, households, familyLinks, organizations },
+    } as never;
+  };
+  it("go to a living relative, not the dead owner; else to the outside account", () => {
+    expect(
+      estateHeir(
+        stub({ owner: false, kid: true, parent: false }, [
+          ["owner", "kid"],
+          ["parent", "owner"],
+        ]),
+        "biz",
+        "owner",
+      ),
+    ).toBe("kid");
+    expect(
+      estateHeir(
+        stub({ owner: false, parent: false }, [["parent", "owner"]]),
+        "biz",
+        "owner",
+      ),
+    ).toBe("out");
   });
 });

@@ -10,6 +10,7 @@
  * fixture until councils on core2 (golden path step 6) cast votes themselves.
  */
 import { createHash } from "node:crypto";
+import { countedChoice } from "./electorate";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -41,17 +42,13 @@ import {
 import { openRecord, promisesOf, recordVote, votesOf } from "./modules/record";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`record:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -68,7 +65,7 @@ describe("M4-06 the record follows you", () => {
     for (let attempt = 0; attempt < 8 && !contest; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -196,14 +193,16 @@ describe("M4-06 the record follows you", () => {
     const broken = weighed.filter((b) =>
       b!.recordReasons![incumbent.id]!.some((r) => r.kind === "broken-promise"),
     );
+    // Whom each voter would back with the record and without it (whether
+    // they turn out that day is a separate decision).
     const changed = weighed.filter((b) => {
-      if (!b!.voted) return false;
-      const without = Object.entries(b!.appeal)
-        .map(([id, a]) => [id, a.total - a.record] as const)
-        .sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]));
-      const separated = without.length < 2 || without[0]![1] > without[1]![1];
-      const before = separated ? without[0]![0] : null;
-      return before !== b!.choice;
+      const without = Object.fromEntries(
+        Object.entries(b!.appeal).map(([id, a]) => [
+          id,
+          { total: a.total - a.record },
+        ]),
+      );
+      return countedChoice(without) !== countedChoice(b!.appeal);
     });
     expect(
       changed.length,
@@ -235,7 +234,7 @@ describe("a vote by a member who isn't a full person", () => {
   it("is on the record but is not its own event", () => {
     const state = pick(states, "outsider:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

@@ -11,13 +11,17 @@
  *   takes off more for the young, less with age; all-mail voting takes off
  *   part of the work-time cost of getting to the polls.
  * - `felonyDisenfranchisedShare`: the share of the counted adults who can't
- *   vote for a felony conviction, less those a restoration law returns.
+ *   vote for a felony conviction in the town's state, less those a restoration
+ *   law returns; `barredFromVoting` for a named person.
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
 import type { CoreAPI, CoreState, PersonState } from "../types";
+import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
+import { electionsParameter } from "../elections-calendar";
+import { corePlaceByKey } from "../place-lookup";
 import { campaignParameter } from "../campaign-views";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
-import type { PolicyHandler } from "../modules/law-effects";
+import type { PolicyHandler } from "./host";
 import {
   ageOn,
   applyRecords,
@@ -106,15 +110,42 @@ export function electionLawTurnoutCost(
 }
 
 /**
- * The share of the counted adults who can't vote for a felony conviction
- * (stand-in rate until conviction records exist: SG-GOV-REACH-A-convictions),
- * less those a restoration law in force returns to the rolls.
+ * The share of the counted adults who can't vote for a felony conviction:
+ * the town's state's own share (The Sentencing Project, Locked Out 2024,
+ * `data/elections/felony-disenfranchisement.json`), less the part a
+ * restoration law in force returns to the rolls (those who have finished
+ * their sentences). D.C. and the territories, which the report leaves out,
+ * take the national share until conviction records exist
+ * (SG-GOV-REACH-A-convictions).
  */
 export function felonyDisenfranchisedShare(api: CoreAPI): number {
-  const base = reachParameter("disenfranchisedShare");
+  const stateKey = corePlaceByKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  )?.stateJurisdictionKey;
+  const shares = felonyData.states as Record<string, number>;
+  const own = stateKey ? shares[stateKey] : undefined;
+  if (own === undefined) {
+    // stopgapId: SG-GOV-REACH-A-convictions
+    api.stopgap("SG-GOV-REACH-A-convictions");
+  }
+  const base = own ?? felonyData.nationalShare;
   return electionLaws(api).has(RESTORE_VOTE)
-    ? base - reachParameter("restoredVoterShare")
+    ? base * (1 - electionsParameter("restoredFractionOfDisenfranchised"))
     : base;
+}
+
+/**
+ * Whether a named person's own record bars them from voting: a conviction
+ * whose sentence the state's law says bars the vote. The core holds no
+ * conviction or sentence records yet, so no named person is barred; the
+ * counted electorate carries the state's share instead
+ * (`felonyDisenfranchisedShare`).
+ */
+export function barredFromVoting(api: CoreAPI, personId: string): boolean {
+  void personId;
+  // stopgapId: SG-GOV-named-voters-never-barred
+  api.stopgap("SG-GOV-named-voters-never-barred");
+  return false;
 }
 
 function termsOf(api: CoreAPI, personId: string): readonly TermRow[] {

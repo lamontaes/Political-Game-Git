@@ -4,14 +4,16 @@
  * day, and its winner is seated on the real date. (Races covering the town
  * run with named voters in `voting.ts`.)
  *
- * Each race is counted in its blocks of simulated voters on the same engine
- * as the town's own races (`electorate-blocks.ts`): a House district's 2024
- * voters, a state's counties for the Senate and the presidency, a state
- * legislative district's share of its state. Each block's party groups turn
- * out and choose from the candidates' standing (the holder's incumbency),
- * the national economy since the opening, the midterm penalty and the
- * election laws in force. Nothing is rolled: the same inputs always give the
- * same winner, and every race keeps its votes by block and its reasons.
+ * Each race is counted on the one engine for everyone the world doesn't name
+ * (`electorate.ts`), at a coarser level: its places (a House district, a
+ * state's counties for the Senate and the presidency, a state legislative
+ * district's share of its state; `electorate-places.ts`) vote as the town's
+ * counted residents would on each place's own 2024 lean, weighted to its
+ * eligible voters. Each voter turns out and chooses from the candidates'
+ * public standing (the holder's incumbency), the national economy since the
+ * opening, the midterm penalty and the election laws in force. Nothing is
+ * rolled: the same inputs always give the same winner, and every race keeps
+ * its votes by place and its reasons.
  */
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
@@ -20,31 +22,43 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
-import { partySide } from "../appointments";
+import { caucusSide, nationalParty, partySide } from "../appointments";
+import { stateParties } from "./parties";
 import { lawChain } from "./laws";
 import { FEDERAL_HOUSE, members } from "./legislature";
 import { ballot, ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import {
+  cycleTurnout,
   electionCycle,
+  electorateSample,
   openNextCycle,
   resultOf,
   VOTING_MODULE_ID,
 } from "./voting";
+import { CAMPAIGNS_MODULE_ID } from "./campaigns";
 import {
-  countBlocks,
-  houseBlock,
-  legislativeBlock,
-  stateBlocks,
-  type Block,
-  type CandidateInputs,
-  type CandidateReasons,
-  type ElectorateResult,
-} from "../electorate-blocks";
+  countPlaces,
+  type CountedFieldEntry,
+  type PlaceResult,
+  type RacePlace,
+  type SampleVoter,
+} from "../electorate";
 import {
+  housePlace,
+  legislativePlace,
+  statePlaces,
+  type ElectoratePlace,
+} from "../electorate-places";
+import {
+  appealOfShare,
   candidateInputs,
+  candidateReasons,
+  electorateChange,
   presidentSide,
   raceConditions,
   rememberOpeningElectorate,
+  type CandidateInputs,
+  type CandidateReasons,
 } from "../electorate-inputs";
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -67,12 +81,12 @@ export interface RaceRow {
   readonly winnerParty: string;
   readonly seatedOn: string;
   readonly leanSource: string;
-  /** The blocks' votes for each major party. */
+  /** The places' votes for each major party. */
   readonly votes?: { readonly republican: number; readonly democratic: number };
   /** Each party's candidate's reasons, as vote shares in an evenly split electorate. */
   readonly reasons?: readonly CandidateReasons[];
-  /** How many blocks counted it. */
-  readonly blocks?: number;
+  /** How many places counted it. */
+  readonly places?: number;
 }
 
 export const WORLD_RACES_MODULE: CoreModule = {
@@ -83,8 +97,8 @@ export const WORLD_RACES_MODULE: CoreModule = {
       races: { indexes: { byDate: { fields: ["date"] } } },
       /** Congress seats outside the town's state: who holds them now. */
       seats: {},
-      /** Each counted block's votes in a race, by party-identification group. */
-      blocks: { indexes: { byRace: { fields: ["raceId"] } } },
+      /** Each place's votes in a race, counted coarsely. */
+      places: { indexes: { byRace: { fields: ["raceId"] } } },
     },
   },
   onCalendarWork: (api, work) => raceWork(api, work),
@@ -251,9 +265,9 @@ export interface PresidentialRow {
 
 /**
  * The electors vote: each state's electors go to its statewide winner. The
- * town's state is its own popular vote, counted from named voters and the
- * state's blocks (voting.ts); every other state is counted in its own
- * counties' blocks on the same engine, with the same candidates where the
+ * town's state is its own popular vote, counted from named and counted
+ * voters and the state's counties (voting.ts); every other state is counted
+ * in its own counties on the same engine, with the same candidates where the
  * town's ballot names them. A majority of electors (270) wins; a tie goes to
  * the House, voting by state delegation (U.S. Const. amend. XII).
  */
@@ -262,28 +276,28 @@ function electoralCollege(api: CoreAPI, year: number): void {
   const town = townPresidentialVote(api, year);
   const date = api.state.date;
   const conditions = raceConditions(api, {
-    date,
     federal: true,
     family: "president",
     cycle: "presidential",
-    cycleShare: cycleShare("presidential"),
-    townsState: false,
-    town: null,
+    raceVotes: 0,
+    townPlaceId: null,
   });
   const holder = presidentSide(api);
+  const sample = sampleFor(api, date);
+  const change = electorateChange(api);
   const states = Object.entries(electors.states).map(([key, count]) => {
     const own = key === stateKey && town ? town.republicanShare : null;
-    const blocks = own === null ? stateBlocks(key.slice(3)) : [];
-    const votes = blocks.reduce((s, b) => s + b.votes, 0);
+    const places = own === null ? statePlaces(key.slice(3)) : [];
+    const votes = places.reduce((s, b) => s + b.votes2024, 0);
     const lean = votes
-      ? blocks.reduce((s, b) => s + b.votes * b.target, 0) / votes
+      ? places.reduce((s, b) => s + b.votes2024 * b.rightShare, 0) / votes
       : 0.5;
     const field = town?.inputs.length
       ? town.inputs
       : [-1, 1].map((side) =>
           candidateInputs(api, {
             id: `party:${side > 0 ? "R" : "D"}`,
-            party: side > 0 ? "Republican" : "Democratic",
+            party: nationalParty(side),
             filingId: null,
             incumbent: false,
             seatParty: null,
@@ -294,7 +308,14 @@ function electoralCollege(api: CoreAPI, year: number): void {
         );
     let share = own;
     if (share === null) {
-      const counted = countBlocks(blocks, field, conditions);
+      const reasons = field.map((c) =>
+        candidateReasons(c, { ...conditions, raceVotes: votes }),
+      );
+      const counted = countPlaces(
+        sample,
+        coarse(places, key === stateKey, change),
+        entries(reasons, field),
+      );
       let r = 0,
         d = 0;
       for (const c of field) {
@@ -302,7 +323,7 @@ function electoralCollege(api: CoreAPI, year: number): void {
         if (c.side < 0) d += counted.votes[c.id] ?? 0;
       }
       share = r + d ? r / (r + d) : lean;
-      recordBlocks(api, `presidential:${year}:${key}`, counted);
+      recordPlaces(api, `presidential:${year}:${key}`, counted.places);
     }
     return {
       stateKey: key,
@@ -324,7 +345,7 @@ function electoralCollege(api: CoreAPI, year: number): void {
   let side =
     republican >= electors.toWin ? 1 : democratic >= electors.toWin ? -1 : 0;
   if (side === 0) side = houseDelegationsSide(api);
-  const winnerParty = side > 0 ? "Republican" : "Democratic";
+  const winnerParty = nationalParty(side);
   const winnerId =
     town?.candidates.find((c) => partySide(c.party) === side)?.personId ??
     `official:president:${year}:${winnerParty}`;
@@ -363,7 +384,7 @@ function townPresidentialVote(
 ): {
   republicanShare: number;
   candidates: { personId: string; party: string | null }[];
-  /** The same candidates as every other state's blocks see them. */
+  /** The same candidates as every other state's voters see them. */
   inputs: CandidateInputs[];
 } | null {
   if (!api.state.modules.has(VOTING_MODULE_ID)) return null;
@@ -555,10 +576,6 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     const usps = state.slice(3);
     for (const [district, parties] of Object.entries(seats)) {
       if (district === "senate") continue;
-      if (
-        ["US-DC", "US-PR", "US-GU", "US-VI", "US-AS", "US-MP"].includes(state)
-      )
-        continue;
       const code = district.padStart(2, "0");
       const seatId = `seat:${state}:us-house:${code}`;
       races.push({
@@ -605,14 +622,20 @@ function currentParty(
   return row && row.since <= api.state.date ? row.party : start;
 }
 
-/** A race's blocks: the House district's, the state's counties, or the legislative district's. */
-function raceBlocks(api: CoreAPI, race: Race): readonly Block[] {
+/** A race's places: the House district, the state's counties, or the legislative district. */
+function racePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
   const usps = race.usps;
   if (race.office === "us-house") {
-    const block = houseBlock(usps, race.code);
-    return block ? [block] : [];
+    const place = housePlace(usps, race.code);
+    if (place) return [place];
+    // A delegate's seat with no House vote on record (a territory): the
+    // place at its 2024 delegate race's lean, its size not yet read.
+    // stopgapId: SG-GOV-delegate-race-size
+    api.stopgap("SG-GOV-delegate-race-size");
+    const delegate = statePlaces(usps, 1)[0];
+    return delegate ? [{ ...delegate, eligible: 0 }] : [];
   }
-  if (race.office === "us-senate") return stateBlocks(usps);
+  if (race.office === "us-senate") return statePlaces(usps);
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const districts = new Set(
     (
@@ -623,19 +646,81 @@ function raceBlocks(api: CoreAPI, race: Race): readonly Block[] {
       }[]
     ).map((s) => s.district),
   ).size;
-  const block = legislativeBlock(
+  const place = legislativePlace(
     usps,
     race.seatId,
     districts,
     sideOf(race.incumbentParty),
     null,
   );
-  return block ? [block] : [];
+  return place ? [place] : [];
 }
 
-/** Independents in Congress caucus with the Democrats. */
-const sideOf = (party: string | null) =>
-  partySide(party) || (/independent/i.test(party ?? "") ? -1 : 0);
+/**
+ * The town's counted voters as every place counted from afar sees them, at
+ * the cycle's cost of voting; none where the town's elections aren't
+ * modeled.
+ */
+function sampleFor(api: CoreAPI, date: string): readonly SampleVoter[] {
+  if (
+    !api.state.modules.has(ELECTIONS_MODULE_ID) ||
+    !api.state.modules.has(CAMPAIGNS_MODULE_ID)
+  )
+    return [];
+  return electorateSample(api, date, cycleTurnout(date).cost);
+}
+
+/**
+ * A race's places as the engine counts them: in the town's own state the
+ * barred share today against the opening's, which the 2024 vote they are
+ * sized from reflects; elsewhere the opening's election laws (the town's
+ * state's changes don't reach them).
+ */
+function coarse(
+  places: readonly ElectoratePlace[],
+  townsState: boolean,
+  change: ReturnType<typeof electorateChange>,
+): readonly RacePlace[] {
+  const scale = townsState
+    ? (1 - change.barred) / Math.max(1e-9, 1 - change.openingBarred)
+    : 1;
+  return places.map((p) => ({
+    ...p,
+    scale,
+    readinessShift: townsState ? 0 : change.lawCost,
+  }));
+}
+
+/** Each candidate as a counted voter sees them on a race the town doesn't vote in. */
+function entries(
+  reasons: readonly CandidateReasons[],
+  field: readonly CandidateInputs[],
+): readonly CountedFieldEntry[] {
+  return field.map((c, i) => ({
+    id: c.id,
+    side: c.side,
+    isIncumbent: c.incumbent,
+    standing: appealOfShare(reasons[i]!.total),
+    localStanding: 0,
+    recognition: 0,
+    platform: [],
+  }));
+}
+
+/**
+ * The party that stands for a side of the scale in a state: the largest on
+ * that side in the state's own record (its 2024 ballot or legislature), else
+ * the national party of that side (party-sides data).
+ */
+function partyOnSideIn(stateKey: string, side: number): string {
+  const best = stateParties(stateKey)
+    .filter((p) => partySide(p.name) === side)
+    .sort((a, b) => b.share - a.share || a.name.localeCompare(b.name))[0];
+  return best?.name ?? nationalParty(side);
+}
+
+/** A member's side, with the side an independent caucuses with (party-sides data). */
+const sideOf = caucusSide;
 
 /**
  * Decide a race the town doesn't vote in: its blocks count it on the same
@@ -647,15 +732,16 @@ function decide(api: CoreAPI, race: Race, year: number): void {
   const side = sideOf(race.incumbentParty);
   // stopgapId: SG-GOV-world-race-lean
   api.stopgap("SG-GOV-world-race-lean");
-  const blocks = raceBlocks(api, race);
+  const places = racePlaces(api, race);
   const date = api.state.date;
-  const votesAt2024 = blocks.reduce((s, b) => s + b.votes, 0);
+  const votesAt2024 = places.reduce((s, b) => s + b.votes2024, 0);
   const lean = votesAt2024
-    ? blocks.reduce((s, b) => s + b.votes * b.target, 0) / votesAt2024
-    : 0.5 + side * campaignParameter("legislativeSeatMargin");
+    ? places.reduce((s, b) => s + b.votes2024 * b.rightShare, 0) / votesAt2024
+    : (places[0]?.rightShare ??
+      0.5 + side * campaignParameter("legislativeSeatMargin"));
   const cycle = electionCycle(date);
+  const townsState = `US-${race.usps}` === lawChain(api).stateKey;
   const conditions = raceConditions(api, {
-    date,
     federal: race.office.startsWith("us-"),
     family:
       race.office === "us-house"
@@ -664,20 +750,21 @@ function decide(api: CoreAPI, race: Race, year: number): void {
           ? "statewideExecutive"
           : "stateLegislative",
     cycle,
-    cycleShare: cycleShare(cycle),
-    townsState: `US-${race.usps}` === lawChain(api).stateKey,
-    town: null,
+    raceVotes: votesAt2024 * cycleTurnout(date).share,
+    townPlaceId: null,
   });
+  const stateKey = `US-${race.usps}`;
   const parties =
     side === 0
-      ? [
-          { party: "Democratic", side: -1, incumbent: false },
-          { party: "Republican", side: 1, incumbent: false },
-        ]
+      ? [-1, 1].map((s) => ({
+          party: partyOnSideIn(stateKey, s),
+          side: s,
+          incumbent: false,
+        }))
       : [
           { party: race.incumbentParty!, side, incumbent: true },
           {
-            party: side > 0 ? "Democratic" : "Republican",
+            party: partyOnSideIn(stateKey, -side),
             side: -side,
             incumbent: false,
           },
@@ -694,7 +781,12 @@ function decide(api: CoreAPI, race: Race, year: number): void {
       seatSide: side,
     }),
   );
-  const counted = countBlocks(blocks, candidates, conditions);
+  const reasons = candidates.map((c) => candidateReasons(c, conditions));
+  const counted = countPlaces(
+    sampleFor(api, date),
+    coarse(places, townsState, electorateChange(api)),
+    entries(reasons, candidates),
+  );
   const rep = counted.votes["party:R"] ?? 0,
     dem = counted.votes["party:D"] ?? 0;
   const share = rep + dem ? rep / (rep + dem) : lean;
@@ -702,10 +794,8 @@ function decide(api: CoreAPI, race: Race, year: number): void {
   const winnerParty =
     winnerSide === side && race.incumbentParty
       ? race.incumbentParty
-      : winnerSide > 0
-        ? "Republican"
-        : "Democratic";
-  const reasonsOf = (s: number) => counted.candidates.find((c) => c.side === s);
+      : partyOnSideIn(stateKey, winnerSide);
+  const reasonsOf = (s: number) => reasons.find((c) => c.side === s);
   const r = reasonsOf(1),
     d = reasonsOf(-1);
   const environment =
@@ -727,14 +817,14 @@ function decide(api: CoreAPI, race: Race, year: number): void {
     seatedOn: race.seatedOn,
     leanSource: race.leanSource,
     votes: { republican: rep, democratic: dem },
-    reasons: counted.candidates,
-    blocks: counted.blocks.length,
+    reasons,
+    places: counted.places.length,
   };
   table(api, "races").put({
     ...row,
     offices: race.offices ?? null,
   } as unknown as ModuleRow);
-  recordBlocks(api, row.id, counted);
+  recordPlaces(api, row.id, counted.places);
   api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
     key: `seat:${row.id}`,
     date: race.seatedOn > api.state.date ? race.seatedOn : api.state.date,
@@ -748,40 +838,31 @@ function decide(api: CoreAPI, race: Race, year: number): void {
   });
 }
 
-/** The cycle's turnout against a presidential year's. */
-function cycleShare(cycle: ReturnType<typeof electionCycle>): number {
-  return cycle === "presidential"
-    ? 1
-    : cycle === "midterm"
-      ? campaignParameter("midtermShareOfPresidential")
-      : campaignParameter("offCycleShareOfPresidential");
-}
-
-/** Keep each block's votes by group under its race. */
-function recordBlocks(
+/** Keep each place's votes under its race. */
+function recordPlaces(
   api: CoreAPI,
   raceId: string,
-  counted: ElectorateResult,
+  places: readonly PlaceResult[],
 ): void {
-  const rows = table(api, "blocks");
-  for (const block of counted.blocks)
+  const rows = table(api, "places");
+  for (const place of places)
     rows.put({
-      ...block,
-      id: `block:${raceId}:${block.id}`,
-      blockId: block.id,
+      ...place,
+      id: `place:${raceId}:${place.id}`,
+      placeId: place.id,
       raceId,
     } as unknown as ModuleRow);
 }
 
-/** Each counted block's votes in a race (a seat's, or a state's presidential vote). */
-export function raceBlocksOf(
+/** Each place's votes in a race (a seat's, or a state's presidential vote). */
+export function racePlacesOf(
   api: CoreAPI,
   raceId: string,
-): readonly (ElectorateResult["blocks"][number] & { blockId: string })[] {
-  return table(api, "blocks").query("byRace", [
+): readonly (PlaceResult & { placeId: string })[] {
+  return table(api, "places").query("byRace", [
     raceId,
-  ]) as unknown as (ElectorateResult["blocks"][number] & {
-    blockId: string;
+  ]) as unknown as (PlaceResult & {
+    placeId: string;
   })[];
 }
 

@@ -1,5 +1,5 @@
-import { makeIsoDate } from "./kernel/dates";
 import { bookkeeping } from "./bookkeeping";
+import { makeIsoDate } from "./kernel/dates";
 import type { Source } from "./types";
 
 export type ModuleValue =
@@ -18,35 +18,25 @@ export function moduleKey(value: string): string {
 }
 
 /**
- * Containers this module made: module data no one may change (with bookkeeping
- * on they are frozen, so tests fail on any change). A later copy reuses them
- * instead of copying again, so writing `{ ...row, change }` copies only what
- * is new, not every nested list the row already held.
+ * The same frozen copy, for play: rows stay immutable records (engines check
+ * that), only the per-field checks are skipped.
  */
-const madeHere = new WeakSet<object>();
-
-/**
- * A plain copy, without checks or freezing (bookkeeping off): the stored row
- * still never shares a container with the caller. Tests run the checked copy.
- */
-function plainData(value: unknown): unknown {
+function plainCopy(value: unknown): unknown {
   if (value === null || typeof value !== "object") return value;
-  if (madeHere.has(value)) return value;
-  let result: unknown;
-  if (Array.isArray(value)) result = value.map(plainData);
-  else {
-    const row: Record<string, unknown> = Object.create(null);
-    for (const key in value as Record<string, unknown>)
-      row[key] = plainData((value as Record<string, unknown>)[key]);
-    result = row;
-  }
-  madeHere.add(result as object);
-  return result;
+  if (Array.isArray(value)) return Object.freeze(value.map(plainCopy));
+  const result = Object.create(null) as Record<string, unknown>;
+  for (const key of Object.keys(value))
+    result[key] = plainCopy((value as Record<string, unknown>)[key]);
+  return Object.freeze(result);
 }
 
-/** Serializable data only. Never retain caller objects, accessors, or mutable containers. */
+/**
+ * Serializable data only. Never retain caller objects, accessors, or mutable
+ * containers. With bookkeeping on every value is checked as it is copied; in
+ * play the copy is the same without the checks (they only ever throw).
+ */
 export function moduleData<T>(input: T): T {
-  if (!bookkeeping()) return plainData(input) as T;
+  if (!bookkeeping()) return plainCopy(input) as T;
   const active = new Set<object>();
   function copy(value: unknown): unknown {
     if (

@@ -10,7 +10,7 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
-import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
@@ -52,6 +52,8 @@ export interface SituationType {
   timing: string;
   causes: readonly SituationCause[];
   awaiting?: readonly string[];
+  /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
+  choice?: string;
 }
 
 export interface SituationLibrary {
@@ -61,6 +63,10 @@ export interface SituationLibrary {
     paceBands: readonly { band: string; maxAge?: number }[];
     trailingDays: number;
     openDays: Readonly<Record<string, number>>;
+    /** Moments that stage their family scene when a household member is in them. */
+    householdScenes: readonly string[];
+    /** Records of the whole household that stage a family scene for each member. */
+    householdRecordScenes?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -191,6 +197,12 @@ function alive(core: Readonly<CoreState>, id: PersonId): boolean {
 }
 
 /** Who fills a role, read from records on the moment's day. */
+/** Who answers for a subject at home, in order: parents, then other older kin. */
+const GUARDIAN_RELATIONS: readonly (readonly string[])[] = [
+  ["parent", "other-parent"],
+  ["grandparent", "aunt-or-uncle"],
+];
+
 function fillRole(
   fill: string,
   core: Readonly<CoreState>,
@@ -254,8 +266,27 @@ function fillRole(
         : setting === "workplace"
           ? coworkers()
           : [];
+    case "authority": {
+      // At home: the subject's parent on record who lives with them, else
+      // another older relative in the household (a guardian).
+      const kinIn = new Map<PersonId, string>();
+      for (const fact of subject?.pastFacts ?? [])
+        if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
+          kinIn.set(
+            fact.facts.otherPersonId as PersonId,
+            fact.kind.slice("family:".length),
+          );
+      const members = household();
+      for (const relations of GUARDIAN_RELATIONS) {
+        const found = members.filter((id) =>
+          relations.includes(kinIn.get(id) ?? ""),
+        );
+        if (found.length) return found;
+      }
+      return [];
+    }
     default:
-      // Classmates, authority and absent have no records in the new core yet.
+      // Classmates and absent have no records in the new core yet.
       return [];
   }
 }
@@ -374,15 +405,23 @@ export function scheduleMoment(
   core: Readonly<CoreState>,
   book: PersonLedger,
   moment: Moment,
-  options: { mode: string; interruptImpact: number },
+  options: {
+    mode: string;
+    interruptImpact: number;
+    /**
+     * The scene kinds the player allows to interrupt (their filter record);
+     * absent means every kind. A moment whose scenes are all filtered out
+     * becomes a journal line and stops nothing.
+     */
+    allowedKinds?: ReadonlySet<string>;
+  },
   library: SituationLibrary = SITUATION_LIBRARY,
 ): ScheduleEntry {
   const person = core.people.get(moment.personId);
   if (!person) throw new Error(`Scheduled moment has no person: ${moment.id}`);
   const pace = paceOf(library, person.birthDate, moment.date);
   const rank = paceRank(library, book, moment);
-  const interrupt = moment.impact >= options.interruptImpact;
-  const bindings: SceneBinding[] = [];
+  const found: SceneBinding[] = [];
   let coverage: CoverageRow | undefined;
   for (const type of library.types)
     for (const cause of type.causes) {
@@ -398,10 +437,33 @@ export function scheduleMoment(
           typeKey: type.key,
           detail: bound.detail,
         };
-      else if (!bindings.some((row) => row.typeKey === bound.typeKey))
-        bindings.push(bound);
+      else if (!found.some((row) => row.typeKey === bound.typeKey))
+        found.push(bound);
     }
-  if (!bindings.length)
+  // The player's filter: only the scene kinds they allow stage or interrupt.
+  const allowed = options.allowedKinds;
+  const bindings = allowed
+    ? found.filter((row) => allowed.has(row.typeKey))
+    : found;
+  const filteredOut = found.length > zero && !bindings.length;
+  // News from the household's own records (a parent's lost job, a death, a
+  // serious illness) is a family scene at home whatever its size (owner,
+  // Oct 14, 2026, night: the director picks the family scene the
+  // household's records make apply).
+  // A record of the whole household (an eviction) is a family scene for
+  // each of them, with no one else named.
+  const household = person.householdId;
+  const familyNews =
+    ((library.scheduling.householdScenes.includes(moment.label) &&
+      moment.counterpartIds.some(
+        (id) => core.people.get(id)?.householdId === household,
+      )) ||
+      (library.scheduling.householdRecordScenes?.includes(moment.label) ??
+        false)) &&
+    bindings.some((row) => row.setting.kind === "home");
+  const interrupt =
+    (moment.impact >= options.interruptImpact || familyNews) && !filteredOut;
+  if (!found.length)
     coverage ??= {
       momentId: moment.id,
       personId: moment.personId,
@@ -427,6 +489,6 @@ export function scheduleMoment(
     rank,
     pace,
     bindings,
-    ...(bindings.length ? {} : { coverage }),
+    ...(found.length ? {} : { coverage }),
   };
 }

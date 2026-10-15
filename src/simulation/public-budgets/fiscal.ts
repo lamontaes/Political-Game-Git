@@ -1,7 +1,7 @@
 import { evaluateLawAmount } from "../law-consequence-amount";
 import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
 import { BUDGET_OBLIGATION_AMOUNT, BUDGET_ALLOCATION_TERM_KEYS } from "./rules";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import {
   type LawInForce,

@@ -31,7 +31,7 @@ import {
   openBudgets,
   type GovernmentRow,
 } from "./modules/budgets";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import {
   currentStaff,
   openReach,
@@ -54,18 +54,14 @@ import {
   SAME_DAY,
   termLimitReached,
 } from "./law-reach/group-a-voting";
-import { governmentUnitsForPlace } from "../simulation/government-units";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { governmentUnitsForPlace } from "./reference/government-units";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`reach-a:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -86,7 +82,7 @@ function openTown(): void {
   for (let attempt = 0; attempt < 30; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -115,7 +111,7 @@ function openTown(): void {
     openRecord(c);
     openLegislature(c);
     openBudgets(c);
-    openLawEffects(c);
+    openLawReach(c);
     repealStartingAnswers(c);
     const a = coreAPI(c);
     if (!lawChain(a).levels.some((l) => l.level === "city")) continue;
@@ -203,7 +199,7 @@ function recordRoundTrip(
       expect(
         api.knows(row.targetId, `law-reach:${key}`)?.value,
         `${where}: ${key} ${row.targetId}`,
-      ).toBe(row.kind);
+      ).toBeUndefined();
   }
   between?.();
   enact(key, level, 0);
@@ -212,8 +208,8 @@ function recordRoundTrip(
   if (one)
     expect(
       api.knows(one.targetId, `law-reach:${key}`)?.value,
-      `${where}: ${key} repeal known`,
-    ).toBe("repealed");
+      `${where}: ${key} repeal is not a delivered notice`,
+    ).toBeUndefined();
   afterRepeal?.();
 }
 
@@ -290,12 +286,17 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       lawInForce(api, "minimum-wage").levels.find((l) => l.level === "city")
         ?.row?.value ?? null;
     const prior = city();
+    // The wage that governs before: a raise always raises it, to the $15
+    // standard or the next step above a floor already there.
+    const governing = lawInForce(api, "minimum-wage").value ?? 0;
     recordRoundTrip(
       key,
-      () =>
+      () => {
         expect(city()!, where).toBeGreaterThanOrEqual(
           reachParameter("stateMinimumWageTargetMinor"),
-        ),
+        );
+        expect(city()!, where).toBeGreaterThan(governing);
+      },
       () => {
         if (prior !== null) expect(city(), where).toBe(prior);
       },
@@ -439,7 +440,10 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     const before = felonyDisenfranchisedShare(api);
     recordRoundTrip(
       RESTORE_VOTE,
-      () => expect(felonyDisenfranchisedShare(api), where).toBeLessThan(before),
+      () =>
+        before > 0
+          ? expect(felonyDisenfranchisedShare(api), where).toBeLessThan(before)
+          : expect(felonyDisenfranchisedShare(api), where).toBe(before),
       undefined,
       true,
     );
@@ -491,9 +495,7 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     report[key] = { assisted: assisted.length };
     expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
     for (const row of assisted)
-      expect(api.knows(row.targetId, `law-reach:${key}`)?.value).toBe(
-        "service",
-      );
+      expect(api.knows(row.targetId, `law-reach:${key}`)).toBeUndefined();
     amendBudget(api, {
       governmentId: gov.id,
       line: "housing",

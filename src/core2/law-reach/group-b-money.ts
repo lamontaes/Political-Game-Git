@@ -6,12 +6,12 @@
  * law rows an income-tax act writes for payroll withholding to collect.
  * Money moves only through the accounts journal; pay only through rerateJob.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
+  lineBeforeBill,
   amendBudget,
   BUDGETS_MODULE_ID,
-  baseBudget,
   budgetsOf,
   governments,
   type BudgetRow,
@@ -29,6 +29,7 @@ import {
   type TownFacts,
 } from "./group-b-people";
 import { getRow, putRow, rowsOf } from "./group-b-store";
+import { registerLinePayments } from "../budgets-treasury";
 
 export const source = (api: CoreAPI, citation: string): Source => ({
   tag: "SOURCED",
@@ -88,16 +89,16 @@ export function modeledShare(api: CoreAPI, facts: TownFacts): number {
   return Math.min(1, facts.modeled / Math.max(1, townPopulation(api)));
 }
 
-/** A budget line's base this fiscal year: the Census amount before any act or priority. */
+/** A budget line's base this fiscal year: the line as adopted, before any act changed it. */
 function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ) {
-  // The line at its Census base, before any change a body enacted.
-  const fy = Number(budget.startsOn.slice(0, 4));
-  return baseBudget(api, gov, fy).spendingMinor[line] ?? 0;
+  // The line before this year's budget bill and any act amending it: what
+  // the body adopts this year is a change the line's service carries.
+  return lineBeforeBill(api, gov, budget.fiscalYear, line);
 }
 
 export interface ServiceRow {
@@ -172,6 +173,10 @@ interface PayBase {
   readonly jobId: string;
   readonly hourlyMinor: number;
   readonly dailyMinor: number;
+  /** The rate this line last wrote (the base until it first writes). */
+  readonly appliedMinor?: number;
+  /** The factor the line last applied to the base (1 until it first writes). */
+  readonly factor?: number;
 }
 
 /**
@@ -190,19 +195,42 @@ export function scalePayroll(
     readonly modeledShare: number;
   },
 ): Map<string, number> {
+  const core = api.state as CoreState;
+  const jobOf = (jobId: string) =>
+    core.jobs.get(jobId) ?? countedJob(core, jobId) ?? undefined;
   const bases = input.jobs.map((job) => {
     const id = `pay|${input.key}|${job.id}`;
     const prior = getRow<PayBase>(api, "taken", id);
-    if (prior) return prior;
-    const row: PayBase = {
-      id,
-      key: input.key,
-      jobId: job.id,
-      hourlyMinor: job.hourlyMinor ?? 0,
-      dailyMinor: job.wageDailyMinor,
-    };
-    putRow(api, "taken", row);
-    return row;
+    if (!prior) {
+      const row: PayBase = {
+        id,
+        key: input.key,
+        jobId: job.id,
+        hourlyMinor: job.hourlyMinor ?? 0,
+        dailyMinor: job.wageDailyMinor,
+        appliedMinor: job.hourlyMinor ?? 0,
+        factor: 1,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
+    // Another rule re-rated this job since this line last wrote it (a salary
+    // floor, a raise): the base follows that rate, less this line's own
+    // factor, so returning to base never undoes the other rule's raise.
+    const live = job.hourlyMinor ?? 0;
+    const applied = prior.appliedMinor ?? prior.hourlyMinor;
+    if (live > 0 && live !== applied) {
+      const factor = prior.factor ?? 1;
+      const row: PayBase = {
+        ...prior,
+        hourlyMinor: Math.round(live / factor),
+        dailyMinor: Math.round(job.wageDailyMinor / factor),
+        appliedMinor: live,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
+    return prior;
   });
   const payroll =
     bases.reduce((n, b) => n + b.dailyMinor, 0) * reachParameter("daysPerYear");
@@ -212,19 +240,25 @@ export function scalePayroll(
         payroll
       : 0;
   const out = new Map<string, number>();
-  const core = api.state as CoreState;
   for (const base of bases) {
     if (base.hourlyMinor <= 0) continue;
     const hourly = Math.max(1, Math.round(base.hourlyMinor * (1 + raise)));
-    const job =
-      core.jobs.get(base.jobId) ?? countedJob(core, base.jobId) ?? undefined;
-    if (!job || job.hourlyMinor === hourly) continue;
-    api.rerateJob(
-      base.jobId,
-      hourly,
-      source(api, `Budget line ${input.key} as amended`),
-    );
-    out.set(base.jobId, hourly);
+    const job = jobOf(base.jobId);
+    if (!job) continue;
+    if (job.hourlyMinor !== hourly) {
+      api.rerateJob(
+        base.jobId,
+        hourly,
+        source(api, `Budget line ${input.key} as amended`),
+      );
+      out.set(base.jobId, hourly);
+    }
+    putRow(api, "taken", {
+      ...base,
+      // What the job now pays, read back (a counted job may store it rounded).
+      appliedMinor: jobOf(base.jobId)?.hourlyMinor ?? hourly,
+      factor: 1 + raise,
+    });
   }
   return out;
 }
@@ -236,6 +270,91 @@ interface BenefitRow {
   readonly recipientId: string;
   readonly obligationId: string;
   readonly amountMinor: number;
+  /** The budget line the benefit is paid from. */
+  readonly line?: string;
+}
+
+/**
+ * Each month's close counts the benefits a treasury pays in town as that
+ * line's spending, so the line pays only the rest outside.
+ */
+registerLinePayments((api, gov) => {
+  const accounts = api.accounts();
+  const out: Record<string, number> = {};
+  for (const row of rowsOf<BenefitRow>(api, "taken")) {
+    if (!row.key.startsWith("benefit|") || row.governmentId !== gov.id)
+      continue;
+    if (accounts.obligation(row.obligationId)?.endedAt) continue;
+    const line = row.line ?? "welfareAndMedicaid";
+    out[line] = (out[line] ?? 0) + row.amountMinor;
+  }
+  return out;
+});
+
+/** An assistance work requirement in force: who it reaches and how long they may draw. */
+export interface AssistanceTimeLimit {
+  /** The law row the requirement was read from. */
+  readonly lawId: string;
+  /** The day the requirement took effect. */
+  readonly since: string;
+  /** Residents (named or counted) it reaches today, by hours and income. */
+  readonly reachedIds: ReadonlySet<string>;
+}
+
+/** Whole months from one day to another. */
+function monthsBetween(from: string, to: string): number {
+  const months =
+    (Number(to.slice(0, 4)) - Number(from.slice(0, 4))) *
+      reachParameter("monthsPerYear") +
+    (Number(to.slice(5, 7)) - Number(from.slice(5, 7)));
+  return to.slice(8, 10) < from.slice(8, 10) ? months - 1 : months;
+}
+
+/**
+ * Those the work requirement has stopped paying. The clock starts the day the
+ * benefit first paid under the requirement (7 U.S.C. 2015(o)(2): three months
+ * in any 36), the same clock for everyone reached; the ids are returned so the
+ * caller keeps them off the pay list, and each named person's stop is recorded
+ * with the law row that caused it.
+ */
+function timeLimitedNow(
+  api: CoreAPI,
+  governmentId: string,
+  key: string,
+  limit: AssistanceTimeLimit | null | undefined,
+): Set<string> {
+  const stopped = new Set<string>();
+  if (!limit) return stopped;
+  const today = api.state.date;
+  const clockId = `clock|${key}|${governmentId}`;
+  const clock =
+    getRow<{ id: string; startedOn: string }>(api, "taken", clockId) ??
+    (() => {
+      const row = {
+        id: clockId,
+        key: `clock|${key}`,
+        startedOn: today > limit.since ? today : limit.since,
+      };
+      putRow(api, "taken", row);
+      return row;
+    })();
+  const start = clock.startedOn < limit.since ? limit.since : clock.startedOn;
+  const cyclePosition =
+    monthsBetween(start, today) %
+    reachParameter("snapWorkTimeLimitWindowMonths");
+  if (cyclePosition < reachParameter("snapWorkTimeLimitMonths")) return stopped;
+  for (const id of limit.reachedIds) {
+    stopped.add(id);
+    if (api.state.people.has(id))
+      putRow(api, "taken", {
+        id: `limit|${key}|${governmentId}|${id}`,
+        key: `limit|${key}`,
+        recipientId: id,
+        lawId: limit.lawId,
+        stoppedOn: today,
+      });
+  }
+  return stopped;
 }
 
 /**
@@ -253,6 +372,8 @@ export function payBenefits(
     readonly service: ServiceRow;
     readonly heads: readonly ResidentFacts[];
     readonly modeledShare: number;
+    /** A work requirement in force: who it reaches, and how long it lets them draw. */
+    readonly timeLimit?: AssistanceTimeLimit | null;
   },
 ): Map<string, Record<string, number>> {
   const core = api.state as CoreState;
@@ -262,16 +383,21 @@ export function payBenefits(
   const residentsOrg = rt?.input.accounts.find(
     (a) => a.placeId === town,
   )?.accountId;
-  const named = input.heads.filter((h) => h.named);
-  const counted = input.heads.length - named.length;
   const months = reachParameter("monthsPerYear");
   const want = new Map<string, number>();
   const out = new Map<string, Record<string, number>>();
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
     if (!gov || delta <= 0 || !input.heads.length) continue;
+    // The work requirement lets those it reaches draw only for its time limit;
+    // the line's money goes to those still drawing.
+    const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
+    const drawing = input.heads.filter((h) => !limited.has(h.id));
+    const named = drawing.filter((h) => h.named);
+    const counted = drawing.length - named.length;
+    if (!drawing.length) continue;
     const perHousehold = Math.floor(
-      (delta * input.modeledShare) / months / input.heads.length,
+      (delta * input.modeledShare) / months / drawing.length,
     );
     if (perHousehold <= 0) continue;
     for (const head of named) {
@@ -305,7 +431,11 @@ export function payBenefits(
     if (kept.has(pair)) continue;
     const [governmentId, recipientId] = pair.split("|") as [string, string];
     const gov = governments(api).find((g) => g.id === governmentId)!;
-    const obligationId = `reach-b:benefit:${pair}:${api.state.date}`;
+    // A second change the same day (two amendments) opens a new obligation beside the one it ended.
+    const today = `reach-b:benefit:${pair}:${api.state.date}`;
+    let obligationId = today;
+    for (let n = 2; accounts.obligation(obligationId); n += 1)
+      obligationId = `${today}#${n}`;
     accounts.addObligation({
       id: obligationId,
       from: accounts.main(gov.organizationId),
@@ -324,6 +454,7 @@ export function payBenefits(
       recipientId,
       obligationId,
       amountMinor,
+      line: input.service.line,
     } satisfies BenefitRow);
   }
   return out;
@@ -400,21 +531,75 @@ export function moveBudget(
   return row;
 }
 
+/** Debt interest lines: the state and local name, and the federal one. */
+
 /** Cuts every line but debt interest in proportion until spending fits revenue. */
-export function balancePlan(budget: BudgetRow): Record<string, number> {
+export interface BalanceRule {
+  /** Lines the law never cuts (debt service; at the federal level, the benefits sequestration exempts). */
+  readonly exempt: readonly string[];
+  /** Lines cut at most this share of themselves (Medicare under sequestration). */
+  readonly caps: Readonly<Record<string, number>>;
+  /** Fiscal years over which the gap is closed in equal steps (1: at once). */
+  readonly phaseYears: number;
+}
+
+/** A budget's gap: spending over revenue (zero or less when it balances). */
+export function budgetGap(budget: BudgetRow): number {
   const spending = Object.values(budget.spendingMinor).reduce(
     (a, b) => a + b,
     0,
   );
   const revenue = Object.values(budget.revenueMinor).reduce((a, b) => a + b, 0);
-  if (spending <= revenue) return {};
-  const interest = budget.spendingMinor.interest ?? 0;
-  const cuttable = spending - interest;
-  if (cuttable <= 0) return {};
-  const ratio = Math.min(1, (spending - revenue) / cuttable);
+  return spending - revenue;
+}
+
+/**
+ * The cuts that balance a budget: its gap spread as one share across the
+ * lines the law lets it cut, a capped line cut no deeper than its cap (the
+ * rest falls on the others). Exempt lines, and the revenue, are untouched.
+ * Where the law phases the balance in, the deficit allowed falls in equal
+ * steps from the gap the law first met (`firstGap`) to none in its last
+ * year, and a year cuts only what exceeds its step (`yearsApplied` years
+ * already done of `phaseYears`).
+ */
+export function balancePlan(
+  budget: BudgetRow,
+  rule: BalanceRule,
+  yearsApplied = 0,
+  firstGap = budgetGap(budget),
+): Record<string, number> {
+  const lines = Object.entries(budget.spendingMinor).sort();
+  const spending = lines.reduce((a, [, minor]) => a + minor, 0);
+  const revenue = Object.values(budget.revenueMinor).reduce((a, b) => a + b, 0);
+  const allowed =
+    firstGap *
+    Math.max(0, 1 - (yearsApplied + 1) / Math.max(1, rule.phaseYears));
+  let gap = spending - revenue - allowed;
+  if (gap <= 0) return {};
   const out: Record<string, number> = {};
-  for (const [line, minor] of Object.entries(budget.spendingMinor).sort())
-    if (line !== "interest" && minor > 0) out[line] = -Math.ceil(minor * ratio);
+  let open = lines.filter(
+    ([line, minor]) => minor > 0 && !rule.exempt.includes(line),
+  );
+  // A capped line takes its cap when the common share would cut it deeper;
+  // the share is then found again over the rest.
+  for (;;) {
+    const base = open.reduce((a, [, minor]) => a + minor, 0);
+    if (base <= 0) break;
+    const ratio = Math.min(1, gap / base);
+    const capped = open.filter(
+      ([line]) => rule.caps[line] !== undefined && rule.caps[line]! < ratio,
+    );
+    if (!capped.length) {
+      for (const [line, minor] of open) out[line] = -Math.ceil(minor * ratio);
+      break;
+    }
+    for (const [line, minor] of capped) {
+      const cut = Math.ceil(minor * rule.caps[line]!);
+      out[line] = -cut;
+      gap -= cut;
+    }
+    open = open.filter(([line]) => !capped.some(([c]) => c === line));
+  }
   return out;
 }
 
@@ -518,12 +703,27 @@ interface TaxRow {
     terms: Record<string, unknown> | null;
   } | null;
   readonly undone: boolean;
+  /** This row flattened a starting schedule, rather than adopting a new tax. */
+  readonly flattened?: boolean;
 }
 
 function levelRow(api: CoreAPI, level: string): LawRowInput | null {
   return (
     lawInForce(api, "income-tax").levels.find((l) => l.level === level)?.row ??
     null
+  );
+}
+
+/** Flat taxes may also carry a one-bracket schedule for deductions. */
+function graduatedTax(row: LawRowInput | null): boolean {
+  if (!row?.terms?.schedules || row.terms.system === "flat") return false;
+  if (row.terms.system === "graduated") return true;
+  const schedules = row.terms.schedules as Record<
+    string,
+    { brackets?: { rate: number }[] }
+  >;
+  return Object.values(schedules).some(
+    (schedule) => new Set(schedule.brackets?.map((b) => b.rate) ?? []).size > 1,
   );
 }
 
@@ -566,8 +766,44 @@ export function incomeTaxAct(
       citation: `Act ${input.lawId}`,
       ...(terms ? { terms } : {}),
     });
+  const hasTax = !!current && (current.value ?? 0) > 0;
+  const scope = input.level === "state" ? "state" : "local";
   if (!input.enacting) {
-    if (!prior || prior.undone || !prior.lawRowId) return prior ?? null;
+    // Repeated reviews leave the flattened schedule (or a later independent act) alone.
+    if (prior?.flattened && !prior.undone) return prior;
+    if (prior?.undone && !prior.flattened) return prior;
+    if (!prior || prior.undone || !prior.lawRowId) {
+      if (!input.graduated || !hasTax || !graduatedTax(current))
+        return prior ?? null;
+      // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
+      // question carries no enacted replacement rate or deduction rules.
+      api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
+      const flat = enact(
+        reachParameter(
+          scope === "state"
+            ? "stateFlatIncomeTaxPercent"
+            : "localFlatIncomeTaxPercent",
+        ),
+        "percent-flat",
+        undefined,
+        "flatten",
+      );
+      const row: TaxRow = {
+        id,
+        key: input.key,
+        level: input.level,
+        lawRowId: flat.id,
+        prior: {
+          value: current!.value,
+          unit: current!.unit ?? null,
+          terms: current!.terms as Record<string, unknown>,
+        },
+        undone: false,
+        flattened: true,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
     if (current?.id === prior.lawRowId)
       enact(
         prior.prior?.value ?? 0,
@@ -579,10 +815,22 @@ export function incomeTaxAct(
     putRow(api, "taken", row);
     return row;
   }
+  if (prior?.flattened) {
+    // Restore once, only while the replacement is still our own law row.
+    if (prior.undone) return prior;
+    if (current?.id === prior.lawRowId)
+      enact(
+        prior.prior?.value ?? 0,
+        prior.prior?.unit ?? "percent",
+        prior.prior?.terms ?? undefined,
+        "restore",
+      );
+    const row = { ...prior, undone: true };
+    putRow(api, "taken", row);
+    return row;
+  }
   if (prior && !prior.undone) return prior;
-  const hasTax = !!current && (current.value ?? 0) > 0;
-  const graduatedNow = !!current?.terms?.schedules;
-  const scope = input.level === "state" ? "state" : "local";
+  const graduatedNow = hasTax && graduatedTax(current);
   let written: LawRowInput | null = null;
   if (!input.graduated && !hasTax)
     written = enact(
@@ -600,7 +848,7 @@ export function incomeTaxAct(
     written = enact(
       Math.max(...schedule.brackets.map((b) => b.rate)),
       "percent",
-      { schedules: { single: schedule } },
+      { system: "graduated", schedules: { single: schedule } },
       "graduate",
     );
   }

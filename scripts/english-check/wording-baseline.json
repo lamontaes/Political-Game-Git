@@ -25,7 +25,7 @@
     "src/presentation/civic-glossary.ts :: on the record": 1,
     "src/presentation/economic-context-browser.ts :: FMR": 1,
     "src/presentation/formative-play.ts :: on the record": 1,
-    "src/presentation/guide-terms.ts :: on the record": 1,
+    "src/bench/guide-terms.ts :: on the record": 1,
     "src/presentation/legislation-projection.ts :: reported": 2,
     "src/presentation/meeting-home-route.ts :: is not represented": 1,
     "src/presentation/office-response.ts :: on the record": 2,

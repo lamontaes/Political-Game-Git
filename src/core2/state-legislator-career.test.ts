@@ -12,7 +12,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { lawInForce, openLaws } from "./modules/laws";
 import { openOffices, townSeats } from "./modules/offices";
 import {
@@ -36,11 +35,7 @@ import {
   openLegislature,
 } from "./modules/legislature";
 import { partySide } from "./appointments";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -50,7 +45,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter(
     (k) => !["US-AS", "US-GU", "US-MP", "US-VI", "US-PR", "US-DC"].includes(k),
@@ -63,7 +58,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
     for (let attempt = 0; attempt < 10; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -88,9 +83,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
       // The player: an adult who qualifies for the seat (residency, voter
       // registration, the fee), the wealthiest first so the fee is in reach.
       const core = createLifeCore(
-        withCountedVoterGroups(
-          collapseToTwoLevels({ ...full, playerId: you.id }),
-        ),
+        collapseToTwoLevels({ ...full, playerId: you.id }),
       );
       openLaws(core);
       openOffices(core, seed);

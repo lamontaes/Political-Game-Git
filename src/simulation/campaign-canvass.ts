@@ -3,7 +3,7 @@ import {
   addSimulationMinutes,
   ageOnDate,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { feltDebtConsiderations } from "./favors";
 import {
@@ -14,10 +14,10 @@ import {
 import {
   materializeSettledTownHousehold,
   playerTown,
-  townHouseholdSkeleton,
   townResidentId,
   townRoster,
 } from "./living-world/town-residents";
+import { townHouseholdSkeleton } from "../core2/town-households";
 import {
   doorResponse,
   doorSubject,
@@ -433,7 +433,7 @@ function rosterMemberOf(
   roster: { readonly town: EntityId; readonly index: number },
   personId: EntityId,
 ): number {
-  const members = townHouseholdSkeleton(world, roster.town, roster.index)
+  const members = townHouseholdSkeleton(world.seed, roster.town, roster.index)
     .members.length;
   for (let member = 0; member < members; member += 1)
     if (townResidentId(world, roster.town, roster.index, member) === personId)

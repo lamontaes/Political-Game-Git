@@ -1,11 +1,13 @@
 import healthJson from "../data/health.json" with { type: "json" };
+import { settleEstate } from "../estates";
+import { HOUSING_STATUS_EVENT } from "../housing-homeless";
 import {
   addDays,
   ageOnDate,
   dateAtAge,
   daysBetween,
   makeIsoDate,
-} from "../../simulation/dates";
+} from "../kernel/dates";
 import {
   CONDITION_PACK,
   conditionHazard,
@@ -17,12 +19,13 @@ import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
-} from "../../simulation/crisis/hazard";
-import { SSA_2023_MAX_AGE } from "../../simulation/crisis/mortality-table";
-import { survivalThresholdFromDraws } from "../../simulation/crisis/fixed-point";
-import { stableHash } from "../../simulation/ids";
+} from "../health-hazard";
+import { SSA_2023_MAX_AGE } from "../health-mortality-table";
+import { survivalThresholdFromDraws } from "../kernel/fixed-point";
+import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
-import type { EntityId } from "../../simulation/types";
+import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
+import type { EntityId } from "../kernel/brands";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -97,9 +100,27 @@ interface HealthRuntime {
   resilienceLines: Map<PersonId, bigint>;
   onsets: number;
   deaths: number;
+  /** Each person's strain as assigned, to recompute when their conditions of life change. */
+  plans: Map<PersonId, HealthPlan>;
+}
+
+/** A day on the hazard model's calendar. */
+type Day = ReturnType<typeof makeIsoDate>;
+
+/** What a person's onset day is computed from, and what has changed it since. */
+interface HealthPlan {
+  from: Day;
+  threshold: bigint;
+  /** The conditions' combined weight, in millionths. */
+  micros: number;
+  conditionKey?: string;
+  /** Housing status changes, oldest first: the date and the factor on strain from then. */
+  housing: { date: Day; factor: number }[];
+  evictedOn?: Day;
 }
 
 const runtimes = new WeakMap<object, HealthRuntime>();
+registerWorldMapPart("health-runtime", runtimes);
 
 function runtime(state: Readonly<CoreState>): HealthRuntime {
   let row = runtimes.get(state);
@@ -115,6 +136,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       resilienceLines: new Map(),
       onsets: zero,
       deaths: zero,
+      plans: new Map(),
     };
     runtimes.set(state, row);
   }
@@ -241,30 +263,127 @@ function assignPerson(
     if (!strongest || hazard.micros > strongest.micros)
       strongest = { key, micros: hazard.micros };
   }
+  row.plans.set(person.id, {
+    from,
+    threshold,
+    micros,
+    ...(strongest ? { conditionKey: strongest.key } : {}),
+    housing: [],
+  });
+  scheduleOnset(api, data, row, person, from);
+}
+
+/**
+ * The strain's segments: the conditions' weight from the plan's start, times
+ * the housing status's factor from each change, times the eviction factor
+ * for the years after an eviction (Collinson et al. 2024).
+ */
+function segments(api: CoreAPI, plan: HealthPlan) {
+  const p = (key: string) => api.parameter(key);
+  const evictionEnds = plan.evictedOn
+    ? addDays(plan.evictedOn, p("healthEvictionEffectDays"))
+    : undefined;
+  const dates = [
+    plan.from,
+    ...plan.housing.map((row) => row.date),
+    ...(plan.evictedOn && evictionEnds ? [plan.evictedOn, evictionEnds] : []),
+  ]
+    .filter((date) => date >= plan.from)
+    .sort();
+  return [...new Set(dates)].map((date) => {
+    const housing =
+      [...plan.housing].reverse().find((row) => row.date <= date)?.factor ??
+      p("one");
+    const evicted =
+      plan.evictedOn &&
+      evictionEnds &&
+      date >= plan.evictedOn &&
+      date < evictionEnds
+        ? p("healthEvictionHazardFactor")
+        : p("one");
+    return {
+      effectiveAt: date,
+      micros: Math.round(plan.micros * housing * evicted),
+    };
+  });
+}
+
+/** Books (or moves) the person's onset: the first day their strain crosses their line. */
+function scheduleOnset(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  person: Readonly<PersonState>,
+  from: Day,
+) {
+  const plan = row.plans.get(person.id);
+  if (!plan) return;
+  const found = row.cases.get(person.id);
+  // An illness that has begun runs its course.
+  if (found?.onsetEventId) return;
+  if (found) row.onsetsByDate.get(found.onsetDate)?.delete(person.id);
+  row.cases.delete(person.id);
   const horizon = dateAtAge(makeIsoDate(person.birthDate), SSA_2023_MAX_AGE);
   if (horizon <= from) return;
+  const multipliers = segments(api, plan);
   const onset = firstThresholdDay(
     {
       birthDate: makeIsoDate(person.birthDate),
       category: data.calibrationCategory,
-      exposureStart: from,
-      multipliers: [{ effectiveAt: from, micros }],
+      exposureStart: plan.from,
+      multipliers,
     },
-    threshold,
+    plan.threshold,
     from,
     horizon,
   );
   if (!onset) return;
-  // A crossing on the first day is heard on the next simulated day.
-  const due = onset <= from ? addDays(from, p("one")) : onset;
+  // A crossing on the day it is computed is heard on the next simulated day.
+  const due = onset <= from ? addDays(from, api.parameter("one")) : onset;
   row.cases.set(person.id, {
     personId: person.id,
-    conditions,
-    ...(strongest ? { conditionKey: strongest.key } : {}),
-    severity: micros / MULTIPLIER_ONE,
+    conditions: row.conditionsByPerson.get(person.id) ?? [],
+    ...(plan.conditionKey ? { conditionKey: plan.conditionKey } : {}),
+    severity:
+      Math.max(...multipliers.map((segment) => segment.micros)) /
+      MULTIPLIER_ONE,
     onsetDate: due,
   });
   index(row.onsetsByDate, due, person.id);
+}
+
+/**
+ * Losing a home, or an eviction, changes a person's strain from that day:
+ * sheltered and unsheltered people fall seriously ill and die sooner
+ * (homelessness item 5). Their onset is recomputed from today.
+ */
+function housingChanged(
+  api: CoreAPI,
+  data: HealthData,
+  event: Readonly<CoreEventInput>,
+) {
+  const row = runtime(api.state);
+  const date = makeIsoDate(api.state.date);
+  const factors: Readonly<Record<string, string>> = {
+    housed: "one",
+    "doubled-up": "healthDoubledUpHazardFactor",
+    sheltered: "healthShelteredHazardFactor",
+    unsheltered: "healthUnshelteredHazardFactor",
+  };
+  for (const id of event.personIds) {
+    const person = api.state.people.get(id);
+    const plan = row.plans.get(id);
+    if (!person?.alive || !plan) continue;
+    if (event.kind === HOUSING_STATUS_EVENT) {
+      const status = String(event.facts?.status ?? "housed");
+      plan.housing.push({
+        date,
+        factor: api.parameter(factors[status] ?? "one"),
+      });
+    } else plan.evictedOn = date;
+    api.stopgap(data.stopgapId);
+    scheduleOnset(api, data, row, person, date);
+  }
 }
 
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
@@ -347,7 +466,7 @@ function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {
   return [...out].sort();
 }
 
-function severityImpulse(api: CoreAPI, severity: Severity) {
+export function severityImpulse(api: CoreAPI, severity: Severity) {
   api.stopgap(severity.stopgapId);
   const share =
     api.parameter(severity.lifeChangeUnitsParameter) /
@@ -389,6 +508,10 @@ export function createHealthModule(
 ): CoreModule {
   return {
     id: "core2-health-producer-p10-v1",
+    eventKinds: [HOUSING_STATUS_EVENT, "housing.eviction"],
+    onEvent(api, event) {
+      housingChanged(api, data, event);
+    },
     onDay(api) {
       const row = runtime(api.state);
       if (!row.initialized) initialize(api, data, row);
@@ -436,13 +559,19 @@ export function createHealthModule(
         found.deathEventId = event.id;
         api.updatePerson(id, { alive: false });
         row.deaths += api.parameter("one");
-        api.emit(event);
+        // A death is a public record (the death certificate) and local news
+        // (the obituary): the town's counts, the news, kin and the seat's
+        // vacancy rule all read it. An illness's onset stays private.
+        api.emit({ ...event, publicRecord: true, news: true });
+        // Their cash passes to their heirs, or escheats (money audit defect 6).
+        settleEstate(api, id, event.id);
       }
     },
   };
 }
 
 export const HEALTH_MODULE = createHealthModule();
+declareSnapshotCovered(HEALTH_MODULE.id);
 
 /** Read-only report; inspection writes nothing. */
 export function healthReport(core: Readonly<CoreState>) {

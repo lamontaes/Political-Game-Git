@@ -13,6 +13,13 @@ import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignAct } from "./campaign";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
+import {
+  adjourn,
+  deskWaiting,
+  leaveDeskToCharacter,
+  meetingInProgress,
+  takeUpItem,
+} from "../core2/modules/office-day";
 import { reachedSteps } from "./reached";
 import { benchScene } from "./scene";
 import type { ContestRow } from "../core2/modules/elections";
@@ -37,8 +44,19 @@ function liveUntil(date: string) {
       player.packet?.kind === "stop"
         ? player.packet
         : player.advance("skip", undefined, 7).packet;
-    if (packet.kind === "stop")
+    if (packet.kind === "stop") {
+      // A meeting or the desk holds the clock: the player votes their own
+      // bill and leaves the rest, and the desk, to the character.
+      const api = coreAPI(w.core);
+      const meeting = meetingInProgress(api);
+      if (meeting) {
+        for (const billId of meeting.agenda)
+          takeUpItem(api, meeting.id, billId, "own");
+        adjourn(api, meeting.id);
+      }
+      for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
       player.resume({ kind: "stop", pauseId: packet.pauseId });
+    }
   }
 }
 
@@ -126,7 +144,7 @@ if (holder) {
     series: "minimum-wage",
     value: (wage?.current ?? 0) + 200,
   }) as { id: string; number: string; status: string };
-  // Where the state rules a local wage out, a catalogued policy instead.
+  // Where the state rules a local wage out, a cataloged policy instead.
   for (const question of seat.questions) {
     if (bill.status !== "blocked") break;
     bill = seatAct(w.core, holder, {
@@ -136,18 +154,8 @@ if (holder) {
       value: 1,
     }) as { id: string; number: string; status: string };
   }
-  const colleague = body.members.find((m) => !m.you);
-  if (colleague)
-    seatAct(w.core, holder, {
-      kind: "deal",
-      billId: bill.id,
-      memberId: colleague.key,
-      deal: "favor",
-    });
-  const { date } = seatAct(w.core, holder, {
-    kind: "schedule",
-    billId: bill.id,
-  }) as { date: string };
+  // Drafting puts the bill on the body's next agenda (office-day).
+  const date = (bill as { agendaDate?: string }).agendaDate ?? w.core.date;
   liveUntil(date);
   liveUntil(
     new Date(Date.parse(`${date}T00:00:00Z`) + 2 * 86_400_000)

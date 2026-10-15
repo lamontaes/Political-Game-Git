@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { stableHash } from "../simulation/ids";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { stableHash } from "./kernel/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { corePlaceStateIdentities } from "./place-lookup";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import { stancesOf, viewOf, viewsModule, VIEWS_KEYS } from "./modules/views";
@@ -15,7 +15,7 @@ import { applyCoreEvent, coreAPI } from "./state";
 
 /** One locality from a state drawn from all 56 by the seed. */
 function drawnPlace(seed: string) {
-  const states = [...lifePlaceStateIdentities()].sort((a, b) =>
+  const states = [...corePlaceStateIdentities()].sort((a, b) =>
     stableHash(`${seed}:${a.jurisdictionKey}`).localeCompare(
       stableHash(`${seed}:${b.jurisdictionKey}`),
     ),
@@ -146,5 +146,51 @@ describe("political views", () => {
       expect(stance!.causes[0]!.eventId).toBe("fixture-plant-closing");
     }
     for (const row of others) expect(stancesOf(api, row.id)).toEqual([]);
+  });
+
+  // Knowing is a read (owner, Oct 14, 2026): a change a law made moves a
+  // person's stance on that law only once they learned of it, and the stance
+  // cites how.
+  it("ties a change to a law only for someone who learned of the law", () => {
+    const { core, api, adults } = towns[1]!;
+    const [felt, told] = adults;
+    const effect = (id: string, personId: string, learnedFrom?: string) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "fixture.check-smaller",
+        personIds: [personId],
+        placeId: felt!.placeId,
+        topic: "fixture:benefit-law",
+        desiredChange: "repeal",
+        moodImpulse: -0.2,
+        facts: {
+          lawId: "law:fixture",
+          ...(learnedFrom ? { learnedFrom } : {}),
+        },
+        source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+      });
+    effect("fixture-felt", felt!.id);
+    expect(stancesOf(api, felt!.id)).toEqual([]);
+    // A story they never heard doesn't count either.
+    effect("fixture-felt-unheard", felt!.id, "news:fixture-story");
+    expect(stancesOf(api, felt!.id)).toEqual([]);
+    api.observe(told!.id, {
+      key: "news:fixture-story",
+      value: "law-took-effect",
+      learnedAt: core.date,
+      sourceId: "fixture-story",
+      access: "perceived",
+    });
+    effect("fixture-told", told!.id, "news:fixture-story");
+    const [stance] = stancesOf(api, told!.id);
+    expect(stance).toMatchObject({
+      topic: "fixture:benefit-law",
+      desiredChange: "repeal",
+    });
+    expect(stance!.causes[0]).toMatchObject({
+      eventId: "fixture-told",
+      learnedFrom: "news:fixture-story",
+    });
   });
 });

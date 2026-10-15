@@ -22,14 +22,10 @@ import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import {
-  personLean,
-  personStance,
-  publicOffset,
-  publicSupport,
-} from "../campaign-views";
+import { personLean, personStance, publicOffset } from "../campaign-views";
+import { viewOn } from "./views";
 import { enactLaw, lawChain } from "./laws";
-import { turnout, VOTING_MODULE_ID } from "./voting";
+import { turnoutOn, VOTING_MODULE_ID } from "./voting";
 import { stateActEffectiveDate } from "../state-effective-date";
 
 export const BALLOT_MEASURES_MODULE_ID = "core2-ballot-measures-v1";
@@ -195,10 +191,12 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   for (const voter of adults) {
     const lean = personLean(api.state.people, voter, lean0);
     const support =
-      publicSupport(lean, measure.question) * direction +
+      (viewOn(api, voter.id, measure.question, lean) +
+        publicOffset(measure.question)) *
+        direction +
       parameter("traitDecisionWeight") *
         decisionLean(api.state, voter, "ballot-measures.vote", "yes", "no");
-    const t = turnout(api, voter, {
+    const t = turnoutOn(api, voter, {
       yes: { total: support },
       no: { total: -support },
     });

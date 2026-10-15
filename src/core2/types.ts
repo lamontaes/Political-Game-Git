@@ -8,7 +8,6 @@ import type {
   ModuleStateSnapshot,
 } from "./module-state";
 import type { ModuleCalendar, ModuleCalendarWork } from "./module-calendar";
-import type { VoterGroup, VoterGroups } from "./voter-groups";
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { CashActSelection } from "./act-cash";
 import type {
@@ -717,7 +716,6 @@ export interface WorkData {
 export interface CoreInput {
   /** Explicit exact-version module snapshots; absent tables start empty. */
   moduleState?: readonly ModuleStateSnapshot[];
-  voterGroups?: readonly VoterGroup[];
   seed: string;
   startedAt: IsoDate;
   people: readonly PersonInput[];
@@ -1018,7 +1016,6 @@ export interface CoreModule {
 export interface CoreAPI {
   moduleState(moduleId: string): ModuleStateStore;
   moduleCalendar(moduleId: string): ModuleCalendar;
-  voterGroups(): VoterGroups;
   /** Named accounts, transfers and obligations through the one journal (M0-09). */
   accounts(): Accounts;
   version: string;
@@ -1049,6 +1046,8 @@ export interface CoreAPI {
     commitment: WorkCommitmentInput,
     calendar: WorkPayrollCalendarInput,
   ): void;
+  /** A post paid a salary, not by the hour: the job with no shift hours (official-pay posts the pay). */
+  startSalariedPost(job: JobInput): void;
   /** core2-api-v12: ends one current job today; earned wages stay owed for the next payday. */
   endJob(jobId: string, sourceId: string): void;
   /** Accrues to today at the old rate, then applies the new annual rate from today on. */
@@ -1126,6 +1125,8 @@ export interface CoreAPI {
    */
   meet(actorId: PersonId, otherId: PersonId, encounter: Encounter): boolean;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
+  /** The person leaves the organization; nothing happens if they were not in it. */
+  leave(personId: PersonId, organizationId: string): void;
   emit(event: CoreEventInput): void;
   /** External consumers can subscribe without owning or scanning world state. */
   subscribeEvents(
@@ -1158,6 +1159,7 @@ export interface CoreAPI {
     reason: DecisionResult,
   ): string;
   stopgap(id: string): void;
+  /** An explicitly undefined choice-eligibility flag restores the default rule. */
   updatePerson(
     personId: PersonId,
     changes: Partial<
@@ -1171,6 +1173,7 @@ export interface CoreAPI {
         | "jobId"
         | "tier"
         | "lastActDate"
+        | "discretionaryEligibleV1"
       >
     >,
   ): void;

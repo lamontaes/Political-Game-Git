@@ -1,8 +1,8 @@
 /**
  * M2-10 (first slice): in an election year every state and federal race
  * resolves: the town's own races with named voters (voting.ts) and every
- * other seat counted in its blocks of simulated voters
- * (electorate-blocks.ts). Winners are seated on the real dates.
+ * other seat counted on the same engine, place by place
+ * (electorate.ts, electorate-places.ts). Winners are seated on the real dates.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -24,11 +24,7 @@ import {
 } from "./modules/legislature";
 import { openWorldRaces, presidentialOf, racesOf } from "./modules/world-races";
 import { partySide } from "./appointments";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";
 const seed =
@@ -38,7 +34,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 // Independents in Congress caucus with the Democrats.
@@ -59,7 +55,7 @@ describe("M2-10 state and federal races in the world", () => {
   it("every race this November resolves, and winners take their seats on the real dates", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -93,9 +89,16 @@ describe("M2-10 state and federal races in the world", () => {
     expect(senate.length).toBeGreaterThanOrEqual(30);
     for (const r of races) {
       expect(r.date).toBe("2026-11-03");
-      // Counted in its blocks: the share is the blocks' votes, and every
+      // Counted in its places: the share is the places' votes, and every
       // race keeps each party's reasons.
-      expect(r.blocks, r.seatId).toBeGreaterThan(0);
+      expect(r.reasons?.length).toBe(2);
+      // A territory's delegate seat is decided at its 2024 delegate lean,
+      // its size not yet read (SG-GOV-delegate-race-size).
+      if (!r.votes!.republican && !r.votes!.democratic) {
+        expect(sideOf(r.winnerParty), r.seatId).not.toBe(0);
+        continue;
+      }
+      expect(r.places, r.seatId).toBeGreaterThan(0);
       expect(r.republicanShare).toBeCloseTo(
         r.votes!.republican / (r.votes!.republican + r.votes!.democratic),
         9,
@@ -155,7 +158,7 @@ describe("M2-10 state and federal races in the world", () => {
   it("the presidency is won in the electoral college, and the winner and running mate take office January 20", () => {
     const state = pick(states, "pres:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

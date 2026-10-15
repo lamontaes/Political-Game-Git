@@ -7,8 +7,8 @@
  * there starts on the office's own start day after the election, and the next
  * one comes a full term on; a holder who moves out of the office's
  * jurisdiction leaves the seat, which is filled by the office's rule and never
- * by someone who moved away; and a player who didn't mark a ballot votes or
- * stays home on their own reasons, like everyone else, while a ballot marked
+ * by someone who moved away; and a player who didn't mark a ballot didn't
+ * vote (the engine never casts the player's ballot), while a ballot marked
  * by hand still counts as marked.
  */
 import { createHash } from "node:crypto";
@@ -47,18 +47,17 @@ import {
   termStartAfter,
 } from "./elections-calendar";
 import {
-  lifePlaceByKey,
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  corePlaceByKey,
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "./place-lookup";
 import type { CoreState } from "./types";
 
 const START = "2026-10-12";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`terms:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -68,7 +67,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 function randomPlace(salt: string) {
   const state = pick(states, `${salt}:state`);
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -96,7 +95,7 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
       process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace("calendar").key;
     const core = world(placeKey);
     const api = coreAPI(core);
-    const place = lifePlaceByKey(placeKey)!;
+    const place = corePlaceByKey(placeKey)!;
     const contests = contestsOf(api);
     const checked: string[] = [];
     for (const { office, seat, holder } of townSeats(api)) {
@@ -207,7 +206,7 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
     );
   });
 
-  it("a player who didn't mark a ballot votes or stays home on their own reasons", () => {
+  it("a player who didn't mark a ballot didn't vote; one marked at the polls counts", () => {
     const placeKey =
       process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace("player").key;
     const core = world(placeKey);
@@ -236,14 +235,15 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
     const voter = ballots(races[0]!.id).find((b) => b.voted);
     expect(voter, `${placeKey}: someone votes`).toBeDefined();
     // That person is now the player and skips past election day without
-    // marking a ballot: they still go and vote, from the same reasons.
+    // marking a ballot: the engine never casts the player's ballot (CTO,
+    // player-path audit, Oct 14), so they didn't vote.
     (core as CoreState).playerId = voter!.voterId;
     holdElection(api, races[1]!.id);
     const own = ballots(races[1]!.id).find(
       (b) => b.voterId === voter!.voterId,
     )!;
-    expect(own.voted).toBe(true);
-    expect(own.turnoutReasons).toEqual(voter!.turnoutReasons);
+    expect(own.voted).toBe(false);
+    expect(own.choice).toBeNull();
     // A ballot marked by hand counts as marked.
     const third = races[2];
     if (third) {

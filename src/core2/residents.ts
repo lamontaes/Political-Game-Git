@@ -89,6 +89,8 @@ export interface ResidentFlowInput {
    * days worked since the opening, as full workers' earned pay does.
    */
   earnedDaysByDue?: Readonly<Record<string, number>>;
+  /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
+  unplacedWorkers?: number;
   /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
   bufferDays?: number;
   outsideId?: string;
@@ -115,6 +117,12 @@ export interface ResidentsInput {
   cohortSizes?: Readonly<Record<string, number>>;
   /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
   calendars?: readonly WorkPayrollCalendarInput[];
+  /**
+   * Real households each counted household of a place stands for, where the
+   * place opens at its Census count from a sample of its households (omit a
+   * place for one each). Every reader of a count multiplies by it.
+   */
+  weights?: Readonly<Record<PlaceId, number>>;
   /**
    * Counted people carry no deep past: fill-in rebuilds a household's from
    * the world's seed and start date (deep past depends on nobody else).
@@ -249,6 +257,8 @@ export interface CollapseOptions {
   outsideLivingCosts?: boolean;
   /** Stand-in (SG-CORE-unplaced-workers-income): pay for workers the opening couldn't place. Off when a jobs engine places them. */
   unplacedWorkerIncome?: boolean;
+  /** Real households each counted household of a place stands for (see `ResidentsInput.weights`). */
+  weights?: Readonly<Record<PlaceId, number>>;
 }
 
 export function collapseToTwoLevels(
@@ -751,6 +761,7 @@ export function collapseToTwoLevels(
       residentsId: accountFor(placeId),
       placeId,
       amountMinor: Math.round((unplaced * median * 14) / DAYS_PER_YEAR),
+      unplacedWorkers: unplaced,
       firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
       cadence: { kind: "days", every: 14 },
       salesReceipt: false,
@@ -884,6 +895,9 @@ export function collapseToTwoLevels(
         accountId,
       })),
       households,
+      ...(options.weights && Object.keys(options.weights).length
+        ? { weights: options.weights }
+        : {}),
       // Flows already recorded (e.g. outside buyers) are kept.
       flows: [...(input.residents?.flows ?? []), ...flows],
       calendars: [

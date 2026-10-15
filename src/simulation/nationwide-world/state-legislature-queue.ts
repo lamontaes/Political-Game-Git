@@ -1,5 +1,5 @@
 import { candidacyPackById } from "../candidacy-packs";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import {
   cancelFutureDueItem,
