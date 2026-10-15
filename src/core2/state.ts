@@ -1,3 +1,4 @@
+import { initialPersonState } from "./person-state";
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
@@ -522,29 +523,7 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
   admitNumber(row.livingCostDailyMinor, "opening living cost", p("zero"));
   for (const value of Object.values(row.traits))
     if (!Number.isFinite(value)) throw new Error(`Non-finite trait: ${row.id}`);
-  const actor: PersonState = {
-    ...row,
-    traits: { ...row.traits },
-    familyIds: new Set(row.familyIds),
-    knownIds: new Set(row.knownIds),
-    lastActDate: core.date,
-    lastContactDate: core.date,
-    alive: true,
-    actCount: p("zero"),
-    actsByKind: new Map(),
-    affect: {
-      at: core.date,
-      mood: p("moodBaseline"),
-      stress: p("stressBaseline"),
-      moodBaseline: p("moodBaseline"),
-      stressBaseline: p("stressBaseline"),
-    },
-    needs: Object.fromEntries(
-      core.data.needs.map((need) => [need.id, p("zero")]),
-    ),
-    goals: new Map(),
-    drives: new Map(),
-  };
+  const actor = initialPersonState(core, row);
   core.people.set(row.id, actor);
   try {
     admitOwnerCashAccount(core, actor);

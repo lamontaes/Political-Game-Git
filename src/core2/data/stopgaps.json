@@ -2618,7 +2618,7 @@
     "addedAt": "2026-10-12",
     "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day.",
     "status": "resolved",
-    "resolvedBy": "Second Session D, October 15, 2026: named local owners and successors are filled from their existing household before monthly decisions, use chooseAct and receive draws in their own account; counted-demotion already protects owners."
+    "resolvedBy": "Second Session D, October 15, 2026: the shared chooser reads counted owners through the same initial actor shape without admitting them. Draws and closure proceeds reach the recorded owner household group; full owners keep their own accounts."
   },
   {
     "id": "SG-WORLD-housing-mortgage-history",

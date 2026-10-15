@@ -1,12 +1,13 @@
 /** M1-08 first cut: owners and owner draws from profit, on a recorded fixture. */
 import { describe, expect, it } from "vitest";
-import { advanceCore, createLifeCore } from "./life";
+import { advanceCore, createLifeCore, chooseAct } from "./life";
 import { BUSINESS_MODULE, estateHeir, ownerOf } from "./modules/business";
+import { DEFAULT_DATA } from "./data";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
 import { collapseToTwoLevels } from "./residents";
-import { residentsRuntime } from "./modules/residents";
+import { countedFundOf, residentsRuntime } from "./modules/residents";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
 
@@ -602,8 +603,8 @@ describe("a dead owner's closing proceeds", () => {
   });
 });
 
-describe("named owners leave the counted tier", () => {
-  it("fills the recorded owner household before a draw and pays that person, conserving cash", () => {
+describe("counted owners use the same model", () => {
+  it("pays a counted owner through their household group without filling it in, conserving cash", () => {
     const countedInput = collapseToTwoLevels(input(), { keep: new Set() });
     const core = createLifeCore(countedInput, {
       data: worldCoreData(),
@@ -640,10 +641,8 @@ describe("named owners leave the counted tier", () => {
       src,
     );
     advanceCore(core, "2021-02-02");
-    expect(core.people.get("owner")?.householdId).toBe("household:owner");
-    expect(
-      residentsRuntime(core)!.store.countedMember("owner"),
-    ).toBeUndefined();
+    expect(core.people.has("owner")).toBe(false);
+    expect(residentsRuntime(core)!.store.countedMember("owner")).toBeDefined();
     const draw = api
       .moduleState("business")
       .table("draws")
@@ -654,7 +653,9 @@ describe("named owners leave the counted tier", () => {
     expect(draw.ownerId).toBe("owner");
     expect(draw.drawnMinor).toBeGreaterThan(0);
     expect(
-      core.cashJournal.totalsByOwner.get("owner")!.grossCreditMinor,
+      core.cashJournal.totalsByAccount.get(
+        countedFundOf(core, "household:owner")!,
+      )!.grossCreditMinor,
     ).toBeGreaterThanOrEqual(draw.drawnMinor);
     expect(conservedCash()).toBe(total);
   });
@@ -691,5 +692,67 @@ describe("businesses without a successor", () => {
     expect(core.finance.businesses.get(shop)!.closedAt).toBe("2021-02-01");
     expect(ownerOf(api, shop)).toBeUndefined();
     expect(money(core)).toBe(total);
+  });
+});
+
+describe("shared chooser for counted owners", () => {
+  it("scores the same recorded traits in both tiers without admitting a person or moving money", () => {
+    const original = input();
+    const traits = Object.fromEntries(
+      Object.keys(DEFAULT_DATA.traitPulls).map((id) => [id, 3]),
+    );
+    const prepared = {
+      ...original,
+      people: original.people.map((person) => ({ ...person, traits })),
+    };
+    const full = createLifeCore(prepared, {
+      data: worldCoreData(),
+      modules: [BUSINESS_MODULE],
+      scheduledWork: false,
+    });
+    const counted = createLifeCore(
+      collapseToTwoLevels(prepared, { keep: new Set() }),
+      {
+        data: worldCoreData(),
+        modules: [BUSINESS_MODULE],
+        scheduledWork: false,
+      },
+    );
+    const action = DEFAULT_DATA.actions.find(
+      (row) => row.effect === "recover",
+    )!;
+    const offers = ["take-risk", "play-safe"].map((kind) => ({
+      definition: {
+        ...action,
+        id: kind,
+        actKinds: [kind],
+        goalKinds: [],
+        emotion: {
+          moodMultiplierParameter: "zero",
+          stressMultiplierParameter: "zero",
+        },
+      },
+      targetId: shop,
+      availableHours: 1,
+      effortHours: 0,
+    }));
+    const before = {
+      people: counted.people.size,
+      version: residentsRuntime(counted)!.store.version,
+      journal: counted.cashJournal.nextSequence,
+    };
+    const expected = chooseAct(full, "owner", offers, undefined, true);
+    const actual = chooseAct(counted, "owner", offers, undefined, true);
+    expect(actual.selected).toBe(expected.selected);
+    expect(actual.scores).toEqual(expected.scores);
+    expect(actual.scores!.some((row) => row.reasons.trait !== 0)).toBe(true);
+    expect({
+      people: counted.people.size,
+      version: residentsRuntime(counted)!.store.version,
+      journal: counted.cashJournal.nextSequence,
+    }).toEqual(before);
+    expect(() => chooseAct(counted, "missing-owner", offers)).toThrow(
+      "Decision actor is absent",
+    );
   });
 });

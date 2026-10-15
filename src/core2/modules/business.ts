@@ -8,8 +8,7 @@
  * scripted. Every payment moves through the ledger.
  */
 import { chooseAct } from "../choice";
-import { personOrFillIn } from "../state";
-import type { PersonId } from "../types";
+import { countedPayment } from "../counted-money";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -17,7 +16,13 @@ import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLeanBetween } from "../trait-decisions";
-import type { ActOffer, CoreAPI, CoreState, PersonState } from "../types";
+import type {
+  ActOffer,
+  CoreAPI,
+  CoreState,
+  PersonState,
+  Source,
+} from "../types";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -38,6 +43,7 @@ import {
 } from "../residents-economy";
 import {
   residentPerson,
+  countedFundOf,
   residentsRuntime,
   supplierBillsOwed,
 } from "./residents";
@@ -416,7 +422,6 @@ function succeed(api: CoreAPI): void {
       store(api).table("owners").remove(row.id);
       continue;
     }
-    personOrFillIn(c, next.personId as PersonId);
     owners.delete(row.ownerId);
     owners.add(next.personId);
     store(api)
@@ -513,7 +518,10 @@ function closeByChoice(
     });
   api.closeBusinessByChoice({
     organizationId,
-    ownerAccountId: api.accounts().main(account),
+    ownerAccountId:
+      !c.people.has(ownerId) && !c.organizations.has(ownerId)
+        ? countedFundOf(c, residentPerson(c, ownerId)!.householdId)!
+        : api.accounts().main(account),
     reasonKey,
     source: {
       tag: "ESTIMATED",
@@ -608,8 +616,8 @@ export function countedClosurePulls(
  * Each owner weighs closing against carrying on: the business's operating
  * losses over the recent months (in months of revenue lost, from its books)
  * and the owner's years past the usual retirement age pull toward closing. A
- * named owner decides through the shared chooser. An outside firm's pulls (the
- * losses, the cash runway left while losing money, and payroll the
+ * full owner decides through the shared chooser. An outside firm's pulls (the
+ * same losses and age, the cash runway left while losing money, and payroll the
  * business could not meet) are summed against a stay bar and slide from nothing
  * to a sure closing across a ramp, so no fixed rate decides how many close;
  * the state's exit rate only checks totals in a test.
@@ -644,7 +652,7 @@ function reviewClosures(api: CoreAPI): void {
           Math.max(0, age - p("jobsEarliestRetirementAge"))) /
         p("businessCloseAgeYears"),
     };
-    if (c.people.has(row.ownerId)) {
+    if (!outsideFirm) {
       const chosen = chooseAct(c, row.ownerId, [
         closeOffer(false, row.id, {}),
         closeOffer(true, row.id, reasons),
@@ -1004,14 +1012,6 @@ function routeOutsideCosts(api: CoreAPI): void {
 function month(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  // Named owners matter to the town: fill their recorded household before
-  // they decide, just as officials become full people when taking office.
-  // The demotion engine already protects every recorded business owner.
-  for (const row of store(api)
-    .table("owners")
-    .query("all", [true]) as unknown as OwnerRow[]) {
-    if (row.basis !== OUTSIDE_FIRM) personOrFillIn(c, row.ownerId as PersonId);
-  }
   succeed(api);
   reviewClosures(api);
   membershipPayouts(api);
@@ -1065,20 +1065,26 @@ function month(api: CoreAPI): void {
         ),
       ).selected!;
       share = Number(selected.targetId.split(":").at(-1));
-      if (share > 0)
-        drawn = transferCash(
-          api,
-          `owner-draw:${row.id}:${c.date}`,
-          row.id,
-          account,
-          retained * share,
-          {
-            tag: "ESTIMATED",
-            asOf: c.date,
-            citation: businessData.source.citation,
-            estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
-          },
-        );
+      if (share > 0) {
+        const id = `owner-draw:${row.id}:${c.date}`;
+        const source: Source = {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: businessData.source.citation,
+          estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
+        };
+        drawn = found.full
+          ? transferCash(api, id, row.id, account, retained * share, source)
+          : countedPayment(api, {
+              id,
+              placeId: owner.placeId,
+              personId: owner.id,
+              otherOwnerId: row.id,
+              amountMinor: -Math.floor(retained * share),
+              reasonKey: "owner-draw",
+              source,
+            });
+      }
     }
     store(api)
       .table("draws")
