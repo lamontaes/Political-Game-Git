@@ -1872,7 +1872,7 @@ function reviewCountedQuits(api: CoreAPI): void {
   for (const [organizationId, book] of c.finance.businesses) {
     if (book.closedAt) continue;
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      if (pinned(c).has(job.id)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;

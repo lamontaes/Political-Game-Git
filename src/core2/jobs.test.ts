@@ -816,6 +816,52 @@ describe("staffing recovery", () => {
   });
 });
 
+describe("quitting during an employed search", () => {
+  it("keeps a counted worker eligible to leave while already looking", () => {
+    const core = createLifeCore(
+      collapseToTwoLevels(input(), {
+        keep: new Set(["w1", "w3", "w4", "s1", "s2"]),
+      }),
+      {
+        data: {
+          ...data,
+          parameters: {
+            ...data.parameters,
+            jobsQuitBaseline: {
+              ...data.parameters.jobsQuitBaseline!,
+              value: 20,
+            },
+          },
+        },
+        modules: [JOBS_MODULE],
+      },
+    );
+    const api = coreAPI(core);
+    withBooks(core, 1);
+    api.moduleState("jobs").table("countedSeekers").put({
+      id: "w2",
+      personId: "w2",
+      placeId: place,
+      isSeeker: true,
+      employed: true,
+      since: start,
+      reasonKey: "looking-around",
+      referenceHourlyMinor: 1500,
+    });
+    advanceCore(core, "2021-03-02");
+    expect(
+      api
+        .moduleState("jobs")
+        .table("changes")
+        .query("byPerson", ["w2"])
+        .some(
+          (row) =>
+            row.kind === "quit" && row.reasonKey === jobsData.reasons.leftJob,
+        ),
+    ).toBe(true);
+  });
+});
+
 describe("retirement during an employed search", () => {
   it("lets both tiers reconsider work and clears a retired worker's search", () => {
     const fixture = input();
@@ -836,19 +882,16 @@ describe("retirement during an employed search", () => {
       ["w1", "seekers"],
       ["w2", "countedSeekers"],
     ])
-      api
-        .moduleState("jobs")
-        .table(table!)
-        .put({
-          id: personId!,
-          personId: personId!,
-          placeId: place,
-          isSeeker: true,
-          employed: true,
-          since: start,
-          reasonKey: "looking-around",
-          referenceHourlyMinor: 1500,
-        });
+      api.moduleState("jobs").table(table!).put({
+        id: personId!,
+        personId: personId!,
+        placeId: place,
+        isSeeker: true,
+        employed: true,
+        since: start,
+        reasonKey: "looking-around",
+        referenceHourlyMinor: 1500,
+      });
     advanceCore(core, "2021-04-02");
     for (const [personId, table] of [
       ["w1", "seekers"],

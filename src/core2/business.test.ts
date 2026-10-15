@@ -432,7 +432,7 @@ describe("founding a business where a market has room", () => {
       id: "purchase:remote",
       payeeId: remote,
     });
-    advanceCore(core, "2026-12-15");
+    advanceCore(core, "2026-11-15");
     const foundings = api(core).moduleState("business").snapshot().tables
       .foundings as unknown as Founding[];
     expect(foundings.some((row) => row.founderId === "founder")).toBe(true);
