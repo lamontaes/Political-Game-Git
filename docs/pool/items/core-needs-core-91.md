@@ -12,8 +12,9 @@ milestone:
 source: 'docs/coordination/core.md "Needs from other sessions" (line 91)'
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** This list holds 11 requests from other sessions about the core, mostly reproducible crashes and slow spots found in generated worlds. Three places cannot build their world (no resident aged 17 in Freedom Acres, Arizona, Princeton, Arkansas and Danvers, Montana), a household filled in twice reuses a transfer id, a county assessor seat waited a year for a special election, and opening cash leaves 232 of 276 Kellogg, Idaho residents with nothing so no estate passes. Verify each line against main first, fix what still fails, and split any large line into its own pool item.
 
+Lines (as of 2026-10-15, from the status file):
 - **PEOPLE:** three places can't build their world: "No household of <place> holds a resident aged 17" (`src/core2/population.ts`, `buildPopulation`): Freedom Acres, Arizona; Princeton, Arkansas (seed 8fc1f5ee31df); Danvers, Montana (seed dcb535ed84b2). Reproduce: `npm run all-places -- --seed e6938a473362ad85 --only U
 - **one-model-two-tiers (fill-in):** "Transfer id is empty or reused: fill-in:household_<id>:cash" (`accounts.ts` `transferSplit`), a household filled in twice: Sabattus, Maine (seed c304c28e0e3c, September 17, 2025); Minto, North Dakota (seed abadf61ae377, October 17, 2025).
 - **OFFICE-LOCAL:** on January 1, 2026 the office day's job review ends a job from its daily hook ("A job ends before its day's work, from calendar work", Pluckemin, New Jersey, seed 52da7cdd6ca8) and starts one for an unrecorded person or employer ("A job start needs a recorded person and employer", Albuquerque, New M
@@ -26,10 +27,10 @@ source: 'docs/coordination/core.md "Needs from other sessions" (line 91)'
 - **GOV:** the December legislative session takes 6 seconds, 3.5 of them in committee rosters and chamber votes (`leadership.ts` `committeeRoster`, `legislature.ts` `chamberVote`).
 - **WORLD:** the jobs engine's monthly worker review takes 0.4 seconds a month. `src/core2/business-names.ts` (#4224) isn't in the typecheck project's file list (TS6307 on main).
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Rules.** One rule, all 56 places: every fix is checked in a drawn place and a failing seed, never one named town in logic. One model, two tiers: a filled-in household must match the counted records and be filled in once. Speed: the monthly counted flows and the December session timings must come down, measured on the same machine before and after. Estimate, never UNKNOWN: opening cash starts from the Survey of Consumer Finances average with a spread.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
+**Done when.** Each line shows either a passing run on its failing seed in a drawn place (the three build failures build, the double fill-in no longer reuses a transfer id, shown by record id) or a note that main already fixed it. The test in src/core2/accounts.test.ts and src/core2/population.test.ts pass for the fixed lines, and a one-year played world (buildBenchWorld) in Kellogg's seed shows an estate passing by will with a record id. The owner plays it: a death in a small town leaves an estate that someone inherits.
 
-**Files.** varies
+**Files.** src/core2/population.ts, src/core2/accounts.ts, src/core2/modules/residents.ts, src/core2/modules/housing.ts, src/core2/births-counted.ts, src/core2/modules/leadership.ts, docs/coordination/core.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
