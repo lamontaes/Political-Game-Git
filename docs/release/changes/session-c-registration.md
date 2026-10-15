@@ -1,6 +1,9 @@
 ---
 id: session-c-registration
-impact: none
+impact: patch
+section: Fixed
+title: Filing no longer invents voter-registration status
 ---
 
-Contract: remove the invented voter-registration status from candidacy checks, following the owner's no-paperwork rule.
+Filing checks no longer call every adult resident a registered voter without a registration record.
+The existing age, residence, deadline, party, and term-limit checks still apply.
