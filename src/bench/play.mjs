@@ -2727,22 +2727,90 @@ const sheets = {
     return rows;
   },
   async travel() {
-    const places = await api(`/api/goto?id=${encodeURIComponent(me.id)}`);
-    return places.map((p) => {
-      const go = el("button", { type: "button", textContent: "Go" });
-      go.addEventListener("click", () => visit(p.organizationId));
-      return el(
-        "div",
-        { className: "row" },
-        el("b", { textContent: p.name }),
-        [
-          `${p.staff} ${controls.travel?.staff ?? ""}`.trim(),
-          ...p.known.map((k) => k.name),
-          ...p.actions.map((a) => controls.actions?.[a] ?? a),
-        ].join(" · ") + " ",
-        go,
+    const [places, government] = await Promise.all([
+      api(`/api/goto?id=${encodeURIComponent(me.id)}`),
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+    ]);
+    const labels = controls.travel;
+    const search = el("input", { type: "search", placeholder: labels.search });
+    search.setAttribute("aria-label", labels.search);
+    const content = el("div", { className: "travel-destinations" });
+    const counters = [
+      ...new Set(government.contests.map((c) => c.filingOffice.filedWith)),
+    ].map((name) => ({ name, filing: true }));
+    const destinations = [...counters, ...places];
+    let page = 0;
+    const draw = () => {
+      const found = destinations.filter((p) =>
+        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
       );
+      const cards = found.slice(page * 5, page * 5 + 5).map((p) => {
+        const card = el("article", { className: "travel-place" });
+        if (p.presentation?.imageUrl) {
+          const image = el("img", {
+            src: p.presentation.imageUrl,
+            alt: "",
+            className: "travel-image",
+          });
+          image.onerror = () => image.remove();
+          card.append(image);
+        }
+        const info = el(
+          "div",
+          { className: "travel-info" },
+          el("h3", { textContent: p.name }),
+        );
+        if (p.filing)
+          info.append(
+            el("span", { className: "label", textContent: labels.filing }),
+          );
+        else
+          info.append(
+            el("p", {
+              textContent: [
+                ...p.known.map((k) => k.name),
+                ...p.actions.map((a) => controls.actions?.[a] ?? words(a)),
+              ].join(" · "),
+            }),
+          );
+        const go = el("button", { type: "button", textContent: labels.go });
+        go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
+        go.onclick = () =>
+          p.filing ? openFiling(p.name) : visit(p.organizationId);
+        card.append(info, go);
+        return card;
+      });
+      const back = el("button", {
+        type: "button",
+        textContent: labels.back,
+        disabled: page === 0,
+      });
+      back.onclick = () => {
+        page--;
+        draw();
+      };
+      const next = el("button", {
+        type: "button",
+        textContent: labels.next,
+        disabled: (page + 1) * 5 >= found.length,
+      });
+      next.onclick = () => {
+        page++;
+        draw();
+      };
+      content.replaceChildren(
+        ...cards,
+        ...(found.length > 5
+          ? [el("nav", { className: "travel-pager" }, back, next)]
+          : []),
+      );
+    };
+    search.addEventListener("input", () => {
+      page = 0;
+      draw();
     });
+    draw();
+    return [search, content];
   },
   async politics() {
     return sheets.government();
