@@ -63,6 +63,9 @@ export function reviewRefinances(
   }[] = [];
   for (const row of tables.mortgages.rows() as unknown as MortgageRow[]) {
     if (row.monthsLeft <= 0 || row.balanceMinor <= 0) continue;
+    // Only a lower rate is a refinance; a lower payment at a higher rate (a
+    // balance paid down ahead of its schedule) isn't one.
+    if (marketRate >= row.rate) continue;
     const balance = row.balanceMinor;
     const payment = levelPayment(balance, marketRate, row.monthsLeft, months);
     const saving = row.paymentMinor - payment;
