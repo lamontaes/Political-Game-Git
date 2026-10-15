@@ -1400,7 +1400,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 113,
-    "whatItFakes": "Paid family leave collects its payroll premium but pays no leave: nobody claims leave for a birth, adoption or a relative's illness.",
+    "whatItFakes": "Paid family leave collects the same estimated payroll premium from full workers and counted groups but pays no leave. The generic contribution omits jurisdiction-specific employee/employer splits, wage caps and covered-employment exclusions. Nobody claims leave for a birth, adoption or a relative's illness; no received contribution notice or director explanation is modeled.",
     "why": "There is no birth-leave or caregiving event a worker can claim leave from, and no benefit payment route from a treasury to a person.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
