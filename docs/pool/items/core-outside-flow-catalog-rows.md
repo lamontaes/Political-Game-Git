@@ -22,3 +22,5 @@ source: "split from core-outside-flow-provenance-gate; #4352 SESSION-B.md"
 **Files.** src/core2/data/outside-flows.json
 
 **Notes.** Sullivan's Island, South Carolina, seed gate-repro-1: five unmatched classes before, none after.
+
+**Update.** Main's PR #4413 added most of these rows in parallel (and classed federal borrowing as part of the plug); this PR keeps main's rows and adds only the `counsel` row, which Hinesburg, Vermont (seed gate-repro-2) still reported unmatched.
