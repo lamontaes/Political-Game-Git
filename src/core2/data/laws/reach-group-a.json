@@ -227,7 +227,7 @@
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "source": "Military Lending Act (10 U.S.C. 987) and state rate caps of 36% a year (National Consumer Law Center, State Rate Caps, 2024).",
-      "mechanic": "none",
+      "mechanic": "consumer-loan-quote",
       "stopgapId": "SG-GOV-REACH-A-consumer-credit",
       "reaches": [
         {

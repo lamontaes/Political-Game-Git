@@ -32,6 +32,9 @@ import type { ActOffer } from "../types";
 import { bankDepositLiability } from "../accounts";
 import { reviewBankDeposits } from "../credit-deposits";
 
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+
 const CREDIT_PULL = "credit:pull";
 
 export const CREDIT_MODULE_ID = "credit";
@@ -883,9 +886,16 @@ function householdApplications(
       { policyRatePct: number } | undefined
   )?.policyRatePct;
   if (prime === undefined) return room;
-  const rate =
+  const marketRate =
     (prime + p("macroPrimeSpreadPct") + p("creditPersonalSpreadPct")) /
     p("macroHundred");
+  const cap = c.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(
+        api,
+        "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      )
+    : undefined;
+  const town = cap ? lawChain(api).townPlaceId : undefined;
   const owing = new Set(
     (
       store(api).table("loans").query("open", [true]) as unknown as LoanRow[]
@@ -911,6 +921,16 @@ function householdApplications(
     a.id.localeCompare(b.id),
   )) {
     if (owing.has(household.id) || room <= 0) continue;
+    // stopgapId: SG-GOV-REACH-A-consumer-credit — product-specific caps,
+    // fees and counted borrowers still need records. This is the catalog ceiling.
+    const applicable =
+      cap?.value === 1 && cap.governing && household.placeId === town;
+    if (applicable) api.stopgap("SG-GOV-REACH-A-consumer-credit");
+    const ceiling = applicable
+      ? lawParameters.parameters.consumerLoanRateCap.value
+      : null;
+    const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
+    const lawId = applicable ? cap.governing!.id : null;
     const members = household.memberIds
       .map((id) => c.people.get(id))
       .filter((row) => row?.alive);
@@ -987,6 +1007,10 @@ function householdApplications(
         limitMinor: principal,
         approved: principal > 0,
         kind: "personal",
+        marketAnnualRate: marketRate,
+        annualRate: rate,
+        ceilingAnnualRate: ceiling,
+        lawId,
       });
     if (principal <= 0) continue;
     const lent = transferCash(
@@ -999,7 +1023,7 @@ function householdApplications(
         tag: "ESTIMATED",
         asOf: c.date,
         citation: creditData.source.citation,
-        estimatedFrom: `A personal loan at prime plus ${p("creditPersonalSpreadPct")} points, sized from the household's costs and its debt-to-income.`,
+        estimatedFrom: `A personal loan quoted at ${rate}, from market rate ${marketRate}${lawId ? ` under ${lawId}` : ""}, sized from the household's costs and debt-to-income.`,
       },
     );
     if (lent <= 0) continue;
@@ -1016,6 +1040,8 @@ function householdApplications(
         principalMinor: lent,
         balanceMinor: lent,
         annualRate: rate,
+        marketAnnualRate: marketRate,
+        rateLawId: lawId,
         paymentMinor: Math.round(
           amortizedPayment(lent, rate, p("creditPersonalTermMonths"), p),
         ),
