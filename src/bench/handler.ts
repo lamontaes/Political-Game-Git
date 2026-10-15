@@ -1,3 +1,4 @@
+import { jobsView, answerJobOffer } from "./jobs";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
@@ -826,6 +827,24 @@ export async function benchRequest(
             url.searchParams.get("id") ?? "",
             personOrFillIn(requireCore(), url.searchParams.get("other") ?? "")
               ?.id ?? "",
+          ),
+        );
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/jobs") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(200, jobsView(requireCore(), player.personId));
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/jobs/answer") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          answerJobOffer(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("offerId") ?? "",
+            url.searchParams.get("answer") ?? "",
           ),
         );
         return;
