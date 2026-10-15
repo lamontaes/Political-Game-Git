@@ -76,12 +76,12 @@ describe(`rent help (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`,
     console.log(
       `${drawn.name}: rent $${rent / 100}, the household pays $${now.amountMinor / 100}, help $${help / 100} to the landlord`,
     );
-    // The rule: the household pays 30% of its pay now (its members may have
-    // found work since the opening), the government the rest, up to its limit.
+    // The rule: the household pays 30% of the pay the month's review weighed
+    // (its members may have found work since the opening), the government the
+    // rest, up to its limit.
     const share = api.parameter("housingAssistanceRentShareOfIncome");
     const monthlyPay =
-      (pay(householdId) * api.parameter("jobsDaysPerYear")) /
-      api.parameter("macroMonthsPerYear");
+      (row as { incomeMinor?: number } | undefined)?.incomeMinor ?? 0;
     const billedRent = now.amountMinor + help;
     expect(help).toBe(
       Math.round(Math.min(rent, Math.max(0, billedRent - share * monthlyPay))),
