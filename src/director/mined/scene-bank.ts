@@ -27,6 +27,8 @@ interface MinedPart {
   text: string;
   uses: Use[];
   shippable: boolean;
+  /** The manner the wording carries, for the speaker's trait pulls. */
+  bearing?: string;
 }
 type Bank = { parts: MinedPart[] };
 export const SCENE_BANK = sceneJson as unknown as Bank;
@@ -64,6 +66,7 @@ function variants(bank: Bank, subject: string, role: string) {
         key: part.key,
         text: directorText(part.text),
         ...(stages ? { stages } : {}),
+        ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
       };
     });
 }
