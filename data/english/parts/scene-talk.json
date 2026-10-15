@@ -6053,6 +6053,653 @@
         "move": "promise",
         "key": "loss"
       }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-that-s-settled",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. That's settled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-hold-you-to-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I'll hold you to that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-really",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-really-need-this-one",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I really need this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "plea"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.you-know-what-this-means-to-me",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "You know what this means to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "plea"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.don-t-make-me-go-back-empty-handed",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Don't make me go back empty-handed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "plea"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.take-your-time-but-i-need-an-answer",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Take your time, but I need an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-can-t-sit-this-one-out",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You can't sit this one out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.come-on-you-know-where-you-stand",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Come on. You know where you stand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.i-d-think-hard-about-that",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "I'd think hard about that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "threaten"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.you-ll-need-friends-after-this-vote-i-won-t-be-one",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "You'll need friends after this vote. I won't be one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.suit-yourself",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Suit yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-all-right-i-understand",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's all right. I understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-won-t-push",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I won't push.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.don-t-let-me-down",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "Don't let me down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-m-sorry-it-came-to-this",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'm sorry it came to this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-call-you-before-the-vote",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll call you before the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "outcome": "open",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.is-now-a-bad-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Is now a bad time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-time-for-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got time for me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-sorry-i-just-can-t",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm sorry. I just can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've made up my mind. It's no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-you-have-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. You have it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.of-course-i-m-glad-you-asked",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Of course. I'm glad you asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-until-the-vote",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me until the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-m-still-weighing-it",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'm still weighing it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "stall"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.help-me-with-something-first-and-we-ll-talk",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Help me with something first, and we'll talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.okay-for-you-i-ll-do-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Okay. For you, I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "relent"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-s-complicated-let-s-leave-it-there",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It's complicated. Let's leave it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect"
+      }
     }
   ]
 }
