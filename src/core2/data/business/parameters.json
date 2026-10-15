@@ -49,14 +49,14 @@
     "citation": "Mean days per month (365/12)."
   },
   "businessFoundBaseline": {
-    "value": -13.5,
+    "value": -13.2,
     "tag": "TUNABLE",
-    "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, the same for every adult (full people weigh it through the chooser, the wider population as summed pulls); checked against Census BDS 2023 establishment entry (about 10% a year).",
+    "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, the same for every adult (full people weigh it through the chooser, the wider population as summed pulls); checked against Census BDS 2023 establishment entry (about 10% a year). Retuned Oct 15 when full people stopped founding on their own lower baseline (they had supplied most openings): three years each, -13.4 gave 3, 3 and 2 openings in Cashion Community, Texas, Cana, Virginia and Onawa, Iowa; -13.0 gave 11 and 1 in Cashion and Onawa; a town's count over three years swings widely with which markets fill first. At -13.2: 6, 3 and 3 in Cashion Community, Onawa and Washington, D.C., each inside M1-08's range.",
     "spread": {
       "low": -15,
       "high": -12,
       "unit": "score",
-      "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, the same for every adult (full people weigh it through the chooser, the wider population as summed pulls); checked against Census BDS 2023 establishment entry (about 10% a year)."
+      "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, the same for every adult (full people weigh it through the chooser, the wider population as summed pulls); checked against Census BDS 2023 establishment entry (about 10% a year). Retuned Oct 15 when full people stopped founding on their own lower baseline (they had supplied most openings): three years each, -13.4 gave 3, 3 and 2 openings in Cashion Community, Texas, Cana, Virginia and Onawa, Iowa; -13.0 gave 11 and 1 in Cashion and Onawa; a town's count over three years swings widely with which markets fill first. At -13.2: 6, 3 and 3 in Cashion Community, Onawa and Washington, D.C., each inside M1-08's range."
     }
   },
   "businessFoundRoomWeight": {
