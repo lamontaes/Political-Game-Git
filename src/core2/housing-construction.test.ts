@@ -1,5 +1,6 @@
 /** New homes: builders start what pays at the state's permit rate, zoning moves it, and a finished building adds rental units. */
 import { describe, expect, it } from "vitest";
+import { occupyCompletedRentals } from "./housing-occupancy";
 import construction from "./data/housing/construction.json" with { type: "json" };
 import { buildMonth, openStock, setZoning } from "./housing-construction";
 import { advanceCore, createLifeCore } from "./life";
@@ -70,8 +71,8 @@ function input(): CoreInput {
   } as CoreInput;
 }
 
-function month(upzoned: boolean) {
-  const core = createLifeCore(input(), {
+function month(upzoned: boolean, fixture = input()) {
+  const core = createLifeCore(fixture, {
       data: worldCoreData(),
       modules: [HOUSING_MODULE],
     }),
@@ -140,5 +141,81 @@ describe("new homes", () => {
     expect(t.core.organizations.get(landlord)!.liquidMinor).toBe(
       100_000_000_000 - 2 * Number(projects[0]!.monthlyCostMinor),
     );
+  });
+});
+
+describe("completed rental occupancy", () => {
+  it("changes a chosen household's actual lease without consuming the old home's vacancy", () => {
+    const base = input();
+    const fixture = {
+      ...base,
+      people: base.people.map((person) =>
+        ["p0", "p1"].includes(person.id)
+          ? { ...person, jobId: `job:${person.id}` }
+          : person,
+      ),
+      jobs: ["p0", "p1"].map((personId) => ({
+        id: `job:${personId}`,
+        personId,
+        organizationId: landlord,
+        title: "Clerk",
+        wageDailyMinor: 15000,
+        hoursDaily: 8,
+        source: src,
+      })),
+    };
+    const t = month(false, fixture);
+    const state = t.api.moduleState("housing");
+    const project = "project:occupancy-fixture";
+    t.tables.projects.put({
+      id: project,
+      placeId: place,
+      kind: "multi",
+      units: 1,
+      affordableUnits: 0,
+      askingRentMinor: 100000,
+      medianPayMinor: 450000,
+      payerId: landlord,
+      builderId: "organization:outside",
+      monthlyCostMinor: 0,
+      paidMinor: 0,
+      startedAt: start,
+      completesAt: start,
+      open: false,
+      isProject: true,
+    });
+    for (const [person, rent] of [
+      ["p0", 150000],
+      ["p1", 90000],
+    ] as const) {
+      t.api.addFinanceContract({
+        id: `lease:household:${person}`,
+        householdId: `household:${person}`,
+        payerIds: [person],
+        payeeId: landlord,
+        kind: "household-purchase",
+        amountMinor: rent,
+        dueAt: "2021-02-01",
+        periodMonths: 1,
+        accruesArrears: true,
+        source: src,
+      });
+    }
+    const vacancy = t.tables.stock.get(`stock:${place}`)!.vacantRental;
+    occupyCompletedRentals(t.api);
+    expect(
+      t.core.finance.contracts.get("lease:household:p0")!.amountMinor,
+    ).toBe(100000);
+    expect(
+      t.core.finance.contracts.get("lease:household:p1")!.amountMinor,
+    ).toBe(90000);
+    expect(state.table("occupancy").get("household:p0")?.projectId).toBe(
+      project,
+    );
+    expect(state.table("moves").rows()).toHaveLength(1);
+    expect(t.tables.stock.get(`stock:${place}`)!.vacantRental).toBe(vacancy);
+    occupyCompletedRentals(t.api);
+    expect(state.table("moves").rows()).toHaveLength(1);
+    expect(state.table("occupancy").rows()).toHaveLength(1);
   });
 });

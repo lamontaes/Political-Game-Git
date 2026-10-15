@@ -2563,10 +2563,10 @@
   {
     "id": "SG-WORLD-housing-vacancy",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/housing.ts",
-    "line": 558,
-    "whatItFakes": "Vacancy moves rents at renewal, but no household moves in to fill a vacant home: new apartments stay vacant.",
-    "why": "Homes are not yet records with occupancy (no dwellings table), so there is no town vacancy to read.",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 115,
+    "whatItFakes": "Vacancy moves rent in both population tiers, and local tenants can occupy completed rentals, freeing their old homes. Incoming and homeless households are not yet assigned to completed units, so those moves do not absorb town-wide vacancies.",
+    "why": "Local occupancy replaces the old full-only rent discount, but new-unit assignment for arrivals and homeless households remains unwired.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE arrivals: households moving into the town fill vacancies, at a pace from the region's jobs and the town's rents.",
@@ -4415,6 +4415,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-new-rental-move-coverage",
+    "kind": "missing-mechanic",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 113,
+    "whatItFakes": "Completed-rental matching currently handles existing local tenants choosing lower rent with the same landlord. Job-location, family-space and incoming household assignment are not modeled. Local relocations free an old unit, so town vacancy does not fall.",
+    "why": "The existing construction completion path only discounted full tenants without recording occupancy. This replacement records both tiers and changes their actual rent writers; broader arrival and homeless assignment remains.",
+    "addedBy": "SESSION-B",
+    "addedAt": "2026-10-15",
+    "replacement": "Read recorded job locations, dwelling capacity and arrival/homeless households to assign vacant units, preserving the same household decision rule and stock accounting.",
     "status": "open"
   }
 ]
