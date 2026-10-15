@@ -19,11 +19,11 @@ This folder is that place. It replaces the pool lists inside work orders, the "N
 
 Any agent with repository access (Claude, Codex, Cursor, Antigravity or another) may take pool items. The claim rule above is the only coordination; only the CTO merges. Generic paste prompt:
 
-> Read AGENTS.md and docs/pool/README.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md. Take the highest-priority open item in your area (or the top open item), claim it by editing its file and pushing on your own branch, build it to its done-when line, open a draft PR with checks on changed files only and a release declaration, set the item to in-pr, and take the next. Add an item for anything you find. Never merge your own PR.
+> Read AGENTS.md and docs/pool/README.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md. Take the highest-priority open item in your area (or the top open item), claim it by editing its file and pushing on your own branch, build it to its done-when line, open a draft PR with checks on changed files only and a release declaration, set the item to in-pr, and take the next. Add an item for anything you find. Never merge your own PR. If the latest release run on main is red, claim the pool item release-main-red, fix it at the root on its own branch and PR, then go on with your work.
 
 ### Merger
 
-> Read AGENTS.md and .agents/skills/merger/SKILL.md in lamontaes/Political-Game-Git. Act as the merger: for every open PR, merge main into it, run only the changed-file checks in your own cloud environment (never the full suite, never wait on GitHub's runs), apply the morning check, merge on green or comment once with the exact reason, mark merged items done in docs/pool, and cancel stale GitHub runs. Never merge a PR you authored, never force-push, never npm ci. End with a table of what you did.
+> Read AGENTS.md and .agents/skills/merger/SKILL.md in lamontaes/Political-Game-Git. Act as the merger: for every open PR, merge main into it, run only the changed-file checks in your own cloud environment (never the full suite, never wait on GitHub's runs), apply the morning check, merge on green or comment once with the exact reason, mark merged items done in docs/pool, and cancel stale GitHub runs. Never merge a PR you authored, never force-push, never npm ci. End with a table of what you did. If the latest release run on main is red, claim the pool item release-main-red, fix it at the root on its own branch and PR, then go on with your work.
 
 ### Checker
 
