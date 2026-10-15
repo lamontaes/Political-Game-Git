@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, getComputedStyle, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -68,6 +68,9 @@ function pageWhenChanged(box, pager) {
   new MutationObserver(() =>
     requestAnimationFrame(() => pageIn(box, pager)),
   ).observe(box, { childList: true, subtree: true });
+  new ResizeObserver(() =>
+    requestAnimationFrame(() => pageIn(box, pager)),
+  ).observe(box);
 }
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -99,7 +102,35 @@ function el(tag, props = {}, ...children) {
   return node;
 }
 function row(label, value) {
-  return el("div", { className: "row" }, termLabel(label), String(value ?? ""));
+  return el(
+    "div",
+    { className: "row" },
+    termLabel(label),
+    el("span", { className: "record-value", textContent: String(value ?? "") }),
+  );
+}
+/** Layout only: labels and content are supplied by the screen's record adapter. */
+function recordSection(title, ...content) {
+  return el(
+    "section",
+    { className: "record-section" },
+    el("h3", { className: "label", textContent: title }),
+    ...content,
+  );
+}
+/** Optional artwork slots. No sample person, room, or fallback artwork. */
+function screenArtwork({ portraitUrl, backgroundUrl, name }) {
+  const media = $("sheet-media");
+  media.replaceChildren();
+  for (const [src, className, alt] of [
+    [backgroundUrl, "screen-backdrop", ""],
+    [portraitUrl, "screen-portrait", name],
+  ]) {
+    if (!src) continue;
+    const img = el("img", { src, className, alt });
+    img.addEventListener("error", () => img.remove(), { once: true });
+    media.append(img);
+  }
 }
 function show(id, on) {
   $(id).hidden = !on;
@@ -1406,83 +1437,131 @@ const sheets = {
   },
   async who() {
     const c = me.card;
-    const progress = await api(`/api/progress?id=${encodeURIComponent(me.id)}`);
-    const step = progress.steps.find(
-      (row) => row.step === progress.furthestReachedStep,
-    );
-    const words = controls.who ?? {};
-    // The engine's raw measures, for the bench only.
-    const dev = (line) => {
-      line.classList.add("dev-only");
-      return line;
-    };
+    const labels = controls.who ?? {};
     const born = new Date(`${c.birthDate}T12:00:00Z`).toLocaleDateString(
       "en-US",
       { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
-    // Work if there is a job, else the latest school on the record.
-    const school = c.schools?.at(-1);
-    const occupation = c.job
-      ? `${c.job.title}${c.job.employer ? `, ${c.job.employer}` : ""}`
-      : school?.name;
-    return [
+    const personLink = (member) => {
+      const button = el("button", {
+        type: "button",
+        className: "character-person",
+        textContent: member.name,
+      });
+      button.addEventListener("click", () => {
+        closeSheet();
+        showPerson(member);
+      });
+      return el(
+        "li",
+        {},
+        button,
+        el("span", {
+          className: "character-relation",
+          textContent: member.relation ?? "",
+        }),
+      );
+    };
+    const rows = [
       el(
-        "div",
-        { className: "character" },
-        portraitUrl()
-          ? el(
-              "div",
-              { className: "portrait-frame" },
-              el("img", {
-                className: "portrait",
-                src: portraitUrl(),
-                alt: c.name,
-              }),
-            )
-          : "",
-        el("b", { className: "name", textContent: c.name }),
-      ),
-      row(words.age ?? "", c.age),
-      row(words.born ?? "", born),
-      // A minor's home is the household's.
-      row(
-        c.age < 18 ? (words.householdHome ?? "") : (words.home ?? ""),
-        me.placeName,
-      ),
-      ...(c.home?.members.length
-        ? [
-            row(
-              words.family ?? "",
-              c.home.members
-                .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
-                .join(", "),
-            ),
-          ]
-        : []),
-      ...(occupation
-        ? [row(c.job ? (words.work ?? "") : (words.school ?? ""), occupation)]
-        : []),
-      ...c.traits.map((t) => row(t.label, t.word)),
-      ...(c.view
-        ? [row(words.views ?? "", controls.leanWords?.[c.view] ?? "")]
-        : []),
-      row(words.money ?? "", dollars(c.liquidMinor)),
-      dev(row("Golden path", step ? `${step.step}. ${step.label}` : "—")),
-      dev(row("Mood", c.affect?.mood?.toFixed(2))),
-      dev(row("Stress", c.affect?.stress?.toFixed(2))),
-      ...c.drives.map((d) =>
-        dev(row(d.kind, `${d.topic} · ${d.desiredChange}`)),
+        "header",
+        { className: "character-heading" },
+        el("h2", { className: "name", textContent: c.name }),
+        el("p", {
+          className: "character-meta",
+          textContent: `${labels.age} ${c.age} · ${labels.born} ${born}`,
+        }),
       ),
     ];
+    if (c.traits?.length)
+      rows.push(
+        recordSection(
+          labels.traits,
+          el(
+            "ul",
+            { className: "character-traits" },
+            ...c.traits.map((trait) =>
+              el(
+                "li",
+                {},
+                el("span", {
+                  className: "character-trait-label",
+                  textContent: trait.label,
+                }),
+                el("strong", { textContent: trait.word }),
+              ),
+            ),
+          ),
+        ),
+      );
+    rows.push(
+      recordSection(
+        c.age < 18 ? labels.householdHome : labels.home,
+        el("p", { textContent: c.home?.placeName ?? me.placeName }),
+        el(
+          "ul",
+          { className: "character-household" },
+          ...(c.home?.members ?? []).map(personLink),
+        ),
+      ),
+    );
+    if (c.job)
+      rows.push(
+        recordSection(
+          labels.work,
+          el("p", { className: "character-feature", textContent: c.job.title }),
+          el("p", { textContent: c.job.employer ?? "" }),
+        ),
+      );
+    if (c.schools?.length)
+      rows.push(
+        recordSection(
+          labels.school,
+          ...[...c.schools]
+            .reverse()
+            .map((school) => el("p", { textContent: school.name })),
+        ),
+      );
+    const views =
+      c.views ??
+      (c.view && controls.leanWords?.[c.view]
+        ? [{ label: labels.views, text: controls.leanWords[c.view] }]
+        : []);
+    if (views.length)
+      rows.push(
+        recordSection(
+          labels.views,
+          el(
+            "div",
+            { className: "character-views" },
+            ...views.map((view) =>
+              el(
+                "article",
+                {},
+                view.label !== labels.views
+                  ? el("h4", { textContent: view.label })
+                  : "",
+                el("p", { className: "narrative", textContent: view.text }),
+              ),
+            ),
+          ),
+        ),
+      );
+    rows.push(
+      el(
+        "div",
+        { className: "character-money" },
+        el("span", { className: "label", textContent: labels.money }),
+        el("strong", { textContent: dollars(c.liquidMinor) }),
+      ),
+    );
+    return rows;
   },
   async money() {
     const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
-      ...(me.card.age < 18
-        ? [row(controls.who?.householdHome ?? "", me.placeName)]
-        : []),
-      ...(me.card.dwelling && me.card.age >= 18
+      ...(me.card.dwelling
         ? [
             row(
               me.card.dwelling.tenure === "own" ? "Own" : "Rent",
@@ -1871,7 +1950,7 @@ const sheets = {
               .filter((level) => level.row)
               .map((level) =>
                 el("div", {
-                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
+                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
                 }),
               ),
             ...law.pending.map((row) =>
@@ -1960,6 +2039,42 @@ const sheets = {
         skipOpening?.();
       });
       rows.push(skip);
+    }
+    // Which kinds of scene may stop your day (a record the director reads).
+    const filter = await api("/api/scene-filter").catch(() => null);
+    if (filter) {
+      const allowed = new Set(filter.allowed ?? filter.kinds);
+      const save = () =>
+        post(
+          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
+        );
+      rows.push(
+        el("p", {
+          className: "label",
+          textContent: controls.sceneFilter ?? "",
+        }),
+        el(
+          "div",
+          { className: "scene-filter" },
+          ...filter.kinds.map((kind) => {
+            const box = el("input", {
+              type: "checkbox",
+              checked: allowed.has(kind),
+            });
+            box.addEventListener("change", () => {
+              if (box.checked) allowed.add(kind);
+              else allowed.delete(kind);
+              save();
+            });
+            return el(
+              "label",
+              {},
+              box,
+              ` ${controls.sceneKinds?.[kind] ?? kind}`,
+            );
+          }),
+        ),
+      );
     }
     rows.push(
       el("p", { className: "version", textContent: await displayVersion() }),
@@ -2094,10 +2209,25 @@ async function openSheet(tab) {
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
+  const character = tab === "who";
+  $("sheet").classList.toggle("character-sheet", character);
+  $("sheet-media").hidden = !character;
+  screenArtwork(
+    character
+      ? {
+          portraitUrl:
+            me.card.presentation?.portraitUrl !== undefined
+              ? me.card.presentation.portraitUrl
+              : portraitUrl(),
+          backgroundUrl: me.card.presentation?.backgroundUrl,
+          name: me.card.name,
+        }
+      : {},
+  );
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.toggle(
     "cols",
-    tab === "calendar" || body.length > 12,
+    tab !== "who" && (tab === "calendar" || body.length > 12),
   );
   show("sheet", true);
   show("menu", Boolean(me));

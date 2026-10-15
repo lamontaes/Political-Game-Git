@@ -5,4 +5,4 @@ title: Who you are is a character screen
 impact: patch
 ---
 
-Who you are now shows your portrait and name, your age and birthday, your home and who lives there, your work or school, and your money. Your household's home reads as the household's while you are a minor, and the law's effects on you moved to Politics under Law.
+Who you are groups your portrait, household, traits, school, work, views and money in the existing Kit 13 panel. Household names open person cards. Images come from the character's records; missing artwork leaves a clear slot. Law effects appear under Politics instead of on the character screen.
