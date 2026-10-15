@@ -13,7 +13,7 @@ Validation is bounded on purpose, and the full suite is never the gate.
 
 ## What to run
 
-Run typecheck, eslint and prettier on the files you changed. Then run `npm run release:check -- --mode pr`, `npm run zero-dice` and the unit tests for the files you touched. Add browser specs only when you changed a screen.
+Run typecheck, eslint and prettier on the files you changed. Then run `npm run release:check -- --mode pr`, `npm run zero-dice`, `npm run pool -- --check` and the unit tests for the files you touched. Add browser specs only when you changed a screen.
 
 A failure that also fails on a clean `main` doesn't block your merge;
 note it, don't chase it. Never run the full suite as a gate — it's slow

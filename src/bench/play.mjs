@@ -187,6 +187,7 @@ function pointOut(figures) {
     if (!figure) return;
     $("opening-point-name").textContent = figure.name;
     $("opening-point-role").textContent = [
+      figure.relation,
       figure.post,
       figure.office,
       figure.state,
@@ -217,13 +218,18 @@ async function playOpening() {
   openingReady = undefined;
   if (!opening?.frames?.length) return opening;
   const { speaker } = opening;
-  $("opening-bust").style.backgroundImage = speaker.figureUrl
-    ? `url("${speaker.figureUrl}")`
-    : "";
-  $("opening-name").textContent = speaker.name;
-  $("opening-role").textContent = [speaker.title, ...speaker.detail]
-    .filter(Boolean)
-    .join(" · ");
+  // Who is speaking: the anchor's lead-in on the news, then the President.
+  const speakerCard = (anchor) => {
+    $("opening-bust").style.backgroundImage =
+      !anchor && speaker.figureUrl ? `url("${speaker.figureUrl}")` : "";
+    $("opening-name").textContent = anchor
+      ? (controls.opening?.news ?? "")
+      : speaker.name;
+    $("opening-role").textContent = anchor
+      ? ""
+      : [speaker.title, ...speaker.detail].filter(Boolean).join(" · ");
+  };
+  speakerCard(false);
   show("opening-box", true);
   $("game").classList.add("letterbox", "cinema");
   frames: for (const frame of opening.frames) {
@@ -232,14 +238,24 @@ async function playOpening() {
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    const camera = pointOut(frame.pointOut ?? []);
+    speakerCard(frame.speaker === "anchor");
+    // Who the camera points out: a household as the frame opens, anyone the
+    // address names on the line that names them.
+    const figures = frame.pointOut ?? [];
+    let camera = pointOut(figures.filter((row) => row.line === undefined));
     // A stage the President says nothing over shows without the speech box.
     show("opening-box", frame.lines.length > 0);
     // A click moves on to the next sentence; Skip ends the address. The
     // picture holds until the camera has passed everyone on it.
-    for (const line of frame.lines) {
+    for (const [at, line] of frame.lines.entries()) {
       $("opening-speech").textContent = line.text;
-      if (await holdOpening(lineMs(line.text))) {
+      const named = figures.filter((row) => row.line === at);
+      if (named.length) {
+        camera.stop();
+        camera = pointOut(named);
+      }
+      const hold = Math.max(lineMs(line.text), camera.left());
+      if (await holdOpening(hold)) {
         camera.stop();
         break frames;
       }
@@ -263,12 +279,12 @@ function showNewsSurface(news) {
   $("news-surface-label").textContent = controls.opening?.news ?? "";
   $("news-surface-headline").textContent =
     story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
-  $("news-surface").onclick = () => openNewsReader(news);
-  show("news-surface", true);
+  $("news-surface").onclick = () => {
+    coachUsed("news-surface");
+    openNewsReader(news);
+  };
   // The paper stays on the table for the evening; living on clears it.
-  $("day").addEventListener("click", () => show("news-surface", false), {
-    once: true,
-  });
+  show("news-surface", true);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -305,28 +321,28 @@ $("news-reader-close").addEventListener("click", () =>
  * The first choices, pointed out one at a time: the news, the people you
  * know, then living the day. Each glows until it is used; nothing to read.
  */
+const COACH_ORDER = ["news-surface", "people-tab", "day"];
+const coachDone = new Set();
+const coachNode = (id) =>
+  id === "people-tab"
+    ? document.querySelector('#rings [data-tab="people"]')
+    : $(id);
+/** Glows the first choice not yet used; each clears however it is used. */
+function coachRender() {
+  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
+  const next = COACH_ORDER.find((id) => {
+    const node = coachNode(id);
+    return !coachDone.has(id) && node && !node.hidden;
+  });
+  if (next) coachNode(next).classList.add("coach");
+}
+function coachUsed(...ids) {
+  for (const id of ids) coachDone.add(id);
+  coachRender();
+}
 function coachFirstChoices() {
-  const steps = ["news-surface", "people-tab", "day"]
-    .map((id) =>
-      id === "people-tab"
-        ? document.querySelector('#rings [data-tab="people"]')
-        : $(id),
-    )
-    .filter((node) => node && !node.hidden);
-  const next = () => {
-    const node = steps.shift();
-    if (!node) return;
-    node.classList.add("coach");
-    node.addEventListener(
-      "click",
-      () => {
-        node.classList.remove("coach");
-        next();
-      },
-      { once: true },
-    );
-  };
-  next();
+  coachDone.clear();
+  coachRender();
 }
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
@@ -436,15 +452,33 @@ function termLabel(text) {
 }
 
 let controls = {};
+/** A slug or camelCase key as words: "snap-maximum" and "snapMaximum" read "Snap maximum". */
+const words = (key) => {
+  const text = String(key ?? "")
+    .split(":")
+    .pop()
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .toLowerCase();
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+};
+/** A title that is a bare slug reads as words; a name or a sentence stays as it is. */
+const slugWords = (text) =>
+  /^[a-z][a-z0-9-]*$/.test(text) ? words(text) : text;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
-const amount = (value, unit) =>
-  unit?.startsWith("minor")
-    ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
-    : `${value ?? ""}${unit ? ` ${unit}` : ""}`;
-/** A policy question by its name on the bill catalog, else its key's last part. */
+// A percent reads with its sign, any other unit in words.
+const amount = (value, unit) => {
+  if (unit?.startsWith("minor"))
+    return `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+  if (unit?.startsWith("percent"))
+    return `${value}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
+  if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
+  return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
+};
+/** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
-  controls.policyNames?.[question] ?? question.split(":").pop();
-api("/api/controls").then((value) => (controls = value));
+  controls.policyNames?.[question] ?? words(question);
+const controlsReady = api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
   packet = value ?? packet;
@@ -497,10 +531,9 @@ async function refresh() {
     return;
   }
   // A law that took effect: what changed in town.
-  if (newChanges(await changeCount())) {
-    await openSheet("changes");
-    return;
-  }
+  // A short notice on the card, not a screen taken over mid-play.
+  if (newChanges(await changeCount()))
+    $("card-why").textContent = controls.endedBy?.law ?? "";
   if (openTab) await openSheet(openTab);
 }
 
@@ -768,7 +801,12 @@ function atThePolls(scene) {
   });
 }
 // The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
-$("day").addEventListener("click", () => act("/api/advance?mode=day"));
+$("day").addEventListener("click", () => {
+  // Living on puts the evening's paper away and ends the first-choice glow.
+  show("news-surface", false);
+  coachUsed(...COACH_ORDER);
+  return act("/api/advance?mode=day");
+});
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -880,13 +918,17 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId) {
+async function talkTo(otherId, momentId) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
   $("talk-name").textContent = "";
+  // From a scene, the talk is about the scene's moment.
+  const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
   renderTalk(
-    await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
+    await post(
+      `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
+    ),
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
@@ -1129,7 +1171,7 @@ async function showStory(momentId) {
   $("talk-choices").replaceChildren(
     ...(story.talkToId
       ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId),
+          talkTo(story.talkToId, momentId),
         )
       : []),
   );
@@ -1409,9 +1451,44 @@ const sheets = {
     ];
   },
   async money() {
-    const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
+    const [b, bank] = await Promise.all([
+      api(`/api/budget?id=${encodeURIComponent(me.id)}`),
+      api(`/api/bank?id=${encodeURIComponent(me.id)}`),
+    ]);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
+      ...(bank
+        ? [
+            row("Bank", bank.name),
+            row(
+              "Household savings",
+              `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
+            ),
+            ...(bank.books
+              ? [
+                  row("Bank books", bank.books.date),
+                  row("Bank cash", dollars(bank.books.cashMinor)),
+                  row("Business loans", dollars(bank.books.businessLoansMinor)),
+                  row(
+                    "Household loans",
+                    dollars(bank.books.householdLoansMinor),
+                  ),
+                  row("Mortgages", dollars(bank.books.mortgagesMinor)),
+                  row("Total assets", dollars(bank.books.assetsMinor)),
+                  row("Deposits owed", dollars(bank.books.depositsMinor)),
+                  row(
+                    "Mortgage funding",
+                    dollars(bank.books.mortgageFundingMinor),
+                  ),
+                  row("Bank equity", dollars(bank.books.equityMinor)),
+                  row(
+                    "Liabilities and equity",
+                    dollars(bank.books.liabilitiesAndEquityMinor),
+                  ),
+                ]
+              : []),
+          ]
+        : []),
       ...(me.card.dwelling
         ? [
             row(
@@ -1600,7 +1677,7 @@ const sheets = {
         "div",
         { className: "row race" },
         el("b", {
-          textContent: `${gov.name} · ${gov.level}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
+          textContent: `${gov.name} · ${controls.levels?.[gov.level] ?? words(gov.level)}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
         }),
       );
       if (!gov.latest) return box;
@@ -1611,11 +1688,13 @@ const sheets = {
       );
       for (const r of gov.latest.revenue.slice(0, 3))
         box.append(
-          el("div", { textContent: `+ ${r.line} · ${dollars(r.minor)}` }),
+          el("div", {
+            textContent: `+ ${words(r.line)} · ${dollars(r.minor)}`,
+          }),
         );
       for (const r of gov.latest.spending.slice(0, 6)) {
         const line = el("div", {
-          textContent: `− ${r.line} · ${dollars(r.minor)} `,
+          textContent: `− ${words(r.line)} · ${dollars(r.minor)} `,
         });
         if (gov.youAreExecutive)
           for (const [label, sign] of [
@@ -1683,7 +1762,10 @@ const sheets = {
         }
         const kinds = new Map();
         for (const item of byDate.get(iso) ?? [])
-          kinds.set(item.kind, [...(kinds.get(item.kind) ?? []), item.title]);
+          kinds.set(item.kind, [
+            ...(kinds.get(item.kind) ?? []),
+            slugWords(item.title),
+          ]);
         for (const [kind, names] of kinds)
           cell.append(
             el("span", {
@@ -1715,7 +1797,12 @@ const sheets = {
             "div",
             { className: "row" },
             el("b", { textContent: i.date }),
-            el("span", {}, termLabel(kindName(i.kind)), ` · ${i.title}`),
+            el(
+              "span",
+              {},
+              termLabel(kindName(i.kind)),
+              ` · ${slugWords(i.title)}`,
+            ),
           ),
         ),
     ];
@@ -1785,7 +1872,7 @@ const sheets = {
             .filter((level) => level.row)
             .map((level) =>
               el("div", {
-                textContent: `${level.level} · ${level.jurisdiction} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
+                textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
               }),
             ),
           ...law.pending.map((row) =>
@@ -1862,61 +1949,73 @@ const sheets = {
     return [search, list];
   },
   async options() {
-    const rows = [];
+    await controlsReady;
+    const labels = controls.options;
+    const rows = [
+      el(
+        "div",
+        { className: "option-setting" },
+        el("span", { textContent: labels.version }),
+        el("span", { textContent: await displayVersion() }),
+      ),
+    ];
+    if (document.fullscreenEnabled) {
+      const fullScreen = el("input", {
+        type: "checkbox",
+        checked: Boolean(document.fullscreenElement),
+      });
+      fullScreen.dataset.testid = "options-fullscreen";
+      const status = el("p", { role: "status", className: "option-status" });
+      fullScreen.addEventListener("change", async () => {
+        fullScreen.disabled = true;
+        status.textContent = "";
+        try {
+          if (fullScreen.checked)
+            await document.documentElement.requestFullscreen();
+          else await document.exitFullscreen();
+        } catch {
+          status.textContent = labels.fullScreenUnavailable;
+        } finally {
+          fullScreen.checked = Boolean(document.fullscreenElement);
+          fullScreen.disabled = false;
+        }
+      });
+      rows.push(
+        el(
+          "label",
+          { className: "option-setting" },
+          el("span", { textContent: labels.fullScreen }),
+          fullScreen,
+        ),
+        status,
+      );
+    }
+    const actions = el("div", { className: "acts options-actions" });
+    const resume = el("button", {
+      type: "button",
+      textContent: labels.continue,
+    });
+    resume.addEventListener("click", closeSheet);
+    actions.append(resume);
     if (skipOpening) {
       const skip = el("button", {
         type: "button",
-        textContent: "Skip opening",
+        textContent: labels.skipOpening,
       });
       skip.addEventListener("click", () => {
         closeSheet();
         skipOpening?.();
       });
-      rows.push(skip);
+      actions.append(skip);
     }
-    // Which kinds of scene may stop your day (a record the director reads).
-    const filter = await api("/api/scene-filter").catch(() => null);
-    if (filter) {
-      const allowed = new Set(filter.allowed ?? filter.kinds);
-      const save = () =>
-        post(
-          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
-        );
-      rows.push(
-        el("p", {
-          className: "label",
-          textContent: controls.sceneFilter ?? "",
-        }),
-        el(
-          "div",
-          { className: "scene-filter" },
-          ...filter.kinds.map((kind) => {
-            const box = el("input", {
-              type: "checkbox",
-              checked: allowed.has(kind),
-            });
-            box.addEventListener("change", () => {
-              if (box.checked) allowed.add(kind);
-              else allowed.delete(kind);
-              save();
-            });
-            return el(
-              "label",
-              {},
-              box,
-              ` ${controls.sceneKinds?.[kind] ?? kind}`,
-            );
-          }),
-        ),
-      );
-    }
-    rows.push(
-      el("p", { className: "version", textContent: await displayVersion() }),
-    );
-    const quit = el("button", { type: "button", textContent: "Quit to title" });
+    const quit = el("button", {
+      type: "button",
+      textContent: labels.quitToTitle,
+    });
     quit.dataset.testid = "quit-to-title";
     quit.addEventListener("click", () => window.location.reload());
-    rows.push(quit);
+    actions.append(quit);
+    rows.push(actions);
     return rows;
   },
   async travel() {
@@ -1929,7 +2028,7 @@ const sheets = {
         { className: "row" },
         el("b", { textContent: p.name }),
         [
-          String(p.staff),
+          `${p.staff} ${controls.travel?.staff ?? ""}`.trim(),
           ...p.known.map((k) => k.name),
           ...p.actions.map((a) => controls.actions?.[a] ?? a),
         ].join(" · ") + " ",
@@ -2019,6 +2118,7 @@ const groups = {
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
+  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
@@ -2042,6 +2142,7 @@ async function openSheet(tab) {
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
+  $("sheet").classList.toggle("options-sheet", tab === "options");
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.toggle(
     "cols",
@@ -2069,6 +2170,10 @@ function closeSheet() {
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);
+document.addEventListener("fullscreenchange", () => {
+  const checkbox = document.querySelector('[data-testid="options-fullscreen"]');
+  if (checkbox) checkbox.checked = Boolean(document.fullscreenElement);
+});
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
@@ -2098,6 +2203,7 @@ $("front-continue").addEventListener("click", async () => {
     id: life.personId,
     placeName: life.placeName,
     date: life.date,
+    minuteOfDay: life.minuteOfDay,
     names: {},
     portrait: life.portrait,
   };

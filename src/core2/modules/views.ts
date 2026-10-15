@@ -472,10 +472,10 @@ export const viewsModule: CoreModule = {
       // vote or a bill moves a stance only for someone who learned of it,
       // from the case made to them or from a record they hold (a story they
       // heard, a notice), and the stance cites how they learned.
-      const learnedFrom = speakerId
-        ? undefined
-        : typeof event.facts?.learnedFrom === "string"
-          ? event.facts.learnedFrom
+      const received = event.facts?.learnedFrom;
+      const learnedFrom =
+        typeof received === "string" && api.knows(personId, received)
+          ? received
           : undefined;
       if (
         CITED_RECORDS.some((key) => event.facts?.[key] !== undefined) &&

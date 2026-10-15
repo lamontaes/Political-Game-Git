@@ -1,3 +1,9 @@
+import { snapshotExplicitControlV1 } from "../player-control-state-v1";
+import {
+  lineItemVetoOf,
+  itemOverrideNeeded,
+  type ItemVetoSelection,
+} from "../state-item-veto";
 /**
  * Legislating (golden path steps 6 to 8, first slice): write an ordinance,
  * negotiate, the body votes, the executive acts, the law takes effect.
@@ -20,6 +26,7 @@
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
+import { policyAuthority } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
@@ -49,6 +56,7 @@ import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
+import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
 import { bribePull } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
@@ -58,6 +66,7 @@ import {
   budgetPriorities,
   carriedBudget,
   clearBudgetPriorities,
+  departmentRequests,
   enactBudget,
   registerBudgetVote,
   type BudgetRow,
@@ -124,6 +133,8 @@ export interface Provision {
    * schedule whose top rate is `value`. Left out, the shape in force stays.
    */
   readonly shape?: "flat" | "graduated";
+  /** For an estate tax: the new exemption, in dollars. Left out, the exemption in force stays. */
+  readonly exemption?: number;
 }
 
 export interface Authority {
@@ -236,6 +247,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       obligations: {},
       choices: {},
       carryRequests: {},
+      itemVetoes: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -341,16 +353,24 @@ function councilBudget(
   const priorities =
     budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
   const carried = budgetCarry(api, gov, fy);
-  const provisions: Provision[] = Object.entries(priorities?.changes ?? {}).map(
-    ([line, delta]) => ({
-      kind: "budget-line",
-      line,
-      value: delta,
-      ...(carried?.spendingMinor[line]
-        ? { of: carried.spendingMinor[line] }
-        : {}),
-    }),
-  );
+  const provisions: Provision[] = priorities
+    ? Object.entries(priorities.changes).map(([line, delta]) => ({
+        kind: "budget-line",
+        line,
+        value: delta,
+        ...(carried?.spendingMinor[line]
+          ? { of: carried.spendingMinor[line] }
+          : {}),
+      }))
+    : Object.entries(departmentRequests(api, gov, fy)).map(
+        ([line, amount]) => ({
+          kind: "budget-line",
+          line,
+          // Requests carry the enacted funding, not an addition to that funding.
+          value: 0,
+          of: amount,
+        }),
+      );
   const sponsor =
     priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!);
   const bill = draftBill(api, {
@@ -839,23 +859,9 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           source: rows[0]?.id ?? "",
         };
   }
-  if (provision.kind === "policy-question" && provision.question) {
-    const answer =
-      POLICY_QUESTIONS[provision.question]?.answers[chain.stateKey];
-    if (answer?.preempts)
-      return {
-        allowed: false,
-        warning: "preempted",
-        reason: "state-preempts-question",
-        source: provision.question,
-      };
-    return {
-      allowed: true,
-      warning: answer ? "disputed" : "none",
-      reason: answer ? "state-has-own-law" : "no-state-law",
-      source: provision.question,
-    };
-  }
+  if (provision.kind === "policy-question" && provision.question)
+    return policyAuthority(api, provision.question, "city");
+
   return {
     allowed: true,
     warning: "none",
@@ -1000,6 +1006,41 @@ export function shapedRate(
   const shape = provision.shape ?? (schedules ? "graduated" : null);
   if (shape === "flat")
     return { unit: "percent-flat", terms: { system: "flat" } };
+  // A death tax's schedule (an exemption and a rate that slides to the top,
+  // per heir's relation for an inheritance tax) keeps its shape: its rates
+  // scale to the new top rate, and a bill may set a new exemption.
+  const terms = current?.terms as Record<string, unknown> | undefined;
+  if (!schedules && terms && ("minRate" in terms || "classes" in terms)) {
+    const top = typeof current?.value === "number" ? current.value : 0;
+    const k = top > 0 ? provision.value / top : 1;
+    const scaled = (s: Record<string, unknown>) => ({
+      ...s,
+      minRate: Math.round(Number(s.minRate) * k * 1000) / 1000,
+      ...(typeof s.maxRate === "number"
+        ? { maxRate: Math.round(s.maxRate * k * 1000) / 1000 }
+        : {}),
+    });
+    const classes = terms.classes as
+      Record<string, Record<string, unknown>> | undefined;
+    return {
+      unit: current?.unit ?? "percent-top-rate",
+      terms: {
+        ...terms,
+        ...("minRate" in terms ? scaled(terms) : {}),
+        ...(classes
+          ? {
+              classes: Object.fromEntries(
+                Object.entries(classes).map(([c, s]) => [c, scaled(s)]),
+              ),
+              others: scaled(terms.others as Record<string, unknown>),
+            }
+          : {}),
+        ...(provision.exemption !== undefined
+          ? { exemption: provision.exemption }
+          : {}),
+      },
+    };
+  }
   if (shape !== "graduated" || !schedules) return null;
   // A filer's schedule is a list of brackets with numeric rates; anything
   // else kept beside them (a note on a later change) is carried as it is.
@@ -1060,7 +1101,9 @@ export interface BillSection {
     readonly shape: "flat" | "graduated" | null;
     readonly effectiveDate: string | null;
   };
-  readonly editable: readonly ("value" | "effectiveDate" | "shape")[];
+  readonly editable: readonly (
+    "value" | "effectiveDate" | "shape" | "exemption"
+  )[];
 }
 
 export function billSections(
@@ -1119,9 +1162,131 @@ export function billSections(
         ...(p.kind === "policy-question" ? [] : (["value"] as const)),
         "effectiveDate" as const,
         ...(shapeBefore ? (["shape"] as const) : []),
+        ...(typeof row?.terms?.exemption === "number"
+          ? (["exemption"] as const)
+          : []),
       ],
     };
   });
+}
+
+/**
+ * When a bill takes effect if it became law today and named no date of its
+ * own: a federal act on enactment (the general rule: Gozlon-Peretz v. United
+ * States, 498 U.S. 395 (1991)), a state act by its state's researched rule,
+ * and an ordinance a set number of days after adoption.
+ */
+export function effectiveRule(
+  api: CoreAPI,
+  bill: BillRow,
+): {
+  readonly jurisdiction: string;
+  readonly level: "federal" | "state" | "county" | "city";
+  readonly federal: boolean;
+  readonly state: boolean;
+  readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
+  readonly days: number | null;
+  readonly date: string;
+  readonly cite: string;
+} {
+  const chain = lawChain(api);
+  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
+  const state = !federal && isState(api, bill);
+  const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const jurisdiction = federal
+    ? "US"
+    : state
+      ? chain.stateKey
+      : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
+  const level = federal
+    ? "federal"
+    : state
+      ? "state"
+      : county
+        ? "county"
+        : "city";
+  const base = { jurisdiction, level, federal, state } as const;
+  if (federal)
+    return {
+      ...base,
+      kind: "on-enactment",
+      days: null,
+      date: api.state.date,
+      cite: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
+    };
+  if (state) {
+    const stateDate = stateActEffectiveDate(chain.stateKey, api.state.date);
+    // Every state's rule is data; a state act with no rule is a data gap to
+    // fix, never a silent ordinance delay.
+    if (!stateDate)
+      throw new Error(
+        `No effective-date rule for ${chain.stateKey} acts (state-effective-dates.json).`,
+      );
+    return {
+      ...base,
+      kind: "state-rule",
+      days: null,
+      date: stateDate.date,
+      cite: stateDate.cite,
+    };
+  }
+  const days = campaignParameter("ordinanceEffectiveDays");
+  return {
+    ...base,
+    kind: "days-after-adoption",
+    days,
+    date: new Date(
+      Date.parse(`${api.state.date}T00:00:00Z`) + days * 86_400_000,
+    )
+      .toISOString()
+      .slice(0, 10),
+    cite: "campaigns parameter ordinanceEffectiveDays",
+  };
+}
+
+/**
+ * A bill as its body writes it, for the paper to word: its number, the
+ * enacting clause, its sections, and, for an ordinance, the closing section
+ * on when it takes effect (an ordinance states it; an act falls back on its
+ * government's rule). Never the federal short-title form for a local measure.
+ */
+export function billForm(
+  api: CoreAPI,
+  bill: BillRow,
+): {
+  readonly number: string;
+  readonly kind: BillFormKind;
+  readonly enactingClause: string;
+  readonly enactingSource: string;
+  readonly sections: readonly BillSection[];
+  readonly effectiveSection: {
+    readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
+    readonly days: number | null;
+    /** A date every section names, or null when they fall back on the rule. */
+    readonly date: string | null;
+    readonly cite: string;
+  } | null;
+} {
+  const sections = billSections(api, bill);
+  const dates = new Set(bill.provisions.map((p) => p.effectiveDate ?? null));
+  const named = dates.size === 1 ? [...dates][0]! : null;
+  const rule =
+    bill.form.kind === "ordinance" || named ? effectiveRule(api, bill) : null;
+  return {
+    number: bill.number,
+    kind: bill.form.kind,
+    enactingClause: bill.form.enactingClause,
+    enactingSource: bill.form.enactingSource,
+    sections,
+    effectiveSection: rule
+      ? {
+          kind: rule.kind,
+          days: named ? null : rule.days,
+          date: named,
+          cite: rule.cite,
+        }
+      : null,
+  };
 }
 
 /** Draft a bill: numbered, with its cost estimate and authority check. */
@@ -1157,25 +1322,28 @@ function checkedText(
   bodyOfficeId: string,
   provisions: readonly Provision[],
 ): Pick<BillRow, "provisions" | "costEstimate" | "authority" | "status"> {
-  const stateBody = /:(legislature-|us-house|us-senate)/.test(bodyOfficeId);
-  const level = /:(us-house|us-senate)/.test(bodyOfficeId)
-    ? "federal"
-    : stateBody
-      ? "state"
-      : "local";
-  const authority = provisions.map(
-    (p) =>
-      // A level may only set the amounts the law gives it (no council sets
-      // SNAP or the Medicare tax; audit 3).
-      beyondPower(p, level) ??
-      (stateBody
-        ? ({
-            allowed: true,
-            warning: "none",
-            reason: "within-own-power",
-            source: "",
-          } as Authority)
-        : authorityFor(api, p)),
+  const body = bodyOf(api, bodyOfficeId);
+  const level =
+    body?.kind === "us-house" || body?.kind === "us-senate"
+      ? "federal"
+      : body?.kind.startsWith("legislature-")
+        ? "state"
+        : body?.kind === "county-board"
+          ? "county"
+          : "city";
+  const stateBody = level === "state" || level === "federal";
+  const authority = provisions.map((p) =>
+    p.kind === "policy-question" && p.question
+      ? policyAuthority(api, p.question, level)
+      : (beyondPower(p, stateBody ? level : "local") ??
+        (stateBody
+          ? ({
+              allowed: true,
+              warning: "none",
+              reason: "within-own-power",
+              source: "",
+            } as Authority)
+          : authorityFor(api, p))),
   );
   return {
     provisions,
@@ -1965,7 +2133,9 @@ function dealValue(
   sponsorId?: string,
 ): number {
   const weight = campaignParameter("dealWeight");
-  if (kind === "amend") return 0;
+  // An amendment's worth, traded or forced, is in the bill's changed terms.
+  if (kind === "amend" || kind === "trade-amendment" || kind === "poison-pill")
+    return 0;
   if (kind === "back-their-item") {
     const lean = leanOf(api, memberId);
     const strongest = Math.max(
@@ -2123,7 +2293,9 @@ function chamberVote(
       { vote: "yes" | "no" | "abstain" } | undefined;
     const vote =
       chosen?.vote ??
-      (key === (api.state as CoreState).playerId
+      (key ===
+      (snapshotExplicitControlV1(api.state).personId ??
+        (api.state as CoreState).playerId)
         ? "abstain"
         : missesSitting(api, key, bill.id, officeId, position.total)
           ? "absent"
@@ -2196,6 +2368,11 @@ export interface CommitteeRecord {
   readonly chairId: string;
   readonly memberIds: readonly string[];
   readonly heard: boolean;
+  readonly votes: readonly {
+    readonly memberId: string;
+    readonly vote: "yes" | "no" | "abstain";
+    readonly position: MemberPosition;
+  }[];
   readonly witnesses: readonly {
     readonly personId: string;
     readonly stake: string;
@@ -2338,14 +2515,31 @@ function committeeStage(
           audienceIds: room.filter((id) => id !== w.personId),
         });
   }
-  let yes = 0;
-  let no = 0;
+  // Markup: the committee's holdouts trade for sections of their own, and
+  // its most opposed member may move a pill, as on the floor.
+  if (heard)
+    floorAmendments(api, bill, chamber, "committee", roster.map(memberKey));
+  const votes: CommitteeRecord["votes"][number][] = [];
   if (heard)
     for (const member of roster) {
-      const total = memberPosition(api, bill.id, memberKey(member)).total;
-      if (total > 0) yes += 1;
-      if (total < 0) no += 1;
+      const memberId = memberKey(member);
+      const position = memberPosition(api, bill.id, memberId);
+      const chosen = table(api, "choices").get(
+        `${bill.id}|${memberId}`,
+      ) as unknown as { vote: "yes" | "no" | "abstain" } | undefined;
+      const vote =
+        chosen?.vote ??
+        (memberId === (api.state as CoreState).playerId
+          ? "abstain"
+          : position.total > 0
+            ? "yes"
+            : position.total < 0
+              ? "no"
+              : "abstain");
+      votes.push({ memberId, vote, position });
     }
+  const yes = votes.filter((v) => v.vote === "yes").length;
+  const no = votes.filter((v) => v.vote === "no").length;
   const record: CommitteeRecord = {
     id: `committee:${bill.id}:${chamber}`,
     billId: bill.id,
@@ -2354,6 +2548,7 @@ function committeeStage(
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),
     heard,
+    votes,
     witnesses,
     yes,
     no,
@@ -2401,21 +2596,274 @@ export function committeeRecords(
  * those voting passes it in each, and in the U.S. Senate only after three
  * fifths of its members vote to end debate. Every vote is on the record.
  */
+/**
+ * The sections a member would add to a bill: the questions they care most
+ * about that the bill doesn't touch and its body may answer, each in the
+ * member's own direction, strongest first.
+ */
+function ownSections(
+  api: CoreAPI,
+  bill: BillRow,
+  memberId: string,
+  count: number,
+): readonly Provision[] {
+  const level = billLevel(api, bill);
+  const touched = new Set(
+    bill.provisions.flatMap((p) => {
+      const stance = provisionStance(api, p, level);
+      return stance ? [stance.question] : [];
+    }),
+  );
+  // An official's own stance is their record and causes; a town member's,
+  // where they stand today.
+  const official = officialOf(api, memberId);
+  const lean = leanOf(api, memberId);
+  const stanceOn = (q: string) =>
+    official
+      ? ownStance(official.ideal, official.signature, q)
+      : viewOn(api, memberId, q, lean);
+  return Object.keys(POLICY_QUESTIONS)
+    .filter((q) => !touched.has(q))
+    .map((q) => ({ q, stance: stanceOn(q) }))
+    .filter(({ stance }) => stance !== 0)
+    .sort(
+      (a, b) =>
+        Math.abs(b.stance) - Math.abs(a.stance) || a.q.localeCompare(b.q),
+    )
+    .map(({ q, stance }): Provision => ({
+      kind: "policy-question",
+      question: q,
+      value: Math.sign(stance),
+    }))
+    .filter((p) =>
+      checkedText(api, bill.bodyOfficeId, [p]).authority.every(
+        (a) => a.allowed,
+      ),
+    )
+    .slice(0, count);
+}
+
+/**
+ * The floor before a chamber votes, and a committee's markup before it
+ * reports (the owner's ruling, Oct 14, 2026, afternoon). A sponsor short of a majority works the holdouts nearest even:
+ * each asks for a section of their own in return for their vote, and the
+ * sponsor gives it where they still back the bill with it. Then the member
+ * most against a bill that would pass may move a poison pill: a section of
+ * their own the bill's backers dislike, adopted by the opponents and those
+ * who like it, that leaves the bill short. Whether they play it that way is
+ * their own temperament. Each adopted section is the bill's for good.
+ */
+function floorAmendments(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  stage: "committee" | "floor" = "floor",
+  seats: readonly string[] = members(api, chamber).map(memberKey),
+): BillRow {
+  const playerId =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  const roll = seats.filter((k) => k !== playerId);
+  // The bill as the last stage left it (a markup may have amended it).
+  const start =
+    (table(api, "bills").get(bill.id) as unknown as BillRow | undefined) ??
+    bill;
+  if (roll.length < 3) return start;
+  const need = Math.floor(roll.length / 2) + 1;
+  let current = start;
+  const totals = new Map<string, number>();
+  const recount = () => {
+    for (const k of roll) totals.set(k, positionOn(api, current, k).total);
+    return [...totals.values()].filter((t) => t > 0).length;
+  };
+  let yes = recount();
+  const adopt = (
+    section: Provision,
+    memberId: string,
+    kind: "trade-amendment" | "poison-pill",
+  ) => {
+    const supportBefore = yes;
+    const memberBefore = totals.get(memberId)!;
+    current = {
+      ...current,
+      ...checkedText(api, current.bodyOfficeId, [
+        ...current.provisions,
+        section,
+      ]),
+      deals: [
+        ...current.deals,
+        {
+          memberId,
+          kind,
+          terms: `add ${section.question} ${section.value > 0 ? "yes" : "no"}`,
+          date: api.state.date,
+          status: "accepted",
+        },
+      ],
+    };
+    yes = recount();
+    api.emit({
+      id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
+      date: api.state.date,
+      kind: "bill-amendment",
+      personIds: [memberId, current.sponsorId].filter((id) =>
+        api.state.people.has(id),
+      ),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `Amendment to ${current.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        billId: current.id,
+        number: current.number,
+        chamber,
+        stage,
+        supportBefore: String(supportBefore),
+        supportAfter: String(yes),
+        memberBefore: String(memberBefore),
+        memberAfter: String(totals.get(memberId)!),
+        movedBy: memberId,
+        kind,
+        question: section.question!,
+        direction: section.value > 0 ? "yes" : "no",
+      },
+    });
+  };
+  // A trade: the sponsor (the player deals for themselves) gives a holdout
+  // their own section for their vote.
+  if (yes < need && current.sponsorId !== playerId) {
+    const holdouts = roll
+      .filter((k) => k !== current.sponsorId && totals.get(k)! <= 0)
+      .sort((a, b) => totals.get(b)! - totals.get(a)! || a.localeCompare(b));
+    for (const k of holdouts) {
+      if (yes >= need) break;
+      // An earlier section may already have won this member over.
+      if (totals.get(k)! > 0) continue;
+      const [section] = ownSections(api, current, k, 1);
+      if (!section) continue;
+      const amended: BillRow = {
+        ...current,
+        provisions: [...current.provisions, section],
+      };
+      // The sponsor gives it only while they, and everyone they have
+      // already traded with, still back the bill with it.
+      const bound = [
+        current.sponsorId,
+        ...current.deals
+          .filter((d) => d.kind === "trade-amendment")
+          .map((d) => d.memberId),
+      ];
+      if (bound.some((m) => positionOn(api, amended, m).total <= 0)) continue;
+      if (positionOn(api, amended, k).total <= 0) continue;
+      adopt(section, k, "trade-amendment");
+    }
+  }
+  // A poison pill, from the member most against a bill that would pass.
+  if (yes >= need) {
+    const proposer = roll
+      .filter((k) => totals.get(k)! < 0)
+      .sort((a, b) => totals.get(a)! - totals.get(b)! || a.localeCompare(b))[0];
+    if (proposer) {
+      let best: { section: Provision; left: number } | null = null;
+      for (const section of ownSections(
+        api,
+        current,
+        proposer,
+        campaignParameter("pillCandidates"),
+      )) {
+        const amended: BillRow = {
+          ...current,
+          provisions: [...current.provisions, section],
+        };
+        // A section that would win the mover over isn't a pill: it's a
+        // bill they'd back.
+        if (positionOn(api, amended, proposer).total > 0) continue;
+        let forIt = 0;
+        let left = 0;
+        for (const k of roll) {
+          const after = positionOn(api, amended, k).total;
+          // Opponents back what sinks the bill; backers vote the section
+          // on whether it leaves them liking the bill as much.
+          if (totals.get(k)! <= 0 || after >= totals.get(k)!) forIt += 1;
+          if (after > 0) left += 1;
+        }
+        if (
+          forIt * 2 > roll.length &&
+          left < need &&
+          (!best || left < best.left)
+        )
+          best = { section, left };
+      }
+      if (best && movesPill(api, proposer, current.id)) {
+        adopt(best.section, proposer, "poison-pill");
+      }
+    }
+  }
+  if (current !== start)
+    table(api, "bills").put(current as unknown as ModuleRow);
+  return current;
+}
+
+/** Whether a member moves a pill that would sink a bill: their own temperament, by the chooser. */
+function movesPill(api: CoreAPI, memberId: string, billId: string): boolean {
+  if (!api.state.people.get(memberId)?.alive) {
+    // stopgapId: SG-GOV-official-floor-tactics (members with no person record play it straight)
+    api.stopgap("SG-GOV-official-floor-tactics");
+    return false;
+  }
+  const action = (id: string): ActionDefinition => ({
+    id,
+    actKinds: decisionKinds("legislature.poison-pill", id),
+    goalKinds: [],
+    need: "time",
+    effortParameter: "zero",
+    effectParameter: "one",
+    targetKind: "bill",
+    effect: id,
+  });
+  const hours = api.parameter("hoursPerDay");
+  const offers: ActOffer[] = ["pill-hold", "pill-move"].map((id) => ({
+    definition: action(id),
+    targetId: billId,
+    availableHours: hours,
+    effortHours: api.parameter("zero"),
+  }));
+  return (
+    decisionFromScores(
+      api.state,
+      memberId,
+      scoreOffers(api.state, memberId, offers),
+    ).selected?.definition.id === "pill-move"
+  );
+}
+
 export function holdVote(api: CoreAPI, billId: string): BillRow {
-  if (
-    (table(api, "bills").get(billId) as unknown as BillRow).status === "drafted"
-  )
-    for (const hook of beforeVoteHooks) hook(api, billId);
-  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  let bill = table(api, "bills").get(billId) as unknown as BillRow;
+  if (bill.status !== "drafted" && bill.status !== "blocked") return bill;
+  bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
+  table(api, "bills").put(bill as unknown as ModuleRow);
+  if (bill.status === "blocked") return bill;
+  for (const hook of beforeVoteHooks) hook(api, billId);
+  bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
+  bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
+  table(api, "bills").put(bill as unknown as ModuleRow);
+  if (bill.status === "blocked") return bill;
   const tallies: { yes: number; no: number; members: number }[] = [];
   for (const chamber of chambersOf(api, bill)) {
     const committee = committeeStage(api, bill, chamber);
+    // The bill as its markup left it.
+    bill = table(api, "bills").get(bill.id) as unknown as BillRow;
     if (committee && !committee.reported) {
       const held: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(held as unknown as ModuleRow);
       return held;
     }
+    bill = floorAmendments(api, bill, chamber);
     const counted = chamberVote(api, bill, chamber);
     // A tie: the presiding officer who may break one does (the Vice President
     // in the U.S. Senate, a lieutenant governor where the state's law says);
@@ -2539,7 +2987,12 @@ function executiveAction(
     ) as unknown as { sign: boolean } | undefined;
     // The player decides for themselves: the bill waits on their desk until
     // the deadline their office's law sets, when inaction decides it.
-    if (!decided && key === (api.state as CoreState).playerId) {
+    if (
+      !decided &&
+      key ===
+        (snapshotExplicitControlV1(api.state).personId ??
+          (api.state as CoreState).playerId)
+    ) {
       const waiting: BillRow = { ...bill, status: "awaiting-signature" };
       const deadline = signingDeadline(api, executiveOffice!.kind, federal);
       table(api, "bills").put({
@@ -2652,7 +3105,14 @@ function overrideVote(
   api: CoreAPI,
   bill: BillRow,
   executiveSide: number,
-  needed: (members: number) => number,
+  needed: (
+    members: number,
+    voting: number,
+    present: number,
+    entitled: number,
+  ) => number,
+  itemIndex?: number,
+  joint = false,
 ): {
   readonly passed: boolean;
   readonly tallies: readonly {
@@ -2668,48 +3128,84 @@ function overrideVote(
     needed: number;
     members: number;
   }[] = [];
+  let totalVoting = 0;
+  let totalPresent = 0;
+  let totalEntitled = 0;
   for (const chamber of chambersOf(api, bill)) {
     const roster = members(api, chamber);
     let yes = 0;
+    let voting = 0;
+    let present = 0;
+    const entitled =
+      itemIndex === undefined
+        ? roster.length
+        : Math.max(
+            roster.length,
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("seats")
+              .query("byOffice", [chamber]).length,
+          );
     for (const member of roster) {
       const key = memberKey(member);
-      const position = memberPosition(api, bill.id, key);
+      const position = positionOn(api, bill, key);
       const executive =
         executiveSide !== 0 &&
         memberSide(api, key, member.party) === executiveSide
           ? -executivePull(api, key)
           : 0;
       const chosen = table(api, "choices").get(
-        `${bill.id}|${key}|override`,
+        `${bill.id}|${key}|override${itemIndex === undefined ? "" : `:item:${itemIndex}`}`,
       ) as unknown as { vote: "yes" | "no" | "abstain" } | undefined;
       const total = position.total + executive;
       const vote =
         chosen?.vote ??
-        (key === (api.state as CoreState).playerId
+        (key ===
+        (snapshotExplicitControlV1(api.state).personId ??
+          (api.state as CoreState).playerId)
           ? "abstain"
-          : total > 0
-            ? "yes"
-            : total < 0
-              ? "no"
-              : "abstain");
+          : itemIndex !== undefined &&
+              missesSitting(api, key, bill.id, chamber, total)
+            ? "absent"
+            : total > 0
+              ? "yes"
+              : total < 0
+                ? "no"
+                : "abstain");
+      if (vote !== "absent") present += 1;
+      if (vote === "yes" || vote === "no") voting += 1;
       if (vote === "yes") yes += 1;
       table(api, "votes").put({
-        id: `vote:${bill.id}:${key}:override`,
+        id: `vote:${bill.id}:${key}:override${itemIndex === undefined ? "" : `:item:${itemIndex}`}`,
         billId: bill.id,
         memberId: key,
         chamber,
         vote,
         override: true,
+        ...(itemIndex === undefined ? {} : { itemIndex }),
         position: { ...position, executive, total },
       } as unknown as ModuleRow);
     }
     tallies.push({
       chamber,
       yes,
-      needed: needed(roster.length),
+      needed: needed(roster.length, voting, present, entitled),
       members: roster.length,
     });
-    if (yes < needed(roster.length)) return { passed: false, tallies };
+    totalVoting += voting;
+    totalPresent += present;
+    totalEntitled += entitled;
+    if (!joint && yes < needed(roster.length, voting, present, entitled))
+      return { passed: false, tallies };
+  }
+  if (joint) {
+    const yes = tallies.reduce((sum, row) => sum + row.yes, 0);
+    const members = tallies.reduce((sum, row) => sum + row.members, 0);
+    const required = needed(members, totalVoting, totalPresent, totalEntitled);
+    return {
+      passed: yes >= required,
+      tallies: [{ chamber: "joint", yes, members, needed: required }],
+    };
   }
   return { passed: true, tallies };
 }
@@ -2798,6 +3294,126 @@ export function executiveDecision(
   return executiveAction(api, bill, bill.tallies ?? []);
 }
 
+/** Strike appropriation items under the place's veto law; each override is voted and recorded separately. */
+export function executiveItemVeto(
+  api: CoreAPI,
+  billId: string,
+  executiveId: string,
+  itemIndices: readonly (number | ItemVetoSelection)[],
+): BillRow {
+  const bill = billOf(api, billId);
+  const executive = executiveOf(api, bill.bodyOfficeId);
+  // stopgapId: SG-STATE-line-item-veto-engine — remaining source and played-proof gaps.
+  api.stopgap("SG-STATE-line-item-veto-engine");
+  const law = lineItemVetoOf(lawChain(api).stateKey);
+  if (
+    bill.status !== "awaiting-signature" ||
+    executive.office?.kind !== "governor" ||
+    !executive.term ||
+    memberKey(executive.term) !== executiveId ||
+    !law?.lineItem
+  )
+    throw new Error("This bill is not awaiting an item veto by this governor.");
+  const selected = itemIndices.map((item) =>
+    typeof item === "number" ? { index: item, remainingMinor: 0 } : item,
+  );
+  if (new Set(selected.map((item) => item.index)).size !== selected.length)
+    throw new Error("Each appropriation item may be selected only once.");
+  if (
+    !selected.length ||
+    selected.some(
+      ({ index, remainingMinor }) =>
+        !Number.isInteger(index) ||
+        bill.provisions[index]?.kind !== "budget-line" ||
+        bill.provisions[index]!.value <= 0 ||
+        !Number.isSafeInteger(remainingMinor) ||
+        remainingMinor < 0 ||
+        remainingMinor >= bill.provisions[index]!.value ||
+        law.excludedLines?.includes(bill.provisions[index]!.line ?? "") ||
+        (remainingMinor > 0 &&
+          (!law.reduce ||
+            law.reductionExcludedLines?.includes(
+              bill.provisions[index]!.line ?? "",
+            ))),
+    )
+  )
+    throw new Error(
+      "An item veto must name an appropriation increase in the passed bill.",
+    );
+  if (
+    law.scope === "appropriations-only" &&
+    bill.provisions.some((p) => p.kind !== "budget-line")
+  )
+    throw new Error(
+      "The place permits item vetoes only on appropriation bills.",
+    );
+  const decisions = selected.map(({ index, remainingMinor }) => {
+    const provision = bill.provisions[index]!;
+    const item = {
+      ...bill,
+      provisions: [{ ...provision, value: provision.value - remainingMinor }],
+      costEstimate: costOf(api, [
+        { ...provision, value: provision.value - remainingMinor },
+      ]),
+    };
+    const override = overrideVote(
+      api,
+      item,
+      partySide(executive.term!.party),
+      (count, voting, present, entitled) =>
+        itemOverrideNeeded(
+          remainingMinor > 0
+            ? (law.reductionOverride ?? law.override)
+            : law.override,
+          count,
+          voting,
+          present,
+          entitled,
+        ),
+      index,
+      law.chamberMode === "joint",
+    );
+    return {
+      index,
+      remainingMinor,
+      overridden: override.passed,
+      tallies: override.tallies,
+    };
+  });
+  table(api, "itemVetoes").put({
+    id: bill.id,
+    billId: bill.id,
+    executiveId,
+    date: api.state.date,
+    citation: law.citation,
+    decisions,
+    struck: decisions
+      .filter((d) => !d.overridden && d.remainingMinor === 0)
+      .map((d) => d.index),
+  } as unknown as ModuleRow);
+  api.emit({
+    id: `item-veto:${bill.id}`,
+    date: api.state.date,
+    kind: "item-veto",
+    personIds: [executiveId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: law.detailTag,
+      citation: law.citation,
+      asOf: api.state.date,
+      estimatedFrom: "state-line-item-veto.json",
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      billId,
+      items: selected.map((item) => item.index).join(","),
+      remainingMinor: JSON.stringify(selected),
+    },
+  });
+  return executiveDecision(api, billId, true);
+}
+
 /** A county board's ordinances are county law: the county the board governs, in the town's chain. */
 function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
   const office = api
@@ -2838,48 +3454,33 @@ function enact(
       : {}),
   };
   const terms = Object.keys(recorded).length ? recorded : undefined;
-  const chain = lawChain(api);
-  // A federal act takes effect when it becomes law unless it names a date
-  // (the general rule: Gozlon-Peretz v. United States, 498 U.S. 395 (1991)).
-  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
-  const state = !federal && isState(api, bill);
-  const county = !federal && !state ? countyOfBody(api, bill) : null;
-  const jurisdiction = federal
-    ? "US"
-    : state
-      ? chain.stateKey
-      : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
-  const level = federal
-    ? "federal"
-    : state
-      ? "state"
-      : county
-        ? "county"
-        : "city";
-  const stateDate = state
-    ? stateActEffectiveDate(chain.stateKey, api.state.date)
-    : null;
-  // Every state's rule is data; a state act with no rule is a data gap to
-  // fix, never a silent ordinance delay.
-  if (state && !stateDate)
-    throw new Error(
-      `No effective-date rule for ${chain.stateKey} acts (state-effective-dates.json).`,
-    );
-  const defaultDate =
-    (federal ? api.state.date : null) ??
-    stateDate?.date ??
-    new Date(
-      Date.parse(`${api.state.date}T00:00:00Z`) +
-        campaignParameter("ordinanceEffectiveDays") * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10);
+  const rule = effectiveRule(api, bill);
+  const { jurisdiction, level, federal, state } = rule;
+  const defaultDate = rule.date;
   const citation = federal
     ? `Public Law (bill ${bill.number})`
     : state
-      ? `${bill.number}, enacted${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
+      ? `${bill.number}, enacted (effective by ${rule.cite})`
       : `Ordinance ${bill.number}`;
-  for (const provision of bill.provisions) {
+  const itemVeto = table(api, "itemVetoes").get(bill.id) as unknown as
+    | {
+        struck: number[];
+        decisions: {
+          index: number;
+          remainingMinor: number;
+          overridden: boolean;
+        }[];
+      }
+    | undefined;
+  for (const [index, provision] of bill.provisions.entries()) {
+    if (itemVeto?.struck.includes(index)) continue;
+    const itemDecision = itemVeto?.decisions.find(
+      (item) => item.index === index,
+    );
+    const enactedValue =
+      itemDecision && !itemDecision.overridden
+        ? itemDecision.remainingMinor
+        : provision.value;
     const effectiveDate = provision.effectiveDate ?? defaultDate;
     if (provision.kind === "law-amount" && provision.series) {
       const shaped = shapedRate(
@@ -2913,7 +3514,7 @@ function enact(
       amendBudget(api, {
         governmentId: jurisdiction,
         line: provision.line,
-        deltaMinor: provision.value,
+        deltaMinor: enactedValue,
         measureId: bill.number,
       });
     if (provision.kind === "policy-question" && provision.question)
@@ -3028,7 +3629,9 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
   if (bill?.status !== "awaiting-signature") return;
   const unsigned: BillRow = { ...bill, status: "enacted" };
   table(api, "bills").put(unsigned as unknown as ModuleRow);
-  const executiveId = (api.state as CoreState).playerId;
+  const executiveId =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
   if (executiveId)
     for (const hook of deskHooks)
       hook(api, {

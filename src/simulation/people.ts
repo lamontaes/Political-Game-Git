@@ -11,7 +11,7 @@ import {
   birthDateAtAge,
   inventedPersonAge,
   inventedPersonBirthDate,
-} from "./invented-person-age";
+} from "../core2/gov-rules/invented-person-age";
 import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,

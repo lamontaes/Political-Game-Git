@@ -1270,6 +1270,38 @@
           "actKinds": ["follow-rules", "commit", "engage"]
         }
       ]
+    },
+    {
+      "id": "legislature.poison-pill",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "pill-hold",
+          "actKinds": ["follow-rules", "cooperate", "play-safe"]
+        },
+        {
+          "id": "pill-move",
+          "actKinds": ["bend-rules", "confront", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "office-day-state.attend",
+      "site": "src/core2/office-day-state.ts",
+      "owner": "OFFICE-STATE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "skip",
+          "actKinds": ["withdraw", "self-interest", "delay"]
+        },
+        {
+          "id": "attend",
+          "actKinds": ["commit", "follow-rules", "engage"]
+        }
+      ]
     }
   ],
   "outside": [

@@ -86,6 +86,7 @@ export function journalDataFromBank(
     countWords: rows.countWords,
     manyTimes: rows.manyTimes,
     firstTitle: rows.firstTitle,
+    ...(rows.lookBacks ? { lookBacks: rows.lookBacks } : {}),
     // A row no record words is left out, as the director leaves out any
     // moment no line covers.
     lines: rows.lines.flatMap((row) => {
@@ -103,7 +104,14 @@ export function journalDataFromBank(
         !row.hasOwnLine
       )
         return [];
-      const other = mined(from, "otherLine");
+      // Someone else's race is worded by its result too: "{name} won." only
+      // when the record says they won (batch 10: "Heather won." for a loss).
+      const other = row.hasOwnLine
+        ? mined(from, "otherLine")?.map((variant) => {
+            const stages = resultStages(variant.text);
+            return stages ? { ...variant, stages } : variant;
+          })
+        : mined(from, "otherLine");
       const ownLine = row.hasOwnLine
         ? (fields.get(`${from}|ownLine`) ?? []).map((variant) => {
             const stages = resultStages(variant.text);

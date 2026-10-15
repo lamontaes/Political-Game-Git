@@ -105,7 +105,8 @@
           "text": "{{other}}"
         }
       ],
-      "entry": "story"
+      "entry": "story",
+      "lookBack": "memorable"
     },
     {
       "kindPrefix": "moved",
@@ -191,7 +192,8 @@
       ],
       "wordsFrom": "family:child",
       "entry": "story",
-      "framesAge": true
+      "framesAge": true,
+      "lookBack": "memorable"
     },
     {
       "kindPrefix": "event:person.moved-away",
@@ -270,5 +272,13 @@
       "stageFact": "series",
       "stages": ["minimum-wage"]
     }
-  ]
+  ],
+  "lookBacks": {
+    "memorable": [
+      "journal.memoir-hook.ill-never-forget-it",
+      "journal.memoir-hook.ill-never-forget-that",
+      "journal.memoir-hook.that-was-a-turning-point"
+    ],
+    "youngOnly": ["journal.memoir-hook.i-never-knew"]
+  }
 }
