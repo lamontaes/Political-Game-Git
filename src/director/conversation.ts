@@ -1631,11 +1631,13 @@ function offerChoices(
     group: readonly Move[],
     raised?: Subject,
     bank = answerBank,
+    // A further wording of the same move (when a first one said what another did).
+    again = "",
   ) => {
     // Each raised subject has its own moment, so brief answers vary.
     const answer = answerWith(
       group,
-      raised ? `${choiceKey}:${raised.id}` : choiceKey,
+      raised ? `${choiceKey}:${raised.id}${again}` : `${choiceKey}${again}`,
     );
     if (!answer) return;
     let head: Said = answer;
@@ -1675,7 +1677,7 @@ function offerChoices(
     seen.add(text);
     if (raised) taken.add(raised.id);
     conversation.choices.push({
-      key: `${turn}:${choiceKey}${raised ? `:${raised.id}` : ""}`,
+      key: `${turn}:${choiceKey}${raised ? `:${raised.id}` : ""}${again}`,
       move: choiceKey,
       text,
       answers: last.subject.id,
@@ -1707,30 +1709,48 @@ function offerChoices(
   // carried on to the subject it leads to, and each way of taking it in
   // ("Okay.", "Right."). What the player already told is not offered again.
   const told = OWN_OF[last.kind];
-  for (const [choiceKey, group] of groups) {
-    if (
-      choiceKey === "own" &&
-      told &&
-      conversation.used.includes(`${told}:${playerId}`)
-    )
-      continue;
-    // Asking for more ("What happened?") only when the other person has it
-    // on record and in words; a question nobody can answer is not offered.
-    if (
-      data.tells?.[last.kind]?.[choiceKey] &&
-      !tellable(core, conversation, data, data.tells[last.kind]![choiceKey]!)
-    )
-      continue;
-    const raises = group[zero]!.raises;
-    const subject = raises ? target(raises) : undefined;
-    if (subject) add(choiceKey, group, subject);
-    add(choiceKey, group);
+  const wanted = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  const offer = (again: string) => {
+    for (const [choiceKey, group] of groups) {
+      if (
+        choiceKey === "own" &&
+        told &&
+        conversation.used.includes(`${told}:${playerId}`)
+      )
+        continue;
+      // Asking for more ("What happened?") only when the other person has it
+      // on record and in words; a question nobody can answer is not offered.
+      if (
+        data.tells?.[last.kind]?.[choiceKey] &&
+        !tellable(core, conversation, data, data.tells[last.kind]![choiceKey]!)
+      )
+        continue;
+      const raises = group[zero]!.raises;
+      const subject = raises ? target(raises) : undefined;
+      if (subject && !again) add(choiceKey, group, subject);
+      add(choiceKey, group, undefined, answerBank, again);
+    }
+  };
+  offer("");
+  // Four replies that each answer the line: where a move's wordings collided
+  // ("Of course." said twice), another wording of a move stands in for it,
+  // never an acknowledgment (owner, Oct 15).
+  for (
+    let again = one;
+    again <= P.two + one && conversation.choices.length < wanted;
+    again += one
+  )
+    offer(`:more${again}`);
+  // "Okay." and "All right." take in a statement; they are not an answer to a
+  // question ("How's Keanu?"), and each reply moves the talk (owner, Oct 15).
+  const question = conversation.lines.at(-one);
+  if (question?.act !== "ask" && !/\?$/.test(question?.text ?? "")) {
+    const acks = new Map<string, Move[]>();
+    for (const move of data.subjects.ack?.reply ?? [])
+      acks.set(move.key, [...(acks.get(move.key) ?? []), move]);
+    for (const [key, group] of acks)
+      add(`ack:${key}`, group, undefined, "conversation:ack:reply");
   }
-  const acks = new Map<string, Move[]>();
-  for (const move of data.subjects.ack?.reply ?? [])
-    acks.set(move.key, [...(acks.get(move.key) ?? []), move]);
-  for (const [key, group] of acks)
-    add(`ack:${key}`, group, undefined, "conversation:ack:reply");
   conversation.choices = rankChoices(core, playerId, conversation.choices);
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
