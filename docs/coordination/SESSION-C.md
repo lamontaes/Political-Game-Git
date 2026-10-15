@@ -10,7 +10,7 @@ Control a state legislator or governor through the bench player. Session and dis
 
 Seed `f17a65f327021d58` drew Homer, Alaska. The played year ran from January 20, 2025 to January 20, 2026 in 78.9 seconds. The shared calendar and address produced 34 state clock stops, 392 member acts, and 282 recorded view changes; [draft #4330](https://github.com/lamontaes/Political-Game-Git/pull/4330) records their IDs from `scripts/office-day-state/year.ts` at `0e38a27f21`. The first month paid the member $3,377 for eleven attended days at $307 a day, from the Alaska per-diem row; draft #4330 names the payment record. The treasury read the payments before spending the rest of its budget.
 
-The governor’s budget proposal found a sponsor, then failed on the recorded votes. Item vetoes passed an edge test but were not reached in this played year. No passage or veto outcome was forced.
+The initial governor proposal failed. The follow-up at `ce1d8f0a6f` used existing budget amounts and ordinary negotiations, then passed through both chambers. The governor struck the parks increase and reduced the administration increase to $10,000. Each override failed with 27 votes against 45 required; `scripts/office-day-state/year.ts:249` records both votes and the budget change.
 
 ## Assignment
 
@@ -23,7 +23,7 @@ The governor’s budget proposal found a sponsor, then failed on the recorded vo
 
 The first play script skipped beyond its intended handoff; its calendar target now bounds each leg. A fixture read the wrong budget table; the test now reads the actual adopted budget. Per diem initially ran after the treasury close and paid nothing; it now uses the existing budget-line payer hook. A proof import exposed the treasury’s existing import cycle; the script starts through buildBenchWorld.
 
-The item-veto rule now supports reductions, exact override fractions, attendance denominators and joint totals through `src/core2/state-item-veto.ts:46` and `executiveItemVeto` in `src/core2/modules/legislature.ts:3259`. Protected spending restrictions and unresolved legal details remain registered. The October 15 follow-up run kept the same seed and dates and added ordinary negotiations. Its output in `/tmp/session-c-veto-year.log` records 28 accepted offers and the proposal’s failed status; no item veto reached the desk. Governor appointments retain the registered job-transition limit: candidates must first leave another job. The state branch’s dev-seating helper remains registered. Guard and police decision bodies remain deferred by the owner’s October 14, 2026 ruling in `docs/coordination/OWNER-DECISIONS.md:60`.
+The item-veto rule now supports reductions, exact override fractions, attendance denominators and joint totals through `src/core2/state-item-veto.ts:46` and `executiveItemVeto` in `src/core2/modules/legislature.ts:3259`. Protected spending restrictions and unresolved legal details remain registered. The completed October 15 follow-up kept the same seed and dates. Its output in `/tmp/session-c-reduction-chain.log` records an 88.071-second year and a $10,000 administration increase in `budget:US-AK:2024`. Treasury payments reached businesses and their named owners; learned attribution and a director scene remain unproved. Governor appointments retain the registered job-transition limit: candidates must first leave another job. The state branch’s dev-seating helper remains registered. Guard and police decision bodies remain deferred by the owner’s October 14, 2026 ruling in `docs/coordination/OWNER-DECISIONS.md:60`.
 
 ## Method
 
@@ -36,3 +36,5 @@ A read-only civic-report-reviewer helper reviewed the PR text under the reportin
 The six related test files produced 29 passes and five failures. Both federal vote failures reproduce on clean main with the same seed. All three trait failures also reproduce on clean main; main additionally fails the stale coverage-table check.
 
 The same speed script measured 73.117 seconds on base `1977d40995` and 78.428 seconds at `0e38a27f21`, a 7.3% increase. These speed measurements precede the reduction and attendance changes. Item-veto limits remain registered as open.
+
+The follow-up speed run at `f76070a74c` measured 97.373 seconds, above the allowed increase from the earlier 73.117-second base. A fresh clean-base comparison is pending; the speed gate remains open.

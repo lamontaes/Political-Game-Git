@@ -4447,7 +4447,7 @@
     "file": "src/core2/modules/legislature.ts",
     "line": 686,
     "whatItFakes": "Item vetoes now strike or reduce appropriation increases and use exact override fractions and joint totals. Special deadlines, external assent, and some protected or mixed appropriation categories remain incomplete.",
-    "why": "Session C wires surviving amounts into budget enactment. Imported legal details remain estimated; unsupported territorial reductions are unavailable, and mixed administration appropriations are blocked where protected branch spending cannot be separated. Ordinary-play veto proof remains pending.",
+    "why": "Session C wires surviving amounts into budget enactment. Imported legal details remain estimated; unsupported territorial reductions are unavailable, and mixed administration appropriations are blocked where protected branch spending cannot be separated. The played year now proves struck and reduced increases reaching the adopted budget, treasury providers and named owners. The owners’ learned attribution and director scene remain unproved.",
     "addedBy": "OFFICE-STATE",
     "addedAt": "2026-10-14",
     "replacement": "An item veto in the legislature engine: the executive strikes (or reduces, where the data allows) budget lines, each item goes back for its override vote at the data's share, and the budgets engine adopts what stands.",
