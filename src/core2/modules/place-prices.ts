@@ -23,6 +23,9 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { stopgap } from "../stopgaps";
 import { transferCash } from "../world-transfer";
+import { notifySalesReceipt } from "./finance";
+import groupAParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 
 export const PLACE_PRICES_MODULE_ID = "place-prices";
@@ -36,8 +39,8 @@ interface Rule {
   id: string;
   placeId: string;
   good: Good;
-  kind: "share" | "price" | "per-unit" | "offer" | "road";
-  /** Share change in price ("share"), a price in cents ("price"), cents a unit ("per-unit"), a monthly price ("offer"), or the share of roads in poor condition ("road"). */
+  kind: "share" | "price" | "per-unit" | "offer" | "road" | "market";
+  /** Share change in price ("share"), a price in cents ("price"), cents a unit ("per-unit"), a monthly price ("offer"),, the share of roads in poor condition ("road"), or a year's spending for each adult at licensed sellers ("market"). */
   value: number;
   refundable?: boolean;
   /** The fuel tax a mileage fee replaces is refunded. */
@@ -203,9 +206,18 @@ export function monthlyChange(
   >,
   scale: number,
   persons: number,
+  /** Members old enough to buy a good the law sells only to adults ("market"). */
+  adults = 0,
 ): { payMinor: number; refundMinor: number } {
   const g = goods.goods;
   switch (rule.kind) {
+    case "market":
+      // What the household's adults spend a month at licensed sellers; the
+      // market it replaces was outside the town's books, so nothing comes back.
+      return {
+        payMinor: (adults * rule.value * scale) / MONTHS,
+        refundMinor: 0,
+      };
     case "share": {
       const base =
         rule.good === "electricity"
@@ -295,6 +307,82 @@ function outsideOf(c: CoreState, placeId: string): string | undefined {
   )?.id;
 }
 
+/** The town's open businesses licensed to sell a regulated good, in id order. */
+function licensedSellers(c: CoreState, placeId: string, good: Good): string[] {
+  const classification = (
+    goods.goods[good] as { licensedClassification?: string }
+  ).licensedClassification;
+  if (!classification) return [];
+  const out: string[] = [];
+  for (const [id, org] of c.organizations)
+    if (
+      org.placeId === placeId &&
+      org.classification === classification &&
+      org.outsideFlow === undefined &&
+      !c.finance.businesses.get(id)?.closedAt
+    )
+      out.push(id);
+  return out.sort();
+}
+
+/**
+ * A regulated good bought at licensed sellers: the household's spending is
+ * shared evenly among the town's licensed sellers (outside the town when it
+ * has none), and each sale is reported like any paid sale, so the sales tax
+ * in force collects on it.
+ */
+function settleMarket(
+  api: CoreAPI,
+  id: string,
+  rule: Rule,
+  accountOwnerId: string,
+  change: { payMinor: number },
+  outside: string,
+  buyerIds: readonly string[],
+  countedHouseholdId?: string,
+): void {
+  const c = core(api);
+  const pay = Math.round(change.payMinor);
+  if (pay <= 0) return;
+  const sellers = licensedSellers(c, rule.placeId, rule.good);
+  const payees = sellers.length ? sellers : [outside];
+  const each = Math.floor(pay / payees.length);
+  payees.forEach((seller, index) => {
+    const amountMinor = each + (index === 0 ? pay - each * payees.length : 0);
+    if (amountMinor <= 0) return;
+    const saleId = `${id}:${rule.cause}:pay:${seller}`;
+    const paid = countedHouseholdId
+      ? countedPayment(api, {
+          id: saleId,
+          placeId: rule.placeId,
+          householdId: countedHouseholdId,
+          otherOwnerId: seller,
+          amountMinor,
+          reasonKey: "price",
+          source: rule.source,
+        })
+      : transferCash(
+          api,
+          saleId,
+          accountOwnerId,
+          seller,
+          amountMinor,
+          rule.source,
+        );
+    if (paid > 0 && seller !== outside)
+      notifySalesReceipt(api, {
+        id: saleId,
+        date: c.date,
+        sellerId: seller,
+        buyerIds,
+        kind: `household.${rule.good}`,
+        paidMinor: paid,
+        placeId: rule.placeId,
+        counted: countedHouseholdId !== undefined,
+      });
+  });
+}
+
 function settle(
   api: CoreAPI,
   id: string,
@@ -303,10 +391,24 @@ function settle(
   change: { payMinor: number; refundMinor: number },
   countedHouseholdId?: string,
   outsideId?: string,
+  buyerIds: readonly string[] = [],
 ): void {
   const c = core(api),
     outside = outsideId ?? outsideOf(c, rule.placeId);
   if (!outside) return;
+  if (rule.kind === "market") {
+    settleMarket(
+      api,
+      id,
+      rule,
+      accountOwnerId,
+      change,
+      outside,
+      buyerIds,
+      countedHouseholdId,
+    );
+    return;
+  }
   const to =
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
   const refund = Math.round(change.refundMinor),
@@ -472,11 +574,25 @@ function readPriceLaws(api: CoreAPI): void {
     },
     "SG-GOV-REACH-B-transit-fare-price",
   );
+  // stopgapId: SG-GOV-REACH-A-cannabis-market — every town retailer is
+  // assumed licensed and shares the sales evenly; no store applies or is refused.
+  sync(
+    "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    {
+      good: "cannabis",
+      kind: "market",
+      value:
+        api.parameter(goods.goods.cannabis.annualPerAdultParameter) *
+        api.parameter("minorPerDollar"),
+    },
+    "SG-GOV-REACH-A-cannabis-market",
+  );
 }
 
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
 function month(api: CoreAPI): void {
   const c = core(api);
+  const buyingAge = groupAParameters.parameters.cannabisAge.value;
   readPriceLaws(api);
   const rules = store(api)
     .table("rules")
@@ -495,20 +611,36 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
+      // A regulated good is bought by the household's adults of the law's age.
+      const buyers =
+        rule.kind === "market"
+          ? members.filter(
+              (id) =>
+                ageOnDate(
+                  makeIsoDate(c.people.get(id)!.birthDate),
+                  makeIsoDate(c.date),
+                ) >= buyingAge,
+            )
+          : members;
       const change = monthlyChange(
         rule,
         scaleFor(api, pay, rule.good),
         members.length,
+        rule.kind === "market" ? buyers.length : 0,
       );
-      const payer = [...members].sort(
+      const payer = [...(rule.kind === "market" ? buyers : members)].sort(
         (a, b) => c.people.get(b)!.liquidMinor - c.people.get(a)!.liquidMinor,
-      )[0]!;
+      )[0];
+      if (!payer) continue;
       settle(
         api,
         `price:${rule.id}:${c.date}:${household.id}`,
         rule,
         payer,
         change,
+        undefined,
+        undefined,
+        rule.kind === "market" ? buyers : [],
       );
     }
     // Apply the same nonlinear consumption rule to each counted household.
@@ -536,6 +668,17 @@ function month(api: CoreAPI): void {
         rule,
         scaleFor(api, pay, rule.good),
         persons,
+        rule.kind === "market"
+          ? rt!.store
+              .countedMembers(household)
+              .filter(
+                (m) =>
+                  ageOnDate(
+                    makeIsoDate(rt!.store.born[m]!),
+                    makeIsoDate(c.date),
+                  ) >= buyingAge,
+              ).length
+          : 0,
       );
       const total = byGroup.get(household.group) ?? {
         household: household.id,

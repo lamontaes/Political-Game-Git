@@ -198,32 +198,8 @@
     },
     "us-policy-positions:business-commerce.legalize-cannabis-sales": {
       "source": "State adult-use cannabis laws: sales to adults 21 and over through licensed retailers (National Conference of State Legislatures, Cannabis Overview, 2024).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-cannabis-market",
-      "reaches": [
-        {
-          "id": "adults",
-          "target": "people",
-          "select": {
-            "ageFrom": "cannabisAge"
-          },
-          "kind": "eligibility",
-          "what": "may buy cannabis from a licensed retailer",
-          "enforcer": "the cannabis control board",
-          "penalty": "license loss and fines for a seller who breaks the rules"
-        },
-        {
-          "id": "retailers",
-          "target": "organizations",
-          "select": {
-            "group": "retailers"
-          },
-          "kind": "eligibility",
-          "what": "may apply for a cannabis retail license",
-          "enforcer": "the cannabis control board",
-          "penalty": "fines for selling without a license"
-        }
-      ]
+      "mechanic": "price-read",
+      "reaches": []
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "source": "Military Lending Act (10 U.S.C. 987) and state rate caps of 36% a year (National Consumer Law Center, State Rate Caps, 2024).",

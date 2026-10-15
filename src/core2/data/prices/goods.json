@@ -42,6 +42,11 @@
       "poorShareBase": 0.226,
       "poorShareOfReferenceRoads": 0.226,
       "elasticityParameter": "pricesElasticityVehicles"
+    },
+    "cannabis": {
+      "annualPerAdultParameter": "pricesCannabisAnnualPerAdultDollars",
+      "licensedClassification": "enterprise:retail",
+      "elasticityParameter": "pricesElasticityBeverages"
     }
   }
 }

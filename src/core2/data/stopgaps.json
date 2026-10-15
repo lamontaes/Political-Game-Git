@@ -1433,14 +1433,14 @@
   },
   {
     "id": "SG-GOV-REACH-A-cannabis-market",
-    "kind": "missing-mechanic",
-    "file": "src/core2/data/laws/reach-group-a.json",
-    "line": 202,
-    "whatItFakes": "Legal cannabis sales record eligibility on adults 21 and over and on retailers, but no cannabis is sold.",
-    "why": "Household purchases have no cannabis category and no licensed retailer enters the market.",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/place-prices.ts",
+    "line": 574,
+    "whatItFakes": "Legal cannabis sales move adults' spending to the town's retailers, but no store applies for or is refused a license: every retailer in town is assumed licensed and shares the sales evenly. Households buy as a share of one, not by their own choice.",
+    "why": "Retail licensing, a store's decision to apply, and a person's decision to buy are not modeled. Spending is an estimate of licensed retail sales per adult 21 or older (SG-WORLD-cannabis-spend-estimate).",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD: a household purchase kind for cannabis (CES-based) and a licensed retailer entering through CORE's enterMarket({organizationId, financeKinds: [household.cannabis], ...}).",
+    "replacement": "WORLD: a licensed-retailer entry through the business engine's owner decisions (apply, open, close), and PEOPLE: each adult's own choice to buy from their drives and money.",
     "status": "open"
   },
   {
@@ -4597,5 +4597,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
     "line": 82
+  },
+  {
+    "id": "SG-WORLD-cannabis-spend-estimate",
+    "kind": "estimated-data",
+    "file": "src/core2/data/prices/parameters.json",
+    "line": 106,
+    "whatItFakes": "A yearly cannabis spend for each adult 21 or older, averaged from two states' licensed retail sales, applied the same in every state that legalizes sales.",
+    "why": "State sales differ with price, tax and access; only Colorado and Washington were averaged.",
+    "addedBy": "Claude Sonnet (laws pool)",
+    "addedAt": "2026-10-15",
+    "replacement": "Each legal state's own retail sales per adult from its revenue department, read as data by state.",
+    "status": "open"
   }
 ]

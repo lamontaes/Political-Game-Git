@@ -30,6 +30,9 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "rent-renewal": [],
   "housing-construction": [],
   "eviction-counsel": [],
+  // The price engine reads the law each month when it works out what
+  // households spend (place-prices.ts).
+  "price-read": [],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],

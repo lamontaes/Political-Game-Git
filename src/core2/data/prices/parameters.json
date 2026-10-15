@@ -97,5 +97,18 @@
       "unit": "share of other operating costs",
       "citation": "BEA input-output Use tables: petroleum products are a few percent of industries' intermediate inputs, more in transportation."
     }
+  },
+  "pricesCannabisAnnualPerAdultDollars": {
+    "value": 300,
+    "tag": "ESTIMATED",
+    "citation": "Colorado Department of Revenue, Marijuana Sales Reports: $1,052,517,913 of sales January to August 2023 (about $1.6 billion a year, about $360 for each adult 21 or older); Washington State Liquor and Cannabis Board: $1,255,397,186 of retail sales in fiscal year 2023 (about $225 for each adult 21 or older).",
+    "estimatedFrom": "The two states' per-adult figures (Colorado about $360, Washington about $225, adult counts approximate from the Census Bureau) averaged and rounded; licensed retail sales only.",
+    "stopgapId": "SG-WORLD-cannabis-spend-estimate",
+    "spread": {
+      "low": 200,
+      "high": 400,
+      "unit": "dollars a year for each adult 21 or older",
+      "citation": "Range from the two states' per-adult retail sales; the Washington audit (JLARC, 2025) notes licensed sales are 60 to 70 percent of use."
+    }
   }
 }
