@@ -10,6 +10,8 @@ The engine already has the three layers (situations, moves, pieces) but they are
 2. **Moves on pieces.** Every part in every bank in `data/english/parts/` carries a `move` from one shared list (`scripts/english-corpus/moves.json`: greet, deliver-news, ask, answer, condole, congratulate, deflect, lie, agree, disagree, close, farewell, comfort, request, blame, promise, tell, thank, call-to-order, put-question, announce-result, ...) and a `key` where the sentence only fits one (a condolence is `loss`; "The ayes have it." is `routine`). Most of the mapping is mechanical from the existing `kind`/`stage` and register fields; do it with a script, then read the result.
 3. **The coverage table.** `npm run words:coverage` (new, `scripts/dialogue-batch/coverage-table.ts`) prints, for each situation type × role × move × register, how many parts exist and how many of them the owner has graded pass, and writes `docs/grading/coverage.md`. Zero cells are the mining list. The table is the proof for this order: in the PR body, the table's totals and the ten emptiest cells.
 
+4. **Endpoints.** The coverage table also counts scenes by endpoint (money, bill, political life, personal) as well as by situation.
+
 **Owner plays it:** nothing new on screen; batch 12 is drawn from this table instead of from one town's year.
 
 ## Order 2: batch 12, from batch 11 and the coverage gaps
@@ -19,6 +21,19 @@ Batch 11 (`docs/grading/words-batch-11.md`, PR #4323) is held for four record de
 1. Fix the two engine-side defects that are yours: the chapter that printed "My daughter was born. My daughter was born." (two children, two dates; one sentence that says both, or two chapters) and the family scene that opened on a roll call of ten relatives (who is in the room shows in the picture and the talk) and was staged in a neighbor's household instead of the player's. The other two (a winner as a seat-term id; a body named by a member's title, "County of Darlington commissioner") are the government engine's; the overnight PR #4343 fixes the first in the engine and part of the second; until it merges, the batch builder skips a scene whose speaker or body resolves to a raw id and says so under "Facts that were stood in".
 2. Draw batch 12 from the coverage table: thirty scenes, each a different situation type or a different role in one, across registers, with no situation type more than twice. Scenes the director fires in the played year come first; where the table has pieces for a situation the director does not fire in that year, compose it as a **proof scene** from real records of that world (a real death, a real bill, a real appointment that happened in the year, the director's own staging function called on the record) and mark it "proof: the director does not fire this yet". Where the table has no pieces, mine first (Order 3) or leave the cell on the page's OWNER DECISIONS list.
 3. Each scene tests one thing, as before, and the page says for each what the owner is grading: wording on an axis, an opening and closing pair, a choice set, or a situation's content (does this moment, with these people and these facts, read as a scene of this kind).
+
+**Batch 12 must** (owner rulings, Oct 15 evening, `docs/coordination/OWNER-DECISIONS.md`):
+
+1. State each scene's endpoint (money, a bill, political life, or personal) on the page.
+2. Open each scene with a narrator paragraph of a few sentences, not two short lines.
+3. Make replies continue the conversation; no bare "All right" or "Okay" answers.
+4. Give journal lines their subject (the office, the child's name, what "little did I know" refers to).
+5. Build speeches in stages: short openers and closers, with longer choices on different subjects at the core.
+6. Show a bill's text beside its real name.
+7. Have lies about where you are from name another place; no "Not here."
+8. Put no dates in speech.
+9. Include no "say nothing" row.
+10. Send no school, workplace, notice or public hearing scenes until something new is said in them.
 
 **Owner plays it:** he grades `docs/grading/words-batch-12.md` with thirty different moments in it. The CTO builds his grading page from the Markdown.
 
