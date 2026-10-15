@@ -1473,8 +1473,10 @@ async function seatRows() {
 }
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
-const kindName = (kind) =>
-  `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
+const kindName = (kind) => {
+ const name = kind.split(":").pop();
+ return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g," ")}`;
+};
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
 function portraitUrl() {
@@ -2509,54 +2511,219 @@ const sheets = {
     return [root];
   },
   async news() {
-    const isRecordId = (v) =>
-      typeof v === "string" &&
-      !me.names?.[v] &&
-      /^[a-z]+_[0-9a-f]{8,}$/.test(v);
-    const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
-    const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
-    const economy = e.nation
-      ? [
-          row(
-            `Nation · ${e.nation.month}`,
-            `Unemployment ${pct(e.nation.unemploymentPct)} · Inflation ${pct(e.nation.inflationPct)} · Policy rate ${pct(e.nation.policyRatePct)} · Mortgage ${pct(e.nation.mortgage30Pct)}`,
+    const [rows, opening] = await Promise.all([
+      api(`/api/news?id=${encodeURIComponent(me.id)}`),
+      api(`/api/opening?id=${encodeURIComponent(me.id)}`),
+    ]);
+    const labels = controls.news;
+    const stories = [
+      ...(opening?.news?.stories ?? []),
+      ...rows.filter((r) => r.headline || r.lede),
+    ].filter((s) => s.headline || s.lede);
+    const outlets = new Map();
+    for (const story of stories) {
+      const outlet = story.outlet ??
+        opening?.news?.outlet ?? {
+          id: "news",
+          name: labels.title,
+          layout: "broadsheet",
+        };
+      const key = outlet.id ?? outlet.name;
+      if (!outlets.has(key)) outlets.set(key, { ...outlet, stories: [] });
+      outlets.get(key).stories.push(story);
+    }
+    if (!outlets.size)
+      outlets.set("news", {
+        name: labels.title,
+        layout: "broadsheet",
+        stories: [],
+      });
+    let chosen = outlets.keys().next().value;
+    let page = 0;
+    let recordPage = 0;
+    const paper = el("section", { className: "paper" });
+    const outletPicker = el("nav", { className: "outlet-picker" });
+    const button = (label, fn) => {
+      const b = el("button", { type: "button", textContent: label });
+      b.onclick = fn;
+      return b;
+    };
+    const dateWords = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    const imageFor = (story) => {
+      const url = story.presentation?.imageUrl ?? story.imageUrl;
+      if (!url) return [];
+      const image = el("img", {
+        className: "story-image",
+        src: url,
+        alt: story.presentation?.imageAlt ?? "",
+      });
+      image.onerror = () => image.remove();
+      return [image];
+    };
+    const article = (story) => {
+      let articlePage = 0;
+      const text =
+        story.paragraphs ??
+        story.broadcast?.map((line) => line.text) ??
+        [story.lede].filter(Boolean);
+      const chunks = text.flatMap((paragraph) => {
+        const tokens = paragraph.split(/\s+/);
+        const result = [];
+        for (let i = 0; i < tokens.length; i += 100)
+          result.push(tokens.slice(i, i + 100).join(" "));
+        return result;
+      });
+      const drawArticle = () => {
+        const back = button(labels.back, draw);
+        const body = el(
+          "div",
+          { className: "article-body" },
+          ...chunks
+            .slice(articlePage * 2, articlePage * 2 + 2)
+            .map((text) => el("p", { textContent: text })),
+        );
+        const prev = button(labels.previous, () => {
+          articlePage--;
+          drawArticle();
+        });
+        prev.disabled = articlePage === 0;
+        const next = button(labels.next, () => {
+          articlePage++;
+          drawArticle();
+        });
+        next.disabled = (articlePage + 1) * 2 >= chunks.length;
+        paper.replaceChildren(
+          back,
+          el("h2", {
+            className: "article-title",
+            textContent: story.headline ?? story.lede,
+          }),
+          body,
+          ...(chunks.length > 2
+            ? [el("nav", { className: "paper-pager" }, prev, next)]
+            : []),
+        );
+      };
+      drawArticle();
+    };
+    const publicRecords = () => {
+      const records = rows.filter((r) => !r.headline && !r.lede);
+      const block = el(
+        "section",
+        { className: "paper-records" },
+        el("h3", { textContent: labels.records }),
+      );
+      for (const record of records.slice(recordPage * 3, recordPage * 3 + 3))
+        block.append(
+          el(
+            "article",
+            {},
+            el("span", {
+              className: "label",
+              textContent: dateWords(record.date),
+            }),
+            el("h4", { textContent: kindName(record.kind) }),
+            el("p", {
+              textContent: [
+                ...new Set(
+                  Object.values(record.facts ?? {})
+                    .filter((v) => typeof v === "string" && me.names?.[v])
+                    .map((v) => me.names[v]),
+                ),
+              ].join(" · "),
+            }),
           ),
-          ...(e.region
-            ? [
-                row(
-                  `Region · ${e.region.month ?? ""}`,
-                  Object.entries(e.region)
-                    .filter(([, v]) => typeof v === "number")
-                    .slice(0, 4)
-                    .map(([k, v]) => `${k} ${Number(v).toFixed(1)}`)
-                    .join(" · "),
-                ),
-              ]
-            : []),
-          ...(e.jobs
-            ? [
-                row(
-                  "Jobs here",
-                  `${e.jobs.employed} employed · ${e.jobs.seekers} looking · ${e.jobs.openPositions} open`,
-                ),
-              ]
-            : []),
-        ]
-      : [];
-    const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
-    return [
-      ...economy,
-      ...rows.slice(0, 30).map((r) =>
-        row(
-          `${r.date} · ${r.kind}`,
-          Object.entries(r.facts)
-            // Bare record ids are the bench's, not the reader's.
-            .filter(([k, v]) => !/Id$/.test(k) && !isRecordId(v))
-            .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
-            .join(" · "),
+        );
+      if (records.length > 3) {
+        const back = button(labels.previous, () => {
+          recordPage--;
+          draw();
+        });
+        back.disabled = recordPage === 0;
+        const next = button(labels.next, () => {
+          recordPage++;
+          draw();
+        });
+        next.disabled = (recordPage + 1) * 3 >= records.length;
+        block.append(el("nav", { className: "paper-pager" }, back, next));
+      }
+      return block;
+    };
+    const draw = () => {
+      const outlet = outlets.get(chosen);
+      const layout = ["broadsheet", "modern", "tabloid", "weekly"].includes(
+        outlet.layout,
+      )
+        ? outlet.layout
+        : "broadsheet";
+      paper.className = `paper paper-${layout}`;
+      const section = el("div", { className: "paper-stories" });
+      outlet.stories.slice(page * 3, page * 3 + 3).forEach((story, index) => {
+        const headline = button(story.headline ?? story.lede, () =>
+          article(story),
+        );
+        headline.className = "story-headline";
+        section.append(
+          el(
+            "article",
+            { className: `paper-story${index === 0 ? " lead" : ""}` },
+            ...imageFor(story),
+            headline,
+            ...(story.lede && story.headline
+              ? [el("p", { className: "story-lede", textContent: story.lede })]
+              : []),
+          ),
+        );
+      });
+      paper.replaceChildren(
+        el(
+          "header",
+          { className: "paper-masthead" },
+          el("h2", { textContent: outlet.name ?? labels.title }),
+          el("span", {
+            className: "paper-date",
+            textContent: dateWords(me.date),
+          }),
         ),
-      ),
-    ];
+        section,
+      );
+      if (outlet.stories.length > 3) {
+        const back = button(labels.previous, () => {
+          page--;
+          draw();
+        });
+        back.disabled = page === 0;
+        const next = button(labels.next, () => {
+          page++;
+          draw();
+        });
+        next.disabled = (page + 1) * 3 >= outlet.stories.length;
+        paper.append(el("nav", { className: "paper-pager" }, back, next));
+      }
+      paper.append(publicRecords());
+      for (const b of outletPicker.children) {
+        b.classList.toggle("on", b.dataset.outlet === chosen);
+        b.setAttribute("aria-pressed", String(b.dataset.outlet === chosen));
+      }
+    };
+    if (outlets.size > 1)
+      for (const [key, outlet] of outlets) {
+        const b = button(outlet.name, () => {
+          chosen = key;
+          page = 0;
+          draw();
+        });
+        b.dataset.outlet = key;
+        b.className = "tab";
+        outletPicker.append(b);
+      }
+    draw();
+    return [outletPicker, paper];
   },
   async law() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);

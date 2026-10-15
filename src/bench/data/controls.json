@@ -213,5 +213,12 @@
     "noJob": "No current job",
     "unavailable": "Offer no longer available",
     "failed": "Could not send your answer. Try again."
+  },
+  "news": {
+    "title": "News",
+    "records": "Public record",
+    "back": "Back to front page",
+    "previous": "Back",
+    "next": "Continue"
   }
 }
