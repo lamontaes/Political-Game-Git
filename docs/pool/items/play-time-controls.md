@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 status: in-pr
-claimed-by: claude/play-time-controls
+claimed-by:
 pr: #4418
 blocked-on:
 milestone: M6
