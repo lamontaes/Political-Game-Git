@@ -3,7 +3,7 @@
 Only OPUS-GOV writes this file. The earlier log is `docs/coordination/gov.md`.
 
 - **Owns:** `src/rules` and the government engines (laws, budgets, offices, elections, campaigns, legislatures, executive).
-- **Branches now:** `gov/attendance` (#4275). Merged today: #4193, #4206, #4214, #4236, #4241, #4248, #4253, #4255, #4259, #4263, #4266.
+- **Branches now:** `gov/estate-tax` (#4290), `gov/starting-wage` (#4297), `gov/floor-deals` (#4281; it also carries the ordinance form, since #4278 merged into the bill-sections branch after #4277 reached main). Merged today: #4277, #4275, #4193, #4206, #4214, #4236, #4241, #4248, #4253, #4255, #4259, #4263, #4266.
 - **Source:** the stress audit of Oct 14 (`docs/reports/stress-audit-2026-10-14/README.md`, PR #4160), defects 3, 18, 19, 4 and 6.
 
 ## What the owner can play now
@@ -44,11 +44,16 @@ Once PRs #4206 and #4214 merge:
    - [x] Congress as one national body (#4255, merged).
    - [x] The balanced-budget rule: sequestration's exemptions, over five years (#4259, merged).
    - [x] Recall petitions finding their bill by id; township budgets (#4263, merged); the minimum wage raise and 11 record-only laws registered (#4266, merged).
-   - [x] Absences: a member misses only a vote they care little about, by the same choice as going to work (#4275).
-   - [ ] Members voting from district, record, caucus and deal. Measured party unity (share of members voting with their party on bills the parties split on), one year each: Congress 88% to 95% (real: about 90%, CQ); West Virginia's legislature 99.5%, Arizona's 94%. Next: each state's own within-party spread (Shor-McCarty state legislative data) in place of Congress's; measured with `scripts/gov-wiring/vote-parts.ts` and a party-unity count per bill.
-5. [ ] Owner rulings on bills (OWNER-DECISIONS.md, "afternoon"): sections composed from the record (series, old and new value, the statute cited); editable terms are number, date and shape (flat or graduated); town and county ordinances in their own form from public-domain municipal forms; members trade votes for amendments, add poison pills and ask favors through the deals engine.
-6. [ ] Estate and inheritance taxes as law series (`docs/packages/homelessness.md`, branch `packages/homelessness`).
-7. [ ] Federal candidates in federal races; the empty race decided by the place's law.
+   - [x] Absences: a member misses only a vote they care little about, by the same choice as going to work (#4275, merged).
+   - [ ] (parked on the license question below) Members voting from district, record, caucus and deal. Measured party unity (share of members voting with their party on bills the parties split on), one year each: Congress 88% to 95% (real: about 90%, CQ); West Virginia's legislature 99.5%, Arizona's 94%. Next: each state's own within-party spread (Shor-McCarty state legislative data) in place of Congress's; measured with `scripts/gov-wiring/vote-parts.ts` and a party-unity count per bill.
+5. Owner rulings on bills (OWNER-DECISIONS.md, "afternoon"):
+   - [x] Sections composed from the record (series, old and new value, the statute cited); editable terms are number, date and shape; a graduated tax keeps its brackets (#4277).
+   - [x] Town and county ordinances in their own form: number, that body's enacting words, sections, a closing effective-date section (#4278).
+   - [x] Members trade votes for sections of their own and move poison pills on the floor; favors were already deals (#4281). Next: trades in committee markup, where most bills die.
+   - Needs from OPUS-PEOPLE: a purpose phrase per policy series from the words batch, for a section's opening and the bill's title.
+6. [x] Estate and inheritance taxes as law series: the federal tax and the 18 places that levy one, paid when an estate settles, heirs taking a view on the law (#4290; the `settleEstate` change is in OPUS-CORE's file, flagged on the PR).
+   - [x] The audit's flat $15 floor: a state's researched minimum wage stands at the opening (#4297).
+7. [ ] Federal candidates in federal races; the empty race decided by the place's law. The board (Oct 14, evening) gives no-candidate seats and statewide pools to the GOV elections session; left to it.
 
 ## Checklist
 
@@ -85,7 +90,7 @@ Once PRs #4206 and #4214 merge:
 
 ## Questions for the owner
 
-- None. Read `DECISION-REGISTER.md` and `OWNER-DECISIONS.md` before asking.
+- **Can a non-commercial dataset calibrate the game?** Each state legislature's own party spread (to bring West Virginia's 99.5% party unity toward its real level) comes only from Shor and McCarty's state data (Harvard Dataverse, January 2025 release), licensed CC BY-NC-SA 4.0: no commercial use. The register's license rule (#11) covers text, not data. Until a ruling, state chambers keep one national scale (`stateMeanScale`, ESTIMATED) and this item is parked, not built.
 
 ## Treasuries
 
