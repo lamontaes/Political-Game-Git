@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-federal-debt-shares-sourced
 pr:
 blocked-on:
 source: "gov-outside-revenue-borrowing, PR #4484"
+claimed-at: 2026-10-15T22:35:32.539Z
 ---
 
 **What.** Replace the nine lender-group shares of the federal debt with the readings in the Treasury Bulletin's Ownership of Federal Securities table (OFS-2), and change their tag from ESTIMATED to SOURCED. The shares in the federal debt file were written without reading the table because the Treasury site could not be opened from the cloud session that wrote them. A session that can open the table reads the latest quarter, maps its rows onto the nine groups, and cites the table and quarter.
