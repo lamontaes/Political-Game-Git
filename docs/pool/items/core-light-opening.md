@@ -14,7 +14,7 @@ source: "core-needs-core-172 triage, Oct 15"
 
 **What.** `buildOpeningKin` and personality still run for every household at the opening (about half of the 12 s open). Take a `countedHouseholdIds`-style option decided before generation so counted households get only ages, household, job, cash and living cost, and build kin and past on demand at fill-in. The saving is meant to take a few seconds off the opening and keep a clicked counted person consistent with the records.
 
-**Rules.** Two-level population: counted households are read by the engines with the same rules as full people. Speed: a town's game year runs in under two minutes.
+**Rules.** One model, two tiers: counted households are read by the engines with the same rules as full people. Speed: a town's game year runs in under two minutes.
 
 **Done when.** A drawn-place opening in buildBenchWorld (Vonore, seed hours-a, or another named) shows kin and personality records only for the player's circle, the open time before and after on one machine in the PR, and a clicked counted person filled in with kin by record id.
 
