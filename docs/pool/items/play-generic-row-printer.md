@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 status: in-pr
-claimed-by: claude/play-generic-row-printer
+claimed-by:
 pr: #4427
 blocked-on:
 milestone:
