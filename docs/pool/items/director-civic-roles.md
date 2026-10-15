@@ -5,11 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-civic-roles
 pr:
 blocked-on:
 source: "director-civic-producers, found building it"
+claimed-at: 2026-10-15T23:14:37.333Z
 ---
 
 **What.** The director binds a scene's roles from records, and its role fills (`fillRole` in scheduling.ts) know only the subject, the counterpart, the household, kin, coworkers and the guardian. The civic situation types name roles the director cannot fill yet: the clerk who takes a filing, the chair who calls a body to order, the members, the press, the poll workers and the petitioners. Add a fill for each from the offices, elections and press records (the person who holds the seat, the clerk office's holder, the outlet's reporter), so a type that needs them is no longer left with an unbound role.
