@@ -302,9 +302,10 @@ function settle(
   accountOwnerId: string,
   change: { payMinor: number; refundMinor: number },
   countedHouseholdId?: string,
+  outsideId?: string,
 ): void {
   const c = core(api),
-    outside = outsideOf(c, rule.placeId);
+    outside = outsideId ?? outsideOf(c, rule.placeId);
   if (!outside) return;
   const to =
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
@@ -512,6 +513,14 @@ function month(api: CoreAPI): void {
     }
     // Apply the same nonlinear consumption rule to each counted household.
     // Averaging incomes before applying the elasticity changes the total.
+    // Households of one group draw on one fund, so their rounded changes are
+    // summed and settled once per group (the total is the same as settling
+    // each in turn: each pays what the fund holds, in order).
+    const outside = outsideOf(c, rule.placeId);
+    const byGroup = new Map<
+      number,
+      { household: string; payMinor: number; refundMinor: number }
+    >();
     for (const household of rt?.store.liveHouseholds() ?? []) {
       if (household.gone || household.placeId !== rule.placeId) continue;
       const persons = rt!.store.countedCount(household);
@@ -528,15 +537,25 @@ function month(api: CoreAPI): void {
         scaleFor(api, pay, rule.good),
         persons,
       );
+      const total = byGroup.get(household.group) ?? {
+        household: household.id,
+        payMinor: 0,
+        refundMinor: 0,
+      };
+      total.payMinor += Math.round(change.payMinor);
+      total.refundMinor += Math.round(change.refundMinor);
+      byGroup.set(household.group, total);
+    }
+    for (const [group, total] of byGroup)
       settle(
         api,
-        `price:${rule.id}:${c.date}:${household.id}`,
+        `price:${rule.id}:${c.date}:group-${group}`,
         rule,
         "",
-        change,
-        household.id,
+        total,
+        total.household,
+        outside,
       );
-    }
     // Businesses pay a dearer energy price on their own energy costs.
     if (rule.kind === "share")
       for (const [organizationId, book] of c.finance.businesses) {
