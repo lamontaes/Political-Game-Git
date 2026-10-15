@@ -4,6 +4,7 @@ title: "M7-05 Legal check"
 area: release
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

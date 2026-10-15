@@ -4,6 +4,7 @@ title: "M5-02 Governor and mayor play"
 area: office
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

@@ -4,6 +4,7 @@ title: "Replace the faked-mechanic and missing-record stopgaps, one engine per P
 area: core
 kind: stopgap
 priority: 2
+size: L
 status: open
 claimed-by:
 pr:
