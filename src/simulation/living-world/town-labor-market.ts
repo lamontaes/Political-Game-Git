@@ -49,7 +49,7 @@ import {
   laborStatus,
   townResidents,
 } from "./town-employment";
-import { ageOnDate, dateAtAge } from "../dates";
+import { ageOnDate, dateAtAge } from "../../core2/kernel/dates";
 import {
   evaluateDecision,
   isSelectedDecision,

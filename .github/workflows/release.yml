@@ -7,26 +7,28 @@ on:
   # race and had no later merge to trigger another run.
   workflow_dispatch:
 
-concurrency:
-  group: release-main
-  cancel-in-progress: false
+# Concurrency is per job: a newer push to main cancels a candidate still
+# building or validating (release-main-validate) and never one that is
+# publishing or packaging (release-main-publish).
 
 permissions:
   contents: read
 
-# The candidate passes the whole of `npm run validate` before it can publish,
-# split the way validate.yml splits it: `validate:ci-sharded` (everything but
-# the unit suite, the build included) in one job, the unit suite in six
-# shards, and an aggregate that proves the shards covered the whole suite.
-# Until 2026-09-28 all of it ran in one 40-minute job. The unit suite alone
-# takes longer than that on a hosted runner, so the release on 6b6548bc was
-# cut off at 40 minutes with nothing published, like every run before it.
+# The candidate passes the build, typecheck and the release declarations
+# (validate_candidate) before it can publish: the checks that the client
+# packages at all. Until Oct 14, 2026 it also ran the whole unit suite in six
+# shards, the zero-dice guard and the golden-path suite; the owner ruled on
+# Oct 15 that those are checks on the game's simulation, run on pull requests
+# (validate.yml, m0-guard.yml), never a gate on packaging the client.
 
 jobs:
   build_candidate:
     name: Build candidate (read only)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    concurrency:
+      group: release-main-validate
+      cancel-in-progress: true
     permissions:
       contents: read
     if: >-
@@ -156,14 +158,23 @@ jobs:
           echo "::error::This revision has pending changes that cannot be released automatically. Nothing was published and no declaration was consumed."
           exit 1
 
-  validate_candidate_repository:
-    name: Validate candidate, repository (read only)
+  # The release blocks on the client packaging at all: the build, the
+  # typecheck and the release declarations. The unit suite, the zero-dice
+  # guard and the golden-path suite are checks on the simulation and run on
+  # pull requests (validate.yml, m0-guard.yml), not here.
+  validate_candidate:
+    name: Validate candidate (read only)
     needs: build_candidate
     if: needs.build_candidate.outputs.outcome == 'release'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     permissions:
       contents: read
+    # A newer push to main replaces a candidate that is still validating; one
+    # that has passed is never cancelled (the publish jobs below).
+    concurrency:
+      group: release-main-validate
+      cancel-in-progress: true
     env:
       SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
       CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}
@@ -207,12 +218,18 @@ jobs:
       - name: Install deterministic dependencies
         run: npm ci
 
-      - name: Validate and build the exact clean candidate commit
+      - name: Build the exact clean candidate commit
+        run: npm run build
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Release declarations
         env:
           RELEASE_DECLARATION_BASE: ${{ github.event_name == 'push' && github.event.before || github.sha }}
           RELEASE_DECLARATION_HEAD: ${{ needs.build_candidate.outputs.source_sha }}
           RELEASE_DECLARATION_MODE: push
-        run: npm run validate:ci-sharded
+        run: npm run release:check
 
       - name: Prove the built game shows the new version
         shell: bash
@@ -231,194 +248,6 @@ jobs:
           [[ "$(git rev-parse HEAD)" == "$CANDIDATE_SHA" ]]
           [[ "$(git rev-parse 'HEAD^{tree}')" == "$CANDIDATE_TREE" ]]
           [[ -z "$(git status --porcelain)" ]]
-
-      - name: Record the baseline unit suite
-        run: |
-          mkdir -p test-results/unit-baseline
-          npx vitest list --filesOnly > test-results/unit-baseline/files.txt
-          wc -l test-results/unit-baseline/files.txt
-
-      - name: Upload the baseline unit suite
-        uses: actions/upload-artifact@v7
-        with:
-          name: release-unit-suite-baseline
-          path: test-results/unit-baseline/files.txt
-          if-no-files-found: error
-          retention-days: 14
-
-  validate_candidate_unit:
-    name: Validate candidate, unit (read only)
-    needs: build_candidate
-    if: needs.build_candidate.outputs.outcome == 'release'
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    permissions:
-      contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - shard: 1
-            total: 6
-          - shard: 2
-            total: 6
-          - shard: 3
-            total: 6
-          - shard: 4
-            total: 6
-          - shard: 5
-            total: 6
-          - shard: 6
-            total: 6
-    env:
-      SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
-      CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}
-      CANDIDATE_TREE: ${{ needs.build_candidate.outputs.candidate_tree }}
-      BUNDLE_SHA256: ${{ needs.build_candidate.outputs.bundle_sha256 }}
-    steps:
-      - name: Check out the pushed revision without write credentials
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          ref: ${{ needs.build_candidate.outputs.source_sha }}
-          persist-credentials: false
-
-      - name: Download the candidate data
-        uses: actions/download-artifact@v7
-        with:
-          name: release-candidate
-          path: ${{ runner.temp }}/release-candidate
-
-      - name: Check out the exact candidate commit from its bundle
-        shell: bash
-        run: |
-          set -euo pipefail
-          bundle="$RUNNER_TEMP/release-candidate/release-candidate.bundle"
-          [[ "$(sha256sum "$bundle" | awk '{print $1}')" == "$BUNDLE_SHA256" ]]
-          git bundle verify "$bundle"
-          git fetch --no-tags "$bundle" HEAD:refs/candidates/release
-          [[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]
-          [[ "$(git rev-parse "${CANDIDATE_SHA}^{tree}")" == "$CANDIDATE_TREE" ]]
-          [[ "$(git show -s --format=%P "$CANDIDATE_SHA")" == "$SOURCE_SHA" ]]
-          git checkout -q --detach "$CANDIDATE_SHA"
-          [[ -z "$(git status --porcelain)" ]]
-
-      - name: Use Node 22
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22.13.0
-          cache: npm
-
-      - name: Install deterministic dependencies
-        run: npm ci
-
-      - name: Run unit shard ${{ matrix.shard }} of ${{ matrix.total }}
-        run: |
-          mkdir -p test-results/unit-shards
-          npx vitest run --shard=${{ matrix.shard }}/${{ matrix.total }} \
-            --reporter=default --reporter=json \
-            --outputFile.json=test-results/unit-shards/shard-${{ matrix.shard }}-of-${{ matrix.total }}.json
-
-      - name: Prove the shard did not change candidate identity
-        shell: bash
-        run: |
-          set -euo pipefail
-          [[ "$(git rev-parse HEAD)" == "$CANDIDATE_SHA" ]]
-          [[ "$(git rev-parse 'HEAD^{tree}')" == "$CANDIDATE_TREE" ]]
-          [[ -z "$(git status --porcelain)" ]]
-
-      - name: Upload this shard's report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: release-unit-shard-report-${{ matrix.shard }}-of-${{ matrix.total }}
-          path: test-results/unit-shards/shard-${{ matrix.shard }}-of-${{ matrix.total }}.json
-          if-no-files-found: error
-          retention-days: 14
-
-  validate_candidate:
-    name: Validate candidate (whole suite)
-    if: always() && needs.build_candidate.outputs.outcome == 'release'
-    needs:
-      - build_candidate
-      - validate_candidate_repository
-      - validate_candidate_unit
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    env:
-      SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
-      CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}
-      CANDIDATE_TREE: ${{ needs.build_candidate.outputs.candidate_tree }}
-      BUNDLE_SHA256: ${{ needs.build_candidate.outputs.bundle_sha256 }}
-    steps:
-      - name: Require every validation job
-        shell: bash
-        run: |
-          set -euo pipefail
-          repository='${{ needs.validate_candidate_repository.result }}'
-          unit='${{ needs.validate_candidate_unit.result }}'
-          echo "repository=$repository"
-          echo "unit=$unit"
-          if [[ "$repository" != "success" || "$unit" != "success" ]]; then
-            echo "::error::The candidate did not pass validation. Nothing was published and no declaration was consumed."
-            exit 1
-          fi
-
-      - name: Check out the pushed revision without write credentials
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          ref: ${{ needs.build_candidate.outputs.source_sha }}
-          persist-credentials: false
-
-      - name: Download the candidate data
-        uses: actions/download-artifact@v7
-        with:
-          name: release-candidate
-          path: ${{ runner.temp }}/release-candidate
-
-      - name: Check out the exact candidate commit from its bundle
-        shell: bash
-        run: |
-          set -euo pipefail
-          bundle="$RUNNER_TEMP/release-candidate/release-candidate.bundle"
-          [[ "$(sha256sum "$bundle" | awk '{print $1}')" == "$BUNDLE_SHA256" ]]
-          git bundle verify "$bundle"
-          git fetch --no-tags "$bundle" HEAD:refs/candidates/release
-          [[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]
-          [[ "$(git rev-parse "${CANDIDATE_SHA}^{tree}")" == "$CANDIDATE_TREE" ]]
-          [[ "$(git show -s --format=%P "$CANDIDATE_SHA")" == "$SOURCE_SHA" ]]
-          git checkout -q --detach "$CANDIDATE_SHA"
-          [[ -z "$(git status --porcelain)" ]]
-
-      - name: Use Node 22
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22.13.0
-          cache: npm
-
-      - name: Install deterministic dependencies
-        run: npm ci
-
-      - name: Download the baseline unit suite
-        uses: actions/download-artifact@v7
-        with:
-          name: release-unit-suite-baseline
-          path: ${{ runner.temp }}/unit-suite-baseline
-
-      - name: Download unit shard reports
-        uses: actions/download-artifact@v7
-        with:
-          pattern: release-unit-shard-report-*
-          path: ${{ runner.temp }}/unit-shard-reports
-
-      - name: Confirm unit shard union equals the baseline suite
-        run: >-
-          node --import tsx scripts/dev-lab/assert-unit-shard-union.ts
-          "$RUNNER_TEMP/unit-suite-baseline/files.txt"
-          "$RUNNER_TEMP/unit-shard-reports"
 
       - name: Report staged-only behavior
         if: vars.RELEASE_AUTOMATION != 'enabled'
@@ -441,6 +270,9 @@ jobs:
       needs.validate_candidate.result == 'success' &&
       needs.build_candidate.outputs.outcome == 'release' &&
       vars.RELEASE_AUTOMATION == 'enabled'
+    concurrency:
+      group: release-main-publish
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -621,9 +453,11 @@ jobs:
             command: "node scripts/package.mjs --win --x64"
             name: win-x64
             optional: true
+    concurrency:
+      group: release-main-publish
+      cancel-in-progress: false
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
-    # stopgapId: SG-PLAY-windows-package-allowed-to-fail
     # The owner plays on a Mac; Windows may stay red until early access.
     continue-on-error: ${{ matrix.optional == true }}
     permissions:
@@ -718,6 +552,9 @@ jobs:
       - publish_candidate
       - desktop_package
     if: always() && needs.publish_candidate.outputs.published == 'true'
+    concurrency:
+      group: release-main-publish
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -742,8 +579,8 @@ jobs:
           set -euo pipefail
           cd "$RUNNER_TEMP/desktop-release"
           ls -la
-          # Windows may be missing until early access (stopgap
-          # SG-PLAY-windows-package-allowed-to-fail); the Mac files may not.
+          # Windows may be missing until early access (owner,
+          # Oct 14: the Windows row stays allowed-to-fail); the Mac files may not.
           [[ -f latest-mac.yml ]]
           tag="v${NEXT_VERSION}"
           # A draft first, so the updater never sees a half-uploaded release.

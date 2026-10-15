@@ -47,8 +47,8 @@ import {
  * their parent.
  */
 
-import { ageOnDate, addDays } from "../dates";
-import { createStableId, stableHash } from "../ids";
+import { ageOnDate, addDays } from "../../core2/kernel/dates";
+import { createStableId, stableHash } from "../../core2/kernel/ids";
 import { largestRemainderAllocation } from "../largest-remainder";
 import {
   createHousehold,

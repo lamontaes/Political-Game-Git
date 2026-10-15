@@ -9,8 +9,8 @@
  */
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { countyPopulationSharesForPlace } from "../simulation/government-units";
-import { lifePlaceByKey } from "../simulation/life-places";
+import { countyPopulationSharesForPlace } from "./reference/government-units";
+import { corePlaceByKey } from "./place-lookup";
 import { countyNonattainment } from "./business-operating-rules";
 import { advanceCore, createLifeCore } from "./life";
 import { BUSINESS_MODULE, countedClosurePulls } from "./modules/business";
@@ -40,7 +40,7 @@ function drawn(salt: string): CorePlace[] {
 
 /** The county the housing layer would read for a place (five-digit FIPS), if it has one. */
 function countyOf(place: CorePlace): string | undefined {
-  const geoid = lifePlaceByKey(place.key)?.sourceGeoid ?? "";
+  const geoid = corePlaceByKey(place.key)?.sourceGeoid ?? "";
   const county =
     geoid.length === "SSPPPPP".length
       ? [...countyPopulationSharesForPlace(geoid)].sort(

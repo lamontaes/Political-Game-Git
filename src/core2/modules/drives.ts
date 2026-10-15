@@ -1,5 +1,5 @@
 import drivesJson from "../data/drives.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "../../simulation/dates";
+import { daysBetween, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { availableActs } from "../life";
 import { extendData } from "../data";
@@ -1159,16 +1159,26 @@ function raiseFromCounted(
     api.stopgap("SG-CORE-counted-giving-stand-in");
     const amount = Math.min(Math.floor((gifts / members) * givers), held);
     if (amount <= zero) continue;
+    // Each fund gives its share, never more than it holds; what rounding
+    // leaves over comes from the funds with room, so no fund goes below zero.
     let left = amount;
-    const from = funds
-      .map((row, index) => {
-        const share =
-          index === funds.length - api.parameter("one")
-            ? left
-            : Math.min(left, Math.floor((amount * row.balance) / held));
-        left -= share;
-        return { accountId: row.accountId, amountMinor: share };
-      })
+    const shares = funds.map((row) => {
+      const share = Math.min(
+        left,
+        row.balance,
+        Math.floor((amount * row.balance) / held),
+      );
+      left -= share;
+      return { accountId: row.accountId, amountMinor: share, cap: row.balance };
+    });
+    for (const row of shares) {
+      if (left <= zero) break;
+      const more = Math.min(left, row.cap - row.amountMinor);
+      row.amountMinor += more;
+      left -= more;
+    }
+    const from = shares
+      .map(({ accountId, amountMinor }) => ({ accountId, amountMinor }))
       .filter((row) => row.amountMinor > zero);
     payDonation(api, data, `counted:${group.placeId}`, groupId, amount, from);
   }

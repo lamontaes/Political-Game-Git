@@ -17,7 +17,7 @@
 import intervals from "../../data/research/local-government/council-meeting-intervals.json" with { type: "json" };
 import bases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "./data/office-day/parameters.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreAPI, Source } from "./types";
 
 /** The offices engine's state (read only; imported by id so this helper loads before the engines). */

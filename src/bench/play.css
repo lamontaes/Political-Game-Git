@@ -714,11 +714,6 @@ input[type="range"]::-moz-range-thumb {
   letter-spacing: 0.07em;
   color: var(--gold);
 }
-.sub {
-  font: 500 14.5px var(--speech);
-  color: var(--text-2);
-  margin: 6px 0 18px;
-}
 .item {
   display: block;
   width: 100%;
@@ -730,37 +725,124 @@ input[type="range"]::-moz-range-thumb {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.item span {
-  display: block;
-  font: 400 13px var(--ui);
-  color: var(--text-2);
-  margin-top: 2px;
-}
 #new-life b {
   color: #fff;
 }
 #front-status:empty {
   display: none;
 }
-#custom {
-  margin-top: 8px;
+#front .title {
+  margin-bottom: 14px;
+}
+.seed-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.seed-row input {
+  width: 150px;
+}
+#front.loading {
+  top: 56px;
+  transform: none;
+}
+/* The title's build version, bottom right (#4014). */
+.title-version {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  color: var(--text-3);
+  font: 400 11px var(--ui);
+}
+.item small {
+  display: block;
+  font: 400 12.5px var(--ui);
+  color: var(--text-2);
+  margin-top: 2px;
+}
+/* The creator (the Oct 12 SetupScreen's steps). */
+#front:has(#cr-character:not([hidden])),
+#front:has(#cr-place:not([hidden])),
+#front:has(#cr-look:not([hidden])) {
+  width: 420px;
+}
+.summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
+}
+.summary-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--text);
+}
+.summary-name {
+  font: 700 15px var(--name);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+.summary-edit {
+  color: var(--gold);
+  font: 600 12px var(--ui);
+}
+#front h2.label {
+  margin: 12px 0 6px;
+}
+.group {
+  border: 0;
+  padding: 0;
+  margin: 0 0 10px;
+}
+.choices {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.choice-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 6px;
+}
+#front input[type="search"] {
+  width: 100%;
+}
+.look-row {
+  display: grid;
+  grid-template-columns: 110px 34px 1fr 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+.look-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--brass);
+}
+.portrait {
+  display: block;
+  height: 260px;
+  margin: 0 auto 4px;
+}
+#front .acts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
 }
 /* About keeps the version; the title never shows one. */
 .version {
   margin-top: 12px;
   color: var(--text-3);
-}
-/* New game, second step: Random, or a typed place. */
-#front-place .field input {
-  width: 220px;
-}
-/* No chevron at rest: the suggestions open as the player types. */
-#place::-webkit-calendar-picker-indicator {
-  display: none !important;
-}
-#front-place .acts {
-  justify-content: space-between;
-  margin-top: 12px;
 }
 /* Progress: a brass frame, the fill running dark to light gold. */
 .progress {
@@ -933,10 +1015,6 @@ body.dev .dev-ring {
 .chat .acts {
   margin-top: 8px;
 }
-#choices {
-  padding: 13px 18px;
-}
-
 /* A journal line, bottom right. */
 .journal {
   right: var(--gutter);
@@ -1007,6 +1085,41 @@ body.dev .dev-ring {
   left: 50%;
   transform: translateX(-50%);
   width: min(900px, calc(100vw - 2 * var(--gutter)));
+}
+/* Options uses the approved compact panel instead of the full-height reader. */
+#game #sheet.options-sheet {
+  left: 50%;
+  right: auto;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(760px, calc(100vw - 2 * var(--gutter)));
+  max-height: calc(100vh - 2 * var(--gutter));
+  padding: 30px 40px;
+}
+.options-sheet #sheet-body {
+  flex: 0 1 auto;
+  max-width: none;
+}
+.option-setting {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 2fr;
+  gap: 16px;
+  align-items: center;
+  margin: 18px 0;
+}
+.option-setting > span:first-child {
+  color: var(--gold);
+}
+.option-setting input {
+  justify-self: start;
+}
+.option-status:empty {
+  display: none;
+}
+.options-actions {
+  flex-wrap: wrap;
+  margin-top: 32px;
 }
 .sheet-head {
   display: flex;
@@ -1101,61 +1214,115 @@ body.dev .dev-ring {
   display: contents;
 }
 #game.sheet-open #talk,
-#game.sheet-open #choices,
 #game.sheet-open #person,
-#game.sheet-open #journal-note {
+#game.sheet-open #journal-note,
+#game.sheet-open #news-surface {
   visibility: hidden;
 }
 
-/* Calendar: two months on ruled lines, today underlined in gold. */
+/* Calendar uses the existing panel frame and Kit 13 controls. */
+#sheet:has(.calendar-layout) {
+  background: linear-gradient(#262628, #151517);
+  backdrop-filter: none;
+}
+#sheet-body:has(.calendar-layout) {
+  max-width: none;
+}
+.calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.7fr) minmax(170px, 1fr) minmax(
+      170px,
+      1fr
+    );
+  gap: 24px;
+}
+.calendar-layout h3 {
+  font: 600 17px var(--name);
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+.calendar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.calendar-heading h3 {
+  margin: 0;
+  text-align: center;
+}
+.calendar-heading button {
+  font-size: 11px;
+  padding: 6px;
+}
 #sheet-body .month {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  column-gap: 6px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
   margin-bottom: 18px;
 }
-.month h3 {
-  grid-column: 1 / -1;
-  font: 800 16px var(--name);
-  letter-spacing: 0.06em;
-  margin: 4px 0 6px;
-}
 .month .weekday {
-  font: 600 10.5px var(--ui);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  font: 500 11px var(--ui);
   color: var(--gold);
-  padding-bottom: 4px;
+  text-align: center;
+  padding-bottom: 8px;
 }
 .month .day {
-  min-height: 48px;
-  padding: 3px 2px;
-  font-size: 11px;
-  overflow: hidden;
+  min-height: 44px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
 }
-.month .day b {
-  font-weight: 500;
-  color: var(--text-2);
-}
-.month .day.today b {
+.month .day.today {
   color: var(--gold);
-  background: var(--raised);
-  padding: 1px 7px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  background: rgba(214, 189, 132, 0.16);
 }
-.month .day.jump {
-  cursor: pointer;
+.month .day.selected {
+  outline: 1px solid var(--gold);
+  outline-offset: -1px;
 }
-.month .day.jump:hover b {
-  color: #fff;
-  text-shadow: var(--glow);
+.month .day::after {
+  display: none;
 }
 .month .entry {
   display: block;
   color: var(--gold);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  line-height: 8px;
+}
+.calendar-event {
+  margin-bottom: 20px;
+}
+.calendar-event p {
+  font: 17px/1.4 var(--speech);
+  margin: 5px 0;
+}
+.calendar-paging {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.calendar-upcoming > div > button {
+  padding-left: 0;
+  color: var(--gold);
+}
+@media (max-width: 1100px) {
+  .calendar-layout {
+    grid-template-columns: minmax(300px, 1.6fr) 1fr;
+    gap: 18px;
+  }
+  .calendar-upcoming {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 20px;
+    align-items: start;
+  }
+  .calendar-upcoming > div {
+    flex: 1;
+  }
+  .calendar-event p {
+    font-size: 14px;
+  }
 }
 
 /* Family: each member where they are now. */
@@ -1380,20 +1547,6 @@ body.dev .dev-ring {
 #news-reader-more .prose {
   margin: 0;
   padding: 10px 0;
-}
-/* The scenes the player lets stop the day (Options). */
-.scene-filter {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 4px 16px;
-  margin: 6px 0 16px;
-}
-.scene-filter label {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font: 400 13.5px var(--ui);
-  color: var(--text-2);
 }
 .coach {
   box-shadow:

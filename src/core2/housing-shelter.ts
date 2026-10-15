@@ -6,11 +6,8 @@
  * out of that rent, up to the rent. The rest (an owner's taxes, insurance and
  * upkeep) still leaves the town.
  */
-import {
-  bedroomsForHousehold,
-  hudRentRowFor,
-} from "../simulation/living-world/town-rent";
-import type { EntityId } from "../simulation/types";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import type { EntityId } from "./kernel/brands";
 import type { CoreInput } from "./types";
 
 const OUTSIDE_LIVING = "residents:outside-living:";

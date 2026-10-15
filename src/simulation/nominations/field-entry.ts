@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import type { EntityId, IsoDate, World } from "../types";

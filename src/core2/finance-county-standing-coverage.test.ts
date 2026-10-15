@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "../simulation/government-units";
+} from "./reference/government-units";
 import { createStableId } from "./kernel/ids";
 import { corePlaceByKey } from "./place-lookup";
-import { governmentUnitRecordedName } from "../simulation/nationwide-world/government-unit-names";
+import { governmentUnitRecordedName } from "./gov-rules/government-unit-names";
 import { DEFAULT_DATA } from "./data";
 import financePolicy from "./data/finance.json" with { type: "json" };
 import {

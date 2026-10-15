@@ -9,8 +9,8 @@
  *   npx tsx src/director/tooling/grading-batch.ts --output <file.md> <seed> ...
  */
 import { writeFileSync } from "node:fs";
-import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
-import type { EngineTextOrigin } from "../../presentation/runtime-text-origin";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import type { EngineTextOrigin } from "../../english/runtime-text-origin";
 import { enrichCivicInputs } from "../../core2/civic-inputs";
 import { buildDeepPast } from "../../core2/deep-past";
 import { initialFocusPeople } from "../../core2/focus";

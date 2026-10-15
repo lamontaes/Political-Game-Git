@@ -5,10 +5,10 @@
  * engines' own records. Screens and the outcome web (M3-04) read these rows;
  * nothing here moves money or decides anything.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
-import { HOUSING_MODULE_ID, townFigures } from "./housing";
+import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
 
@@ -158,12 +158,14 @@ export function townMetrics(api: CoreAPI) {
   const loans = rows(api, "credit", "loans") as unknown as {
     open: boolean;
   }[];
-  const housing = c.modules.has(HOUSING_MODULE_ID);
+  const housing = c.modules.has(HOUSING_MODULE_ID)
+    ? townFiguresByPlace(api, new Set(places.keys()))
+    : undefined;
   return [...places]
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([placeId, row]) => {
       const income = median([...row.earnings.values()]);
-      const homes = housing ? townFigures(api, placeId) : undefined;
+      const homes = housing?.get(placeId);
       const rent = homes?.rentMinor ?? median(row.rents);
       return {
         placeId,

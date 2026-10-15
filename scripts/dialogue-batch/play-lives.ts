@@ -31,7 +31,7 @@ import {
   type ConversationLine,
   type Wording,
 } from "../../src/director/conversation";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 
 /** The bench's opening day (src/bench/m0-check.ts). */

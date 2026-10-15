@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { applyCoreEvent } from "../core2/state";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
 import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
@@ -62,7 +62,12 @@ function resolves(state: CoreState, id: string): boolean {
 describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("tells the life in chapters, each line traced to a record", () => {
     expect(chapters.length).toBeGreaterThan(0);
+    // A workplace or a school never titles a chapter (owner, batch 7).
+    const settings = new Set(
+      [...core.organizations.values()].map((row) => row.name),
+    );
     for (const chapter of chapters) {
+      expect(settings.has(chapter.title), chapter.title).toBe(false);
       expect(chapter.title).not.toMatch(/^\d{4}$/);
       for (const line of chapter.lines) {
         expect(line.text).toMatch(/^[A-Z]/);
@@ -71,6 +76,26 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
           expect(resolves(core, id), id).toBe(true);
       }
     }
+  });
+
+  it("tells each child's birth in that child's chapter, and no look-back twice", () => {
+    const born = /^(My (?:son|daughter|child)) was born\b/;
+    const endings: string[] = [];
+    for (const chapter of chapters)
+      for (const line of chapter.lines) {
+        const child = born.exec(line.text)?.[1];
+        // A birth is remembered, never "I didn't know at the time" (owner, batch 9).
+        if (child)
+          expect(line.text).not.toMatch(/know|idea|clue|realize|meant/i);
+        if (child && chapter.title.startsWith("My "))
+          expect(chapter.title).toBe(child);
+        const said = line.text.split(/(?<=[.!?])\s+/);
+        if (said.length > 1)
+          endings.push(
+            said.at(-1)!.toLowerCase().split(/\s+/).slice(-2).join(" "),
+          );
+      }
+    expect(new Set(endings).size).toBe(endings.length);
   });
 
   it("names relatives by relation, never by name", () => {
@@ -281,6 +306,41 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     ).toBe(true);
   });
 
+  it("tells a relative's race by the record's result, never the other way", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find(
+      (id) => core.people.get(id)?.alive && id !== player.id,
+    )!;
+    const rivalId = [...core.people.keys()].find(
+      (id) => id !== relativeId && id !== player.id,
+    )!;
+    // As the voting module records a count: the relative lost.
+    applyCoreEvent(core, {
+      id: "election-result:fixture-loss",
+      date: core.date,
+      kind: "election-result",
+      personIds: [relativeId, rivalId],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "City Council, Seat 3", winnerId: rivalId },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-loss"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) expect(line.text).not.toMatch(/\b(won|elected)\b/);
+  });
+
   it("writes a relative moving away, as the moves engine records it", () => {
     // A watched person with a relative in town (a grown child moving out, a
     // sibling across town).
@@ -433,7 +493,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const moved = named.filter((line) => /^We /.test(line));
     expect(moved).toHaveLength(1);
     expect(moved[0]).toContain(
-      lifePlaceByJurisdictionId(mover.placeId as never)!.displayName,
+      corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
     );
     expect(named.some((line) => /^I /.test(line))).toBe(false);
     // A place with no name leaves nothing to say.

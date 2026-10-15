@@ -12,8 +12,8 @@
  */
 import data from "./data/opening-falling-outs.json" with { type: "json" };
 import deepPast from "./data/deep-past.json" with { type: "json" };
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { PARAMETERS, parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, IsoDate, PersonId, PersonInput } from "./types";

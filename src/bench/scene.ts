@@ -1,8 +1,5 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import {
-  homePlaceFor,
-  workplacePlaceFor,
-} from "../presentation/place-backdrops";
+import { homePlaceFor, workplacePlaceFor } from "./backdrop-places";
 import {
   BACKDROP_ASPECT,
   backdropStaging,

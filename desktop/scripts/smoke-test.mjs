@@ -141,9 +141,13 @@ async function launch() {
       (await page.getByTestId("title-options").isVisible()),
   );
   // The title is a full-window national scene with the menu over it: the
-  // backdrop has a picture, and the front shows no version and no place field.
+  // backdrop has a picture, the build version in the corner, and no place field on the front.
   const titleScreen = await page.evaluate(async () => {
     const backdrop = document.getElementById("backdrop");
+    // The title's scene is chosen by the play server, so its picture arrives
+    // a moment after the menu does: wait for it before judging it.
+    for (let i = 0; i < 100 && !backdrop.getAttribute("src"); i++)
+      await new Promise((resolve) => setTimeout(resolve, 100));
     if (backdrop.getAttribute("src") && !backdrop.complete)
       await new Promise((resolve) => {
         backdrop.onload = backdrop.onerror = resolve;
@@ -153,19 +157,53 @@ async function launch() {
     return {
       src: backdrop.getAttribute("src") ?? "",
       painted: backdrop.naturalWidth > 0,
-      version: /\bv?\d+\.\d+\.\d+/.test(front.innerText),
+      version: /\d+\.\d+\.\d+/.test(
+        document.getElementById("title-version")?.textContent ?? "",
+      ),
       placeShown: Boolean(place && place.offsetParent !== null),
+      seedShown: Boolean(document.getElementById("seed")?.offsetParent),
+      patchNotes: document.getElementById("front-patch-notes")?.disabled,
+      watch: document.getElementById("front-watch")?.disabled,
+      saves: document.getElementById("front-saves")?.disabled,
+      subtitle: Boolean(front.querySelector(".sub")),
+      itemLines: front.querySelectorAll(".item span").length,
+      continueShown: Boolean(document.getElementById("front-continue")),
+      continueDisabled: document.getElementById("front-continue")?.disabled,
+      figures: document.querySelectorAll("#people img").length,
+      quitShown: !document.getElementById("front-quit")?.hidden,
     };
   });
   check(
     "title: the backdrop is a painted national scene",
     titleScreen.src !== "" &&
       titleScreen.painted &&
-      !/state-capitol/.test(titleScreen.src),
+      /^\/art\/backdrops\/(white-house-exterior|national-convention-floor|national-convention-stage|rally-stage|rally-town-square|rally-courthouse-square|us-house-floor|us-senate-floor|debate-stage|oval-office)__/.test(
+        titleScreen.src,
+      ),
     titleScreen.src,
   );
-  check("title: no version string on the title", !titleScreen.version);
-  check("title: no place field on the title", !titleScreen.placeShown);
+  check("title: no subtitle under the wordmark", !titleScreen.subtitle);
+  check(
+    "title: no description line under any item",
+    titleScreen.itemLines === 0,
+  );
+  check(
+    "title: no seed or place controls on the title",
+    !titleScreen.seedShown && !titleScreen.placeShown,
+  );
+  check(
+    "title: Watch the world, Saved games and Patch notes are there, disabled",
+    titleScreen.patchNotes === true &&
+      titleScreen.watch === true &&
+      titleScreen.saves === true,
+  );
+  check("title: no figure stands on the title", titleScreen.figures === 0);
+  check(
+    "title: Continue is there, disabled with no life saved",
+    titleScreen.continueShown && titleScreen.continueDisabled === true,
+  );
+  check("title: Quit is offered on the desktop", titleScreen.quitShown);
+  check("title: the build version shows on the title", titleScreen.version);
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
@@ -184,7 +222,7 @@ async function launch() {
     { timeout: 240000 },
   );
   await page.getByTestId("new-game").click();
-  await page.getByTestId("place-random").click();
+  await page.getByTestId("new-world").click();
   await page.waitForFunction(
     () => {
       const line = document.querySelector('[data-testid="loading-line"]');
@@ -225,6 +263,10 @@ async function launch() {
   await page.waitForLoadState("domcontentloaded");
   await page.getByTestId("title-menu").waitFor();
   check("options: Quit to title returns to the title menu", true);
+  await page.waitForFunction(
+    () => !document.getElementById("front-continue").disabled,
+  );
+  check("title: Continue is offered for the life in progress", true);
   const title = await app.evaluate(({ BrowserWindow }) =>
     BrowserWindow.getAllWindows()[0].getTitle(),
   );

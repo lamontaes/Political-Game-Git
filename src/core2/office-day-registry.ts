@@ -33,6 +33,8 @@ export type OfficeEffectHandler = (
 /** One level's acts: rows for the day's catalog, their hour parameters, offers and effects. */
 export interface OfficeActKit {
   readonly id: string;
+  readonly onDay?: (api: CoreAPI) => void;
+  readonly onAfterDay?: (api: CoreAPI) => void;
   readonly acts: readonly ActionDefinition[];
   readonly parameters?: CoreData["parameters"];
   /** By target kind. */

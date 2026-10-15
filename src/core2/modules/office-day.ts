@@ -1,3 +1,4 @@
+import type { ItemVetoSelection } from "../state-item-veto";
 /**
  * The officeholder's day (office play, OFFICE-LOCAL; one engine for every
  * level, `docs/packages/office-play.md`).
@@ -47,6 +48,7 @@ import {
   billOf,
   castMemberVote,
   executiveDecision,
+  executiveItemVeto,
   holdVote,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -66,7 +68,7 @@ import {
 } from "../office-day-calendar";
 import type { ModuleStopTokenV1 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
-import { makeIsoDate } from "../../simulation/dates";
+import { makeIsoDate } from "../kernel/dates";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
@@ -74,8 +76,7 @@ export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
  * What can stop the player: the local kinds here, and whatever kinds the
  * other levels register (`office-day-registry.ts`). Election day always
  * stops them at the polls (the polling-place scene): whether the character
- * may cast the player's ballot when they choose not to stop is the owner's
- * call. stopgapId: SG-OFFICE-owner-decision-ballot-stop
+ * may not cast the player's ballot (owner, Oct 13).
  * An emergency stop waits on the disasters engine's declarations.
  */
 registerStopKinds([
@@ -143,19 +144,24 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     },
   },
   onCalendarWork: officeDayCalendar,
+  onAfterDay(api) {
+    for (const kit of officeActKits()) kit.onAfterDay?.(api);
+  },
   // Filled from every registered level's kit when the engine opens.
   offerProviders: {},
   effectHandlers: {},
   onDay(api) {
-    // New holders are seated the day the roster grows; ended terms and pay
-    // are read on the 1st.
+    // A job starts or ends before a day's work, so the roster is read here
+    // and the office jobs change in the next day's calendar work: when the
+    // roster grows, and on the 1st for terms that ended.
     const terms = api.moduleState(OFFICES_MODULE_ID).table("terms").size;
     const payday = api.state.date.endsWith("-01");
     if (payday || seenTerms.get(api.state) !== terms) {
       seenTerms.set(api.state, terms);
-      reviewOfficeJobs(api);
+      scheduleOfficeReview(api);
     }
     if (payday) payStipends(api);
+    for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
 };
@@ -347,6 +353,26 @@ function officeDayCalendar(
   if (work.kind === "meeting") return closeMeeting(api, work);
   if (work.kind === "desk-own-choice")
     return deskOwnChoice(api, work.sourceRecordIds[0]!);
+  if (work.kind === "office-review") return reviewOfficeJobs(api);
+}
+
+/** Tomorrow's calendar work seats new holders in their office jobs and ends those whose term ended. */
+function scheduleOfficeReview(api: CoreAPI): void {
+  const date = dayOffset(api.state.date, 1);
+  const calendar = api.moduleCalendar(OFFICE_DAY_MODULE_ID);
+  const key = `office-review:${date}`;
+  if (calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date,
+    kind: "office-review",
+    source: {
+      tag: "SOURCED",
+      citation: "The offices engine's roster of terms changed",
+      asOf: api.state.date,
+    },
+    sourceRecordIds: [OFFICES_MODULE_ID],
+  });
 }
 
 /**
@@ -711,6 +737,27 @@ export function decideDesk(
   return decided;
 }
 
+/** The governor strikes appropriation items under the place's law and lets the body weigh overrides. */
+export function decideDeskItems(
+  api: CoreAPI,
+  billId: string,
+  itemIndices: readonly (number | ItemVetoSelection)[],
+): BillRow {
+  const player = playerOf(api);
+  if (!player) throw new Error("No officeholder is controlled.");
+  const decided = executiveItemVeto(api, billId, player, itemIndices);
+  keepAct(api, {
+    personId: player,
+    kind: "item-veto",
+    how: "did",
+    recordId: billId,
+    position: null,
+    detail: JSON.stringify(itemIndices),
+  });
+  releaseHeld(api, deskStopId(billId));
+  return decided;
+}
+
 /** The player leaves a bill on the desk to the character, who decides it now. */
 export function leaveDeskToCharacter(api: CoreAPI, billId: string): BillRow {
   if (billOf(api, billId)?.status !== "awaiting-signature")
@@ -832,6 +879,7 @@ function reviewOfficeJobs(api: CoreAPI): void {
     if (term?.status === "serving") continue;
     const ended = term?.endDate ?? api.state.date;
     if (row.jobId) {
+      // Calendar work runs before the day's work, so the job ends cleanly.
       const job = (api.state as CoreState).jobs.get(row.jobId);
       if (job && job.endsAt === undefined)
         api.endJob(row.jobId, `office-ended:${row.seatId}:${ended}`);

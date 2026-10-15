@@ -202,6 +202,9 @@ function endParts(core: CoreState, ending: Ending): void {
 interface Names {
   given: Map<string, string[]>;
   family: string[];
+  /** How many newcomers have taken each family name, and each given name, so far. */
+  usedFamily: Map<string, number>;
+  usedGiven: Map<string, number>;
 }
 
 function addNewborn(
@@ -326,10 +329,36 @@ function leavePull(
   return topRate * Math.exp(-hold);
 }
 
-const pick = <T>(list: readonly T[], key: string): T | undefined =>
-  list.length
-    ? list[parseInt(stableHash(key).slice(0, 8), 16) % list.length]
-    : undefined;
+const nameCounts = new WeakMap<readonly string[], Map<string, number>>();
+
+/**
+ * The next name for a newcomer from the town's recorded names: names come out
+ * in proportion to how many times the town records them, each name taking its
+ * turn by how few times it has been used against how common it is. No draw;
+ * the same recorded names and the same earlier newcomers give the same name.
+ */
+function takeName(
+  list: readonly string[],
+  used: Map<string, number>,
+): string | undefined {
+  let counts = nameCounts.get(list);
+  if (!counts) {
+    counts = new Map();
+    for (const name of list) counts.set(name, (counts.get(name) ?? 0) + 1);
+    nameCounts.set(list, counts);
+  }
+  let best: string | undefined;
+  let bestTurn = Infinity;
+  for (const [name, count] of counts) {
+    const turn = ((used.get(name) ?? 0) + 1) / count;
+    if (turn < bestTurn) {
+      best = name;
+      bestTurn = turn;
+    }
+  }
+  if (best !== undefined) used.set(best, (used.get(best) ?? 0) + 1);
+  return best;
+}
 
 /**
  * A given name people born that year were called (SSA top names by decade),
@@ -378,8 +407,7 @@ function moveHousehold(
   }
   api.stopgap(data.movesStopgapId);
   const family =
-    pick(names.family, `${core.seed}:${householdId}:${core.date}:family`) ??
-    record.people[0]!.familyName;
+    takeName(names.family, names.usedFamily) ?? record.people[0]!.familyName;
   const ids = new Map<PersonId, PersonId>(
     record.people.map((person): [PersonId, PersonId] => [
       person.id,
@@ -402,7 +430,7 @@ function moveHousehold(
           person.birthDate,
           record.people,
         ) ??
-        pick(names.given.get(gender) ?? [], `${core.seed}:${id}:given`) ??
+        takeName(names.given.get(gender) ?? [], names.usedGiven) ??
         person.givenName,
       familyName: family,
       birthDate: person.birthDate,
@@ -477,7 +505,12 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
   const due = new Map<PlaceId, Due>();
   const owners = mortgagedHouseholds(core);
   const youngestByGender = new Map<string, PersonInput>();
-  const names: Names = { given: new Map(), family: [] };
+  const names: Names = {
+    given: new Map(),
+    family: [],
+    usedFamily: new Map(),
+    usedGiven: new Map(),
+  };
   for (const [householdId, record] of residents.households) {
     const place = record.household.placeId;
     let topRate = 0,

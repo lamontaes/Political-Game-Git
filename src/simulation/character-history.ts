@@ -9,8 +9,8 @@ import {
   makeIsoDate,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   createCareResponsibility,
   createChildAuthority,
@@ -95,7 +95,7 @@ import { generatePersonIdentity } from "./person-identity";
 import { defaultPronounsForGender } from "./person-identity";
 import { birthCohortGivenName } from "./given-name-cohorts";
 import { DEFAULT_CORPUS_VERSION, familyNameFromParent } from "./names-data";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { drawFamilyShape } from "./family-shape";
 import {
   schoolStageCalendarEnd,
@@ -104,7 +104,7 @@ import {
 import { householdLocationAt, householdMembershipsAt } from "./life-queries";
 import { recordPersonDeath } from "./vitality";
 import { STRAIN_THRESHOLD } from "./crisis/mortality";
-import { firstThresholdDay, thresholdUnits } from "./crisis/hazard";
+import { firstThresholdDay, thresholdUnits } from "../core2/health-hazard";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import {
   createDwelling,

@@ -1,16 +1,16 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { recordByStableKey, recordsWithFieldValue } from "../history-index";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import results from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };

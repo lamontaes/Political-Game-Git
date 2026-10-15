@@ -1,4 +1,4 @@
-import { ageOnDate } from "../dates";
+import { ageOnDate } from "../../core2/kernel/dates";
 import { recordedLawAt, recordLawExposure } from "../law-exposure";
 import { makeCurrencyCode } from "../resources";
 import { isPersonAliveAt } from "../vitality-integrity";

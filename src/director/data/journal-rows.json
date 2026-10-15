@@ -74,49 +74,25 @@
   "lines": [
     {
       "kindPrefix": "school:",
-      "turn": true,
-      "title": [
-        {
-          "key": "school",
-          "text": "{{school}}"
-        }
-      ],
+      "turn": false,
       "oncePer": "school",
       "entry": "setting"
     },
     {
       "kindPrefix": "work:opening",
-      "turn": true,
-      "title": [
-        {
-          "key": "employer",
-          "text": "{{employer}}"
-        }
-      ],
+      "turn": false,
       "entry": "setting"
     },
     {
       "kindPrefix": "job-started",
-      "turn": true,
+      "turn": false,
       "hasOtherLine": true,
-      "title": [
-        {
-          "key": "employer",
-          "text": "{{employer}}"
-        }
-      ],
       "entry": "setting"
     },
     {
       "kindPrefix": "job-ended",
-      "turn": true,
+      "turn": false,
       "hasOtherLine": true,
-      "title": [
-        {
-          "key": "after",
-          "text": "{{employer}}"
-        }
-      ],
       "entry": "story",
       "framesAge": true
     },
@@ -129,7 +105,8 @@
           "text": "{{other}}"
         }
       ],
-      "entry": "story"
+      "entry": "story",
+      "lookBack": "memorable"
     },
     {
       "kindPrefix": "moved",
@@ -215,7 +192,8 @@
       ],
       "wordsFrom": "family:child",
       "entry": "story",
-      "framesAge": true
+      "framesAge": true,
+      "lookBack": "memorable"
     },
     {
       "kindPrefix": "event:person.moved-away",
@@ -294,5 +272,13 @@
       "stageFact": "series",
       "stages": ["minimum-wage"]
     }
-  ]
+  ],
+  "lookBacks": {
+    "memorable": [
+      "journal.memoir-hook.ill-never-forget-it",
+      "journal.memoir-hook.ill-never-forget-that",
+      "journal.memoir-hook.that-was-a-turning-point"
+    ],
+    "youngOnly": ["journal.memoir-hook.i-never-knew"]
+  }
 }

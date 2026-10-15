@@ -1,8 +1,8 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { householdMixForJurisdiction } from "../simulation/household-mix";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { householdMixForJurisdiction } from "./household-mix";
+import { corePlaceStateIdentities } from "./place-lookup";
 import { parameter as p } from "./parameters";
 import { realLocalities } from "./places";
 import { buildPopulation } from "./population";
@@ -63,7 +63,7 @@ describe("the opening holds the player's cohort", () => {
     expect(adults.length).toBeGreaterThan(p("zero"));
   });
 
-  const states = [...lifePlaceStateIdentities()];
+  const states = [...corePlaceStateIdentities()];
   const state = states[draw(states.length)]!;
   const inState = localities.filter(
     (row) => row.stateJurisdictionKey === state.jurisdictionKey,

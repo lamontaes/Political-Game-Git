@@ -16,8 +16,8 @@ import {
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { countedResidents } from "./electorate";
 import { citizenShareOf } from "./electorate-places";
-import { lifePlaceByKey } from "../simulation/life-places";
-import { addDays } from "../simulation/dates";
+import { corePlaceByKey } from "./place-lookup";
+import { addDays } from "./kernel/dates";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -489,7 +489,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // Counted votes stand for the town's citizens: the place's ACS share of
     // adults, blended with its state's.
     const usps =
-      lifePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(
+      corePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(
         3,
       ) ?? "";
     const share = citizenShareOf(two.placeMetadata!.placeKey!, usps);

@@ -248,7 +248,7 @@
     "why": "The engine has no register card for a State of the Union or an inaugural address yet (docs/coordination/words.md); the mined sentences need a public-address card to compose.",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
-    "replacement": "A President's-address register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
+    "replacement": "A President's-address register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
     "status": "open"
   },
   {
@@ -260,7 +260,7 @@
     "why": "The engine has no register card for a newscast yet (docs/coordination/words.md); the opening's evening news composes now.",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
-    "replacement": "A newscast register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
+    "replacement": "A newscast register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
     "status": "open"
   },
   {
@@ -293,10 +293,46 @@
     "file": "src/director/data/conversation-rules.json",
     "line": 1,
     "whatItFakes": "How many choices a conversation turn offers: only the distinct answer moves the mined bank words, one to three per turn, with no unrelated subject tacked on to reach a count.",
-    "why": "Two owner rulings pull apart: Sept 29, 'options come from context, 3 to 5 at a time'; Oct 14 (grading batch 6), a reply's second move must follow from the first. The newer one is applied until the owner rules.",
+    "why": "Two owner rulings pull apart: Sept 29, 'options come from context, 3 to 5 at a time'; Oct 14 (grading batch 6), a reply's second move must follow from the first. The newer one is applied until the owner rules. Resolved Oct 14 (owner ruling, afternoon): a conversation always offers four replies ranked by the player's traits (conversation.reply-reach), with 'say nothing' a smaller control beside them (sayNothing, the bench's Say nothing button); each move is offered plainly and carried on to the subject it leads to, and every acknowledgment is its own reply.",
     "addedBy": "words/mined-banks-in-play",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: either fewer choices are right, or OPUS-WORDS mines more answer moves per subject until three to five follow naturally.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-WORDS-param-directorTalkRecentDays",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How long ago a recorded event still makes something two people talk about, and lets someone not in the room be asked after.",
+    "why": "The owner ruled what a talk opens on (Oct 14, 2026, night), not how long news stays news; one season is a guess checked against played talks.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-14",
+    "replacement": "A tested calibration against played talks, or an owner answer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-param-directorTalkAddressImpact",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How much the President's address weighs as a talk's topic, times the speaker's political engagement.",
+    "why": "The owner ruled public news comes up only for people who follow politics closely (Oct 14, 2026, night); the size is a guess kept below a life event's.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-14",
+    "replacement": "A tested calibration against played talks, or an owner answer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-office-scene-town-members",
+    "kind": "works-in-one-place",
+    "file": "src/director/office-scene.ts",
+    "line": 162,
+    "whatItFakes": "The office scene picks its target only among members whose position reads the views engine (town bodies' full-person members); state and federal officials are skipped.",
+    "why": "An official's position (officialParts) reads their officials record, not the views engine's stances, so a case made to them moves nothing.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-14",
+    "replacement": "officialParts reads the views engine's stance on each question (OPUS-GOV), and the scene's target filter is removed.",
     "status": "open"
   }
 ]

@@ -25,17 +25,13 @@ import { withholdingFor } from "./tax-withholding";
 import { treasuryMonthsOf } from "./budgets-treasury";
 import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`budgets:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter((s) => !["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"].includes(s))
   .sort();
@@ -51,7 +47,7 @@ describe(
     it("budgets adopt on their fiscal calendars; paychecks pay the law's taxes to each government; every dollar lands", () => {
       const state = pick(states, "state");
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -211,6 +207,24 @@ describe(
         const api = coreAPI(core);
         const answer = lawInForce(api, "sales-tax");
         if (!((answer.value ?? 0) > 0)) continue;
+        // Sales-tax dollars posted into each treasury's account, from the journal.
+        const landed = new Map<string, number>();
+        const post = api.postJournal.bind(api);
+        api.postJournal = (entry) => {
+          const result = post(entry);
+          if (entry.sourceRef.id.startsWith("sales-tax:"))
+            for (const posting of entry.postings) {
+              const owner = core.cashJournal.accounts.get(
+                posting.accountId,
+              )?.ownerId;
+              if (owner && posting.deltaMinor > 0)
+                landed.set(
+                  owner,
+                  (landed.get(owner) ?? 0) + posting.deltaMinor,
+                );
+            }
+          return result;
+        };
         advanceCore(
           core,
           new Date(Date.parse(`${core.date}T00:00:00Z`) + 20 * 86_400_000)
@@ -233,12 +247,15 @@ describe(
           shares.reduce((a, b) => a + b, 0),
           where,
         ).toBeCloseTo(combined, 6);
-        // Every collected dollar is in its treasury.
+        // Every collected dollar landed in its treasury's account. The
+        // balance itself is not the check: a treasury also pays out (council
+        // stipends, the month's spending), so a balance below the tax
+        // collected is the treasury spending it, not the tax going missing.
         for (const t of taxes) {
           const gov = govs.find((g) => `sales-tax:${g.id}` === t.id)!;
-          expect(
-            core.organizations.get(gov.organizationId)!.liquidMinor,
-          ).toBeGreaterThanOrEqual(t.collectedMinor);
+          expect(landed.get(gov.organizationId) ?? 0, where).toBe(
+            t.collectedMinor,
+          );
         }
         govReport(
           "budgets-sales-tax",

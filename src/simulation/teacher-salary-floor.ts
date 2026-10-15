@@ -1,6 +1,6 @@
 /** A public teacher's annual floor comes from the operative law's saved terms. */
 
-import { addDays, makeIsoDate, yearOf } from "./dates";
+import { addDays, makeIsoDate, yearOf } from "../core2/kernel/dates";
 import { lawInForce } from "./governing/law-in-force";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import type { EntityId, IsoDate, World } from "./types";

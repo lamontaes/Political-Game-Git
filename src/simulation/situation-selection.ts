@@ -5,7 +5,7 @@ import {
   type InterestTension,
   type PlayerModel,
 } from "./player-model";
-import { lowestDigestFirst, sha256Hex } from "./sha256";
+import { lowestDigestFirst, sha256Hex } from "../core2/kernel/sha256";
 import { canonicalPriorEncoding, setupPriorsOf } from "./setup-priors";
 import type {
   ChallengeIntensity,

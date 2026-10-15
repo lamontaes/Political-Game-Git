@@ -1,9 +1,9 @@
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import type {
   RuleAuthorityLayer,
   RuleVerificationStatus,
 } from "./legislature-rules";
-import type { IsoDate } from "./types";
+import type { IsoDate } from "../core2/kernel/brands";
 
 /** The four research states kept distinct all the way into the consumer. */
 export type QualificationValue<T> =

@@ -5,6 +5,7 @@
  * chambers and the governor; what passes becomes law in force on the state's
  * own effective date.
  */
+import questionScopes from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import { wireItem } from "./press-topics";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -18,7 +19,7 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { campaignParameter } from "./campaign-views";
-import { openLegislature } from "./modules/legislature";
+import { openLegislature, type CommitteeRecord } from "./modules/legislature";
 import { budgetsOf, openBudgets } from "./modules/budgets";
 import { openLawReach, reachOn } from "./law-reach/host";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
@@ -30,18 +31,14 @@ import {
   windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`world-legislating:${Date.now()}`).digest("hex");
 // Places whose legislature sits in 2026 after the start.
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter((k) => windowsIn(k, 2026).some((w) => w.adjournAt > START))
   .sort();
@@ -57,7 +54,7 @@ describe("M3-10 other governments legislate", () => {
     for (let attempt = 0; attempt < 6 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -127,6 +124,106 @@ describe("M3-10 other governments legislate", () => {
           `${bill.number}: not on the press wire`,
         ).not.toBeNull();
       }
+      // A section traded for a vote is in the bill, on the record, and the
+      // member who took it voted for the bill; a poison pill's mover against.
+      const amendments = [...core.durableLog.values()].filter(
+        (e) => e.kind === "bill-amendment",
+      );
+      // Every stage's next amendment starts from the support left by the
+      // previous one, not the opening tally plus one vote per deal.
+      const support = new Map<string, number>();
+      for (const amendment of amendments) {
+        const facts = amendment.facts!;
+        const stage = `${facts.billId}:${facts.chamber}:${facts.stage}`;
+        const before = Number(facts.supportBefore);
+        const after = Number(facts.supportAfter);
+        expect(Number.isFinite(before), amendment.id).toBe(true);
+        expect(Number.isFinite(after), amendment.id).toBe(true);
+        if (support.has(stage))
+          expect(before, amendment.id).toBe(support.get(stage));
+        support.set(stage, after);
+        if (facts.kind === "trade-amendment") {
+          expect(Number(facts.memberBefore), amendment.id).toBeLessThanOrEqual(
+            0,
+          );
+          expect(Number(facts.memberAfter), amendment.id).toBeGreaterThan(0);
+        }
+      }
+      const committees = api
+        .moduleState("core2-legislature-v1")
+        .table("committees")
+        .rows() as unknown as CommitteeRecord[];
+      for (const committee of committees) {
+        expect(committee.votes.length, committee.id).toBe(
+          committee.heard ? committee.memberIds.length : 0,
+        );
+        expect(committee.yes, committee.id).toBe(
+          committee.votes.filter((v) => v.vote === "yes").length,
+        );
+        expect(committee.no, committee.id).toBe(
+          committee.votes.filter((v) => v.vote === "no").length,
+        );
+        for (const vote of committee.votes) {
+          expect(committee.memberIds, committee.id).toContain(vote.memberId);
+          expect(vote.position.memberId).toBe(vote.memberId);
+          const expected =
+            vote.position.total > 0
+              ? "yes"
+              : vote.position.total < 0
+                ? "no"
+                : "abstain";
+          expect(vote.vote, committee.id).toBe(expected);
+        }
+        const after = support.get(
+          `${committee.billId}:${committee.chamber}:committee`,
+        );
+        if (after !== undefined)
+          expect(committee.yes, committee.id).toBe(after);
+      }
+      const votes = api.moduleState("core2-legislature-v1").table("votes");
+      for (const bill of api
+        .moduleState("core2-legislature-v1")
+        .table("bills")
+        .rows() as unknown as {
+        id: string;
+        status: string;
+        provisions: { question?: string }[];
+        deals: { memberId: string; kind: string; terms: string }[];
+      }[])
+        for (const deal of bill.deals.filter((d) =>
+          ["trade-amendment", "poison-pill"].includes(d.kind),
+        )) {
+          const question = deal.terms.split(" ")[1];
+          expect(
+            bill.provisions.some((p) => p.question === question),
+            `${bill.id}: ${deal.terms} not in the bill`,
+          ).toBe(true);
+          const record = amendments.find(
+            (e) =>
+              e.facts?.billId === bill.id && e.facts?.movedBy === deal.memberId,
+          );
+          expect(record, `${bill.id}: no amendment record`).toBeDefined();
+          const vote = (
+            votes.get(`vote:${bill.id}:${deal.memberId}`) as unknown as
+              { vote: string } | undefined
+          )?.vote;
+          // A section taken in markup on a bill that died before its floor
+          // vote has no floor vote to check.
+          if (
+            vote === undefined &&
+            record!.facts?.stage === "committee" &&
+            bill.status === "failed"
+          )
+            continue;
+          // A pill adopted after a trade may break it.
+          const pilled = bill.deals.some((d) => d.kind === "poison-pill");
+          expect(
+            deal.kind === "trade-amendment"
+              ? ["yes", "absent", ...(pilled ? ["no"] : [])]
+              : ["no", "absent"],
+            `${bill.id}: ${deal.kind} by ${deal.memberId} voted ${vote}`,
+          ).toContain(vote);
+        }
       const passed = session!.bills.filter((b) =>
         ["enacted", "signed", "overridden"].includes(b.status),
       );
@@ -173,7 +270,7 @@ describe("M3-10 other governments legislate", () => {
     const start = "2026-01-02";
     const state = pick(states, "congress:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -202,6 +299,14 @@ describe("M3-10 other governments legislate", () => {
     );
     expect(session, `${state} ${key}: no Congress session`).toBeDefined();
     expect(session!.conveneAt).toBe("2026-01-03");
+    expect(session!.filings.length).toBeGreaterThan(0);
+    for (const filing of session!.filings)
+      expect(
+        (questionScopes.questions as Record<string, { levels: string[] }>)[
+          filing.question
+        ]?.levels,
+        `${filing.question}: Congress filed another level's question`,
+      ).toContain("federal");
     const voted = session!.bills.filter((b) => b.fate === "voted");
     // No vote before committee has had the bill.
     for (const b of voted)
@@ -235,7 +340,7 @@ describe("M3-10 other governments legislate", () => {
   it("the town's council and county board bring their own ordinances on their schedule", () => {
     const state = pick(states, "local:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -321,7 +426,7 @@ describe("M3-10 other governments legislate", () => {
   it("Congress votes the federal budget on the fiscal year's first day, the Senate by cloture", () => {
     const state = pick(states, "budget:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -364,7 +469,7 @@ describe("M3-10 other governments legislate", () => {
   it("a federal act with no date of its own takes effect the day it's signed and reaches the town", () => {
     const state = pick(states, "federal-now:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -407,7 +512,7 @@ describe("a session already over when the world opens", () => {
   // legislature passed nothing all year.
   it("opens its next session on the calendar's convening day", () => {
     const opened = "2026-10-12";
-    const over = [...lifePlaceStateIdentities()]
+    const over = [...corePlaceStateIdentities()]
       .map((s) => s.jurisdictionKey)
       .filter(
         (k) =>
@@ -417,7 +522,7 @@ describe("a session already over when the world opens", () => {
       .sort();
     const state = pick(over, "over:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

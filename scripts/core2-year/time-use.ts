@@ -7,7 +7,7 @@
 import { drawPlace } from "./place";
 import { generatedOpening } from "../../src/core2/tooling/generated-world";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
-import { daysBetween, makeIsoDate } from "../../src/simulation/dates";
+import { daysBetween, makeIsoDate } from "../../src/core2/kernel/dates";
 
 const seed = process.argv[2] ?? "time-use-a";
 const through = process.argv[3] ?? "2021-03-01";

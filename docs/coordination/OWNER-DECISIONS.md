@@ -4,19 +4,6 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- **Towns larger than 10,000 (two-tier package, #4172).** A town under 10,000 now opens at its real Census size. A larger town still opens with 10,000, the October 9 target. Should a bigger town count its full population, each counted household standing for several? (SG-CORE-owner-decision-town-size)
-- **What a town's districts are.** The game has no city wards; a town's districts are the state House districts its people split into, else the whole town. Should council wards come later as their own districts? (SG-CORE-owner-decision-town-districts)
-- **Relatives of a person met for the first time.** They come with household, job, coworkers and employer, but no relatives living elsewhere. Acceptable for early access? (SG-CORE-owner-decision-fill-in-outside-kin)
-- **Demotion wait.** A filled-in household returns to the counts after 180 days without contact (never the player's household, circle, officials, public workers, business owners). Is 180 days right? (SG-CORE-owner-decision-demotion-days)
-
-- **Kit 12 versus Kit 13 (found by the Drive digests, Oct 14).** The play page was restyled tonight on Kit 12 (the Oct 2 packet). Kit 13's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md, owner Oct 4 and 5) is newer: brass corner ornaments ON the panel, no scrolling inside a menu, the chevron rule (only on a static button while activated, never in radial menus), People / Calendar / Money tabs with the selected tab a raised glass box, the approved icons, search, dropdown, slider and progress bar. Same fonts. Newest wins: PLAY reconciles the page to Kit 13's controls. Owner to confirm that logo and Steam art stay navy (the UI ban on navy does not name them).
-
-- **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
-
-- **A player who loses an election (player-path audit, Oct 14), confirmed by the owner:** a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
-
-- **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
-
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
@@ -139,3 +126,108 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **The director and the English engine come first now.** The owner wants both substantially done before his usage limit; other work continues but yields to them.
 - **A screen's look ships only on the owner's screenshot (owner, Oct 14, 2026, afternoon, after the first Mac playthrough).** No change to how a screen looks (the title, a panel, edges, a backdrop, a control added to a screen) merges without the owner approving a full-window screenshot in the PR body. The title screen follows the Oct 2 and Oct 8 rulings: a recognizable national civic scene full-window, the menu in the approved Kit 13 panel, no version string, no place search on the front. The Oct 14 title (black window, boxed panel, Place field, version string) was never approved and is replaced.
 - **The owner does not read PR bodies (owner, Oct 14, 2026, afternoon).** Anything meant for the owner (a question, a screenshot to approve, a result) reaches him through the CTO in the chat, in plain words or as an image. A PR body is for the sessions and the CTO; "OWNER DECISIONS NEEDED" at its top is the CTO's cue to bring the question to him, not a message to him.
+- **A words batch tests the engine, one axis per item, across different scenes (owner, Oct 14, 2026, evening).** Each item shows the full context or trace that produced the line and tests one thing: a word chosen by a trait, an opening and closing combination, a choice set (the four replies, the lies, say nothing) for the owner to mark which are good here. Thirty items are thirty different scenes (a legislator arguing, pork barreling, a wedding, a council meeting, a rally), never the same closer thirty times. A phrase that needs one grade ("Madam Chair") appears once. Three places with nothing differentiating them is wasted usage: one place, with real local laws passing, so the conversations differ.
+- **Bills get monikers (owner idea, Oct 14, 2026, evening; for the Next list).** People call a bill what people call it (Obamacare, the bottle bill, the One Big Beautiful Bill), and a bill can be named in honor of someone (a president lost to drugs, the drug bill in his name). The engine never says a policy's catalog name literally ("I'm committed to 'bottle deposit'"); it says your bill, what it does, or its moniker, in many wordings from the speaker's views.
+- **The title and New game, as settled (owner, Oct 14, 2026, evening).** The menu is New game, Continue, Options, Patch notes, Quit. New game opens the choice: Start a life, Custom world, New world. Then the creator: name, age, birth. No seed field, no place search and no customization on the title itself. The Oct 13 front with Seed, Place and Customize the world on the menu was the bench, not the game, and is not the settled title.
+
+## Ruling, October 14, 2026, evening (owner; relayed by the CTO)
+
+- **Sessions don't wait on GitHub Actions.** Each session runs its gate in its own session, on the files it changed only: typecheck, eslint, prettier and the tests for those files, never the full suite. A new file nothing else reads needs no run. The result goes as one line at the top of the PR body, and the CTO merges on that line.
+
+## Ruling, October 14, 2026, night (owner; relayed by the CTO)
+
+- **The art bench is removed; only the game client ships.** The private hub and controller (Art Desk, Agents and Settings tabs, the Follow main source selector), its packaging and smoke scripts, its update worker and received channel, the `internal-art-review` build profile and its CI row, and the Art Desk and art bench dev tools are deleted, not hidden. What remains is one desktop app: the game client, opening on the title screen, updating itself from GitHub Releases. The Mac package is the one that must pass; the Windows row stays allowed-to-fail (`SG-PLAY-windows-package-allowed-to-fail`) until early access.
+
+## Owner rulings from the Oct 14 night playthrough (recorded by the CTO)
+
+**Checks run in the session (owner, Oct 14, evening).** A PR merges on the builder's gate run in its own cloud session over the files that changed: typecheck, eslint, prettier and the tests for those files, written in one line at the top of the PR body. Never the full suite. A new file nothing else reads needs no run. GitHub's runs are not waited on; the Mac package still builds on GitHub's Mac machine because it must.
+
+**Only the game client ships (owner, Oct 14, night).** The art bench, the private hub and its Art Desk, Agents and Settings tabs, and the art-review build profile are removed. One desktop app: the game, opening on the title, updating itself from GitHub Releases, packaged for Mac.
+
+**Day advances time; scenes stop it (owner, Oct 14, night).** Pressing Day never opens a list of mundane choices ("Take it easy", "Take care of X", "Call X", "attend-school"); those are removed from the game. Calling or visiting a person happens from that person. What stops time is a scene the director fires from the simulation's records. A player may advance a day or a week and click around (meetings, people, places) when they want to; before the player holds an office the days are mostly quiet, and holding office is where day-level play (policy, talking, negotiating) begins. Options must not need a dozen interrupt toggles; the director decides what interrupts.
+
+**Scenes are the narrative (owner, Oct 14, night).** The President's address at the opening is the model: the director reads the records, picks from everything the simulation supports the scenes that apply to this person now, and fires one, told by the English engine. A scene is a rendered moment with place and people (a mother asking the player to sit down: a divorce, a lost job with hope for another) and its consequences play out over the following months through the engines (money tighter, a better job, a new partner met at work). Then play returns to the ordinary game. A parent interrupts the player when the simulation says so ("did you do your homework?"), never on a schedule.
+
+**Conversations (owner, Oct 14, night, answering the CTO's twelve questions).**
+
+- A talk starts from the place and the occasion, then from the biggest recorded event of either person or from the relationship (Q1: C).
+- A talk has one main topic with side remarks, and one topic may lead to a related one (Q3: A and B).
+- A listener brings up news they received first; public news only if they follow politics closely (Q4: C).
+- Family at home: the director picks the scene that applies from the household's own records (money, work, school, health), and it has consequences (Q5: by the director, from records).
+- A quiet day is quiet: the player can skip days at a time (Q6: nothing fires).
+- No cold "How is X?" questions about people not in the room unless something recorded happened to X (Q7: A, the CTO's reading of "mundane shit" being out).
+- How long a talk runs (Q2) the owner did not rule on; the CTO rules C: a talk runs until its topic is done, the other person closes it, and the player can start another.
+- Q8 to Q12 the owner said his words answer; the CTO reads them as: character shows (Q8: B and C), scenes for what matters and a plain text exchange for the rest (Q9: C), replies that matter in the scene with one "listen" and one "ask more" (Q10: C), a journal line for a talk that mattered (Q11: B), and memory of the last talk (Q12: C). Owner reviews by playing.
+
+**The player's choices are the player's (owner, Oct 14, night, restating the register).** Advancing the calendar made a 17-year-old a barista and the owner of a house without a choice. No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides. The household's home is the household's, shown as such.
+
+**Who you are is a character screen (owner, Oct 14, night).** Portrait, name, age, birthday, home and family, school or work, traits and views in words, money in one line, like any game's character screen. Law effects on the player belong under Politics, written as sentences, never as keys with "undefined".
+
+**Scenes carry the consequential dialogue; the day screen carries the dealing (owner, Oct 14, night, 9:25 p.m.).** A scene has a goal, is told as a narrative with the player's character, the narrator (already settled: second-person scene narration, first-person "My life" journal, grounded in records, register line 160) and the other people, and its dialogue is consequential: a family scene at home, or a tense floor vote where the goal is to convince one member to vote no on the amendment (the owner's example: McCain and the Obamacare repeal). The day screen is for dealing: "I'll do this if you do this", negotiating, talking with people, policy. The director fires a scene when the records make one apply; the scene plays the moment out, then play returns to the day screen.
+
+## Oct 15, morning: batches grade content, not only wording (owner)
+
+- **Situations, not just semantics.** A grading batch exists to put varied content in front of the owner: different situations, scenes and lines with their context, so he grades what the game can say and about what, not only whether a sentence is well formed. A batch of thirty scenes where the same two or three situations repeat (a job started, a daughter born, a roll call) is not what he asked for.
+- **Proof scenes are allowed.** A scene or line may be sent for grading before the director fires that situation in play, as long as the English engine composed it from a real record and its context in a played world ("okay, it can generate this line along with context"). The batch says which scenes fired in play and which are composed proofs of a situation the director does not yet fire.
+- **Feed the engine.** The Words session's job is also to give the engine pieces to work with: new situation types, occasions and banks, mined and registered the usual way, so each batch widens what the game can say. The Words session reads what the director does (`src/director/`) and builds on it or extends it; it does not wait for the director to fire a situation before the words for it exist.
+- The CTO holds a batch whose scenes are mostly repeats of the same few situations, the same way it holds one with record defects.
+
+## Oct 15, afternoon: usage (owner, repeated; now written)
+
+- Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind.
+- The CTO session answers the owner and prepares orders, rulings, skills and reports. It never merges, reads diffs, logs or test output, runs tests, creates PRs or holds PR subscriptions; a Sonnet helper does those and returns a table.
+- Recorded in `.agents/skills/cto/SKILL.md` under "Usage rules for the CTO session".
+
+## Oct 15, afternoon: stale questions closed
+
+Fifteen questions were shown to the owner as open; most were already ruled or built. Each is closed below with where the answer lives. Stopgap rows are resolved and their pool items are done.
+
+- Demotion days (core-od-demotion-days): NEW RULING, owner, Oct 15: "The days without contact before a met person drifts back into the counted population is a per-world range of 180 to 240 days, drawn once per world at generation (seeded generation is allowed), never a single fixed number." Built in `demotionDays`.
+- Relatives of a met person (core-od-fill-in-outside-kin): BUILT. `fillInPerson` rebuilds the past with `buildDeepPast`; relatives elsewhere are husks filled in when met.
+- Towns above 10,000 (core-od-town-size): DECIDED. "a town opens at its real Census size; nothing pads it to 10,000." The code's cap still needs to follow.
+- Trusts (core-od-trusts): GENUINELY OPEN. No ruling found; estates go through probate.
+- Windows package (core-od-windows-package-allowed-to-fail): DECIDED. "the Windows row stays allowed-to-fail until early access."
+- Player offered a post (gov-od-player-offered-post): DECIDED. "No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides."
+- Party loyalty data (laws-party-loyalty): GENUINELY OPEN. Parked on the data's non-commercial license.
+- Ballot stop (office-od-ballot-stop): DECIDED. "the engine never votes for the player"; election day is a scene at the polls.
+- Kit 12 or Kit 13 (owner-kit12-vs-kit13): BUILT. The play page is on Kit 13 (`src/bench/play.css`).
+- Opening key people (owner-opening-key-people): GENUINELY OPEN. The owner said he would clarify; ranked from the offices data until then.
+- Why money exists (owner-why-money-exists): GENUINELY OPEN. The owner has not settled the reason.
+- Town districts and wards (people-od-town-districts): GENUINELY OPEN in writing. No ruling found in the register, these rulings or the prior-rulings digests, though the owner recalls deciding it; he is asked to repeat it once and it is recorded.
+- Who sees a business's books (world-od-business-books): DECIDED. "An owner sees the books."
+- Player eviction (world-od-player-eviction): DECIDED. "loses their home like anyone else; the player's household too."
+- A loser's podium and bill carrier (not in the pool): DECIDED. Confirmed by the owner in the Oct 14 entry above; both work through the existing conversation.
+
+## Oct 15, afternoon: rulings
+
+- **Trusts (owner, Oct 15):** simulated in the background so estate and inheritance taxes work correctly: a trust holds assets, passes them outside probate, and the taxes in force read it. No player-facing mechanic.
+- **The opening's key people (owner, Oct 15):** the president and vice president; the state's legislators; the most powerful person in each chamber (the one chamber where a state has only one); and the player's own representatives (their council member, state legislators, U.S. representative and senators). Nothing else is "key" at the opening.
+- **Why money exists for the player (owner, Oct 15): not settled yet.** Until then money accumulates and is spent on rent, the household's costs and the things already built; nobody builds a scoreboard or a sink on a guess. The owner notes the spending side is probably not fleshed out either: pool item `core-player-money-spending`.
+- **Town council seats (CTO ruling under "one rule, all 56 places" and "estimate, never unknown"; the owner said the question was asked wrongly):** each place's council or board is elected the way its own records say (at-large, by district, or mixed, from the place's data where the repository has it), estimated as at-large with a per-world spread where it does not, marked as an estimate with its source. "Wards" is not a term the game uses except where a place's own records use it. The state House districts stay what a resident's district means for state races.
+- **Party loyalty data (CTO recommendation; owner to confirm):** do not use the Shor-McCarty dataset (its license forbids commercial use and the game is a commercial product); calibrate state chambers' party loyalty from each legislature's own public roll-call records instead, which are public records.
+- **Before a stopgap or an owner decision is registered, the register is read (owner, Oct 15):** quote the ruling instead of registering a question that was already answered. See AGENTS.md, "Placeholders".
+- **Any agent with repository access may take pool items (owner, Oct 15):** Claude, Codex, Cursor, Antigravity or any other; the pool's claim rule is the only coordination; merging stays with the CTO.
+- **People art:** the layered figure set (art/people-engine/v2/) is the owner's ruling of Oct 15 (he rejected the cut-out people and approved the 'make it once, right' brief); the Oct 12 whole-figure ruling is superseded.
+- **Town size:** the audit could not find the 10,000 cap in current code; the pool item core-town-size-census is to verify first and close if the cap is gone.
+
+- **Party loyalty calibration (owner, Oct 15):** the Shor-McCarty state legislative data may be used to calibrate the state-chamber party-loyalty parameter. Nothing from it ships in the game and no in-game citation is needed; it is one calibration input, weighted against each legislature's own roll-call records. Owner, later Oct 15: no credit, no note, no lawyer's look; calibration from a source is like an author being inspired by a book. Use it to calibrate, literally.
+
+- **Moving time (owner, Oct 15):** the Day button and a Week button advance time. On the calendar, clicking a future day shows a small skip-forward icon or button (no 'skip to event' label); pressing it runs time to that day. A scene stops any advance. Until the director's scenes carry play, these are the only ways time moves; the Day and Week buttons are not meant to be the primary way once scenes do. The ruling of Oct 14 ('no skip-ahead control') is superseded by this one.
+
+## Oct 15, evening: batch 11 grading rulings (owner)
+
+- **A scene has an endpoint.** It exists for something: money, a bill, or the player's political life. The batch page says what each scene is for. "Where do you work" between relatives is not a scene. Family talks are personal scenes only, since the family has little involvement in play for now, and lines like "Have you talked to Diana?" do not belong in one.
+- **The narrator sets the scene.** A few sentences of narration set it up; then the characters play it out. Two short narrator lines ("Your son is with you." "You got a job.") do not set a scene.
+- **A reply continues the conversation.** "All right" and "Okay" as answers to "How's Keanu?" are not how conversations work, even when grammatical. The four replies each move the talk somewhere.
+- **Journal lines carry their subject.** "My father was elected mayor" (the office), "My daughter Jane was born" (the name), and "Little did I know" needs what. "That was a turning point" only when the record shows it was one.
+- **Speeches are built as the player gives them (the owner's Suzerain example).** Short openers and closers, then longer, meatier choices at the core of the speech, on different subjects. A four-line rally is not a speech. The rally's choice set (batch 11 scene 16) is the shape to build on. "Thank you very much" over "Thank you so much" in a speech.
+- **A bill has a real name, not a description.** "Allow multifamily in single family zones" is a description. Its text is shown next to its title in the batch.
+- **A lie about where you are from names another place** ("I'm from Bloomington"), never "Not here." Nobody says a date in speech ("I talked to Diana on November 13").
+- **"Say nothing" is dropped from grading.** School, workplace, notices and public hearings are graded enough and are not sent again until something new is said in them.
+- **Calibrate dialogue from anything:** English books, other games, the whole internet. The owner does not accept "it's hard" when the patterns are everywhere.
+- **The text rule (owner, Oct 15, evening):** the owner never ruled that a shipped sentence must appear in a public-domain record; that was the Words session's own habit. The rule is: the banks in `data/english/parts/` are built at development time by writing pieces to the calibrated patterns, drawing on any source for the patterns (books, games, transcripts, the internet) and copying no one's copyrighted text; the English engine arranges the pieces at play; no text is typed into screens or code. Public-domain records remain a fine source of pieces, not a requirement. The 'two documents, one public-domain' attestation rule is withdrawn.
+- **Grading grades the engine, not scenarios (owner, Oct 15):** batches grade pieces by move, register and bearing (greet, deliver news, condole, ask, answer, deflect, promise, close, and the rest), each shown with the slots it fills, so one grade carries to every scene that uses that move. Once the grammar is calibrated, the CTO brings finished composed scenes when the engine has enough graded pieces to compose them properly, a few at a time; then the same scene composed for different personalities (traits), graded for whether each person sounds like themselves. Nobody grades an assassination scene and then a financial-crisis scene as one-offs.
+
+- **The Words session's model (owner, Oct 15, evening):** the one exception to Sonnet-only. The Words line (the English engine and the director) runs as an Opus session at medium effort, because taste, variety and naturalness are the product there; it may run one Sonnet sub-agent for the engineering (coverage table, bench script, calibration table, gate changes) while Opus does the writing and reads the bench page before the owner sees it.
+
+- **Storage override in the cloud (owner, Oct 15):** builders, mergers and checkers in cloud environments set `OCD_STORAGE_OVERRIDE` themselves and never ask the owner to verify it.

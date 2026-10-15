@@ -1,4 +1,15 @@
 {
+  "jobsSalesForecastWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Staffing combines realized firm sales with the regional demand forecast; Hamermesh and Pfann (1996), Adjustment Costs in Factor Demand, Journal of Economic Literature. Calibration checked jointly against BLS JOLTS hires, quits, and layoffs, not used as actor rates.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "share of staffing forecast from smoothed realized sales",
+      "citation": "Sensitivity range for a forecast combining paid sales and macro/regional demand."
+    }
+  },
   "jobsStaffGapActedPerMonth": {
     "value": 0.15,
     "tag": "TUNABLE",
@@ -376,6 +387,17 @@
       "high": 1,
       "unit": "open positions withdrawn per position of surplus, per month",
       "citation": "An employer that has all the staff it wants lets its open postings lapse over a couple of months rather than at once; vacancies stay open about a month on average (BLS JOLTS vacancy duration, DHI)."
+    }
+  },
+  "jobsOfferDays": {
+    "value": 7,
+    "tag": "TUNABLE",
+    "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control.",
+    "spread": {
+      "low": 3,
+      "high": 14,
+      "unit": "days an offer stays open",
+      "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control."
     }
   }
 }

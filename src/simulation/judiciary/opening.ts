@@ -1,19 +1,19 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
   type CharacterHistoryContextPersonInput,
 } from "../character-history";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { birthCohortGivenName } from "../given-name-cohorts";
 import type { LivingWorldMemberNameVersion } from "../living-world/opening";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   drawCanonicalNameForGender,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
 } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, IsoDate, PersonFact, World } from "../types";
 import { buildOpeningCourtCatalog } from "./courts";
 import { recordJudicialPhilosophiesAtSeating } from "./philosophy";

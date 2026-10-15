@@ -14,7 +14,7 @@ import {
   governmentUnitsForPlace,
   governmentUnitsForState,
   type GovernmentUnitIdentity,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,

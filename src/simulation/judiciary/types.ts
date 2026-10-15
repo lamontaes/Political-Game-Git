@@ -1,6 +1,6 @@
 /** Saved court, seat and judge contracts. Source evidence and game defaults stay distinct. */
 
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 
 export type JudicialCourtLevel =
   | "federal-supreme"

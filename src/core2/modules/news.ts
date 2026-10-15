@@ -16,8 +16,8 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import type {
@@ -118,9 +118,9 @@ function readersOf(api: CoreAPI, placeId: string): PersonId[] {
   const direct = api.state.peopleByPlace.get(placeId);
   if (direct?.size) return [...direct];
   const out: PersonId[] = [];
-  const state = lifePlaceByJurisdictionId(placeId as never);
+  const state = corePlaceByJurisdictionId(placeId as never);
   for (const [place, people] of api.state.peopleByPlace) {
-    const row = lifePlaceByJurisdictionId(place as never);
+    const row = corePlaceByJurisdictionId(place as never);
     const inside =
       [...people].some(
         (id) => api.state.people.get(id)?.countyId === placeId,
@@ -527,7 +527,7 @@ export function createNewsModule(
           ...(story.moodImpulse === undefined
             ? {}
             : { moodImpulse: story.moodImpulse }),
-          facts: story.facts,
+          facts: { ...story.facts, learnedFrom: newsKey(story.id) },
           source: {
             tag: "SOURCED",
             citation: `Story ${story.id}, read by its outlet's followers`,
