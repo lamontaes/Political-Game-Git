@@ -227,7 +227,7 @@
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "source": "Military Lending Act (10 U.S.C. 987) and state rate caps of 36% a year (National Consumer Law Center, State Rate Caps, 2024).",
-      "mechanic": "none",
+      "mechanic": "consumer-loan-quote",
       "stopgapId": "SG-GOV-REACH-A-consumer-credit",
       "reaches": [
         {
@@ -245,7 +245,7 @@
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "source": "State and city laws allowing two to four homes on single-family lots (Oregon HB 2001 of 2019, California SB 9 of 2021, Minneapolis 2040 plan).",
-      "mechanic": "none",
+      "mechanic": "housing-construction",
       "stopgapId": "SG-GOV-REACH-A-housing-supply",
       "reaches": [
         {
@@ -289,7 +289,7 @@
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "source": "Inclusionary housing ordinances: a share of new homes set aside as affordable (Grounded Solutions Network, Inclusionary Housing Database, 2021).",
-      "mechanic": "none",
+      "mechanic": "housing-construction",
       "stopgapId": "SG-GOV-REACH-A-affordable-units",
       "reaches": [
         {
@@ -307,7 +307,7 @@
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "source": "Rent stabilization laws capping yearly rent increases (California AB 1482 of 2019, Oregon SB 608 of 2019, St. Paul ordinance of 2021).",
-      "mechanic": "none",
+      "mechanic": "rent-renewal",
       "stopgapId": "SG-GOV-REACH-A-rent-contracts",
       "reaches": [
         {
@@ -336,7 +336,7 @@
     },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "source": "City right-to-counsel ordinances (National Coalition for a Civil Right to Counsel, 2024).",
-      "mechanic": "none",
+      "mechanic": "eviction-counsel",
       "stopgapId": "SG-GOV-REACH-A-eviction-cases",
       "reaches": [
         {
@@ -1056,8 +1056,7 @@
           "enforcer": "the state courts",
           "penalty": "none: a power the state grants"
         }
-      ],
-      "stopgapId": "SG-GOV-REACH-A-local-authority"
+      ]
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "source": "Legislative term limits (National Conference of State Legislatures, The Term-Limited States, 2024).",

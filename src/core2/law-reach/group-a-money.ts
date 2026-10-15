@@ -13,6 +13,7 @@
  *   the average voucher; a cut ends it for the households it no longer
  *   covers. The payments wait on rent contracts (SG-GOV-REACH-A-rent-assistance).
  */
+import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
 import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
@@ -117,18 +118,19 @@ function leavePremium(
   api: CoreAPI,
   receipt: Readonly<WorkPayrollJournalReceipt>,
 ): void {
-  const program = mechanicRow(api, LEAVE_KEY);
-  if (!program?.active || receipt.paidMinor <= 0) return;
+  const program = paidLeaveProgram(api);
+  if (!program || receipt.paidMinor <= 0) return;
   const person = api.state.people.get(receipt.personId);
   if (!person || person.placeId !== lawChain(api).townPlaceId) return;
   // Capped by the cash the premium is taken from: what isn't set aside.
   const accounts = api.accounts();
-  const premium = Math.min(
-    Math.round(receipt.paidMinor * Number(program.facts.share)),
+  const premium = paidLeavePremium(
+    receipt.paidMinor,
     Math.max(0, accounts.balance(accounts.main(person.id))),
+    program.share,
   );
   if (premium <= 0) return;
-  const treasury = String(program.facts.treasuryId);
+  const treasury = program.treasuryId;
   const record = {
     id: `leave-premium:${receipt.id}`,
     date: api.state.date,
@@ -136,8 +138,9 @@ function leavePremium(
     payrollReceiptId: receipt.id,
     premiumMinor: premium,
     paidMinor: receipt.paidMinor,
-    governmentId: String(program.facts.governmentId),
-    reason: `Paid family leave premium under ${program.facts.lawId}`,
+    governmentId: program.governmentId,
+    lawId: program.lawId,
+    reason: `Paid family leave premium under ${program.lawId}`,
     postings: [
       {
         id: `${receipt.id}:leave:out`,
@@ -279,7 +282,7 @@ export const housingAssistance: PolicyHandler = (api, change) => {
     (p) => chosen.has(p.householdId) && ageOn(p.birthDate, date) >= adult,
   );
   const keep = new Set(people.map((p) => p.id));
-  endRows(api, HOUSING_KEY, "assisted", keep, change.lawId);
+  endRows(api, HOUSING_KEY, "assisted", keep);
   writeRows(
     api,
     HOUSING_KEY,

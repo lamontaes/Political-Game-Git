@@ -232,6 +232,18 @@ export function countedParameter(key: string): number {
   return row.value;
 }
 
+/** A counted-group parameter's spread, as its table gives it. */
+export function countedSpread(key: string): { low: number; high: number } {
+  const row = (
+    COUNTED_ROWS as unknown as Record<
+      string,
+      { spread?: { low: number; high: number } }
+    >
+  )[key];
+  if (!row?.spread) throw new Error(`Counted parameter has no spread: ${key}`);
+  return { low: row.spread.low, high: row.spread.high };
+}
+
 export function residentsRuntime(
   core: CoreState,
 ): ResidentsRuntime | undefined {

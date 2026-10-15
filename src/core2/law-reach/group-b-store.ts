@@ -152,7 +152,8 @@ const sameTerms = (
  * Bring a policy's records in line with what it reaches today: new records
  * for people and employers newly reached, ended records for those no longer
  * reached (or everyone, when `reach` is null: a repeal), and the counted
- * residents' row. Named people learn of it as a public fact.
+ * residents' row. A legal reach record is not received information: only
+ * news, conversations or notices may create knowledge.
  */
 export function reconcile(
   api: CoreAPI,
@@ -179,7 +180,6 @@ export function reconcile(
       ...row,
       ...(terms ? { terms } : { endedOn: date }),
     } as unknown as ModuleRow);
-    if (!terms) learn(api, row.personId, input.key, "ended", input.lawId);
   }
   const holding = new Set(open.map((row) => row.personId));
   for (const [personId, terms] of named) {
@@ -196,7 +196,6 @@ export function reconcile(
       terms,
     };
     people.put(row as unknown as ModuleRow);
-    learn(api, personId, input.key, input.effect, input.lawId);
   }
   const orgs = reachTable(api, "organizations");
   const openOrgs = orgs.query("byKey", [
@@ -246,23 +245,6 @@ export function reconcile(
       endedOn: input.reach ? null : (prior?.endedOn ?? date),
       terms: input.reach?.terms ?? prior?.terms ?? {},
     } satisfies GroupReach);
-}
-
-function learn(
-  api: CoreAPI,
-  personId: string,
-  key: string,
-  value: string,
-  lawId: string,
-): void {
-  if (!api.state.people.has(personId)) return;
-  api.observe(personId, {
-    key: `law-reach:${key}`,
-    value,
-    learnedAt: api.state.date,
-    sourceId: lawId,
-    access: "public",
-  });
 }
 
 export interface ActiveRow {
