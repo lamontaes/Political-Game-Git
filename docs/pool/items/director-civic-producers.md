@@ -5,10 +5,10 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/director-civic-producers
+status: blocked
+claimed-by:
 pr:
-blocked-on:
+blocked-on: "director-civic-roles"
 source: "director-reach, PR #4508"
 claimed-at: 2026-10-15T23:13:08.413Z
 ---
@@ -21,4 +21,6 @@ claimed-at: 2026-10-15T23:13:08.413Z
 
 **Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/director/reach.ts
 
-**Notes.** Found by the reach report in director-reach (PR #4508): in a played year of Rarity Bay, Tennessee, no type fired from the household's year except the reunion kind, and forty types said why not.
+**Notes.** Size L in practice (found while claiming it): the civic types also need their roles filled from records, so it is split into director-civic-roles, director-civic-producers-electoral, director-civic-producers-government and director-civic-producers-household. This item is done when those four are.
+
+Original note: Found by the reach report in director-reach (PR #4508): in a played year of Rarity Bay, Tennessee, no type fired from the household's year except the reunion kind, and forty types said why not.
