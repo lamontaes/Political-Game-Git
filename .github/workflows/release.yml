@@ -14,11 +14,12 @@ on:
 permissions:
   contents: read
 
-# The candidate passes the build, typecheck, zero dice, the release
-# declarations and the golden-path suite (validate_candidate) before it can
-# publish. Until Oct 14, 2026 it also ran the whole unit suite in six shards;
+# The candidate passes the build, typecheck, the release declarations and the
+# golden-path suite (validate_candidate) before it can publish. Until Oct 14,
+# 2026 it also ran the whole unit suite in six shards and the zero-dice guard;
 # AGENTS.md names only the golden path, the speed guard and the dollar check as
-# blocking, so the unit suite now runs on pull requests only (validate.yml).
+# blocking, so the unit suite and the zero-dice guard now run on pull requests
+# only (validate.yml).
 
 jobs:
   build_candidate:
@@ -157,10 +158,10 @@ jobs:
           echo "::error::This revision has pending changes that cannot be released automatically. Nothing was published and no declaration was consumed."
           exit 1
 
-  # The release blocks on what AGENTS.md names as blocking: the build and the
-  # checks every package runs (typecheck, zero dice, the release declarations)
-  # and the golden-path suite. The unit suite is informational and runs in
-  # validate.yml on pull requests, not here.
+  # The release blocks on what AGENTS.md names as blocking: the build, the
+  # typecheck, the release declarations and the golden-path suite. The unit
+  # suite and the zero-dice guard are informational and run in validate.yml on
+  # pull requests, not here.
   validate_candidate:
     name: Validate candidate (read only)
     needs: build_candidate
@@ -222,9 +223,6 @@ jobs:
 
       - name: Typecheck
         run: npm run typecheck
-
-      - name: No dice
-        run: npm run zero-dice
 
       - name: Release declarations
         env:
