@@ -69,6 +69,11 @@ import {
 } from "../../src/director/conversation";
 import type { Director } from "../../src/director/ledger";
 import { composeScene } from "../../src/director/scene";
+import {
+  SPEECH_STAGES,
+  beginSpeech,
+  chooseSpeechPart,
+} from "../../src/director/speech-builder";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
@@ -1213,6 +1218,37 @@ function playYear(
       });
     });
   }
+  // The player gives a speech in stages: four choices at each of four
+  // stages (a short opener, two longer parts at the core on different
+  // subjects, a short closer), the first choice taken at each.
+  let build = beginSpeech(core, playerId);
+  while (build && !build.done && build.choices.length) {
+    const stage = build.picked.length;
+    items.push({
+      i: -1,
+      kind: "speech",
+      scene: `${nameOf(playerId)} gives a speech in ${town}, ${longDate(core.date)}, built as it is given: stage ${stage + 1} of ${SPEECH_STAGES.length}, the ${SPEECH_STAGES[stage]}.`,
+      trace: [
+        "The speech is built a stage at a time: a short opener, two longer parts at the core on different subjects (the speaker's own stands, work, town, children and school), a short closer.",
+        "A stand is the speaker's current view on a policy question; the other parts come from their own records. A subject whose records are missing is not offered.",
+      ],
+      sourceRecordIds: [playerId],
+      lines: build.picked.map((part) => ({
+        speaker: nameOf(playerId),
+        text: part.text,
+        parts: [part.partKey],
+      })),
+      test: "the choice set: mark each part good or bad here, as the next thing said in this speech",
+      variants: [],
+      choices: build.choices.map((choice, n) => ({
+        n: n + 1,
+        text: choice.text,
+        parts: [choice.partKey],
+        lie: false,
+      })),
+    });
+    build = chooseSpeechPart(core, build, build.choices[0]!.key);
+  }
   return items;
 }
 
@@ -1279,6 +1315,7 @@ const SCENE_CAPS: Record<string, number> = {
   legislation: 3,
   notices: 2,
   campaign: 4,
+  speech: 4,
   emotion: 5,
   interview: 3,
 };
@@ -1503,7 +1540,7 @@ function main() {
   }
 
   // The player's talks and the family scenes, from the same played year.
-  for (const kind of ["family", "conversation"])
+  for (const kind of ["family", "conversation", "speech"])
     sceneItems.set(
       kind,
       cached.talks.filter((item) => item.kind === kind),
@@ -1621,6 +1658,7 @@ const KIND_TITLES: Record<string, string> = {
   legislation: "Bill text",
   notices: "A notice",
   campaign: "A rally",
+  speech: "A speech, built in stages",
   emotion: "Election night or an honor",
   interview: "An interview",
 };
