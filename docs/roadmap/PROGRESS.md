@@ -4,6 +4,10 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
+## 2026-10-15 — Session B, bank books on Money
+
+Money and property now shows household savings and the town bank's dated balance sheet. In the drawn Anon Raices year, both sides equal 608,616,255 minor units, and reading the view leaves time, cash and population unchanged. All twelve monthly cash and deposit checks and thirteen books balance. Build plus year took 29.295 seconds against the rounded 28-second base. Chromium displayed the real bank records with no page errors at 1920 × 1080; the existing player card blocked a center shortcut click at 1280 × 900. The deposit engine's 33 focused tests remain passing; changed reader types, lint and syntax pass. Next: resolve the remaining layoffs calibration gap; no pool claim yet.
+
 ## 2026-10-15 — Session B, town-bank deposits (draft #4340)
 
 Household and business savings now move into the town bank through the cash journal. The bank's books separate those claims from its capital, and lending reads both available cash and capital. Full and counted households use the same rule. The drawn Anon Raices year has zero cash and deposit-liability error at all twelve monthly checks. The first successful proof took 27.333 seconds including world construction; the base rounded to 28 seconds. The 33 focused tests pass. Founding initially ignored deposited savings; its decision and payment now read them. Extraordinary payments and estates still lack universal withdrawals, a registered limitation. Draft #4329 also remains below its three JOLTS calibration bands. Next: publish deposit proof and proceed to households filling new homes.
