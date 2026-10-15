@@ -38,3 +38,38 @@ The six related test files produced 29 passes and five failures. Both federal vo
 The same speed script measured 73.117 seconds on base `1977d40995` and 78.428 seconds at `0e38a27f21`, a 7.3% increase. These speed measurements precede the reduction and attendance changes. Item-veto limits remain registered as open.
 
 The follow-up speed run at `f76070a74c` measured 97.373 seconds, above the allowed increase from the earlier 73.117-second base. A fresh clean-base run measured 94.533 seconds with the same command and seed (`/tmp/session-c-veto-base-recheck.log`). Against that comparison the branch is 3.0% slower and below two minutes. The speed gate passes; the older 73.117-second measurement no longer describes the current run conditions.
+
+# Session C: legislatures and officeholders
+
+State office days and the election-record fixes have draft changes with played-world evidence.
+The wider candidate pool now has a completed played year and passing focused checks.
+
+## Work
+
+Order 1 is in draft PR #4330. The shared office-day engine runs state sessions, per diem, appointments, and addresses.
+Order 2 is in draft PR #4343. Election identities, bill records, body names, office conflicts, and presidential press coverage have played-world evidence.
+
+Order 3 is in draft PR #4350 on `gov/session-c-wide-races`.
+The state and national candidate pool feeds the existing candidacy chooser.
+An empty congressional race reaches the existing vacancy process when the new term starts.
+The final played year took 109.424 seconds in drawn Homer, Alaska.
+The isolated speed check took 81.739 seconds versus 73.117 on main.
+All 14 focused tests and the changed-file checks passed.
+
+State holdover rules, repeated empty special elections, and presidential failure to elect remain open.
+Wider unnamed residents and state legislative district residency need fuller records.
+These gaps remain in the stopgap registry.
+PR #4256 is superseded by #4350.
+The press-employment rule remains a CTO ruling pending owner confirmation.
+
+The read-only helper `civic_report_review` reviewed report wording for orders 1 and 2.
+It also reviewed the empty-term design and the order 3 implementation.
+The helper inherited this session's configured model and effort.
+No implementation was delegated.
+
+## Pool: assumed voter registration
+
+Draft #4357 removes the unsupported registered-voter result from filing eligibility.
+The underlying research data and the other eligibility checks remain.
+All 15 related filing tests passed. The played year took 78.485 seconds.
+Filing, campaign spending, and election result IDs are in the draft body.

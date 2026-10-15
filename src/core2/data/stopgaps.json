@@ -1063,11 +1063,11 @@
     "file": "src/core2/modules/elections.ts",
     "line": 565,
     "whatItFakes": "Every adult resident counts as a registered voter where filing or signing requires registration.",
-    "why": "core2 has no voter registration record yet.",
+    "why": "core2 has no voter registration record yet. Retired by Session C, October 15, 2026: the eligibility check inferred registration solely from age and residence. The owner's no-paperwork rule does not call for a registration mechanic. Filing no longer reports that invented status; sourced research metadata is retained.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "A registration record per person (registered, where, party where a state records it), written when people register; filing and signing read it.",
-    "status": "open"
+    "replacement": "Retired the unsupported registered-voter eligibility result. Age, residence, deadlines, party membership and term limits remain separate checks. Reintroduce a registration mechanic only if the owner or golden path calls for it, with actual records.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-views-stand-in",
