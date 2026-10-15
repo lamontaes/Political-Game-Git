@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-census-weight-readers
 pr:
-blocked-on: core-census-weight-model
+blocked-on:
 milestone:
 source: "split of core-town-size-census (L); left over from core-census-weight-model"
 ---
