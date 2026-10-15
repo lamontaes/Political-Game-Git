@@ -1,4 +1,5 @@
 import { buildBenchWorld } from "../../src/bench/world";
+import { ownerOf, BUSINESS_MODULE_ID } from "../../src/core2/modules/business";
 import { budgetsOf } from "../../src/core2/modules/budgets";
 import { treasuryMonthsOf } from "../../src/core2/budgets-treasury";
 import { appointGovernor } from "../../src/core2/office-day-state";
@@ -71,6 +72,12 @@ const start = world.core.date;
 const started = performance.now();
 let holds = 0;
 let budgetBillId: string | null = null;
+let budgetEffect: {
+  budgetId: string;
+  date: string;
+  before: Record<string, number>;
+  after: Record<string, number>;
+} | null = null;
 function playUntil(date: string, personId: string) {
   player.select(personId);
   startStateDay(api);
@@ -89,9 +96,31 @@ function playUntil(date: string, personId: string) {
       }
       for (const key of heldFederal(api)) releaseFederal(api, key);
       for (const bill of deskWaiting(api)) {
-        if (bill.id === budgetBillId && lineItemVetoOf(place.state)?.lineItem)
-          decideDeskItems(api, bill.id, [0]);
-        else leaveDeskToCharacter(api, bill.id);
+        if (bill.id === budgetBillId && lineItemVetoOf(place.state)?.lineItem) {
+          const before = budgetsOf(api, place.state).at(-1)!;
+          const law = lineItemVetoOf(place.state)!;
+          const selections = [{ index: 0, remainingMinor: 0 }];
+          if (
+            law.reduce &&
+            !law.excludedLines?.includes("administration") &&
+            !law.reductionExcludedLines?.includes("administration")
+          )
+            selections.push({
+              index: 1,
+              remainingMinor: bill.provisions[1]!.value / 2,
+            });
+          decideDeskItems(api, bill.id, selections);
+          budgetEffect = {
+            budgetId: before.id,
+            date: api.state.date,
+            before: { ...before.spendingMinor },
+            after: {
+              ...budgetsOf(api, place.state).find(
+                (row) => row.id === before.id,
+              )!.spendingMinor,
+            },
+          };
+        } else leaveDeskToCharacter(api, bill.id);
       }
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     } else if (packet?.kind === "choice") {
@@ -221,6 +250,29 @@ console.log(
         ? committeeRecords(api, budgetBillId)
         : [],
       proposedVotes: budgetBillId ? votesOn(api, budgetBillId) : [],
+      budgetEffect,
+      appropriationRecipients: treasuryMonthsOf(api, place.state)
+        .slice(0, 3)
+        .flatMap((month) =>
+          month.paymentIds
+            .filter((id) => id.includes(":administration:organization_"))
+            .map((paymentId) => {
+              const organizationId = paymentId
+                .split(":")
+                .find((part) => part.startsWith("organization_"))!;
+              return {
+                paymentId,
+                monthId: month.id,
+                organizationId,
+                ownerId: ownerOf(api, organizationId),
+                draws: api
+                  .moduleState(BUSINESS_MODULE_ID)
+                  .table("draws")
+                  .query("byOrganization", [organizationId])
+                  .filter((row) => row.date === month.date),
+              };
+            }),
+        ),
       itemVeto: budgetBillId
         ? api
             .moduleState(LEGISLATURE_MODULE_ID)
