@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-inauguration-seats-winner
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T23:48:36.637Z
 ---
 
 **What.** TODO
