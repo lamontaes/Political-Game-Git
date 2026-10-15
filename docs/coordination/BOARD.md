@@ -83,3 +83,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - After the blocked/claimed pool: cause-group founding — `pool/cause-group-founding` (first Session D; SG-P10-cause-group-founding, check the existing organizing/membership rule against the owner's no-paperwork order; earlier law-reach missing mechanics are Session A, other drives civic acts depend on active GOV work).
 
 - 8. Powers by level — `pool/powers-by-level` (second Session D; read the existing powers catalog before bill introduction and executive orders, distinguishing county/city/state/federal jurisdictions; item 7 remains Session A’s active law-reach work).
+
+- 9. Health death records reaching news — `pool/death-news-records` (first Session D; trace audit README-TRACE-2 defect 6, health event publication and existing news readers only; no director or English edits).
