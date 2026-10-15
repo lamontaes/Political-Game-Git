@@ -4,12 +4,13 @@ title: "Powers by level: what each government may legislate, tax and spend on"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-powers-verify
 pr:
 blocked-on:
 milestone:
 source: "overnight pool item 8"
+claimed-at: 2026-10-15T23:40:06.726Z
 ---
 
 **What.** Nothing checks what a town, a county, a state or Congress may legislate, tax and spend on, so a council can pass a bill the state would forbid. Build the powers per place from data (home rule or Dillon's rule, each state's grant to counties and towns, federal enumerated powers) and have the authority check read it before a bill is introduced and the executive read it before an order. A refused bill keeps its reason. The player would notice that some proposals are not available to a small town and why, and that a state or federal body can do what a town cannot.
