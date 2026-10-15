@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: dropped
 claimed-by: claude/director-civic-producers-household
 pr: #4518
 blocked-on:
@@ -21,4 +21,6 @@ claimed-at: 2026-10-15T23:16:57.588Z
 
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json
 
-**Notes.** The first design question is which scene wins, which may be the owner's call; build the simplest version that follows AGENTS.md and flag it. Split out of director-civic-producers.
+**Notes.** Dropped (Oct 15), after reading the ledger: a lost job reaches the director as a household pay change (ledger.ts, the money channel), and its counterpart is the household member whose job ended, not a boss. An eviction reaches it the same way through the housing event, and names no landlord. The layoff and eviction-notice types need a boss and a landlord on record, which the core does not write, so they cannot fire from these causes. The household scene the owner ruled (news-arrives at home, from the household's records) already covers both causes with exactly one scene. If the core later records who told the worker or served the notice, add that producer as part of director-civic-roles' first family.
+
+Original note: The first design question is which scene wins, which may be the owner's call; build the simplest version that follows AGENTS.md and flag it. Split out of director-civic-producers.
