@@ -2922,7 +2922,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV’s knockDoors (with OPUS-CORE’s fillInPerson) filling in each household it actually reaches.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: removed bench fillDoors; campaigns.walkDoors already visits both population tiers and knockDoors fills only the household whose adult actually opens."
   },
   {
     "id": "SG-PLAY-challenger-name",
