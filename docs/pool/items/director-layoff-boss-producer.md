@@ -13,12 +13,12 @@ after: director-civic-producers-household
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** The director's `layoff` and `eviction-notice` scene types wait on producers (`awaitingProducer` in `src/director/data/situation-types.json`) because the records they read name no counterpart: a lost job's moment (`money:job-ended`) has none when it is the worker's own, and an eviction's moment (`feeling:event:housing.eviction`) names no landlord. Make the jobs engine's layoff (`layOff` in `src/core2/modules/jobs.ts`, which already records `decidedBy`) and the housing engine's eviction carry the decider as the counterpart of the moment, then replace the `awaitingProducer` causes with matches. `director-civic-producers-household` made both types yield to the household's news-arrives scene, so one cause stages one scene.
 
-**Rules.** TODO
+**Rules.** No dice; the chain is the acceptance (cause record to scene to journal line); one rule, all 56 places; an effect is a read (the director reads the counterpart when it binds the boss).
 
-**Done when.** TODO
+**Done when.** In a one-year run of a drawn place, a worker with no household laid off gets a layoff scene at work with the boss named, traced to the layoff record id; a worker with a household still gets the one family scene at home. A test in `src/director/director.test.ts` covers both.
 
-**Files.** TODO
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/director/data/situation-types.json
 
-**Notes.** TODO
+**Notes.** Found while building director-civic-producers-household: a matching record for `layoff` would also match the household's news (`money:job-ended`, counterpart none means the worker's own loss) and its other cause, counterpart some, means a relative's loss, so the boss cannot ride on that label.
