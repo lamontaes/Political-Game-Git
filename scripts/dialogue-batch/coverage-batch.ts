@@ -998,7 +998,7 @@ function readWorld(place: Place): {
 /* ------------------------------------------------- talks and family scenes */
 
 /** How many of the town's families with a young person are watched for family scenes. */
-const FAMILY_HOUSEHOLDS = 60;
+const FAMILY_HOUSEHOLDS = 150;
 /** The player starts a talk with someone they know every this many days. */
 const TALK_EVERY = 12;
 
@@ -1325,6 +1325,12 @@ function main() {
         const world = readWorld(place);
         if (!world.passed.length) {
           tried.push(`${place.name}: no local law passed in the year`);
+          continue;
+        }
+        // Batch 11 grades family scenes built the new way (CTO, Oct 14,
+        // night): a year whose households fired none is passed over.
+        if (!world.talks.some((item) => item.kind === "family")) {
+          tried.push(`${place.name}: no family scene fired in the year`);
           continue;
         }
         cached = { ...world, place, tried };
