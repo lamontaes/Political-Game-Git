@@ -1428,6 +1428,29 @@ function runWeek(api: CoreAPI): void {
       )
         apply(position.id, seeker);
   }
+  // Counted applicants retain their work history. Read it once for this
+  // matching round, including jobs hired and ended during play.
+  const countedExperience = new Map<string, number>();
+  const rt = residentsRuntime(c);
+  if (rt && counted.length) {
+    const seeking = new Set(counted.map((row) => row.personId));
+    const roles = countedRolesOf(rt).byJob;
+    const pay = store(api).table("pay");
+    for (const job of rt.jobs.values()) {
+      if (!seeking.has(job.personId)) continue;
+      const since =
+        (pay.get(job.id) as { since?: string } | undefined)?.since ??
+        roles.get(job.id)?.startsAt;
+      if (!since) continue;
+      const years =
+        Math.max(
+          0,
+          daysBetween(makeIsoDate(since), makeIsoDate(job.endsAt ?? c.date)),
+        ) / p("jobsDaysPerYear");
+      const key = `${job.personId}|${roleOf(job)}`;
+      countedExperience.set(key, (countedExperience.get(key) ?? 0) + years);
+    }
+  }
   // Each seeker's fit for an occupation, worked out once a week.
   const fits = new Map<string, number>();
   for (const position of positions) {
@@ -1445,7 +1468,9 @@ function runWeek(api: CoreAPI): void {
           key,
           (value =
             p("jobsFitExperienceWeight") *
-              experienceYears(api, seeker.personId, position.occupation) +
+              (isCounted(api, seeker.personId)
+                ? (countedExperience.get(key) ?? 0)
+                : experienceYears(api, seeker.personId, position.occupation)) +
             p("jobsFitReliabilityWeight") *
               (traitsOf(api, seeker.personId)[jobsData.traits.reliability] ??
                 0)),

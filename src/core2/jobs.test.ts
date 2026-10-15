@@ -252,6 +252,46 @@ describe("jobs", () => {
       api.moduleState("jobs").table("offers").get(offered.id),
     ).toMatchObject({ status: "declined" });
   });
+  it("values counted applicants' recorded experience without filling them in", () => {
+    const fixture = input();
+    fixture.workCommitments = [
+      ...fixture.workCommitments!,
+      {
+        ...fixture.workCommitments![0]!,
+        id: "commitment:past:s1",
+        personId: "s1",
+        jobId: "job:past:s1",
+        startsAt: "2010-01-01",
+        anchorDate: "2010-01-01",
+        endsAt: "2020-11-30",
+        hourlyMinor: 1400,
+      },
+    ];
+    const core = createLifeCore(
+      collapseToTwoLevels(fixture, { keep: new Set(["w1", "w2", "w3", "s2"]) }),
+      { data, modules: [JOBS_MODULE] },
+    );
+    const api = coreAPI(core);
+    withBooks(core, 2);
+    api.moduleState("jobs").table("countedSeekers").put({
+      id: "s1",
+      personId: "s1",
+      placeId: place,
+      isSeeker: true,
+      employed: false,
+      since: start,
+      reasonKey: "started-looking",
+      referenceHourlyMinor: 1400,
+    });
+    advanceCore(core, "2021-03-02");
+    const hires = api
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["hire"]);
+    expect(hires[0]).toMatchObject({ personId: "s1" });
+    expect(core.people.has("s1")).toBe(false);
+    expect(core.people.get("s2")!.jobId).toBeUndefined();
+  });
   it("lays off when demand falls below the staff, naming who decided and keeping the most tenured and reliable", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
       api = coreAPI(core),
