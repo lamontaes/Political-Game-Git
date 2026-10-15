@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/laws-family-government-operations
-pr:
+pr: #4439
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
