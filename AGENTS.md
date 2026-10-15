@@ -67,6 +67,8 @@ Every package names its model and effort with a one-line reason. Balance usage a
 
 ## How every session works
 
+- **The pool is the only backlog** (owner, Oct 15, 2026): `docs/pool/` holds every piece of work; a session claims an item by editing its file, adds an item for anything it finds, and reads `docs/pool/INDEX.md` to pick the next one. See `docs/pool/README.md`.
+
 1. **Start:** read the package (or your status file), the roadmap's progress file and the git log; run the golden-path suite (`node --import tsx tests/golden-path/runner.mjs`) and, once the bench is on your branch, open it; confirm the game still works before changing anything.
 2. **Contract:** before building, write what you will build and how it will be checked (the golden-path test, in a random place) in the PR body, then **start right away**. Don't wait for approval unless you're changing the package's scope, its owned paths or a test; the CTO reviews contracts at check-ins and sends one back if needed.
 3. **One feature at a time.** Commit after each meaningful unit, with tests passing.
