@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 status: blocked
-claimed-by: claude/gov-winner-is-seat-term-id
+claimed-by:
 pr:
 blocked-on: gov-record-defects-finish
 milestone:
