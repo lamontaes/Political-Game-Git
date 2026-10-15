@@ -4,6 +4,10 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
+## Session C: voting reasons without invented weather
+
+Draft #4358 retires the zero-only weather reading from turnout. Six related tests passed. The drawn Homer year reached ten election results in 74.045 seconds; named and counted ballot records contain the remaining causes without a weather field.
+
 ## 2026-10-14 — Election day at the polls (`director/scenes-and-filters`)
 
 - **On the eve of an election the player may vote in, the day stops at the polling place: the player stands there with the household members who may vote, and marks each race on the ballot (a candidate, or Leave blank), or leaves. The count that opens election day records what was marked.** Before, nothing let the player vote: every ballot was decided on the voter's own reasons. The visit reads the elections engine's contests and ballots and casts through the voting engine's `castBallot`. A player who takes "Election day" out of the scenes that stop their day votes or stays home on their own reasons, like everyone else. Measured in a played run on seed `4e24294a4208d1d8` (Koblerville, Northern Mariana Islands): the player lived day by day to the eve of November 3, 2026; Day stopped at the polls with five races and three household voters; after marking, the count recorded the player as voting, with each choice the one marked. The opening's marker and the first choices' glow now hold still under reduced motion. What failed: the first proof run stopped a day early, because the player clock's midnight is the start of the core's next day; fixed. No poll workers stand in the scene yet: the elections engine records no polling place for a precinct (stopgap `SG-PEOPLE-poll-workers`). Next: GOV's polling-place record, and mined lines for the scene (OPUS-WORDS).
