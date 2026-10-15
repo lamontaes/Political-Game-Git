@@ -32,11 +32,8 @@
       "line": {
         "bank": "address",
         "keysBySide": {
-          "yes": [
-            "address.public-comment-ask.i-urge-you-to-support-issue",
-            "address.house-floor-yield.i-urge-a-yes-vote"
-          ],
-          "no": ["address.house-floor-yield.i-urge-my-colleagues-to-vote-no"]
+          "yes": ["address.campaign-ask.i-need-your-vote"],
+          "no": ["address.campaign-ask.i-need-your-vote"]
         }
       }
     },
@@ -53,14 +50,8 @@
       "line": {
         "bank": "address",
         "keysBySide": {
-          "yes": [
-            "address.campaign-ask.i-need-your-help",
-            "address.public-comment-ask.we-need-your-help"
-          ],
-          "no": [
-            "address.campaign-ask.i-need-your-help",
-            "address.public-comment-ask.we-need-your-help"
-          ]
+          "yes": ["address.member-ask.can-i-count-on-you"],
+          "no": ["address.member-ask.can-i-count-on-you"]
         }
       }
     },

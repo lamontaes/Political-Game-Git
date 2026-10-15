@@ -61,6 +61,23 @@ The memoir shapes (`memoir-*` groups in `shapes/journal.json`) were mined over a
 
 Kept out: 424 Truman Library interviews, which carry the notice "may not be published in full except by permission". A bank's shapes may name the collections it counts (`sources`); the opening speech counts only what Presidents said.
 
+### Family scenes and the office scene (October 15, 2026)
+
+The Words session rebuilt a corpus for the director's family scenes (a parent's lost job, an eviction) and the office scene's one-on-one ask, 11,442 documents. The family-scene shapes (`family-open`, `job-cause`, `job-hope`, `eviction*` in `shapes/conversation.json`) and the office ask (`member-ask` in `shapes/address.json`) were mined over it; earlier parts keep their entries and the new ones are added beside them.
+
+| Source                                                                                         | Documents | Where                        |
+| ---------------------------------------------------------------------------------------------- | --------- | ---------------------------- |
+| Congressional hearings, 2015 to 2026 (a sample)                                                | 2,500     | govinfo.gov, collection CHRG |
+| Congressional hearings on housing, jobs, families and the like (by title), 2015 to 2026        | 1,192     | govinfo.gov, collection CHRG |
+| Congressional Record granules, 2015 to 2026                                                    | 2,342     | govinfo.gov, collection CREC |
+| Daily Compilation of Presidential Documents: town halls, roundtables and remarks, 2009 to 2026 | 3,511     | govinfo.gov, collection DCPD |
+| NASA oral histories                                                                            | 1,244     | nasa.gov                     |
+| U.S. House oral histories                                                                      | 580       | history.house.gov            |
+| U.S. Senate oral histories                                                                     | 59        | senate.gov                   |
+| National Park Service oral histories                                                           | 14        | nps.gov                      |
+
+Still unattested twice with a 2015-or-later public-domain source, so unsaid: a parent saying they were laid off ("I was laid off.", "They let me go."), that they are looking for work, why the household was evicted ("We couldn't pay the rent.") and where it goes next ("We're going to stay with {relation}."). The director leaves those unsaid; the scene still tells the closure and the move from the records it can word.
+
 ## Rebuilding the banks
 
 `scripts/english-corpus/mine-all.sh <corpus-dir>` re-mines every bank in one pass over the corpus from its candidate shapes in `scripts/english-corpus/shapes/` and writes each bank's unattested shapes to `not-attested-<bank>.json` here. A shape that no record says is a sentence the game cannot use yet; widening the corpus is how a gap closes, never writing the line by hand.
