@@ -12,10 +12,17 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "./life";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
 import { setBookkeeping } from "./bookkeeping";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { followersOf, outletsHere, storiesPrinted } from "./modules/press";
+import {
+  followersOf,
+  outletsHere,
+  refreshPressStaff,
+  staffOf,
+  storiesPrinted,
+} from "./modules/press";
+import { startPublicJob } from "./public-payroll";
 import { stancesOf } from "./modules/views";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -84,8 +91,8 @@ describe("the press in the played world", () => {
     // A news desert has only the national tier, whose people the town does not pay.
     if (outlets.some((o) => o.tier !== "national"))
       expect(paid.length, where).toBeGreaterThan(0);
-    // Whoever left a town outlet's payroll was replaced: every reporter on
-    // its list today works there.
+    // Every reporter still on the masthead works there; vacancies are allowed.
+    refreshPressStaff(api);
     for (const outlet of outletsHere(api).filter((o) => o.tier !== "national"))
       for (const id of outlet.reporterIds) {
         const person = core.people.get(id);
@@ -111,5 +118,67 @@ describe("the press in the played world", () => {
       ),
     );
     expect(moved, where).toBe(true);
+    // A departure must not manufacture another employee. Then the same
+    // worker may return through the shared payroll route with a new job.
+    const local = outletsHere(api).find(
+      (o) => o.tier !== "national" && o.reporterIds.length,
+    );
+    expect(local, where).toBeDefined();
+    const personId = local!.reporterIds[0]!;
+    const oldJob = core.jobs.get(core.people.get(personId)!.jobId!)!;
+    registerModule(core, {
+      id: "test:press-departure",
+      state: { schemaVersion: 1, tables: { state: {} } },
+      onCalendarWork: (workApi) => {
+        workApi.endJob(oldJob.id, "test:press-departure");
+      },
+    });
+    const departureDate = addDays(makeIsoDate(core.date), 1);
+    api.moduleCalendar("test:press-departure").schedule({
+      key: "departure",
+      kind: "departure",
+      date: departureDate,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Controlled employment fixture",
+        estimatedFrom: oldJob.id,
+      },
+      sourceRecordIds: [oldJob.id],
+    });
+    advanceCore(core, departureDate);
+    const peopleBefore = core.people.size;
+    const jobsBefore = core.jobs.size;
+    refreshPressStaff(api);
+    expect(core.people.size).toBe(peopleBefore);
+    expect(core.jobs.size).toBe(jobsBefore);
+    expect(
+      outletsHere(api).find((o) => o.id === local!.id)!.reporterIds,
+    ).not.toContain(personId);
+    expect(
+      staffOf(api, local!.id).find((row) => row.id === personId)?.leftOn,
+    ).toBe(core.date);
+    const returnedJobId = startPublicJob(api, {
+      personId,
+      employerId: local!.organizationId,
+      post: "test:press-return",
+      title: oldJob.title,
+      hourlyMinor: oldJob.hourlyMinor!,
+      citation: "Controlled employment fixture",
+    });
+    expect(returnedJobId).toBeTruthy();
+    refreshPressStaff(api);
+    expect(
+      outletsHere(api).find((o) => o.id === local!.id)!.reporterIds,
+    ).toContain(personId);
+    expect(
+      staffOf(api, local!.id).find((row) => row.id === personId)?.jobId,
+    ).toBe(returnedJobId);
+    expect(
+      staffOf(api, local!.id).find((row) => row.id === personId)?.leftOn,
+    ).toBeUndefined();
+    const sizeAfter = core.jobs.size;
+    refreshPressStaff(api);
+    expect(core.jobs.size).toBe(sizeAfter);
   }, 900_000);
 });
