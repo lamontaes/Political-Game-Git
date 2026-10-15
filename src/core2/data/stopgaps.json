@@ -3265,11 +3265,11 @@
     "file": "src/core2/estates.ts",
     "line": 1,
     "whatItFakes": "An estate pays no estate or inheritance tax: no tax series exists for it in the law catalog yet.",
-    "why": "Owner, Oct 14: the estate pays its debts, then the taxes in force, then the heirs. GOV adds the federal estate tax and the states' estate and inheritance taxes as law series.",
+    "why": "Owner, Oct 14: the estate pays its debts, then the taxes in force, then the heirs. GOV adds the federal estate tax and the states' estate and inheritance taxes as law series. Resolved by OPUS-GOV (2026-10-14, gov/estate-tax): the series exist and probate reads them (src/core2/laws-death-taxes.ts).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "Probate reads the estate and inheritance tax series in force for the decedent's state and the nation, pays the named treasuries, and the heirs take the rest.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-owner-decision-trusts",

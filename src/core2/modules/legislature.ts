@@ -125,6 +125,8 @@ export interface Provision {
    * schedule whose top rate is `value`. Left out, the shape in force stays.
    */
   readonly shape?: "flat" | "graduated";
+  /** For an estate tax: the new exemption, in dollars. Left out, the exemption in force stays. */
+  readonly exemption?: number;
 }
 
 export interface Authority {
@@ -1001,6 +1003,41 @@ export function shapedRate(
   const shape = provision.shape ?? (schedules ? "graduated" : null);
   if (shape === "flat")
     return { unit: "percent-flat", terms: { system: "flat" } };
+  // A death tax's schedule (an exemption and a rate that slides to the top,
+  // per heir's relation for an inheritance tax) keeps its shape: its rates
+  // scale to the new top rate, and a bill may set a new exemption.
+  const terms = current?.terms as Record<string, unknown> | undefined;
+  if (!schedules && terms && ("minRate" in terms || "classes" in terms)) {
+    const top = typeof current?.value === "number" ? current.value : 0;
+    const k = top > 0 ? provision.value / top : 1;
+    const scaled = (s: Record<string, unknown>) => ({
+      ...s,
+      minRate: Math.round(Number(s.minRate) * k * 1000) / 1000,
+      ...(typeof s.maxRate === "number"
+        ? { maxRate: Math.round(s.maxRate * k * 1000) / 1000 }
+        : {}),
+    });
+    const classes = terms.classes as
+      Record<string, Record<string, unknown>> | undefined;
+    return {
+      unit: current?.unit ?? "percent-top-rate",
+      terms: {
+        ...terms,
+        ...("minRate" in terms ? scaled(terms) : {}),
+        ...(classes
+          ? {
+              classes: Object.fromEntries(
+                Object.entries(classes).map(([c, s]) => [c, scaled(s)]),
+              ),
+              others: scaled(terms.others as Record<string, unknown>),
+            }
+          : {}),
+        ...(provision.exemption !== undefined
+          ? { exemption: provision.exemption }
+          : {}),
+      },
+    };
+  }
   if (shape !== "graduated" || !schedules) return null;
   // A filer's schedule is a list of brackets with numeric rates; anything
   // else kept beside them (a note on a later change) is carried as it is.
@@ -1061,7 +1098,9 @@ export interface BillSection {
     readonly shape: "flat" | "graduated" | null;
     readonly effectiveDate: string | null;
   };
-  readonly editable: readonly ("value" | "effectiveDate" | "shape")[];
+  readonly editable: readonly (
+    "value" | "effectiveDate" | "shape" | "exemption"
+  )[];
 }
 
 export function billSections(
@@ -1120,6 +1159,9 @@ export function billSections(
         ...(p.kind === "policy-question" ? [] : (["value"] as const)),
         "effectiveDate" as const,
         ...(shapeBefore ? (["shape"] as const) : []),
+        ...(typeof row?.terms?.exemption === "number"
+          ? (["exemption"] as const)
+          : []),
       ],
     };
   });
