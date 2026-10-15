@@ -4,13 +4,13 @@ title: "A passed local bill with no title (Pine Ridge, South Carolina, 2027-2)"
 area: gov
 kind: bug
 priority: 1
-status: claimed
-claimed-by: claude/gov-bill-no-title
+status: open
+claimed-by:
 pr:
 blocked-on: "gov-record-defects-finish"
 milestone:
 source: "batch 11 record defects"
-claimed-at: 2026-10-15T21:33:15.397Z
+claimed-at:
 ---
 
 **What.** A bill is not introduced without a title and at least one provision.
