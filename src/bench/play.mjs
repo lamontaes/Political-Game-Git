@@ -143,7 +143,15 @@ function drawPeople(people, onClick) {
       });
       if (onClick && person.personId !== me?.id) {
         box.classList.add("talkable");
+        box.tabIndex = 0;
+        box.setAttribute("role", "button");
+        box.setAttribute("aria-label", person.name);
         box.addEventListener("click", () => onClick(person));
+        box.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          onClick(person);
+        });
       }
       return box;
     }),
@@ -331,6 +339,10 @@ function coachFirstChoices() {
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
+  if (!$("person").hidden) {
+    closePerson();
+    return;
+  }
   if (openTab === "options") closeSheet();
   else if ($("front").hidden) openSheet("options");
 });
@@ -462,7 +474,7 @@ const amount = (value, unit) => {
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
-api("/api/controls").then((value) => (controls = value));
+const controlsReady = api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
   packet = value ?? packet;
@@ -1167,30 +1179,94 @@ function storyStop(value) {
 }
 
 // ---- The person card: only what you could know about them ----
+let personRequest = 0;
+let personOpener;
+function closePerson() {
+  personRequest++;
+  show("person", false);
+  $("game").classList.remove("person-open");
+  personOpener?.focus();
+}
+function personArtwork(id, src, name = "") {
+  const image = $(id);
+  image.hidden = !src;
+  image.alt = name;
+  image.removeAttribute("src");
+  image.onerror = () => {
+    image.hidden = true;
+    image.removeAttribute("src");
+  };
+  if (src) image.src = src;
+}
 async function showPerson(person) {
+  const request = ++personRequest;
+  const opener = document.activeElement;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: person.personId })}`,
   );
-  $("person-figure").src = c.figureUrl ?? person.figureUrl;
+  await controlsReady;
+  if (request !== personRequest) return;
+  personOpener = opener;
+  closeSheet();
+  const labels = controls.person;
+  // Only this person's supplied artwork. Null deliberately leaves a clear slot.
+  personArtwork(
+    "person-figure",
+    c.presentation?.portraitUrl !== undefined
+      ? c.presentation.portraitUrl
+      : (c.figureUrl ?? person.figureUrl),
+    c.name,
+  );
+  personArtwork("person-background", c.presentation?.backgroundUrl);
   $("person-name").textContent = c.name;
   $("person-role").textContent = [
-    c.work?.title,
-    c.work?.employer,
     c.relation,
-    c.age ?? null,
+    c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
   $("person-facts").replaceChildren(
-    ...[c.tie && row(c.tie.kind, c.tie.lastContactDate ?? "")].filter(Boolean),
+    ...(c.work
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.work }),
+            el("p", {
+              className: "dossier-feature",
+              textContent: c.work.title ?? "",
+            }),
+            el("p", { textContent: c.work.employer ?? "" }),
+          ),
+        ]
+      : []),
+    ...(c.placeName
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.place }),
+            el("p", { textContent: c.placeName }),
+          ),
+        ]
+      : []),
   );
+  $("person-talk").textContent = labels.talk;
+  for (const button of document.querySelectorAll("[data-person-label]"))
+    button.textContent = labels[button.dataset.personLabel];
   $("person-talk").onclick = () => {
-    show("person", false);
+    closePerson();
     talkTo(person.personId);
   };
   show("person", true);
+  $("game").classList.add("person-open");
+  $("person-close").focus();
 }
-$("person-close").addEventListener("click", () => show("person", false));
+$("person-close").addEventListener("click", closePerson);
+pageWhenChanged($("person-facts"), $("person-pager"));
+window.addEventListener("resize", () => {
+  if (!$("person").hidden) pageIn($("person-facts"), $("person-pager"));
+});
 
 // ---- Go to a place in town: its picture now, and whoever works there ----
 async function visit(organizationId) {
