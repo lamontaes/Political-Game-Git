@@ -1,9 +1,9 @@
 {
   "id": "batch-11",
   "title": "Scene batch batch-11 (30 scenes)",
-  "at": "2026-10-15T03:47:26.710Z",
-  "head": "bf8c4e53d3e404d41a1e3536cc098aba9f9fc9bb",
-  "shortHead": "bf8c4e53d3",
+  "at": "2026-10-15T04:00:21.005Z",
+  "head": "c7f20abd36cb3fddad3c9a676ea9f7bf394d71af",
+  "shortHead": "c7f20abd36",
   "seed": "batch-11-oct15",
   "days": 365,
   "status": "open",
@@ -140,7 +140,7 @@
       "lines": [
         {
           "speaker": "Narrator",
-          "text": "Your son, your daughter, your son, your father, your mother, your brother, your sister, your sister, your brother, your brother and your sister are here.",
+          "text": "Timothy, your daughter, Ahmad, your father, your mother, Christian, Teresa, Gabriella, Connor, James and Cassandra are here.",
           "parts": []
         },
         {
@@ -150,13 +150,8 @@
         },
         {
           "speaker": "Timothy Vasquez",
-          "text": "Have a seat.",
-          "parts": ["conversation.family-open-open.have-a-seat"]
-        },
-        {
-          "speaker": "Timothy Vasquez",
-          "text": "What are you doing now?",
-          "parts": ["conversation.own-work-answer-turn.what-are-you-doing-now"]
+          "text": "What do you do?",
+          "parts": ["conversation.own-work-answer-turn.what-do-you-do"]
         }
       ],
       "test": "the choice set: mark each reply good or bad here, in this scene",
@@ -164,14 +159,14 @@
       "choices": [
         {
           "n": 1,
-          "text": "I'm working for Stout's Market.",
-          "parts": ["conversation.own-work-raise-tell.im-working-for-employer"],
+          "text": "I work at Stout's Market.",
+          "parts": ["conversation.own-work-raise-tell.i-work-at-employer"],
           "lie": false
         },
         {
           "n": 2,
-          "text": "At Stout's Market.",
-          "parts": ["conversation.own-work-new-answer-plain.at-employer"],
+          "text": "With Stout's Market.",
+          "parts": ["conversation.own-work-new-answer-brief.with-employer"],
           "lie": false
         },
         {
@@ -182,36 +177,36 @@
         },
         {
           "n": 4,
-          "text": "I'm working for Stout's Market. Where do you work?",
+          "text": "I work at Stout's Market. What about you?",
           "parts": [
-            "conversation.own-work-raise-tell.im-working-for-employer",
-            "conversation.own-work-answer-turn.where-do-you-work"
+            "conversation.own-work-raise-tell.i-work-at-employer",
+            "conversation.greet-answer-fine.what-about-you"
           ],
           "lie": false
         },
         {
           "n": 5,
-          "text": "Not right now.",
-          "parts": ["conversation.other-work-reply-none.not-right-now"],
+          "text": "Not at the moment.",
+          "parts": ["conversation.other-work-reply-none.not-at-the-moment"],
           "lie": true
         },
         {
           "n": 6,
-          "text": "I'm at Pine Ridge Area Workers Union Local.",
-          "parts": ["conversation.own-work-new-lie-elsewhere.im-at-claimed"],
+          "text": "I'm with Pine Ridge Area Workers Union Local.",
+          "parts": ["conversation.own-work-new-lie-elsewhere.im-with-claimed"],
           "lie": true
         },
         {
           "n": 7,
-          "text": "I'm at Pine Ridge Area Workers Union Local. Where do you work?",
+          "text": "I'm with Pine Ridge Area Workers Union Local. What about you?",
           "parts": [
-            "conversation.own-work-new-lie-elsewhere.im-at-claimed",
-            "conversation.own-work-answer-turn.where-do-you-work"
+            "conversation.own-work-new-lie-elsewhere.im-with-claimed",
+            "conversation.greet-answer-fine.what-about-you"
           ],
           "lie": true
         }
       ],
-      "parts": ["conversation.own-work-answer-turn.what-are-you-doing-now"]
+      "parts": ["conversation.own-work-answer-turn.what-do-you-do"]
     },
     {
       "i": 1,
@@ -524,18 +519,13 @@
       "lines": [
         {
           "speaker": "Narrator",
-          "text": "Your brother, your daughter, your daughter, your daughter, your daughter, your father and your mother are here.",
+          "text": "Your brother, Maya, Allison, Paola, Lara, your father and your mother are here.",
           "parts": []
         },
         {
           "speaker": "Narrator",
           "text": "You got a job.",
           "parts": []
-        },
-        {
-          "speaker": "Maya Anderson",
-          "text": "Can we talk?",
-          "parts": ["conversation.family-open-open.can-we-talk"]
         },
         {
           "speaker": "Maya Anderson",
@@ -550,14 +540,14 @@
       "choices": [
         {
           "n": 1,
-          "text": "At Stout's Market.",
-          "parts": ["conversation.own-work-new-answer-plain.at-employer"],
+          "text": "I'm at Stout's Market.",
+          "parts": ["conversation.own-work-new-answer-plain.im-at-employer"],
           "lie": false
         },
         {
           "n": 2,
-          "text": "I'm at Stout's Market.",
-          "parts": ["conversation.own-work-new-answer-plain.im-at-employer"],
+          "text": "I'm with Stout's Market.",
+          "parts": ["conversation.own-work-raise-tell.im-with-employer"],
           "lie": false
         },
         {
@@ -568,33 +558,33 @@
         },
         {
           "n": 4,
-          "text": "At Stout's Market. How about you?",
+          "text": "I'm at Stout's Market. What do you do?",
           "parts": [
-            "conversation.own-work-new-answer-plain.at-employer",
-            "conversation.greet-answer-fine.how-about-you"
+            "conversation.own-work-new-answer-plain.im-at-employer",
+            "conversation.own-work-answer-turn.what-do-you-do"
           ],
           "lie": false
         },
         {
           "n": 5,
-          "text": "Not at the moment.",
-          "parts": ["conversation.other-work-reply-none.not-at-the-moment"],
+          "text": "Not right now.",
+          "parts": ["conversation.other-work-reply-none.not-right-now"],
           "lie": true
         },
         {
           "n": 6,
-          "text": "I work for Darlington County Cleaning Services.",
+          "text": "I work at Darlington County Cleaning Services.",
           "parts": [
-            "conversation.own-work-new-lie-elsewhere.i-work-for-claimed"
+            "conversation.own-work-new-lie-elsewhere.i-work-at-claimed"
           ],
           "lie": true
         },
         {
           "n": 7,
-          "text": "I work for Darlington County Cleaning Services. How about you?",
+          "text": "I work at Darlington County Cleaning Services. What do you do?",
           "parts": [
-            "conversation.own-work-new-lie-elsewhere.i-work-for-claimed",
-            "conversation.greet-answer-fine.how-about-you"
+            "conversation.own-work-new-lie-elsewhere.i-work-at-claimed",
+            "conversation.own-work-answer-turn.what-do-you-do"
           ],
           "lie": true
         }
@@ -634,28 +624,27 @@
     {
       "i": 12,
       "kind": "conversation",
-      "scene": "Madeline Meyer talks with Donna Meyer, October 25, 2026, turn 1; the talk's topic: home:person_90463a68c1eefcea.",
+      "scene": "Madeline Meyer talks with Donna Newton, November 6, 2026, turn 1; the talk's topic: family:person_90463868c1eef984.",
       "trace": [
         "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
-        "The lies are what the scales offer: the same moves made false about the player's own record.",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
         "Say nothing is the smaller control beside the replies."
       ],
       "sourceRecordIds": [
         "person_90463a68c1eefcea",
-        "person_c0fb2f8016c550d8",
-        "home:person_90463a68c1eefcea",
-        "school:person_90463a68c1eefcea"
+        "person_9c8a4344eb126604",
+        "family:person_90463868c1eef984"
       ],
       "lines": [
         {
-          "speaker": "Donna Meyer",
-          "text": "Hi, Madeline.",
-          "parts": ["conversation.greet-open-hello.hi-name"]
+          "speaker": "Donna Newton",
+          "text": "Good to see you.",
+          "parts": ["conversation.greet-open-hello.good-to-see-you"]
         },
         {
-          "speaker": "Donna Meyer",
-          "text": "Where do you come from?",
-          "parts": ["conversation.home-new-ask-where.where-do-you-come-from"]
+          "speaker": "Donna Newton",
+          "text": "How's Keanu?",
+          "parts": ["conversation.mutual-raise-seen.hows-name"]
         }
       ],
       "test": "the choice set: mark each reply and each lie good or bad here",
@@ -663,48 +652,30 @@
       "choices": [
         {
           "n": 1,
-          "text": "I'm from Pine Ridge. And you?",
-          "parts": [
-            "conversation.home-new-answer-plain.im-from-place",
-            "conversation.greet-answer-fine.and-you"
-          ],
+          "text": "He's doing fine.",
+          "parts": ["conversation.family-answer-well.hes-doing-fine"],
           "lie": false
         },
         {
           "n": 2,
-          "text": "I grew up in Pine Ridge.",
-          "parts": ["conversation.home-new-answer-always.i-grew-up-in-place"],
+          "text": "Thank you for asking.",
+          "parts": ["conversation.family-answer-thanks.thank-you-for-asking"],
           "lie": false
         },
         {
           "n": 3,
-          "text": "I'm from Pine Ridge.",
-          "parts": ["conversation.home-new-answer-plain.im-from-place"],
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
           "lie": false
         },
         {
           "n": 4,
-          "text": "Right here in Pine Ridge.",
-          "parts": ["conversation.home-new-answer-brief.right-here-in-place"],
+          "text": "Okay.",
+          "parts": ["conversation.greet-answer-fine.okay"],
           "lie": false
-        },
-        {
-          "n": 5,
-          "text": "Not here. And you?",
-          "parts": [
-            "conversation.home-new-lie-none.not-here",
-            "conversation.greet-answer-fine.and-you"
-          ],
-          "lie": true
-        },
-        {
-          "n": 6,
-          "text": "Not here.",
-          "parts": ["conversation.home-new-lie-none.not-here"],
-          "lie": true
         }
       ],
-      "parts": ["conversation.home-new-ask-where.where-do-you-come-from"]
+      "parts": ["conversation.mutual-raise-seen.hows-name"]
     },
     {
       "i": 13,
@@ -951,7 +922,7 @@
     {
       "i": 21,
       "kind": "conversation",
-      "scene": "Madeline Meyer talks with Donna Meyer, October 25, 2026, turn 2; the talk's topic: home:person_90463a68c1eefcea.",
+      "scene": "Madeline Meyer talks with Donna Newton, November 18, 2026, turn 1; the talk's topic: person_9c8a4644eb126b1d>mutual:person_ddec7a3b56294740.",
       "trace": [
         "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
         "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
@@ -959,25 +930,20 @@
       ],
       "sourceRecordIds": [
         "person_90463a68c1eefcea",
-        "person_c0fb2f8016c550d8",
-        "home:person_90463a68c1eefcea",
-        "school:person_90463a68c1eefcea"
+        "person_9c8a4644eb126b1d",
+        "person_9c8a4644eb126b1d>mutual:person_ddec7a3b56294740",
+        "family:person_90463b68c1eefe9d"
       ],
       "lines": [
         {
-          "speaker": "Madeline Meyer",
-          "text": "I'm from Pine Ridge.",
-          "parts": ["conversation.home-new-answer-plain.im-from-place"]
+          "speaker": "Donna Newton",
+          "text": "Hey, Madeline.",
+          "parts": ["conversation.greet-open-hello.hey-name"]
         },
         {
-          "speaker": "Donna Meyer",
-          "text": "I see.",
-          "parts": ["conversation.other-work-answer-ack.i-see"]
-        },
-        {
-          "speaker": "Donna Meyer",
-          "text": "Where did you go to school?",
-          "parts": ["conversation.school-ask-how.where-did-you-go-to-school"]
+          "speaker": "Donna Newton",
+          "text": "Have you talked to Diana?",
+          "parts": ["conversation.mutual-raise-seen.have-you-talked-to-name"]
         }
       ],
       "test": "the choice set: mark each reply and each lie good or bad here",
@@ -985,30 +951,32 @@
       "choices": [
         {
           "n": 1,
-          "text": "I graduated from Spaulding Middle.",
-          "parts": ["conversation.school-answer-at.i-graduated-from-school"],
+          "text": "Have you seen Diana?",
+          "parts": ["conversation.mutual-raise-seen.have-you-seen-name"],
           "lie": false
         },
         {
           "n": 2,
-          "text": "I graduated.",
-          "parts": ["conversation.school-answer-done.i-graduated"],
+          "text": "I talked to Diana on November 13.",
+          "parts": [
+            "conversation.mutual-answer-mine-saw.i-talked-to-name-my-when"
+          ],
           "lie": false
         },
         {
           "n": 3,
-          "text": "All right.",
-          "parts": ["conversation.greet-answer-fine.all-right"],
+          "text": "No, I haven't.",
+          "parts": ["conversation.kin-reply-not.no-i-havent"],
           "lie": false
         },
         {
           "n": 4,
-          "text": "Okay.",
-          "parts": ["conversation.greet-answer-fine.okay"],
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
           "lie": false
         }
       ],
-      "parts": ["conversation.school-ask-how.where-did-you-go-to-school"]
+      "parts": ["conversation.mutual-raise-seen.have-you-talked-to-name"]
     },
     {
       "i": 22,
@@ -1177,28 +1145,28 @@
     {
       "i": 27,
       "kind": "conversation",
-      "scene": "Madeline Meyer talks with Donna Newton, November 18, 2026, turn 1; the talk's topic: person_9c8a4644eb126b1d>mutual:person_ddec7a3b56294740.",
+      "scene": "Madeline Meyer talks with Aiden Schmidt, March 18, 2027, turn 1; the talk's topic: home:person_90463a68c1eefcea.",
       "trace": [
         "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
-        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "The lies are what the scales offer: the same moves made false about the player's own record.",
         "Say nothing is the smaller control beside the replies."
       ],
       "sourceRecordIds": [
         "person_90463a68c1eefcea",
-        "person_9c8a4644eb126b1d",
-        "person_9c8a4644eb126b1d>mutual:person_ddec7a3b56294740",
-        "family:person_90463b68c1eefe9d"
+        "person_abcf1bb6bea9cf39",
+        "home:person_90463a68c1eefcea",
+        "school:person_90463a68c1eefcea"
       ],
       "lines": [
         {
-          "speaker": "Donna Newton",
-          "text": "Hey, Madeline.",
-          "parts": ["conversation.greet-open-hello.hey-name"]
+          "speaker": "Aiden Schmidt",
+          "text": "Hello there.",
+          "parts": ["conversation.greet-open-hello.hello-there"]
         },
         {
-          "speaker": "Donna Newton",
-          "text": "Have you talked to Diana?",
-          "parts": ["conversation.mutual-raise-seen.have-you-talked-to-name"]
+          "speaker": "Aiden Schmidt",
+          "text": "Where are you from?",
+          "parts": ["conversation.home-new-ask-where.where-are-you-from"]
         }
       ],
       "test": "the choice set: mark each reply and each lie good or bad here",
@@ -1206,32 +1174,48 @@
       "choices": [
         {
           "n": 1,
-          "text": "Have you seen Diana?",
-          "parts": ["conversation.mutual-raise-seen.have-you-seen-name"],
-          "lie": false
-        },
-        {
-          "n": 2,
-          "text": "I talked to Diana on November 13.",
+          "text": "I'm from Pine Ridge. How about you?",
           "parts": [
-            "conversation.mutual-answer-mine-saw.i-talked-to-name-my-when"
+            "conversation.home-new-answer-plain.im-from-place",
+            "conversation.greet-answer-fine.how-about-you"
           ],
           "lie": false
         },
         {
+          "n": 2,
+          "text": "I was born in Pine Ridge.",
+          "parts": ["conversation.home-new-answer-always.i-was-born-in-place"],
+          "lie": false
+        },
+        {
           "n": 3,
-          "text": "No, I haven't.",
-          "parts": ["conversation.kin-reply-not.no-i-havent"],
+          "text": "I'm from Pine Ridge.",
+          "parts": ["conversation.home-new-answer-plain.im-from-place"],
           "lie": false
         },
         {
           "n": 4,
-          "text": "All right.",
-          "parts": ["conversation.greet-answer-fine.all-right"],
+          "text": "Right here in Pine Ridge.",
+          "parts": ["conversation.home-new-answer-brief.right-here-in-place"],
           "lie": false
+        },
+        {
+          "n": 5,
+          "text": "Not here. How about you?",
+          "parts": [
+            "conversation.home-new-lie-none.not-here",
+            "conversation.greet-answer-fine.how-about-you"
+          ],
+          "lie": true
+        },
+        {
+          "n": 6,
+          "text": "Not here.",
+          "parts": ["conversation.home-new-lie-none.not-here"],
+          "lie": true
         }
       ],
-      "parts": ["conversation.mutual-raise-seen.have-you-talked-to-name"]
+      "parts": ["conversation.home-new-ask-where.where-are-you-from"]
     },
     {
       "i": 28,

@@ -62,21 +62,20 @@ How it was made: Fired by the director from the record job:position:organization
 
 Tests one thing: the choice set: mark each reply good or bad here, in this scene.
 
-1. Narrator: Your son, your daughter, your son, your father, your mother, your brother, your sister, your sister, your brother, your brother and your sister are here.
+1. Narrator: Timothy, your daughter, Ahmad, your father, your mother, Christian, Teresa, Gabriella, Connor, James and Cassandra are here.
 2. Narrator: You got a job.
-3. Timothy Vasquez: Have a seat.
-4. Timothy Vasquez: What are you doing now?
+3. Timothy Vasquez: What do you do?
 
-| #   | Reply                                                          | Lie | Good here? |
-| --- | -------------------------------------------------------------- | --- | ---------- |
-| 1   | I'm working for Stout's Market.                                |     |            |
-| 2   | At Stout's Market.                                             |     |            |
-| 3   | All right.                                                     |     |            |
-| 4   | I'm working for Stout's Market. Where do you work?             |     |            |
-| 5   | Not right now.                                                 | yes |            |
-| 6   | I'm at Pine Ridge Area Workers Union Local.                    | yes |            |
-| 7   | I'm at Pine Ridge Area Workers Union Local. Where do you work? | yes |            |
-|     | (Say nothing)                                                  |     |            |
+| #   | Reply                                                         | Lie | Good here? |
+| --- | ------------------------------------------------------------- | --- | ---------- |
+| 1   | I work at Stout's Market.                                     |     |            |
+| 2   | With Stout's Market.                                          |     |            |
+| 3   | All right.                                                    |     |            |
+| 4   | I work at Stout's Market. What about you?                     |     |            |
+| 5   | Not at the moment.                                            | yes |            |
+| 6   | I'm with Pine Ridge Area Workers Union Local.                 | yes |            |
+| 7   | I'm with Pine Ridge Area Workers Union Local. What about you? | yes |            |
+|     | (Say nothing)                                                 |     |            |
 
 ### 1. A chapter of "My life"
 
@@ -213,20 +212,19 @@ How it was made: Fired by the director from the record job:position:organization
 
 Tests one thing: the choice set: mark each reply good or bad here, in this scene.
 
-1. Narrator: Your brother, your daughter, your daughter, your daughter, your daughter, your father and your mother are here.
+1. Narrator: Your brother, Maya, Allison, Paola, Lara, your father and your mother are here.
 2. Narrator: You got a job.
-3. Maya Anderson: Can we talk?
-4. Maya Anderson: Where are you working now?
+3. Maya Anderson: Where are you working now?
 
 | #   | Reply                                                          | Lie | Good here? |
 | --- | -------------------------------------------------------------- | --- | ---------- |
-| 1   | At Stout's Market.                                             |     |            |
-| 2   | I'm at Stout's Market.                                         |     |            |
+| 1   | I'm at Stout's Market.                                         |     |            |
+| 2   | I'm with Stout's Market.                                       |     |            |
 | 3   | All right.                                                     |     |            |
-| 4   | At Stout's Market. How about you?                              |     |            |
-| 5   | Not at the moment.                                             | yes |            |
-| 6   | I work for Darlington County Cleaning Services.                | yes |            |
-| 7   | I work for Darlington County Cleaning Services. How about you? | yes |            |
+| 4   | I'm at Stout's Market. What do you do?                         |     |            |
+| 5   | Not right now.                                                 | yes |            |
+| 6   | I work at Darlington County Cleaning Services.                 | yes |            |
+| 7   | I work at Darlington County Cleaning Services. What do you do? | yes |            |
 |     | (Say nothing)                                                  |     |            |
 
 ### 11. A chapter of "My life"
@@ -244,24 +242,22 @@ No other wording in the bank fits this line on one axis; grade the scene as it s
 
 ### 12. A conversation turn
 
-The scene: Madeline Meyer talks with Donna Meyer, October 25, 2026, turn 1; the talk's topic: home:person_90463a68c1eefcea.
+The scene: Madeline Meyer talks with Donna Newton, November 6, 2026, turn 1; the talk's topic: family:person_90463868c1eef984.
 
-How it was made: The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one. The lies are what the scales offer: the same moves made false about the player's own record. Say nothing is the smaller control beside the replies.
+How it was made: The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one. The scales are dim: nothing about the player's own record is in play, or the listener already knows it. Say nothing is the smaller control beside the replies.
 
 Tests one thing: the choice set: mark each reply and each lie good or bad here.
 
-1. Donna Meyer: Hi, Madeline.
-2. Donna Meyer: Where do you come from?
+1. Donna Newton: Good to see you.
+2. Donna Newton: How's Keanu?
 
-| #   | Reply                         | Lie | Good here? |
-| --- | ----------------------------- | --- | ---------- |
-| 1   | I'm from Pine Ridge. And you? |     |            |
-| 2   | I grew up in Pine Ridge.      |     |            |
-| 3   | I'm from Pine Ridge.          |     |            |
-| 4   | Right here in Pine Ridge.     |     |            |
-| 5   | Not here. And you?            | yes |            |
-| 6   | Not here.                     | yes |            |
-|     | (Say nothing)                 |     |            |
+| #   | Reply                 | Lie | Good here? |
+| --- | --------------------- | --- | ---------- |
+| 1   | He's doing fine.      |     |            |
+| 2   | Thank you for asking. |     |            |
+| 3   | All right.            |     |            |
+| 4   | Okay.                 |     |            |
+|     | (Say nothing)         |     |            |
 
 ### 13. A meeting
 
@@ -372,23 +368,22 @@ No other wording in the bank fits this line on one axis; grade the scene as it s
 
 ### 21. A conversation turn
 
-The scene: Madeline Meyer talks with Donna Meyer, October 25, 2026, turn 2; the talk's topic: home:person_90463a68c1eefcea.
+The scene: Madeline Meyer talks with Donna Newton, November 18, 2026, turn 1; the talk's topic: person_9c8a4644eb126b1d>mutual:person_ddec7a3b56294740.
 
 How it was made: The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one. The scales are dim: nothing about the player's own record is in play, or the listener already knows it. Say nothing is the smaller control beside the replies.
 
 Tests one thing: the choice set: mark each reply and each lie good or bad here.
 
-1. Madeline Meyer: I'm from Pine Ridge.
-2. Donna Meyer: I see.
-3. Donna Meyer: Where did you go to school?
+1. Donna Newton: Hey, Madeline.
+2. Donna Newton: Have you talked to Diana?
 
-| #   | Reply                              | Lie | Good here? |
-| --- | ---------------------------------- | --- | ---------- |
-| 1   | I graduated from Spaulding Middle. |     |            |
-| 2   | I graduated.                       |     |            |
-| 3   | All right.                         |     |            |
-| 4   | Okay.                              |     |            |
-|     | (Say nothing)                      |     |            |
+| #   | Reply                             | Lie | Good here? |
+| --- | --------------------------------- | --- | ---------- |
+| 1   | Have you seen Diana?              |     |            |
+| 2   | I talked to Diana on November 13. |     |            |
+| 3   | No, I haven't.                    |     |            |
+| 4   | All right.                        |     |            |
+|     | (Say nothing)                     |     |            |
 
 ### 22. A meeting
 
@@ -460,22 +455,24 @@ Tests one thing: the opening and closing pair: does the closing line follow from
 
 ### 27. A conversation turn
 
-The scene: Madeline Meyer talks with Donna Newton, November 18, 2026, turn 1; the talk's topic: person_9c8a4644eb126b1d>mutual:person_ddec7a3b56294740.
+The scene: Madeline Meyer talks with Aiden Schmidt, March 18, 2027, turn 1; the talk's topic: home:person_90463a68c1eefcea.
 
-How it was made: The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one. The scales are dim: nothing about the player's own record is in play, or the listener already knows it. Say nothing is the smaller control beside the replies.
+How it was made: The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one. The lies are what the scales offer: the same moves made false about the player's own record. Say nothing is the smaller control beside the replies.
 
 Tests one thing: the choice set: mark each reply and each lie good or bad here.
 
-1. Donna Newton: Hey, Madeline.
-2. Donna Newton: Have you talked to Diana?
+1. Aiden Schmidt: Hello there.
+2. Aiden Schmidt: Where are you from?
 
-| #   | Reply                             | Lie | Good here? |
-| --- | --------------------------------- | --- | ---------- |
-| 1   | Have you seen Diana?              |     |            |
-| 2   | I talked to Diana on November 13. |     |            |
-| 3   | No, I haven't.                    |     |            |
-| 4   | All right.                        |     |            |
-|     | (Say nothing)                     |     |            |
+| #   | Reply                               | Lie | Good here? |
+| --- | ----------------------------------- | --- | ---------- |
+| 1   | I'm from Pine Ridge. How about you? |     |            |
+| 2   | I was born in Pine Ridge.           |     |            |
+| 3   | I'm from Pine Ridge.                |     |            |
+| 4   | Right here in Pine Ridge.           |     |            |
+| 5   | Not here. How about you?            | yes |            |
+| 6   | Not here.                           | yes |            |
+|     | (Say nothing)                       |     |            |
 
 ### 28. A chapter of "My life"
 
