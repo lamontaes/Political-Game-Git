@@ -2,7 +2,7 @@ import { daysBetween, makeIsoDate } from "../kernel/dates";
 import { addDays } from "../kernel/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
-import { closenessBetween, currentCloseness } from "../closeness";
+import { closenessBetween } from "../closeness";
 import { VIEWS_MODULE_ID, stancesOf } from "./views";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
@@ -473,9 +473,6 @@ export const LIFE_MODULE: CoreModule = {
   onEvent(api, event, learnedBy) {
     const params = parameterValues(api.state.data.parameters);
     api.stopgap("SG-P8-emotion-model");
-    // An event can name hundreds of people (a chamber's vote); each learner
-    // reads whichever is shorter, its own ties or the named people.
-    const named = new Set(event.personIds);
     for (const id of learnedBy) {
       const actor = api.state.people.get(id)!;
       const relation = closestTo(api, id, event.personIds);
