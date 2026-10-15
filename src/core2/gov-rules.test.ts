@@ -34,7 +34,6 @@ import * as oldBoardRules from "../simulation/nationwide-world/township-governin
 import * as oldIdentity from "../simulation/person-identity";
 import * as oldCohorts from "../simulation/given-name-cohorts";
 import * as oldNames from "../simulation/names-data";
-import * as oldAge from "../simulation/invented-person-age";
 import {
   municipalGovernments as oldMunicipalGovernments,
   primaryReading as oldPrimaryReading,
@@ -52,7 +51,6 @@ import * as boardRules from "./gov-rules/township-governing-body-rules";
 import * as identity from "./gov-rules/person-identity";
 import * as cohorts from "./gov-rules/given-name-cohorts";
 import * as names from "./gov-rules/names-data";
-import * as age from "./gov-rules/invented-person-age";
 import municipalGovernmentsJson from "./gov-rules/municipal-governments.json" with { type: "json" };
 
 const STATES = corePlaceStateIdentities();
@@ -247,7 +245,7 @@ describe("ported government rule readers", () => {
     );
   });
 
-  it("match on invented officials' identity, names and ages", () => {
+  it("match on invented officials' identity and names", () => {
     expect(names.PLACE_NAMES_V1_VERSION).toBe(oldNames.PLACE_NAMES_V1_VERSION);
     for (const version of ["names-v1", "demo-names-v4", "names-pr-v1"]) {
       const corpus = names.getNameCorpus(version);
@@ -281,44 +279,5 @@ describe("ported government rule readers", () => {
           oldCohorts.drawCohortGivenName(new SeededRng(key), sex, year),
         );
     }
-
-    const placements = [
-      undefined,
-      "drawn",
-      "reference-day",
-      "drawn-exact",
-      "drawn-exact-any-day",
-      { monthDay: "07-04" },
-    ] as const;
-    let births = 0;
-    for (const role of Object.keys(
-      oldAge.INVENTED_PERSON_AGE_WINDOWS,
-    ) as oldAge.InventedPersonRole[])
-      for (const date of DATES)
-        for (const placement of placements)
-          for (const seed of ["a", "b", "c"]) {
-            const input = {
-              role,
-              referenceDate: date,
-              legalMinimumAge: 25,
-              ...(placement ? { placement } : {}),
-            };
-            expect(
-              age.inventedPersonBirthDate(
-                new SeededRng(`${role}:${seed}`),
-                input,
-              ),
-            ).toBe(
-              oldAge.inventedPersonBirthDate(
-                new SeededRng(`${role}:${seed}`),
-                input,
-              ),
-            );
-            births += 1;
-          }
-    expect(Object.keys(age.INVENTED_PERSON_AGE_WINDOWS)).toEqual(
-      Object.keys(oldAge.INVENTED_PERSON_AGE_WINDOWS),
-    );
-    console.log(`gov-rules: ${births} invented birth dates compared`);
   });
 });

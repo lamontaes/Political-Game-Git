@@ -21,11 +21,8 @@ import {
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
-import {
-  TOWN_RESIDENTS_VERSION,
-  UNKNOWN_TOWN_POPULATION,
-  townRoster,
-} from "./town-residents";
+import { TOWN_RESIDENTS_VERSION } from "../../core2/town-households";
+import { UNKNOWN_TOWN_POPULATION, townRoster } from "./town-residents";
 
 /**
  * TOWN WARDS (Build 25; CTO ruling of September 29, 10:02 a.m.: the
