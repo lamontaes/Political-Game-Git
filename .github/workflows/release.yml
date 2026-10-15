@@ -14,12 +14,12 @@ on:
 permissions:
   contents: read
 
-# The candidate passes the build, typecheck, the release declarations and the
-# golden-path suite (validate_candidate) before it can publish. Until Oct 14,
-# 2026 it also ran the whole unit suite in six shards and the zero-dice guard;
-# AGENTS.md names only the golden path, the speed guard and the dollar check as
-# blocking, so the unit suite and the zero-dice guard now run on pull requests
-# only (validate.yml).
+# The candidate passes the build, typecheck and the release declarations
+# (validate_candidate) before it can publish: the checks that the client
+# packages at all. Until Oct 14, 2026 it also ran the whole unit suite in six
+# shards, the zero-dice guard and the golden-path suite; the owner ruled on
+# Oct 15 that those are checks on the game's simulation, run on pull requests
+# (validate.yml, m0-guard.yml), never a gate on packaging the client.
 
 jobs:
   build_candidate:
@@ -158,10 +158,10 @@ jobs:
           echo "::error::This revision has pending changes that cannot be released automatically. Nothing was published and no declaration was consumed."
           exit 1
 
-  # The release blocks on what AGENTS.md names as blocking: the build, the
-  # typecheck, the release declarations and the golden-path suite. The unit
-  # suite and the zero-dice guard are informational and run in validate.yml on
-  # pull requests, not here.
+  # The release blocks on the client packaging at all: the build, the
+  # typecheck and the release declarations. The unit suite, the zero-dice
+  # guard and the golden-path suite are checks on the simulation and run on
+  # pull requests (validate.yml, m0-guard.yml), not here.
   validate_candidate:
     name: Validate candidate (read only)
     needs: build_candidate
@@ -230,18 +230,6 @@ jobs:
           RELEASE_DECLARATION_HEAD: ${{ needs.build_candidate.outputs.source_sha }}
           RELEASE_DECLARATION_MODE: push
         run: npm run release:check
-
-      - name: Golden-path suite
-        run: node --import tsx tests/golden-path/runner.mjs --output "$RUNNER_TEMP/golden-path.json"
-
-      - name: Upload the golden-path report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: release-golden-path
-          path: ${{ runner.temp }}/golden-path.json
-          if-no-files-found: ignore
-          retention-days: 14
 
       - name: Prove the built game shows the new version
         shell: bash
