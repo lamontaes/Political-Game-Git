@@ -18,7 +18,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
 import { justiceChains } from "./justice-chain";
-import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 
 // The player's own act, in the world the owner plays (a seed nobody chose):
@@ -165,7 +165,15 @@ if (playerId) {
     const result =
       player.packet?.kind === "stop"
         ? player.resume({ kind: "stop", pauseId: player.packet.pauseId })
-        : player.advance("skip");
+        : player.advance(
+            "to",
+            addDays(
+              makeIsoDate(
+                player.packet?.at.date ?? addDays(makeIsoDate(core.date), 1),
+              ),
+              365,
+            ),
+          );
     for (const answer of result.selfChosen)
       ownChoiceDates.push(`${answer.at.date} ${answer.actionId}`);
     logAt.set(core.date, core.durableLog.size);

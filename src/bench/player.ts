@@ -19,8 +19,6 @@ import {
 
 // Spec interrupt line, shown on screen; the director owns the stop itself.
 export const INTERRUPT_LINE = 0.5;
-// Developer lookahead for "skip until needed", not simulation calibration.
-const SKIP_LOOKAHEAD_DAYS = 365;
 
 type ChoicePacket = Extract<PlayerPacketV1, { kind: "choice" }>;
 const compareMoments = (a: PlayerMomentV1, b: PlayerMomentV1) =>
@@ -158,10 +156,13 @@ export class BenchPlayer {
     });
   }
 
-  /** `lookaheadDays` shortens a skip's leg; the screen runs a long skip in legs. */
-  advance(mode: string, date?: string, lookaheadDays?: number) {
+  /**
+   * Day and Week are one and seven days; "to" runs through a later day (the
+   * calendar's skip-forward) and stops at anything that needs the player.
+   */
+  advance(mode: string, date?: string) {
     if (!this.personId) throw new Error("Choose a resident first.");
-    if (!["day", "week", "calendar", "skip"].includes(mode))
+    if (!["day", "week", "to"].includes(mode))
       throw new Error("Unknown time control.");
     if (this.pollingPlace)
       throw new Error("Vote or leave the polling place first.");
@@ -172,27 +173,17 @@ export class BenchPlayer {
       date: addDays(makeIsoDate(this.core.date), 1),
       minuteOfDay: 0,
     };
-    if (mode === "calendar" && !(date && date > at.date))
-      throw new Error(
-        "A calendar jump can't go backward: pick a day after today.",
-      );
-    const days =
-      mode === "week"
-        ? 7
-        : mode === "skip"
-          ? Math.min(lookaheadDays ?? SKIP_LOOKAHEAD_DAYS, SKIP_LOOKAHEAD_DAYS)
-          : 1;
+    if (mode === "to" && !(date && date > at.date))
+      throw new Error("A skip can't go backward: pick a day after today.");
     const through: PlayerMomentV1 =
-      mode === "calendar"
+      mode === "to"
         ? { date: makeIsoDate(date ?? ""), minuteOfDay: 0 }
         : {
-            date: addDays(makeIsoDate(at.date), days),
+            date: addDays(makeIsoDate(at.date), mode === "week" ? 7 : 1),
             minuteOfDay: at.minuteOfDay,
           };
-    // A calendar jump lives like a skip: only what needs the player stops it.
-    this.director.setMode(
-      mode === "skip" || mode === "calendar" ? "skipping" : "live",
-    );
+    // A skip lives on its own: only what needs the player stops it.
+    this.director.setMode(mode === "to" ? "skipping" : "live");
     const earliest = earliestPlayerStopV1(this.core, {
       controlledPersonId: this.personId,
       through,
@@ -215,7 +206,7 @@ export class BenchPlayer {
    */
   private run(start: PlayerPacketV1 | undefined, from: PlayerMomentV1) {
     const { through, mode } = this.destination!;
-    const skipping = mode === "skip" || mode === "calendar";
+    const skipping = mode === "to";
     let packet = start;
     while (true) {
       if (!packet || packet.kind === "complete") {

@@ -3,6 +3,7 @@
 // golden-path runner draws: file at the real office, campaign, election
 // night, then a resident officeholder drafts a bill and the body votes.
 // Prints the furthest step reached. Usage: node --import tsx src/bench/path-check.ts
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { buildBenchWorld } from "./world";
@@ -43,7 +44,15 @@ function liveUntil(date: string) {
     const packet =
       player.packet?.kind === "stop"
         ? player.packet
-        : player.advance("skip", undefined, 7).packet;
+        : player.advance(
+            "to",
+            addDays(
+              makeIsoDate(
+                player.packet?.at.date ?? addDays(makeIsoDate(w.core.date), 1),
+              ),
+              7,
+            ),
+          ).packet;
     if (packet.kind === "stop") {
       // A meeting or the desk holds the clock: the player votes their own
       // bill and leaves the rest, and the desk, to the character.
