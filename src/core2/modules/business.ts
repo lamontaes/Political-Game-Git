@@ -79,6 +79,34 @@ interface OwnerRow {
   lossMonths?: number;
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
+  tradingId?: string;
+}
+
+/** A completed month's actual trading, read by the staffing decision. */
+export interface BusinessTradingMonth {
+  id: string;
+  organizationId: string;
+  date: string;
+  from: string;
+  days: number;
+  salesMinor: number;
+  payrollMinor: number;
+  costsMinor: number;
+  complianceMinor: number;
+  lossMonths: number;
+}
+
+export function businessTradingMonth(
+  api: CoreAPI,
+  organizationId: string,
+): BusinessTradingMonth | undefined {
+  if (!core(api).modules.has(BUSINESS_MODULE_ID)) return undefined;
+  const owner = store(api).table("owners").get(organizationId) as
+    OwnerRow | undefined;
+  return owner?.tradingId
+    ? (store(api).table("trading").get(owner.tradingId) as unknown as
+        BusinessTradingMonth | undefined)
+    : undefined;
 }
 
 interface Market {
@@ -806,30 +834,54 @@ function bookedMonth(
   | "operatingThrough"
   | "outsideThrough"
   | "lossMonths"
+  | "tradingId"
 > {
   const outsidePaid =
     residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
       ?.outsidePaidMinor ?? 0;
   const sales = book.salesReceivedMinor - row.salesThrough;
+  const payrollMinor = book.wagesPaidMinor - row.wagesThrough;
+  const complianceMinor = complianceThisMonth(api, row.id);
   const costs =
     book.wagesPaidMinor -
     row.wagesThrough +
     (book.operatingPaidMinor - row.operatingThrough) +
     (outsidePaid - (row.outsideThrough ?? 0)) +
-    complianceThisMonth(api, row.id);
+    complianceMinor;
   const base = Math.max(sales, costs);
   const lost = base > 0 ? Math.max(-1, Math.min(1, (costs - sales) / base)) : 0;
+  const lossMonths = Math.max(
+    0,
+    (row.lossMonths ?? 0) *
+      (1 - 1 / api.parameter("businessLossMemoryMonths")) +
+      lost,
+  );
+  const tradingId = `business-trading:${row.id}:${api.state.date}`;
+  const previous = row.tradingId
+    ? (store(api).table("trading").get(row.tradingId) as unknown as
+        BusinessTradingMonth | undefined)
+    : undefined;
+  const from = previous?.date ?? row.since;
+  const days = daysBetween(makeIsoDate(from), makeIsoDate(api.state.date));
+  store(api).table("trading").put({
+    id: tradingId,
+    organizationId: row.id,
+    date: api.state.date,
+    from,
+    days,
+    salesMinor: sales,
+    payrollMinor,
+    costsMinor: costs,
+    complianceMinor,
+    lossMonths,
+  });
   return {
     salesThrough: book.salesReceivedMinor,
     wagesThrough: book.wagesPaidMinor,
     operatingThrough: book.operatingPaidMinor,
     outsideThrough: outsidePaid,
-    lossMonths: Math.max(
-      0,
-      (row.lossMonths ?? 0) *
-        (1 - 1 / api.parameter("businessLossMemoryMonths")) +
-        lost,
-    ),
+    lossMonths,
+    tradingId,
   };
 }
 
@@ -1891,6 +1943,7 @@ export const BUSINESS_MODULE: PreStartModule = {
       state: {},
       owners: { indexes: { all: { fields: ["isOwner"] } } },
       draws: { indexes: { byOrganization: { fields: ["organizationId"] } } },
+      trading: {},
       foundings: {},
       successions: {},
       closures: {},
