@@ -1,7 +1,5 @@
 # Progress
 
-Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
-
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
 ## 2026-10-15 — Session C state office day (draft #4330)

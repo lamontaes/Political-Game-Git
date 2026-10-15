@@ -1,6 +1,6 @@
 # Session C
 
-Branch: `office/session-c-unified`. Draft PR: #4330.
+State legislators and governors use the shared day clock. The played year reached an address, a cabinet appointment and paid per diem.
 
 ## What the owner can play
 
@@ -27,4 +27,12 @@ The item-veto rule retains the imported data’s estimated legal details. Govern
 
 ## Method
 
-No sub-agents. No merges. Dependencies installed in the existing registered cloud workspace. Checks are limited to changed files and their related tests.
+Branch: `office/session-c-unified`. Draft PR: #4330.
+
+A read-only civic-report-reviewer helper reviewed the PR text under the reporting skill. No implementation helpers. No merges. Dependencies installed in the existing registered cloud workspace. Checks are limited to changed files and their related tests.
+
+## Final related checks
+
+The six related test files produced 29 passes and five failures. Both federal vote failures reproduce on clean main with the same seed. All three trait failures also reproduce on clean main; main additionally fails the stale coverage-table check.
+
+The same speed script measured 73.117 seconds on main and 78.428 seconds here, a 7.3% increase. Item-veto limits remain registered as open.

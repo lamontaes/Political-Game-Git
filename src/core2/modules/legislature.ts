@@ -3224,6 +3224,8 @@ export function executiveItemVeto(
 ): BillRow {
   const bill = billOf(api, billId);
   const executive = executiveOf(api, bill.bodyOfficeId);
+  // stopgapId: SG-STATE-line-item-veto-engine — reduction and joint-session procedures remain.
+  api.stopgap("SG-STATE-line-item-veto-engine");
   const law = lineItemVetoOf(lawChain(api).stateKey);
   if (
     bill.status !== "awaiting-signature" ||

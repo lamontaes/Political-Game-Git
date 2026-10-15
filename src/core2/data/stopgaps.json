@@ -4446,12 +4446,12 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/legislature.ts",
     "line": 686,
-    "whatItFakes": "Where the place's governor has a line-item veto (data/office-day/state-line-item-veto.json, cited), a budget bill on the desk is still signed or vetoed whole; the item veto is read and recorded as a reason only.",
-    "why": "The legislature engine's desk takes a whole-bill decision; striking or reducing items, and the override vote on an item, are OPUS-GOV's to build. Session C adds executiveItemVeto to the legislature: state authority, individual override votes, and enactment reads the surviving appropriation items.",
+    "whatItFakes": "Item vetoes strike whole appropriation items and use the existing chamber-by-chamber override. Reduction vetoes and place-specific joint-session procedures are not modeled yet.",
+    "why": "Session C wires struck items into budget enactment, but imported legal details remain estimated. The played proposal failed before reaching the desk; only the edge test exercises an item veto.",
     "addedBy": "OFFICE-STATE",
     "addedAt": "2026-10-14",
     "replacement": "An item veto in the legislature engine: the executive strikes (or reduces, where the data allows) budget lines, each item goes back for its override vote at the data's share, and the budgets engine adopts what stands.",
-    "status": "resolved"
+    "status": "open"
   },
   {
     "id": "SG-STATE-desk-own-choice",
