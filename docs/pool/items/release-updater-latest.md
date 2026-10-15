@@ -4,10 +4,10 @@ title: "Check for updates in the installed Mac app finds the newest release"
 area: release
 kind: bug
 priority: 2
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: a second release (v0.7.1 or later) to update to
 milestone:
 source: 'astra order 2 "Owner plays it"; windows-package stopgap'
 ---

@@ -4,12 +4,13 @@ title: "Follow-up:"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-follow-up
+pr: #4441
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 66 (unchecked checklist line)"
+claimed-at: 2026-10-15T20:31:19.842Z
 ---
 
 **What.** Follow-up: the unemployment law rows describe each state's benefit basis in prose; the claim reads it with patterns. Add a structured basis field to `scripts/research/build-starting-law.py`.
