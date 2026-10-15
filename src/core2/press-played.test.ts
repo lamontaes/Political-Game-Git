@@ -196,5 +196,12 @@ describe("the press in the played world", () => {
     const sizeAfter = core.jobs.size;
     refreshPressStaff(api);
     expect(core.jobs.size).toBe(sizeAfter);
+    // The business engine's subsequent succession is also the masthead's owner.
+    const owners = api.moduleState("business").table("owners");
+    owners.put({ ...owners.get(local!.organizationId)!, ownerId: personId });
+    refreshPressStaff(api);
+    expect(outletsHere(api).find((o) => o.id === local!.id)?.ownerId).toBe(
+      personId,
+    );
   }, 900_000);
 });

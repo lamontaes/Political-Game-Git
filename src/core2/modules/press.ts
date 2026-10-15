@@ -57,7 +57,7 @@ import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
-import { BUSINESS_MODULE_ID } from "./business";
+import { BUSINESS_MODULE_ID, ownerOf } from "./business";
 import {
   PLATFORM_QUESTIONS,
   publicOffset,
@@ -2225,8 +2225,8 @@ function whyLeft(api: CoreAPI, row: StaffRow): string {
  * leaves that role vacant rather than manufacturing another person.
  */
 export function refreshPressStaff(api: CoreAPI): void {
-  // SG-PEOPLE-press-staff-turnover: the second hiring path is removed, but
-  // outlet books/owner enrollment must reach jobs before vacancies can fill.
+  // SG-PEOPLE-press-staff-turnover: the duplicate hiring path is removed;
+  // enrollment uses a registered adapter and the replacement-year proof is open.
   api.stopgap("SG-PEOPLE-press-staff-turnover");
   const core = api.state as CoreState;
   for (const outlet of outletsHere(api)) {
@@ -2285,6 +2285,7 @@ export function refreshPressStaff(api: CoreAPI): void {
       .map((row) => row.id);
     table(api, "outlets").put({
       ...outlet,
+      ownerId: ownerOf(api, outlet.organizationId) ?? outlet.ownerId,
       headId,
       reporterIds,
     } as unknown as ModuleRow);
