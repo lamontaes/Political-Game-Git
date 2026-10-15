@@ -3100,13 +3100,16 @@ function overrideVote(
     let yes = 0;
     let voting = 0;
     let present = 0;
-    const entitled = Math.max(
-      roster.length,
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("seats")
-        .query("byOffice", [chamber]).length,
-    );
+    const entitled =
+      itemIndex === undefined
+        ? roster.length
+        : Math.max(
+            roster.length,
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("seats")
+              .query("byOffice", [chamber]).length,
+          );
     for (const member of roster) {
       const key = memberKey(member);
       const position = positionOn(api, bill, key);
@@ -3125,7 +3128,8 @@ function overrideVote(
         (snapshotExplicitControlV1(api.state).personId ??
           (api.state as CoreState).playerId)
           ? "abstain"
-          : missesSitting(api, key, bill.id, chamber, total)
+          : itemIndex !== undefined &&
+              missesSitting(api, key, bill.id, chamber, total)
             ? "absent"
             : total > 0
               ? "yes"
