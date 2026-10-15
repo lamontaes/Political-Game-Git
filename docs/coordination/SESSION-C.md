@@ -1,7 +1,7 @@
 # Session C: legislatures and officeholders
 
 State office days and the election-record fixes have draft changes with played-world evidence.
-The wider candidate pool is being checked before its draft can be handed off.
+The wider candidate pool now has a completed played year and passing focused checks.
 
 ## Work
 
@@ -11,12 +11,15 @@ Order 2 is in draft PR #4343. Election identities, bill records, body names, off
 Order 3 is in draft PR #4350 on `gov/session-c-wide-races`.
 The state and national candidate pool feeds the existing candidacy chooser.
 An empty congressional race reaches the existing vacancy process when the new term starts.
-The final played year and speed comparison are in progress.
+The final played year took 109.424 seconds in drawn Homer, Alaska.
+The isolated speed check took 81.739 seconds versus 73.117 on main.
+All 14 focused tests and the changed-file checks passed.
 
 State holdover rules, repeated empty special elections, and presidential failure to elect remain open.
 Wider unnamed residents and state legislative district residency need fuller records.
 These gaps remain in the stopgap registry.
-PR #4256 stays open until the replacement holds.
+PR #4256 is superseded by #4350.
+The press-employment rule remains a CTO ruling pending owner confirmation.
 
 The read-only helper `civic_report_review` reviewed report wording for orders 1 and 2.
 It also reviewed the empty-term design and the order 3 implementation.
