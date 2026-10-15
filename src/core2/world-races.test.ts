@@ -347,5 +347,19 @@ describe("M2-10 state and federal races in the world", () => {
     expect(vice.length, where).toBe(row.vicePresidentParty ? 1 : 0);
     if (row.vicePresidentParty)
       expect(vice[0]!.party).toBe(row.vicePresidentParty);
+    // When the House cannot choose (here: a majority of 200 states, which no
+    // delegation count can reach) the vice president-elect acts, else the Speaker.
+    const stuck = contingentElection(api, {
+      year: 2028,
+      electors: Object.fromEntries(
+        row.states.map((state) => [state.stateKey, state.winnerSide]),
+      ),
+      states: 200,
+    });
+    expect(stuck.house.chosenSide, where).toBe(0);
+    expect(stuck.acting, where).not.toBeNull();
+    expect(stuck.presidentSide, where).not.toBe(0);
+    if (stuck.acting === "vice-president-elect")
+      expect(stuck.vicePresidentSide).toBe(0);
   }, 240_000);
 });
