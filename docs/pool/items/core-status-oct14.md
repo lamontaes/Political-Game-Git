@@ -4,12 +4,13 @@ title: "OPUS-CORE status file update (#4208)"
 area: docs
 kind: cleanup
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: core/status-oct14
 pr: #4208
 blocked-on:
 milestone:
 source: "open PR #4208"
+claimed-at: 2026-10-15T23:02:31.805Z
 ---
 
 **What.** The status file docs/coordination/core.md needs updating to say that three core pull requests merged. The carrying pull request has no gate line in its body and changes nothing in the game. It should be merged after main is merged into its branch, or closed if the file has since been rewritten. The player sees no difference.
