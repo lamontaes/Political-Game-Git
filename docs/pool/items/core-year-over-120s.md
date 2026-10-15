@@ -6,7 +6,7 @@ kind: bug
 priority: 1
 status: in-pr
 claimed-by: claude/core-year-over-120s
-pr:
+pr: "#4425"
 blocked-on:
 milestone:
 source: "known bugs"
