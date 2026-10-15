@@ -79,12 +79,16 @@ export interface ResidentFacts {
   readonly employedShare?: number;
   /** How much of this resident a selection reached (1, or a working share). */
   readonly weight?: number;
+  /** How many real residents this record stands for (a counted household's weight); absent is one. */
+  readonly standsFor?: number;
 }
 
 export interface HouseholdFacts {
   readonly id: string;
   readonly named: boolean;
   readonly size: number;
+  /** How many real households this record stands for; absent is one. */
+  readonly standsFor?: number;
   readonly incomeDollars: number;
   readonly ages: readonly number[];
 }
@@ -92,7 +96,7 @@ export interface HouseholdFacts {
 export interface TownFacts {
   readonly residents: readonly ResidentFacts[];
   readonly households: ReadonlyMap<string, HouseholdFacts>;
-  /** Residents the town's records count, modeled (named plus counted). */
+  /** Residents the town's records count, modeled (named plus counted, each counted record times its weight). */
   readonly modeled: number;
 }
 
@@ -196,6 +200,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
           !workers.has(store.ids[m]!) && ages[i]! >= from && ages[i]! < below,
       ).length;
       const share = eligible > 0 ? h.unplacedWorkers / eligible : 0;
+      const stands = store.weightOf(h);
       members.forEach((m, i) => {
         const id = store.ids[m]!;
         const open =
@@ -208,6 +213,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
           weeklyMinutes: minutes.get(id) ?? 0,
           employed: workers.has(id),
           ...(open ? { employedShare: share } : {}),
+          ...(stands !== 1 ? { standsFor: stands } : {}),
         });
       });
       if (ages.length)
@@ -215,6 +221,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
           id: h.id,
           named: false,
           size: ages.length,
+          ...(stands !== 1 ? { standsFor: stands } : {}),
           incomeDollars:
             jobIncome(jobs) +
             (h.unplacedWorkers * (rt.unplacedPerWorker.get(h.placeId) ?? 0)) /
@@ -224,7 +231,11 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         });
     }
   }
-  const facts = { residents, households, modeled: residents.length };
+  const facts = {
+    residents,
+    households,
+    modeled: residents.reduce((n, r) => n + (r.standsFor ?? 1), 0),
+  };
   cache.set(core, { date: core.date, facts });
   return facts;
 }

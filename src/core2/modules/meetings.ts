@@ -390,7 +390,10 @@ function concernsOf(life: {
 
 const concernShares = new WeakMap<
   CoreState,
-  { key: string; lives: ReturnType<typeof concernsOf>[] }
+  {
+    key: string;
+    lives: { touches: ReturnType<typeof concernsOf>; stands: number }[];
+  }
 >();
 
 /**
@@ -407,7 +410,8 @@ export function townConcernShare(api: CoreAPI, question: string): number {
   const key = `${date}|${core.people.size}|${rt?.store.membersVersion ?? 0}`;
   let hit = concernShares.get(core);
   if (!hit || hit.key !== key) {
-    const lives: ReturnType<typeof concernsOf>[] = [];
+    const lives: { touches: ReturnType<typeof concernsOf>; stands: number }[] =
+      [];
     for (const p of core.people.values())
       if (
         p.alive &&
@@ -415,7 +419,7 @@ export function townConcernShare(api: CoreAPI, question: string): number {
         !isDemoted(p) &&
         ageOn(p, date) >= 18
       )
-        lives.push(concerns(api, p));
+        lives.push({ touches: concerns(api, p), stands: 1 });
     if (rt) {
       const store = rt.store;
       for (const h of store.liveHouseholds()) {
@@ -431,17 +435,24 @@ export function townConcernShare(api: CoreAPI, question: string): number {
             (c) =>
               c.personId === id && (c.endsAt === undefined || c.endsAt > date),
           );
-          lives.push(concernsOf({ age: ageOf(m), working, children }));
+          // A counted resident stands for as many as their household record does.
+          lives.push({
+            touches: concernsOf({ age: ageOf(m), working, children }),
+            stands: store.weightOf(h),
+          });
         }
       }
     }
     hit = { key, lives };
     concernShares.set(core, hit);
   }
-  if (!hit.lives.length) return 0;
-  return (
-    hit.lives.filter((touches) => touches(question)).length / hit.lives.length
-  );
+  let touched = 0,
+    all = 0;
+  for (const { touches, stands } of hit.lives) {
+    all += stands;
+    if (touches(question)) touched += stands;
+  }
+  return all > 0 ? touched / all : 0;
 }
 
 /** A host's answers: their stated platform, else their own lean, else no answer. */

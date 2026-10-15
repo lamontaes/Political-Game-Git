@@ -445,10 +445,7 @@ function placeInDistricts(
     (a, b) =>
       householdIncome(rt, a) - householdIncome(rt, b) || (a.id < b.id ? -1 : 1),
   );
-  const people = ordered.reduce(
-    (n, h) => n + rt.store.countedMembers(h).length,
-    0,
-  );
+  const people = ordered.reduce((n, h) => n + rt.store.weightedCount(h), 0);
   const total = districts.reduce((n, [, count]) => n + count, 0);
   let d = 0,
     filled = 0,
@@ -459,7 +456,7 @@ function placeInDistricts(
       edge += (districts[d]![1] / total) * people;
     }
     h.district = districts[d]![0];
-    filled += rt.store.countedMembers(h).length;
+    filled += rt.store.weightedCount(h);
   }
 }
 

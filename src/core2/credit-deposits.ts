@@ -4,7 +4,7 @@ import { fundBalance, fundOf } from "./counted-money";
 import { residentsRuntime } from "./modules/residents";
 import type { CoreAPI, CoreState, Source } from "./types";
 
-interface CashTarget {
+export interface CashTarget {
   holderId: string;
   kind: "household" | "business";
   tier: "full" | "counted" | "business";
@@ -20,6 +20,63 @@ export function savingsTarget(
   months: number,
 ): number {
   return Math.trunc(cashMinor - Math.ceil(Math.max(0, monthlyCosts) * months));
+}
+
+/**
+ * The counted households' savings targets in a bank's place: each group's
+ * cash shared out by people, a record taking its weight in households' share
+ * and cost buffer.
+ */
+export function countedDepositTargets(
+  api: CoreAPI,
+  placeId: string,
+  months: number,
+  daysPerMonth: number,
+): CashTarget[] {
+  const core = api.state as CoreState;
+  const out: CashTarget[] = [];
+  const rt = residentsRuntime(core);
+  if (!rt?.funded) return out;
+  // Snapshot the groups before any payment, so later households do not receive
+  // smaller shares merely because earlier households deposited first.
+  const groups = new Map<
+    number,
+    { people: number; cash: number; account: string }
+  >();
+  const homes = [...rt.store.liveHouseholds()].filter(
+    (h) => h.placeId === placeId && !core.households.has(h.id),
+  );
+  for (const h of homes) {
+    const group = groups.get(h.group) ?? {
+      people: 0,
+      cash: fundBalance(api, rt, h.group),
+      account: fundOf(api, rt, h.group),
+    };
+    group.people += rt.store.weightedCount(h);
+    groups.set(h.group, group);
+  }
+  for (const h of homes) {
+    const group = groups.get(h.group)!;
+    const members = rt.store.countedMembers(h);
+    if (!members.length || !group.people) continue;
+    // A record stands for its weight in households, each with these people.
+    const stands = rt.store.weightOf(h);
+    const cashMinor = Math.floor(
+      (group.cash * members.length * stands) / group.people,
+    );
+    const dailyCosts =
+      stands *
+      members.reduce((sum, member) => sum + rt.store.living[member]!, 0);
+    out.push({
+      holderId: h.id,
+      kind: "household",
+      tier: "counted",
+      cashMinor,
+      reserveMinor: Math.ceil(dailyCosts * daysPerMonth * months),
+      accounts: [{ id: group.account, cashMinor }],
+    });
+  }
+  return out;
 }
 
 export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
@@ -57,47 +114,9 @@ export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
       accounts: funds,
     });
   }
-  const rt = residentsRuntime(core);
-  if (rt?.funded) {
-    // Snapshot the groups before any payment, so later households do not receive
-    // smaller shares merely because earlier households deposited first.
-    const groups = new Map<
-      number,
-      { people: number; cash: number; account: string }
-    >();
-    const homes = [...rt.store.liveHouseholds()].filter(
-      (h) => h.placeId === bank.placeId && !core.households.has(h.id),
-    );
-    for (const h of homes) {
-      const group = groups.get(h.group) ?? {
-        people: 0,
-        cash: fundBalance(api, rt, h.group),
-        account: fundOf(api, rt, h.group),
-      };
-      group.people += rt.store.countedCount(h);
-      groups.set(h.group, group);
-    }
-    for (const h of homes) {
-      const group = groups.get(h.group)!;
-      const members = rt.store.countedMembers(h);
-      if (!members.length || !group.people) continue;
-      const cashMinor = Math.floor(
-        (group.cash * members.length) / group.people,
-      );
-      const dailyCosts = members.reduce(
-        (sum, member) => sum + rt.store.living[member]!,
-        0,
-      );
-      targets.push({
-        holderId: h.id,
-        kind: "household",
-        tier: "counted",
-        cashMinor,
-        reserveMinor: Math.ceil(dailyCosts * daysPerMonth * months),
-        accounts: [{ id: group.account, cashMinor }],
-      });
-    }
-  }
+  targets.push(
+    ...countedDepositTargets(api, bank.placeId, months, daysPerMonth),
+  );
   for (const [id, book] of core.finance.businesses) {
     if (
       book.closedAt ||

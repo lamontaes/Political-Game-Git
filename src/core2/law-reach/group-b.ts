@@ -172,14 +172,18 @@ function reachOf(
   for (const r of selected) {
     if (r.named)
       named.set(r.id, { ...input.terms, ...input.personTerms?.get(r.id) });
-    else counted += r.weight ?? 1;
+    else counted += (r.weight ?? 1) * (r.standsFor ?? 1);
   }
   const perHousehold = input.people?.householdHead === true;
   const countedOf =
     input.countedOf ??
     (perHousehold
-      ? [...facts.households.values()].filter((h) => !h.named).length
-      : facts.residents.filter((r) => !r.named).length);
+      ? [...facts.households.values()]
+          .filter((h) => !h.named)
+          .reduce((n, h) => n + (h.standsFor ?? 1), 0)
+      : facts.residents
+          .filter((r) => !r.named)
+          .reduce((n, r) => n + (r.standsFor ?? 1), 0));
   return {
     named,
     organizations: new Map(

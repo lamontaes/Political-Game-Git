@@ -285,7 +285,7 @@ function openCoarse(core: CoreState, rt: Runtime): void {
   if (!residents || !home) return;
   let counted = 0;
   for (const h of residents.store.liveHouseholds())
-    counted += residents.store.countedMembers(h).length;
+    counted += residents.store.weightedCount(h);
   const total = home.people.reduce((n, v) => n + v, 0);
   if (total > counted)
     home.people = home.people.map((v) => (v * (total - counted)) / total);
@@ -388,7 +388,7 @@ function month(api: CoreAPI): void {
         held = 0;
       for (const h of store.liveHouseholds()) {
         if (h.placeId !== placeId) continue;
-        const n = store.countedMembers(h).length;
+        const n = store.weightedCount(h);
         people += n;
         held += n * Math.exp(-holdOf(residents, h, date));
       }
@@ -433,7 +433,8 @@ function month(api: CoreAPI): void {
   for (const h of store.liveHouseholds()) {
     const home = stateOfPlace(h.placeId);
     if (!home || !rt.states.has(home)) continue;
-    const people = store.countedMembers(h).length;
+    // A record stands for its weight in households: its people count that many times.
+    const people = store.weightedCount(h);
     if (!people) continue;
     const head = headOf(residents, h, date);
     if (head.adults === 0) continue;
@@ -571,7 +572,7 @@ function month(api: CoreAPI): void {
       }
       if (g === undefined) break;
       const next = orderOf(g)[0]!;
-      const size = store.countedMembers(next).length;
+      const size = store.weightedCount(next);
       if (placeDue < size / 2) break;
       orderOf(g).shift();
       const group = store.groups[g]!;
@@ -605,7 +606,8 @@ function month(api: CoreAPI): void {
         .map((m) => coarseIndex(ageOn(store.born[m]!, date)));
       departCountedHousehold(core, next.id);
       const dest = rt.states.get(to)!;
-      for (const b of bands) dest.people[b] = dest.people[b]! + 1;
+      for (const b of bands)
+        dest.people[b] = dest.people[b]! + store.weightOf(next);
       const reasons = pullFor(home, to, headOf(residents, next, date).wages);
       record(api, {
         id: `move:out:${next.id}:${date}`,
@@ -654,7 +656,7 @@ function month(api: CoreAPI): void {
   for (const h of store.liveHouseholds())
     placePeople.set(
       h.placeId,
-      (placePeople.get(h.placeId) ?? 0) + store.countedMembers(h).length,
+      (placePeople.get(h.placeId) ?? 0) + store.weightedCount(h),
     );
   const counted = [...placePeople.values()].reduce((a, b) => a + b, 0);
   for (const f of flows) {
@@ -705,7 +707,7 @@ function month(api: CoreAPI): void {
 function countedPeople(residents: ResidentsRuntime): number {
   let n = 0;
   for (const h of residents.store.liveHouseholds())
-    n += residents.store.countedMembers(h).length;
+    n += residents.store.weightedCount(h);
   return n;
 }
 
@@ -767,7 +769,11 @@ function arrivals(
         16,
       );
       const template = shapes[pick % shapes.length]!;
-      const size = store.countedMembers(template).length;
+      // A newcomer household arrives at its destination's weight, so it
+      // takes that many households' people out of what has come due.
+      const size =
+        store.countedMembers(template).length *
+        (residents.input.weights?.[template.placeId] ?? 1);
       if (left < size) break;
       left -= size;
       // They settle where the household they resemble lives.
@@ -843,10 +849,14 @@ function unplacedRates(
   const workers = new Map<PlaceId, number>(),
     open = new Map<PlaceId, number>();
   for (const h of residents.store.liveHouseholds()) {
-    workers.set(h.placeId, (workers.get(h.placeId) ?? 0) + h.unplacedWorkers);
+    const stands = residents.store.weightOf(h);
+    workers.set(
+      h.placeId,
+      (workers.get(h.placeId) ?? 0) + h.unplacedWorkers * stands,
+    );
     open.set(
       h.placeId,
-      (open.get(h.placeId) ?? 0) + openWorkers(residents, h, date),
+      (open.get(h.placeId) ?? 0) + openWorkers(residents, h, date) * stands,
     );
   }
   return new Map(
