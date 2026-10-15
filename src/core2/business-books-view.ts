@@ -1,12 +1,11 @@
 /**
- * The record a screen would read for a business's books (business audit,
- * owner ruling 5, Oct 14): whether a player sees another business's books is
- * the owner's open decision (registered as an owner decision), so this builds
- * the record only, from the books and the records other engines keep, and
- * holds no text. Read-only: it spends no game time and creates no facts.
+ * The record a screen reads for a business's books (business audit, owner
+ * ruling 5, Oct 14), from the books and the records other engines keep; it
+ * holds no text. The owner ruled that an owner sees the books (starting or
+ * buying a business is for 1.0), so the screen that shows it is the owner's.
+ * Read-only: it spends no game time and creates no facts.
  */
 import type { CoreAPI, CoreState } from "./types";
-import { stopgap } from "./stopgaps";
 import { residentsRuntime } from "./modules/residents";
 import {
   EMPLOYER_TAXES_MODULE_ID,
@@ -15,8 +14,6 @@ import {
   type EmployerTaxRecord,
   type ProfitTaxRecord,
 } from "./modules/employer-taxes";
-
-export const BOOKS_VIEW_DECISION = "SG-WORLD-owner-decision-business-books";
 
 export interface BusinessBooksView {
   readonly organizationId: string;
@@ -50,8 +47,6 @@ export function businessBooksView(
   api: CoreAPI,
   organizationId: string,
 ): BusinessBooksView | undefined {
-  // stopgapId: SG-WORLD-owner-decision-business-books
-  stopgap(BOOKS_VIEW_DECISION);
   const core = api.state as CoreState;
   const books = core.finance.businesses.get(organizationId);
   if (!books) return undefined;

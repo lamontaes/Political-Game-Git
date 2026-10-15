@@ -264,9 +264,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **Rent for a player who starts alone with no income.** _Settled by the owner's Oct 14 ruling (every renter owes rent, with or without income of its own), built on main by the homelessness package; this branch takes it in the Oct 14 evening merge._
 
 - **Which year a town's opening businesses stand for.** _Settled by your Oct 14 ruling: every game starts January 20, 2025, so the opening's businesses and the region's unemployment both stand for a normal year; there is no pandemic slack to model._
-- **Can the player's own household be evicted? (owner decision, registered `SG-WORLD-owner-decision-player-eviction`).** As built, yes, like any other.
+- **Can the player's own household be evicted?** _Settled by your ruling (OWNER-DECISIONS.md, evictions without courts): an eviction completes after the state's notice period, for every household, the player's included. Stopgap resolved Oct 15._
 
-- **Does a player see another business's books? (owner decision, registered `SG-WORLD-owner-decision-business-books`).** The record is built and no screen shows it. Simplest answer: the owner and the bank, plus anything the law makes public.
+- **Does a player see another business's books?** _Settled by your ruling (OWNER-DECISIONS.md): an owner sees the books, and starting or buying a business is for 1.0. The record is built for that screen. Stopgap resolved Oct 15._
 - **The federal budget's push on the economy.** _Settled in the Oct 14 merge: purchases and transfers to people above their base each move output at their own multiplier (purchases 1.2 after a year, transfers at CBO's ratio), and net interest moves nothing._
 
 - **Recessions in long games.** Real recessions start from shocks (oil, a pandemic, a financial crisis). Measured credit links alone don't make cycles. I'll let them come from causes in the game: the president's appointments to the central bank board, Congress's budgets and laws, and price changes in data. A self-starting credit cycle is possible at the edge of the measured ranges. Tell me if you want it.

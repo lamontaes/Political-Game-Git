@@ -3806,11 +3806,11 @@
     "file": "src/core2/business-books-view.ts",
     "line": 19,
     "whatItFakes": "The record a screen would read for a business's books (cash, sales, costs, wages, profit, taxes paid and owed, its credit line) is built, but no screen shows it: whether a player sees another business's books is the owner's open decision.",
-    "why": "Owner ruling, Oct 14 (business audit question 5): register the question as an owner decision and build the record the screen would read.",
+    "why": "Owner ruling, Oct 14 (business audit question 5): register the question as an owner decision and build the record the screen would read. Resolved by the owner's ruling (OWNER-DECISIONS.md, 'Starting or buying a business: 1.0, not early access. An owner sees the books.'): the record stays for the owner's screen in 1.0.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling on who sees a business's books (its owner, the player as owner, public filings only, or anyone), after which OPUS-PLAY shows this record on the screen that ruling names.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-macro-town-growth-neutral",
@@ -4262,11 +4262,11 @@
     "file": "src/core2/modules/housing.ts",
     "line": 1647,
     "whatItFakes": "The player's household is evicted like any other when its rent goes unpaid: notice, filing, hearing, judgment and removal under the place's law.",
-    "why": "Whether the player can lose their home is the owner's call (homelessness package, Oct 14); the package's default is yes.",
+    "why": "Whether the player can lose their home is the owner's call (homelessness package, Oct 14); the package's default is yes. Resolved by the owner's ruling (OWNER-DECISIONS.md, 'Evictions without courts: an eviction completes after the state's notice period from the law in force; the household moves as the housing engine moves leavers.'): the player's household follows the same rule.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: keep it as is, or give the player's household another path.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-housing-shelter-beds-state-rate",
