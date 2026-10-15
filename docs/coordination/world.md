@@ -23,7 +23,7 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
   - Residents the opening couldn't place work at jobs elsewhere of their own, and the town's unemployment counts where people live.
   - Unions cover workplaces at BLS's state and industry rates (public employers most); members pay dues, and right-to-work changes who joins.
 - **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons; startups open small, sized by the founder's savings, a home equity line from the town bank and an SBA-rule loan, and spread across the town's kinds of business at about the real rate. Where cannabis sales are legal, retailers apply for licenses and sell to the town's adults at their state's real sales per adult.
-- **The town bank** lends to businesses and households, and holds the residents' savings on deposit, paying interest.
+- **The town bank** lends to businesses and households, and holds each group of residents' savings beyond a month of income on deposit, paying interest.
 - **Homes:**
   - Homes in the place's real mix, priced like the county's, with FHFA prices, mortgages and property tax at the county's rate.
   - Owners refinance when rates fall far enough below theirs to pay for the closing costs.
@@ -50,6 +50,12 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
 - **Businesses (Oct 14, #4197):** businesses close from months of operating losses or their owner's reasons, not a yearly chance; workers quit for better pay or a better job; every payday carries federal and state unemployment tax, and company-owned businesses pay profit tax each quarter, all from the law in force; supplies bought outside the town leave its books.
 - **Replacements and names (Oct 14, #4224):** a worker who dies, moves away, quits or retires leaves an opening for the same job, and the employer fills it; an official whose aide dies or leaves hires another. Businesses carry names like Morton's Market, Gill Foods or Kauai County Diner, never "general store".
 - **Losing a home (Oct 14, #4234):** every renter, in the wider population too, owes rent and can be evicted under the place's law; an owner who stops paying the mortgage goes through the state's foreclosure, and the bank carries the loss. A removed household moves in with a relative who has room, takes a shelter bed (HUD's count of the state's beds), or ends up on the street, and rents again once its pay and savings allow. Each person carries a housing status that the core session's drives and health engines read.
+- **Today (Oct 15):**
+  - A town keeps a normal share of its people out of work all year, near its region's rate (it used to empty within four months). Someone looking while employed applies only for a raise worth moving for.
+  - Who works at the start follows each age's real employment rate, so retirees' households have their working retirees.
+  - Every adult weighs starting a business by the same reasons, and the player's character is never chosen for.
+  - Businesses pay property tax on their premises at their state's rate, and their books show it.
+  - The town bank holds the wider population's savings again, and a household that leaves or is met in person takes its share.
 - **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
