@@ -20,4 +20,4 @@ source: "reissue item 12 (Session C leftovers)"
 
 **Files.** src/core2/modules/elections.ts, candidacy.ts
 
-**Notes.** None.
+**Notes.** Split Oct 15 by a Claude session into gov-holdover-rule-data, gov-empty-special-repeats and gov-failed-presidential-election. The three loose commits on gov/state-federal, checked against main: the counted-gift cap and the batched minimum-wage raise were not on main and are carried in the PR that split this item; the residency weigh-down edits the wide-race candidate pool (raceScope, standingPool) that main does not have, so it waits for the wide-race merge (gov-wide-races-merge, #4350) and is not carried here: after that merges, cherry-pick aa7b45bef0 from gov/state-federal or note it dropped.
