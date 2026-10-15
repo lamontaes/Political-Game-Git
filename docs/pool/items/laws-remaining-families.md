@@ -5,10 +5,11 @@ area: laws
 kind: wiring
 priority: 1
 size: L
-status: open
-claimed-by:
+size: L
+status: blocked
+claimed-by: claude/laws-remaining-families-012x
 pr:
-blocked-on:
+blocked-on: laws-family-clean-air, laws-family-cannabis, laws-family-bargaining, laws-family-assistance-health, laws-family-school, laws-family-justice, laws-family-government-operations
 milestone:
 source: "reissue-2026-10-15 item 1 (Session A)"
 ---
