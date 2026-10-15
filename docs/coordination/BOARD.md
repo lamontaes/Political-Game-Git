@@ -113,3 +113,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 10. Same housing speed draft #4376: extend the reader repair to batch the places requested by world-metrics (its townFigures call only). First change preserves all captured outcomes and improves 166.89 to 141.79 seconds; the remaining housing scans are still repeated per place. No housing writer changes.
 
 - 9. GOV follow-up, lobby only the bill’s chambers — `pool/lobby-chamber-scope` (second Session D; interest-groups lobbied reader only, which currently includes town board and unrelated legislative seats for a state/federal bill. Existing law-effect and candidate-pool work remains with Sessions A/C; no director/English edits).
+
+- 10. Opening follow-up — first Session D returns to #4370: trace its tuition through existing everyday-living plans, supplier sales and cash journal. The missing per-contract receipt is expected under the owner’s single household-spending rule; do not add another bill.
