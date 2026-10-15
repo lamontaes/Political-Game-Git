@@ -4,7 +4,7 @@ title: "release:check fails on main: docs/release/changes/agents-align.md carrie
 area: release
 kind: bug
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/release-agents-align-declaration
 pr:
 blocked-on:
