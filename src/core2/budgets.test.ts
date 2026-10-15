@@ -21,6 +21,7 @@ import {
   outsideRevenueOf,
   openBudgets,
   taxPaymentsOf,
+  spendingPaymentsOf,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
 import { treasuryMonthsOf } from "./budgets-treasury";
@@ -154,6 +155,34 @@ describe(
         }
       }
       expect(installments, `tax installments in ${place}`).toBeGreaterThan(0);
+      // What leaves the town on a spending line goes to a named group of
+      // payees, never to the outside account alone: the payments add up to
+      // the lines' outside money (the federal interest goes to the holders
+      // of the debt and is counted there).
+      let paidOut = 0;
+      for (const gov of govs) {
+        const payments = spendingPaymentsOf(api, gov.id);
+        for (const paid of payments) {
+          expect(paid.payeeName, gov.id).not.toBe("");
+          expect(paid.line, gov.id).not.toBe("");
+        }
+        paidOut += payments.length;
+        const lines = treasuryMonthsOf(api, gov.id).reduce(
+          (n, m) =>
+            n +
+            Object.entries(m.lines)
+              .filter(
+                ([line]) => gov.level !== "federal" || line !== "netInterest",
+              )
+              .reduce((a, [, row]) => a + row.outsideMinor, 0),
+          0,
+        );
+        expect(
+          payments.reduce((n, p) => n + p.amountMinor, 0),
+          `${gov.id} in ${place}`,
+        ).toBe(lines);
+      }
+      expect(paidOut, `payments to payees in ${place}`).toBeGreaterThan(0);
       // Aid, fees and the rest arrive each month for the local governments;
       // one with no budget of its own passes what it collects on.
       for (const gov of govs.filter((g) => g.level !== "federal")) {

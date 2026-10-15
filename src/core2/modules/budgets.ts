@@ -173,6 +173,10 @@ export const BUDGETS_MODULE: CoreModule = {
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** The part of each spending line that left the town, by the group it paid. */
+      spendingPayments: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
       /** Each tax paid by a named group of payers on its due date. */
       taxPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -1437,6 +1441,28 @@ export interface TaxPayment {
   readonly dueOn: string;
   readonly date: string;
   readonly amountMinor: number;
+}
+
+/** A payment from a treasury to a named group of payees outside the town. */
+export interface SpendingPayment {
+  readonly id: string;
+  readonly governmentId: string;
+  readonly line: string;
+  readonly payeeId: string;
+  readonly payeeName: string;
+  readonly kind: string;
+  readonly date: string;
+  readonly amountMinor: number;
+}
+
+/** What a government's treasury has paid to named payees outside the town, by line. */
+export function spendingPaymentsOf(
+  api: CoreAPI,
+  governmentId: string,
+): readonly SpendingPayment[] {
+  return table(api, "spendingPayments").query("byGovernment", [
+    governmentId,
+  ]) as unknown as SpendingPayment[];
 }
 
 /** What a government's treasury has received from named payers of its taxes. */

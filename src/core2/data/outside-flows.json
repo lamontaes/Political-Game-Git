@@ -146,10 +146,33 @@
     },
     {
       "kind": "accounts.transfer",
-      "idPrefix": "treasury",
-      "matchedBy": "plug",
-      "stopgapId": "SG-GOV-outside-revenue-monthly",
-      "what": "A treasury's even twelfth of each spending line paid to outside payees (and in-town businesses), part of the same stand-in as outside-revenue."
+      "idPrefix": "treasury-wages",
+      "matchedBy": "service",
+      "what": "The part of a treasury's spending line that is pay to public employees who live outside the town, paid to that group each month (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-purchases",
+      "matchedBy": "goods-and-services",
+      "what": "The part of a treasury's spending line bought from contractors and suppliers outside the town, paid to that group each month (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-benefits",
+      "matchedBy": "transfer-under-law",
+      "what": "The part of a treasury's spending line paid as benefits to recipients outside the town, under the law that sets the benefit (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-bonds",
+      "matchedBy": "loan-repayment",
+      "what": "A state or local treasury's interest on its bonds, paid to the holders (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-grants",
+      "matchedBy": "transfer-under-law",
+      "what": "The part of a treasury's spending line paid as grants to recipients outside the town (spendingPayments)."
     },
     {
       "kind": "accounts.transfer",

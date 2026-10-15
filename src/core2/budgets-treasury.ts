@@ -11,12 +11,10 @@
  * short. Social Security paid in town follows the federal line.
  */
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
-<<<<<<< HEAD
+import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
-=======
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
->>>>>>> origin/claude/gov-outside-revenue-taxes
 import type { CoreAPI, CoreState, Source } from "./types";
 import type { ModuleRow } from "./module-data";
 import {
@@ -48,7 +46,20 @@ const DATA = spendingData as unknown as {
   };
 };
 
-<<<<<<< HEAD
+const PAYEES = payeeData as unknown as {
+  payees: Record<string, { name: string; kind: string }>;
+  lines: Record<string, Record<string, number>>;
+  fallbackLine: string;
+};
+/** The id prefix of each kind of payment to a payee group (outside-flows.json rows). */
+const PAYEE_PREFIX: Readonly<Record<string, string>> = {
+  wages: "treasury-wages",
+  purchases: "treasury-purchases",
+  benefits: "treasury-benefits",
+  bonds: "treasury-bonds",
+  grants: "treasury-grants",
+};
+
 const DEBT = debtData as unknown as {
   interestLine: string;
   balanceAsOf: string;
@@ -111,7 +122,6 @@ export function federalDebtOf(api: CoreAPI): DebtRow[] {
   return DEBT.holders.map((h) => rows.get(h.id) as unknown as DebtRow);
 }
 
-=======
 const PAYERS = payerData as unknown as {
   lines: Record<
     string,
@@ -123,7 +133,6 @@ const PAYERS = payerData as unknown as {
   >;
 };
 
->>>>>>> origin/claude/gov-outside-revenue-taxes
 export function treasuryParameter(key: string): number {
   const row = DATA.parameters[key];
   if (!row) throw new Error(`Unknown treasury parameter: ${key}`);
@@ -659,12 +668,36 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       } else {
         // stopgapId: SG-GOV-public-employers-outside
         if (p.outside > 0) api.stopgap("SG-GOV-public-employers-outside");
-        outsidePaid = pay(
-          `treasury:${gov.id}:${line}:outside:${date}`,
-          accounts.main(outside),
+        // The part of the line that leaves the town goes to the groups the
+        // line pays, each by its share of the line.
+        const shares = PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!;
+        const groups = Object.entries(shares);
+        const owed = splitBy(
           p.outside,
-          "treasury-spending:outside",
+          groups.map(([, share]) => share),
         );
+        groups.forEach(([payeeId], i) => {
+          const payee = PAYEES.payees[payeeId]!;
+          const id = `${PAYEE_PREFIX[payee.kind]}:${payeeId}:${gov.id}:${line}:${date}`;
+          const paid = pay(
+            id,
+            accounts.main(outside),
+            owed[i]!,
+            `treasury-spending:${payee.kind}`,
+          );
+          if (paid <= 0) return;
+          outsidePaid += paid;
+          table(api, "spendingPayments").put({
+            id,
+            governmentId: gov.id,
+            line,
+            payeeId,
+            payeeName: payee.name,
+            kind: payee.kind,
+            date,
+            amountMinor: paid,
+          } as unknown as ModuleRow);
+        });
       }
       const aidLine = aidCharged[line] ?? 0;
       // Aid is paid in full before the lines when it can be; charge it at the paid rate.
