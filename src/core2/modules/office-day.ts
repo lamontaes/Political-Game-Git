@@ -1,3 +1,4 @@
+import type { ItemVetoSelection } from "../state-item-veto";
 /**
  * The officeholder's day (office play, OFFICE-LOCAL; one engine for every
  * level, `docs/packages/office-play.md`).
@@ -741,7 +742,7 @@ export function decideDesk(
 export function decideDeskItems(
   api: CoreAPI,
   billId: string,
-  itemIndices: readonly number[],
+  itemIndices: readonly (number | ItemVetoSelection)[],
 ): BillRow {
   const player = playerOf(api);
   if (!player) throw new Error("No officeholder is controlled.");
@@ -752,7 +753,7 @@ export function decideDeskItems(
     how: "did",
     recordId: billId,
     position: null,
-    detail: itemIndices.join(","),
+    detail: JSON.stringify(itemIndices),
   });
   releaseHeld(api, deskStopId(billId));
   return decided;

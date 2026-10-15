@@ -1,4 +1,5 @@
 import { buildBenchWorld } from "../../src/bench/world";
+import { budgetsOf } from "../../src/core2/modules/budgets";
 import { treasuryMonthsOf } from "../../src/core2/budgets-treasury";
 import { appointGovernor } from "../../src/core2/office-day-state";
 import {
@@ -11,6 +12,12 @@ import {
 } from "../../src/core2/modules/offices";
 import {
   proposeAsExecutive,
+  offerDeal,
+  members,
+  memberKey,
+  memberPosition,
+  committeeRecords,
+  votesOn,
   scheduleVote,
   billOf,
   LEGISLATURE_MODULE_ID,
@@ -116,15 +123,47 @@ const nominee = [...api.state.people.values()]
 const appointment =
   post && nominee ? appointGovernor(api, post.post, nominee.id) : null;
 const chamber = seats.find((s) => s.office.kind.startsWith("legislature-"))!;
+const adoptedBudget = budgetsOf(api, place.state).at(-1)!;
 const proposed = proposeAsExecutive(api, {
   bodyOfficeId: chamber.office.id,
   provisions: [
-    { kind: "budget-line", line: "parks", value: 1000000 },
-    { kind: "budget-line", line: "administration", value: 2000000 },
+    {
+      kind: "budget-line",
+      line: "parks",
+      value: 1000000,
+      of: adoptedBudget.spendingMinor.parks,
+    },
+    {
+      kind: "budget-line",
+      line: "administration",
+      value: 2000000,
+      of: adoptedBudget.spendingMinor.administration,
+    },
   ],
 });
 budgetBillId = proposed?.billId ?? null;
-if (budgetBillId) scheduleVote(api, budgetBillId);
+const negotiations = [];
+if (budgetBillId) {
+  // Use ordinary offers; each member accepts or declines from their own reasons.
+  const bodies = new Set(
+    seats
+      .filter((s) => s.office.kind.startsWith("legislature-"))
+      .map((s) => s.office.id),
+  );
+  for (const body of bodies) {
+    for (const term of members(api, body)) {
+      const memberId = memberKey(term);
+      if (memberPosition(api, budgetBillId, memberId).total > 0) continue;
+      const result = offerDeal(api, {
+        billId: budgetBillId,
+        memberId,
+        kind: "back-their-item",
+      });
+      negotiations.push({ memberId, ...result });
+    }
+  }
+  scheduleVote(api, budgetBillId);
+}
 playUntil(addDays(makeIsoDate(start), 60), governor);
 playUntil(addDays(makeIsoDate(start), 365), member);
 const governorActs = resultsOf(api, governor);
@@ -176,7 +215,12 @@ console.log(
               )
           : null,
       proposed,
+      negotiations,
       proposedBill: budgetBillId ? billOf(api, budgetBillId) : null,
+      proposedCommittees: budgetBillId
+        ? committeeRecords(api, budgetBillId)
+        : [],
+      proposedVotes: budgetBillId ? votesOn(api, budgetBillId) : [],
       itemVeto: budgetBillId
         ? api
             .moduleState(LEGISLATURE_MODULE_ID)
