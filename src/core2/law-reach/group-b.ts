@@ -59,6 +59,7 @@ import {
 
 type Mechanic =
   | "records"
+  | "compliance-cost"
   | "assistance-time-limit"
   | "farm-output"
   | "property-assessment"
@@ -452,6 +453,8 @@ function runPolicy(
       });
       return;
     }
+    case "compliance-cost":
+      return; // The business engine reads the law when it charges a nonattainment county's emitters.
     case "assistance-time-limit":
       // The welfare line's benefit reads this law when it picks who is paid;
       // run that line again now so a change takes hold today.
