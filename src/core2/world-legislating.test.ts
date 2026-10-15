@@ -5,6 +5,7 @@
  * chambers and the governor; what passes becomes law in force on the state's
  * own effective date.
  */
+import questionScopes from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import { wireItem } from "./press-topics";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -298,6 +299,14 @@ describe("M3-10 other governments legislate", () => {
     );
     expect(session, `${state} ${key}: no Congress session`).toBeDefined();
     expect(session!.conveneAt).toBe("2026-01-03");
+    expect(session!.filings.length).toBeGreaterThan(0);
+    for (const filing of session!.filings)
+      expect(
+        (questionScopes.questions as Record<string, { levels: string[] }>)[
+          filing.question
+        ]?.levels,
+        `${filing.question}: Congress filed another level's question`,
+      ).toContain("federal");
     const voted = session!.bills.filter((b) => b.fate === "voted");
     // No vote before committee has had the bill.
     for (const b of voted)
