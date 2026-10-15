@@ -98,10 +98,54 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "mover-departure",
+      "matchedBy": "own-money",
+      "what": "A full household moving away takes its cash out of town to the place's outside account (moves)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "counted-arrival",
+      "matchedBy": "own-money",
+      "what": "A counted household arriving brings its money from outside the town into its group (residents, births-counted)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "entrant",
+      "matchedBy": "goods-and-services",
+      "what": "A business or worker entering the town's books starts the same outside purchases, sales and pay as the flow it copies (residents-economy)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "price",
+      "matchedBy": "transfer-under-law",
+      "what": "A household's or counted group's change in what a priced good costs under a law or market rule, paid to the seller or payee, or refunded from the outside account (place-prices)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "property-tax",
+      "matchedBy": "transfer-under-law",
+      "what": "Property tax a homeowner owes under the place's law, paid to the government that levies it (housing-property-tax)."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "outside-revenue",
       "matchedBy": "plug",
       "stopgapId": "SG-GOV-outside-revenue-monthly",
       "what": "A twelfth of a government's yearly Census revenue paid in each month with no taxpayer, sale or grant behind it."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-outside-revenue-monthly",
+      "what": "The share of a government's monthly spending that goes to payees elsewhere, paid from its treasury to the outside account with no recorded payee behind it (budgets-treasury)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "federal-borrowing",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-outside-revenue-monthly",
+      "what": "The federal treasury borrowing a month's gap from outside, a gap the monthly revenue stand-in creates (budgets-treasury)."
     }
   ]
 }

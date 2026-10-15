@@ -3,7 +3,7 @@ id: gov-stopgap-budgets-faked-mechanic
 title: "Stopgaps in budgets (faked-mechanic): 3 open"
 area: gov
 kind: stopgap
-priority: 2
+priority: 1
 status: open
 claimed-by:
 pr:
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind faked-
 **Files.** src/core2/modules/budgets.ts
 
 **Notes.** First row: Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and p
+
+Outside-flow gate (pool core-outside-flow-provenance-gate): `scripts/core2-year/closures.mjs` check 6 stays red only on SG-GOV-outside-revenue-monthly, which now carries every government stand-in flow (`outside-revenue`, `treasury`, `federal-borrowing`) in `src/core2/data/outside-flows.json`. Replacing it with real payers and payees turns the gate green; delete those three `plug` rows in the same change.
