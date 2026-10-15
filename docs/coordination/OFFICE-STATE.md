@@ -7,7 +7,7 @@ Only OFFICE-STATE writes this file. Package: `docs/packages/office-play.md` (the
 
 ## What the owner can play now
 
-Nothing merged yet. See the PR body for the branch's state.
+Nothing from the state branch is merged yet. Session C is rebuilding the work in draft PR #4330 on `office/session-c-unified`; `SESSION-C.md` records the played year and remaining limits.
 
 ## Checklist
 
@@ -21,7 +21,7 @@ Nothing merged yet. See the PR body for the branch's state.
 
 ## Needs from other sessions
 
-- **OFFICE-LOCAL:** the engine `src/core2/modules/office-day.ts` is not on `main` and no `office/local` branch exists yet. Built against a registered stand-in in `office-day-state.ts` meanwhile.
+- The local and federal office-day engines are now on main. Session C replaces the state scheduler stand-in with the shared registry, stops and act ledger.
 
 ## Owner questions
 

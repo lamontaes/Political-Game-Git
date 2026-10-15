@@ -47,6 +47,7 @@ import {
   billOf,
   castMemberVote,
   executiveDecision,
+  executiveItemVeto,
   holdVote,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -143,6 +144,9 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     },
   },
   onCalendarWork: officeDayCalendar,
+  onAfterDay(api) {
+    for (const kit of officeActKits()) kit.onAfterDay?.(api);
+  },
   // Filled from every registered level's kit when the engine opens.
   offerProviders: {},
   effectHandlers: {},
@@ -157,6 +161,7 @@ export const OFFICE_DAY_MODULE: CoreModule = {
       scheduleOfficeReview(api);
     }
     if (payday) payStipends(api);
+    for (const kit of officeActKits()) kit.onDay?.(api);
     return undefined;
   },
 };
@@ -728,6 +733,27 @@ export function decideDesk(
     detail: sign ? "sign" : "veto",
   });
   const decided = executiveDecision(api, billId, sign);
+  releaseHeld(api, deskStopId(billId));
+  return decided;
+}
+
+/** The governor strikes appropriation items under the place's law and lets the body weigh overrides. */
+export function decideDeskItems(
+  api: CoreAPI,
+  billId: string,
+  itemIndices: readonly number[],
+): BillRow {
+  const player = playerOf(api);
+  if (!player) throw new Error("No officeholder is controlled.");
+  const decided = executiveItemVeto(api, billId, player, itemIndices);
+  keepAct(api, {
+    personId: player,
+    kind: "item-veto",
+    how: "did",
+    recordId: billId,
+    position: null,
+    detail: itemIndices.join(","),
+  });
   releaseHeld(api, deskStopId(billId));
   return decided;
 }

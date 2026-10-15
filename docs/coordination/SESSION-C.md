@@ -1,17 +1,30 @@
 # Session C
 
-Branch: `office/session-c-unified`.
+Branch: `office/session-c-unified`. Draft PR: #4330.
+
+## What the owner can play
+
+Control a state legislator or governor through the bench player. Session and district days use the shared clock and act ledger. The governor can give the address, propose a budget, nominate a named person, and decide a bill on the desk.
+
+## Measured play
+
+Seed `f17a65f327021d58` drew Homer, Alaska. The played year ran from January 20, 2025 to January 20, 2026 in 78.9 seconds. There were 34 state clock stops, 392 member acts, and 282 recorded view changes from the address. The first month paid the member $3,377 in per diem. The treasury read the payments before spending the rest of its budget.
+
+The governor’s budget proposal found a sponsor, then failed on the recorded votes. Item vetoes passed an edge test but were not reached in this played year. No passage or veto outcome was forced.
 
 ## Assignment
 
-- In progress: bring the state office day onto the shared engine. Local and federal branches are already ancestors of main.
-- Next: election and legislature defects, then federal candidates and empty races, each in its own draft PR.
-- Then claim the first open pool item.
+- Order 1: integration built; final checks and remaining proof in progress. Local and federal branches were already ancestors of main. The state branch’s separate stops and desk rule are replaced.
+- Order 2: election and legislature defects next.
+- Order 3: federal candidates and empty races next; fetched #4256 for its proven state work.
+- Pool: not claimed; the assignment is not complete.
 
-## Contract
+## Limits and failed checks
 
-Keep state calendars and acts in the shared office-day registry and clock. Replace the state branch’s temporary stops. Check changed files and run one played year in a randomly drawn place, recording the people and downstream reads.
+The first play script skipped beyond its intended handoff; its calendar target now bounds each leg. A fixture read the wrong budget table; the test now reads the actual adopted budget. Per diem initially ran after the treasury close and paid nothing; it now uses the existing budget-line payer hook. A proof import exposed the treasury’s existing import cycle; the script starts through buildBenchWorld.
 
-## Current limits
+The item-veto rule retains the imported data’s estimated legal details. Governor appointments retain the registered job-transition limit: candidates must first leave another job. The state branch’s dev-seating helper remains registered. Guard and police decision bodies remain deferred by the owner’s October 14 ruling.
 
-No state changes are playable yet. Dependencies are being installed in the existing workspace.
+## Method
+
+No sub-agents. No merges. Dependencies installed in the existing registered cloud workspace. Checks are limited to changed files and their related tests.
