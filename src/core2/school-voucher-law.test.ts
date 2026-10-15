@@ -114,6 +114,22 @@ it("pays the state's share of town private tuition while the law stands, and sto
         paid += obligation.paidMinor;
       }
       expect(paid, where).toBeGreaterThan(0);
+      if (process.env.VOUCHER_PROOF)
+        console.log(
+          JSON.stringify({
+            where,
+            tuitionMonthlyMinor: tuitionBefore,
+            share: voucherShare(api),
+            voucherMonthlyMinor: monthly,
+            paidMinor: paid,
+            payments: opened.map((row) => ({
+              obligation: row.obligationId,
+              to: row.recipientId,
+              monthlyMinor: row.amountMinor,
+              paidMinor: api.accounts().obligation(row.obligationId)!.paidMinor,
+            })),
+          }),
+        );
       // Repeal ends it: every payment stops and none is paid after.
       setLaw(0);
       advanceCore(core, addDays(makeIsoDate(core.date), 35));
