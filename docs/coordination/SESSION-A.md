@@ -1,51 +1,41 @@
-# Session A — law-link
+# Session A: law-link
 
-Housing decisions now read the laws in force. The named tenant's payment,
-informed reaction and director line still need proof.
+On the draft branches, laws now reach housing construction and rent, household prices, property-tax assessments, farm sales, consumer loan offers, and income-tax schedules. The knowledge draft preserves how a person actually received news.
 
-## Assignment
+Session A is not finished. The full law-to-person-to-received-source-to-director acceptance remains open. No pool item is claimed, and the original law-link draft stays open until the replacements hold.
 
-Branch: `law/session-a-law-link`, fresh from main `1977d40995`.
-Draft: https://github.com/lamontaes/Political-Game-Git/pull/4331.
-Assignment: `docs/work-orders/overnight-2026-10-15.md`, Session A.
+## Drafts and evidence
 
-Housing is the first family. Rent renewals now read stabilization for full and
-counted tenants. Construction reads multifamily, inclusionary, gas hookup and
-farmland laws. Counsel requires a treasury payment before a repayment plan;
-counted tenants use the same plan rule and pay through their group account.
+| Family             | Draft and branch                       | Played-world result                                                                                                                                               |
+| ------------------ | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Housing            | #4331, `law/session-a-law-link`        | A native zoning law changes construction capacity. Native rent-cap savings and eviction-counsel payment were absent.                                              |
+| Prices             | #4335, `law/session-a-prices`          | Nadia Dalton receives a 775-cent transit refund in `journal:2025-04-03:8842`. The bill was proposed through the legislature and passed an unforced vote.          |
+| Received knowledge | #4342, `law/session-a-law-knowledge`   | Rebecca Moseley receives a printed law story. Her stance retains the actual news source. This does not prove a paid effect on her.                                |
+| Property tax       | #4345, `law/session-a-property-tax`    | David McKnight pays 10,342 cents in `journal:2025-02-06:2224`. No native assessment-cap saving occurred.                                                          |
+| Groundwater        | #4359, `law/session-a-groundwater`     | A native county law limits farm sales. William Miles later receives 283,169 cents in `journal:2025-05-01:9077`. The full draw is not claimed as the law's effect. |
+| Consumer credit    | #4361, `law/session-a-consumer-credit` | Native applications, loans and payments were absent. Binding, repeal and jurisdiction cases are controlled tests only.                                            |
+| Income tax         | #4365, `law/session-a-income-tax`      | David's February 13 paycheck withholds 9,223 cents under the state law. The native year had no graduated-tax repeal; transition tests cover that case.            |
 
-The assignment is not complete. No pool item is claimed. Keep #4116 open until
-its replacement holds. No PR has been merged by this session.
+The common unchosen draw is Bolton, North Carolina, seed `ec34d7766cd3277bdbd1510ae1a9277680fb03f7dd96b0649f7df4c6290591c5`. Each proof runs a played year with all modules. PR bodies carry the complete IDs, exact checks and limitations. Controlled cases are separate from native evidence.
 
-## Proof and checks
-
-The first drawn place is Bolton, North Carolina, key `3706860`.
-Seed: `ec34d7766cd3277bdbd1510ae1a9277680fb03f7dd96b0649f7df4c6290591c5`.
-The ordinary year installs all 65 modules. The council changes multifamily
-permission; construction reads those laws at its monthly decision. There are
-no eviction hearings, affordable allocations or annual rent changes in that
-year. Do not claim a named tenant's changed payment or reaction from this run.
-
-Baseline: 22.462 seconds for 365 days. The housing proof test's year takes
-20.539 seconds on the same machine and seed. Eleven housing tests pass,
-including the controlled cap and fill-in case. Those controlled cases are
-edge tests, not the ordinary-year proof. Final changed-file gates are pending.
+Each family starts from main `1977d40995`. None was merged or closed by this session. No helper ran.
 
 ## Remaining work
 
-- Complete the housing payment-to-person chain. Keep the housing stopgaps open.
-- Read enacted cap terms and building exemptions; share affordable-unit
-  allocation with counted tenants. Deliver notices before attributing changes.
-- Rebuild the other law families from #4116's findings against current engines.
-- Give each of the eleven record-only families a real read, or retain its
-  registered reason for missing records. Never close one by deleting its row.
-- Prove each claimed chain through a received source, view or choice, and the
-  director's line. Words owns director and English changes; note required
-  integration in the PR body.
-- Finish Session A before taking the first unclaimed pool item.
+- Complete the remaining law reads, including bargaining, agency fees, cannabis, health and assistance, school eligibility, clean-air policy, and the remaining justice and government policies.
+- Audit all 59 catalog questions against their decision or payment consumers. Existing handlers are not accepted merely because they write a row.
+- Prove each wired family's named-person, received-source, view or choice, and director chain. Most people remain untouched.
+- Keep the eleven permitted record-only laws registered with concrete missing-record reasons. Keep every other shortcut registered too.
+- Reconcile family changes after CTO integration. Close #4116 only when the replacements hold, then claim the first open pool item.
 
-The old counsel test supplied no payer or provider. It now tests a funded
-program and an empty treasury. The two gas and farmland employer-row assertions
-are replaced by the played-year construction checks, not skipped.
+## Verification limits
 
-No helpers ran. Model and usage counters are unavailable in the runtime.
+The income-tax transition test passes. Two group-B failures reproduce on exact main in Ten Mile Run, New Jersey, seed `91e8ccda3aae3da76ef3d6f5136a55458beea638c1d565e8b1dbc37f85971b1e`: assistance eligibility and highway-service cleanup. An existing news test also fails on main. No tests were skipped.
+
+Consumer credit's matched speed check was 28.39 seconds versus 26.20 on main. Groundwater's personal-receipt run included owner fill-in and concurrent checking, so its 30.11 seconds is not a comparable speed result. The earlier groundwater year was 21.71 seconds. Income tax's final year was 20.62 seconds.
+
+## Needs from other sessions
+
+The director and English engine are outside tonight's scope. Use existing consumers where possible and identify the missing Words-session consumer for each remaining payment explanation. No journal or conversation line is claimed from bookkeeping alone.
+
+Counted credit applications and repayment still need the same rule as full households. Farm irrigation exposure, bottle returns, statutory tax replacement terms, and the remaining gaps are registered in each draft's stopgap data.
