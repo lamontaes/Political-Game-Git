@@ -4,7 +4,7 @@ title: "Politics opens as a compact hub (#4296)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4296
 blocked-on:
@@ -21,3 +21,4 @@ source: "astra order 1; PR #4296 branch play/politics-hub"
 **Files.** src/bench/*, src/bench/controls.json
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
+Sent back 2026-10-15 from PR #4296 (branch play/politics-hub): code conflict with main in src/bench/play.mjs, src/bench/data/controls.json; finish on that branch, merge main into it first.

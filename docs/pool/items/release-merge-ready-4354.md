@@ -4,13 +4,13 @@ title: "Merge #4354 (unit suite): resolve the finance-day-order conflict by taki
 area: release
 kind: cleanup
 priority: 1
-status: in-pr
-claimed-by: pool/unit-suite
+status: open
+claimed-by:
 pr: #4354
 blocked-on:
 milestone:
 source: 'reissue "Ready to merge"; PR #4354 branch pool/unit-suite'
-claimed-at: 2026-10-15T21:25:05.293Z
+claimed-at:
 ---
 
 **What.** Main deleted src/core2/finance-day-order.test.ts; the PR now conflicts there. Resolve by taking main's deletion, then the CTO merges.
@@ -22,3 +22,4 @@ claimed-at: 2026-10-15T21:25:05.293Z
 **Files.** src/core2/finance-day-order.test.ts
 
 **Notes.** Not a draft.
+Sent back 2026-10-15 from PR #4354 (branch pool/unit-suite): code conflict with main in src/core2/finance-day-order.test.ts, stopgaps.json; finish on that branch, merge main into it first.
