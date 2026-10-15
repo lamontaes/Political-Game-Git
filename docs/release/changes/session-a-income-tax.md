@@ -1,6 +1,8 @@
 ---
 id: session-a-income-tax
-impact: none
+impact: patch
+section: Fixed
+title: Income tax schedule changes remain stable
 ---
 
-Session A contract: make repeal and restoration of starting graduated income-tax schedules idempotent across monthly law reviews. Use the existing flat-rate estimate and shared full/count withholding engine. Verify repeat reviews, restoration and later independent tax acts, plus an unchosen played year with actual withholding records.
+Flat taxes with deduction schedules are now distinguished from graduated taxes. Repealing a starting graduated schedule writes a stable flat replacement. Restoration runs once and preserves later independent tax acts. Replacement rates remain registered estimates.
