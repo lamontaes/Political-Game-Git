@@ -20,4 +20,4 @@ source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
 
 **Files.** src/rules party loyalty data
 
-**Notes.** Owner ruling (Oct 15): Shor-McCarty may calibrate the state-chamber party-loyalty parameter; nothing ships, no citation; one calibration input weighted against roll calls; legal check on the M7 list.
+**Notes.** Owner ruling (Oct 15): Shor-McCarty may calibrate the state-chamber party-loyalty parameter; nothing ships, no citation; one calibration input weighted against roll calls.

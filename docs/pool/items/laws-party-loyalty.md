@@ -20,4 +20,4 @@ source: "overnight pool item 12; reissue closed note"
 
 **Files.** none
 
-**Notes.** Owner ruling (Oct 15): Shor-McCarty may calibrate the state-chamber party-loyalty parameter; nothing ships, no citation; one calibration input weighted against roll calls; legal check on the M7 list.
+**Notes.** Owner ruling (Oct 15): Shor-McCarty may calibrate the state-chamber party-loyalty parameter; nothing ships, no citation; one calibration input weighted against roll calls.
