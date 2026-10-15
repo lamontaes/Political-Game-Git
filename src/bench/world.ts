@@ -123,11 +123,6 @@ export function entrantOf(input: CoreInput, placeId: string): string {
   return ages[0].id;
 }
 
-/**
- * The core requires every full person's relatives to be full people too, so
- * the kept circle grows to its family closure (relatives and their
- * households) before the rest of the town becomes counts.
- */
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
   "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
