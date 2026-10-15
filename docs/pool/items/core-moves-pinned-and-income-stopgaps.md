@@ -5,11 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-moves-income-award
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T23:56:50.210Z
 ---
 
 **What.** TODO
