@@ -35,7 +35,6 @@ import {
   provisionStance,
   type MemberPosition,
 } from "../core2/modules/legislature";
-import { officialOf } from "../core2/modules/officials";
 import { CASE_MADE } from "../core2/modules/speech";
 import { VIEWS_SPEAKER_KEY } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -156,13 +155,9 @@ export interface OfficeSceneResult {
   after: MemberPosition;
 }
 
-/** The person a member is, by their term: only a full person whose position reads the views engine. */
+/** A member the scene can be about: a living person, in a town body or a state or federal one. */
 function persuadable(core: CoreState, memberId: string): boolean {
-  // stopgapId: SG-WORDS-office-scene-town-members (a state or federal official's position is their officials record, which no case moves yet)
-  return (
-    core.people.get(memberId)?.alive === true &&
-    !officialOf(coreAPI(core), memberId)
-  );
+  return core.people.get(memberId)?.alive === true;
 }
 
 /**
@@ -237,7 +232,7 @@ export function composeOfficeScene(
   const targetId = memberKey(pick.term);
   const target = core.people.get(targetId)!;
 
-  const questions = bill.provisions.flatMap((provision) => {
+  const asked = bill.provisions.flatMap((provision) => {
     const stance = provisionStance(api, provision);
     if (!stance) return [];
     return [
@@ -249,6 +244,12 @@ export function composeOfficeScene(
       },
     ];
   });
+  // A bill may carry the same question in several provisions (a budget); the
+  // case is made once on each question, as one event, not once per provision.
+  const questions = asked.filter(
+    (row, at) =>
+      asked.findIndex((other) => other.question === row.question) === at,
+  );
   if (!questions.length) return null;
 
   const body = bodyOf(api, bill.bodyOfficeId);
