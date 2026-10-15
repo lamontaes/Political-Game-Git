@@ -69,6 +69,18 @@ export function businessBooksView(
       recordIds.push(row.id);
     }
   }
+  // Property tax on its premises, by year (the housing engine bills it).
+  if (core.modules.has("housing"))
+    for (const row of api
+      .moduleState("housing")
+      .table("businessTax")
+      .query("byBusiness", [organizationId]) as unknown as {
+      id: string;
+      paidMinor: number;
+    }[]) {
+      taxesPaid += row.paidMinor;
+      recordIds.push(row.id);
+    }
   const outside =
     residentsRuntime(core)?.flows.get(`outside-costs:${organizationId}`)
       ?.outsidePaidMinor ?? 0;

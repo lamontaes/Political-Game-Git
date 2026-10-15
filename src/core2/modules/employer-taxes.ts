@@ -36,7 +36,6 @@ const COUNTED_KIND = "employer-taxes:counted";
 const COUNTED_STOPGAP = "SG-WORLD-employer-tax-counted-wages";
 const PROFIT_KIND = "employer-taxes:profit";
 const PASS_THROUGH_STOPGAP = "SG-WORLD-business-profit-pass-through";
-const PREMISES_STOPGAP = "SG-WORLD-business-premises-property-tax";
 
 /** A quarter's tax on a corporation's operating profit. */
 export interface ProfitTaxRecord {
@@ -188,16 +187,14 @@ const QUARTER_DAYS = ["01-01", "04-01", "07-01", "10-01"];
  * another organization (a corporation's location) pays the corporate rate in
  * force on its operating profit over the quarter, from its books, to the
  * federal treasury. An owner-run business's profit is its owner's income
- * under the law, which is not taxed yet (registered stopgap); nor is property
- * tax on premises, which the books don't record (registered stopgap).
+ * under the law, which is not taxed yet (registered stopgap). Property tax on
+ * premises is billed with homes' (billBusinessPropertyTax).
  */
 function payProfitTaxes(api: CoreAPI): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   const treasury = governments(api).find((g) => g.id === "US");
   if (!treasury) return;
   const law = lawInForce(api, "corporate-income-tax").governing;
-  // stopgapId: SG-WORLD-business-premises-property-tax
-  api.stopgap(PREMISES_STOPGAP);
   const core = api.state as CoreState;
   for (const [id, books] of [...core.finance.businesses].sort((a, b) =>
     a[0].localeCompare(b[0]),

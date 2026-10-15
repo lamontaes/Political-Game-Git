@@ -3794,11 +3794,11 @@
     "file": "src/core2/modules/employer-taxes.ts",
     "line": 39,
     "whatItFakes": "Businesses pay no property tax on their premises; the property-tax engine bills homes only.",
-    "why": "A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read.",
+    "why": "A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read. Resolved Oct 15 (OPUS-WORLD): businesses pay their state's business property tax per dollar of private payroll (EY/COST FY23 over BLS QCEW 2023) on their books' payroll, on the place's installments (billBusinessPropertyTax).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "Business premises recorded with an assessed value (commercial values by place), billed at the property-tax rate in force like homes.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-owner-decision-business-books",
@@ -4618,6 +4618,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "Loans past the bank's room go to an outside holder for both tiers, with a payable outside account for full households.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-property-tax-territories",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-property-tax.ts",
+    "line": 1,
+    "whatItFakes": "Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands bill businesses the nation's business property tax per dollar of private payroll (4.1%), not their own.",
+    "why": "The EY/COST state-by-state study covers the 50 states and D.C. only.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-15",
+    "replacement": "Each territory's own business property tax collections (its government's finance reports) over its private payroll (BLS QCEW for Puerto Rico and the Virgin Islands; the census of the island areas for the rest).",
     "status": "open"
   }
 ]

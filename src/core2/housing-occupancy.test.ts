@@ -13,12 +13,10 @@ import {
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "housing-occupancy",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "housing-occupancy");
 
-describe(`who lives in the rentals (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`who lives in the rentals (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("ends departed households' rent and houses the households that moved in", () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),

@@ -18,11 +18,13 @@
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import dueDates from "./data/housing/property-tax-due-dates.json" with { type: "json" };
+import businessTaxData from "./data/housing/business-property-tax.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import type { ModuleTable } from "./module-state";
 import { stopgap } from "./stopgaps";
+import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 export interface PropertyTaxTerms {
@@ -671,6 +673,88 @@ export function billPropertyTax(
     );
     total += held + advanced;
     assessments.put({ ...row, escrowMinor: balance - held - advanced });
+  }
+  return total;
+}
+
+/**
+ * Businesses pay property tax on their premises: their state's business
+ * property tax per dollar of private payroll (EY/COST FY23 over BLS QCEW
+ * 2023) on the payroll their books are set for, on the place's own
+ * installments (a twelfth a month where none are recorded), to the same
+ * payee as homes. What a business can't pay carries to its next bill.
+ * Each year's paid tax is kept by business (its books read it). Returns what
+ * was paid.
+ */
+export function billBusinessPropertyTax(
+  api: CoreAPI,
+  arrears: ModuleTable,
+  paidByYear: ModuleTable,
+): number {
+  const c = api.state as CoreState,
+    months = api.parameter("macroMonthsPerYear");
+  const usps = c.placeMetadata?.housingState ?? "";
+  const states = businessTaxData.states as Record<string, number>;
+  const ratio = states[usps];
+  if (ratio === undefined)
+    stopgap("SG-WORLD-business-property-tax-territories");
+  const share = ratio ?? businessTaxData.nationalRatio;
+  const due = dueShare(usps, Number(c.date.slice(5, 7))) ?? 1 / months;
+  const byPlace = new Map<string, PropertyTaxTerms>();
+  let total = 0;
+  for (const [id, book] of [...c.finance.businesses].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    if (book.closedAt) continue;
+    const org = c.organizations.get(id);
+    if (!org) continue;
+    let t = byPlace.get(org.placeId);
+    if (!t) byPlace.set(org.placeId, (t = terms(api, org.placeId)));
+    const to =
+      t.payeeId ??
+      [...c.organizations.values()].find(
+        (row) => row.placeId === org.placeId && row.outsideFlow !== undefined,
+      )?.id;
+    if (!to || to === id) continue;
+    const key = `${ARREARS_PREFIX}business:${id}`;
+    const owed = (arrears.get(key) as { amountMinor: number } | undefined)
+      ?.amountMinor;
+    const bill =
+      Math.round(book.annualPayrollMinor * share * due) + (owed ?? 0);
+    if (bill <= 0) continue;
+    const paid = transferCash(
+      api,
+      `business-property-tax:${id}:${c.date}`,
+      id,
+      to,
+      bill,
+      {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: businessTaxData.source.citation,
+        estimatedFrom: `Property tax on ${id}'s premises: ${(share * 100).toFixed(2)}% of its payroll a year, this month's installment${owed ? " and what it owed" : ""}.`,
+      },
+    );
+    total += paid;
+    if (paid > 0) {
+      const yearId = `business-property-tax:${id}:${c.date.slice(0, 4)}`;
+      const prior = paidByYear.get(yearId) as { paidMinor: number } | undefined;
+      paidByYear.put({
+        id: yearId,
+        organizationId: id,
+        year: Number(c.date.slice(0, 4)),
+        paidMinor: (prior?.paidMinor ?? 0) + paid,
+        payeeId: to,
+      });
+    }
+    if (paid < bill)
+      arrears.put({
+        id: key,
+        organizationId: id,
+        placeId: org.placeId,
+        amountMinor: bill - paid,
+      });
+    else if (owed !== undefined) arrears.remove(key);
   }
   return total;
 }

@@ -19,12 +19,10 @@ vi.mock("./world-transfer", async (original) => {
   return { ...actual, transferCash: vi.fn(actual.transferCash) };
 });
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "housing-rent-help",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "housing-rent-help");
 
-describe(`rent help (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`rent help (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("lowers the household's bill and pays the landlord the rest, and ending it restores the rent", () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),
@@ -78,10 +76,21 @@ describe(`rent help (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => 
     console.log(
       `${drawn.name}: rent $${rent / 100}, the household pays $${now.amountMinor / 100}, help $${help / 100} to the landlord`,
     );
-    expect(help).toBeGreaterThan(0);
+    // The rule: the household pays 30% of its pay now (its members may have
+    // found work since the opening), the government the rest, up to its limit.
+    const share = api.parameter("housingAssistanceRentShareOfIncome");
+    const monthlyPay =
+      (pay(householdId) * api.parameter("jobsDaysPerYear")) /
+      api.parameter("macroMonthsPerYear");
+    const billedRent = now.amountMinor + help;
+    expect(help).toBe(
+      Math.round(Math.min(rent, Math.max(0, billedRent - share * monthlyPay))),
+    );
     // The lease bills the household its share; together with the help it is the whole rent (the lease may have renewed).
-    expect(now.amountMinor + help).toBeGreaterThanOrEqual(rent);
+    expect(billedRent).toBeGreaterThanOrEqual(rent);
     expect(row!.billedMinor).toBe(now.amountMinor);
+    // A household whose pay now covers its rent gets none, and there is nothing more to check.
+    if (help === 0) return;
     // The government paid the landlord, not the household.
     const transfers = vi
       .mocked(transferCash)

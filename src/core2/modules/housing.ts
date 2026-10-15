@@ -41,7 +41,11 @@ import { strongestPulls } from "./jobs";
 import islandAreas from "../data/island-areas.json" with { type: "json" };
 import { withoutOutsideShelter } from "../housing-shelter";
 import housingConstruction from "../data/housing/construction.json" with { type: "json" };
-import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
+import {
+  billBusinessPropertyTax,
+  billPropertyTax,
+  stateEffectiveRate,
+} from "../housing-property-tax";
 import { reviewRefinances } from "../housing-refinance";
 import { webFactor } from "../world-web";
 import {
@@ -1558,6 +1562,11 @@ function review(api: CoreAPI): void {
     ownedHomes(api),
     store(api).table("taxArrears"),
   );
+  billBusinessPropertyTax(
+    api,
+    store(api).table("taxArrears"),
+    store(api).table("businessTax"),
+  );
   build(api);
   payRentHelp(api);
   landlordPayout(api);
@@ -2480,6 +2489,7 @@ export const HOUSING_MODULE: CoreModule = {
       counsel: {},
       assessments: {},
       taxArrears: {},
+      businessTax: { indexes: { byBusiness: { fields: ["organizationId"] } } },
       stock: {},
       projects: { indexes: { all: { fields: ["isProject"] } } },
       affordable: {},
