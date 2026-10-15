@@ -56,6 +56,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, type Stance } from "../campaign-views";
 import { townDistrict } from "../offices-state";
+import emptyRaceRules from "../data/elections/empty-races.json" with { type: "json" };
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
   announce,
@@ -79,6 +80,7 @@ import {
   OFFICES_MODULE_ID,
   registerSpecialElections,
   vacancyFilled,
+  unfilledTerm,
   type TermRow,
 } from "./offices";
 import { officialCandidate } from "./officials";
@@ -276,6 +278,7 @@ export const VOTING_MODULE: CoreModule = {
       turnout: {},
       /** The town's polling places, one per precinct, and who works each. */
       pollingPlaces: {},
+      emptyRaces: { indexes: { byContest: { fields: ["contestId"] } } },
       results: { indexes: { byContest: { fields: ["contestId"] } } },
       /** Each place's votes in a contest, counted coarsely. */
       places: { indexes: { byContest: { fields: ["contestId"] } } },
@@ -366,6 +369,8 @@ function votingCalendarWork(
   if (work.kind === "primary") holdPrimary(api, work.sourceRecordIds[0]!);
   if (work.kind === "election-day") holdElection(api, work.sourceRecordIds[0]!);
   if (work.kind === "take-office") takeOffice(api, work.sourceRecordIds[0]!);
+  if (work.kind === "empty-term")
+    resolveEmptyRace(api, work.sourceRecordIds[0]!);
 }
 
 function town(api: CoreAPI) {
@@ -1002,10 +1007,16 @@ function decideTurnout(
  * own drives (M2-04): SG-GOV-who-runs-stand-in.
  */
 export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
+  // Installed candidacy owns autonomous choices, including deciding to stay out.
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
+  if (
+    (contest.level === "state" || contest.level === "federal") &&
+    api.state.modules.has("candidacy")
+  )
+    return;
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const onBallot = ballot(api, contestId);
   // stopgapId: SG-GOV-who-runs-stand-in
@@ -2130,8 +2141,72 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       sourceRecordIds: [result.id],
     });
   else if (winnerId) takeOffice(api, result.id);
-  else openNextCycle(api, contest.seatId);
+  else if (!tied) {
+    const rule =
+      contest.level === "federal"
+        ? emptyRaceRules.federal
+        : emptyRaceRules.default;
+    if (rule.tag === "ESTIMATED") {
+      // stopgapId: SG-GOV-empty-race-law
+      api.stopgap("SG-GOV-empty-race-law");
+    }
+    table(api, "emptyRaces").put({
+      id: `empty:${contest.id}`,
+      contestId: contest.id,
+      resultId: result.id,
+      seatId: contest.seatId,
+      date,
+      due: takesOffice,
+      method: contest.special ? "existing-vacancy" : rule.method,
+      source: rule.source,
+      status: "pending",
+    });
+    if (takesOffice > date)
+      api.moduleCalendar(VOTING_MODULE_ID).schedule({
+        key: `empty-term:${contest.id}`,
+        date: takesOffice,
+        kind: "empty-term",
+        source: {
+          tag: rule.tag as "SOURCED" | "ESTIMATED",
+          citation: rule.source,
+          asOf: date,
+        },
+        sourceRecordIds: [contest.id],
+      });
+    else resolveEmptyRace(api, contest.id);
+  }
   return result;
+}
+
+/** Apply failure-to-elect law at the term boundary, never on election night. */
+export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
+  const row = table(api, "emptyRaces").get(`empty:${contestId}`);
+  if (!row || row.status !== "pending" || String(row.due) > api.state.date)
+    return;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as OfficeInput;
+  const vacancy =
+    row.method === "vacancy"
+      ? unfilledTerm(
+          api,
+          contest.seatId,
+          String(row.resultId),
+          termEndAfter(office, regularElectionDate(contest)),
+        )
+      : null;
+  table(api, "emptyRaces").put({
+    ...row,
+    status: "resolved",
+    resolvedOn: api.state.date,
+    vacancyId: vacancy?.id ?? null,
+  });
+  if (!contest.special) openNextCycle(api, contest.seatId);
 }
 
 /**
