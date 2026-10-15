@@ -19,6 +19,6 @@ source: "split of laws-remaining-families (Oct 15)"
 
 **Done when.** In a played year in a drawn place with the law enacted: a named adult's spending shows the cannabis purchase, a retailer's sales and the state sales-tax line receive it, by record id.
 
-**Files.** src/core2/modules/place-prices.ts, src/core2/data/prices/*.json, src/core2/law-reach/group-a*.ts, src/core2/data/stopgaps.json.
+**Files.** src/core2/modules/place-prices.ts, src/core2/data/prices/_.json, src/core2/law-reach/group-a_.ts, src/core2/data/stopgaps.json.
 
 **Notes.** Needs a sourced per-adult spending figure by legal state.
