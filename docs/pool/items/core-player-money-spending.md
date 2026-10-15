@@ -4,7 +4,7 @@ title: "The player's money accumulates and is spent on rent, household costs and
 area: core
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: pool/core-player-money-spending
 pr:
 blocked-on:
