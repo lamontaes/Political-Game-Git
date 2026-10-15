@@ -49,6 +49,7 @@ import type {
 import { changesKnownTo } from "./bring-it-up";
 import { JOURNAL_DATA } from "./journal";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
+import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
 import {
@@ -1409,11 +1410,17 @@ export function openConversation(
       act: "tell",
       ...greeting,
     });
-  // At home, a scene's talk opens by asking for the player's attention
+  // At home, a scene with the household's hard news opens by asking for the player's attention
   // ("We need to talk.") instead of a greeting (owner, Oct 14, 2026, night: a
   // mother asking the player to sit down).
+  const familyNews =
+    !!occasion &&
+    [
+      ...SITUATION_LIBRARY.scheduling.householdScenes,
+      ...(SITUATION_LIBRARY.scheduling.householdRecordScenes ?? []),
+    ].includes(occasion.label);
   const opener =
-    housemate && occasion
+    housemate && familyNews
       ? words(
           core,
           data,
