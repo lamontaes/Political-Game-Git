@@ -59,5 +59,10 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 
 - 1. Committee markup trades — `pool/committee-markup` (Session D, draft #4328; 19 tests and played-year proof pass).
 - 2. Unwired record-only law families — `pool/law-read-dependency` (Session D; blocked by Session A #4331, return last).
-- 3. First faked-mechanic engine, central bank appointments — `pool/central-bank-appointments` (Session D, claimed October 15, 2026).
-- 3. Credit proof stand-in — `pool/credit-stand-in` (Session D, claimed October 15, 2026; central-bank deletion is draft #4333).
+- 3. First faked-mechanic engine, central bank appointments — `pool/central-bank-appointments` (Session D, draft #4333; 8 tests and played-year proof pass).
+
+- 3. Next faked-mechanic engine, credit-line stand-in — `pool/credit-line-retirement` (second Session D, claimed October 15, 2026; SG-WORLD-credit-line-stand-in only).
+
+- 3. Business engine faked mechanics — `pool/business-owner-decisions` (second Session D; SG-WORLD-business-counted-owner-choice and SG-WORLD-business-no-successor; earlier jobs, credit deposits and housing engines belong to active Session B work, return to remaining gaps after its unmerged work).
+
+- 3. Outcome web drift — `pool/outcome-causes` (first Session D; SG-WEB-outcome-drift; earlier jobs, credit and housing engines are Session B’s, business is claimed by second Session D, and place-prices is active Session A #4335).
