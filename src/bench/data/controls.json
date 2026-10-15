@@ -134,5 +134,12 @@
   },
   "travel": {
     "staff": "staff"
+  },
+  "news": {
+    "title": "News",
+    "records": "Public record",
+    "back": "Back to front page",
+    "previous": "Back",
+    "next": "Continue"
   }
 }
