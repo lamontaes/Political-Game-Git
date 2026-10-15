@@ -4,12 +4,13 @@ title: "A bill has a real name, with its text beside it"
 area: words
 kind: feature
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-bill-name-and-text
 pr:
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
+claimed-at: 2026-10-15T21:42:03.352Z
 ---
 
 **What.** Show a bill's real name and its text next to the title in the batch.
