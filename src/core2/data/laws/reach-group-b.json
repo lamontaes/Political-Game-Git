@@ -17,7 +17,7 @@
       "stopgapId": "SG-GOV-REACH-B-transit-fare-price"
     },
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "mileage-fee-instead-of-fuel-tax",
       "kind": "price",
       "people": {
@@ -31,7 +31,7 @@
       "stopgapId": "SG-GOV-REACH-B-mileage-fee-price"
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "public-broadband-offered",
       "kind": "eligibility",
       "people": {
@@ -170,7 +170,7 @@
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025"
     },
     "us-policy-positions:fiscal.cap-property-tax-growth": {
-      "mechanic": "records",
+      "mechanic": "property-assessment",
       "effect": "property-tax-growth-capped",
       "kind": "right",
       "people": {
@@ -249,7 +249,7 @@
       "source": "GFOA, Fund Balance Guidelines for the General Fund (2015)"
     },
     "us-policy-positions:environment-energy.ban-new-gas-hookups": {
-      "mechanic": "records",
+      "mechanic": "housing-construction",
       "effect": "no-new-gas-hookups",
       "kind": "compliance",
       "organizations": ["enterprise:construction", "enterprise:utility"],
@@ -258,7 +258,7 @@
       "stopgapId": "SG-GOV-REACH-B-building-cost"
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "clean-electricity-standard",
       "kind": "price",
       "people": {
@@ -287,7 +287,7 @@
       "stopgapId": "SG-GOV-REACH-B-nonattainment-data"
     },
     "us-policy-positions:environment-energy.bottle-deposit": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "collects-container-deposit",
       "kind": "compliance",
       "organizations": [
@@ -303,7 +303,7 @@
       "stopgapId": "SG-GOV-REACH-B-retail-price"
     },
     "us-policy-positions:environment-energy.price-carbon": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "carbon-priced",
       "kind": "price",
       "people": {
@@ -341,7 +341,7 @@
       "stopgapId": "SG-GOV-REACH-B-business-cost"
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
-      "mechanic": "records",
+      "mechanic": "housing-construction",
       "effect": "farmland-development-restricted",
       "kind": "rule",
       "organizations": [

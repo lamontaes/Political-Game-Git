@@ -34,6 +34,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { countyGovernmentUnit } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { registerPropertyTax } from "../housing-property-tax";
 import {
   lawChainForPlace,
@@ -578,14 +579,31 @@ function propertyTaxTerms(api: CoreAPI) {
   const citation = Array.isArray(row.source)
     ? row.source.join(" ; ")
     : (row.source as string);
+  const cap = lawInForce(
+    api,
+    "us-policy-positions:fiscal.cap-property-tax-growth",
+  );
+  const capped = cap.value === 1 && cap.governing;
+  // stopgapId: SG-GOV-REACH-B-property-tax-bills — the catalog records a
+  // yes/no cap; its exact scope, exemptions and statutory size are pending.
+  if (capped) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
   return {
     rate: answer.value / 100,
+    lawRowId: row.id,
+    ...(capped
+      ? {
+          assessmentCapShare:
+            lawParameters.parameters.propertyTaxGrowthCapShare.value,
+          assessmentLawRowId: capped.id,
+        }
+      : {}),
     payeeId: collector,
     source: {
       tag: "ESTIMATED" as const,
-      citation,
+      citation: `${row.id}: ${citation}${capped ? `; ${capped.id}: ${String(capped.source)}; ${lawParameters.parameters.propertyTaxGrowthCapShare.source}` : ""}`,
       asOf: api.state.date,
-      estimatedFrom: "Property tax in force, to the county's tax collector",
+      estimatedFrom:
+        "Property tax in force, to the county's tax collector; a yes/no growth cap uses the registered assessment-cap estimate.",
     },
   };
 }
