@@ -997,15 +997,17 @@ function readWorld(place: Place): {
 
 /* ------------------------------------------------- talks and family scenes */
 
-/** How many of the town's families with a young person are watched for family scenes. */
+/** How many of the town's households of two or more are watched for family scenes. */
 const FAMILY_HOUSEHOLDS = 150;
+/** The youngest member a family scene is played for in the batch. */
+const LISTENER_AGE = 13;
 /** The player starts a talk with someone they know every this many days. */
 const TALK_EVERY = 12;
 
 /**
  * Plays the year day by day as the director plays it (owner, Oct 14, 2026,
  * night): every so often the player talks with someone they know, opened from
- * the director's ledger, and the families of the town's young people are
+ * the director's ledger, and the town's households are
  * watched as the bench watches a player's household, so a family scene fires
  * at home when a household's own records make one apply. Each family scene is
  * composed on its own day and its talk played through, asking for more where a
@@ -1032,16 +1034,15 @@ function playYear(
       const members = household.memberIds.filter(
         (id) => core.people.get(id)?.alive,
       );
-      return (
-        members.some((id) => ageOf(id) < 18) &&
-        members.some((id) => ageOf(id) >= 18)
-      );
+      return members.length > 1 && members.some((id) => ageOf(id) >= 18);
     })
     .sort((a, b) => a.id.localeCompare(b.id))
     .slice(0, FAMILY_HOUSEHOLDS);
+  // Who hears the news at home: anyone old enough to talk it over, from 13
+  // (a toddler is never told "I lost my job.", batch 11's first draw).
   const young = families.flatMap((household) =>
     household.memberIds.filter(
-      (id) => core.people.get(id)?.alive && ageOf(id) < 18,
+      (id) => core.people.get(id)?.alive && ageOf(id) >= LISTENER_AGE,
     ),
   );
   for (const household of families)
