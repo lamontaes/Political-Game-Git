@@ -5,8 +5,8 @@ area: release
 kind: bug
 priority: 1
 status: in-pr
-claimed-by:
-pr: #4410
+claimed-by: claude/release-agents-align-declaration
+pr: "#4409"
 blocked-on:
 milestone:
 source: "found while running release:check --mode pr on claude/laws-reach-group-b-failures"
@@ -21,5 +21,3 @@ source: "found while running release:check --mode pr on claude/laws-reach-group-
 **Files.** docs/release/changes/agents-align.md
 
 **Notes.** One-line fix: drop `section` and `title` from the file.
-
-**Update.** Main also carries `grading-bench-order.md` with the same defect; both fixed in the core-outside-flow-catalog-rows PR.

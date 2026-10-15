@@ -98,33 +98,27 @@
     },
     {
       "kind": "accounts.transfer",
-      "idPrefix": "federal-borrowing",
-      "matchedBy": "loan-proceeds",
-      "what": "The U.S. Treasury borrows each month's gap between its payments and what it holds from the public (Monthly Treasury Statement, fiscal 2025: outlays beyond receipts are financed by borrowing from the public)."
-    },
-    {
-      "kind": "accounts.transfer",
       "idPrefix": "counted-arrival",
       "matchedBy": "own-money",
-      "what": "A counted household moving in brings its own savings into its group's fund."
+      "what": "A counted household moving in brings its cash from the outside market into its group (the mirror of counted-departure)."
     },
     {
       "kind": "accounts.transfer",
       "idPrefix": "mover-departure",
       "matchedBy": "own-money",
-      "what": "A full person moving away takes their cash out of town."
+      "what": "A full household moving away takes its cash out of town (moves)."
     },
     {
       "kind": "accounts.transfer",
       "idPrefix": "entrant",
       "matchedBy": "goods-and-services",
-      "what": "A new business's customers outside the town paying it, on the share of buyers it took from incumbents."
+      "what": "A counted entrant's pay from outside employers and purchases from outside sellers, kept as the same recorded flows the household it takes the shape of already had (residents-economy)."
     },
     {
       "kind": "accounts.transfer",
       "idPrefix": "price",
       "matchedBy": "goods-and-services",
-      "what": "A household or business paying (or refunded) the change a price law makes to what it buys from outside sellers, such as energy (place-prices)."
+      "what": "A price-rule change in what households and businesses pay outside sellers for a good (energy, fuel), settled in place-prices."
     },
     {
       "kind": "accounts.transfer",
@@ -134,17 +128,30 @@
     },
     {
       "kind": "accounts.transfer",
-      "idPrefix": "outside-revenue",
+      "idPrefix": "property-tax",
+      "matchedBy": "transfer-under-law",
+      "what": "Property tax a household owes under the law in force, paid to a government whose books are outside the town (housing-property-tax)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "federal-borrowing",
       "matchedBy": "plug",
       "stopgapId": "SG-GOV-outside-revenue-monthly",
-      "what": "A twelfth of a government's yearly Census revenue paid in each month with no taxpayer, sale or grant behind it."
+      "what": "The federal treasury's monthly borrowing from outside to cover its gap, part of the same stand-in as outside-revenue."
     },
     {
       "kind": "accounts.transfer",
       "idPrefix": "treasury",
       "matchedBy": "plug",
       "stopgapId": "SG-GOV-outside-revenue-monthly",
-      "what": "A twelfth of each spending line the town's engines did not pay, sent to the outside account as spending elsewhere with no payee behind it (the same stopgap's spending half)."
+      "what": "A treasury's even twelfth of each spending line paid to outside payees (and in-town businesses), part of the same stand-in as outside-revenue."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "outside-revenue",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-outside-revenue-monthly",
+      "what": "A twelfth of a government's yearly Census revenue paid in each month with no taxpayer, sale or grant behind it."
     }
   ]
 }

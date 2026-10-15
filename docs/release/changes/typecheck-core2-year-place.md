@@ -3,4 +3,4 @@ id: typecheck-core2-year-place
 impact: none
 ---
 
-The typecheck passes again: the measurement place draw is listed in the app project and imports without a file extension. No play change.
+Typecheck configuration only: the app project lists the place-draw script and the script's import drops its extension.

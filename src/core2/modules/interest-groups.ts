@@ -20,6 +20,7 @@ import { campaignParameter } from "../campaign-views";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
+  chambersOf,
   employerCosts,
   LEGISLATURE_MODULE_ID,
   members,
@@ -462,12 +463,9 @@ function lobbied(api: CoreAPI, b: BillRow): readonly TermRow[] {
       .filter((s) => s.coversTown)
       .map((s) => s.id),
   );
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .rows() as unknown as TermRow[]
-  ).filter((t) => t.status === "serving" && seats.has(t.seatId));
+  return chambersOf(api, b)
+    .flatMap((chamber) => members(api, chamber))
+    .filter((term) => seats.has(term.seatId));
 }
 
 /** A member the group met weighs its case: its way on the bill, as strongly as the share of those on its side (or of the bill's losers) it speaks for. */
