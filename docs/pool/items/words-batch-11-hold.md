@@ -12,7 +12,7 @@ milestone:
 source: "words-and-director batch 11 hold; PR #4323 branch words/batch-11"
 ---
 
-**What.** Batch 11 is held for four record defects and repeated situations. Do not regenerate it blind; batch 12 builds on it.
+**What.** Batch 11 is held for four record defects and repeated situations. Do not regenerate it blind; the grading bench (words-grading-bench, Order 2) builds on it.
 
 **Rules.** CTO hold in the PR comments.
 

@@ -1,6 +1,6 @@
 ---
 id: words-batch-12
-title: "Order 2: batch 12 drawn from the coverage gaps"
+title: "Batch 12 is the first grading bench run (see words-grading-bench)"
 area: words
 kind: feature
 priority: 2
@@ -20,4 +20,4 @@ source: "words-and-director order 2"
 
 **Files.** scripts/dialogue-batch/, docs/grading/
 
-**Notes.** None.
+**Notes.** Superseded by the grading bench: see words-grading-bench and Order 2 of the work order.
