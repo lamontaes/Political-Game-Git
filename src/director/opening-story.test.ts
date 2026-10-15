@@ -108,11 +108,12 @@ describe("the opening story", () => {
     // Where the press runs, its reporters decide what becomes a story, and
     // every public record goes on its wire (src/core2/modules/press.ts);
     // without it, the news module files the record itself.
-    const stored = (
-      core.modules.has(PRESS_MODULE_ID)
-        ? api.moduleState(PRESS_MODULE_ID).table("wire").get(story.id)
-        : api.moduleState(NEWS_MODULE_ID).table("stories").get(story.id)
-    ) as unknown as { kind: string } | undefined;
+    const stored = (core.modules.has(PRESS_MODULE_ID)
+      ? api.moduleState(PRESS_MODULE_ID).table("wire").get(story.id)
+      : api
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .get(story.id)) as unknown as { kind: string } | undefined;
     expect(stored?.kind).toBe(OPENING_ADDRESS_EVENT);
     expect(story.newscast.length).toBeGreaterThan(0);
     for (const item of story.newscast) {
