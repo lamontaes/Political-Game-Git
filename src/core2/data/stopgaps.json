@@ -4421,6 +4421,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-REACH-B-flat-tax-replacement",
+    "kind": "missing-data",
+    "file": "src/core2/law-reach/group-b-money.ts",
+    "line": 649,
+    "whatItFakes": "Repealing a starting graduated income-tax schedule uses the existing estimated state or local flat rate. The binary catalog provision carries no replacement rate, deduction or filing-status rules.",
+    "why": "Tax Foundation's 2025 state survey and actual conversion laws have distinct enacted rates and deductions. The catalog's Boolean question cannot supply those terms. Received explanation and director acceptance remain unproven.",
+    "addedBy": "Session A",
+    "addedAt": "2026-10-15",
+    "replacement": "Explicit replacement tax terms in the provision, read by the existing withholding engine for full and counted workers, with a received explanation and director line for an affected worker.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-macro-income-history",
     "kind": "missing-record",
     "file": "src/core2/modules/macro.ts",

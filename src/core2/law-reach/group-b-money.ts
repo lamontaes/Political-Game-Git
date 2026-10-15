@@ -593,12 +593,27 @@ interface TaxRow {
     terms: Record<string, unknown> | null;
   } | null;
   readonly undone: boolean;
+  /** This row flattened a starting schedule, rather than adopting a new tax. */
+  readonly flattened?: boolean;
 }
 
 function levelRow(api: CoreAPI, level: string): LawRowInput | null {
   return (
     lawInForce(api, "income-tax").levels.find((l) => l.level === level)?.row ??
     null
+  );
+}
+
+/** Flat taxes may also carry a one-bracket schedule for deductions. */
+function graduatedTax(row: LawRowInput | null): boolean {
+  if (!row?.terms?.schedules || row.terms.system === "flat") return false;
+  if (row.terms.system === "graduated") return true;
+  const schedules = row.terms.schedules as Record<
+    string,
+    { brackets?: { rate: number }[] }
+  >;
+  return Object.values(schedules).some(
+    (schedule) => new Set(schedule.brackets?.map((b) => b.rate) ?? []).size > 1,
   );
 }
 
@@ -641,8 +656,44 @@ export function incomeTaxAct(
       citation: `Act ${input.lawId}`,
       ...(terms ? { terms } : {}),
     });
+  const hasTax = !!current && (current.value ?? 0) > 0;
+  const scope = input.level === "state" ? "state" : "local";
   if (!input.enacting) {
-    if (!prior || prior.undone || !prior.lawRowId) return prior ?? null;
+    // Repeated reviews leave the flattened schedule (or a later independent act) alone.
+    if (prior?.flattened && !prior.undone) return prior;
+    if (prior?.undone && !prior.flattened) return prior;
+    if (!prior || prior.undone || !prior.lawRowId) {
+      if (!input.graduated || !hasTax || !graduatedTax(current))
+        return prior ?? null;
+      // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
+      // question carries no enacted replacement rate or deduction rules.
+      api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
+      const flat = enact(
+        reachParameter(
+          scope === "state"
+            ? "stateFlatIncomeTaxPercent"
+            : "localFlatIncomeTaxPercent",
+        ),
+        "percent-flat",
+        undefined,
+        "flatten",
+      );
+      const row: TaxRow = {
+        id,
+        key: input.key,
+        level: input.level,
+        lawRowId: flat.id,
+        prior: {
+          value: current!.value,
+          unit: current!.unit ?? null,
+          terms: current!.terms as Record<string, unknown>,
+        },
+        undone: false,
+        flattened: true,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
     if (current?.id === prior.lawRowId)
       enact(
         prior.prior?.value ?? 0,
@@ -654,10 +705,22 @@ export function incomeTaxAct(
     putRow(api, "taken", row);
     return row;
   }
+  if (prior?.flattened) {
+    // Restore once, only while the replacement is still our own law row.
+    if (prior.undone) return prior;
+    if (current?.id === prior.lawRowId)
+      enact(
+        prior.prior?.value ?? 0,
+        prior.prior?.unit ?? "percent",
+        prior.prior?.terms ?? undefined,
+        "restore",
+      );
+    const row = { ...prior, undone: true };
+    putRow(api, "taken", row);
+    return row;
+  }
   if (prior && !prior.undone) return prior;
-  const hasTax = !!current && (current.value ?? 0) > 0;
-  const graduatedNow = !!current?.terms?.schedules;
-  const scope = input.level === "state" ? "state" : "local";
+  const graduatedNow = hasTax && graduatedTax(current);
   let written: LawRowInput | null = null;
   if (!input.graduated && !hasTax)
     written = enact(
@@ -675,7 +738,7 @@ export function incomeTaxAct(
     written = enact(
       Math.max(...schedule.brackets.map((b) => b.rate)),
       "percent",
-      { schedules: { single: schedule } },
+      { system: "graduated", schedules: { single: schedule } },
       "graduate",
     );
   }
