@@ -6,7 +6,7 @@ kind: wiring
 priority: 1
 status: in-pr
 claimed-by: claude/laws-record-only-reads-012x
-pr:
+pr: "#4401"
 blocked-on:
 milestone:
 source: "reissue item 1; overnight Session A"
