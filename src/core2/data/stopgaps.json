@@ -1400,7 +1400,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 113,
-    "whatItFakes": "Paid family leave collects its payroll premium but pays no leave: nobody claims leave for a birth, adoption or a relative's illness.",
+    "whatItFakes": "Paid family leave collects the same estimated payroll premium from full workers and counted groups but pays no leave. The generic contribution omits jurisdiction-specific employee/employer splits, wage caps and covered-employment exclusions. Nobody claims leave for a birth, adoption or a relative's illness; no received contribution notice or director explanation is modeled.",
     "why": "There is no birth-leave or caregiving event a worker can claim leave from, and no benefit payment route from a treasury to a person.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
@@ -3260,7 +3260,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: either the player is never appointed, or an appointer's choice of the player becomes an offer the player accepts or declines in the conversation, and only an accepted offer fills the post.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'The player's choices are the player's' (Oct 14, night): 'No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides.' Appointers never fill a post with the player on their own; an offer is the player's to accept."
   },
   {
     "id": "SG-CORE-estate-tax-awaits-gov",
@@ -3596,11 +3597,11 @@
     "file": "src/core2/justice-custody.ts",
     "line": 15,
     "whatItFakes": "The justice engine writes a prisoner's discretionary-choice flag on the person directly, because the core's updatePerson does not take it.",
-    "why": "The core has no call for a module to take a person's own choices away for a time.",
+    "why": "The core has no call for a module to take a person's own choices away for a time. Resolved by second Session D, 2026-10-15: updatePerson accepts the optional eligibility flag and clears it when explicitly undefined; custody and release use that API instead of direct person writes.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "An OPUS-CORE call (updatePerson accepting discretionaryEligibleV1, or a custody hold) used by justice-custody.ts.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-justice-player-choices",
@@ -3620,11 +3621,11 @@
     "file": "src/core2/modules/justice.ts",
     "line": 904,
     "whatItFakes": "A job the jobs engine gives a person in prison is ended by the justice engine before its first shift, instead of the jobs engine never hiring them.",
-    "why": "The jobs engine (OPUS-WORLD) decides job search and hiring for everyone alive and does not read custody.",
+    "why": "Resolved: jobs reads indexed custody before full or counted job search, applications and hiring, withdraws pending offers on imprisonment and rechecks acceptance. Staff candidates and the shared public payroll writer also read custody. Justice ends only jobs held when imprisonment begins; the daily repair is removed.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "The jobs engine skips people in custody (justice's inCustody, or discretionaryEligibleV1 false) when deciding who looks for work and whom an employer hires.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-justice-no-forfeiture",
@@ -3842,7 +3843,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling on who sees a business's books (its owner, the player as owner, public filings only, or anyone), after which OPUS-PLAY shows this record on the screen that ruling names.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md: 'Starting or buying a business: 1.0, not early access. An owner sees the books.' and 'a business closing shows its books' as a dev-mode item. The view (business-books-view.ts) is the owner's and the developer's."
   },
   {
     "id": "SG-WORLD-macro-town-growth-neutral",
@@ -3891,7 +3893,8 @@
     "replacement": "The owner's ruling; if wanted, the opening's relative generator run for one filled-in household, seeded by the world.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Built: fillInPerson (src/core2/state.ts) rebuilds the filled-in household's past with buildDeepPast (family histories, src/core2/past-family.ts) and ties to relatives living elsewhere become husks (core.husks), met and filled in later; the opening keeps outside relatives as light husk-tier records (src/core2/data/opening-kin.json). The world-has-a-past work merged Oct 11 to 14."
   },
   {
     "id": "SG-CORE-owner-decision-demotion-days",
@@ -3903,7 +3906,8 @@
     "replacement": "The owner's number of days.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruling, Oct 15, 2026: 'The days without contact before a met person drifts back into the counted population is a per-world range of 180 to 240 days, drawn once per world at generation (seeded generation is allowed), never a single fixed number.' Built in counted-demotion.ts (demotionDays) from the countedDemotionDays spread."
   },
   {
     "id": "SG-CORE-counted-unkeyed-money",
@@ -3951,7 +3955,8 @@
     "replacement": "The owner's ruling: either keep the cap, or let each counted group of a bigger town carry its Census count with the money and reach scaled to it.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'Town size (day-one audit)': 'a town opens at its real Census size; nothing pads it to 10,000. Follows one model, two tiers (counts must match the place).' Open for the engineers: population.ts still caps a town above the target; it follows the ruling next."
   },
   {
     "id": "SG-GOV-local-bill-numbering",
@@ -4035,7 +4040,8 @@
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: either the character may cast the player's ballot from its own views when election day is not a stop, or election day stays a stop that cannot be turned off.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md (Oct 13): 'The player casts their own ballot ... the engine never votes for the player'; 'Election day is a scene. The player goes to their polling place and marks a ballot there; the vote is cast in the scene, never in a menu.' Election day stays a stop."
   },
   {
     "id": "SG-OFFICE-FED-engine-stand-in",
@@ -4270,11 +4276,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 886,
-    "whatItFakes": "Rights are recorded on residents and duties on businesses, but no request to see or delete data is made and no business pays to comply.",
-    "why": "Session A checked main: no customer-data holdings or access/deletion request exists. A uniform business-cost surcharge would be an estimated stand-in, not a compliance decision.",
+    "whatItFakes": "Rights are recorded on residents, but no request to see or delete data is made. The compliance cost is now read by the business engine (every employing business in town pays a share of its operating costs while the law is in force), but the law's coverage thresholds (revenue, number of consumers) are not modeled, so it falls on every employing business alike.",
+    "why": "Session A checked main: no customer-data holdings or access/deletion request exists. The business engine's monthly cost review now reads the law (readDataPrivacyLaw in src/core2/modules/business.ts); what a request is, and which businesses hold enough data to be covered, have no records.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-WORLD: the business engine's costs read the compliance duty by business size, the way the bound-employer cost does.",
+    "replacement": "PEOPLE with WORLD: a resident's request to see or delete data, answered by a business that holds customer data; coverage thresholds from the statute's terms read per business.",
     "status": "open"
   },
   {
@@ -4287,7 +4293,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: authorityFor reads home rule in force as a grant for any question the state hasn't decided.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Claude (laws-record-only-reads), Oct 15: policyAuthority (src/core2/policy-authority.ts) already reads the state's home-rule law for every question the powers catalog leaves open for a city; it was proven only by a hand-inserted fixture. src/core2/home-rule-played.test.ts now shows, in a generated town, a council's draft of such an ordinance blocked with the grant repealed, drafted once the state's grant takes effect (the bill's authority row cites the grant's law id), and blocked again on repeal."
   },
   {
     "id": "SG-WORLD-owner-decision-player-eviction",
@@ -4299,7 +4306,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: keep it as is, or give the player's household another path.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'Homelessness is a factor' (Oct 14): 'A person who does not work and does not pay loses their home like anyone else; the player's household too.' Same notice, filing, hearing and judgment as anyone (docs/packages/homelessness.md)."
   },
   {
     "id": "SG-WORLD-housing-shelter-beds-state-rate",
@@ -4359,7 +4367,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
     "replacement": "Early-access preparation: the Windows job made green and required again, and every release carrying latest.yml.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md: 'The Mac package is the one that must pass; the Windows row stays allowed-to-fail until early access.' docs/coordination/BOARD.md: 'Windows may stay red until early access.' The workflow keeps continue-on-error on the Windows row on that ruling."
   },
   {
     "id": "SG-PLAY-creator-direct-person-write",
@@ -4576,5 +4585,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-death-relations",
+    "kind": "missing-record",
+    "file": "src/core2/births-counted.ts",
+    "status": "open",
+    "whatItFakes": "A known counted relative can receive a death notice, but opening full-to-counted family ties lack recorded closeness; grief is supported only where a relationship record already exists. No closeness is invented by the notifier.",
+    "why": "The core opening skips relationship initialization when the other person is a husk. The bench also retains the full family closure; the drawn Garden City year had zero known counted deaths, so the notification path has no played-year acceptance yet.",
+    "addedBy": "Session D / pool-counted-death-notices",
+    "addedAt": "2026-10-15",
+    "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
+    "line": 82
   }
 ]

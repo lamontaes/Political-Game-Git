@@ -4,19 +4,6 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- **Towns larger than 10,000 (two-tier package, #4172).** A town under 10,000 now opens at its real Census size. A larger town still opens with 10,000, the October 9 target. Should a bigger town count its full population, each counted household standing for several? (SG-CORE-owner-decision-town-size)
-- **What a town's districts are.** The game has no city wards; a town's districts are the state House districts its people split into, else the whole town. Should council wards come later as their own districts? (SG-CORE-owner-decision-town-districts)
-- **Relatives of a person met for the first time.** They come with household, job, coworkers and employer, but no relatives living elsewhere. Acceptable for early access? (SG-CORE-owner-decision-fill-in-outside-kin)
-- **Demotion wait.** A filled-in household returns to the counts after 180 days without contact (never the player's household, circle, officials, public workers, business owners). Is 180 days right? (SG-CORE-owner-decision-demotion-days)
-
-- **Kit 12 versus Kit 13 (found by the Drive digests, Oct 14).** The play page was restyled tonight on Kit 12 (the Oct 2 packet). Kit 13's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md, owner Oct 4 and 5) is newer: brass corner ornaments ON the panel, no scrolling inside a menu, the chevron rule (only on a static button while activated, never in radial menus), People / Calendar / Money tabs with the selected tab a raised glass box, the approved icons, search, dropdown, slider and progress bar. Same fonts. Newest wins: PLAY reconciles the page to Kit 13's controls. Owner to confirm that logo and Steam art stay navy (the UI ban on navy does not name them).
-
-- **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
-
-- **A player who loses an election (player-path audit, Oct 14), confirmed by the owner:** a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
-
-- **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
-
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
@@ -184,3 +171,63 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Proof scenes are allowed.** A scene or line may be sent for grading before the director fires that situation in play, as long as the English engine composed it from a real record and its context in a played world ("okay, it can generate this line along with context"). The batch says which scenes fired in play and which are composed proofs of a situation the director does not yet fire.
 - **Feed the engine.** The Words session's job is also to give the engine pieces to work with: new situation types, occasions and banks, mined and registered the usual way, so each batch widens what the game can say. The Words session reads what the director does (`src/director/`) and builds on it or extends it; it does not wait for the director to fire a situation before the words for it exist.
 - The CTO holds a batch whose scenes are mostly repeats of the same few situations, the same way it holds one with record defects.
+
+## Oct 15, afternoon: usage (owner, repeated; now written)
+
+- Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind.
+- The CTO session answers the owner and prepares orders, rulings, skills and reports. It never merges, reads diffs, logs or test output, runs tests, creates PRs or holds PR subscriptions; a Sonnet helper does those and returns a table.
+- Recorded in `.agents/skills/cto/SKILL.md` under "Usage rules for the CTO session".
+
+## Oct 15, afternoon: stale questions closed
+
+Fifteen questions were shown to the owner as open; most were already ruled or built. Each is closed below with where the answer lives. Stopgap rows are resolved and their pool items are done.
+
+- Demotion days (core-od-demotion-days): NEW RULING, owner, Oct 15: "The days without contact before a met person drifts back into the counted population is a per-world range of 180 to 240 days, drawn once per world at generation (seeded generation is allowed), never a single fixed number." Built in `demotionDays`.
+- Relatives of a met person (core-od-fill-in-outside-kin): BUILT. `fillInPerson` rebuilds the past with `buildDeepPast`; relatives elsewhere are husks filled in when met.
+- Towns above 10,000 (core-od-town-size): DECIDED. "a town opens at its real Census size; nothing pads it to 10,000." The code's cap still needs to follow.
+- Trusts (core-od-trusts): GENUINELY OPEN. No ruling found; estates go through probate.
+- Windows package (core-od-windows-package-allowed-to-fail): DECIDED. "the Windows row stays allowed-to-fail until early access."
+- Player offered a post (gov-od-player-offered-post): DECIDED. "No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides."
+- Party loyalty data (laws-party-loyalty): GENUINELY OPEN. Parked on the data's non-commercial license.
+- Ballot stop (office-od-ballot-stop): DECIDED. "the engine never votes for the player"; election day is a scene at the polls.
+- Kit 12 or Kit 13 (owner-kit12-vs-kit13): BUILT. The play page is on Kit 13 (`src/bench/play.css`).
+- Opening key people (owner-opening-key-people): GENUINELY OPEN. The owner said he would clarify; ranked from the offices data until then.
+- Why money exists (owner-why-money-exists): GENUINELY OPEN. The owner has not settled the reason.
+- Town districts and wards (people-od-town-districts): GENUINELY OPEN in writing. No ruling found in the register, these rulings or the prior-rulings digests, though the owner recalls deciding it; he is asked to repeat it once and it is recorded.
+- Who sees a business's books (world-od-business-books): DECIDED. "An owner sees the books."
+- Player eviction (world-od-player-eviction): DECIDED. "loses their home like anyone else; the player's household too."
+- A loser's podium and bill carrier (not in the pool): DECIDED. Confirmed by the owner in the Oct 14 entry above; both work through the existing conversation.
+
+## Oct 15, afternoon: rulings
+
+- **Trusts (owner, Oct 15):** simulated in the background so estate and inheritance taxes work correctly: a trust holds assets, passes them outside probate, and the taxes in force read it. No player-facing mechanic.
+- **The opening's key people (owner, Oct 15):** the president and vice president; the state's legislators; the most powerful person in each chamber (the one chamber where a state has only one); and the player's own representatives (their council member, state legislators, U.S. representative and senators). Nothing else is "key" at the opening.
+- **Why money exists for the player (owner, Oct 15): not settled yet.** Until then money accumulates and is spent on rent, the household's costs and the things already built; nobody builds a scoreboard or a sink on a guess. The owner notes the spending side is probably not fleshed out either: pool item `core-player-money-spending`.
+- **Town council seats (CTO ruling under "one rule, all 56 places" and "estimate, never unknown"; the owner said the question was asked wrongly):** each place's council or board is elected the way its own records say (at-large, by district, or mixed, from the place's data where the repository has it), estimated as at-large with a per-world spread where it does not, marked as an estimate with its source. "Wards" is not a term the game uses except where a place's own records use it. The state House districts stay what a resident's district means for state races.
+- **Party loyalty data (CTO recommendation; owner to confirm):** do not use the Shor-McCarty dataset (its license forbids commercial use and the game is a commercial product); calibrate state chambers' party loyalty from each legislature's own public roll-call records instead, which are public records.
+- **Before a stopgap or an owner decision is registered, the register is read (owner, Oct 15):** quote the ruling instead of registering a question that was already answered. See AGENTS.md, "Placeholders".
+- **Any agent with repository access may take pool items (owner, Oct 15):** Claude, Codex, Cursor, Antigravity or any other; the pool's claim rule is the only coordination; merging stays with the CTO.
+- **People art:** the layered figure set (art/people-engine/v2/) is the owner's ruling of Oct 15 (he rejected the cut-out people and approved the 'make it once, right' brief); the Oct 12 whole-figure ruling is superseded.
+- **Town size:** the audit could not find the 10,000 cap in current code; the pool item core-town-size-census is to verify first and close if the cap is gone.
+
+- **Party loyalty calibration (owner, Oct 15):** the Shor-McCarty state legislative data may be used to calibrate the state-chamber party-loyalty parameter. Nothing from it ships in the game and no in-game citation is needed; it is one calibration input, weighted against each legislature's own roll-call records. Owner, later Oct 15: no credit, no note, no lawyer's look; calibration from a source is like an author being inspired by a book. Use it to calibrate, literally.
+
+- **Moving time (owner, Oct 15):** the Day button and a Week button advance time. On the calendar, clicking a future day shows a small skip-forward icon or button (no 'skip to event' label); pressing it runs time to that day. A scene stops any advance. Until the director's scenes carry play, these are the only ways time moves; the Day and Week buttons are not meant to be the primary way once scenes do. The ruling of Oct 14 ('no skip-ahead control') is superseded by this one.
+
+## Oct 15, evening: batch 11 grading rulings (owner)
+
+- **A scene has an endpoint.** It exists for something: money, a bill, or the player's political life. The batch page says what each scene is for. "Where do you work" between relatives is not a scene. Family talks are personal scenes only, since the family has little involvement in play for now, and lines like "Have you talked to Diana?" do not belong in one.
+- **The narrator sets the scene.** A few sentences of narration set it up; then the characters play it out. Two short narrator lines ("Your son is with you." "You got a job.") do not set a scene.
+- **A reply continues the conversation.** "All right" and "Okay" as answers to "How's Keanu?" are not how conversations work, even when grammatical. The four replies each move the talk somewhere.
+- **Journal lines carry their subject.** "My father was elected mayor" (the office), "My daughter Jane was born" (the name), and "Little did I know" needs what. "That was a turning point" only when the record shows it was one.
+- **Speeches are built as the player gives them (the owner's Suzerain example).** Short openers and closers, then longer, meatier choices at the core of the speech, on different subjects. A four-line rally is not a speech. The rally's choice set (batch 11 scene 16) is the shape to build on. "Thank you very much" over "Thank you so much" in a speech.
+- **A bill has a real name, not a description.** "Allow multifamily in single family zones" is a description. Its text is shown next to its title in the batch.
+- **A lie about where you are from names another place** ("I'm from Bloomington"), never "Not here." Nobody says a date in speech ("I talked to Diana on November 13").
+- **"Say nothing" is dropped from grading.** School, workplace, notices and public hearings are graded enough and are not sent again until something new is said in them.
+- **Calibrate dialogue from anything:** English books, other games, the whole internet. The owner does not accept "it's hard" when the patterns are everywhere.
+- **The text rule (owner, Oct 15, evening):** the owner never ruled that a shipped sentence must appear in a public-domain record; that was the Words session's own habit. The rule is: the banks in `data/english/parts/` are built at development time by writing pieces to the calibrated patterns, drawing on any source for the patterns (books, games, transcripts, the internet) and copying no one's copyrighted text; the English engine arranges the pieces at play; no text is typed into screens or code. Public-domain records remain a fine source of pieces, not a requirement. The 'two documents, one public-domain' attestation rule is withdrawn.
+- **Grading grades the engine, not scenarios (owner, Oct 15):** batches grade pieces by move, register and bearing (greet, deliver news, condole, ask, answer, deflect, promise, close, and the rest), each shown with the slots it fills, so one grade carries to every scene that uses that move. Once the grammar is calibrated, the CTO brings finished composed scenes when the engine has enough graded pieces to compose them properly, a few at a time; then the same scene composed for different personalities (traits), graded for whether each person sounds like themselves. Nobody grades an assassination scene and then a financial-crisis scene as one-offs.
+
+- **The Words session's model (owner, Oct 15, evening):** the one exception to Sonnet-only. The Words line (the English engine and the director) runs as an Opus session at medium effort, because taste, variety and naturalness are the product there; it may run one Sonnet sub-agent for the engineering (coverage table, bench script, calibration table, gate changes) while Opus does the writing and reads the bench page before the owner sees it.
+
+- **Storage override in the cloud (owner, Oct 15):** builders, mergers and checkers in cloud environments set `OCD_STORAGE_OVERRIDE` themselves and never ask the owner to verify it.

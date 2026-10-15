@@ -173,6 +173,10 @@ interface PayBase {
   readonly jobId: string;
   readonly hourlyMinor: number;
   readonly dailyMinor: number;
+  /** The rate this line last wrote (the base until it first writes). */
+  readonly appliedMinor?: number;
+  /** The factor the line last applied to the base (1 until it first writes). */
+  readonly factor?: number;
 }
 
 /**
@@ -191,19 +195,42 @@ export function scalePayroll(
     readonly modeledShare: number;
   },
 ): Map<string, number> {
+  const core = api.state as CoreState;
+  const jobOf = (jobId: string) =>
+    core.jobs.get(jobId) ?? countedJob(core, jobId) ?? undefined;
   const bases = input.jobs.map((job) => {
     const id = `pay|${input.key}|${job.id}`;
     const prior = getRow<PayBase>(api, "taken", id);
-    if (prior) return prior;
-    const row: PayBase = {
-      id,
-      key: input.key,
-      jobId: job.id,
-      hourlyMinor: job.hourlyMinor ?? 0,
-      dailyMinor: job.wageDailyMinor,
-    };
-    putRow(api, "taken", row);
-    return row;
+    if (!prior) {
+      const row: PayBase = {
+        id,
+        key: input.key,
+        jobId: job.id,
+        hourlyMinor: job.hourlyMinor ?? 0,
+        dailyMinor: job.wageDailyMinor,
+        appliedMinor: job.hourlyMinor ?? 0,
+        factor: 1,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
+    // Another rule re-rated this job since this line last wrote it (a salary
+    // floor, a raise): the base follows that rate, less this line's own
+    // factor, so returning to base never undoes the other rule's raise.
+    const live = job.hourlyMinor ?? 0;
+    const applied = prior.appliedMinor ?? prior.hourlyMinor;
+    if (live > 0 && live !== applied) {
+      const factor = prior.factor ?? 1;
+      const row: PayBase = {
+        ...prior,
+        hourlyMinor: Math.round(live / factor),
+        dailyMinor: Math.round(job.wageDailyMinor / factor),
+        appliedMinor: live,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
+    return prior;
   });
   const payroll =
     bases.reduce((n, b) => n + b.dailyMinor, 0) * reachParameter("daysPerYear");
@@ -213,19 +240,25 @@ export function scalePayroll(
         payroll
       : 0;
   const out = new Map<string, number>();
-  const core = api.state as CoreState;
   for (const base of bases) {
     if (base.hourlyMinor <= 0) continue;
     const hourly = Math.max(1, Math.round(base.hourlyMinor * (1 + raise)));
-    const job =
-      core.jobs.get(base.jobId) ?? countedJob(core, base.jobId) ?? undefined;
-    if (!job || job.hourlyMinor === hourly) continue;
-    api.rerateJob(
-      base.jobId,
-      hourly,
-      source(api, `Budget line ${input.key} as amended`),
-    );
-    out.set(base.jobId, hourly);
+    const job = jobOf(base.jobId);
+    if (!job) continue;
+    if (job.hourlyMinor !== hourly) {
+      api.rerateJob(
+        base.jobId,
+        hourly,
+        source(api, `Budget line ${input.key} as amended`),
+      );
+      out.set(base.jobId, hourly);
+    }
+    putRow(api, "taken", {
+      ...base,
+      // What the job now pays, read back (a counted job may store it rounded).
+      appliedMinor: jobOf(base.jobId)?.hourlyMinor ?? hourly,
+      factor: 1 + raise,
+    });
   }
   return out;
 }
