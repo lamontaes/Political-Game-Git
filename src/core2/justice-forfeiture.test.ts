@@ -23,8 +23,8 @@ import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
 
-const ATTEMPTS = 3;
-const DAYS = 150;
+const ATTEMPTS = 6;
+const DAYS = 240;
 
 function play(seed: string) {
   setBookkeeping(false);
@@ -45,7 +45,7 @@ function play(seed: string) {
         )
         .map((t) => t.personId!),
     ),
-  ].slice(0, 12);
+  ].slice(0, 40);
   const rich = [...core.people.values()]
     .filter(
       (person) =>
@@ -58,20 +58,24 @@ function play(seed: string) {
     .slice(0, 15);
   // The only forced part is the offers; reports, charges, pleas, trials and
   // sentences are the engines' own.
+  let taken = 0;
   for (const offerer of rich)
     for (const official of members)
-      considerBribe(api, {
-        offererId: offerer.id,
-        officialId: official,
-        stakeMinor: 50_000_000,
-        subjectId: `favor:${offerer.id}:${official}`,
-      });
+      if (
+        considerBribe(api, {
+          offererId: offerer.id,
+          officialId: official,
+          stakeMinor: 50_000_000,
+          subjectId: `favor:${offerer.id}:${official}`,
+        })?.taken
+      )
+        taken += 1;
   advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
   const sentences = api
     .moduleState(JUSTICE_MODULE_ID)
     .table("sentences")
     .rows() as unknown as SentenceRow[];
-  return { core, api, sentences };
+  return { core, api, sentences, taken };
 }
 
 it("forfeits the bribe money a convicted official took, to the treasury, before the fine", () => {
@@ -81,9 +85,9 @@ it("forfeits the bribe money a convicted official took, to the treasury, before 
       .update(randomBytes(16))
       .digest("hex")
       .slice(0, 16);
-    const { core, api, sentences } = play(seed);
+    const { core, api, sentences, taken } = play(seed);
     const where = `${lawChain(api).placeName}, seed ${seed}`;
-    last = where;
+    last = `${where}, ${taken} bribes taken, ${sentences.length} sentences`;
     const crimes = api
       .moduleState(CORRUPTION_MODULE_ID)
       .table("crimes")
