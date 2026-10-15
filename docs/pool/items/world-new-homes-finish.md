@@ -4,7 +4,7 @@ title: "Finish #4347: households occupy new rentals, with the rent cap read"
 area: world
 kind: wiring
 priority: 1
-status: in-pr
+status: open
 claimed-by:
 pr: #4347
 blocked-on:
@@ -21,3 +21,4 @@ source: "reissue item 4; PR #4347 branch world/session-b-new-homes"
 **Files.** src/core2/modules/housing.ts, housing-occupancy.ts
 
 **Notes.** None.
+Sent back 2026-10-15 from PR #4347 (branch world/session-b-new-homes): code conflict with main in src/core2/modules/housing.ts, stopgaps.json; finish on that branch, merge main into it first.
