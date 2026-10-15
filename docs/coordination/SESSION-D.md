@@ -16,3 +16,6 @@
 - Item 10 claimed: core Needs from other sessions list; first branch `pool/renewal-snapshot`, renewal initialization restore. Other list entries remain unfinished and active owners retain their repairs.
 
 - Item 10, renewal: draft #4364, 4/4 tests and changed-file gates pass; played Elko year 107.40 seconds versus 107.85. Birth person_012610f060a1f993 reaches household and health records. Renewal snapshot initialization is covered; whole-game snapshot coverage remains incomplete. Next claimed engine: `pool/health-snapshot`, health runtime persistence.
+
+- Item 10, health: draft #4367, 4/4 tests and changed-file gates pass; same drawn Elko year 107.08 seconds versus 107.85. Illness/death records survive focused restore and continuation. Whole-game coverage remains incomplete.
+- Item 9 new claim: `pool/counted-death-notices`, notify existing full relatives/acquaintances from actual monthly counted death rows. No new mortality selector or invented deaths; no English/director edits.
