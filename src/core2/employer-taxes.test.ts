@@ -9,6 +9,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
+import { businessBooksView } from "./business-books-view";
 import { coreAPI } from "./state";
 import { lawInForce, openLaws } from "./modules/laws";
 import { governments, openBudgets } from "./modules/budgets";
@@ -18,16 +19,12 @@ import {
   openEmployerTaxes,
   type EmployerTaxRecord,
 } from "./modules/employer-taxes";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`employer-taxes:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -39,7 +36,7 @@ describe("employer payroll tax share", { timeout: 600_000 }, () => {
   it("is paid to the federal treasury from the employer's cash, balanced, at the law's rate, capped at the wage base", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -61,6 +58,10 @@ describe("employer payroll tax share", { timeout: 600_000 }, () => {
     const where = `${place} (seed ${seed})`;
     const treasury = governments(api).find((g) => g.id === "US")!;
     const treasuryAccount = `cash:${treasury.organizationId}:residual`;
+    const stateGov = governments(api).find((g) => g.level === "state");
+    const stateTreasuryAccount = stateGov
+      ? `cash:${stateGov.organizationId}:residual`
+      : treasuryAccount;
     // One worker is already $10 under the Social Security wage base, so their
     // first paychecks cross it.
     const ssRow = lawInForce(api, "social-security-tax").governing!;
@@ -112,7 +113,22 @@ describe("employer payroll tax share", { timeout: 600_000 }, () => {
         r.id,
       ).toBe(0);
       for (const p of r.postings.filter((p) => p.deltaMinor > 0))
-        expect(p.accountId).toBe(treasuryAccount);
+        expect([treasuryAccount, stateTreasuryAccount]).toContain(p.accountId);
+      // Unemployment taxes stop at their own wage base for the year.
+      const futa = lawInForce(api, "federal-unemployment-tax").governing;
+      if (
+        futa?.value &&
+        !((futa.terms?.notCovered as string[]) ?? []).includes(state)
+      ) {
+        const futaBase = Math.round(Number(futa.terms?.wageBase) * 100);
+        expect(r.federalUnemploymentMinor, r.id).toBe(
+          Math.round(
+            (Math.max(0, Math.min(r.wagesMinor, futaBase - before)) *
+              futa.value) /
+              100,
+          ),
+        );
+      }
       for (const p of r.postings.filter((p) => p.deltaMinor < 0))
         expect(p.accountId).toBe(`cash:${r.employerId}:residual`);
     }
@@ -129,10 +145,37 @@ describe("employer payroll tax share", { timeout: 600_000 }, () => {
     const employers = new Set(rows.map((r) => r.employerId));
     for (const id of employers) arrears += employerArrears(api, id);
     const owed = rows.reduce(
-      (n, r) => n + r.socialSecurityMinor + r.medicareMinor,
+      (n, r) =>
+        n +
+        r.socialSecurityMinor +
+        r.medicareMinor +
+        (r.federalUnemploymentMinor ?? 0) +
+        (r.stateUnemploymentMinor ?? 0),
       0,
     );
     const paid = rows.reduce((n, r) => n + r.paidMinor, 0);
     expect(paid + arrears, where).toBe(owed);
+    // The record a screen would read for a business's books carries the
+    // taxes its employer records hold (owner decision: not shown yet).
+    const employer = [...employers].find((id) =>
+      core.finance.businesses.has(id),
+    );
+    if (employer) {
+      const view = businessBooksView(api, employer)!;
+      expect(view.taxesPaidMinor, where).toBe(
+        rows
+          .filter((r) => r.employerId === employer)
+          .reduce((n, r) => n + r.paidMinor, 0) +
+          (
+            api
+              .moduleState(EMPLOYER_TAXES_MODULE_ID)
+              .table("profits")
+              .rows() as unknown as { businessId: string; paidMinor: number }[]
+          )
+            .filter((r) => r.businessId === employer)
+            .reduce((n, r) => n + r.paidMinor, 0),
+      );
+      expect(view.recordIds[0]).toBe(employer);
+    }
   });
 });

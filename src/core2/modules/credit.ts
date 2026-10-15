@@ -9,9 +9,9 @@
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
-import { countyPopulationSharesForPlace } from "../../simulation/government-units";
-import { lifePlaceByKey } from "../../simulation/life-places";
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { countyPopulationSharesForPlace } from "../reference/government-units";
+import { corePlaceByKey } from "../place-lookup";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import territoryData from "../data/credit/territories.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
@@ -24,11 +24,16 @@ import type {
   CoreState,
   Source,
 } from "../types";
-import { linkCreditLineToPrime } from "./macro";
+import { linkCreditLineToPrime, quotedLineRate } from "./macro";
 import { chooseAct } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
+import { bankDepositLiability } from "../accounts";
+import { reviewBankDeposits } from "../credit-deposits";
+
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 
 const CREDIT_PULL = "credit:pull";
 
@@ -89,7 +94,7 @@ export interface TownBank {
 /** The town's community bank: the town's population share of its county's FDIC deposits, holding its own equity as cash. */
 export function townBankFor(input: CoreInput): TownBank | undefined {
   const key = input.placeMetadata?.placeKey;
-  const place = key ? lifePlaceByKey(key) : null;
+  const place = key ? corePlaceByKey(key) : null;
   const geoid = place?.sourceGeoid ?? "";
   const county =
     geoid.length === "SSPPPPP".length
@@ -144,7 +149,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   };
 }
 
-/** Adds the town bank to the opening input. It holds only its own equity as cash until accounts hold deposits. */
+/** Adds the bank's opening equity; customer deposits subsequently move real cash through the journal. */
 export function withTownBank(input: CoreInput): CoreInput {
   const bank = townBankFor(input);
   if (!bank) return input;
@@ -184,7 +189,7 @@ function bankOf(api: CoreAPI) {
   return row?.organizationId ? row : undefined;
 }
 
-/** A bank's capital in a one-ledger world: its cash plus what open borrowers still owe it. */
+/** Capital is assets less deposit liabilities; a deposit never creates bank equity. */
 function equity(api: CoreAPI, bankId: string) {
   const c = core(api);
   let principal = 0,
@@ -205,18 +210,36 @@ function equity(api: CoreAPI, bankId: string) {
     .table("loans")
     .query("open", [true]) as unknown as LoanRow[])
     if (row.lenderId === bankId) loans += row.balanceMinor;
-  // The opening's mortgages it holds were funded by deposits the core doesn't model yet: only the
-  // change in what they owe since the opening counts, so a repayment moves cash, not capital.
+  // The opening mortgages predate the new deposit cash transfers. Keep their
+  // unmatched opening funding explicit, rather than inventing customer cash.
   const held = heldMortgages(api, bankId);
+  // stopgapId: SG-WORLD-opening-mortgage-funding
+  if (held.opening > 0) api.stopgap("SG-WORLD-opening-mortgage-funding");
   const cash = c.organizations.get(bankId)!.liquidMinor;
+  const deposits = bankDepositLiability(c, bankId);
   return {
     cash,
     principal,
     loans,
     limits,
     lost,
-    equity: cash + principal + loans + held.now - held.opening,
+    deposits,
+    mortgagesMinor: held.now,
+    openingMortgageFundingMinor: held.opening,
+    equity: cash + principal + loans + held.now - held.opening - deposits,
   };
+}
+
+function lendingRoom(api: CoreAPI, book: ReturnType<typeof equity>): number {
+  const capitalRoom =
+    book.equity * api.parameter("creditMaxLimitsPerEquity") -
+    book.limits -
+    book.loans;
+  const liquidityRoom =
+    book.cash -
+    book.deposits * api.parameter("creditDepositLiquidityShare") -
+    Math.max(0, book.limits - book.principal);
+  return Math.max(0, Math.min(capitalRoom, liquidityRoom));
 }
 
 const openingHeld = new WeakMap<CoreState, number>();
@@ -344,11 +367,43 @@ export function lendMortgage(
   return lent;
 }
 
+/**
+ * What the bank reads of a borrower's record: sales against wages paid so far.
+ * Before any wages are paid, the books' own plan stands in: expected yearly
+ * demand against planned payroll. The record sets the line's risk spread.
+ */
+function lineTerms(
+  api: CoreAPI,
+  books: {
+    wagesPaidMinor: number;
+    salesReceivedMinor: number;
+    annualDemandMinor: number;
+    annualPayrollMinor: number;
+  },
+): { salesToWages: number; record: number; spreadPct: number } {
+  const p = (key: string) => api.parameter(key);
+  const salesToWages =
+    books.wagesPaidMinor > 0
+      ? books.salesReceivedMinor / books.wagesPaidMinor
+      : books.annualPayrollMinor > 0
+        ? books.annualDemandMinor / books.annualPayrollMinor
+        : p("zero");
+  const record = Math.tanh(salesToWages);
+  return {
+    salesToWages,
+    record,
+    spreadPct:
+      p("creditPrimeSpreadPct") +
+      p("creditRiskSpreadPct") * (p("one") - record),
+  };
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const bank = bankOf(api);
   if (!bank) return;
+  reviewBankDeposits(api, bank.organizationId);
   const book = equity(api, bank.organizationId);
   const capitalRoom = book.equity / bank.openingEquityMinor;
   store(api)
@@ -358,6 +413,7 @@ function review(api: CoreAPI): void {
       date: api.state.date,
       ...book,
       capitalRoom,
+      lendingRoomMinor: lendingRoom(api, book),
     });
   // Appetite falls smoothly as capital falls below where the bank opened.
   const appetite =
@@ -367,21 +423,11 @@ function review(api: CoreAPI): void {
         -p("creditCapitalAppetiteSlope") * (capitalRoom - p("macroHalf")),
       ));
   serviceLoans(api, bank.organizationId);
-  let room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
+  let room = lendingRoom(api, book);
   // The owner decides whether to borrow; a business with no recorded owner applies when its cash runs short.
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
-  const rate =
-    ((
-      api.moduleState("macro").table("state").get("macro:state") as
-        { policyRatePct: number } | undefined
-    )?.policyRatePct ?? p("zero")) /
-      p("macroHundred") +
-    p("creditPrimeSpreadPct") / p("macroHundred");
   const wanted: { id: string; requested: number }[] = [];
   const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
@@ -402,6 +448,8 @@ function review(api: CoreAPI): void {
       continue;
     }
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
+    // The owner weighs the rate the bank will charge this borrower, risk spread and all.
+    const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
     const reasons = {
       baseline: p("creditBorrowBaseline"),
       need: p("creditBorrowNeedWeight") * Math.min(p("one"), requested / cover),
@@ -436,21 +484,15 @@ function review(api: CoreAPI): void {
   )) {
     const books = c.finance.businesses.get(id)!;
     const cash = c.organizations.get(id)!.liquidMinor;
-    const salesToWages =
-      books.wagesPaidMinor > 0
-        ? books.salesReceivedMinor / books.wagesPaidMinor
-        : p("one");
-    const record = Math.tanh(salesToWages);
+    const { salesToWages, record, spreadPct } = lineTerms(api, books);
     const limitMinor = Math.floor(
       Math.min(requested * appetite * record, room),
     );
-    const spreadPct =
-      p("creditPrimeSpreadPct") +
-      p("creditRiskSpreadPct") * (p("one") - record);
     store(api)
       .table("applications")
       .put({
         id: `application:${api.state.date}:${id}`,
+        bankBookId: `book:${api.state.date}`,
         organizationId: id,
         date: api.state.date,
         reasonKey: creditData.reasons.applied,
@@ -618,6 +660,7 @@ export const CREDIT_MODULE: CoreModule = {
       },
       payments: { indexes: { byLoan: { fields: ["loanId"] } } },
       households: { indexes: { byHousehold: { fields: ["householdId"] } } },
+      depositMoves: { indexes: { byHolder: { fields: ["holderId"] } } },
     },
   },
   reasonProviders: {
@@ -657,8 +700,7 @@ export const CREDIT_MODULE: CoreModule = {
     const bank = [...core(api).organizations.values()].find(
       (row) => row.kind === creditData.bankKind,
     );
-    // Deposits move into bank accounts when the core's accounts land; until then the bank lends its equity.
-    stopgap("SG-WORLD-credit-bank-equity-only");
+    // The first review transfers customer savings through the accounts writer.
     store(api)
       .table("banks")
       .put({
@@ -723,12 +765,37 @@ export function monthlyIncome(
   let daily = 0;
   for (const job of c.jobs.values())
     if (job.endsAt === undefined && members.has(job.personId))
-      // A lender counts pay that arrives: the job's wage times the share of its due pay actually paid.
-      daily += job.wageDailyMinor * paidShare(c, job.personId, job.id);
+      // A lender counts pay that arrives: what the job actually earned from
+      // the hours worked, times the share of its due pay actually paid.
+      daily += earnedDaily(api, job) * paidShare(c, job.personId, job.id);
   return (
     (daily * api.parameter("jobsDaysPerYear")) /
     api.parameter("macroMonthsPerYear")
   );
+}
+
+/**
+ * What a job earns a day from the hours actually worked (business audit
+ * row 20): its work ledger's earnings over the days it has run in play. A
+ * job with less than creditIncomeRecordDays of record reads its wage rate.
+ */
+function earnedDaily(
+  api: CoreAPI,
+  job: { id: string; personId: string; wageDailyMinor: number },
+): number {
+  const c = core(api);
+  for (const id of c.work.commitmentsByPerson.get(job.personId) ?? []) {
+    const commitment = c.work.commitments.get(id);
+    if (!commitment || commitment.jobId !== job.id) continue;
+    const ledger = c.work.payrollLedgerByCommitment.get(id);
+    if (!ledger) break;
+    const since =
+      commitment.startsAt > c.startedAt ? commitment.startsAt : c.startedAt;
+    const days = daysBetween(makeIsoDate(since), makeIsoDate(c.date));
+    if (days < api.parameter("creditIncomeRecordDays")) break;
+    return ledger.earnedMinor / days;
+  }
+  return job.wageDailyMinor;
 }
 
 /** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
@@ -819,9 +886,16 @@ function householdApplications(
       { policyRatePct: number } | undefined
   )?.policyRatePct;
   if (prime === undefined) return room;
-  const rate =
+  const marketRate =
     (prime + p("macroPrimeSpreadPct") + p("creditPersonalSpreadPct")) /
     p("macroHundred");
+  const cap = c.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(
+        api,
+        "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      )
+    : undefined;
+  const town = cap ? lawChain(api).townPlaceId : undefined;
   const owing = new Set(
     (
       store(api).table("loans").query("open", [true]) as unknown as LoanRow[]
@@ -847,6 +921,16 @@ function householdApplications(
     a.id.localeCompare(b.id),
   )) {
     if (owing.has(household.id) || room <= 0) continue;
+    // stopgapId: SG-GOV-REACH-A-consumer-credit — product-specific caps,
+    // fees and counted borrowers still need records. This is the catalog ceiling.
+    const applicable =
+      cap?.value === 1 && cap.governing && household.placeId === town;
+    if (applicable) api.stopgap("SG-GOV-REACH-A-consumer-credit");
+    const ceiling = applicable
+      ? lawParameters.parameters.consumerLoanRateCap.value
+      : null;
+    const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
+    const lawId = applicable ? cap.governing!.id : null;
     const members = household.memberIds
       .map((id) => c.people.get(id))
       .filter((row) => row?.alive);
@@ -923,6 +1007,10 @@ function householdApplications(
         limitMinor: principal,
         approved: principal > 0,
         kind: "personal",
+        marketAnnualRate: marketRate,
+        annualRate: rate,
+        ceilingAnnualRate: ceiling,
+        lawId,
       });
     if (principal <= 0) continue;
     const lent = transferCash(
@@ -935,7 +1023,7 @@ function householdApplications(
         tag: "ESTIMATED",
         asOf: c.date,
         citation: creditData.source.citation,
-        estimatedFrom: `A personal loan at prime plus ${p("creditPersonalSpreadPct")} points, sized from the household's costs and its debt-to-income.`,
+        estimatedFrom: `A personal loan quoted at ${rate}, from market rate ${marketRate}${lawId ? ` under ${lawId}` : ""}, sized from the household's costs and debt-to-income.`,
       },
     );
     if (lent <= 0) continue;
@@ -952,6 +1040,8 @@ function householdApplications(
         principalMinor: lent,
         balanceMinor: lent,
         annualRate: rate,
+        marketAnnualRate: marketRate,
+        rateLawId: lawId,
         paymentMinor: Math.round(
           amortizedPayment(lent, rate, p("creditPersonalTermMonths"), p),
         ),
@@ -1033,10 +1123,7 @@ export function foundingLoanLimit(
   if (!bank || rate === undefined) return 0;
   const p = (key: string) => api.parameter(key);
   const book = equity(api, bank.organizationId);
-  const room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
+  const room = lendingRoom(api, book);
   const share = p("creditStartupEquityShare");
   const byEquity = (Math.max(0, plan.equityMinor) * (1 - share)) / share;
   const payment =

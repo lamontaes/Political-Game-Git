@@ -20,10 +20,11 @@ import {
   members,
 } from "../core2/modules/legislature";
 import { officialOf } from "../core2/modules/officials";
-import { stateNameForUsps } from "../simulation/state-reference";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { coreStateName } from "../core2/place-lookup";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import openingData from "./data/opening-story.json" with { type: "json" };
+import journalRows from "./data/journal-rows.json" with { type: "json" };
 import { markWordsStopgap } from "./stopgaps";
 
 /** One person a stage points out: their name and office, from the records. */
@@ -34,8 +35,18 @@ export interface OpeningFigure {
   readonly post: string | null;
   /** Their office, by its title. */
   readonly office: string | null;
-  /** Their state's name, when it isn't the player's. */
+  /** Their state's name, from their seat or term (none for a national office). */
   readonly state: string | null;
+  /** A household member's relation to the player, by the family fact that records it. */
+  readonly relation: string | null;
+  /** The rule that picked them: "household", "office:governor", "federal-house:speaker". */
+  readonly role: string;
+  /**
+   * Why they are pointed out: the address sentence that names them (its
+   * index in the address), or the player's own household. Set by the
+   * opening story; a figure with no reason is not pointed out.
+   */
+  readonly namedBy?: number;
   readonly sourceRecordIds: readonly string[];
 }
 
@@ -102,11 +113,23 @@ function officesOf(
   }[];
 }
 
+const RELATION_WORDS = (
+  journalRows as unknown as {
+    relationWords: Record<string, Record<string, string>>;
+  }
+).relationWords;
+
+/** A state's name from a jurisdiction or state key ("US-WV"), else null. */
+const stateName = (key: string | null | undefined) =>
+  key && /^US-[A-Z]{2}$/.test(key)
+    ? (coreStateName(key.replace(/^US-/, "")) ?? null)
+    : null;
+
 /** The player's state, by its jurisdiction key. */
 function stateOf(core: CoreState, playerId: PersonId): string | null {
   const player = core.people.get(playerId);
   return player
-    ? (lifePlaceByJurisdictionId(player.placeId as never)
+    ? (corePlaceByJurisdictionId(player.placeId as never)
         ?.stateJurisdictionKey ?? null)
     : null;
 }
@@ -171,18 +194,41 @@ export function openingSequence(
     null;
   const taken = new Set<string>([playerId, presidentId]);
   const figuresOf = (rule: PersonRule): OpeningFigure[] => {
-    if (rule.household)
+    if (rule.household) {
+      // Each member by their relation to the player, from the family fact.
+      const kin = new Map<string, { relation: string; factId: string }>();
+      for (const fact of player.pastFacts ?? []) {
+        const other = fact.facts?.otherPersonId;
+        if (other && fact.kind.startsWith("family:") && !kin.has(other))
+          kin.set(other, {
+            relation: fact.kind.slice("family:".length),
+            factId: fact.id,
+          });
+      }
       return (core.households.get(player.householdId)?.memberIds ?? [])
         .map((id) => core.people.get(id))
         .filter((row) => row?.alive)
-        .map((row) => ({
-          id: row!.id,
-          name: `${row!.givenName} ${row!.familyName}`,
-          post: null,
-          office: null,
-          state: null,
-          sourceRecordIds: [player.householdId, row!.id],
-        }));
+        .map((row) => {
+          const of = kin.get(row!.id);
+          const words = of ? RELATION_WORDS[of.relation] : undefined;
+          const relation =
+            words?.[row!.looks?.gender ?? "other"] ?? words?.other ?? null;
+          return {
+            id: row!.id,
+            name: `${row!.givenName} ${row!.familyName}`,
+            post: null,
+            office: null,
+            state: null,
+            relation,
+            role: "household",
+            sourceRecordIds: [
+              player.householdId,
+              row!.id,
+              ...(of && relation ? [of.factId] : []),
+            ],
+          };
+        });
+    }
     if (rule.office)
       return seats
         .filter((row) => row.office.kind === rule.office && row.holder)
@@ -191,7 +237,9 @@ export function openingSequence(
           name: `${holder!.identity.givenName} ${holder!.identity.familyName}`,
           post: null,
           office: office.title,
-          state: null,
+          state: stateName(office.jurisdiction),
+          relation: null,
+          role: `office:${rule.office}`,
           sourceRecordIds: [seat.id, holder!.id],
         }));
     const chamber =
@@ -223,10 +271,9 @@ export function openingSequence(
         name,
         post: postTitle(rule.chamber!, rule.post!),
         office: office?.title ?? titleOfKind(official?.officeKind),
-        state:
-          state && state !== ownState
-            ? (stateNameForUsps(state.replace(/^US-/, "")) ?? null)
-            : null,
+        state: stateName(state),
+        relation: null,
+        role: `${rule.chamber}:${rule.post}`,
         sourceRecordIds: [
           `${chamber}:${rule.post}`,
           ...(term ? [term.seatId] : official ? [official.seatId] : []),

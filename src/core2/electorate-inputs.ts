@@ -1,7 +1,7 @@
 /**
  * What the electorate the world doesn't name reads from the world before it
  * votes (`electorate.ts`): each candidate's public standing (incumbency,
- * offices held, a public scandal, the campaign's books, the officeholder's
+ * offices held, the campaign's books, the officeholder's
  * votes) and the race's conditions (the cycle, the national economy against
  * the opening, the town's jobs and crime). Every effect is sized in research
  * terms (two-party vote share in an evenly split electorate) and turned into
@@ -16,8 +16,6 @@ import {
   felonyDisenfranchisedShare,
 } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
-import { CORRUPTION_MODULE_ID } from "./modules/corruption";
-import { convictionsOf } from "./modules/justice";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
@@ -59,8 +57,6 @@ export interface CandidateInputs {
   readonly incumbent: boolean;
   /** Has held elected office (another seat, or this one before). */
   readonly experienced: boolean;
-  /** A public scandal on the record before election day. */
-  readonly scandal: boolean;
   /** What the campaign's books show it spent; null where the world records no campaign (the typical race). */
   readonly spentMinor: number | null;
   /** The officeholder's recorded votes and promises, weighed at the race's lean (record.ts units). */
@@ -69,6 +65,15 @@ export interface CandidateInputs {
   readonly presidentsParty: boolean;
   /** Of the party holding this seat. */
   readonly seatPartyHolder: boolean;
+}
+
+/** The exact jobs reading a race consumed, even if the web row is later refreshed. */
+export interface UnemploymentReading {
+  readonly value: number;
+  readonly base: number;
+  readonly webRecordId: string;
+  readonly engineRecordId: string | null;
+  readonly openingRecordId: string;
 }
 
 /** The conditions every voter in the race sees. */
@@ -88,6 +93,7 @@ export interface RaceConditions {
   readonly town: {
     readonly placeId: string;
     readonly unemploymentChange: number;
+    readonly unemploymentReading?: UnemploymentReading;
     readonly crimeChange: number;
   } | null;
 }
@@ -99,13 +105,15 @@ export interface CandidateReasons {
   readonly side: number;
   readonly incumbency: number;
   readonly experience: number;
-  readonly scandal: number;
   readonly spending: number;
   readonly record: number;
   readonly economy: number;
   readonly midterm: number;
   /** Felt by the town's own voters (and the place around it) only. */
   readonly local: number;
+  readonly localUnemployment?: UnemploymentReading & {
+    readonly contribution: number;
+  };
   /** Everything but `local`. */
   readonly total: number;
 }
@@ -151,7 +159,6 @@ export function candidateReasons(
       !candidate.incumbent && candidate.experienced
         ? p("experiencedCandidateShare")
         : 0,
-    scandal: candidate.scandal ? -p("scandalShare") : 0,
     spending,
     record: p("recordShareWeight") * candidate.record,
     economy,
@@ -164,6 +171,17 @@ export function candidateReasons(
     side: candidate.side,
     ...parts,
     local,
+    ...(conditions.town?.unemploymentReading
+      ? {
+          localUnemployment: {
+            ...conditions.town.unemploymentReading,
+            contribution: candidate.seatPartyHolder
+              ? -p("localUnemploymentShare") *
+                conditions.town.unemploymentChange
+              : 0,
+          },
+        }
+      : {}),
     total,
   };
 }
@@ -310,6 +328,17 @@ function townConditions(api: CoreAPI, placeId: string) {
   return {
     unemploymentChange:
       jobs && jobs.base !== undefined ? jobs.value - jobs.base : 0,
+    ...(jobs && jobs.base !== undefined
+      ? {
+          unemploymentReading: {
+            value: jobs.value,
+            base: jobs.base,
+            webRecordId: jobs.recordId,
+            engineRecordId: jobs.engineRecordId,
+            openingRecordId: placeId,
+          },
+        }
+      : {}),
     crimeChange: counted ? crime / counted : 0,
   };
 }
@@ -327,33 +356,10 @@ function heldOffice(api: CoreAPI, personId: string): boolean {
   );
 }
 
-/** Whether a taken bribe of the person's has surfaced, or they were convicted, by the date: a public scandal. */
-function scandalOf(api: CoreAPI, personId: string, date: string): boolean {
-  if (convictionsOf(api, personId, date).length) return true;
-  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return false;
-  const store = api.moduleState(CORRUPTION_MODULE_ID);
-  for (const crime of store
-    .table("crimes")
-    .query("byOfficial", [personId]) as unknown as {
-    id: string;
-    taken: boolean;
-  }[]) {
-    if (!crime.taken) continue;
-    if (
-      (
-        store.table("surfaced").query("byCrime", [crime.id]) as unknown as {
-          date: string;
-        }[]
-      ).some((s) => s.date <= date)
-    )
-      return true;
-  }
-  return false;
-}
-
 /**
  * One candidate's inputs from the records. A named person brings their own
- * offices, scandals, campaign books and votes; an official the world doesn't
+ * offices, campaign books and votes (a scandal is read by each voter from
+ * the news that reached them, in voting.ts); an official the world doesn't
  * name yet is a typical candidate of their party (their campaign spends the
  * typical race's amount), with an incumbent's standing where they hold the
  * seat.
@@ -401,7 +407,6 @@ export function candidateInputs(
     side,
     incumbent: input.incumbent,
     experienced: input.incumbent || (named && heldOffice(api, input.id)),
-    scandal: scandalOf(api, input.id, api.state.date),
     // The campaign's books, by one rule for every candidate, named or not:
     // a campaign the world runs is read as it spent; a candidate with no
     // campaign in the world runs the typical race's.

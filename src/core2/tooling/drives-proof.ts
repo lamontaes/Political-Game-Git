@@ -7,7 +7,7 @@
  * Developer tooling only; run in a cloud environment, never on the owner's Mac.
  */
 import { writeFileSync } from "node:fs";
-import { addDays, isoDateFromParts, makeIsoDate } from "../../simulation/dates";
+import { addDays, isoDateFromParts, makeIsoDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { DEFAULT_DATA } from "../data";
 import { buildDeepPast } from "../deep-past";

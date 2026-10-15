@@ -23,7 +23,7 @@
  * Children hold their parents' story from when they were old enough to be
  * told it (September 29 ruling: family knows what such a person would know).
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
   pastParameter,
   seededBetween,
@@ -50,10 +50,11 @@ const RELATIONSHIP_TRAITS = [
   "personality-v1:facet-generous",
 ] as const;
 
-const DAYS_PER_YEAR = pastParameter(null, "pastDaysPerYear");
-
 function years(date: string, count: number): string {
-  return shiftDays(date, Math.round(count * DAYS_PER_YEAR));
+  return shiftDays(
+    date,
+    Math.round(count * pastParameter(null, "pastDaysPerYear")),
+  );
 }
 
 function factsOf(person: PersonInput, kind: string): readonly Fact[] {

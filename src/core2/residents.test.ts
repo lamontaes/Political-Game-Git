@@ -5,15 +5,19 @@ import { generatedOpening } from "./tooling/generated-world";
 import { collapseToTwoLevels, fullPeople } from "./residents";
 import { representativeSample } from "./representative-sample";
 import { countedDrift } from "./modules/counted-drift";
-import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
+import { countedMoves } from "./modules/counted-moves";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { residentCounts, residentsRuntime } from "./modules/residents";
+import {
+  rerateCountedRetirement,
+  residentCounts,
+  residentsRuntime,
+} from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { countedResidents } from "./electorate";
 import { citizenShareOf } from "./electorate-places";
-import { lifePlaceByKey } from "../simulation/life-places";
-import { addDays } from "../simulation/dates";
+import { corePlaceByKey } from "./place-lookup";
+import { addDays } from "./kernel/dates";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -116,6 +120,8 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     let drift = 0;
     for (const row of countedDrift(core).values())
       drift += row.births - row.deaths + row.movedIn - row.movedOut;
+    for (const row of countedMoves(coreAPI(core)))
+      drift += row.direction === "in" ? row.people : -row.people;
     expect(counts.reduce((n, row) => n + row.people, 0)).toBe(
       full.people.length - two.people.length + drift,
     );
@@ -261,6 +267,46 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(total()).toBe(start);
   }, 300_000);
 
+  it("pays counted and filled-in retirees at the benefit level in force", () => {
+    const core = createLifeCore(two);
+    advanceCore(core, daysIn(4));
+    const flows = () =>
+      [...residentsRuntime(core)!.flows.values()].filter(
+        (flow) => flow.kind === "retirement" && !flow.endedAt,
+      );
+    if (!flows().length) return; // No retiree in this place.
+    const record = [...residentsRuntime(core)!.households.values()].find(
+      (row) => row.contracts.some((contract) => contract.recipientIncome),
+    );
+    if (record)
+      fillInPerson(
+        core,
+        record.contracts.find((row) => row.recipientIncome)!.recipientIncome!
+          .personId,
+      );
+    const base = new Map(flows().map((flow) => [flow.id, flow.amountMinor]));
+    // A cut to nine-tenths reaches both tiers by one rule.
+    rerateCountedRetirement(core, 0.9);
+    // Each award rounds to the cent on its own.
+    const awards = (flow: { amountByContract?: Record<string, number> }) =>
+      Object.keys(flow.amountByContract ?? { own: 0 }).length;
+    for (const flow of flows()) {
+      expect(
+        Math.abs(flow.amountMinor - base.get(flow.id)! * 0.9),
+      ).toBeLessThanOrEqual(awards(flow));
+      if (flow.amountByContract)
+        expect(
+          Object.values(flow.amountByContract).reduce((n, v) => n + v, 0),
+        ).toBe(flow.amountMinor);
+    }
+    // Restoring the line restores the base, within a cent an award.
+    rerateCountedRetirement(core, 1);
+    for (const flow of flows())
+      expect(
+        Math.abs(flow.amountMinor - base.get(flow.id)!),
+      ).toBeLessThanOrEqual(awards(flow));
+  }, 300_000);
+
   it("fills in a clicked counted person, and returns full people as they are", () => {
     const core = createLifeCore(two);
     const counted = [...residentsRuntime(core)!.households.values()][0]!
@@ -275,41 +321,30 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(personOrFillIn(core, "person:nobody")).toBeUndefined();
   }, 300_000);
 
-  it("keeps no past in the counts and rebuilds it at fill-in, as the opening built it", () => {
+  it("keeps no past in the counts and builds the same one at every fill-in", () => {
+    // One model, two tiers: a counted person is an identity in a group's
+    // columns; their past exists only once they are filled in, built from
+    // the world's seed, so the same person comes back with the same past.
     const core = createLifeCore(two);
     const records = [...residentsRuntime(core)!.households.values()];
     expect(
       records.every((row) =>
-        row.people.every(
-          (person) =>
-            !person.pastFacts?.some((fact) =>
-              fact.id.startsWith(
-                `${person.id}:${DEFAULT_DEEP_PAST_DATA.version}:`,
-              ),
-            ),
-        ),
+        row.people.every((person) => !person.pastFacts?.length),
       ),
     ).toBe(true);
-    const fullById = new Map(full.people.map((row) => [row.id, row]));
-    const record = records.find((row) =>
-      row.people.some((person) => fullById.get(person.id)?.pastFacts?.length),
-    )!;
-    const person = record.people.find(
-      (row) => fullById.get(row.id)?.pastFacts?.length,
-    )!;
+    const person = records.find((row) => row.people.length > 1)!.people[0]!;
     fillInPerson(core, person.id);
-    // Counted households have light customer terms, so a full opening's
-    // where-they-shop facts aren't part of the past being rebuilt.
+    const again = createLifeCore(two);
+    fillInPerson(again, person.id);
     const past = (facts: readonly { id: string }[] | undefined) =>
-      JSON.stringify(
-        (facts ?? []).filter(
-          (fact) => !fact.id.startsWith("p8-opening-customer-builder"),
-        ),
-      );
-    for (const row of record.people)
-      expect(past(core.people.get(row.id)!.pastFacts)).toBe(
-        past(fullById.get(row.id)!.pastFacts),
-      );
+      JSON.stringify(facts ?? []);
+    expect(core.people.get(person.id)!.pastFacts?.length).toBeGreaterThan(0);
+    expect(past(core.people.get(person.id)!.pastFacts)).toBe(
+      past(again.people.get(person.id)!.pastFacts),
+    );
+    const traits: Record<string, number> = {};
+    for (const key in person.traits) traits[key] = person.traits[key]!;
+    expect(core.people.get(person.id)!.traits).toEqual(traits);
   }, 300_000);
 
   it("re-rates full and counted workers from today", () => {
@@ -454,7 +489,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // Counted votes stand for the town's citizens: the place's ACS share of
     // adults, blended with its state's.
     const usps =
-      lifePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(
+      corePlaceByKey(two.placeMetadata!.placeKey!)?.stateJurisdictionKey?.slice(
         3,
       ) ?? "";
     const share = citizenShareOf(two.placeMetadata!.placeKey!, usps);

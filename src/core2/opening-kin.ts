@@ -20,10 +20,10 @@ import {
   ageOnDate,
   isoDateFromParts,
   makeIsoDate,
-} from "../simulation/dates";
-import { createStableId } from "../simulation/ids";
-import { generatePersonIdentity } from "../simulation/person-identity";
-import { SeededRng } from "../simulation/rng";
+} from "./kernel/dates";
+import { createStableId } from "./kernel/ids";
+import { generatePersonIdentity } from "./gov-rules/person-identity";
+import { SeededRng } from "./kernel/rng";
 import partnershipJson from "./data/opening-partnership.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -386,12 +386,15 @@ export function buildOpeningKin(
     ) => {
       const age = movedAt.get(key);
       if (age === undefined) return;
+      // A move line crossed at the opening age is dated no later than the
+      // opening: whole mean years can run a day past the calendar.
+      const date = addDays(
+        makeIsoDate(person.birthDate),
+        Math.floor(age * p("daysPerMeanYear")),
+      ) as IsoDate;
       out.moves.push({
         personId: person.id,
-        date: addDays(
-          makeIsoDate(person.birthDate),
-          Math.floor(age * p("daysPerMeanYear")),
-        ) as IsoDate,
+        date: date > startedAt ? startedAt : date,
         kind,
       });
     };
@@ -401,8 +404,11 @@ export function buildOpeningKin(
           "household",
           `${options.worldId}:${household.stableKey}:kin:${key}`,
         ),
+        // Nearby kin live in the county; where the town has no county record
+        // they live elsewhere in the state, never in the town itself, so the
+        // town holds only its own drawn households (its Census population).
         placeId: local
-          ? (countyId ?? options.townId)
+          ? (countyId ?? options.stateId ?? options.townId)
           : (options.stateId ?? countyId ?? options.townId),
         memberIds: [] as PersonId[],
       };

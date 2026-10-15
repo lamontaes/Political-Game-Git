@@ -9,9 +9,9 @@ import {
 import { PARAMETERS, parameter as p, type Parameter } from "./parameters";
 import { stableHash } from "./kernel/ids";
 import {
-  lifePlaceStateIdentities,
-  stateJurisdictionForKey,
-} from "../simulation/life-places";
+  corePlaceStateIdentities,
+  coreStateJurisdiction,
+} from "./place-lookup";
 import type {
   CoreInput,
   OrganizationInput,
@@ -779,11 +779,11 @@ describe("pure qualified opening retirement-income records", () => {
   });
 
   it("uses one generic named-place route for all canonical state/territory identities without requiring a county", () => {
-    const identities = lifePlaceStateIdentities();
+    const identities = corePlaceStateIdentities();
     expect(identities).toHaveLength(56);
     const seen = new Set<string>();
     for (const identity of identities) {
-      const actual = stateJurisdictionForKey(identity.jurisdictionKey);
+      const actual = coreStateJurisdiction(identity.jurisdictionKey);
       expect(actual).not.toBeNull();
       const recordedPlace = {
         id: actual!.id,

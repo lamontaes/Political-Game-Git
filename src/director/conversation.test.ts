@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
@@ -15,9 +15,12 @@ import {
   doubtsClaim,
   openConversation,
   say,
+  subjectsBetween,
+  sayNothing,
+  type Conversation,
 } from "./conversation";
-import { createDirector } from "./ledger";
-import { REGISTER_CARDS } from "../presentation/speech-registers";
+import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
+import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
 // every turn, each answering the last line from real records; talking is
@@ -95,34 +98,67 @@ for (const row of [strangers[0]!, ...believing])
     hours: 1,
   });
 
+/** The other person's first question, after any greeting. */
+const recentDays =
+  DEFAULT_DIRECTOR_DATA.parameters.directorTalkRecentDays!.value;
+const opening = (talk: Conversation) =>
+  talk.lines.find((row) => row.kind !== "greet")!;
+
 describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("offers at least four distinct choices every turn, each answering the last line", () => {
+  it("offers four distinct replies every turn, each answering the last line and only following on from it", () => {
+    const four = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
     let turns = 0;
     for (const otherId of others.slice(0, 15)) {
       const talk = openConversation(core, player.id, otherId);
-      expect(talk.lines.length).toBe(1);
+      // A greeting at most, then one question.
+      expect(talk.lines.filter((row) => row.kind !== "greet").length).toBe(1);
       for (let turn = 0; turn < 4 && talk.choices.length; turn += 1) {
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        expect(talk.choices.length).toBeGreaterThanOrEqual(
-          CONVERSATION_DATA.minimumChoices,
-        );
+        // Four replies, always (owner, Oct 14), each saying something else.
         const texts = talk.choices.map((row) => row.text);
+        expect(texts).toHaveLength(four);
         expect(new Set(texts).size).toBe(texts.length);
-        // Not one answer with different topics tacked on.
-        const openings = new Set(texts.map((text) => text.split(/[.?]/)[0]));
-        expect(openings.size).toBeGreaterThan(1);
+        // A second move only follows from the first (owner, batch 6): the
+        // same question turned back, or their work after yours.
+        const follows =
+          CONVERSATION_DATA.follows[last.kind.replace(/-new$/, "")] ?? [];
+        // A how-is question is answered, never with whether they were seen
+        // (batch 10: "How's Stephen doing?" offered "No, I haven't.").
+        const howIs = /^How(?:'s| is)\b/.test(last.text);
         for (const choice of talk.choices) {
+          if (howIs)
+            expect(choice.text).not.toMatch(
+              /\bhaven't\b|\btalked to\b|\bI saw\b/,
+            );
           expect(choice.answers).toBe(last.subjectId);
           expect(choice.sourceRecordIds.length).toBeGreaterThan(0);
           expect(choice.text).not.toMatch(/\b(goodbye|leave|bye)\b/i);
+          if (choice.raises)
+            expect(follows).toContain(choice.raises.split(":")[0]);
         }
         say(core, talk, talk.choices[turn % talk.choices.length]!.key);
         turns += 1;
       }
     }
     expect(turns).toBeGreaterThan(15);
+  });
+
+  it("lets the player say nothing, and the other person carries on or the talk ends", () => {
+    // Someone the talk is still open with (a talk can end at its opening
+    // when the topic is done, or was their last talk's).
+    const otherId = others.find(
+      (id) => openConversation(core, player.id, id).choices.length,
+    )!;
+    const talk = openConversation(core, player.id, otherId);
+    const said = talk.lines.length;
+    sayNothing(core, talk);
+    // Nothing is said for the player; the other person speaks next, or leaves.
+    expect(
+      talk.lines.slice(said).every((row) => row.speakerId === otherId),
+    ).toBe(true);
+    expect(talk.lines.length).toBeGreaterThan(said);
   });
 
   it("records talking as time together, and passes news the other hasn't heard", () => {
@@ -149,13 +185,34 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
 
   it("strangers ask what they don't know, and the scales dim for what they already know", () => {
     const talk = openConversation(core, player.id, strangers[0]!.id);
-    expect(talk.lines[0]!.text).toMatch(/^(Where|Working)/);
-    expect(talk.lie).not.toBeNull();
+    expect(opening(talk).text).toMatch(/\?$/);
+    expect(talk.lies.length).toBeGreaterThan(0);
     const coworker = [...core.jobs.values()].find(
       (job) => job.personId !== player.id && job.organizationId === myOrg(),
     )!.personId;
     const known = openConversation(core, player.id, coworker);
-    if (known.lines[0]?.kind === "own-work") expect(known.lie).toBeNull();
+    if (opening(known).kind === "own-work") expect(known.lies).toEqual([]);
+  });
+
+  it("turns every choice false with the scales: different moves, each contradicting the player's record", () => {
+    const talk = openConversation(core, player.id, strangers[0]!.id);
+    expect(talk.lies.length).toBeGreaterThan(1);
+    const moves = talk.lies.map((row) => row.move);
+    expect(new Set(moves).size).toBe(moves.length);
+    const texts = talk.lies.map((row) => row.text);
+    expect(new Set(texts).size).toBe(texts.length);
+    // Both kinds of lie: a denial and a believable false alternative.
+    expect(new Set(talk.lies.map((row) => row.key.split(":")[2])).size).toBe(2);
+    const own = opening(talk).kind.startsWith("own-work")
+      ? { key: `person:${player.id}:employer`, value: myOrg() }
+      : { key: `person:${player.id}:place`, value: me.placeId };
+    for (const lie of talk.lies) {
+      expect(lie.lie).toBe(true);
+      expect(lie.claim?.key).toBe(own.key);
+      expect(lie.claim?.value).not.toBe(own.value);
+      expect(lie.wording?.parts.length).toBeGreaterThan(0);
+      expect(talk.choices.map((row) => row.text)).not.toContain(lie.text);
+    }
   });
 
   it("leaves a lie as a belief in everyone present, until someone who knows the truth tells them", () => {
@@ -164,11 +221,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const talk = openConversation(core, player.id, hearerId, {
       presentIds: [bystanderId],
     });
-    expect(talk.lie).not.toBeNull();
-    const key = talk.lines[0]!.kind.startsWith("own-work")
+    expect(talk.lies.length).toBeGreaterThan(0);
+    const key = opening(talk).kind.startsWith("own-work")
       ? `person:${player.id}:employer`
       : `person:${player.id}:place`;
-    say(core, talk, talk.lie!.key);
+    say(core, talk, talk.lies[0]!.key);
     for (const id of [hearerId, bystanderId]) {
       expect(beliefsOf(api, id).map((row) => row.key)).toContain(key);
       expect(api.knows(id, key)?.access).toBe("told");
@@ -225,13 +282,153 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       hours: 1,
     });
     const talk = openConversation(core, player.id, doubter!.id);
-    expect(talk.lie).not.toBeNull();
-    const key = talk.lines[0]!.kind.startsWith("own-work")
+    expect(talk.lies.length).toBeGreaterThan(0);
+    const key = opening(talk).kind.startsWith("own-work")
       ? `person:${player.id}:employer`
       : `person:${player.id}:place`;
-    say(core, talk, talk.lie!.key);
+    say(core, talk, talk.lies[0]!.key);
     expect(beliefsOf(api, doubter!.id).map((row) => row.key)).not.toContain(
       key,
     );
+  });
+  it("talks of someone not in the room only when something recorded happened to them", () => {
+    for (const otherId of others.slice(0, 15)) {
+      // With no ledger to read, no one absent is asked after at all.
+      expect(
+        subjectsBetween(core, player.id, otherId).filter((row) =>
+          ["mutual", "family"].includes(row.kind),
+        ),
+      ).toEqual([]);
+      const since = addDays(makeIsoDate(core.date), -recentDays);
+      for (const row of subjectsBetween(core, player.id, otherId, director))
+        if (row.kind === "mutual" || row.kind === "family") {
+          const about = row.aboutId!;
+          // Something that happened to them, never only news they read.
+          const happened = (label: string) =>
+            CONVERSATION_DATA.happenings!.prefixes.some((prefix) =>
+              label.startsWith(prefix),
+            );
+          const theirs = director.ledger.people
+            .get(about)
+            ?.moments.some(
+              (moment) => moment.date > since && happened(moment.label),
+            );
+          const mine = director.ledger.people
+            .get(player.id)
+            ?.moments.some(
+              (moment) =>
+                moment.date > since &&
+                happened(moment.label) &&
+                moment.counterpartIds.includes(about),
+            );
+          expect(theirs || mine, row.id).toBe(true);
+        }
+    }
+  });
+  it("keeps to one topic, may lead to one related topic, and the other person closes it", () => {
+    let closed = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const talk = openConversation(core, player.id, otherId, { director });
+      for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
+        say(core, talk, talk.choices[0]!.key);
+      expect(talk.topics.length).toBeLessThanOrEqual(2);
+      if (talk.topics.length === 2) {
+        const kindOf = (id: string) => id.replace(/^[^>]*>/, "").split(":")[0]!;
+        expect(CONVERSATION_DATA.related[kindOf(talk.topics[0]!)]).toContain(
+          kindOf(talk.topics[1]!),
+        );
+      }
+      if (!talk.choices.length) {
+        expect(talk.lines.at(-1)?.speakerId).toBe(otherId);
+        closed += 1;
+      }
+    }
+    expect(closed).toBeGreaterThan(0);
+  });
+  it("opens a reunion scene's talk on what the two share, ahead of any other event", () => {
+    const book = director.ledger.people.get(player.id)!;
+    const template = book.moments[0]!;
+    let checked = 0;
+    for (const otherId of others) {
+      // Not one whose last talk with the player was already about it.
+      const remembered = core.knowledgeByPerson
+        .get(otherId)
+        ?.get(`talk:${player.id}:topic`)?.value;
+      if (
+        !subjectsBetween(core, player.id, otherId, director).some(
+          (row) =>
+            (row.kind === "shared-school" || row.kind === "shared-work") &&
+            row.id !== remembered,
+        )
+      )
+        continue;
+      // Edge case by hand: a re-entry moment whose cause no subject is about.
+      const occasion = {
+        ...template,
+        id: `test-reunion:${otherId}`,
+        causeId: `test-cause:${otherId}`,
+        counterpartIds: [otherId],
+      };
+      book.momentsById.set(occasion.id, occasion);
+      const talk = openConversation(core, player.id, otherId, {
+        director,
+        occasionId: occasion.id,
+      });
+      book.momentsById.delete(occasion.id);
+      expect(talk.topics[0], otherId).toMatch(/(?:^|>)shared-(?:school|work):/);
+      checked += 1;
+      if (checked >= 3) break;
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+  it("never asks the player what the asker already knows (a relative, where they live)", () => {
+    const kin = [...me.familyIds].filter((id) => core.people.get(id)?.alive);
+    for (const otherId of kin) {
+      const talk = openConversation(core, player.id, otherId, { director });
+      for (const line of talk.lines)
+        if (line.speakerId === otherId && line.act === "ask")
+          expect(line.subjectId, `${otherId}: ${line.text}`).not.toMatch(
+            new RegExp(`^(?:home|school):${player.id}$`),
+          );
+    }
+    expect(kin.length).toBeGreaterThan(0);
+  });
+  it("remembers the last talk's topic and opens the next one with something else", () => {
+    let checked = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const first = openConversation(core, player.id, otherId, { director });
+      if (!first.choices.length || !first.topics[0]) continue;
+      say(core, first, first.choices[0]!.key);
+      const next = openConversation(core, player.id, otherId, { director });
+      if (next.topics[0]) expect(next.topics[0]).not.toBe(first.topics[0]);
+      checked += 1;
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+  it("tells a job the worker chose to leave apart from a lost one, by the end's own record", () => {
+    // Last: it ends the player's job. A quit (hired elsewhere) is a job left,
+    // never "I lost my job."; any other end stays a job lost.
+    const jobId = core.people.get(player.id)!.jobId!;
+    // An end takes effect on a day the job wasn't worked yet.
+    for (let tries = 0; tries < 7; tries += 1) {
+      if (core.work.lastAttendanceByJob.get(jobId)?.date !== core.date) break;
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    }
+    const day = core.date;
+    api.endJob(jobId, `jobs:quit:${day}`);
+    advanceCore(core, addDays(makeIsoDate(day), 1));
+    const labels = director.ledger.people
+      .get(player.id)!
+      .moments.filter((row) => row.date >= day)
+      .map((row) => row.label);
+    expect(labels).toContain("money:job-left");
+    expect(labels).not.toContain("money:job-ended");
+    // Nothing about a lost job to talk about.
+    for (const otherId of others.slice(0, 5))
+      expect(
+        subjectsBetween(core, player.id, otherId, director).filter((row) =>
+          row.kind.startsWith("job-"),
+        ),
+      ).toEqual([]);
   });
 });

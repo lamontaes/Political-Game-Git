@@ -87,7 +87,8 @@ import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
-import { partiesHere, partyTie } from "./parties";
+import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
+import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { nationalParty, partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
@@ -111,10 +112,14 @@ import {
   candidateInputs,
   candidateReasons,
   electorateChange,
+  electorateParameter,
   raceConditions,
   rememberOpeningElectorate,
   type CandidateReasons,
 } from "../electorate-inputs";
+import { scandalsOf } from "./corruption";
+import { convictionsOf } from "./justice";
+import { newsKey, trustWeight } from "./news";
 
 function electionsParameter(key: string): number {
   const row = (
@@ -218,6 +223,8 @@ interface CountedBallotsRow {
   readonly choice: readonly number[];
   readonly lean: readonly number[];
   readonly incumbentLean: readonly number[];
+  /** Each voter's trust in the press against the average reader (absent on rows kept before it was). */
+  readonly trust?: readonly number[];
   readonly duty: readonly number[];
   readonly interest: readonly number[];
   readonly cost: readonly number[];
@@ -231,7 +238,6 @@ export interface TurnoutReasonsRecord {
   readonly stakes?: number;
   readonly reach?: number;
   readonly habit?: number;
-  readonly weather?: number;
   readonly propensity?: number;
 }
 
@@ -489,6 +495,8 @@ function appealFor(
     inTown: true,
     local: true,
     incumbentLean: incumbentLeanOf(api, voter),
+    // The form of the ballot their own precinct prints.
+    ballotForm: precinctIndexOf(api, voter),
   });
   const tie = partyTie(api, voter.id);
   let heardPlatform = false;
@@ -535,6 +543,16 @@ function appealFor(
     const relationship =
       campaignParameter("ballotRelationshipWeight") *
       relationshipWith(api, voter, entry.id);
+    // Their own knowledge of a scandal in place of the town's share of it,
+    // weighed by how far they trust the press.
+    const scandal = heardScandal(
+      api,
+      voter.id,
+      scandalStoriesOf(api, entry.id, api.state.date),
+    )
+      ? -appealOfShare(electorateParameter("scandalShare")) *
+        trustWeight(api, lean)
+      : 0;
     appeal[entry.id] = {
       total:
         parts.party +
@@ -545,7 +563,8 @@ function appealFor(
         partyTieTerm +
         relationship +
         record +
-        parts.ballot,
+        parts.ballot +
+        scandal,
       party: parts.party,
       standing,
       incumbent: parts.incumbent,
@@ -556,6 +575,7 @@ function appealFor(
       relationship,
       record,
       ballot: parts.ballot,
+      scandal,
     };
   }
   const basis: "platform" | "party-name-incumbency" = heardPlatform
@@ -566,21 +586,49 @@ function appealFor(
 
 /**
  * What each candidate's place on the printed ballot brings every voter, in
- * appeal units: the first-listed edge, sliding to nothing at the bottom. The
- * ballot lists the field in the order its candidates filed.
+ * appeal units, on each form of the ballot: the first-listed edge, sliding to
+ * nothing at the bottom, in the order the place's law sets
+ * (`ballot-order.ts`): a primary's ballot on the primary date, the general
+ * election's otherwise.
  */
-function ballotCues(field: readonly FilingRow[]): Map<string, number> {
-  const order = [...field].sort(
-    (a, b) => a.filedOn.localeCompare(b.filedOn) || a.id.localeCompare(b.id),
-  );
-  // stopgapId: SG-GOV-ballot-order
-  const edge = appealOfShare(electionsParameter("ballotFirstPositionShare"));
-  const last = Math.max(1, order.length - 1);
-  return new Map(
-    order.map((f, i) => [
-      f.personId,
-      order.length > 1 ? (edge * (last - i)) / last : 0,
-    ]),
+function ballotCues(
+  api: CoreAPI,
+  contest: ContestRow,
+  field: readonly FilingRow[],
+): Map<string, number[]> {
+  const holder = seatHolder(api, contest);
+  const shares = api.state.modules.has(PARTIES_MODULE_ID)
+    ? new Map(partiesHere(api).map((p) => [p.name, p.share]))
+    : new Map<string, number>();
+  const stateKey = town(api).stateKey;
+  // Until the race's primary is held, its ballot is the primary's.
+  const stage =
+    contest.primaryDate && api.state.date <= contest.primaryDate
+      ? "primary"
+      : "general";
+  if (ballotOrderRule(stateKey, stage)?.estimate) {
+    // stopgapId: SG-GOV-ballot-order-estimates
+    api.stopgap("SG-GOV-ballot-order-estimates");
+  }
+  const forms = ballotForms({
+    stateKey,
+    stage,
+    contestId: contest.id,
+    year: contest.electionDate.slice(0, 4),
+    candidates: field.map((f) => ({
+      id: f.personId,
+      surname: api.state.people.get(f.personId)?.familyName ?? f.personId,
+      party: f.party ?? null,
+      isIncumbent: holds(holder, f.personId),
+      filedOn: f.filedOn,
+      filingId: f.id,
+    })),
+    partyShare: (party) => shares.get(party) ?? 0,
+  });
+  if (!forms) throw new Error(`No ballot-order law for ${town(api).stateKey}.`);
+  return ballotCuesOf(
+    forms,
+    appealOfShare(electionsParameter("ballotFirstPositionShare")),
   );
 }
 
@@ -621,7 +669,7 @@ function contestView(
   const reasons = publicReasons(api, contest, field);
   const holder = seatHolder(api, contest);
   const publicRecord: Record<string, number> = {};
-  const cues = ballotCues(field);
+  const cues = ballotCues(api, contest, field);
   const rows = field.map((f) => {
     const facts = candidateFacts(api, f, contest);
     const heard = named.filter(
@@ -661,12 +709,61 @@ function contestView(
       // reached, over all the town's adults.
       recognition: townShareKnowing(api, named.length, heard, f.id),
       platform: facts.platform,
-      ballotCue: cues.get(f.personId) ?? 0,
+      ballotCues: cues.get(f.personId) ?? [],
+      // A reported scandal as far as its story reached the town's people.
+      scandal: scandalAppeal(api, f.personId, named),
     };
   });
   const view = { field: rows, publicRecord };
   byKey.set(key, view);
   return view;
+}
+
+/**
+ * A reported scandal in appeal units, times the share of the town's named
+ * adults whose news reached them (the counted adults are read at the same
+ * share; a named voter reads their own knowledge). Zero where none was
+ * reported or none of it reached anyone.
+ */
+function scandalAppeal(
+  api: CoreAPI,
+  candidateId: string,
+  named: readonly Readonly<PersonState>[],
+): number {
+  const stories = scandalStoriesOf(api, candidateId, api.state.date);
+  if (!stories.length || !named.length) return 0;
+  const reached = named.filter((p) => heardScandal(api, p.id, stories)).length;
+  return (
+    appealOfShare(electorateParameter("scandalShare")) *
+    (reached / named.length)
+  );
+}
+
+/**
+ * The news stories that make a candidate's scandal, by the date: a taken
+ * bribe someone reported to the press, and a conviction the court made
+ * public. Voters read only the ones that reached them.
+ */
+export function scandalStoriesOf(
+  api: CoreAPI,
+  candidateId: string,
+  date: string,
+): readonly string[] {
+  return [
+    ...scandalsOf(api, candidateId, date),
+    ...convictionsOf(api, candidateId, date).map(
+      (row) => `justice.convicted:${row.id}`,
+    ),
+  ];
+}
+
+/** Whether a scandal story about the candidate reached this person. */
+function heardScandal(
+  api: CoreAPI,
+  personId: string,
+  stories: readonly string[],
+): boolean {
+  return stories.some((storyId) => api.knows(personId, newsKey(storyId)));
 }
 
 function countedField(
@@ -810,17 +907,6 @@ export interface TurnoutDecision extends TurnoutParts {
   readonly votes: boolean;
 }
 
-/**
- * Election-day weather. The played world keeps no weather record yet, so it
- * adds nothing (rain lowers turnout about 0.8 points an inch: Gomez, Hansford
- * and Krause 2007); it reads the storm record once one exists.
- */
-function weatherCost(api: CoreAPI): number {
-  // stopgapId: SG-GOV-turnout-weather
-  api.stopgap("SG-GOV-turnout-weather");
-  return 0;
-}
-
 /** A named voter's record of election days: what their habit reads, and their carry. */
 interface TurnoutRecordRow {
   readonly id: string;
@@ -876,7 +962,6 @@ function decideTurnout(
     reach: reachOf(input.contacts),
     habit: record ? habitOf(record.voted, record.elections) : 0,
     cost,
-    weather: weatherCost(api),
   };
   const propensity = propensityOf(parts);
   let votes = false;
@@ -1218,11 +1303,14 @@ export function holdPrimary(
       date,
       new Set(field.map((f) => f.personId)),
     );
-    for (const voter of who) {
+    for (const [form, voter] of who.entries()) {
       const appeal = countedAppeal(leanOf.get(voter.id) ?? 0, entries, {
         inTown: true,
         local: true,
         incumbentLean: incumbentLeanOf(api, voter),
+        trust: trustWeight(api, leanOf.get(voter.id) ?? 0),
+        // The town's people hold each form of a rotated ballot in turn.
+        ballotForm: form,
       });
       // Each counted voter stands for the town's people like them: their
       // vote counts at the share of them who turn out.
@@ -1377,7 +1465,6 @@ function turnoutRecord(t: TurnoutDecision): TurnoutReasonsRecord {
     stakes: t.stakes,
     reach: t.reach,
     habit: t.habit,
-    weather: t.weather,
     propensity: t.propensity,
   };
 }
@@ -1644,6 +1731,16 @@ function precinctOfHousehold(
   householdId: string,
   precincts: number,
 ): number {
+  const memo = precinctMemo.get(api.state);
+  const map =
+    memo?.date === api.state.date && memo.precincts === precincts
+      ? memo.map
+      : precinctMap(api, precincts);
+  return map.get(householdId) ?? 1;
+}
+
+/** Every town household's precinct, once a day. */
+function precinctMap(api: CoreAPI, precincts: number): Map<string, number> {
   const homes = [
     ...new Set(
       townAdults(api).map(
@@ -1651,10 +1748,27 @@ function precinctOfHousehold(
       ),
     ),
   ].sort();
-  const index = Math.max(0, homes.indexOf(householdId));
-  return (
-    Math.min(precincts - 1, Math.floor((index * precincts) / homes.length)) + 1
+  const map = new Map(
+    homes.map((home, index) => [
+      home,
+      Math.min(precincts - 1, Math.floor((index * precincts) / homes.length)) +
+        1,
+    ]),
   );
+  precinctMemo.set(api.state, { date: api.state.date, precincts, map });
+  return map;
+}
+const precinctMemo = new WeakMap<
+  object,
+  { date: string; precincts: number; map: Map<string, number> }
+>();
+
+/** A named voter's precinct, from 0: which form of a rotated ballot they hold. */
+function precinctIndexOf(api: CoreAPI, voter: Readonly<PersonState>): number {
+  const precincts = pollingPlaces(api).length;
+  if (!precincts) return 0;
+  const home = (voter as { householdId?: string }).householdId ?? voter.id;
+  return precinctOfHousehold(api, home, precincts) - 1;
 }
 
 /**
@@ -1830,6 +1944,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     choice: [] as number[],
     lean: [] as number[],
     incumbentLean: [] as number[],
+    trust: [] as number[],
     duty: [] as number[],
     interest: [] as number[],
     cost: [] as number[],
@@ -1845,6 +1960,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       inTown: true,
       local: true,
       incumbentLean,
+      trust: trustWeight(api, lean),
+      // The town's people hold each form of a rotated ballot in turn.
+      ballotForm: countedEligible - 1,
     });
     const t = atThePolls(
       api,
@@ -1859,6 +1977,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.choice.push(choice ? field.findIndex((f) => f.id === choice) : -1);
     kept.lean.push(lean);
     kept.incumbentLean.push(incumbentLean);
+    kept.trust.push(trustWeight(api, lean));
     kept.duty.push(t.duty);
     kept.interest.push(t.interest);
     kept.cost.push(t.cost);
@@ -2243,7 +2362,7 @@ const reasonsByDay = new WeakMap<
 
 /**
  * Each candidate's public standing in a partisan state or federal race (the
- * presidency too): incumbency, experience, scandal, the campaign's books,
+ * presidency too): incumbency, experience, the campaign's books,
  * the officeholder's record, the economy and the midterm penalty, as every
  * voter in the race sees them. Null for a local or nonpartisan race.
  */
@@ -2333,7 +2452,6 @@ export function electorateSample(
         (p) => p.alive && p.placeId === townPlaceId && ageOn(p, today) >= 18,
       );
   const lean0 = townLean(api);
-  const weather = weatherCost(api);
   const rows = voters
     .map((voter) => {
       const t = turnoutReasons(api, voter, voter.weeklyMinutes, extraCost);
@@ -2347,7 +2465,6 @@ export function electorateSample(
           reach: 0,
           habit: 0,
           cost: t.cost,
-          weather,
         }),
         incumbentLean: incumbentLeanOf(api, voter),
       };
@@ -2560,6 +2677,8 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       inTown: true,
       local: true,
       incumbentLean: row.incumbentLean[i]!,
+      trust: row.trust?.[i] ?? 1,
+      ballotForm: i,
     }),
     basis: "party-name-incumbency",
     lean: row.lean[i]!,

@@ -15,7 +15,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { daysBetween, makeIsoDate } from "../../simulation/dates";
+import { daysBetween, makeIsoDate } from "../kernel/dates";
 import { CLOSENESS, hoursLost, openingClosenessHours } from "../closeness";
 import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";

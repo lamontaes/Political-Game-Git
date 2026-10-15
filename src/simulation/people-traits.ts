@@ -9,7 +9,7 @@ import {
   type TraitValue,
 } from "./people-trait-definitions";
 import { createMindProvenance, recordPersonalityTendency } from "./mind";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { PERSONALITY_PACK } from "./personality-catalogue";
 import {
   upbringingCoreValue,

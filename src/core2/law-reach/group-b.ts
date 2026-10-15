@@ -19,7 +19,7 @@
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
-import { registerPolicyHandler } from "../modules/law-effects";
+import { registerPolicyHandler } from "./host";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -29,6 +29,7 @@ import {
   townFacts,
   type PeopleSelector,
   type ResidentFacts,
+  type TownFacts,
 } from "./group-b-people";
 import {
   reconcile,
@@ -40,7 +41,10 @@ import {
   type Reach,
 } from "./group-b-store";
 import {
+  type AssistanceTimeLimit,
   balancePlan,
+  budgetGap,
+  type BalanceRule,
   holdReserve,
   incomeTaxAct,
   jobsAt,
@@ -55,6 +59,12 @@ import {
 
 type Mechanic =
   | "records"
+  | "compliance-cost"
+  | "assistance-time-limit"
+  | "farm-output"
+  | "property-assessment"
+  | "price-payment"
+  | "housing-construction"
   | "transit-fares"
   | "highway-shift"
   | "teacher-floor"
@@ -71,6 +81,8 @@ interface PolicyDef {
   readonly kind: string;
   readonly people?: PeopleSelector;
   readonly organizations?: readonly string[];
+  /** The employers it binds gain by it (it pays them or exempts their sales), so they don't organize against it. */
+  readonly employersGain?: boolean;
   readonly terms?: Readonly<Record<string, string>>;
   readonly enforcer: string;
   readonly source: string;
@@ -104,6 +116,13 @@ export const GROUP_B_KEYS: readonly string[] = [
 
 export function groupBPolicy(key: string): PolicyDef | undefined {
   return data.policies[key];
+}
+
+/** The balanced-budget law's rule for how a gap is closed at this level (data, cited). */
+function balanceRule(def: unknown, level: string): BalanceRule {
+  const rules = (def as { sequestration: Record<string, BalanceRule> })
+    .sequestration;
+  return rules[level] ?? rules.default!;
 }
 
 const termsOf = (def: { terms?: Readonly<Record<string, string>> }) =>
@@ -153,7 +172,7 @@ function reachOf(
   for (const r of selected) {
     if (r.named)
       named.set(r.id, { ...input.terms, ...input.personTerms?.get(r.id) });
-    else counted += 1;
+    else counted += r.weight ?? 1;
   }
   const perHousehold = input.people?.householdHead === true;
   const countedOf =
@@ -169,7 +188,7 @@ function reachOf(
         { ...input.terms },
       ]),
     ),
-    counted: counted + (input.counted ?? 0),
+    counted: Math.round(counted) + (input.counted ?? 0),
     countedOf,
     terms: input.terms,
   };
@@ -180,18 +199,49 @@ function lawRow(api: CoreAPI, lawId: string): LawRowInput | undefined {
     LawRowInput | undefined;
 }
 
-/** A policy question is law for the town at some level (latest row says yes). */
-function questionInForce(api: CoreAPI, key: string): boolean {
+/** The row that makes a policy question law for the town at some level (the latest row there says yes). */
+function questionRow(api: CoreAPI, key: string): LawRowInput | undefined {
   const date = api.state.date;
   const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  return lawChain(api).levels.some(({ jurisdiction }) => {
+  for (const { jurisdiction } of lawChain(api).levels) {
     const latest = (
       laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
     )
       .filter((r) => r.effectiveDate <= date)
       .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    return latest?.value === 1;
-  });
+    if (latest?.value === 1) return latest;
+  }
+  return undefined;
+}
+
+/** A policy question is law for the town at some level (latest row says yes). */
+function questionInForce(api: CoreAPI, key: string): boolean {
+  return questionRow(api, key) !== undefined;
+}
+
+const ASSISTANCE_WORK =
+  "us-policy-positions:health-human-services.work-requirement-for-assistance";
+
+/**
+ * The assistance work requirement as the benefit reads it: while it is law, the
+ * adults it reaches (by age, hours, income and young children) draw only for
+ * its time limit. Null while it is not law.
+ */
+function assistanceTimeLimit(
+  api: CoreAPI,
+  facts: TownFacts,
+  stateKey: string,
+): AssistanceTimeLimit | null {
+  const row = questionRow(api, ASSISTANCE_WORK);
+  const people = data.policies[ASSISTANCE_WORK]?.people;
+  if (!row || !people) return null;
+  return {
+    lawId: row.id,
+    since: row.effectiveDate,
+    reachedIds: new Set(
+      selectResidents(facts, people, stateKey).map((r) => r.id),
+    ),
+  };
 }
 
 /** Teachers the salary floor covers: public school teachers (see the stand-in). */
@@ -234,6 +284,12 @@ function runPolicy(
   let inForce = input.inForce;
   let personTerms: Map<string, Record<string, number>> | undefined;
   switch (def.mechanic) {
+    // The price engine reads these laws at monthly settlement, and the housing
+    // engine reads its laws at its existing construction decision. A blanket
+    // eligibility row is neither a payment, a received notice nor a decision.
+    case "price-payment":
+    case "housing-construction":
+      return;
     case "transit-fares":
       moveBudget(api, {
         key,
@@ -248,7 +304,7 @@ function runPolicy(
           ),
         }),
       });
-      break;
+      return;
     case "highway-shift": {
       const moved = moveBudget(api, {
         key,
@@ -282,6 +338,9 @@ function runPolicy(
       });
       break;
     case "balanced-budget": {
+      // Set when this call balances a budget (not on a later review of one
+      // already balanced).
+      let firstGap: number | null = null;
       // Applied once a fiscal year while the act stands; a repeal restores
       // the lines it cut this year.
       const moved = moveBudget(api, {
@@ -289,12 +348,28 @@ function runPolicy(
         level,
         inForce: input.enacting,
         lawId: `${input.lawId}#balance`,
-        plan: (_gov, budget) => balancePlan(budget),
+        plan: (gov, budget) => {
+          const years = rowsOf<{ id: string; firstGapMinor: number }>(
+            api,
+            "taken",
+          ).filter((r) => r.id.startsWith(`balance|${gov.id}|`));
+          firstGap = years[0]?.firstGapMinor ?? budgetGap(budget);
+          return balancePlan(
+            budget,
+            balanceRule(def, gov.level),
+            years.length,
+            firstGap,
+          );
+        },
       });
       const cut = -Object.values(moved?.moves ?? {}).reduce((a, b) => a + b, 0);
-      if (input.enacting && moved && cut)
+      if (input.enacting && moved && cut && firstGap !== null)
         putRow(api, "taken", {
-          id: `balance|${moved.governmentId}|${api.state.date}`,
+          // One record per fiscal year's budget the law has balanced; the
+          // phase-in counts them.
+          id: `balance|${moved.governmentId}|${moved.budgetId}`,
+          // The gap the law first met: its phase-in steps down from it.
+          firstGapMinor: firstGap,
           key,
           governmentId: moved.governmentId,
           cutMinor: cut,
@@ -378,6 +453,19 @@ function runPolicy(
       });
       return;
     }
+    case "compliance-cost":
+      return; // The business engine reads the law when it charges a nonattainment county's emitters.
+    case "assistance-time-limit":
+      // The welfare line's benefit reads this law when it picks who is paid;
+      // run that line again now so a change takes hold today.
+      for (const row of rowsOf<ActiveRow>(api, "active"))
+        if (row.id === "budget-line:welfareAndMedicaid")
+          runBudgetLine(api, "welfareAndMedicaid", row.lawId);
+      return;
+    case "farm-output":
+      return; // The business engine reads the law when setting production limits.
+    case "property-assessment":
+      return; // The housing assessment reads the cap through budgets when billing.
     case "records":
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");
@@ -491,6 +579,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
       service,
       heads: selected,
       modeledShare: share,
+      timeLimit: assistanceTimeLimit(api, facts, chain.stateKey),
     });
   }
   if (inForce && def.stopgapId) api.stopgap(def.stopgapId);

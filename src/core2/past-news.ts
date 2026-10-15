@@ -14,7 +14,7 @@
  * A story they would hear after day one is put on the engine's delivery
  * calendar for that day. Nobody too young to follow the news hears it.
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import newsRows from "./data/news/parameters.json" with { type: "json" };
 import { newsKey, NEWS_MODULE_ID, trustOf, type Story } from "./modules/news";
 import { viewOf } from "./modules/views";

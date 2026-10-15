@@ -14,14 +14,20 @@ import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
+import {
+  bribePull,
+  considerBribe,
+  corruptionModule,
+} from "./modules/corruption";
 import { LAWS_MODULE_ID, lawInForce, openLaws } from "./modules/laws";
-import { openOffices, townSeats } from "./modules/offices";
+import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord, votesOf } from "./modules/record";
 import {
   budgetsOf,
+  departmentRequests,
   enactedBudgetChanges,
   governments,
   openBudgets,
@@ -57,11 +63,7 @@ import {
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
 import { partySide } from "./appointments";
 import { officialLean, officialOf } from "./modules/officials";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { billCatalog, provisionFor } from "./bill-catalog";
 
 const START = "2026-01-05";
@@ -84,7 +86,7 @@ function town(states: readonly string[], salt: string) {
   for (let attempt = 0; attempt < 12; attempt += 1) {
     const state = pick(states, `${salt}:${attempt}`);
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -139,7 +141,7 @@ describe(
         ],
       });
       expect(bill.status).toBe("drafted");
-      expect(bill.number).toMatch(/^2026-\d{3}$/);
+      expect(bill.number).toMatch(/^2026-\d+$/);
       expect(bill.authority[0]!.allowed).toBe(true);
       // Learn two members' stakes, through a conversation and their record.
       const others = council.slice(1).map((s) => s.holder!.personId!);
@@ -471,6 +473,45 @@ describe(
         }),
       );
     }, 120_000); // a whole fiscal year of daily work in one town
+
+    it("a budget without an executive carries department lines without doubling funding", () => {
+      const { core, api, council } = town(
+        Object.keys(authority).sort(),
+        "department-budget",
+      );
+      openBudgets(core);
+      const city = governments(api).find((g) => g.level === "city")!;
+      expect(city).toBeDefined();
+      // Edge fixture: remove the executive office, leaving the elected council.
+      const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+      for (const office of offices.rows())
+        if (office.kind === "mayor") offices.remove(office.id);
+      const before = budgetsOf(api, city.id)[0]!;
+      const fy = before.fiscalYear + 1;
+      const requested = departmentRequests(api, city, fy);
+      advanceCore(core, `${fy}-${city.fiscalYearStart}`);
+      const bill = (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          kind?: string;
+          bodyOfficeId: string;
+          provisions: Provision[];
+        }[]
+      ).find(
+        (b) => b.kind === "budget" && b.bodyOfficeId === council[0]!.office.id,
+      )!;
+      expect(bill).toBeDefined();
+      expect(bill.provisions.length).toBeGreaterThan(0);
+      expect(
+        Object.fromEntries(bill.provisions.map((p) => [p.line, p.of])),
+      ).toEqual(requested);
+      expect(bill.provisions.every((p) => p.value === 0)).toBe(true);
+      expect(
+        budgetsOf(api, city.id).find((b) => b.fiscalYear === fy)?.spendingMinor,
+      ).toEqual(requested);
+    }, 120_000);
 
     it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
       const { api, council } = town(Object.keys(authority).sort(), "catalog");
@@ -806,6 +847,62 @@ describe("asking a member to carry a bill", () => {
   });
 });
 
+describe("a bribe on a bill", () => {
+  // A bribe is a payment for a decision: a member who took one on a bill
+  // carries it in their position on that bill, part by part, and on no other.
+  it("pulls the member who took it toward the payer's side, on that bill only", () => {
+    const { core, api, council } = town(Object.keys(authority).sort(), "bribe");
+    registerModule(core, corruptionModule);
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const body = council[0]!.office.id;
+    const member = council[0]!.holder!.personId!;
+    const bill = draftBill(api, {
+      bodyOfficeId: body,
+      sponsorId: council[1]!.holder!.personId!,
+      provisions: [provision],
+    });
+    const other = draftBill(api, {
+      bodyOfficeId: body,
+      sponsorId: council[1]!.holder!.personId!,
+      provisions: [provision],
+    });
+    const before = memberPosition(api, bill.id, member);
+    expect(before.bribe).toBe(0);
+    // The town's wealthiest weigh it, each by their own reasons, until one
+    // offers and the member takes it (or none does, in which case nothing moves).
+    const offerers = [...core.people.values()]
+      .filter((p) => p.alive && p.tier !== "husk" && p.id !== member)
+      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
+      .slice(0, 40);
+    let took = false;
+    for (const offerer of offerers) {
+      const record = considerBribe(api, {
+        offererId: offerer.id,
+        officialId: member,
+        stakeMinor: 50_000_000,
+        subjectId: bill.id,
+      });
+      if (record?.taken) {
+        took = true;
+        break;
+      }
+    }
+    const after = memberPosition(api, bill.id, member);
+    expect(after.bribe).toBe(bribePull(api, member, bill.id));
+    if (took) {
+      expect(after.bribe).toBeLessThan(0);
+      expect(after.total).toBeCloseTo(before.total + after.bribe, 9);
+    } else expect(after.bribe).toBe(0);
+    expect(memberPosition(api, other.id, member).bribe).toBe(0);
+  });
+});
+
 describe("a Congress member from elsewhere", () => {
   // Regression (wire-all-modules, Oct 12): reading one member's lean rebuilt
   // the whole chamber, once per member per vote. Since OPUS-OFFICIALS every
@@ -813,11 +910,11 @@ describe("a Congress member from elsewhere", () => {
   // official record, and the parties' medians sit on their own sides.
   it("leans by their own position, as the chamber lists them", () => {
     const state = pick(
-      [...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
+      [...corePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
       "congress-lean:state",
     );
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

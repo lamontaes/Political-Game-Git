@@ -20,6 +20,8 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import { corePlaceByKey } from "../place-lookup";
+import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
@@ -30,11 +32,9 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import {
-  countyGovernmentUnit,
-  governmentUnitsForPlace,
-} from "../../simulation/government-units";
+import { countyGovernmentUnit } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { registerPropertyTax } from "../housing-property-tax";
 import {
   lawChainForPlace,
@@ -411,9 +411,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   const geoid = chain.levels[chain.levels.length - 1]!.jurisdiction.slice(
     "place:".length,
   );
-  const city = governmentUnitsForPlace(geoid).find(
-    (u) => u.unitType === "municipality",
-  );
+  // The town's own government: its city or village, or where the place has
+  // none, the township that governs it.
+  // (the same units the town's offices are seated for).
+  const local = placeLocalGovernmentUnits(corePlaceByKey(geoid));
+  const city = local.municipal[0] ?? local.townships[0];
   if (city)
     govs.push(
       government(
@@ -577,14 +579,31 @@ function propertyTaxTerms(api: CoreAPI) {
   const citation = Array.isArray(row.source)
     ? row.source.join(" ; ")
     : (row.source as string);
+  const cap = lawInForce(
+    api,
+    "us-policy-positions:fiscal.cap-property-tax-growth",
+  );
+  const capped = cap.value === 1 && cap.governing;
+  // stopgapId: SG-GOV-REACH-B-property-tax-bills — the catalog records a
+  // yes/no cap; its exact scope, exemptions and statutory size are pending.
+  if (capped) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
   return {
     rate: answer.value / 100,
+    lawRowId: row.id,
+    ...(capped
+      ? {
+          assessmentCapShare:
+            lawParameters.parameters.propertyTaxGrowthCapShare.value,
+          assessmentLawRowId: capped.id,
+        }
+      : {}),
     payeeId: collector,
     source: {
       tag: "ESTIMATED" as const,
-      citation,
+      citation: `${row.id}: ${citation}${capped ? `; ${capped.id}: ${String(capped.source)}; ${lawParameters.parameters.propertyTaxGrowthCapShare.source}` : ""}`,
       asOf: api.state.date,
-      estimatedFrom: "Property tax in force, to the county's tax collector",
+      estimatedFrom:
+        "Property tax in force, to the county's tax collector; a yes/no growth cap uses the registered assessment-cap estimate.",
     },
   };
 }
@@ -806,12 +825,22 @@ export function enactBudget(
   adoptedBy: string,
   changes: Readonly<Record<string, number>>,
 ): BudgetRow {
-  const enacted = { ...enactedBudgetChanges(api, gov.id) };
-  for (const [line, delta] of Object.entries(changes))
+  const prior = table(api, "enacted").get(gov.id) as unknown as
+    | {
+        changes: Record<string, number>;
+        byYear?: Record<string, Record<string, number>>;
+      }
+    | undefined;
+  const enacted = { ...(prior?.changes ?? {}) };
+  const year = { ...(prior?.byYear?.[String(fy)] ?? {}) };
+  for (const [line, delta] of Object.entries(changes)) {
     enacted[line] = (enacted[line] ?? 0) + delta;
+    year[line] = (year[line] ?? 0) + delta;
+  }
   table(api, "enacted").put({
     id: gov.id,
     changes: enacted,
+    byYear: { ...(prior?.byYear ?? {}), [String(fy)]: year },
   } as unknown as ModuleRow);
   const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
   putBudget(api, budget);
@@ -844,6 +873,26 @@ export function adoptedLine(
   line: string,
 ): number {
   return legislatedBudget(api, gov, fy, "adopted", {}).spendingMinor[line] ?? 0;
+}
+
+/**
+ * A line as it stood before the year's own budget bill: the adopted line less
+ * what that bill changed in it. What a service is measured against, so a
+ * change the body adopts this year reaches the people the line serves, and
+ * becomes the base the next year.
+ */
+export function lineBeforeBill(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  line: string,
+): number {
+  const year =
+    (
+      table(api, "enacted").get(gov.id) as unknown as
+        { byYear?: Record<string, Record<string, number>> } | undefined
+    )?.byYear?.[String(fy)]?.[line] ?? 0;
+  return Math.max(0, adoptedLine(api, gov, fy, line) - year);
 }
 
 /** A year's budget when its bill fails: the enacted lines carried forward. */
@@ -1213,7 +1262,9 @@ function withholdCounted(api: CoreAPI): void {
   const rt = residentsRuntime(core);
   const town = lawChain(api).townPlaceId;
   const pool = rt?.input.accounts.find((a) => a.placeId === town)?.accountId;
-  if (!rt || !pool) return;
+  // Where counted groups hold their own accounts, each payday withholds the
+  // law in force from each group's pay (counted-money.ts payGroups).
+  if (!rt || !pool || rt.funded) return;
   const prior = priorMonth(api.state.date);
   // The first close counts only the days since the treasuries opened.
   const opened =

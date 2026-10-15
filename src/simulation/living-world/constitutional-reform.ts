@@ -12,7 +12,7 @@ import type {
   ConstitutionalMeasureRecord,
   ConstitutionalRuleDelta,
 } from "../constitutional-types";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import {
   describeRuleChangeValue,
   type TermLimitRule,

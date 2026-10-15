@@ -28,11 +28,7 @@ import {
 import { cpsTurnout, stateRightShare, statePlaces } from "./electorate-places";
 import { appealOfShare, electorateParameter } from "./electorate-inputs";
 import { campaignParameter } from "./campaign-views";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";
 const PRESIDENTIAL = "2028-11-07";
@@ -44,7 +40,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
 // States with a presidential vote (the island areas cast none).
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter((k) => !["US-AS", "US-GU", "US-MP", "US-VI", "US-PR"].includes(k))
   .sort();
@@ -63,7 +59,7 @@ const typical: readonly CountedFieldEntry[] = [-1, 1].map((side) => ({
 function world() {
   const state = pick(states, "state");
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -180,5 +176,7 @@ describe(`the one electorate (seed ${seed})`, () => {
     expect(countedChoice({ a: { total: 0.2 }, b: { total: 0.2 } })).toBeNull();
     expect(countedChoice({ a: { total: 0.3 }, b: { total: 0.2 } })).toBe("a");
     expect(countedChoice({ a: { total: -0.1 } })).toBeNull();
+    // A lone candidate nobody knows, the voter not against them.
+    expect(countedChoice({ a: { total: 0 } })).toBe("a");
   });
 });

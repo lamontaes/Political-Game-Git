@@ -11,14 +11,12 @@ import { P } from "../core2/parameters";
 import { applyCoreEvent } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
-import bringJson from "./data/bring-it-up.json" with { type: "json" };
 import { renderLine, type Variant } from "./render";
-import { markWordsStopgap } from "./stopgaps";
+import { bringDataFromBank } from "./mined/scene-bank";
 import { possessive, properName } from "./words";
 
-interface BringData {
+export interface BringData {
   version: string;
-  stopgapId: string;
   toldEvent: string;
   heardKey: string;
   blameKey: string;
@@ -29,7 +27,20 @@ interface BringData {
   }[];
   blame: Readonly<Record<Attribution["how"], Variant[]>>;
 }
-export const BRING_IT_UP_DATA = bringJson as unknown as BringData;
+/** `data/bring-it-up-rows.json`: the structure, holding no sentences. */
+export interface BringRows {
+  version: string;
+  toldEvent: string;
+  heardKey: string;
+  blameKey: string;
+  changes: readonly {
+    eventKind: string;
+    institutionFact: { prefix: string; suffix: string };
+  }[];
+  blame: readonly Attribution["how"][];
+}
+/** The default words are the mined bank's. */
+export const BRING_IT_UP_DATA: BringData = bringDataFromBank();
 
 export interface KnownChange {
   eventId: string;
@@ -187,7 +198,6 @@ export function bringItUp(
   const change = changesKnownTo(core, speakerId, data)[P.zero];
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
-  markWordsStopgap(data.stopgapId);
   const attribution = believedCause(core, speakerId, change, data);
   const words = data.changes.find((row) => row.eventKind === change.kind)!;
   const say = (

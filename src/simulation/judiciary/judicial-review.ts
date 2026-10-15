@@ -33,7 +33,7 @@
  *   reviewed.
  */
 import precedents from "../../../data/research/laws/judicial-review-precedents-2026.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { eventById } from "../event-index";
 import { isLawEffectStamp } from "../law-effect-stamp";
 import { evaluateDecision } from "../decisions";

@@ -3,32 +3,51 @@ import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
 import { openLaws, lawInForce } from "./modules/laws";
 import { unemploymentTerms } from "./jobs-benefits";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { advanceCore, createLifeCore } from "./life";
-import { JOBS_MODULE } from "./modules/jobs";
+import {
+  JOBS_MODULE,
+  acceptJobOffer,
+  acceptScore,
+  declineJobOffer,
+  jobOffersFor,
+  moveLabel,
+  quitScore,
+  roleMix,
+  rolesByDeficit,
+} from "./modules/jobs";
+import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import { macroCoreData } from "./modules/macro";
 import { parameter } from "./parameters";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
+import { startPublicJob } from "./public-payroll";
+import { hireStaff } from "./modules/staff";
+import { JUSTICE_MODULE, JUSTICE_MODULE_ID } from "./modules/justice";
 import { coreAPI } from "./state";
+import { collapseToTwoLevels } from "./residents";
+import { residentsRuntime } from "./modules/residents";
+import { endCountedJob } from "./residents-economy";
 import type { BusinessBooksState } from "./finance-types";
-import type { CoreInput, CoreState, PersonInput, Source } from "./types";
+import type {
+  CoreInput,
+  CoreModule,
+  CoreState,
+  PersonInput,
+  Source,
+} from "./types";
 
 // A random place from all 56 (the golden-path seed when the suite runs it).
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`jobs-benefits:${Date.now()}`).digest("hex");
 function drawPlace(): { key: string; state: string } {
-  const states = [...lifePlaceStateIdentities()]
+  const states = [...corePlaceStateIdentities()]
     .map((s) => s.jurisdictionKey)
     .sort();
   const hash = createHash("sha256").update(`${seed}:benefits`).digest("hex");
   const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
@@ -203,6 +222,132 @@ const money = (core: CoreState) =>
   [...core.organizations.values()].reduce((s, r) => s + r.liquidMinor, 0);
 
 describe("jobs", () => {
+  it("excludes custody from job search and both applicant tiers until release", () => {
+    const core = createLifeCore(input(), {
+      data,
+      modules: [JOBS_MODULE, JUSTICE_MODULE],
+    });
+    const api = coreAPI(core);
+    const jobs = api.moduleState("jobs");
+    const custody = api.moduleState(JUSTICE_MODULE_ID).table("custody");
+    for (const personId of ["s1", "s2"]) {
+      custody.put({ id: `custody:${personId}`, personId, status: "serving" });
+      // Stale applications exercise hiring independently of the new-search guard.
+      for (const table of ["seekers", "countedSeekers"])
+        jobs.table(table).put({
+          id: personId,
+          personId,
+          isSeeker: true,
+          placeId: place,
+          employed: false,
+          since: start,
+          referenceHourlyMinor: 0,
+        });
+    }
+    withBooks(core, 2);
+    advanceCore(core, "2021-03-31");
+    expect(
+      jobs
+        .table("changes")
+        .query("byKind", ["hire"])
+        .filter((r) => r.personId === "s1" || r.personId === "s2"),
+    ).toEqual([]);
+    for (const personId of ["s1", "s2"]) {
+      jobs.table("seekers").remove(personId);
+      jobs.table("countedSeekers").remove(personId);
+    }
+    advanceCore(core, "2021-04-30");
+    expect(jobs.table("seekers").get("s1")).toBeUndefined();
+    expect(jobs.table("seekers").get("s2")).toBeUndefined();
+    custody.put({ id: "custody:s1", personId: "s1", status: "released" });
+    advanceCore(core, "2021-07-31");
+    expect(
+      jobs
+        .table("changes")
+        .query("byPerson", ["s1"])
+        .some((r) => r.kind === "hire"),
+    ).toBe(true);
+    expect(
+      jobs
+        .table("changes")
+        .query("byPerson", ["s2"])
+        .some((r) => r.kind === "hire"),
+    ).toBe(false);
+  });
+  it.each(["event", "acceptance"])(
+    "withdraws a held offer on custody at %s",
+    (boundary) => {
+      const core = createLifeCore(input(), {
+        data,
+        modules: [JOBS_MODULE, JUSTICE_MODULE],
+      });
+      const api = coreAPI(core);
+      const jobs = api.moduleState("jobs");
+      jobs.table("positions").put({
+        id: "position:custody",
+        organizationId: employer,
+        status: "open",
+        offeredTo: "s1",
+        offerId: "offer:custody",
+      });
+      jobs.table("offers").put({
+        id: "offer:custody",
+        personId: "s1",
+        positionId: "position:custody",
+        status: "pending",
+      });
+      for (const table of ["seekers", "countedSeekers"])
+        jobs.table(table).put({ id: "s1", personId: "s1", isSeeker: true });
+      api
+        .moduleState(JUSTICE_MODULE_ID)
+        .table("custody")
+        .put({ id: "custody:s1", personId: "s1", status: "serving" });
+      expect(
+        startPublicJob(api, {
+          personId: "s1",
+          employerId: employer,
+          post: "fixture",
+          title: "Fixture",
+          hourlyMinor: 1000,
+          citation: "Technical fixture",
+        }),
+      ).toBeNull();
+      expect(() =>
+        hireStaff(
+          api,
+          { personId: "s1", officialId: "w1", role: "aide" },
+          {
+            personId: "s1",
+            from: "applicant",
+            reach: 1,
+            reachBasis: "town",
+            workingAge: 1,
+            traits: {},
+          },
+        ),
+      ).toThrow("isn't a candidate");
+      if (boundary === "event") {
+        api.emit({
+          id: "justice.imprisoned:fixture",
+          kind: "justice.imprisoned",
+          date: core.date,
+          personIds: ["s1"],
+          placeId: place,
+          source: src(),
+        });
+        expect(jobs.table("seekers").get("s1")).toBeUndefined();
+        expect(jobs.table("countedSeekers").get("s1")).toBeUndefined();
+      }
+      expect(acceptJobOffer(api, "offer:custody")).toBe(false);
+      expect(jobs.table("offers").get("offer:custody")).toMatchObject({
+        status: "withdrawn",
+      });
+      expect(
+        jobs.table("positions").get("position:custody"),
+      ).not.toHaveProperty("offeredTo");
+      expect(core.people.get("s1")!.jobId).toBeUndefined();
+    },
+  );
   it("opens a position when demand outgrows the staff, hires the best-placed seeker, and records why", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
       api = coreAPI(core),
@@ -218,6 +363,64 @@ describe("jobs", () => {
     expect(core.people.get(hired)!.jobId).toMatch(/^job:position:/);
     expect(money(core)).toBe(total);
     expect(p("jobsStaffGapActedPerMonth")).toBeGreaterThan(0);
+  });
+  it("fills a declined player opening with the next willing applicant", () => {
+    const fixture = input();
+    fixture.playerId = "s2";
+    const core = createLifeCore(fixture, { data, modules: [JOBS_MODULE] });
+    const api = coreAPI(core);
+    withBooks(core, 2);
+    advanceCore(core, "2021-03-02");
+    const pending = jobOffersFor(api, "s2");
+    expect(pending).toHaveLength(1);
+    const offered = pending[0]!;
+    expect(declineJobOffer(api, offered.id)).toBe(true);
+    advanceCore(core, "2021-03-10");
+    expect(core.people.get("s2")!.jobId).toBeUndefined();
+    expect(core.people.get("s1")!.jobId).toBe(`job:${offered.positionId}:s1`);
+    expect(
+      api.moduleState("jobs").table("offers").get(offered.id),
+    ).toMatchObject({ status: "declined" });
+  });
+  it("values counted applicants' recorded experience without filling them in", () => {
+    const fixture = input();
+    fixture.workCommitments = [
+      ...fixture.workCommitments!,
+      {
+        ...fixture.workCommitments![0]!,
+        id: "commitment:past:s1",
+        personId: "s1",
+        jobId: "job:past:s1",
+        startsAt: "2010-01-01",
+        anchorDate: "2010-01-01",
+        endsAt: "2020-11-30",
+        hourlyMinor: 1400,
+      },
+    ];
+    const core = createLifeCore(
+      collapseToTwoLevels(fixture, { keep: new Set(["w1", "w2", "w3", "s2"]) }),
+      { data, modules: [JOBS_MODULE] },
+    );
+    const api = coreAPI(core);
+    withBooks(core, 2);
+    api.moduleState("jobs").table("countedSeekers").put({
+      id: "s1",
+      personId: "s1",
+      placeId: place,
+      isSeeker: true,
+      employed: false,
+      since: start,
+      reasonKey: "started-looking",
+      referenceHourlyMinor: 1400,
+    });
+    advanceCore(core, "2021-03-02");
+    const hires = api
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["hire"]);
+    expect(hires[0]).toMatchObject({ personId: "s1" });
+    expect(core.people.has("s1")).toBe(false);
+    expect(core.people.get("s2")!.jobId).toBeUndefined();
   });
   it("lays off when demand falls below the staff, naming who decided and keeping the most tenured and reliable", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
@@ -495,5 +698,344 @@ describe("jobs", () => {
       ).toBeGreaterThan(0);
     }
     expect(rows.filter((r) => r.terms.hasProgram === true)).toHaveLength(53);
+  });
+});
+
+describe("jobs: causes, not rates", () => {
+  const calm = {
+    payGap: 0,
+    tenureYears: p("jobsTypicalTenureYears"),
+    unemploymentGapPts: 0,
+  };
+  const pull = (score: number) => 1 / (1 + Math.exp(-score));
+  it("a worker who moves to equal or lower pay is never labeled a better offer", () => {
+    // Equal pay, a small raise and a fat raise, with no trait pull.
+    expect(acceptScore(p, 1_500, 1_500, true)).toBeLessThan(0);
+    expect(acceptScore(p, 1_400, 1_500, true)).toBeLessThan(0);
+    expect(acceptScore(p, 1_530, 1_500, true)).toBeLessThan(0);
+    expect(acceptScore(p, 1_800, 1_500, true)).toBeGreaterThan(0);
+    // Sliding: each extra bit of pay adds to the score.
+    expect(acceptScore(p, 1_700, 1_500, true)).toBeGreaterThan(
+      acceptScore(p, 1_600, 1_500, true),
+    );
+    // A jobless seeker takes a job at any pay near their last.
+    expect(acceptScore(p, 1_500, 1_500, false)).toBeGreaterThan(0);
+    const reasons = jobsData.reasons;
+    expect(moveLabel(p, 1_500, 1_500, reasons.traitDrawn)).toBe("trait-drawn");
+    expect(moveLabel(p, 1_400, 1_500, reasons.otherOffer)).toBe("other-offer");
+    expect(moveLabel(p, 1_800, 1_500, reasons.traitDrawn)).toBe("better-offer");
+    // Traits can carry a move that pay alone would not: the label says so.
+    expect(acceptScore(p, 1_500, 1_500, true, 3)).toBeGreaterThan(0);
+  });
+  it("quit pulls slide with the pay gap, tenure and the place's unemployment", () => {
+    const base = quitScore(p, calm);
+    expect(quitScore(p, { ...calm, payGap: 0.1 })).toBeGreaterThan(base);
+    expect(quitScore(p, { ...calm, payGap: 0.3 })).toBeGreaterThan(
+      quitScore(p, { ...calm, payGap: 0.1 }),
+    );
+    expect(quitScore(p, { ...calm, tenureYears: 0.5 })).toBeGreaterThan(base);
+    expect(quitScore(p, { ...calm, tenureYears: 15 })).toBeLessThan(base);
+    expect(quitScore(p, { ...calm, unemploymentGapPts: 5 })).toBeLessThan(base);
+    expect(quitScore(p, { ...calm, unemploymentGapPts: -2 })).toBeGreaterThan(
+      base,
+    );
+  });
+  it("a neutral worker's pull sits in the JOLTS band, as a check on the total only", () => {
+    const quits = jobsData.turnover.industries.total.quits;
+    const share = p("jobsQuitToNonemploymentShare");
+    const monthly = pull(quitScore(p, calm)) * 100;
+    expect(monthly).toBeGreaterThan(quits.p05 * share * 0.8);
+    expect(monthly).toBeLessThan(quits.p95 * share * 1.2);
+  });
+  it("new positions follow the staff mix, counted roles included", () => {
+    const job = (id: string, title: string) => ({
+      id,
+      personId: id,
+      organizationId: employer,
+      title,
+      wageDailyMinor: 1,
+      hoursDaily: 8,
+      source: src(),
+    });
+    const staff = [
+      job("a", "Server"),
+      job("b", "Server"),
+      job("c", "Server"),
+      job("d", "Cook"),
+      job("e", "Dishwasher"),
+    ];
+    const mix = roleMix(staff, [staff[0]!]);
+    expect(mix.Server).toMatchObject({ count: 3, templateJobId: "a" });
+    expect(Object.keys(mix).sort()).toEqual(["Cook", "Dishwasher", "Server"]);
+    // With the cook gone, the cook role is the most under its share.
+    const order = rolesByDeficit(mix, { Server: 3, Dishwasher: 1 });
+    expect(order[0]).toBe("Cook");
+    // Deterministic.
+    expect(rolesByDeficit(mix, { Server: 3, Dishwasher: 1 })).toEqual(order);
+  });
+  it("opens positions for a counted worker's role and withdraws surplus postings gradually", () => {
+    const opening = input();
+    const residents = "organization:residents",
+      counted = { ...person("c1", 0, 0), householdId: "household:c1" };
+    const countedJob = {
+      id: "job:c1",
+      personId: "c1",
+      organizationId: employer,
+      title: "Cook",
+      occupationClassification: "trade:cook",
+      hourlyMinor: 1_500,
+      hoursDaily: 8,
+      wageDailyMinor: 12_000,
+      source: src(),
+    };
+    const commitment = {
+      ...opening.workCommitments![0]!,
+      id: "commitment:c1",
+      jobId: "job:c1",
+      personId: "c1",
+      organizationId: employer,
+      payrollCalendarId: "calendar:shop",
+    };
+    const core = createLifeCore(
+      {
+        ...opening,
+        organizations: [
+          ...opening.organizations,
+          {
+            id: residents,
+            placeId: place,
+            name: "Residents",
+            kind: "residents",
+            liquidMinor: 0,
+            source: src(),
+          },
+        ],
+        residents: {
+          version: "core2-residents-v1",
+          source: src(),
+          accounts: [{ placeId: place, accountId: residents }],
+          households: [
+            {
+              household: {
+                id: "household:c1",
+                placeId: place,
+                memberIds: ["c1"],
+                source: src(),
+              },
+              people: [counted],
+              jobs: [countedJob],
+              workCommitments: [commitment],
+              contracts: [],
+            },
+          ],
+          calendars: opening.workPayrollCalendars!,
+          flows: [
+            {
+              id: "residents:wages:shop",
+              kind: "wages",
+              financeKind: "work.count-payroll",
+              payerId: employer,
+              payeeId: residents,
+              residentsId: residents,
+              placeId: place,
+              amountMinor: 12_000 * 7,
+              periodFactor: 7,
+              firstAt: "2021-01-12",
+              cadence: { kind: "days", every: 7 },
+              salesReceipt: false,
+              marketAdjusted: false,
+              organizationId: employer,
+              jobIds: ["job:c1"],
+              perDayMinorByJob: { "job:c1": 12_000 },
+              source: src(),
+            },
+          ],
+        },
+      },
+      { data, modules: [JOBS_MODULE] },
+    );
+    const book = withBooks(core, 8);
+    advanceCore(core, "2021-05-31");
+    const positions = coreAPI(core).moduleState("jobs").table("positions");
+    const made = ["open", "filled", "withdrawn"].flatMap(
+      (status) =>
+        positions.query("byStatus", [status]) as unknown as {
+          occupation: string;
+          status: string;
+        }[],
+    );
+    // The staff is four clerks and one cook: some new position copies the cook's role.
+    expect(made.some((row) => row.occupation === "trade:cook")).toBe(true);
+    expect(made.some((row) => row.occupation === "trade:clerk")).toBe(true);
+    // Demand falls back to the staff: postings lapse over months, not at once.
+    const open = () =>
+      (positions.query("byStatus", ["open"]) as unknown as unknown[]).length;
+    const before = open();
+    book.annualDemandMinor = book.capacityMinor / 4;
+    const counts: number[] = [];
+    for (const date of [
+      "2021-06-02",
+      "2021-07-02",
+      "2021-08-02",
+      "2021-09-02",
+    ]) {
+      advanceCore(core, date);
+      counts.push(open());
+    }
+    // Not all at once: the first review after the fall leaves some open, and the count only falls.
+    expect(before).toBeGreaterThanOrEqual(4);
+    expect(counts[0]).toBeGreaterThan(0);
+    expect(counts[0]).toBeLessThan(before);
+    for (let i = 1; i < counts.length; i++)
+      expect(counts[i]).toBeLessThanOrEqual(counts[i - 1]!);
+  });
+});
+
+describe("staffing recovery", () => {
+  it("reopens recorded roles after a live employer loses its last worker", () => {
+    const departures: CoreModule = {
+      id: "test:last-workers",
+      onDay(api) {
+        if (api.state.date !== "2021-01-02") return;
+        api.moduleCalendar("test:last-workers").schedule({
+          key: "departures",
+          date: "2021-01-03",
+          kind: "departures",
+          source: src(),
+          sourceRecordIds: [...api.state.jobs.values()]
+            .filter((job) => job.organizationId === employer && !job.endsAt)
+            .map((job) => job.id),
+        });
+      },
+      onCalendarWork(api, work) {
+        for (const id of work.sourceRecordIds)
+          api.endJob(id, "fixture:all-workers-left");
+      },
+    };
+    const core = createLifeCore(input(), {
+      data,
+      modules: [JOBS_MODULE, departures],
+    });
+    withBooks(core, 1);
+    advanceCore(core, "2021-01-02");
+    const api = coreAPI(core);
+    const prior = [...core.jobs.values()].filter(
+      (job) => job.organizationId === employer && !job.endsAt,
+    );
+    expect(prior.length).toBeGreaterThan(0);
+    advanceCore(core, "2021-01-04");
+    expect(
+      [...core.jobs.values()].filter(
+        (job) => job.organizationId === employer && !job.endsAt,
+      ),
+    ).toHaveLength(0);
+    advanceCore(core, "2021-03-02");
+    const positions = api
+      .moduleState("jobs")
+      .table("positions")
+      .rows()
+      .filter((row) => row.organizationId === employer);
+    expect(positions.length).toBeGreaterThan(0);
+    expect(positions.some((row) => row.status === "filled")).toBe(true);
+    expect(
+      positions.every((row) =>
+        prior.some((job) => job.id === row.templateJobId),
+      ),
+    ).toBe(true);
+    expect(core.finance.businesses.get(employer)!.closedAt).toBeUndefined();
+  });
+});
+
+describe("closure during an employed job search", () => {
+  it("ends both tiers' jobs and records their actual job IDs even when they were already looking", () => {
+    const drawn = drawPlace();
+    const base = input();
+    const closing: CoreModule = {
+      id: "test:closure-during-search",
+      onDay(api) {
+        if (api.state.date !== "2021-01-02") return;
+        for (const [personId, table] of [
+          ["w1", "seekers"],
+          ["w2", "countedSeekers"],
+        ]) {
+          api.moduleState("jobs").table(table!).put({
+            id: personId!,
+            personId: personId!,
+            placeId: place,
+            isSeeker: true,
+            employed: true,
+            since: api.state.date,
+            reasonKey: "looking-around",
+            referenceHourlyMinor: 1500,
+          });
+        }
+        api.moduleCalendar("test:closure-during-search").schedule({
+          key: "close",
+          date: "2021-01-03",
+          kind: "close",
+          source: src(),
+          sourceRecordIds: [employer],
+        });
+      },
+      onCalendarWork(api) {
+        endCountedJob(api.state as CoreState, "job:w3");
+        api.closeBusinessByChoice({
+          organizationId: employer,
+          ownerAccountId: api.accounts().main("w4"),
+          reasonKey: "fixture:owner-retired",
+          source: src(),
+        });
+      },
+    };
+    const core = createLifeCore(
+      collapseToTwoLevels(
+        {
+          ...base,
+          workCommitments: base.workCommitments!.map((row) => ({
+            ...row,
+            startsAt: "2019-01-01",
+          })),
+          placeMetadata: { placeKey: drawn.key },
+        },
+        { keep: new Set(["w1", "w4", "s1", "s2"]) },
+      ),
+      { data, modules: [JOBS_MODULE, closing] },
+    );
+    openLaws(core);
+    withBooks(core, 1);
+    advanceCore(core, "2021-01-04");
+    const api = coreAPI(core);
+    const state = api.moduleState("jobs");
+    expect(core.jobs.get("job:w1")?.endsAt).toBe("2021-01-03");
+    expect(residentsRuntime(core)!.jobs.get("job:w2")?.endsAt).toBe(
+      "2021-01-03",
+    );
+    expect(
+      state.table("changes").get("job-change:2021-01-03:job:w3:closure"),
+    ).toBeUndefined();
+    for (const [personId, table] of [
+      ["w1", "seekers"],
+      ["w2", "countedSeekers"],
+    ]) {
+      expect(
+        state
+          .table("changes")
+          .get(`job-change:2021-01-03:job:${personId}:closure`),
+      ).toMatchObject({
+        personId,
+        jobId: `job:${personId}`,
+        kind: "closure",
+        reasonKey: jobsData.reasons.closure,
+      });
+      expect(state.table(table!).get(personId!)).toMatchObject({
+        employed: false,
+        since: "2021-01-03",
+        reasonKey: jobsData.reasons.closure,
+      });
+      if (unemploymentTerms(api).hasProgram)
+        expect(
+          state.table("claims").get(`claim:${personId}:2021-01-03`),
+        ).toBeDefined();
+    }
   });
 });

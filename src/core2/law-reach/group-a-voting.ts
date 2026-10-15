@@ -18,10 +18,10 @@
 import type { CoreAPI, CoreState, PersonState } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
-import { lifePlaceByKey } from "../../simulation/life-places";
+import { corePlaceByKey } from "../place-lookup";
 import { campaignParameter } from "../campaign-views";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
-import type { PolicyHandler } from "../modules/law-effects";
+import type { PolicyHandler } from "./host";
 import {
   ageOn,
   applyRecords,
@@ -119,7 +119,7 @@ export function electionLawTurnoutCost(
  * (SG-GOV-REACH-A-convictions).
  */
 export function felonyDisenfranchisedShare(api: CoreAPI): number {
-  const stateKey = lifePlaceByKey(
+  const stateKey = corePlaceByKey(
     String(api.state.placeMetadata.placeKey ?? ""),
   )?.stateJurisdictionKey;
   const shares = felonyData.states as Record<string, number>;

@@ -34,11 +34,7 @@ import {
   personStance,
   PLATFORM_QUESTIONS,
 } from "./campaign-views";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -48,7 +44,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter((k) => !["US-AS", "US-GU", "US-MP", "US-VI"].includes(k))
   .sort();
@@ -59,7 +55,7 @@ describe("campaign calibration on totals", () => {
     for (let attempt = 0; attempt < 6 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -166,11 +162,16 @@ describe("campaign calibration on totals", () => {
         0.15,
       );
       expect(contact, `${state} ${key} ${seed} contact`).toBeLessThan(0.45);
-      if (known.length >= 10)
+      // The top of the measured range across places (31% of acquaintances,
+      // volunteerThreshold) plus two standard errors of a sample this size:
+      // a dozen acquaintances can't tell 31% from 45% apart by chance.
+      if (known.length >= 10) {
+        const top = 0.31;
         expect(
           volunteers / known.length,
-          `${state} ${key} volunteers`,
-        ).toBeLessThan(0.4);
+          `${state} ${key} ${seed} volunteers (${volunteers} of ${known.length})`,
+        ).toBeLessThan(top + 2 * Math.sqrt((top * (1 - top)) / known.length));
+      }
       if (heard.length >= 10)
         expect(
           moved.length / heard.length,

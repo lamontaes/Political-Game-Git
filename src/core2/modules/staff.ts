@@ -26,11 +26,11 @@ import { drawOfficialIdentity } from "../officials-identity";
 import { openingTemperaments } from "../opening-personality";
 import { countedResidents } from "../electorate";
 import {
-  lifePlaceByJurisdictionId,
-  seatOfGovernmentPlace,
-} from "../../simulation/life-places";
-import { countyPopulationSharesForPlace } from "../../simulation/government-units";
-import type { EntityId } from "../../simulation/types";
+  corePlaceByJurisdictionId,
+  coreSeatOfGovernmentPlace,
+} from "../place-lookup";
+import { countyPopulationSharesForPlace } from "../reference/government-units";
+import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
@@ -38,9 +38,10 @@ import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { inCustody } from "./justice";
 import { startPublicJob } from "../public-payroll";
 import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
 import {
@@ -77,6 +78,10 @@ export interface StafferRow {
   readonly reasons?: Readonly<Record<string, number>>;
   /** The records the reasons read: where they live, the family link, a counted record filled in at hire. */
   readonly reasonRecordIds?: readonly string[];
+  /** The post's job on the government's payroll. */
+  readonly jobId?: string;
+  /** The aide this hire replaces, who died or left the post (owner, Oct 14: every role is refilled). */
+  readonly replacesStafferId?: string;
 }
 
 export interface WorkRecord {
@@ -195,7 +200,7 @@ function officeSiteOf(api: CoreAPI, officialId: string): OfficeSite {
   )?.office;
   if (!office || (office.level !== "state" && office.level !== "federal"))
     return town;
-  const seat = seatOfGovernmentPlace(
+  const seat = coreSeatOfGovernmentPlace(
     office.level === "federal" ? "US-FEDERAL" : office.jurisdiction,
   );
   if (!seat) return town;
@@ -238,7 +243,7 @@ function readReach(
   if (placeId === site.placeId) return { reach: 1, reachBasis: "town" };
   if (countyGeoids.some((county) => site.countyGeoids.includes(county)))
     return { reach: 1, reachBasis: "county" };
-  const place = lifePlaceByJurisdictionId(placeId as EntityId);
+  const place = corePlaceByJurisdictionId(placeId as EntityId);
   const state =
     place?.scope === "state" ? place.key : place?.stateJurisdictionKey;
   // A place the records can't put in the state reads as out of it.
@@ -253,7 +258,7 @@ function readReach(
 /** The counties a person's home lies in, from their recorded county. */
 function homeCounties(countyId: string | undefined): readonly string[] {
   const geoid = countyId
-    ? lifePlaceByJurisdictionId(countyId as EntityId)?.sourceGeoid
+    ? corePlaceByJurisdictionId(countyId as EntityId)?.sourceGeoid
     : undefined;
   return geoid ? [geoid] : [];
 }
@@ -297,6 +302,7 @@ export function staffCandidates(
       !person.alive ||
       person.id === officialId ||
       hired.has(person.id) ||
+      inCustody(api, person.id) ||
       ageOn(person, date) < minimum
     )
       continue;
@@ -332,7 +338,7 @@ export function staffCandidates(
   }
   // The town's counted adults with no work in their records apply too.
   for (const voter of countedPool(api, town, minimum)) {
-    if (hired.has(voter.id)) continue;
+    if (hired.has(voter.id) || inCustody(api, voter.id)) continue;
     const known =
       official.knownIds.has(voter.id) || official.familyIds.has(voter.id);
     const link = official.familyIds.has(voter.id)
@@ -531,7 +537,7 @@ export function hireStaff(
       : staffCandidates(api, input.officialId).find(
           (c) => c.personId === input.personId,
         );
-  if (!candidate)
+  if (!candidate || inCustody(api, input.personId))
     throw new Error(`${input.personId} isn't a candidate for this office`);
   // Someone from the counted population becomes a full person from their
   // records first: their household, past and the work their books show.
@@ -553,6 +559,13 @@ export function hireStaff(
     : null;
   // stopgapId: SG-GOV-staff-unpaid
   if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
+  // The first of the official's aides who died or left the post and has no successor yet.
+  const replaced = new Set(
+    staffOf(api, input.officialId).map((r) => r.replacesStafferId),
+  );
+  const replaces = staffOf(api, input.officialId).find(
+    (r) => !serving(api, r) && !replaced.has(r.id),
+  );
   const row: StafferRow = {
     id: `staffer:${input.officialId}:${input.personId}`,
     officialId: input.officialId,
@@ -570,6 +583,8 @@ export function hireStaff(
       ...(candidate.familyLinkId ? [candidate.familyLinkId] : []),
       ...(candidate.counted ? [`counted:${person.householdId}`] : []),
     ],
+    ...(jobId ? { jobId } : {}),
+    ...(replaces ? { replacesStafferId: replaces.id } : {}),
   };
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
@@ -615,6 +630,22 @@ export function staffOf(
   return table(api, "staff").query("byOfficial", [
     officialId,
   ]) as unknown as StafferRow[];
+}
+
+/** An aide serves while alive and still in the post's job. */
+function serving(api: CoreAPI, row: StafferRow): boolean {
+  const person = api.state.people.get(row.personId);
+  return (
+    !!person?.alive && (row.jobId === undefined || person.jobId === row.jobId)
+  );
+}
+
+/** The official's aides who serve now; one who died or left is replaced. */
+export function servingStaffOf(
+  api: CoreAPI,
+  officialId: string,
+): readonly StafferRow[] {
+  return staffOf(api, officialId).filter((row) => serving(api, row));
 }
 
 /** How well a staffer does a task on a question, and the parts behind it. */
@@ -802,7 +833,7 @@ export function staffDecision(
   api: CoreAPI,
   officialId: string,
 ): { stafferId: string; help: boolean; work: WorkRecord } | null {
-  const staffer = [...staffOf(api, officialId)].sort(
+  const staffer = [...servingStaffOf(api, officialId)].sort(
     (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
   )[0];
   if (!staffer) return null;
@@ -870,7 +901,8 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     const official = api.state.people.get(officialId);
     if (!official?.alive) continue;
     if (
-      staffOf(api, officialId).length >= campaignParameter("staffPerOfficial")
+      servingStaffOf(api, officialId).length >=
+      campaignParameter("staffPerOfficial")
     )
       continue;
     if (
@@ -923,11 +955,10 @@ function briefBeforeVote(api: CoreAPI, billId: string): void {
   if (!bill) return;
   for (const term of members(api, bill.bodyOfficeId)) {
     if (!term.personId) continue;
-    const staffer = [...staffOf(api, term.personId)].sort(
+    const staffer = [...servingStaffOf(api, term.personId)].sort(
       (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
     )[0];
-    if (staffer && api.state.people.get(staffer.personId)?.alive)
-      briefOnBill(api, staffer.id, billId);
+    if (staffer) briefOnBill(api, staffer.id, billId);
   }
 }
 

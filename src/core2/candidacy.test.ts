@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
@@ -7,6 +7,7 @@ import {
   candidacyModule,
   candidacyReasons,
   candidatesFor,
+  platformFromViews,
   decideToRun,
   RUN,
 } from "./modules/candidacy";
@@ -47,6 +48,24 @@ const margin = (row: (typeof decisions)[number]) =>
   row.scores.find((s) => s.actionId !== RUN.id)!.score;
 
 describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
+  it("keeps a candidate's position strength instead of turning every position into an absolute", () => {
+    const platforms = adults.map((person) => platformFromViews(api, person.id));
+    const positions = platforms.flatMap((platform) =>
+      platform.map((part) => Number(part.slice(part.lastIndexOf("=") + 1))),
+    );
+    expect(positions.length).toBeGreaterThan(0);
+    expect(
+      positions.every(
+        (position) => Number.isFinite(position) && Math.abs(position) <= 1,
+      ),
+    ).toBe(true);
+    expect(
+      positions.some(
+        (position) => Math.abs(position) > 0 && Math.abs(position) < 1,
+      ),
+    ).toBe(true);
+  });
+
   it("records every adult's decision with its reasons; few run for one seat", () => {
     // Calibrated for the whole town (named and counted adults) to draw one
     // or two challengers per seat: in a town of about a thousand adults,

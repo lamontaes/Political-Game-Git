@@ -227,7 +227,7 @@
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "source": "Military Lending Act (10 U.S.C. 987) and state rate caps of 36% a year (National Consumer Law Center, State Rate Caps, 2024).",
-      "mechanic": "none",
+      "mechanic": "consumer-loan-quote",
       "stopgapId": "SG-GOV-REACH-A-consumer-credit",
       "reaches": [
         {
@@ -245,7 +245,7 @@
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "source": "State and city laws allowing two to four homes on single-family lots (Oregon HB 2001 of 2019, California SB 9 of 2021, Minneapolis 2040 plan).",
-      "mechanic": "none",
+      "mechanic": "housing-construction",
       "stopgapId": "SG-GOV-REACH-A-housing-supply",
       "reaches": [
         {
@@ -289,7 +289,7 @@
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "source": "Inclusionary housing ordinances: a share of new homes set aside as affordable (Grounded Solutions Network, Inclusionary Housing Database, 2021).",
-      "mechanic": "none",
+      "mechanic": "housing-construction",
       "stopgapId": "SG-GOV-REACH-A-affordable-units",
       "reaches": [
         {
@@ -307,7 +307,7 @@
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "source": "Rent stabilization laws capping yearly rent increases (California AB 1482 of 2019, Oregon SB 608 of 2019, St. Paul ordinance of 2021).",
-      "mechanic": "none",
+      "mechanic": "rent-renewal",
       "stopgapId": "SG-GOV-REACH-A-rent-contracts",
       "reaches": [
         {
@@ -336,7 +336,7 @@
     },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "source": "City right-to-counsel ordinances (National Coalition for a Civil Right to Counsel, 2024).",
-      "mechanic": "none",
+      "mechanic": "eviction-counsel",
       "stopgapId": "SG-GOV-REACH-A-eviction-cases",
       "reaches": [
         {
@@ -509,7 +509,8 @@
           "enforcer": "the civilian oversight board",
           "penalty": "a subpoena from the board"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-police-oversight"
     },
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "source": "Section 287(g) agreements between local police and Immigration and Customs Enforcement (ICE, Delegation of Immigration Authority, 2025).",
@@ -608,7 +609,8 @@
           "enforcer": "the juvenile court",
           "penalty": "charges dismissed from the wrong court"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-juvenile-age"
     },
     "us-policy-positions:justice-public-safety.child-access-prevention": {
       "source": "Child access prevention laws on storing guns (Giffords Law Center, Child Access Prevention, 2024).",
@@ -656,7 +658,8 @@
           "enforcer": "police department",
           "penalty": "misdemeanor for carrying without a permit"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-carry-permit"
     },
     "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
       "source": "Laws setting a handgun purchase age of 21 (18 U.S.C. 922(b)(1); Giffords Law Center, Minimum Age, 2024).",
@@ -685,7 +688,8 @@
           "enforcer": "police department",
           "penalty": "misdemeanor for the seller"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-handgun-age"
     },
     "us-policy-positions:justice-public-safety.stand-your-ground": {
       "source": "Stand-your-ground laws removing the duty to retreat (Giffords Law Center, Stand Your Ground, 2024).",
@@ -702,7 +706,8 @@
           "enforcer": "the court",
           "penalty": "none: a defense at trial"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-stand-your-ground"
     },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "source": "Local human rights ordinances (National League of Cities summaries).",
@@ -731,7 +736,8 @@
           "enforcer": "human rights commission",
           "penalty": "civil fine and damages"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-discrimination"
     },
     "us-policy-positions:civil-family-community.dedicated-parks-funding": {
       "source": "Dedicated park funding measures (Trust for Public Land, LandVote database, 2024).",
@@ -787,7 +793,8 @@
           "enforcer": "the state health department",
           "penalty": "license loss and criminal charges"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-abortion"
     },
     "us-policy-positions:technology-privacy.age-verification-for-social-media": {
       "source": "Social media age verification laws (Utah SB 152 of 2023; Louisiana Act 456 of 2023).",
@@ -816,7 +823,8 @@
           "enforcer": "the state attorney general",
           "penalty": "civil fine per violation"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-age-verification"
     },
     "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
       "source": "Limits on government facial recognition (San Francisco Stop Secret Surveillance Ordinance, 2019; Massachusetts Act of 2020).",
@@ -844,7 +852,8 @@
           "enforcer": "the court",
           "penalty": "discipline and evidence thrown out"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-facial-recognition"
     },
     "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
       "source": "State consumer data privacy laws (California Consumer Privacy Act, 2018; Virginia Consumer Data Protection Act, 2021).",
@@ -873,7 +882,8 @@
           "enforcer": "the state attorney general",
           "penalty": "civil fine per violation"
         }
-      ]
+      ],
+      "stopgapId": "SG-GOV-REACH-A-data-privacy"
     },
     "us-policy-positions:government-operations.all-mail-voting": {
       "source": "All-mail elections (Colorado, Oregon, Utah and Washington; Gerber, Huber and Hill, Political Science Research and Methods, 2013).",

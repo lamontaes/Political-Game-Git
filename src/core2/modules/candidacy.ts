@@ -17,7 +17,7 @@
 import { votesOf } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -34,7 +34,7 @@ import type {
 } from "../types";
 import { decisionKinds } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
-import { PLATFORM_QUESTIONS, questionAxis } from "../campaign-views";
+import { candidatePlatform } from "../campaign-stances";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
 import {
@@ -48,16 +48,10 @@ import {
 } from "./elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
-import {
-  VIEWS_DATA,
-  VIEWS_KEYS,
-  VIEWS_MODULE_ID,
-  viewCell,
-  viewOf,
-} from "./views";
+import { VIEWS_DATA, VIEWS_KEYS, viewCell, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentPerson } from "./residents";
-import { stableHash } from "../../simulation/ids";
+import { stableHash } from "../kernel/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 
@@ -563,24 +557,18 @@ function officeholders(api: CoreAPI): Map<PersonId, number> {
   return held;
 }
 
-/** The questions a runner campaigns on: where their own views are strongest. */
-export function platformFromViews(api: CoreAPI, personId: PersonId): string[] {
-  if (!api.state.modules.has(VIEWS_MODULE_ID)) return [];
-  const view = viewOf(api, personId);
-  if (!view) return [];
-  const lean = view.lean / VIEWS_DATA.parameters.leanMax!.value;
-  return PLATFORM_QUESTIONS.map((question) => ({
-    question,
-    stance: lean * questionAxis(question),
-  }))
-    .filter((row) => row.stance !== 0)
-    .sort(
-      (a, b) =>
-        Math.abs(b.stance) - Math.abs(a.stance) ||
-        a.question.localeCompare(b.question),
-    )
-    .slice(0, c(api, "candidacyPlatformQuestions"))
-    .map((row) => `${row.question}=${Math.sign(row.stance)}`);
+/** A filing keeps the same recorded positions and strengths its campaign reads. */
+export function platformFromViews(
+  api: CoreAPI,
+  personId: PersonId,
+  party: string | null = null,
+): string[] {
+  return candidatePlatform(
+    api,
+    personId,
+    party,
+    c(api, "candidacyPlatformQuestions"),
+  ).map(({ question, position }) => `${question}=${position}`);
 }
 
 /** File for a runner: no fee and no petition, so a filing is on the ballot. */
@@ -599,7 +587,7 @@ function fileFor(
   const result = fileCandidacy(api, {
     personId: person.id,
     contestId: contest.id,
-    platform: platformFromViews(api, person.id),
+    platform: platformFromViews(api, person.id, party),
     party,
   });
   if (result.status === "refused")
@@ -895,7 +883,7 @@ function weighClosedContest(
       personId,
       filedOn: contest.filingDeadline,
       filedWith: rules.filedWith,
-      platform: platformFromViews(api, personId),
+      platform: platformFromViews(api, personId, party),
       party,
       status: "on-ballot",
     };

@@ -34,6 +34,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
   const contracts: FinanceContractInput[] = [];
   const sorted = [...schools].sort((a, b) => a.id.localeCompare(b.id));
   const town = new Set(schools.map((row) => row.placeId));
+  const enrolled = new Map<string, number>();
   for (const home of input.households) {
     // Only the town's own families: relatives elsewhere use their own schools.
     if (!town.has(home.placeId)) continue;
@@ -52,12 +53,15 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
     if (!children || !adults.length) continue;
     const amountMinor = Math.round(children * perChildMonthly);
     if (amountMinor <= 0) continue;
-    // Several private schools in town share families in a stable order.
+    // Several private schools in town fill evenly: a family enrolls where the
+    // fewest families are already enrolled (ties go to the lower school id).
     const local = sorted.filter((row) => row.placeId === home.placeId);
-    const school =
-      local[
-        [...home.id].reduce((n, c) => n + c.charCodeAt(0), 0) % local.length
-      ]!;
+    const school = local.reduce((fewest, row) =>
+      (enrolled.get(row.id) ?? 0) < (enrolled.get(fewest.id) ?? 0)
+        ? row
+        : fewest,
+    )!;
+    enrolled.set(school.id, (enrolled.get(school.id) ?? 0) + 1);
     const source: Source = {
       tag: "ESTIMATED",
       asOf: start,

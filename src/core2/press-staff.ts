@@ -9,9 +9,9 @@
  *
  * Who exists is seeded generation; nothing here decides what anyone does.
  */
-import { SeededRng } from "../simulation/rng";
-import { addDays, makeIsoDate } from "../simulation/dates";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { SeededRng } from "./kernel/rng";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import { generatePersonIdentity } from "./gov-rules/person-identity";
 import { drawCohortGivenName } from "./gov-rules/given-name-cohorts";
 import {
@@ -70,7 +70,7 @@ export function outletName(input: {
     if (input.kind === "newspaper") {
       // The town's own name, without the state the display name adds.
       const town = (
-        lifePlaceByJurisdictionId(input.townPlaceId as never)?.displayName ?? ""
+        corePlaceByJurisdictionId(input.townPlaceId as never)?.displayName ?? ""
       ).split(",")[0]!;
       name = `${town} ${draw.pick(MASTHEADS.newspaperWords.rows)}`.trim();
     } else {

@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import regions from "./data/regional/regions.json" with { type: "json" };
 import territories from "./data/credit/territories.json" with { type: "json" };
 import { townBankFor } from "./modules/credit";
-import { seatOfGovernmentPlace } from "../simulation/life-places";
+import { coreSeatOfGovernmentPlace } from "./place-lookup";
 import type { CoreInput } from "./types";
 
 describe("credit territories live in data", () => {
@@ -38,7 +38,7 @@ describe("credit territories live in data", () => {
   it("a random territory town still gets its credit terms", () => {
     const keys = territories.territories.map((row) => row.stateJurisdictionKey);
     const key = keys[randomInt(keys.length)]!;
-    const town = seatOfGovernmentPlace(key)!.place;
+    const town = coreSeatOfGovernmentPlace(key)!.place;
     const input = {
       placeMetadata: { placeKey: town.key },
       people: Array.from({ length: 50 }, (_, i) => ({ id: `p${i}` })),

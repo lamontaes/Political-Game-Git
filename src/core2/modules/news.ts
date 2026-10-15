@@ -16,8 +16,8 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import type {
@@ -105,6 +105,11 @@ export function trustOf(api: CoreAPI, lean: number): number {
     : center + (n(api, "newsTrustConservative") - center) * x;
 }
 
+/** How much a person's trust in the media weighs what the news told them, against the average reader (1). */
+export function trustWeight(api: CoreAPI, lean: number): number {
+  return trustOf(api, lean) / n(api, "newsTrustAverage");
+}
+
 /**
  * Who reads a story recorded for a place: its residents, and for a county or
  * state, the residents of the places inside it.
@@ -113,9 +118,9 @@ function readersOf(api: CoreAPI, placeId: string): PersonId[] {
   const direct = api.state.peopleByPlace.get(placeId);
   if (direct?.size) return [...direct];
   const out: PersonId[] = [];
-  const state = lifePlaceByJurisdictionId(placeId as never);
+  const state = corePlaceByJurisdictionId(placeId as never);
   for (const [place, people] of api.state.peopleByPlace) {
-    const row = lifePlaceByJurisdictionId(place as never);
+    const row = corePlaceByJurisdictionId(place as never);
     const inside =
       [...people].some(
         (id) => api.state.people.get(id)?.countyId === placeId,
@@ -313,8 +318,9 @@ function hear(
 /**
  * Retention (MEMORY-FLAT), once a month: past its life a story is never
  * delivered or told again, so who heard it no longer decides anything, and
- * those rows go. What they learned stays in their knowledge; the player's own
- * rows stay too.
+ * those rows go, with the story's own two keys (its kind and outlet), which
+ * nothing reads once it can no longer be told. The facts it carried stay in
+ * their knowledge; the player's own rows and keys stay too.
  */
 function forgetOldNews(api: CoreAPI): void {
   const since = addDays(makeIsoDate(api.state.date), -n(api, "newsMaxAgeDays"));
@@ -328,6 +334,10 @@ function forgetOldNews(api: CoreAPI): void {
     if (story && story.date >= since) continue;
     heard(api).remove(row.id);
     counts.set(personId, (counts.get(personId) ?? 1) - api.parameter("one"));
+    const known = api.state.knowledgeByPerson.get(personId);
+    const key = newsKey(row.storyId as string);
+    known?.delete(key);
+    known?.delete(`${key}:outlet`);
   }
 }
 
@@ -517,7 +527,7 @@ export function createNewsModule(
           ...(story.moodImpulse === undefined
             ? {}
             : { moodImpulse: story.moodImpulse }),
-          facts: story.facts,
+          facts: { ...story.facts, learnedFrom: newsKey(story.id) },
           source: {
             tag: "SOURCED",
             citation: `Story ${story.id}, read by its outlet's followers`,

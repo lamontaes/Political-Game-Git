@@ -44,6 +44,26 @@
     "public-pay-floor": {
       "levels": ["federal", "state", "local"],
       "source": "Each government sets its own employees' pay: 5 U.S.C. \u00a7 5303 (federal pay schedules), state civil service law, and city and county charters"
+    },
+    "federal-unemployment-tax": {
+      "levels": ["federal"],
+      "source": "26 U.S.C. \u00a7\u00a7 3301-3302"
+    },
+    "state-unemployment-tax": {
+      "levels": ["state"],
+      "source": "State unemployment insurance law under 26 U.S.C. \u00a7 3304"
+    },
+    "corporate-income-tax": {
+      "levels": ["federal", "state"],
+      "source": "26 U.S.C. \u00a7 11 (federal); state corporate income taxes under state law"
+    },
+    "estate-tax": {
+      "levels": ["federal", "state"],
+      "source": "26 U.S.C. 2001 (federal estate tax); state estate taxes under each state's taxing power (Tax Foundation, Estate and Inheritance Taxes by State, 2026). No local government levies one."
+    },
+    "inheritance-tax": {
+      "levels": ["state"],
+      "source": "State inheritance taxes under each state's taxing power (Ky. Rev. Stat. ch. 140; Md. Tax-Gen. 7-203; Neb. Rev. Stat. 77-2004; N.J.S.A. 54:34; 72 P.S. 9116). Congress levies none; no local government levies one."
     }
   },
   "questions": {

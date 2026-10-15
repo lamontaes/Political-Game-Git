@@ -2,9 +2,9 @@ import {
   lifeRequestDetailsTag,
   type LifeRequestDetails,
 } from "./life-request-details";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { formativeIntervalAt } from "./character-history";
-import { makeIsoDate, makeSimulationMoment } from "./dates";
+import { makeIsoDate, makeSimulationMoment } from "../core2/kernel/dates";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,

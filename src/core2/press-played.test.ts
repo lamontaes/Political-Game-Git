@@ -12,10 +12,17 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "./life";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
 import { setBookkeeping } from "./bookkeeping";
-import { addDays, makeIsoDate } from "../simulation/dates";
-import { followersOf, outletsHere, storiesPrinted } from "./modules/press";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import {
+  followersOf,
+  outletsHere,
+  refreshPressStaff,
+  staffOf,
+  storiesPrinted,
+} from "./modules/press";
+import { startPublicJob } from "./public-payroll";
 import { stancesOf } from "./modules/views";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -60,6 +67,22 @@ describe("the press in the played world", () => {
         expect(job?.hourlyMinor ?? 0, where).toBeGreaterThan(0);
       }
     }
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    for (const outlet of outlets.filter((o) => o.tier !== "national")) {
+      const books = core.finance.businesses.get(outlet.organizationId);
+      expect(books?.openingTownIncomeMinor, where).toBeGreaterThan(0);
+      expect(
+        api.moduleState("business").table("owners").get(outlet.organizationId),
+        where,
+      ).toMatchObject({
+        ownerId: outlet.ownerId,
+        basis: "press-recorded-owner",
+      });
+      expect(
+        api.moduleState("jobs").table("employers").get(outlet.organizationId),
+        where,
+      ).toBeDefined();
+    }
     advanceCore(core, addDays(makeIsoDate(core.date), 120));
     const stories = outlets.flatMap((o) => storiesPrinted(api, o.id));
     expect(stories.length, where).toBeGreaterThan(0);
@@ -84,8 +107,8 @@ describe("the press in the played world", () => {
     // A news desert has only the national tier, whose people the town does not pay.
     if (outlets.some((o) => o.tier !== "national"))
       expect(paid.length, where).toBeGreaterThan(0);
-    // Whoever left a town outlet's payroll was replaced: every reporter on
-    // its list today works there.
+    // Every reporter still on the masthead works there; vacancies are allowed.
+    refreshPressStaff(api);
     for (const outlet of outletsHere(api).filter((o) => o.tier !== "national"))
       for (const id of outlet.reporterIds) {
         const person = core.people.get(id);
@@ -111,5 +134,74 @@ describe("the press in the played world", () => {
       ),
     );
     expect(moved, where).toBe(true);
+    // A departure must not manufacture another employee. Then the same
+    // worker may return through the shared payroll route with a new job.
+    const local = outletsHere(api).find(
+      (o) => o.tier !== "national" && o.reporterIds.length,
+    );
+    expect(local, where).toBeDefined();
+    const personId = local!.reporterIds[0]!;
+    const oldJob = core.jobs.get(core.people.get(personId)!.jobId!)!;
+    registerModule(core, {
+      id: "test:press-departure",
+      state: { schemaVersion: 1, tables: { state: {} } },
+      onCalendarWork: (workApi) => {
+        workApi.endJob(oldJob.id, "test:press-departure");
+      },
+    });
+    const departureDate = addDays(makeIsoDate(core.date), 1);
+    api.moduleCalendar("test:press-departure").schedule({
+      key: "departure",
+      kind: "departure",
+      date: departureDate,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Controlled employment fixture",
+        estimatedFrom: oldJob.id,
+      },
+      sourceRecordIds: [oldJob.id],
+    });
+    advanceCore(core, departureDate);
+    const peopleBefore = core.people.size;
+    const jobsBefore = core.jobs.size;
+    refreshPressStaff(api);
+    expect(core.people.size).toBe(peopleBefore);
+    expect(core.jobs.size).toBe(jobsBefore);
+    expect(
+      outletsHere(api).find((o) => o.id === local!.id)!.reporterIds,
+    ).not.toContain(personId);
+    expect(
+      staffOf(api, local!.id).find((row) => row.id === personId)?.leftOn,
+    ).toBe(core.date);
+    const returnedJobId = startPublicJob(api, {
+      personId,
+      employerId: local!.organizationId,
+      post: "test:press-return",
+      title: oldJob.title,
+      hourlyMinor: oldJob.hourlyMinor!,
+      citation: "Controlled employment fixture",
+    });
+    expect(returnedJobId).toBeTruthy();
+    refreshPressStaff(api);
+    expect(
+      outletsHere(api).find((o) => o.id === local!.id)!.reporterIds,
+    ).toContain(personId);
+    expect(
+      staffOf(api, local!.id).find((row) => row.id === personId)?.jobId,
+    ).toBe(returnedJobId);
+    expect(
+      staffOf(api, local!.id).find((row) => row.id === personId)?.leftOn,
+    ).toBeUndefined();
+    const sizeAfter = core.jobs.size;
+    refreshPressStaff(api);
+    expect(core.jobs.size).toBe(sizeAfter);
+    // The business engine's subsequent succession is also the masthead's owner.
+    const owners = api.moduleState("business").table("owners");
+    owners.put({ ...owners.get(local!.organizationId)!, ownerId: personId });
+    refreshPressStaff(api);
+    expect(outletsHere(api).find((o) => o.id === local!.id)?.ownerId).toBe(
+      personId,
+    );
   }, 900_000);
 });

@@ -1,5 +1,5 @@
 import { confidantsOf } from "./confidants";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { crimesSufferedBy } from "./crime/reporting";
 import { recordsByStringField } from "./history-index";
 import { personOwnsHome } from "./home-purchase";

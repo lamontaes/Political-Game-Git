@@ -1,6 +1,6 @@
 import { recordsByKey, recordsByStringField } from "./history-index";
 import { eventById } from "./event-index";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   didPeopleShareOrganizationWork,
   hasHouseholdResidenceInJurisdiction,

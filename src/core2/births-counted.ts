@@ -10,22 +10,19 @@
  * world's seed, as all generation does. One row per place per month records
  * what moved; nothing is kept per counted person per day.
  */
-import { makeIsoDate } from "../simulation/dates";
-import { createStableId } from "../simulation/ids";
-import { SeededRng } from "../simulation/rng";
-import { drawCanonicalNamedIdentity } from "../simulation/people";
-import { generatePersonIdentity } from "../simulation/person-identity";
+import { makeIsoDate } from "./kernel/dates";
+import { createStableId } from "./kernel/ids";
+import { SeededRng } from "./kernel/rng";
+import { drawCanonicalNamedIdentity } from "./person-names";
+import { generatePersonIdentity } from "./gov-rules/person-identity";
 import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../simulation/life-places";
-import { STATES } from "../simulation/state-reference";
-import { YOUNGEST_AGE_AT_BIRTH } from "../simulation/birth-rates";
-import {
-  bedroomsForHousehold,
-  hudRentRowFor,
-} from "../simulation/living-world/town-rent";
-import type { EntityId } from "../simulation/types";
+  corePlaceByJurisdictionId,
+  corePlaceByKey,
+  coreStateName,
+} from "./place-lookup";
+import { parameter } from "./parameters";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import type { EntityId } from "./kernel/brands";
 import natality2023 from "../../data/research/renewal/natality-2023.json" with { type: "json" };
 import natality2024 from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
@@ -33,6 +30,7 @@ import moverRates from "../../data/research/migration/mover-rates-acs-2024.json"
 import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" };
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { renewalParameter } from "./births-parameters";
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
   addCountedPerson,
@@ -43,6 +41,7 @@ import {
   removeCountedPerson,
 } from "./modules/residents";
 import type { ResidentHouseholdRecord } from "./residents";
+import { COUNTED_MOVES_MODULE_ID } from "./modules/counted-moves";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
 
@@ -51,6 +50,8 @@ export const COUNTED_FLOWS_STOPGAP = "SG-PW8-counted-arrivals";
 const PER_THOUSAND = 1000,
   CENTS_PER_DOLLAR = 100,
   MS_PER_DAY = 86_400_000;
+/** The youngest age at which anybody becomes a parent. */
+const YOUNGEST_PARENT_AGE = parameter("minimumParentAgeAtBirth");
 
 type AgeRates = Readonly<Record<string, number | null>>;
 interface NatalityArea {
@@ -68,6 +69,48 @@ const source = (date: string): Source => ({
     "Counted population flows: NCHS final natality 2024 (2023 where a 2024 cell is suppressed) by mother's age and state; SSA Actuarial Study No. 120 cohort life tables; ACS 2024 one-year county departure rates by age and arrival rates by state. Rates applied to counted totals; records chosen by their circumstances.",
 });
 
+/** The monthly death record reaches the full people who already know its subject. */
+export function notifyCountedDeaths(
+  api: CoreAPI,
+  row: { id: string; placeId: PlaceId; deaths: readonly string[] },
+): void {
+  for (const deceasedId of row.deaths) {
+    // Unmet residents remain counted identities; a notification never fills
+    // somebody in or gives them an invented past or medical cause.
+    const deceased = api.state.husks.get(deceasedId);
+    if (!deceased) continue;
+    // stopgapId: SG-CORE-counted-death-relations
+    // Opening full-to-counted family ties may have no closeness record.
+    // Notify them, but leave grief to the existing relationship reader.
+    api.stopgap("SG-CORE-counted-death-relations");
+    const witnesses = new Set(deceased.familyIds ?? []);
+    for (const key of api.state.relationshipsByPerson.get(deceasedId) ?? []) {
+      const tie = api.state.relationships.get(key);
+      if (tie)
+        witnesses.add(tie.actorId === deceasedId ? tie.otherId : tie.actorId);
+    }
+    const witnessIds = [...witnesses]
+      .filter((id) => id !== deceasedId && api.state.people.get(id)?.alive)
+      .sort();
+    if (!witnessIds.length) continue;
+    const kind = DEFAULT_HEALTH_DATA.deathEventKind;
+    const id = `${kind}:${deceasedId}:${api.state.date}`;
+    api.emit({
+      id,
+      kind,
+      date: api.state.date,
+      placeId: row.placeId,
+      personIds: [deceasedId],
+      witnessIds,
+      publicRecord: true,
+      news: true,
+      ...severityImpulse(api, DEFAULT_HEALTH_DATA.deathSeverity),
+      source: source(api.state.date),
+      facts: { [`event:${id}:countsId`]: row.id },
+    });
+  }
+}
+
 /** The place's state, as the research files name it (else the world's own state). */
 function stateOf(
   api: CoreAPI,
@@ -75,11 +118,11 @@ function stateOf(
 ): { key: string; name: string } {
   const worldKey = api.state.placeMetadata?.placeKey;
   const key =
-    lifePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
-    (worldKey ? lifePlaceByKey(worldKey)?.stateJurisdictionKey : undefined);
+    corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
+    (worldKey ? corePlaceByKey(worldKey)?.stateJurisdictionKey : undefined);
   if (!key) throw new Error(`No state recorded for ${placeId}`);
   const aliases = areaNames.aliases as Record<string, string>;
-  return { key, name: aliases[key] ?? STATES[key.slice(3)]!.name };
+  return { key, name: aliases[key] ?? coreStateName(key.slice(3))! };
 }
 
 /** Births per woman a year by age band: the state's 2024 rate, else 2023, else national. */
@@ -93,7 +136,7 @@ function birthRates(stateName: string): Map<[number, number], number> {
   const rates = new Map<[number, number], number>();
   for (const band of Object.keys(national)) {
     const [low, high] = band.split("-").map(Number) as [number, number];
-    if (low < YOUNGEST_AGE_AT_BIRTH) continue;
+    if (low < YOUNGEST_PARENT_AGE) continue;
     const per1000 =
       areas.map((area) => area?.ageRates[band]).find((rate) => rate != null) ??
       national[band] ??
@@ -181,8 +224,8 @@ function partnerOf(
     (row) =>
       row.id !== woman.id &&
       woman.familyIds.includes(row.id) &&
-      ageOf(row, date) >= YOUNGEST_AGE_AT_BIRTH &&
-      Math.abs(ageOf(row, date) - age) < YOUNGEST_AGE_AT_BIRTH,
+      ageOf(row, date) >= YOUNGEST_PARENT_AGE &&
+      Math.abs(ageOf(row, date) - age) < YOUNGEST_PARENT_AGE,
   );
 }
 
@@ -205,7 +248,7 @@ function birthStanding(
   const children = record.people.filter(
     (row) =>
       woman.familyIds.includes(row.id) &&
-      age - ageOf(row, date) >= YOUNGEST_AGE_AT_BIRTH,
+      age - ageOf(row, date) >= YOUNGEST_PARENT_AGE,
   ).length;
   const wages = record.jobs.reduce((n, job) => n + job.wageDailyMinor, 0);
   const ratio = (wages * p("daysPerMeanYear")) / median;
@@ -381,7 +424,12 @@ export function applyCountedFlows(
     // summed; whole households leave, those least held in place first.
     const job = moveParameter("movesJobHold"),
       kids = moveParameter("movesChildrenHold");
-    const leaving = (countedHouseholdsByPlace(core).get(placeId) ?? [])
+    // Where counted moves run (one model, two tiers), people move from
+    // causes there; this keeps births and deaths only.
+    const movesFromCauses = core.modules.has(COUNTED_MOVES_MODULE_ID);
+    const leaving = (
+      movesFromCauses ? [] : (countedHouseholdsByPlace(core).get(placeId) ?? [])
+    )
       .map((record) => {
         const adults = record.people.filter(
           (row) => ageOf(row, date) >= adultAge,
@@ -442,8 +490,9 @@ export function applyCountedFlows(
     // same ranking); who they are is generated from the world's seed.
     const now = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const count = now.reduce((n, record) => n + record.people.length, 0);
-    row.expected.arrivals =
-      monthlyShare(movers.arrivalsPerResidentPerYear, months) * count;
+    row.expected.arrivals = movesFromCauses
+      ? 0
+      : monthlyShare(movers.arrivalsPerResidentPerYear, months) * count;
     carry.arrivals += row.expected.arrivals;
     const shapes = leaving.length ? leaving.map((entry) => entry.record) : now;
     for (let index = 0; shapes.length && carry.arrivals >= 1; index++) {
@@ -471,6 +520,7 @@ export function applyCountedFlows(
     row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
     store.table(rowsTable).put(row as unknown as ModuleRow);
     store.table(carryTable).put({ id: placeId, ...carry });
+    notifyCountedDeaths(api, row);
   }
 }
 

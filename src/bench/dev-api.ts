@@ -5,7 +5,7 @@
  */
 import type { IncomingMessage } from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   DevMode,
   type DevStep,

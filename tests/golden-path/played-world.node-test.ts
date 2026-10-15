@@ -34,9 +34,10 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   residentCounts,
+  residentPerson,
   residentsRuntime,
 } from "../../src/core2/modules/residents";
 import { departuresOf } from "../../src/core2/modules/moves";
@@ -604,13 +605,37 @@ function playWorld(seed: string) {
       (f) => f.personId !== incumbentId && core.people.has(f.personId),
     );
   });
+  // The candidacy engine is calibrated so that few adults run (the stay-out
+  // pull sits above almost everyone's run score: a small town can have no
+  // challenger in a year with nothing wrong, as in Campbellsville, Kentucky
+  // and Venersborg, Washington). So the check is the mechanism: someone other
+  // than the incumbent who decided to run must be on the ballot.
+  const heldIds = new Set(held.map((c) => String(c.id)));
+  const incumbentIds = new Set(
+    held.map((c) => {
+      const incumbent = incumbentOf(api, String(c.id));
+      return incumbent
+        ? (incumbent.personId ?? officialCandidateId(incumbent.id))
+        : undefined;
+    }),
+  );
+  const wantedToRun = rowsOf(core, "candidacy", "decisions").filter(
+    (d) =>
+      d.run &&
+      heldIds.has(String(d.contestId)) &&
+      !incumbentIds.has(String(d.personId)),
+  );
   verdicts["a named challenger runs"] = !held.length
     ? unobserved("no race was decided in the run")
     : challengers.length
       ? pass(`${challengers.length} named challengers in ${held.length} races`)
-      : fail(
-          `In ${held.length} races decided in the run, no named person other than the incumbent was on the ballot. Who runs (src/core2/modules/candidacy.ts) must have named adults weigh running when a seat comes up.`,
-        );
+      : !wantedToRun.length
+        ? unobserved(
+            `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+          )
+        : fail(
+            `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+          );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(
@@ -725,6 +750,41 @@ function playWorld(seed: string) {
           `${oversized.length} of ${foundings.length} new businesses borrowed more than ${LOAN_TO_FOUNDER_CASH} times the founder's cash (largest loan $${(Math.max(...oversized.map((f) => f.loanMinor)) / 100).toFixed(0)}). Business (src/core2/modules/business.ts) must size a founding to the founder's means.`,
         );
 
+  // Break 16: a pay change (a wage floor) never reaches an ended job, and the
+  // counted books keep no open row for a job that is a full record now.
+  const staleRows = [...(residentsRuntime(core)?.jobs.values() ?? [])].filter(
+    (job) => job.endsAt === undefined && core.jobs.has(job.id),
+  );
+  const raisedAfterEnd = [...core.jobs.values()].filter((job) =>
+    job.endsAt === undefined
+      ? false
+      : (core.work.payChanges.get(job.id) ?? []).some(
+          (change) => change.date > job.endsAt!,
+        ),
+  );
+  verdicts["a wage floor never reaches an ended job"] =
+    !staleRows.length && !raisedAfterEnd.length
+      ? pass(
+          "no counted row stands for a full job, and no pay change followed an ending",
+        )
+      : fail(
+          `${staleRows.length} jobs are open in the counted books and also full records (first ${staleRows[0]?.id}), and ${raisedAfterEnd.length} jobs were re-rated after they ended (first ${raisedAfterEnd[0]?.id}). A job that ends must end in both tables (src/core2/modules/residents.ts releaseResidentHousehold).`,
+        );
+
+  // Break 17: no open job, and no seeker, names a person who is gone (died or
+  // moved away with their household), so a layoff never reads a missing person.
+  const goneJobs = [...(residentsRuntime(core)?.jobs.values() ?? [])].filter(
+    (job) =>
+      job.endsAt === undefined &&
+      !core.people.has(job.personId) &&
+      !residentPerson(core, job.personId),
+  );
+  verdicts["no open job names a person who is gone"] = !goneJobs.length
+    ? pass("every open counted job has a person in the town")
+    : fail(
+        `${goneJobs.length} open counted jobs name a person who is gone (first ${goneJobs[0]?.id} at ${goneJobs[0]?.organizationId}, ${goneJobs[0]?.personId}). Removing a counted person or household must end every job row they hold, including jobs they were hired into (src/core2/modules/residents.ts countedJobIdsOf).`,
+      );
+
   return {
     summary: {
       seed,
@@ -799,6 +859,8 @@ for (const [index, seed] of seeds.entries()) {
     alive("homes have values and rents");
     alive("pay reaches a spendable account");
     alive("a new business's loan fits its founder");
+    alive("a wage floor never reaches an ended job");
+    alive("no open job names a person who is gone");
     alive("the engine loads under its memory ceiling");
     alive("the opened town is under its memory ceiling");
     alive("the town's memory grows under its ceiling");

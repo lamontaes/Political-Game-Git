@@ -12,17 +12,13 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { LAWS_MODULE_ID, openLaws } from "./modules/laws";
 import { openBudgets } from "./modules/budgets";
-import { inForceHere, openLawEffects } from "./modules/law-effects";
+import { inForceHere, openLawReach } from "./law-reach/host";
 import { answerIn } from "./modules/world-legislating";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type { LawRowInput } from "./laws-starting";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -38,7 +34,7 @@ const answered = (state: string) =>
     return a === "yes" || a === "no";
   });
 // Every place, but a state with no researched answer has nothing to load.
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter((k) => answered(k).some(([, q]) => q.answers[k]!.answer === "yes"))
   .sort();
@@ -47,7 +43,7 @@ describe("starting policy answers are law at the opening", () => {
   it("each answer is a state law row in force on day one, and policies in force reach people", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -64,7 +60,7 @@ describe("starting policy answers are law at the opening", () => {
     );
     openLaws(core);
     openBudgets(core);
-    openLawEffects(core);
+    openLawReach(core);
     const api = coreAPI(core);
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
     const yes: string[] = [];

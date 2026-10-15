@@ -53,7 +53,7 @@ export const SCANNED_ROOTS = [
 export const LIST_PICK_ONLY_ROOTS = ["src/player", "src/core2"];
 
 /** The seeded generator itself is where draws are made, not decided. */
-const EXEMPT_FILES = new Set(["src/simulation/rng.ts"]);
+const EXEMPT_FILES = new Set(["src/core2/kernel/rng.ts"]);
 
 const USPS =
   "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC PR GU VI AS MP".split(

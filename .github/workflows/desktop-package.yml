@@ -1,0 +1,121 @@
+name: Desktop packaging (read only)
+
+# Packages the desktop app on real macOS and Windows runners, launches the
+# packaged app and plays the opening through it (scripts/smoke-test.mjs), and
+# uploads the files with checksums. Read only: no signing secrets and no
+# publication. The release workflow publishes; this one only proves.
+
+# Pull requests that change the desktop shell only (owner, Oct 14, 2026): the
+# game's screens change many times a day, and the release's own package step
+# is the Mac build of the game.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "desktop/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            command: "node scripts/package.mjs --mac --arm64"
+            name: mac-arm64
+          - os: windows-latest
+            command: "node scripts/package.mjs --win --x64"
+            name: win-x64
+            optional: true
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    # The owner plays on a Mac; Windows may stay red until early access.
+    continue-on-error: ${{ matrix.optional == true }}
+    steps:
+      - name: Check out the exact revision without write credentials
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install game dependencies
+        run: npm ci
+
+      - name: Build the game
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+          PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
+        run: npm run build
+
+      - name: Install desktop shell dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: desktop
+
+      - name: Prove the shell and update decisions
+        run: npm test
+        working-directory: desktop
+
+      - name: Stage the compiled game and its play server
+        run: node scripts/stage.mjs
+        working-directory: desktop
+
+      - name: Package (unsigned)
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: ${{ matrix.command }}
+        working-directory: desktop
+
+      - name: Install and play the packaged app (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: desktop
+        run: |
+          $setup = Get-ChildItem "release-artifacts" -Filter "*Setup*.exe" | Select-Object -First 1
+          if (-not $setup) { throw "No NSIS installer found" }
+          $dest = Join-Path $env:RUNNER_TEMP "ocd-install"
+          $proc = Start-Process -FilePath $setup.FullName -ArgumentList "/S","/D=$dest" -PassThru -Wait
+          if ($proc.ExitCode -ne 0) { throw "Installer exited $($proc.ExitCode)" }
+          $exe = Join-Path $dest "Our Civic Duty.exe"
+          if (-not (Test-Path $exe)) { throw "Installed executable missing at $exe" }
+          node scripts/smoke-test.mjs --app $exe --shell
+
+      - name: Play the packaged app (macOS)
+        if: runner.os == 'macOS'
+        working-directory: desktop
+        run: node scripts/smoke-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty" --shell
+
+      - name: Record checksums and source identity
+        shell: bash
+        working-directory: desktop
+        run: |
+          set -euo pipefail
+          cd release-artifacts
+          rm -rf mac-arm64 win-unpacked builder-debug.yml || true
+          {
+            echo "source revision: $(git rev-parse HEAD)"
+            echo "workflow run: $GITHUB_RUN_ID"
+            cat ../staged/build-identity.json
+            shasum -a 256 * 2>/dev/null || sha256sum *
+          } > SHA256SUMS-${{ matrix.name }}.txt
+          cat SHA256SUMS-${{ matrix.name }}.txt
+          ls -la
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: desktop-${{ matrix.name }}
+          path: desktop/release-artifacts/*
+          retention-days: 14

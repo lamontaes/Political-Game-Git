@@ -25,10 +25,7 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../../simulation/life-places";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import {
   municipalFilingDeadline,
   nextElectionForSeat,
@@ -85,7 +82,6 @@ export interface RequirementCheck {
     | "already-filed"
     | "minimum-age"
     | "residency"
-    | "registered-voter"
     | "party-member"
     | "term-limit";
   readonly met: boolean;
@@ -291,7 +287,7 @@ export function openElections(core: CoreState): void {
     registerModule(core, ELECTIONS_MODULE);
   registerElectorate(core);
   const api = coreAPI(core);
-  const place = lifePlaceByKey(api.state.placeMetadata.placeKey ?? "");
+  const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
   if (!place?.stateJurisdictionKey) throw new Error("Elections need the town.");
   const stateKey = place.stateJurisdictionKey;
   const geoid = place.sourceGeoid ?? place.key;
@@ -584,17 +580,9 @@ export function checkEligibility(
       source: rules.source,
     },
   ];
-  if (rules.registeredVoter) {
-    // stopgapId: SG-GOV-voter-registration-assumed
-    api.stopgap("SG-GOV-voter-registration-assumed");
-    checks.push({
-      rule: "registered-voter",
-      met: age >= 18 && resident,
-      required: "registered to vote here",
-      actual: age >= 18 && resident ? "registered" : "not registered here",
-      source: rules.source,
-    });
-  }
+  // Registration is research metadata, not a modeled status. The game has
+  // no separate registration step (AGENTS.md: no paperwork); do not report
+  // an adult resident as registered without a registration record.
   // Filing under a party's label takes membership in it: the person's own
   // tie to that party (joining reads their views against the party's
   // positions, in the parties engine). Anyone else files as an independent,
@@ -683,7 +671,7 @@ export function fileCandidacy(
 
 /** The state a place lies in, from the place records. */
 function stateOfPlace(placeId: string): string | null {
-  const place = lifePlaceByJurisdictionId(placeId as never);
+  const place = corePlaceByJurisdictionId(placeId as never);
   // An official kept at the state level is placed at the state itself.
   if (!place) return /^US-[A-Z]{2}$/.test(placeId) ? placeId : null;
   return place.stateJurisdictionKey ?? null;

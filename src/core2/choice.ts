@@ -70,7 +70,10 @@ function kindLean(
   const lean: KindLean = { sum: new Map(), perKind: p("zero") };
   const add = (kind: string, value: number) =>
     lean.sum.set(kind, (lean.sum.get(kind) ?? p("zero")) + value);
-  for (const [id, raw] of Object.entries(actor.traits)) {
+  // for...in also reads a counted person's traits, which are read in place
+  // from their group's columns (one model, two tiers).
+  for (const id in actor.traits) {
+    const raw = actor.traits[id]!;
     const row = core.data.traitPulls[id];
     if (!row || raw === p("zero")) continue;
     const side = raw > p("zero") ? row.high : row.low;

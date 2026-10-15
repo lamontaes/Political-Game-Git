@@ -5,7 +5,7 @@
  * demand reach every business as dated conditions; a decision reprices
  * prime-linked credit lines on its effective date.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";
@@ -114,7 +114,13 @@ function firstOfNextMonth(date: string, p: MacroParameter): string {
   return `${shiftMonth(monthKey(date), p("one"), p)}-01`;
 }
 
-/** Paid income in the town's places over the last twelve months against the twelve before, annual percent; null when not yet recorded. */
+/**
+ * Paid income in the town's places over the latest months against the same
+ * months a year earlier, annual percent. Twelve months against twelve when
+ * the records reach that far back; otherwise the longest run of at least a
+ * quarter that has a year-earlier run, so a month's count of paydays doesn't
+ * read as growth. Null before even that is recorded.
+ */
 function townIncomeGrowth(
   api: CoreAPI,
   places: readonly string[],
@@ -127,20 +133,27 @@ function townIncomeGrowth(
       const value = paid.get(`${at}:${place}`);
       return value === undefined ? total : (total ?? p("zero")) + value;
     }, null);
-  // Twelve months against the twelve before, so a month's count of paydays doesn't read as growth.
-  const year = (end: string) => {
+  const run = (end: string, months: number) => {
     let total = p("zero");
-    for (let k = 0; k < p("macroMonthsPerYear"); k++) {
+    for (let k = 0; k < months; k++) {
       const value = sum(shiftMonth(end, -k, p));
       if (value === null) return null;
       total += value;
     }
     return total;
   };
-  const now = year(month),
-    before = year(shiftMonth(month, -p("macroMonthsPerYear"), p));
-  if (now === null || before === null || before <= p("zero")) return null;
-  return (now / before - p("one")) * p("macroHundred");
+  const yearAgo = shiftMonth(month, -p("macroMonthsPerYear"), p);
+  for (
+    let months = p("macroMonthsPerYear");
+    months >= p("macroTownGrowthMinMonths");
+    months--
+  ) {
+    const now = run(month, months),
+      before = run(yearAgo, months);
+    if (now !== null && before !== null && before > p("zero"))
+      return (now / before - p("one")) * p("macroHundred");
+  }
+  return null;
 }
 
 function publishConditions(
@@ -155,11 +168,12 @@ function publishConditions(
     hundred = api.parameter("macroHundred");
   const regional = regionalRegistered(api);
   for (const placeId of state.placeIds) {
-    // The place's region moves its pay and demand against the nation's; price parities hold.
+    // The place's region moves its pay, demand and price level against the nation's.
     const region = regional
       ? regionalFactors(api, placeId, opening, row)
-      : { wage: one, demand: one };
-    const prices = row.priceIndex / opening.priceIndex,
+      : { wage: one, demand: one, price: one };
+    // The nation's prices, moved by the region's price level against the nation's.
+    const prices = (row.priceIndex / opening.priceIndex) * region.price,
       demand =
         ((one + row.outputGapPct / hundred) /
           (one + opening.outputGapPct / hundred)) *
@@ -232,14 +246,14 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     shiftMonth(month, -p("one"), p),
     p,
   );
-  // No recorded town year yet: the town grows with the nation and adds nothing.
-  const neutral = p("macroTrendGrowthPct") + p("macroInflationAnchorPct");
+  // Without comparable paid-income records, omit local feedback and its observation.
+  if (growth === null) api.stopgap("SG-WORLD-macro-income-history");
   // The federal budget's change from its base, through the fiscal multiplier.
   const fiscal = publicBudgetImpulse(api);
   const row = stepMacroMonth(
     previous,
     state.policyRatePct,
-    growth ?? neutral,
+    growth ?? undefined,
     state.townResidents,
     (key) =>
       key === "macroPublicBudgetImpulse" && fiscal ? fiscal.impulse : p(key),
@@ -247,7 +261,6 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
   // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
   months.put({
     ...(row as unknown as { id: string }),
-    ...(growth !== null ? { townIncomeGrowthPct: growth } : {}),
     ...(fiscal
       ? {
           publicBudgetImpulse: fiscal.impulse,
@@ -494,6 +507,16 @@ function takeEffect(api: CoreAPI, meetingId: string): void {
         toRate,
       });
   }
+}
+
+/** The annual rate a line with this spread is charged today: the prime rate (policy rate plus the bank prime spread) plus the line's own spread. Borrowers weigh this same rate. */
+export function quotedLineRate(api: CoreAPI, spreadPct: number): number {
+  const state = readState(api) ?? open(api);
+  return lineRate(
+    state.policyRatePct + api.parameter("macroPrimeSpreadPct"),
+    { spreadPct } as LinkedLineRow,
+    params(api),
+  );
 }
 
 /** Ties a recorded credit line to the prime rate plus its own spread, repricing it now and at every decision. */

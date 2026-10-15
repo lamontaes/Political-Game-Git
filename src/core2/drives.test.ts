@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import {
@@ -420,9 +420,10 @@ describe("P10 drives and causes", () => {
     const donorBefore = donor.liquidMinor,
       groupBefore = group.liquidMinor,
       sequenceBefore = core.cashJournal.nextSequence;
-    const amount = Math.round(
-      donor.livingCostDailyMinor * p(definition.effectParameter!),
-    );
+    // The gift is a share of the cash above the donor's buffer, scaled by how
+    // strongly they hold the cause (at most the full share).
+    const spare =
+      donor.liquidMinor - donor.livingCostDailyMinor * p("moneyBufferDays");
     // The carer's own decision formed this drive from the death; the gift serves it.
     const drive = drivesReport(core).drives.find(
       (row) => row.personId === carerId,
@@ -441,8 +442,11 @@ describe("P10 drives and causes", () => {
       p("one"),
       undefined as never,
     );
+    const amount = donorBefore - donor.liquidMinor;
     expect(amount).toBeGreaterThan(p("zero"));
-    expect(donor.liquidMinor).toBe(donorBefore - amount);
+    expect(amount).toBeLessThanOrEqual(
+      Math.floor(spare * p(definition.effectParameter!)),
+    );
     expect(group.liquidMinor).toBe(groupBefore + amount);
     expect(core.cashJournal.nextSequence).toBe(sequenceBefore + p("one"));
   });
