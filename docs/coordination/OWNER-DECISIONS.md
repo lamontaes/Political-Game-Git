@@ -207,3 +207,5 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 - **Party loyalty data (CTO recommendation; owner to confirm):** do not use the Shor-McCarty dataset (its license forbids commercial use and the game is a commercial product); calibrate state chambers' party loyalty from each legislature's own public roll-call records instead, which are public records.
 - **Before a stopgap or an owner decision is registered, the register is read (owner, Oct 15):** quote the ruling instead of registering a question that was already answered. See AGENTS.md, "Placeholders".
 - **Any agent with repository access may take pool items (owner, Oct 15):** Claude, Codex, Cursor, Antigravity or any other; the pool's claim rule is the only coordination; merging stays with the CTO.
+- **People art:** the layered figure set (art/people-engine/v2/) is the owner's ruling of Oct 15 (he rejected the cut-out people and approved the 'make it once, right' brief); the Oct 12 whole-figure ruling is superseded.
+- **Town size:** the audit could not find the 10,000 cap in current code; the pool item core-town-size-census is to verify first and close if the cap is gone.
