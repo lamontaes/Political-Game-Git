@@ -56,7 +56,8 @@ import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { JOBS_MODULE_ID } from "./jobs";
+import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
+import { BUSINESS_MODULE_ID } from "./business";
 import {
   PLATFORM_QUESTIONS,
   publicOffset,
@@ -233,6 +234,7 @@ export const PRESS_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       outlets: {},
+      employerEnrollment: {},
       staff: { indexes: { byOutlet: { fields: ["outletId"] } } },
       wire: { indexes: { byDate: { fields: ["date"] } } },
       digs: {},
@@ -252,6 +254,7 @@ export const PRESS_MODULE: CoreModule = {
       },
     },
   },
+  onDay: enrollPressEmployers,
   onCalendarWork: (api, work) => {
     if (work.kind === "press-dig") checkClaim(api, work);
     else pressWeek(api, work);
@@ -560,6 +563,87 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   }
   scheduleWeek(api, api.state.date);
   return outletsHere(api);
+}
+
+/** Enroll after the business engine opens, preserving the already recorded publisher. */
+function enrollPressEmployers(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  if (
+    !core.modules.has(BUSINESS_MODULE_ID) ||
+    !core.modules.has(JOBS_MODULE_ID)
+  )
+    return;
+  const business = api.moduleState(BUSINESS_MODULE_ID);
+  if (
+    !business.table("state").get("business:state") ||
+    !api.moduleState(JOBS_MODULE_ID).table("state").get("jobs:state")
+  )
+    return;
+  const enrolled = table(api, "employerEnrollment");
+  for (const outlet of outletsHere(api)) {
+    if (outlet.tier === "national" || enrolled.get(outlet.id)) continue;
+    // SG-PEOPLE-press-employer-enrollment: use the existing records while the
+    // shared business API has no entry point for an already named owner.
+    api.stopgap("SG-PEOPLE-press-employer-enrollment");
+    const anchor = [
+      ...(core.finance.businessesByPlace.get(outlet.placeId) ?? []),
+    ]
+      .map((id) => core.finance.businesses.get(id)!)
+      .find((book) => book.openingTownIncomeMinor > 0);
+    const owner = outlet.ownerId ? core.people.get(outlet.ownerId) : undefined;
+    if (!anchor || !owner?.alive) continue;
+    const jobs = [
+      ...(core.finance.jobsByOrganization.get(outlet.organizationId) ?? []),
+    ]
+      .map((id) => core.jobs.get(id)!)
+      .filter((job) => job.endsAt === undefined);
+    if (!jobs.length || core.finance.businesses.has(outlet.organizationId))
+      continue;
+    const payroll = Math.round(
+      jobs.reduce(
+        (sum, job) =>
+          sum + (job.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear"),
+        0,
+      ),
+    );
+    // SG-PEOPLE-press-outlet-revenue still covers demand and absent supplier
+    // contracts. An actual income anchor prevents manufactured zero demand.
+    api.addBusinessBooks({
+      organizationId: outlet.organizationId,
+      kindId: "information",
+      annualPayrollMinor: payroll,
+      annualDemandMinor: outlet.audienceRevenueMinor,
+      annualOtherCostsMinor: 0,
+      openingTownIncomeMinor: anchor.openingTownIncomeMinor,
+      capacityMinor: outlet.audienceRevenueMinor,
+      price: api.parameter("one"),
+      costContractIds: [],
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: `Press payroll and registered revenue estimate; town income anchor from ${anchor.organizationId}.`,
+        estimatedFrom: "SG-PEOPLE-press-outlet-revenue",
+      },
+    });
+    business.table("owners").put({
+      id: outlet.organizationId,
+      isOwner: true,
+      ownerId: owner.id,
+      since: core.date,
+      basis: "press-recorded-owner",
+      salesThrough: 0,
+      wagesThrough: 0,
+      operatingThrough: 0,
+      retainedMinor: 0,
+    });
+    registerEmployer(api, outlet.organizationId, jobs.length);
+    enrolled.put({
+      id: outlet.id,
+      ownerId: owner.id,
+      incomeAnchorRecordId: anchor.organizationId,
+      date: core.date,
+    });
+  }
 }
 
 /**

@@ -3640,7 +3640,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/press.ts",
     "line": 539,
-    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks.",
+    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks. The estimate also anchors employer demand; nonpayroll supplier contracts are not modeled.",
     "why": "Local advertising needs businesses that choose to advertise, which the business engine (OPUS-WORLD) does not model; the outlet's people must be paid from its own cash now.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
@@ -4415,6 +4415,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-employer-enrollment",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 567,
+    "whatItFakes": "Press enrolls its already recorded owner directly in the business owner table because the shared business module has no public enrollment function for an existing owner.",
+    "why": "The overnight order requires the smallest registered stand-in while the business interface is under active work; using the normal opening heuristic would incorrectly make a reporter the owner.",
+    "addedBy": "Session D",
+    "addedAt": "2026-10-15",
+    "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
     "status": "open"
   }
 ]

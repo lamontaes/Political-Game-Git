@@ -67,6 +67,22 @@ describe("the press in the played world", () => {
         expect(job?.hourlyMinor ?? 0, where).toBeGreaterThan(0);
       }
     }
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    for (const outlet of outlets.filter((o) => o.tier !== "national")) {
+      const books = core.finance.businesses.get(outlet.organizationId);
+      expect(books?.openingTownIncomeMinor, where).toBeGreaterThan(0);
+      expect(
+        api.moduleState("business").table("owners").get(outlet.organizationId),
+        where,
+      ).toMatchObject({
+        ownerId: outlet.ownerId,
+        basis: "press-recorded-owner",
+      });
+      expect(
+        api.moduleState("jobs").table("employers").get(outlet.organizationId),
+        where,
+      ).toBeDefined();
+    }
     advanceCore(core, addDays(makeIsoDate(core.date), 120));
     const stories = outlets.flatMap((o) => storiesPrinted(api, o.id));
     expect(stories.length, where).toBeGreaterThan(0);
