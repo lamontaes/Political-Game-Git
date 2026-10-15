@@ -85,3 +85,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 8. Powers by level — `pool/powers-by-level` (second Session D; read the existing powers catalog before bill introduction and executive orders, distinguishing county/city/state/federal jurisdictions; item 7 remains Session A’s active law-reach work).
 
 - 9. Health death records reaching news — `pool/death-news-records` (first Session D; trace audit README-TRACE-2 defect 6, health event publication and existing news readers only; no director or English edits).
+
+- 9. Background proposal scope — `pool/proposal-scope` (second Session D; the played year in #4360 found Congress proposing state-specific questions because world-legislating reads a sparse permission table instead of the question-scope catalog; producer filtering only, no director/English edits).
