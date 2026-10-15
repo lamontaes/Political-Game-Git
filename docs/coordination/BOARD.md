@@ -79,3 +79,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 5. Green-suite independent views-ordering failure — `pool/green-suite-views` (second Session D; root cause from #4309, src/core2/views-lean.test.ts and its electorate reader. Earlier remaining stopgaps overlap active law/election, jobs/housing/core and press work; office journal depends on Session C office records and Words director work; return to those last).
 
 - 6. Oct 10–11 stale pool PR disposition — `pool/stale-pr-disposition` (second Session D; review pool/*, english/*, codex/session35-* and cto/title-people-national-scenes, record superseding or carried-forward locations, then close covered PRs without deleting branches).
+
+- After the blocked/claimed pool: cause-group founding — `pool/cause-group-founding` (first Session D; SG-P10-cause-group-founding, check the existing organizing/membership rule against the owner's no-paperwork order; earlier law-reach missing mechanics are Session A, other drives civic acts depend on active GOV work).
