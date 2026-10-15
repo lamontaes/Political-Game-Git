@@ -316,7 +316,7 @@ function readWorld(place: Place): {
       unit && /board$/.test(String(office.kind))
         ? boardGoverningBodyRules(unit)
         : null;
-    if (board?.bodyName) return `${gov} ${lowerFirst(board.bodyName)}`;
+    if (board?.bodyName) return `${gov} ${board.bodyName}`;
     const title = String(office.title).replace(/\s+members?$/i, "");
     const noun =
       /council|board|commission|committee|trustees|selectm|supervisors/i.test(
