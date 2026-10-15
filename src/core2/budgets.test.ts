@@ -207,6 +207,15 @@ describe(
         const api = coreAPI(core);
         const answer = lawInForce(api, "sales-tax");
         if (!((answer.value ?? 0) > 0)) continue;
+        // What each treasury has taken in so far: the tax is checked against
+        // what came in, not the balance, because the treasury also pays out
+        // (officials' pay falls on the same first of the month).
+        const takenIn = (organizationId: string) =>
+          core.cashJournal.totalsByOwner.get(organizationId)
+            ?.grossCreditMinor ?? 0;
+        const before = new Map(
+          govs.map((g) => [g.id, takenIn(g.organizationId)]),
+        );
         advanceCore(
           core,
           new Date(Date.parse(`${core.date}T00:00:00Z`) + 20 * 86_400_000)
@@ -229,11 +238,12 @@ describe(
           shares.reduce((a, b) => a + b, 0),
           where,
         ).toBeCloseTo(combined, 6);
-        // Every collected dollar is in its treasury.
+        // Every collected dollar came into its treasury.
         for (const t of taxes) {
           const gov = govs.find((g) => `sales-tax:${g.id}` === t.id)!;
           expect(
-            core.organizations.get(gov.organizationId)!.liquidMinor,
+            takenIn(gov.organizationId) - before.get(gov.id)!,
+            `${where}: ${gov.name} took in less than the tax collected`,
           ).toBeGreaterThanOrEqual(t.collectedMinor);
         }
         govReport(
