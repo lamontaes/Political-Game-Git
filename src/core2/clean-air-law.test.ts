@@ -106,7 +106,12 @@ it("charges a nonattainment county's emitters with or without the plan, citing t
       const governing = lawInForce(api, question).governing;
       expect(governing, where).not.toBeNull();
       const cited = rules();
-      expect(cited.length, where).toBe(federal.length);
+      // Emitters founded meanwhile are charged too; none charged before is dropped.
+      for (const row of federal)
+        expect(
+          cited.map((c) => c.id),
+          where,
+        ).toContain(row.id);
       for (const row of cited) {
         expect(row.source.citation, where).toBe(
           `${governing!.id}: ${String(governing!.source)}; ${baseline}`,
@@ -124,7 +129,11 @@ it("charges a nonattainment county's emitters with or without the plan, citing t
         ).toHaveLength(0);
       // Repealing the plan returns the cost to the federal citation, not to nothing.
       setPlan(0);
-      expect(rules().length, where).toBe(federal.length);
+      for (const row of federal)
+        expect(
+          rules().map((r) => r.id),
+          where,
+        ).toContain(row.id);
       for (const row of rules())
         expect(row.source.citation, where).toBe(baseline);
       expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
