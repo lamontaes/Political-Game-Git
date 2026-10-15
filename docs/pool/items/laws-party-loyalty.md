@@ -3,11 +3,11 @@ id: laws-party-loyalty
 title: "Party loyalty in state chambers"
 area: elections
 kind: owner-decision
-priority: 3
-status: blocked
+priority: 2
+status: open
 claimed-by:
 pr:
-blocked-on: "owner confirmation of the roll-call route"
+blocked-on:
 milestone:
 source: "overnight pool item 12; reissue closed note"
 ---
@@ -20,4 +20,4 @@ source: "overnight pool item 12; reissue closed note"
 
 **Files.** none
 
-**Notes.** None.
+**Notes.** Owner ruling (Oct 15): Shor-McCarty may calibrate the state-chamber party-loyalty parameter; nothing ships, no citation; one calibration input weighted against roll calls; legal check on the M7 list.

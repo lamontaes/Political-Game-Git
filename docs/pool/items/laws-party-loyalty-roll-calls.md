@@ -3,11 +3,11 @@ id: laws-party-loyalty-roll-calls
 title: "Party loyalty calibrated from each legislature's public roll calls"
 area: laws
 kind: research
-priority: 3
-status: blocked
+priority: 2
+status: open
 claimed-by:
 pr:
-blocked-on: laws-party-loyalty
+blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
 ---
@@ -20,4 +20,4 @@ source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
 
 **Files.** src/rules party loyalty data
 
-**Notes.** CTO recommendation; owner to confirm. Blocked on owner confirmation of the roll-call route.
+**Notes.** Owner ruling (Oct 15): Shor-McCarty may calibrate the state-chamber party-loyalty parameter; nothing ships, no citation; one calibration input weighted against roll calls; legal check on the M7 list.

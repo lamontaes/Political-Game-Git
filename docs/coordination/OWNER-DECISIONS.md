@@ -209,3 +209,5 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 - **Any agent with repository access may take pool items (owner, Oct 15):** Claude, Codex, Cursor, Antigravity or any other; the pool's claim rule is the only coordination; merging stays with the CTO.
 - **People art:** the layered figure set (art/people-engine/v2/) is the owner's ruling of Oct 15 (he rejected the cut-out people and approved the 'make it once, right' brief); the Oct 12 whole-figure ruling is superseded.
 - **Town size:** the audit could not find the 10,000 cap in current code; the pool item core-town-size-census is to verify first and close if the cap is gone.
+
+- **Party loyalty calibration (owner, Oct 15):** the Shor-McCarty state legislative data may be used to calibrate the state-chamber party-loyalty parameter. Nothing from it ships in the game and no in-game citation is needed; it is one calibration input, weighted against each legislature's own roll-call records. The CTO's note: the license is non-commercial, so the use stays on the early-access legal-check list (M7) for one lawyer's look, like every other source.
