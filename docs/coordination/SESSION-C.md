@@ -8,22 +8,22 @@ Control a state legislator or governor through the bench player. Session and dis
 
 ## Measured play
 
-Seed `f17a65f327021d58` drew Homer, Alaska. The played year ran from January 20, 2025 to January 20, 2026 in 78.9 seconds. There were 34 state clock stops, 392 member acts, and 282 recorded view changes from the address. The first month paid the member $3,377 in per diem. The treasury read the payments before spending the rest of its budget.
+Seed `f17a65f327021d58` drew Homer, Alaska. The played year ran from January 20, 2025 to January 20, 2026 in 78.9 seconds. The shared calendar and address produced 34 state clock stops, 392 member acts, and 282 recorded view changes; [draft #4330](https://github.com/lamontaes/Political-Game-Git/pull/4330) records their IDs from `scripts/office-day-state/year.ts` at `0e38a27f21`. The first month paid the member $3,377 for eleven attended days at $307 a day, from the Alaska per-diem row; draft #4330 names the payment record. The treasury read the payments before spending the rest of its budget.
 
 The governor’s budget proposal found a sponsor, then failed on the recorded votes. Item vetoes passed an edge test but were not reached in this played year. No passage or veto outcome was forced.
 
 ## Assignment
 
 - Order 1: integration built; final checks and remaining proof in progress. Local and federal branches were already ancestors of main. The state branch’s separate stops and desk rule are replaced.
-- Order 2: election and legislature defects next.
-- Order 3: federal candidates and empty races next; fetched #4256 for its proven state work.
-- Pool: not claimed; the assignment is not complete.
+- Order 2: draft #4343 contains the five defect fixes; jurisdiction incompatibility law remains estimated and needs completion.
+- Order 3: draft #4350 rebuilds the wider candidate pool and congressional vacancy path; empty-race legal coverage and ordinary-play proof remain incomplete.
+- Pool: drafts #4357 and #4358 are parked. No further pool work until all three Session C orders are complete. The earlier move to the pool was premature.
 
 ## Limits and failed checks
 
 The first play script skipped beyond its intended handoff; its calendar target now bounds each leg. A fixture read the wrong budget table; the test now reads the actual adopted budget. Per diem initially ran after the treasury close and paid nothing; it now uses the existing budget-line payer hook. A proof import exposed the treasury’s existing import cycle; the script starts through buildBenchWorld.
 
-The item-veto rule retains the imported data’s estimated legal details. Governor appointments retain the registered job-transition limit: candidates must first leave another job. The state branch’s dev-seating helper remains registered. Guard and police decision bodies remain deferred by the owner’s October 14 ruling.
+The item-veto rule now supports reductions, exact override fractions, attendance denominators and joint totals through `src/core2/state-item-veto.ts:46` and `executiveItemVeto` in `src/core2/modules/legislature.ts:3259`. Protected spending restrictions and unresolved legal details remain registered. The October 15 follow-up run kept the same seed and dates and added ordinary negotiations. Its output in `/tmp/session-c-veto-year.log` records 28 accepted offers and the proposal’s failed status; no item veto reached the desk. Governor appointments retain the registered job-transition limit: candidates must first leave another job. The state branch’s dev-seating helper remains registered. Guard and police decision bodies remain deferred by the owner’s October 14, 2026 ruling in `docs/coordination/OWNER-DECISIONS.md:60`.
 
 ## Method
 
@@ -35,4 +35,4 @@ A read-only civic-report-reviewer helper reviewed the PR text under the reportin
 
 The six related test files produced 29 passes and five failures. Both federal vote failures reproduce on clean main with the same seed. All three trait failures also reproduce on clean main; main additionally fails the stale coverage-table check.
 
-The same speed script measured 73.117 seconds on main and 78.428 seconds here, a 7.3% increase. Item-veto limits remain registered as open.
+The same speed script measured 73.117 seconds on base `1977d40995` and 78.428 seconds at `0e38a27f21`, a 7.3% increase. These speed measurements precede the reduction and attendance changes. Item-veto limits remain registered as open.
