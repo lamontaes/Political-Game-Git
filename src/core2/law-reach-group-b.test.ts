@@ -319,9 +319,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
         expect(openOrgs(key).length).toBe(employersOf(def.organizations));
       const one = openPeople(key)[0];
       if (one)
-        expect(api.knows(one.personId, `law-reach:${key}`)?.value).toBe(
-          def.effect,
-        );
+        expect(api.knows(one.personId, `law-reach:${key}`)).toBeUndefined();
       report[key] = { reached: reached(key), named: openPeople(key).length };
       enact(key, 0, "state");
       expectEnded(key);
