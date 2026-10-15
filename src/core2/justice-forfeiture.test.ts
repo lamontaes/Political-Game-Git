@@ -1,0 +1,133 @@
+/**
+ * A bribery conviction forfeits the bribe money the defendant took, before the
+ * fine (pool: gov-forfeiture-of-the-bribe-at-sentencing-sg). In a played
+ * world, rich residents offer large bribes to the sitting officials, some
+ * take them, and the prosecutor's cases run their course; each convicted
+ * taker's sentence carries the proceeds, and the forfeiture is a journal
+ * entry from the official's cash to the treasury ahead of the fine.
+ */
+import { createHash, randomBytes } from "node:crypto";
+import { expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
+import {
+  CORRUPTION_MODULE_ID,
+  considerBribe,
+  type CrimeRecord,
+} from "./modules/corruption";
+import { JUSTICE_MODULE_ID, type SentenceRow } from "./modules/justice";
+import { lawChain } from "./modules/laws";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { coreAPI } from "./state";
+
+const ATTEMPTS = 3;
+const DAYS = 150;
+
+function play(seed: string) {
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
+  const api = coreAPI(core);
+  const terms = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .rows() as unknown as TermRow[];
+  const alive = (id: string) =>
+    core.people.get(id)?.alive &&
+    core.cashJournal.residualAccountByOwner.has(id);
+  const members = [
+    ...new Set(
+      terms
+        .filter(
+          (t) => t.status === "serving" && t.personId && alive(t.personId),
+        )
+        .map((t) => t.personId!),
+    ),
+  ].slice(0, 12);
+  const rich = [...core.people.values()]
+    .filter(
+      (person) =>
+        person.alive &&
+        person.tier !== "husk" &&
+        !members.includes(person.id) &&
+        alive(person.id),
+    )
+    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
+    .slice(0, 15);
+  // The only forced part is the offers; reports, charges, pleas, trials and
+  // sentences are the engines' own.
+  for (const offerer of rich)
+    for (const official of members)
+      considerBribe(api, {
+        offererId: offerer.id,
+        officialId: official,
+        stakeMinor: 50_000_000,
+        subjectId: `favor:${offerer.id}:${official}`,
+      });
+  advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
+  const sentences = api
+    .moduleState(JUSTICE_MODULE_ID)
+    .table("sentences")
+    .rows() as unknown as SentenceRow[];
+  return { core, api, sentences };
+}
+
+it("forfeits the bribe money a convicted official took, to the treasury, before the fine", () => {
+  let last = "";
+  for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
+    const seed = createHash("sha256")
+      .update(randomBytes(16))
+      .digest("hex")
+      .slice(0, 16);
+    const { core, api, sentences } = play(seed);
+    const where = `${lawChain(api).placeName}, seed ${seed}`;
+    last = where;
+    const crimes = api
+      .moduleState(CORRUPTION_MODULE_ID)
+      .table("crimes")
+      .rows() as unknown as CrimeRecord[];
+    const fines = api.moduleState(JUSTICE_MODULE_ID).table("fines");
+    const forfeits = sentences.filter((s) => s.forfeitureMinor > 0);
+    if (!forfeits.length) continue;
+
+    for (const sentence of sentences) {
+      // What the defendant took, named by the crime records behind the case.
+      const took = crimes
+        .filter((c) => c.taken && c.officialId === sentence.personId)
+        .filter((c) => c.date <= sentence.date)
+        .reduce((sum, c) => sum + c.amountMinor, 0);
+      expect(
+        sentence.forfeitureMinor,
+        `${where} ${sentence.id}`,
+      ).toBeLessThanOrEqual(took);
+      expect(sentence.forfeiturePaidMinor).toBeLessThanOrEqual(
+        sentence.forfeitureMinor,
+      );
+      // Someone who only offered took no money and forfeits none.
+      if (!took)
+        expect(sentence.forfeitureMinor, `${where} ${sentence.id}`).toBe(0);
+      const record = fines.get(`forfeiture:${sentence.id}`) as unknown as
+        { postings: { deltaMinor: number }[] } | undefined;
+      if (sentence.forfeiturePaidMinor > 0) {
+        expect(record, `${where} ${sentence.id}`).toBeDefined();
+        expect(record!.postings.reduce((n, x) => n + x.deltaMinor, 0)).toBe(0);
+        expect(Math.max(...record!.postings.map((x) => x.deltaMinor))).toBe(
+          sentence.forfeiturePaidMinor,
+        );
+      }
+    }
+    // A convicted taker's forfeiture is the whole of what they took in the
+    // case, and the fine is collected only from what is left.
+    const paying = forfeits.find((s) => s.forfeiturePaidMinor > 0)!;
+    expect(paying.forfeiturePaidMinor, where).toBe(paying.forfeitureMinor);
+    expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
+      core.cashJournal.totals.grossCreditMinor,
+    );
+    return;
+  }
+  throw new Error(
+    `No taker was convicted in ${ATTEMPTS} worlds (last: ${last}).`,
+  );
+}, 1_800_000);
