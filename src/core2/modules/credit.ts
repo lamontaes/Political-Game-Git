@@ -9,7 +9,11 @@
 import islandAreas from "../data/island-areas.json" with { type: "json" };
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
-import { bankBalances, reviewDeposits } from "../credit-deposits";
+import {
+  bankBalances,
+  releaseGroupSavings,
+  reviewDeposits,
+} from "../credit-deposits";
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
@@ -472,6 +476,21 @@ function lineTerms(
   };
 }
 
+/** A counted household leaving or filled in takes its share of its group's deposit (see releaseGroupSavings). */
+function holdSavings(api: CoreAPI): void {
+  const rt = residentsRuntime(core(api)),
+    bank = bankOf(api);
+  if (!rt || !bank || rt.releaseSavings) return;
+  rt.releaseSavings = (group, people) =>
+    releaseGroupSavings(api, depositTables(api), bank, group, people, {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: creditData.source.citation,
+      estimatedFrom:
+        "A household's share of its group's deposit at the town bank, by its people.",
+    });
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -779,6 +798,7 @@ export const CREDIT_MODULE: CoreModule = {
     scheduleReview(api);
   },
   onDay(api) {
+    holdSavings(api);
     if (store(api).table("banks").get("credit:bank")) return;
     const bank = [...core(api).organizations.values()].find(
       (row) => row.kind === creditData.bankKind,
@@ -1184,6 +1204,7 @@ function countedApplications(
   // Summed pulls keep their carry in the jobs engine: without it, the wider population doesn't apply.
   if (!rt || room <= 0 || !c.modules.has("jobs")) return room;
   const store_ = rt.store;
+  const deposits = depositTables(api).deposits;
   const groupPeople = new Map<number, number>();
   const shareOf = (group: number) => {
     let n = groupPeople.get(group);
@@ -1206,9 +1227,15 @@ function countedApplications(
     const members = store_.countedMembers(h);
     if (!members.length) continue;
     const people = shareOf(h.group);
+    // The group's money: its fund and its deposit at the town bank.
+    const saved =
+      (
+        deposits.get(`deposit:${store_.groups[h.group]?.id}`) as
+          { balanceMinor: number } | undefined
+      )?.balanceMinor ?? 0;
     const cash =
       people > 0
-        ? (fundBalance(api, rt, h.group) * members.length) / people
+        ? ((fundBalance(api, rt, h.group) + saved) * members.length) / people
         : 0;
     const costs =
       members.reduce((n, m) => n + store_.living[m]!, 0) *

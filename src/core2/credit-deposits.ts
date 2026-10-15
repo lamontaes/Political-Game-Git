@@ -11,7 +11,7 @@ import type { ModuleTable } from "./module-state";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import { residentsRuntime } from "./modules/residents";
-import { fundBalance } from "./counted-money";
+import { fundBalance, peopleInGroup } from "./counted-money";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 export interface DepositRow {
@@ -209,4 +209,72 @@ export function reviewDeposits(
     );
     setSecurities(securities() - sold);
   }
+}
+
+/**
+ * A counted household that leaves town or is filled in takes its share of
+ * its group's deposit: the bank pays it into the group's fund (selling
+ * securities first if its cash won't cover it), where the household's share
+ * of the fund goes with it.
+ */
+export function releaseGroupSavings(
+  api: CoreAPI,
+  tables: { deposits: ModuleTable; securities: ModuleTable },
+  bank: { organizationId: string },
+  group: number,
+  people: number,
+  source: Source,
+): void {
+  const c = api.state as CoreState;
+  const rt = residentsRuntime(c);
+  const groupId = rt?.store.groups[group]?.id;
+  const fundAccount = rt?.funds.get(group);
+  const bankAccount = c.cashJournal.residualAccountByOwner.get(
+    bank.organizationId,
+  );
+  if (!rt || !groupId || !fundAccount || !bankAccount) return;
+  const deposit = tables.deposits.get(`deposit:${groupId}`) as unknown as
+    DepositRow | undefined;
+  const members = peopleInGroup(rt, group);
+  if (!deposit || deposit.balanceMinor <= 0 || members <= 0) return;
+  const want = Math.floor(
+    (deposit.balanceMinor * Math.min(people, members)) / members,
+  );
+  if (want <= 0) return;
+  const bankCash = c.organizations.get(bank.organizationId)!.liquidMinor;
+  const securities =
+    (tables.securities.get(SECURITIES) as unknown as SecuritiesRow | undefined)
+      ?.balanceMinor ?? 0;
+  const market = [...c.organizations.values()].find(
+    (row) =>
+      row.placeId === c.organizations.get(bank.organizationId)?.placeId &&
+      row.outsideFlow !== undefined,
+  )?.id;
+  if (bankCash < want && market && securities > 0) {
+    const sold = transferCash(
+      api,
+      `securities-sale:${groupId}:${c.date}:${deposit.balanceMinor}`,
+      market,
+      bank.organizationId,
+      Math.min(securities, want - bankCash),
+      source,
+    );
+    tables.securities.put({
+      id: SECURITIES,
+      balanceMinor: securities - sold,
+    });
+  }
+  const paid = api.accounts().transfer({
+    id: `deposit-release:${groupId}:${c.date}:${deposit.balanceMinor}`,
+    from: bankAccount,
+    to: fundAccount,
+    amountMinor: want,
+    partial: true,
+    reasonKey: "credit.deposit",
+    source,
+  }).paidMinor;
+  tables.deposits.put({
+    ...deposit,
+    balanceMinor: deposit.balanceMinor - paid,
+  });
 }
