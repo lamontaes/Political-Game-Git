@@ -1692,24 +1692,23 @@ export function rerateCountedJob(
 ): boolean {
   const rt = runtimes.get(core);
   const job = rt?.jobs.get(jobId);
-  if (!rt || !job) return false;
-  // The job's wage flow, by its index (a job is paid by one flow).
-  const flow = rt.wageFlowByJob.get(jobId);
-  if (
-    !flow ||
-    flow.endedAt ||
-    flow.perDayMinorByJob?.[jobId] === undefined ||
-    !job.hourlyMinor
-  )
-    return false;
+  const indexed = rt?.wageFlowByJob.get(jobId);
+  if (!rt || !job || !indexed || !job.hourlyMinor) return false;
   const ratio = hourlyMinor / job.hourlyMinor;
-  const before = wageFlowTotal(flow),
-    old = flow.perDayMinorByJob[jobId]!;
-  // The flow's own copy of its pay map, made once and changed in place after.
-  const perDay = ownMap(flow.perDayMinorByJob);
-  perDay[jobId] = old * ratio;
-  flow.perDayMinorByJob = perDay;
-  setWageFlowTotal(flow, before - old + perDay[jobId]!);
+  let changed = false;
+  // Every flow that pays the job (a twice-monthly payroll pays each half from its own flow).
+  for (const flow of payFlowsOf(rt, indexed)) {
+    const old = flow.perDayMinorByJob?.[jobId];
+    if (old === undefined) continue;
+    const before = wageFlowTotal(flow);
+    // The flow's own copy of its pay map, made once and changed in place after.
+    const perDay = ownMap(flow.perDayMinorByJob!);
+    perDay[jobId] = old * ratio;
+    flow.perDayMinorByJob = perDay;
+    setWageFlowTotal(flow, before - old + perDay[jobId]!);
+    changed = true;
+  }
+  if (!changed) return false;
   const rerated = {
     ...job,
     hourlyMinor,
@@ -1718,6 +1717,24 @@ export function rerateCountedJob(
   rt.jobs.set(jobId, rerated);
   syncCountedJobRecord(core, rerated);
   return true;
+}
+
+/**
+ * Every live flow paying the same payroll as `flow`: an employer paid twice a
+ * calendar month has one flow per payday (`<id>:0`, `<id>:1`), each paying
+ * every job its per-day pay over half a month. A hire, an ending or a new
+ * rate applies to each of them.
+ */
+export function payFlowsOf(rt: ResidentsRuntime, flow: FlowState): FlowState[] {
+  const base = /^(.*):\d+$/.exec(flow.id)?.[1];
+  if (!base) return [flow];
+  const out: FlowState[] = [];
+  for (let i = 0; ; i++) {
+    const row = rt.flows.get(`${base}:${i}`);
+    if (!row) break;
+    if (!row.endedAt && row.kind === flow.kind) out.push(row);
+  }
+  return out.length ? out : [flow];
 }
 
 export function residentWageShortfall(

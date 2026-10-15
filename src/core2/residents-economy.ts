@@ -7,6 +7,7 @@
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   ownMap,
+  payFlowsOf,
   residentsRuntime,
   setWageFlowTotal,
   syncCountedJobRecord,
@@ -33,16 +34,20 @@ export function endCountedJob(
 ): JobInput | undefined {
   const rt = residentsRuntime(core);
   const job = rt?.jobs.get(jobId),
-    flow = rt?.wageFlowByJob.get(jobId);
-  if (!rt || !job || !flow || flow.endedAt) return undefined;
-  const before = wageFlowTotal(flow),
-    old = flow.perDayMinorByJob?.[jobId] ?? 0;
-  // The flow's own copy of its pay map, made once and changed in place after.
-  const perDay = ownMap(flow.perDayMinorByJob ?? {});
-  delete perDay[jobId];
-  flow.perDayMinorByJob = perDay;
-  flow.jobIds = (flow.jobIds ?? []).filter((id) => id !== jobId);
-  setWageFlowTotal(flow, before - old);
+    indexed = rt?.wageFlowByJob.get(jobId);
+  if (!rt || !job || !indexed || indexed.endedAt) return undefined;
+  // Every flow that pays the job (each payday of a twice-monthly payroll).
+  for (const flow of payFlowsOf(rt, indexed)) {
+    const old = flow.perDayMinorByJob?.[jobId];
+    if (old === undefined) continue;
+    const before = wageFlowTotal(flow);
+    // The flow's own copy of its pay map, made once and changed in place after.
+    const perDay = ownMap(flow.perDayMinorByJob ?? {});
+    delete perDay[jobId];
+    flow.perDayMinorByJob = perDay;
+    flow.jobIds = (flow.jobIds ?? []).filter((id) => id !== jobId);
+    setWageFlowTotal(flow, before - old);
+  }
   rt.wageFlowByJob.delete(jobId);
   const ended = { ...job, endsAt: makeIsoDate(core.date) };
   rt.jobs.set(jobId, ended);
@@ -123,13 +128,16 @@ export function addCountedJob(
     flow = find();
   }
   if (!flow) return false;
-  const before = wageFlowTotal(flow),
-    old = flow.perDayMinorByJob?.[job.id] ?? 0;
-  const perDay = ownMap(flow.perDayMinorByJob ?? {});
-  perDay[job.id] = job.wageDailyMinor;
-  flow.perDayMinorByJob = perDay;
-  flow.jobIds = [...(flow.jobIds ?? []), job.id];
-  setWageFlowTotal(flow, before - old + job.wageDailyMinor);
+  // Every payday's flow of the employer's payroll pays the new job.
+  for (const row of payFlowsOf(rt, flow)) {
+    const before = wageFlowTotal(row),
+      old = row.perDayMinorByJob?.[job.id] ?? 0;
+    const perDay = ownMap(row.perDayMinorByJob ?? {});
+    perDay[job.id] = job.wageDailyMinor;
+    row.perDayMinorByJob = perDay;
+    row.jobIds = [...(row.jobIds ?? []), job.id];
+    setWageFlowTotal(row, before - old + job.wageDailyMinor);
+  }
   rt.jobs.set(job.id, job);
   rt.wageFlowByJob.set(job.id, flow);
   syncCountedJobRecord(core, job);
@@ -168,34 +176,42 @@ export function addCountedJobsAt(
   if (!template || !account) return 0;
   const perDay: Record<string, number> = {};
   for (const job of jobs) perDay[job.id] = job.wageDailyMinor;
-  const id = `residents:wages:${organizationId}:${core.date}`;
-  addResidentFlow(core, {
-    id,
-    kind: "wages",
-    financeKind: template.financeKind,
-    payerId: organizationId,
-    payeeId: account,
-    residentsId: account,
-    placeId,
-    amountMinor: 0,
-    firstAt: template.nextAt,
-    cadence: template.cadence,
-    salesReceipt: false,
-    marketAdjusted: false,
-    organizationId,
-    jobIds: jobs.map((job) => job.id),
-    perDayMinorByJob: perDay,
-    ...(template.periodFactor !== undefined
-      ? { periodFactor: template.periodFactor }
-      : {}),
-    source: jobs[0]!.source,
+  // One flow per payday of the template's payroll (twice a month pays from two).
+  const paydays = payFlowsOf(rt, template);
+  const base = `residents:wages:${organizationId}:${core.date}`;
+  let first: Flow | undefined;
+  paydays.forEach((payday, i) => {
+    const id = paydays.length > 1 ? `${base}:${i}` : base;
+    addResidentFlow(core, {
+      id,
+      kind: "wages",
+      financeKind: payday.financeKind,
+      payerId: organizationId,
+      payeeId: account,
+      residentsId: account,
+      placeId,
+      amountMinor: 0,
+      firstAt: payday.nextAt,
+      cadence: payday.cadence,
+      salesReceipt: false,
+      marketAdjusted: false,
+      organizationId,
+      jobIds: jobs.map((job) => job.id),
+      perDayMinorByJob: { ...perDay },
+      ...(payday.periodFactor !== undefined
+        ? { periodFactor: payday.periodFactor }
+        : {}),
+      source: jobs[0]!.source,
+    });
+    const flow = rt.flows.get(id);
+    if (!flow) return;
+    recompute(flow);
+    first ??= flow;
   });
-  const flow = rt.flows.get(id);
-  if (!flow) return 0;
-  recompute(flow);
+  if (!first) return 0;
   for (const job of jobs) {
     rt.jobs.set(job.id, job);
-    rt.wageFlowByJob.set(job.id, flow);
+    rt.wageFlowByJob.set(job.id, first);
     syncCountedJobRecord(core, job);
   }
   jobIndexes.delete(core);
@@ -584,16 +600,22 @@ export function rerateCountedJobs(
   let changed = 0;
   for (const [jobId, hourlyMinor] of hourlyByJob) {
     const job = rt.jobs.get(jobId),
-      flow = rt.wageFlowByJob.get(jobId);
-    if (!job || !flow || flow.endedAt || !job.hourlyMinor) continue;
-    const perDay = flow.perDayMinorByJob?.[jobId];
-    if (perDay === undefined) continue;
+      indexed = rt.wageFlowByJob.get(jobId);
+    if (!job || !indexed || indexed.endedAt || !job.hourlyMinor) continue;
     const ratio = hourlyMinor / job.hourlyMinor;
-    if (!touched.has(flow)) {
-      flow.perDayMinorByJob = { ...flow.perDayMinorByJob };
-      touched.add(flow);
+    let paid = false;
+    // Every payday's flow that pays the job.
+    for (const flow of payFlowsOf(rt, indexed)) {
+      const perDay = flow.perDayMinorByJob?.[jobId];
+      if (perDay === undefined) continue;
+      if (!touched.has(flow)) {
+        flow.perDayMinorByJob = { ...flow.perDayMinorByJob };
+        touched.add(flow);
+      }
+      (flow.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
+      paid = true;
     }
-    (flow.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
+    if (!paid) continue;
     const rerated = {
       ...job,
       hourlyMinor,
