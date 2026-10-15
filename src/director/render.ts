@@ -18,6 +18,10 @@ export interface Variant {
   key: string;
   text: string;
   stages?: readonly string[];
+  /** The manner the wording carries, for the speaker's trait pulls. */
+  bearing?: string;
+  /** The bank part it comes from, for its running grade. */
+  pieceKey?: string;
 }
 export interface RenderedLine {
   text: string;
@@ -38,6 +42,8 @@ export function renderLine(input: {
   momentKey: string;
   stage?: string;
   fallbackSourceId: string;
+  /** The speaker's trait levels and the register, so the line is in their voice. */
+  voice?: { traits: Readonly<Record<string, number>>; register?: string };
 }): RenderedLine | null {
   if (!input.variants?.length) return null;
   const ids = [
@@ -58,6 +64,7 @@ export function renderLine(input: {
       ...(input.surface === "dialogue"
         ? { speaker: holder }
         : { viewer: holder }),
+      ...(input.voice ? { voice: input.voice } : {}),
       // The holder's own records establish every fact the line copies.
       knowledge: Object.entries(input.facts).map(([factKey, fact]) => ({
         personId: input.holderId,
@@ -74,6 +81,8 @@ export function renderLine(input: {
         kind: "template" as const,
         text: row.text,
         ...(row.stages ? { stages: row.stages } : {}),
+        ...(row.bearing ? { bearing: row.bearing } : {}),
+        ...(row.pieceKey ? { pieceKey: row.pieceKey } : {}),
       })),
     },
   );

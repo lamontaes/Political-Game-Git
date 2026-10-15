@@ -45,6 +45,8 @@ export interface MinedPart {
   origin?: "authored";
   author?: string;
   date?: string;
+  /** The manner the wording carries (tender, guarded, ...). */
+  bearing?: string;
 }
 export interface MinedBank {
   register: string;
@@ -103,6 +105,7 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
       ? { requiresFacts: use.requiresFacts.map((f) => f.replace(/_/g, "-")) }
       : {}),
     ...(pronoun ? { pronoun } : {}),
+    ...(part.bearing ? { bearing: part.bearing } : {}),
   };
 }
 

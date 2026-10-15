@@ -110,6 +110,24 @@ export function bearingPull(
 }
 
 /**
+ * How much a speaker's traits favor a wording's bearing: 1 with no bearing or
+ * no pull, more for a bearing the speaker leans toward, less (never below the
+ * floor) for one they lean away from.
+ */
+export function bearingFactor(
+  bearing: string | undefined,
+  traits: Readonly<Record<string, number>> | undefined,
+  table: CalibrationTable = CALIBRATION,
+): number {
+  const pull = bearingPull(traits, bearing, table);
+  if (!pull) return 1;
+  return Math.max(
+    parameter(table, "bearingFloor"),
+    1 + parameter(table, "bearingScale") * pull,
+  );
+}
+
+/**
  * How well a piece's length suits the register and the speaker: 1 at the
  * register's target (moved longer or shorter by the speaker's trait pulls),
  * falling as it departs. 1 when the register has no target.

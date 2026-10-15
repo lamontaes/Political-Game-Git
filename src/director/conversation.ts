@@ -40,7 +40,6 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
-import { lengthPull } from "../english/calibration";
 import type {
   CoreAPI,
   CoreModule,
@@ -79,6 +78,8 @@ export interface Move {
   pronoun?: "he" | "she" | "they";
   /** A bare question turned back ("And you?"), said after the plain answer. */
   afterPlain?: boolean;
+  /** The manner the wording carries (tender, guarded, ...), from the bank. */
+  bearing?: string;
 }
 interface SubjectBank {
   ask?: Move[];
@@ -1048,6 +1049,8 @@ function words(
       key: variantKey(row),
       text: row.text,
       ...(row.stages ? { stages: row.stages } : {}),
+      ...(row.bearing ? { bearing: row.bearing } : {}),
+      ...(row.part ? { pieceKey: row.part } : {}),
     })),
     facts: Object.fromEntries(
       Object.entries(facts).filter(([, fact]) => fact.text !== ""),
@@ -1055,6 +1058,11 @@ function words(
     momentKey,
     stage,
     fallbackSourceId: speakerId,
+    // Said in the speaker's own voice: their traits pull the pick.
+    voice: {
+      traits: core.people.get(speakerId)?.traits ?? {},
+      register: "conversation",
+    },
   });
   if (!line) return null;
   const chosen = usable?.find((row) => variantKey(row) === line.variantKey);
@@ -1780,9 +1788,9 @@ function rankChoices(
   pool: readonly ConversationChoice[],
 ): ConversationChoice[] {
   const player = core.people.get(playerId);
-  // The calibration table's length pull (weights from the owner's grades, no
-  // text) leans the replies longer or shorter beside the trait decision;
-  // an empty table adds nothing.
+  // How far the replies reach is the trait engine's decision; the
+  // calibration table reaches each reply's wording through its voice
+  // (`words`), so the same traits are not counted twice here.
   const reach = player
     ? decisionLean(
         core,
@@ -1790,7 +1798,7 @@ function rankChoices(
         "conversation.reply-reach",
         "carry-on",
         "keep-short",
-      ) + lengthPull(player.traits)
+      )
     : zero;
   const carries = (row: ConversationChoice) =>
     !!row.raises || !!row.tail || /\?$/.test(row.text);

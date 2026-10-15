@@ -174,7 +174,8 @@ describe("the grade fold (Order 2, section 5)", () => {
           },
         ]),
       ],
-      CALIBRATION,
+      // From an empty table, so the step is measured, not the seeded pulls.
+      { ...CALIBRATION, traits: {}, registers: {} },
     );
     expect(folded.folded).toEqual(["batch-test"]);
     expect(folded.pieces["piece.one"]).toEqual({ mean: 2, count: 1 });

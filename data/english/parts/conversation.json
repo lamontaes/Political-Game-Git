@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "conversation",
-  "description": "Everyday conversation for golden-path steps 1 and 2 (meeting people at 18): greetings, asking after work, home, school, family and the news, the answers, raising a real subject, leaving, and the lie. Every part is a whole sentence American speakers said in federal transcripts (public domain: congressional hearings, the Congressional Record, NASA and U.S. House oral histories), counted also against the Library of Congress WPA life histories, 1936 to 1940. Record words are slots the game fills from the speaker's own records. Parts are grouped by the director's subject, role (ask, raise, reply, answer, lie) and choice; a group's parts are variants of one choice, never separate choices.",
+  "description": "Everyday conversation for golden-path steps 1 and 2 (meeting people at 18): greetings, asking after work, home, school, family and the news, the answers, raising a real subject, leaving, and the lie. Every part is a whole sentence American speakers said in federal transcripts (public domain: congressional hearings, the Congressional Record, NASA and U.S. House oral histories), counted also against the Library of Congress WPA life histories, 1936 to 1940. Record words are slots the game fills from the speaker's own records. Parts are grouped by the director's subject, role (ask, raise, reply, answer, lie) and choice; a group's parts are variants of one choice, never separate choices. A part's bearing (tender, guarded, glad, nervous, braced, curious, calm, from the director's bearings) is the manner its wording carries; a speaker's traits pull the engine toward the bearings they favor (data/english/calibration.json). A part with no bearing is neutral.",
   "slots": {
     "name": "A person's name from the records: someone both people know, or the listener's given name.",
     "employer": "The speaker's employer, from their job record.",
@@ -144,7 +144,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-open-hello.hi",
@@ -228,7 +229,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.greet-open-hello.hi-there",
@@ -336,7 +338,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-open-hello.good-afternoon",
@@ -481,7 +484,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.greet-open-hello.hi-name",
@@ -521,7 +525,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.greet-open-hello.hey-name",
@@ -639,7 +644,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.greet-open-hello.nice-to-see-you",
@@ -677,7 +683,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.greet-open-hello.good-to-see-you-name",
@@ -709,7 +716,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.greet-open-hello.its-good-to-see-you",
@@ -741,7 +749,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.greet-open-hello.its-nice-to-see-you",
@@ -772,7 +781,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.greet-open-hello.how-are-you",
@@ -955,7 +965,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.greet-open-hello.hows-everything",
@@ -1052,7 +1063,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.good-thank-you",
@@ -1085,7 +1097,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.good-thanks",
@@ -1116,7 +1129,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.im-fine",
@@ -1155,7 +1169,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.im-good",
@@ -1223,7 +1238,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.im-doing-fine",
@@ -1285,7 +1301,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.greet-answer-fine.pretty-good",
@@ -1323,7 +1340,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.greet-answer-fine.not-bad",
@@ -1362,7 +1380,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.not-too-bad",
@@ -1395,7 +1414,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.cant-complain",
@@ -1433,7 +1453,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.i-cant-complain",
@@ -1464,7 +1485,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.greet-answer-fine.doing-well",
@@ -1743,7 +1765,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.greet-answer-fine.im-all-right",
@@ -1776,7 +1799,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.greet-answer-fine.im-okay",
@@ -1811,7 +1835,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.greet-answer-fine.and-you",
@@ -2373,7 +2398,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.own-work-answer-plain.im-still-there",
@@ -2926,7 +2952,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.own-work-answer-brief.its-the-same",
@@ -2962,7 +2989,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.own-work-answer-brief.busy",
@@ -2994,7 +3022,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.own-work-lie-left.i-left-employer",
@@ -3084,7 +3113,8 @@
       },
       "tag": {
         "move": "lie"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.own-work-lie-left.i-quit",
@@ -3119,7 +3149,8 @@
       },
       "tag": {
         "move": "lie"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.own-work-lie-left.i-left",
@@ -3161,7 +3192,8 @@
       },
       "tag": {
         "move": "lie"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.own-work-lie-elsewhere.i-went-to-work-for-claimed",
@@ -3516,7 +3548,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.other-work-reply-none.not-right-now",
@@ -3551,7 +3584,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.other-work-answer-ack.employer-right",
@@ -3746,7 +3780,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.other-work-answer-ack.oh-really",
@@ -3803,7 +3838,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.other-work-answer-ack.oh-okay",
@@ -3963,7 +3999,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.other-work-answer-ack.oh-i-see",
@@ -4021,7 +4058,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.other-work-answer-ack.good-for-you",
@@ -4081,7 +4119,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.other-work-answer-ack.thats-great",
@@ -4155,7 +4194,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.other-work-answer-ack.thats-good",
@@ -4207,7 +4247,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.other-work-answer-tenure.how-long-have-you-been-there",
@@ -4245,7 +4286,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.other-work-answer-tenure.how-long-have-you-been-doing-that",
@@ -4284,7 +4326,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.other-work-answer-tenure.how-long",
@@ -4556,7 +4599,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.home-answer-years.ive-been-here-years-years",
@@ -5501,7 +5545,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.home-reply-answer-ack.thats-nice",
@@ -5540,7 +5585,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.home-reply-answer-brief.right",
@@ -5651,7 +5697,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.home-reply-answer-brief.sure",
@@ -5739,7 +5786,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.home-reply-answer-brief.oh",
@@ -6170,7 +6218,8 @@
       },
       "tag": {
         "move": "recall"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.shared-school-reply-years.its-been-a-while",
@@ -6353,7 +6402,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.shared-school-answer-plain.i-remember",
@@ -6596,7 +6646,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.shared-school-answer-plain.ill-never-forget-it",
@@ -7528,7 +7579,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.kin-reply-not.no-i-havent",
@@ -7652,7 +7704,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.kin-reply-not.i-dont-think-i-have",
@@ -7683,7 +7736,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.kin-reply-not.no-i-dont-think-so",
@@ -7948,7 +8002,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.kin-answer-turn.someday",
@@ -7978,7 +8033,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.kin-answer-turn.one-of-these-days",
@@ -8013,7 +8069,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.kin-answer-turn.maybe-next-time",
@@ -8044,7 +8101,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.family-ask-how.hows-relation",
@@ -8151,7 +8209,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.family-answer-well.good",
@@ -8703,7 +8762,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.school-answer-fine.its-good",
@@ -8770,7 +8830,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.school-answer-fine.its-okay",
@@ -8981,7 +9042,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-raise-heard.have-you-heard",
@@ -9014,7 +9076,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-raise-heard.did-you-see-that",
@@ -9115,7 +9178,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-raise-heard.guess-what",
@@ -9149,7 +9213,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-answer-yes.i-heard",
@@ -9428,7 +9493,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-answer-no.no",
@@ -9503,7 +9569,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.news-answer-no.i-didnt-hear",
@@ -9615,7 +9682,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.news-answer-no.what",
@@ -9666,7 +9734,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.news-answer-no.what-about-it",
@@ -9701,7 +9770,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.news-answer-no.tell-me",
@@ -9740,7 +9810,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-answer-react.oh-no",
@@ -9914,7 +9985,8 @@
       "tag": {
         "move": "react",
         "key": "news-received"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.news-answer-react.thats-too-bad",
@@ -10042,7 +10114,8 @@
       "tag": {
         "move": "react",
         "key": "news-received"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.news-answer-react.good-for-them",
@@ -10075,7 +10148,8 @@
       "tag": {
         "move": "react",
         "key": "news-received"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.news-answer-react.i-cant-believe-it",
@@ -10112,7 +10186,8 @@
       "tag": {
         "move": "react",
         "key": "news-received"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.news-answer-react.i-didnt-know-that",
@@ -10212,7 +10287,8 @@
       "tag": {
         "move": "react",
         "key": "news-received"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.news-answer-react.youre-kidding",
@@ -10251,7 +10327,8 @@
       "tag": {
         "move": "react",
         "key": "news-received"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.news-ask-think.what-do-you-think",
@@ -10299,7 +10376,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-ask-think.what-do-you-think-about-that",
@@ -10337,7 +10415,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-ask-think.what-do-you-make-of-that",
@@ -10370,7 +10449,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-ask-think.what-do-you-think-of-that",
@@ -10405,7 +10485,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-ask-think.how-do-you-feel-about-that",
@@ -10442,7 +10523,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-ask-think.what-do-you-think-about-it",
@@ -10478,7 +10560,8 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.news-answer-opinion.i-dont-know",
@@ -10535,7 +10618,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.news-answer-opinion.i-think-its-a-good-thing",
@@ -10566,7 +10650,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.news-answer-opinion.i-think-its-terrible",
@@ -10597,7 +10682,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.news-answer-opinion.i-think-its-great",
@@ -10632,7 +10718,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.news-answer-opinion.its-about-time",
@@ -10667,7 +10754,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.news-answer-opinion.its-a-shame",
@@ -10746,7 +10834,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.news-answer-opinion.time-will-tell",
@@ -10784,7 +10873,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.news-answer-opinion.i-dont-like-it",
@@ -10822,7 +10912,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.news-answer-opinion.i-like-it",
@@ -10863,7 +10954,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.news-answer-opinion.im-not-sure",
@@ -10911,7 +11003,8 @@
       "tag": {
         "move": "answer",
         "key": "news-received"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.farewell-leave-bye.goodbye",
@@ -10949,7 +11042,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.farewell-leave-bye.bye",
@@ -10995,7 +11089,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-leave-bye.bye-now",
@@ -11062,7 +11157,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-leave-bye.see-you-later",
@@ -11094,7 +11190,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.farewell-leave-bye.see-you-soon",
@@ -11125,7 +11222,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.take-care",
@@ -11170,7 +11268,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.take-care-of-yourself",
@@ -11200,7 +11299,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.have-a-good-day",
@@ -11234,7 +11334,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.have-a-nice-day",
@@ -11267,7 +11368,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.good-night",
@@ -11329,7 +11431,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-leave-bye.ill-see-you-later",
@@ -11360,7 +11463,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.farewell-leave-bye.ill-talk-to-you-later",
@@ -11390,7 +11494,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.farewell-leave-bye.talk-to-you-soon",
@@ -11421,7 +11526,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.ive-got-to-go",
@@ -11456,7 +11562,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-leave-bye.i-have-to-go",
@@ -11486,7 +11593,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-leave-bye.i-need-to-go",
@@ -11516,7 +11624,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-leave-bye.ive-got-to-run",
@@ -11546,7 +11655,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-leave-bye.i-have-to-run",
@@ -11575,7 +11685,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-leave-bye.say-hello-to-name",
@@ -11605,7 +11716,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.say-hi-to-name",
@@ -11635,7 +11747,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.come-back-soon",
@@ -11665,7 +11778,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.stay-in-touch",
@@ -11695,7 +11809,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-leave-bye.well-talk",
@@ -11793,7 +11908,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.farewell-answer-bye.same-to-you",
@@ -11823,7 +11939,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.farewell-answer-bye.i-will",
@@ -11901,7 +12018,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-answer-bye.okay-bye",
@@ -11931,7 +12049,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.farewell-answer-bye.thanks",
@@ -12037,7 +12156,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.lie-doubt-question.is-that-right",
@@ -12086,7 +12206,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.lie-doubt-question.is-that-so",
@@ -12120,7 +12241,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.lie-doubt-question.is-that-true",
@@ -12163,7 +12285,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.lie-doubt-question.are-you-sure",
@@ -12203,7 +12326,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.lie-doubt-question.since-when",
@@ -12233,7 +12357,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.shared-work-answer-turn.employer-sure",
@@ -12302,7 +12427,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.other-work-answer-ack-none.im-sorry",
@@ -12374,7 +12500,8 @@
       "tag": {
         "move": "condole",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.other-work-answer-ack-none.im-sorry-to-hear-that",
@@ -12419,7 +12546,8 @@
       "tag": {
         "move": "condole",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.other-work-answer-own.i-work-at-my-employer",
@@ -12600,7 +12728,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.tenure-reply-answer-own.ive-been-at-my-employer-since-my-since",
@@ -12777,7 +12906,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.home-reply-answer-own.i-live-in-my-place",
@@ -13415,7 +13545,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.asked-kin-answer-not-yet.no-not-yet",
@@ -13531,7 +13662,8 @@
       },
       "tag": {
         "move": "agree"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.ack-reply-right.got-it",
@@ -13572,7 +13704,8 @@
       },
       "tag": {
         "move": "agree"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "conversation.greet-answer-fine.very-well-thank-you",
@@ -13602,7 +13735,8 @@
       "tag": {
         "move": "answer",
         "key": "routine"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "conversation.mutual-reply-saw.i-talked-to-name-when",
@@ -13807,7 +13941,8 @@
       },
       "tag": {
         "move": "ask"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.family-ask-how.hows-your-wife",
@@ -13899,7 +14034,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.farewell-leave-bye.tell-name-i-said-hello",
@@ -13929,7 +14065,8 @@
       },
       "tag": {
         "move": "farewell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.other-work-answer-ack-none.sorry-to-hear-that",
@@ -13966,7 +14103,8 @@
       "tag": {
         "move": "condole",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.asked-kin-answer-not-yet.not-yet-no",
@@ -14057,7 +14195,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.family-open-open.can-we-talk",
@@ -14148,7 +14287,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.family-open-open.lets-talk",
@@ -14310,7 +14450,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.job-cause-reply-answer-comfort.thats-not-fair",
@@ -14354,7 +14495,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.job-cause-reply-answer-comfort.thats-hard",
@@ -14451,7 +14593,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.job-hope-reply-answer-hope.good-luck",
@@ -14482,7 +14625,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.job-hope-reply-answer-hope.i-know-you-will",
@@ -14513,7 +14657,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.job-hope-reply-answer-hope.i-hope-so",
@@ -14546,7 +14691,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.job-hope-reply-answer-hope.youll-be-fine",
@@ -14576,7 +14722,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.job-hope-reply-answer-help.can-i-help",
@@ -14612,7 +14759,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.job-hope-reply-answer-help.how-can-i-help",
@@ -14724,7 +14872,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.job-hope-reply-answer-help.what-can-i-do-to-help",
@@ -14760,7 +14909,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.job-hope-reply-answer-brief.okay-good",
@@ -14793,7 +14943,8 @@
       "tag": {
         "move": "react",
         "key": "loss"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "conversation.eviction-reply-answer-ask.how-come",
@@ -14826,7 +14977,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "conversation.eviction-reply-answer-ask.what-do-you-mean",
@@ -14859,7 +15011,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "conversation.eviction-reply-answer-where.where-are-we-going-to-go",
@@ -14897,7 +15050,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.eviction-reply-answer-where.where-are-we-going",
@@ -14934,7 +15088,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.eviction-reply-answer-where.where-do-we-go",
@@ -14965,7 +15120,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.eviction-cause-reply-answer-where.what-are-we-going-to-do",
@@ -14998,7 +15154,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.eviction-cause-reply-answer-comfort.its-not-your-fault",
@@ -15029,7 +15186,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.eviction-where-reply-answer-help.ill-help",
@@ -15059,7 +15217,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.eviction-where-reply-answer-comfort.itll-be-okay",
@@ -15089,7 +15248,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.family-open-open.can-i-talk-to-you",
@@ -15243,7 +15403,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.job-cause-reply-answer-ask.what-happens-now",
@@ -15274,7 +15435,8 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "conversation.job-hope-reply-answer-hope.im-sure-you-will",
@@ -15305,7 +15467,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.eviction-raise.we-have-to-move",
@@ -15367,7 +15530,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.eviction-where-reply-answer-comfort.well-be-fine",
@@ -15398,7 +15562,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.eviction-where-reply-answer-comfort.well-figure-it-out",
@@ -15430,7 +15595,8 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked",
@@ -15514,7 +15680,8 @@
       "date": "2026-10-15",
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him",
@@ -15535,7 +15702,8 @@
       "date": "2026-10-15",
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.family-answer-well.they-re-good-you-should-come-by-and-see-them",
@@ -15556,7 +15724,8 @@
       "date": "2026-10-15",
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you",
@@ -15598,7 +15767,8 @@
       "date": "2026-10-15",
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked",
@@ -15619,7 +15789,8 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know",
@@ -15640,7 +15811,8 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.family-answer-ill.not-so-good-i-ll-tell-name-you-asked",
@@ -15686,7 +15858,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "threat"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "conversation.home-lie-elsewhere.i-live-in-claimed-now",

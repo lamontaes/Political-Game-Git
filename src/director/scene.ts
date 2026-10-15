@@ -27,6 +27,8 @@ export interface SceneWords {
   settings: Readonly<Record<string, Variant[]>>;
   present: Variant[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
+  /** How the scene's first move opens it, by that move ("tell", "farewell"). */
+  openings?: Readonly<Record<string, Variant[]>>;
 }
 /** `data/scene-rows.json`: the scene's structure, holding no sentences. */
 export interface SceneRows {
@@ -34,6 +36,8 @@ export interface SceneRows {
   and: string;
   settings: readonly string[];
   causes: readonly string[];
+  /** The moves that open a scene, each narrated by the bank's opening sentences. */
+  openings?: readonly string[];
 }
 /** The default words are the mined bank's. */
 export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
