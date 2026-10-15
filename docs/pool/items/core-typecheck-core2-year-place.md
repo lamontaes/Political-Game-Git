@@ -4,8 +4,8 @@ title: "npm run typecheck fails on main: scripts/core2-year/place.ts import and 
 area: core
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-typecheck-core2-year-place
 pr:
 blocked-on:
 milestone:
