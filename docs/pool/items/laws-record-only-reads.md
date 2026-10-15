@@ -4,9 +4,9 @@ title: "Give the eleven record-only laws their reads (SG-GOV-REACH-A-*)"
 area: laws
 kind: wiring
 priority: 1
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/laws-record-only-reads-012x
+pr: "#4401"
 blocked-on:
 milestone:
 source: "reissue item 1; overnight Session A"
@@ -21,3 +21,5 @@ source: "reissue item 1; overnight Session A"
 **Files.** src/core2/law-reach/*, src/core2/data/stopgaps.json
 
 **Notes.** Pool item 2 of the overnight order.
+
+**Progress (Oct 15, branch claude/laws-record-only-reads-012x).** Read built: data privacy (the business engine's monthly cost review charges employing businesses a share of costs, `readDataPrivacyLaw`), and local authority (home rule was already read by `policyAuthority`; now proven in a generated town, stopgap resolved). Not built, split into pool items because the engine to read them does not exist: `gov-justice-incident-records` (police oversight, juvenile age, stand your ground, facial recognition, carry permit), `world-sale-eligibility-reads` (handgun age, age verification, discrimination), `people-unplanned-pregnancy-decision` (abortion). Those eight stopgap rows stay open with their reasons.

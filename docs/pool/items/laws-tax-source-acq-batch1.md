@@ -4,7 +4,7 @@ title: "TAX-SOURCE-ACQ batch 1: first-party local income tax text for six states
 area: laws
 kind: research
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #2887
 blocked-on:

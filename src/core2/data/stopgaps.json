@@ -4276,11 +4276,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 886,
-    "whatItFakes": "Rights are recorded on residents and duties on businesses, but no request to see or delete data is made and no business pays to comply.",
-    "why": "Session A checked main: no customer-data holdings or access/deletion request exists. A uniform business-cost surcharge would be an estimated stand-in, not a compliance decision.",
+    "whatItFakes": "Rights are recorded on residents, but no request to see or delete data is made. The compliance cost is now read by the business engine (every employing business in town pays a share of its operating costs while the law is in force), but the law's coverage thresholds (revenue, number of consumers) are not modeled, so it falls on every employing business alike.",
+    "why": "Session A checked main: no customer-data holdings or access/deletion request exists. The business engine's monthly cost review now reads the law (readDataPrivacyLaw in src/core2/modules/business.ts); what a request is, and which businesses hold enough data to be covered, have no records.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-WORLD: the business engine's costs read the compliance duty by business size, the way the bound-employer cost does.",
+    "replacement": "PEOPLE with WORLD: a resident's request to see or delete data, answered by a business that holds customer data; coverage thresholds from the statute's terms read per business.",
     "status": "open"
   },
   {
@@ -4293,7 +4293,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: authorityFor reads home rule in force as a grant for any question the state hasn't decided.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Claude (laws-record-only-reads), Oct 15: policyAuthority (src/core2/policy-authority.ts) already reads the state's home-rule law for every question the powers catalog leaves open for a city; it was proven only by a hand-inserted fixture. src/core2/home-rule-played.test.ts now shows, in a generated town, a council's draft of such an ordinance blocked with the grant repealed, drafted once the state's grant takes effect (the bill's authority row cites the grant's law id), and blocked again on repeal."
   },
   {
     "id": "SG-WORLD-owner-decision-player-eviction",
@@ -4584,5 +4585,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-death-relations",
+    "kind": "missing-record",
+    "file": "src/core2/births-counted.ts",
+    "status": "open",
+    "whatItFakes": "A known counted relative can receive a death notice, but opening full-to-counted family ties lack recorded closeness; grief is supported only where a relationship record already exists. No closeness is invented by the notifier.",
+    "why": "The core opening skips relationship initialization when the other person is a husk. The bench also retains the full family closure; the drawn Garden City year had zero known counted deaths, so the notification path has no played-year acceptance yet.",
+    "addedBy": "Session D / pool-counted-death-notices",
+    "addedAt": "2026-10-15",
+    "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
+    "line": 82
   }
 ]

@@ -40,6 +40,10 @@
         "document": "City Council Notice of Public Hearing, Project PRJ-1062368",
         "date": "2026-09-28",
         "url": "https://docs.sandiego.gov/citybulletin_publicnotices/PublicHearings/CC%20Notice%20-%20PRJ-1062368%20-%2010509%20VISTA%20SORRENTO%20PARKWAY.pdf.pdf"
+      },
+      "tag": {
+        "move": "notice",
+        "key": "routine"
       }
     },
     {
@@ -52,6 +56,10 @@
         "document": "City Bulletin of Public Notices, Council Resolutions and Ordinances",
         "date": "2026-10-07",
         "url": "https://www.sandiego.gov/city-clerk/officialdocs/public-notices"
+      },
+      "tag": {
+        "move": "notice",
+        "key": "routine"
       }
     },
     {
@@ -63,6 +71,10 @@
       "source": {
         "document": "Notice of Election, General Municipal Election",
         "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf"
+      },
+      "tag": {
+        "move": "notice",
+        "key": "routine"
       }
     }
   ]
