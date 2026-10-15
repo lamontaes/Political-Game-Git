@@ -76,8 +76,7 @@ export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
  * What can stop the player: the local kinds here, and whatever kinds the
  * other levels register (`office-day-registry.ts`). Election day always
  * stops them at the polls (the polling-place scene): whether the character
- * may cast the player's ballot when they choose not to stop is the owner's
- * call. stopgapId: SG-OFFICE-owner-decision-ballot-stop
+ * may not cast the player's ballot (owner, Oct 13).
  * An emergency stop waits on the disasters engine's declarations.
  */
 registerStopKinds([

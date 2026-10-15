@@ -4,10 +4,10 @@ title: "Owner decision: Election day always stops the player at the polls; the p
 area: office
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-OFFICE-owner-decision-ballot-stop"
 ---
@@ -20,4 +20,4 @@ source: "stopgap SG-OFFICE-owner-decision-ballot-stop"
 
 **Files.** src/core2/modules/office-day.ts
 
-**Notes.** Row SG-OFFICE-owner-decision-ballot-stop in src/core2/data/stopgaps.json.
+**Notes.** DECIDED. OWNER-DECISIONS.md (Oct 13): 'The player casts their own ballot ... the engine never votes for the player'; 'Election day is a scene. The player goes to their polling place and marks a ballot there.'

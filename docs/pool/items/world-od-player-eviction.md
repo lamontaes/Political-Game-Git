@@ -4,10 +4,10 @@ title: "Owner decision: The player's household is evicted like any other when it
 area: world
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-WORLD-owner-decision-player-eviction"
 ---
@@ -20,4 +20,4 @@ source: "stopgap SG-WORLD-owner-decision-player-eviction"
 
 **Files.** src/core2/modules/housing.ts
 
-**Notes.** Row SG-WORLD-owner-decision-player-eviction in src/core2/data/stopgaps.json.
+**Notes.** DECIDED. OWNER-DECISIONS.md, 'Homelessness is a factor': 'A person who does not work and does not pay loses their home like anyone else; the player's household too.'

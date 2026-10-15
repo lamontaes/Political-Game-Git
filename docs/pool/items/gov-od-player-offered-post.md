@@ -4,10 +4,10 @@ title: "Owner decision: No appointer ever names the player to a town post; the p
 area: gov
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-CORE-owner-decision-player-offered-post"
 ---
@@ -20,4 +20,4 @@ source: "stopgap SG-CORE-owner-decision-player-offered-post"
 
 **Files.** src/core2/modules/executive.ts
 
-**Notes.** Row SG-CORE-owner-decision-player-offered-post in src/core2/data/stopgaps.json.
+**Notes.** DECIDED. OWNER-DECISIONS.md (Oct 14, night): 'No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides.'

@@ -4,10 +4,10 @@ title: "Kit 12 versus Kit 13: which control set is the look?"
 area: play
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "docs/coordination/OWNER-DECISIONS.md, Open"
 ---
@@ -20,4 +20,4 @@ source: "docs/coordination/OWNER-DECISIONS.md, Open"
 
 **Files.** see the question
 
-**Notes.** None.
+**Notes.** BUILT. docs/coordination/play.md 'Kit 13 controls': the play page uses Kit 13's approved control set, replacing Kit 12 (src/bench/play.css).

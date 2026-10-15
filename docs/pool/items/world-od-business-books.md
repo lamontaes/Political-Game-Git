@@ -4,10 +4,10 @@ title: "Owner decision: The record a screen would read for a business's books (c
 area: world
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-WORLD-owner-decision-business-books"
 ---
@@ -20,4 +20,4 @@ source: "stopgap SG-WORLD-owner-decision-business-books"
 
 **Files.** src/core2/business-books-view.ts
 
-**Notes.** Row SG-WORLD-owner-decision-business-books in src/core2/data/stopgaps.json.
+**Notes.** DECIDED. OWNER-DECISIONS.md: 'Starting or buying a business: 1.0, not early access. An owner sees the books.'

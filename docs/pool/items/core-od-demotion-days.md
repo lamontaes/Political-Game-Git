@@ -4,10 +4,10 @@ title: "Owner decision: A full person out of the player's life for 180 days retu
 area: core
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-CORE-owner-decision-demotion-days"
 ---
@@ -20,4 +20,4 @@ source: "stopgap SG-CORE-owner-decision-demotion-days"
 
 **Files.** src/core2/data/counted/parameters.json
 
-**Notes.** Row SG-CORE-owner-decision-demotion-days in src/core2/data/stopgaps.json.
+**Notes.** Owner ruling, Oct 15, 2026: 'The days without contact before a met person drifts back into the counted population is a per-world range of 180 to 240 days, drawn once per world at generation (seeded generation is allowed), never a single fixed number.' Built: demotionDays in src/core2/modules/counted-demotion.ts.

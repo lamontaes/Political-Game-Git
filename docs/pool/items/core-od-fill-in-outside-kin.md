@@ -4,10 +4,10 @@ title: "Owner decision: A counted person built at fill-in has their household, j
 area: core
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-CORE-owner-decision-fill-in-outside-kin"
 ---
@@ -20,4 +20,4 @@ source: "stopgap SG-CORE-owner-decision-fill-in-outside-kin"
 
 **Files.** src/core2/state.ts
 
-**Notes.** Row SG-CORE-owner-decision-fill-in-outside-kin in src/core2/data/stopgaps.json.
+**Notes.** BUILT. fillInPerson (src/core2/state.ts) rebuilds the filled-in household's past with buildDeepPast (past-family.ts); relatives living elsewhere are husks, filled in when met. Merged with the world-has-a-past work.

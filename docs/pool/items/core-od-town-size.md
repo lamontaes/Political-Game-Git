@@ -4,10 +4,10 @@ title: "Owner decision: A town larger than the opening target (10,000 people, ow
 area: core
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-CORE-owner-decision-town-size"
 ---
@@ -20,4 +20,4 @@ source: "stopgap SG-CORE-owner-decision-town-size"
 
 **Files.** src/core2/population.ts
 
-**Notes.** Row SG-CORE-owner-decision-town-size in src/core2/data/stopgaps.json.
+**Notes.** DECIDED. OWNER-DECISIONS.md, 'Town size (day-one audit)': 'a town opens at its real Census size; nothing pads it to 10,000.' Follow-up for the engineers: population.ts still caps a town above its target; make it follow the ruling.
