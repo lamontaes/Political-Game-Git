@@ -1,5 +1,9 @@
 # Progress
 
+## 2026-10-15 Session D: committee markup
+
+Committee trades now recount support for every added section and keep each member’s vote and reasons. In drawn Dallas Center, Iowa, HF 11 stopped after one trade won seven supporters, leaving two provisions instead of four. All 19 focused tests passed. The 65-module played year took 41.08 seconds against 36.91 seconds on base (+11.30%). Draft #4328 carries the seed and record ids. No full suite ran; no merge performed. The initial test launch failed on sandboxed git execution; explicit network-enabled execution passed. Next: Session A’s unmerged law-link work is the item 2 dependency; take the next pool engine.
+
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
