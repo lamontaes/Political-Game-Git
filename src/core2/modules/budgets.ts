@@ -179,8 +179,6 @@ export const BUDGETS_MODULE: CoreModule = {
       },
       /** Pay each treasury paid on paydays since its last close, by line. */
       sinceClose: {},
-      /** Each payday a treasury paid, against the line it draws on. */
-      publicPay: { indexes: { byGovernment: { fields: ["governmentId"] } } },
       /** What each treasury's lines fell short at its last close, owed at the next. */
       arrears: {},
       /** Each change to an award that landed on a person, and what told them why. */

@@ -22,3 +22,6 @@ claimed-at: 2026-10-15T23:05:26.217Z
 **Files.** docs/reports/trace-audit-2026-10-14/, src/core2/modules/, src/core2/data/stopgaps.json
 
 **Notes.** Add one item per engine found.
+
+**Static scan, Oct 15 (claude/core-wiring-gaps-scan).** Scanned every `.table("name")` use in `src`: 159 tables, 19 with writes and no direct read. Of those, the business tables `ages`, `closures`, `draws` and `foundings` are read through `rows(api, "business", ...)` by the world panels and metrics, the `sentences` table is read through the justice chain, and the rest are false hits (names also used for other things). One was a true gap and is fixed: `publicPay` in the budgets engine (one row per public payday, never read; deleted). Four are filed as their own items: `core-unread-carry-requests`, `core-unread-deposit-moves`, `core-unread-outside-costs`, `core-unread-renewal-births-plans`. The scan reads tables by name in code and cannot see a read made through a helper that builds the name, so a second pass should be the trace audit (`trace-audit`) on a played year. That pass is filed as `core-wiring-gaps-trace-pass`.
+
