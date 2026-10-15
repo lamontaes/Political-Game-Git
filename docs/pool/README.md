@@ -12,6 +12,12 @@ This folder is that place. It replaces the pool lists inside work orders, the "N
 - **Claim by editing the item.** Set `status: claimed`, `claimed-by: <branch>`, commit and push on your branch first thing, before building. If the push shows someone else claimed it, take the next item. When the PR is up, set `status: in-pr` and `pr: #N`. The CTO sets `done` when it merges and `dropped` with a reason when it is retired.
 - **Pick in order:** open items by priority (1 first), then by area if you have one. A session with an assignment finishes it, then takes the pool from the top.
 
+## Any agent
+
+Any agent with repository access (Claude, Codex, Cursor, Antigravity or another) may take pool items. The claim rule above is the only coordination; only the CTO merges. Generic paste prompt:
+
+> Read AGENTS.md and docs/pool/README.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md. Take the highest-priority open item in your area (or the top open item), claim it by editing its file and pushing on your own branch, build it to its done-when line, open a draft PR with checks on changed files only and a release declaration, set the item to in-pr, and take the next. Add an item for anything you find. Never merge your own PR.
+
 ## The item file
 
 ```markdown

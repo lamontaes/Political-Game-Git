@@ -4,12 +4,6 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- **What a town's districts are.** The game has no city wards; a town's districts are the state House districts its people split into, else the whole town. Should council wards come later as their own districts? (SG-CORE-owner-decision-town-districts)
-
-- **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
-
-- **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
-
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
@@ -203,3 +197,13 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 - Who sees a business's books (world-od-business-books): DECIDED. "An owner sees the books."
 - Player eviction (world-od-player-eviction): DECIDED. "loses their home like anyone else; the player's household too."
 - A loser's podium and bill carrier (not in the pool): DECIDED. Confirmed by the owner in the Oct 14 entry above; both work through the existing conversation.
+
+## Oct 15, afternoon: rulings
+
+- **Trusts (owner, Oct 15):** simulated in the background so estate and inheritance taxes work correctly: a trust holds assets, passes them outside probate, and the taxes in force read it. No player-facing mechanic.
+- **The opening's key people (owner, Oct 15):** the president and vice president; the state's legislators; the most powerful person in each chamber (the one chamber where a state has only one); and the player's own representatives (their council member, state legislators, U.S. representative and senators). Nothing else is "key" at the opening.
+- **Why money exists for the player (owner, Oct 15): not settled yet.** Until then money accumulates and is spent on rent, the household's costs and the things already built; nobody builds a scoreboard or a sink on a guess. The owner notes the spending side is probably not fleshed out either: pool item `core-player-money-spending`.
+- **Town council seats (CTO ruling under "one rule, all 56 places" and "estimate, never unknown"; the owner said the question was asked wrongly):** each place's council or board is elected the way its own records say (at-large, by district, or mixed, from the place's data where the repository has it), estimated as at-large with a per-world spread where it does not, marked as an estimate with its source. "Wards" is not a term the game uses except where a place's own records use it. The state House districts stay what a resident's district means for state races.
+- **Party loyalty data (CTO recommendation; owner to confirm):** do not use the Shor-McCarty dataset (its license forbids commercial use and the game is a commercial product); calibrate state chambers' party loyalty from each legislature's own public roll-call records instead, which are public records.
+- **Before a stopgap or an owner decision is registered, the register is read (owner, Oct 15):** quote the ruling instead of registering a question that was already answered. See AGENTS.md, "Placeholders".
+- **Any agent with repository access may take pool items (owner, Oct 15):** Claude, Codex, Cursor, Antigravity or any other; the pool's claim rule is the only coordination; merging stays with the CTO.

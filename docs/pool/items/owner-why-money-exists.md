@@ -4,10 +4,10 @@ title: "Why money exists for the player"
 area: core
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "docs/coordination/OWNER-DECISIONS.md, Open"
 ---
@@ -21,3 +21,5 @@ source: "docs/coordination/OWNER-DECISIONS.md, Open"
 **Files.** see the question
 
 **Notes.** None.
+
+Ruling (OWNER-DECISIONS.md, Oct 15 afternoon): Not settled; money accumulates and is spent on known costs; see core-player-money-spending.
