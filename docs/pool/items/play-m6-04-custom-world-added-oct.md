@@ -1,0 +1,23 @@
+---
+id: play-m6-04-custom-world-added-oct
+title: "M6-04 Custom world (added Oct 12)"
+area: play
+kind: feature
+priority: 3
+status: open
+claimed-by:
+pr:
+blocked-on:
+milestone: M6
+source: "docs/roadmap/later-specs-draft.md M6-04"
+---
+
+**What.** A new game starts from real data in a random place, or from a customized world (place, demographics, ideology, turnout, party strength, economy and more), like _The Political Process_'s advanced options. (Owner: OPUS-PLAY (the new-game screen), with OPUS-CORE (world generation).)
+
+**Rules.** Spec approved by the owner Oct 12; AGENTS.md rules.
+
+**Done when.** World generation honors every setting, and the world then runs by the same rules.
+
+**Files.** see spec
+
+**Notes.** Priority 3 until scheduled. Verify how much is built before starting.
