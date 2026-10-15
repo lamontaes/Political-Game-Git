@@ -4,9 +4,9 @@ title: "Lies about where you are from name another place"
 area: words
 kind: feature
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/words-lies-name-a-place
-pr:
+pr: #4466
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
