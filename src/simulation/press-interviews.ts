@@ -846,6 +846,45 @@ export function recordPressAdviserFeedback(
   return next;
 }
 
+/**
+ * The recorded channel and reporter of the arranged interview whose activity
+ * carries this location key, or null when no arranged interview does. Pure:
+ * it reads the saved arrangement and invents no room or arrival.
+ */
+export function pressInterviewByLocationKey(
+  world: World,
+  locationKey: string,
+): {
+  readonly activityId: EntityId;
+  readonly channel: PressInterviewChannel;
+  readonly reporterPersonId: EntityId;
+} | null {
+  for (const activity of world.history.scheduledActivities) {
+    if (activity.location.locationKey !== locationKey) continue;
+    const arrangement = activity.sourceEntityIds
+      .map((id) => eventById(world, id))
+      .find((event) => event?.type === "press.interview-arranged");
+    const reporter = arrangement?.participants.find(
+      (participant) => participant.role === "observation:reporter",
+    );
+    const channel = arrangement?.tags
+      .find((tag) => tag.startsWith(CHANNEL_PREFIX))
+      ?.slice(CHANNEL_PREFIX.length);
+    if (
+      !arrangement ||
+      !reporter ||
+      !(PRESS_INTERVIEW_CHANNELS as readonly string[]).includes(channel ?? "")
+    )
+      continue;
+    return {
+      activityId: activity.id,
+      channel: channel as PressInterviewChannel,
+      reporterPersonId: reporter.personId,
+    };
+  }
+  return null;
+}
+
 /** Pure read model used by written, interactive and condensed UI routes. */
 export function projectPressInterview(
   world: World,

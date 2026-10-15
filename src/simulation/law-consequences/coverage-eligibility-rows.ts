@@ -36,7 +36,7 @@ export const COVERAGE_ELIGIBILITY_ROWS: Readonly<
       evidence: {
         sourceIds: [
           "data/research/money/public-programs-2026.json#federal.medicaid",
-          `data/research/laws/starting-law-2026.json#questions.${questionKey}`,
+          `data/research/laws/starting-law-2026/index.ts#questions.${questionKey}`,
         ],
         population:
           "Recorded adult household members reviewed by the existing coverage writer.",
@@ -46,6 +46,21 @@ export const COVERAGE_ELIGIBILITY_ROWS: Readonly<
         uncertainty:
           "Reuses the existing modeled eligibility and exemptions; missing facts are undecided and never cause loss.",
       },
+    } satisfies LawConsequenceRow,
+  ]),
+);
+
+/** The same recorded eligibility is applied as soon as a new law takes effect. */
+export const COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS: Readonly<
+  Record<string, LawConsequenceRow>
+> = Object.fromEntries(
+  Object.entries(COVERAGE_ELIGIBILITY_ROWS).map(([questionKey, row]) => [
+    questionKey,
+    {
+      ...row,
+      id: `${row.id}:effective`,
+      when: "effective",
+      lag: { days: 0, sourceIds: [] },
     } satisfies LawConsequenceRow,
   ]),
 );

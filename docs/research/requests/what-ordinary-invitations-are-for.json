@@ -23,9 +23,34 @@
     {
       "source": "The DEPTH2 answers (A01 to A15)",
       "whatItDidNotSettle": "Covers traits, formative situations, relationship absence and parties; nothing on what ordinary social invitations are."
+    },
+    {
+      "source": "AmeriCorps/Census CPS CEV2023 state findings",
+      "url": "https://data.americorps.gov/resource/4r6x-re58.json?$limit=5000",
+      "whatItSettled": "State contact/help/member incidence, not per-tie survival or invitation calendar."
+    },
+    {
+      "source": "Pew Research Center2025 social connections; probability survey6204 US adults",
+      "url": "https://www.pewresearch.org/social-trends/2025/01/16/where-men-and-women-turn-for-emotional-support-and-social-connection/",
+      "whatItSettled": "Weekly friend contact benchmark with mode and denominator; Pew notices/disclaimer retained."
+    },
+    {
+      "source": "ASARB Religion Census FAQ terms",
+      "url": "https://www.usreligioncensus.org/faq",
+      "whatItDidNotSettle": "Redistribution/game derivative table grant not established; no data extracted."
     }
   ],
   "title": "What an ordinary invitation from someone local is for",
   "usableAnswer": "A short list of the common kinds (a meal at someone's home, a cookout, a birthday, a game on TV, church or club events, and so on), each with a typical day and time, a typical length, whether it is at the host's home or somewhere else, and roughly how often an adult gets asked. A realistic range is enough where the answer varies; say where it differs between a small town and a city.",
-  "whyItMatters": "Every ordinary invitation in the game is currently the same unspecified Saturday afternoon. Before this change it could not even be accepted: saying yes left it to lapse as 'passed without an answer'. Now a yes is kept, so what the invitation is and how long it takes is time the player really spends. Guessing it would be inventing depth."
+  "whyItMatters": "Every ordinary invitation in the game is currently the same unspecified Saturday afternoon. Before this change it could not even be accepted: saying yes left it to lapse as 'passed without an answer'. Now a yes is kept, so what the invitation is and how long it takes is time the player really spends. Guessing it would be inventing depth.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "findings": "ATUS2025 socializing/communication, eating/drinking, care and religious/civic activities provide measured time budgets. Meeting invitations must originate from actual hosts/events with purpose, place and calendar.",
+      "estimate": "Use participant social/care activity-time distributions as event-capacity constraints; daily participant hours are not a single event duration.",
+      "gaps": "No probability-sample invitation occasion/lead-time/distance joint table found; no universal number of invitations per week introduced."
+    }
+  }
 }

@@ -188,7 +188,7 @@ export type CampaignWeeklyRefusal =
  * on the ordinary clock until they change it. A scene or another commitment
  * that takes the time takes it: the hours are lost, not saved for later.
  */
-export type CampaignRoutineWork = "outreach" | "fundraising";
+export type CampaignRoutineWork = "outreach" | "fundraising" | "petition";
 
 export interface CampaignRoutineBlock {
   readonly work: CampaignRoutineWork;

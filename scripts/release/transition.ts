@@ -237,7 +237,11 @@ export function checkDeclarationTransition(
   }
 
   const paths = changedPaths(root, comparisonBase, head);
-  const eligiblePaths = paths.filter((path) => !isDeclarationPath(path));
+  // Session status files (docs/coordination) carry no release impact.
+  const eligiblePaths = paths.filter(
+    (path) =>
+      !isDeclarationPath(path) && !path.startsWith("docs/coordination/"),
+  );
   const declarationPaths = paths.filter(
     (path) => isDeclarationPath(path) && gitFile(root, head, path) !== null,
   );

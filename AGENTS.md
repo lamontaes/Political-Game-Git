@@ -1,121 +1,133 @@
 # Our Civic Duty — repository guide
 
-A political and government RPG with supporting life simulation. Deliver the requested player experience through the existing systems; do not expand routine jobs, school administration, or tooling because a substrate exists.
+A political and government RPG with a full life simulation underneath. Every Claude and Codex session follows this file. Keep it short: rules that must never be skipped are automatic checks, and detailed how-tos live in `.agents/skills/`, `.agents/rules/standing-skills/` and `.agents/rules/`.
+
+## Where the game is going (owner, Oct 10, 2026)
+
+- **The new core (`src/core2`) is the engine.** Build onto it through modules and data rows. Never start a parallel engine, writer, scheduler or system. The old core runs only until each piece is ported (`docs/design/core2-porting-plan.md`); add no new features to it.
+- **Progress is the golden path with the world running.** The player's path: turn 18 → meet people → file for office where that place files (clerk, registrar or board of elections, from its records) → campaign → win or lose → propose an ordinance → negotiate → pass or fail → the town visibly changes → people bring it up → the next election uses the record. Around it the whole time: the national economy, state and federal governments acting through the same engines as local government, and other places at a coarser level. Report the furthest step a player reaches, never an audit percentage.
+- **The Political Process is the baseline (owner, Oct 12).** The game does everything _The Political Process_ (Verlumino Studios) does, then goes deeper from the owner's decisions and the design record. `docs/roadmap/political-process-baseline.md` maps each of its systems to our specs.
+- **Early access:** local and state offices playable (council, mayor, county, state legislature, governor), including the executive role. Federal is built in parallel on the same engines; playing as president is a goal that early access doesn't wait for. Courts come after early access.
+- **The roadmap is `docs/ROADMAP.md`.** Work is tracked on the GitHub Project. Owner ideas go into its "Next" list and get scheduled at the weekly reschedule; work in progress finishes unless the owner says stop.
+
+## Keep it simple (owner, Oct 11, 2026)
+
+This section overrides anything heavier elsewhere in this file, in `docs/packages/` or in a work order.
+
+- **Two-level population.** Full individual people exist only where they matter: the player, their household and circle, people they meet or click on, officials and other named people. Everyone else is the modeled wider population (counts by place, age, job and household, plus voter groups), filled in as a full person the moment the player meets or clicks them, seeded from the world so the same person comes back every time. A filled-in person must match what the records already say (if a business's books show 12 employees, the one you click is one of those 12, with that job and pay). Nobody gets a full past or memory until they're filled in.
+- **Bookkeeping is a debug switch.** Read tracing, validation, copying and freezing run in tests and the bench, not in play. Save "why" reasons only for the player and the people they deal with.
+- **One run, one number.** No repeat medians, receipt files, frozen copies or proof ceremonies unless a result is disputed.
+- **Build only what the golden path needs.** Port what it actually uses; write it fresh when that's simpler. Don't carry old code over just because it exists.
+- **Every day ends with something the owner can play.** Report what he can do now in plain words, not PR numbers.
+- **Short work orders:** what to build, the rules it must follow, and how the owner will play it to know it works.
+
+## The team (owner, Oct 11, 2026)
+
+Sonnet is the only Claude model that builds, reviews or merges; there are no Opus sessions or sub-agents (owner, Oct 15, 2026). Any agent with repository access may take pool items from `docs/pool/INDEX.md` (Claude, Codex, Cursor, Antigravity or any other); only the CTO merges. Areas still bound what a session may edit. Each session works its claimed item and then takes the next from the pool, stopping only when it's out of usage (see "No stopping" below).
+
+Areas:
+
+- **Core:** `src/core2`: state, clock, choices, ledger, population, speed, money; everything not listed below.
+- **Government:** `src/rules` and the government engines: laws, budgets, programs, offices, elections and campaigns, legislatures, executive.
+- **People:** the people engines (people, health, drives, views, renewal), the story director (`src/director`) and the English engine.
+- **Play:** the bench, `src/bench`; the game screens on the new core; the evening build; store screenshots.
+- **World:** the economy engines: macro, regional, jobs, housing, credit, business.
+- **Fixes:** nothing of its own: bugs the CTO assigns, one per PR.
+
+- An engine is `src/core2/modules/<name>.ts` with its helpers `src/core2/<name>-*.ts` and data `src/core2/data/<name>/`; it belongs to the area that owns that engine.
+- Each session writes only in its own area, on its own branch. Changes to the core go through a core-area session: ask on its PR.
+- Each session keeps one status file, `docs/coordination/<session>.md`, and is its only writer: its checklist, what it needs from others, and what the owner can play now. Only the CTO writes `docs/coordination/BOARD.md`. Cloud sessions can't reliably message each other, so the CTO relays.
+- Codex and any other session build inside the area that owns the files.
+- **No stopping (owner, Oct 12, 2026).** Sessions build the whole game, not just tonight's list. When your item is done, take the next from the pool (`docs/pool/INDEX.md`). Nothing waits on another session: if you need something from one, build against the smallest stand-in on your own branch, register it as a stopgap (a marker in the code and a row in `src/core2/data/stopgaps.json` naming what it fakes and what replaces it; see "Placeholders"), note it under "Needs from other sessions", and keep going. Nothing waits on the owner: where a design is his call and he hasn't ruled, build the simplest version that follows this file, write the question in your status file, and keep going; he reviews by playing. The only stop is running out of usage.
+
+## Who does what
+
+- **Codex and the Claude engineering account build** (owner, Oct 11), on draft PRs, from a package spec in `docs/packages/`. Codex takes broad and data-heavy work (research, ports, data, tests). The Claude engineering account takes the critical path and work where mistakes cost most (core speed, money, people modeling, and work orders the CTO assigns to it).
+- **Checks stay light (owner, Oct 11).** Builders test their own work. The checks that block are the release gate on the client (build, typecheck and the release declarations; owner, Oct 15) and each builder's in-session checks on changed files only, reported in one line at the top of the PR body. GitHub's runs are not waited on. The golden-path suite, the speed guard and every dollar balancing stay as the bench's own guards, not merge blockers. The owner plays the evening build, and that's the real check. Checker sessions play alongside and file bugs to the fixer; they never hold a builder up.
+- **The CTO merges.** Nobody merges their own PR. The owner approves designs and package text before anything is sent to a session; the pillars' work under "No stopping" is the exception, and he reviews it by playing.
+- **One writer per area.** Stack branches on the core; never push to another session's branch. Claim a task on the GitHub Project before starting it (pillars claim in their status file).
+- **Helpers.** A helper needs an independently useful bounded output and explicit path/tool ownership; no recursive delegation or duplicate full-repo review. Preserve configured concurrency limits. Model effort is proportional to the actual task (see `model-effort`).
+
+## Models, effort and helpers (owner, Oct 10: mind the usage)
+
+Every package names its model and effort with a one-line reason. Balance usage against effectiveness: normally lean toward saving usage (about 60–65% thrift, 35–40% raw power); near or right after a usage reset, about even, or tilted toward effectiveness. Not the cheapest possible, and nothing runs at the top level just because it's available.
+
+- **Codex builds at medium** by default (OpenAI's recommended default for coding). **High** only when the package says why: core architecture, money conservation, or rules every port depends on. **Extra-high only after high has failed** at a named task.
+- **The Claude engineering account builds with Sonnet at high** by default, and medium for small, clear fixes; no Opus (owner, Oct 15). The Words line (English engine and director) is the one exception: an Opus session at medium with one Sonnet sub-agent (owner, Oct 15).
+- **Checkers run on Sonnet at high** when needed: playing the evening build and investigating a disputed result. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
+- **Helpers: the 3-2-1 rule (owner, Oct 14, 2026).** Every session may run sub-agents up to one of these: three Haiku or two Sonnet. Only for work that runs in parallel or for research and reading, never to pass the session's own job along. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise. Codex keeps its repository setting of two. **Audits are the exception (owner, Oct 14):** a trace audit runs as its own Sonnet session with up to ten Haiku readers, one bounded path each; one Sonnet agent verifies every Haiku claim against the code; the session plans, assigns and writes the report.
+- **Pillars may build with sub-agents (owner, Oct 12, 2026, 10:30 a.m.).** Each session may run its own Sonnet or Haiku sub-agents within the 3-2-1 limit, choosing what fits: one fixing bugs while another builds the next item, or two splitting a big build to finish it faster. The rules:
+  - each sub-agent works on its own files or in its own worktree, inside the pillar's own area, so two never edit the same file;
+  - the pillar gives each a clear task, its allowed paths and its check (a test in a random place), then reviews and merges the result into its branch;
+  - sub-agents follow every rule here (no hand-written player text, registered stopgaps, the guards) and never edit another session's area;
+  - the pillar's status file says which sub-agents ran, on what model, and what they finished.
+  - onto main, and for every fixer PR into a pillar branch, only the CTO merges, and reports each merge in the owner's chat. The CTO's look before merging is a quick check that the work is real and breaks none of these rules (owner, Oct 12, 10:35 a.m.), not a line-by-line review; the automatic checks and the owner's playtests carry the rest.
+- **One package per session**, then a fresh session. The pillars are the exception: they're long-lived, automatic compaction carries their context, and their status file carries their state. Stop and report instead of escalating when something keeps failing.
+- **Track what each choice costs.** Every hand-off records the model and effort, how long it took, usage if visible, and how many times the finisher sent it back (and why). The CTO keeps `docs/roadmap/model-log.md` and adjusts defaults from it: a cheaper, faster setup that needs a few more send-backs is fine (owner, Oct 10).
+
+## How every session works
+
+- **The pool is the only backlog** (owner, Oct 15, 2026): `docs/pool/` holds every piece of work; a session claims an item by editing its file, adds an item for anything it finds, and reads `docs/pool/INDEX.md` to pick the next one. See `docs/pool/README.md`. Any agent with repository access (Claude, Codex, Cursor, Antigravity or another) may take pool items the same way; only the CTO merges.
+
+- **Red main comes first** (owner, Oct 15, 2026): a session that finds the release run on main red claims `release-main-red` in the pool, fixes it at the root on its own PR, and then returns to its item; nobody builds on a red main for long.
+
+1. **Start:** read the package (or your status file), the roadmap's progress file and the git log; run the golden-path suite (`node --import tsx tests/golden-path/runner.mjs`) and, once the bench is on your branch, open it; confirm the game still works before changing anything.
+2. **Contract:** before building, write what you will build and how it will be checked (the golden-path test, in a random place) in the PR body, then **start right away**. Don't wait for approval unless you're changing the package's scope, its owned paths or a test; the CTO reviews contracts at check-ins and sends one back if needed.
+3. **One feature at a time.** Commit after each meaningful unit, with tests passing.
+4. **Finish:** update the progress file, including what failed and why; leave the branch mergeable. The next feature gets a fresh session; pillars continue in theirs.
+5. **Done means it works in play:** its own tests and the automatic guards pass, and it's in the evening build for the owner to play.
+
+## Placeholders
+
+- Every shortcut (a number, text, behavior, a faked mechanic, assumed data, something that works in only one place) is a **registered stopgap**: an ID, a marker in the code, the reason, the author and date, and what replaces it. An unregistered placeholder is a defect.
+- **Look before you register** (owner, Oct 15, 2026): before registering any stopgap or `owner-decision`, read `docs/coordination/DECISION-REGISTER.md` and `docs/coordination/OWNER-DECISIONS.md` and search `docs/` for the subject; if it was decided, build the decision and cite it, and if it is built, use it. A stopgap or question that duplicates a ruling is a defect.
+- Builders may leave registered stopgaps; finishers clear each one or keep it with a reason the CTO accepts. The release build refuses to build while any stopgap is open, and the tripwire tests fail on an unregistered one.
+- Every number lives in the parameter table, tagged SOURCED (with citation), ESTIMATED (with source and spread) or TUNABLE (with the spread it's checked against).
 
 ## Standing owner rules
 
-Owner's standing rules, binding on every session regardless of trigger. Detail and
-self-checks are in the matching `.claude/skills/<name>/SKILL.md`.
+Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>/SKILL.md`.
 
-- **No dice.** No seeded roll or fixed percentage decides what a person, business,
-  official or body does; the actor's traits, principles, relationships, money,
-  health, the law in force and the place's conditions decide. Real rates check
-  totals, they never pick one actor's outcome. See `no-dice` — a rolled outcome
-  erases the player agency the game exists to reward.
-- **Sliding scales, causes, births (owner, Sept 29).** Nothing flips at a
-  threshold; every factor bears on a decision smoothly. World events happen from
-  causes (a hazard record and season, a health record, a law, a price change),
-  never a monthly chance. A new person's looks, name and upbringing come from
-  their parents, real records and their family's circumstances; a seeded pick
-  is allowed only among real options. Starting values are realistic (real
-  averages with a per-world spread), not necessarily the real 2026 figure.
-- **Speed budget (owner, Sept 29).** No change may make a game year more than
-  20% slower than main. Run `npm run speed:years -- --years 3` against
-  current main and the candidate in exclusive host windows. The local gate
-  (`node scripts/local-gate.mjs --baseline <main-receipt> --tests <files>`)
-  refuses any year over 120% of main. Never scan the whole world or a
-  whole history list every day; use indexes or act on the day something changed.
-- **One rule, all 56 places.** Never name a state, city or GEOID in logic; place
-  facts live in data, and watched runs and tests draw a random place from all 56
-  (50 states, D.C., Puerto Rico, Guam, USVI, American Samoa, Northern Marianas),
-  naming place and seed. See `one-rule-all-places` — a fix proven in one place
-  only is a demo, not a fix.
-- **Estimate, never UNKNOWN.** An unread value a player can see starts from the
-  real average with a per-world spread, marked ESTIMATED FROM AVERAGE with
-  source; exact values are for things players actually recognize; finish simple
-  research instead of estimating around it. See `estimate-not-unknown` — a
-  visible gap breaks the world worse than a marked estimate does.
-- **Wire to the world.** Every new law or feature moves money, people or places
-  in the same PR, proven by a watched-world test; a bill carries its own terms
-  written from its sponsor's views, and a rule applies to its whole module, not
-  just the named example. Fix a known bug with a fast fix instead of only
-  reporting it. See `wire-to-the-world` — scaffolding nobody can see happen
-  isn't delivered.
-- **Emergence, reported.** Every hand-back opens `MERGED`, then `WHAT EMERGED`
-  with each outcome marked `DECIDED` (quote the recorded reason) or `HARDWIRED`
-  (file:line), then wider knock-on effects and missing links, then
-  `VITAL STATISTICS`. Report only what the simulation actually traced. See
-  `emergence-report` — the owner tracks the game by what it produced, not intent.
-- **Local gate, not the full suite.** Validate typecheck/eslint/prettier on
-  changed files, `release:check --mode pr`, `npm run zero-dice`, and the tests
-  for changed files (browser specs only if screens changed); a failure that's
-  also red on a clean `main` doesn't block. Never force-push, never a permanent delete. See
-  `local-gate` — a light gate that runs beats a heavy one everyone skips.
-- **Research before building.** Look up real examples of whatever the feature
-  touches across the country; real data checks the simulation and never decides
-  an outcome by itself, and player screens never show sources. See
-  `research-habit`.
-- **Scenes are places, not backdrops.** A scene is a background shaped by the
-  world's current state, narration that reads that state, anchors, and the real
-  people actually there, posed and clickable; places are multi-use by default.
-  See `scenes`.
-- **Lowest model/effort that works.** Sonnet Medium for agreed designs, Opus
-  Medium (not High) for judgment calls; escalate only after the lower tier
-  actually fails. See `model-effort`.
+- **No dice.** No seeded roll or fixed percentage decides what a person, business, official or body does; their traits, principles, relationships, money, health, the law in force and the place's conditions decide. Real rates check totals; they never pick one actor's outcome. Seeded generation of who exists is allowed. See `no-dice`.
+- **Sliding scales and causes.** Nothing flips at a threshold. World events happen from causes (a hazard record, a health record, a law, a price change), never a monthly chance.
+- **One rule, all 56 places.** Never name a state, city or GEOID in logic, plans or packages; place facts live in data. Tests and watched runs draw a random place from all 56 (50 states, D.C., Puerto Rico, Guam, USVI, American Samoa, Northern Marianas) and name the place and seed. See `one-rule-all-places`.
+- **Estimate, never UNKNOWN.** A value a player can see starts from the real average with a per-world spread, marked as an estimate with its source. See `estimate-not-unknown`.
+- **Wire to the world.** Every feature moves money, people or places, proven in a generated world, and applies to its whole module, not just the named example. See `wire-to-the-world`.
+- **This is a game, not a spreadsheet (owner, Oct 14, 2026).** Research calibrates the simulation; it never adds a step to the player's life. No one builds a mechanic because real life has it: a filing fee, a tax return, a petition, a form. A mechanic exists only when the golden path needs it, _The Political Process_ has it (`docs/roadmap/political-process-baseline.md`), or the owner asked for it by name. Finding a real-world step the game lacks is a question for the owner in the PR body, not a feature. Depth comes from how people, money and places react, told as a story through the director and the English engine, not from more paperwork for the player.
+- **An effect is a read, not a record (owner, Oct 13, 2026).** A law, a measure, a health record, a drive or a view has an effect only when a different engine reads it at the moment it decides or pays: a dollar on the journal, a price, who is marked eligible and then served, a decision's recorded reasons, or a kept measure that views, budgets, news or a screen reads. A record written on a person, a table nobody else reads, or a handler whose mechanic is "none" or "records" is an unregistered placeholder, not a feature. A module is finished when a one-year run of the played world (`buildBenchWorld`, every module installed, a seed the builder did not choose) shows another engine reading what it wrote, named by record id. A unit test that builds its own small world proves nothing about play.
+- **Replace, never layer (owner, Oct 14, 2026).** A new look, engine, screen or rule replaces the old one in the same change: the old code, styles, data and markers are deleted, not left under or beside the new. A change that adds the new and keeps the old is not done. The PR body counts what was removed.
+- **One model, two tiers (owner, Oct 14, 2026).** The counted population is not a second simulation. A counted group (a place's residents by age, job, household, income, voter group and district) is read by every engine with the same rule as a full person, times its count: the same tax, the same benefit, the same rent, the same pull to move. A change's reach is the sum over groups plus the full people, and a full person is a consistent member of their group. Counts move between places from causes, never a schedule. A rule that applies only to full people is an unregistered placeholder.
+- **The chain is the acceptance (owner, Oct 14, 2026).** A bill, a budget line or an executive act is finished only when one dollar or one rule is followed to a named person and back out: the record, the law in force changing, the payment or price that changed, the person it reached, the choice or view that moved because of it, and the director's scene or journal line. Most people are untouched; the PR body names the ones who were, by record id.
+- **Look before you ask (owner, Oct 14, 2026).** Before any question goes to the owner, and before the CTO rules in his place, read `docs/coordination/DECISION-REGISTER.md` (the Drive register, copied here) and `docs/coordination/OWNER-DECISIONS.md`, and search `docs/` for the subject. Most of what looks open was decided; quote the decision instead of asking.
+- **Ask why (owner, Oct 14, 2026).** Every proof answers why, by record: why a vote was 5 to 0, why a person knew a law caused their smaller check. Nobody attributes a change to a law unless they learned of it (news received, a conversation, a notice, an ad), and the stance cites that source. A session that cannot answer why has found a defect and files it.
+- **Owner decisions are flagged, never waited on (owner, Oct 14, 2026).** When a design is the owner's call, build the simplest version that follows this file, register a stopgap of kind `owner-decision`, and write the question under the heading **OWNER DECISIONS NEEDED** at the top of the PR body and in `docs/coordination/OWNER-DECISIONS.md`. The release build refuses while any is open, so nothing ships on a guess. The CTO brings the open list to the owner in one sitting. First read the register; most such questions were already answered.
+- **No hand-written player text.** Words come from the English engine; screens show record data and control names.
+- **Research before building.** Real data checks the simulation and never decides an outcome by itself. See `research-habit`.
+- **Speed.** A town's game year must run in under two minutes. No change may make a year more than 20% slower than its base: measure before and after on the same base, on the same machine, one process at a time. Never scan the whole world or a whole history every day; use indexes or act on the day something changed.
+- **Saves don't matter** until early-access preparation, when a versioned save format is built.
+- **American English everywhere**, enforced by `tests/american-english-sweep.test.ts`; `npm run spelling` lists what it would flag. Persisted identifiers keep their spelling.
 
-## Current assignment and evidence
+## Process
 
-The assigned Google Doc and the current Assignment Board own product scope and ownership. Live GitHub, source and executed checks establish implementation state. Historical reports are evidence at their named heads, not current tasks. Read the assigned task once, check the Board's current dispatch and relevant decision entries, and fetch the working refs. Resume from that state; reread only when a dependency, scope or owner changes. Do not traverse the whole ledger and every past handoff for each edit.
-
-The Game Constitution and accepted decisions remain binding. Consult `docs/GAME-CONSTITUTION.md` and `docs/decisions/DECISION-LOG.md` for product/semantic choices; `ARCHITECTURE.md` and the relevant `docs/systems/` contract for a boundary change; release/deployment documentation for a publication change. Ordinary local repairs do not require another whole-project architecture audit. Contradictions are resolved explicitly, not by silently weakening a contract.
-
-Full command and technical reference: `.agents/rules/repository-reference.md`. Its older universal reading/verification itinerary is superseded by this task-sensitive routing; its applicable substantive constraints remain in force. Use matching `.agents/skills/` only when the task triggers them. Any report or write-up for the owner triggers `.agents/skills/civic-reports/`.
+- **Light by default.** Reviews and evidence reports at milestones, not on every patch. Provenance is tracked by record type, not on every item. PR bodies say what changed for the player, the measured result and what's next.
+- **Local gate, not the full suite.** Typecheck, eslint and prettier on changed files, `release:check --mode pr`, `npm run zero-dice`, and the tests for changed files. A failure that's also red on clean `main` doesn't block. Never force-push; never permanently delete. See `local-gate`.
+- **Generated-world proof.** Claims about simulation-driven events, scenes, dialogue or law effects need the route in an ordinary generated world through existing producers and writers, naming the head, seed, place and record ids. Hand-inserted fixtures prove edge cases only.
+- **A fix lands on the branch where the failure reproduces.** Diagnose from the log on every platform that shows the failure.
+- **Owner reports** use `.agents/skills/civic-reports/`: what changed for the player first, then the numbers, in plain American English.
 
 ## Implementation boundaries
 
-- Keep simulation code pure TypeScript, independent of React, DOM and external APIs. Reuse canonical people, employment, enrollment, time, actions, money, knowledge, history and art systems.
-- Preserve IDs, seeded identity, old saves, source evidence and append-oriented history. Unknown facts are not zero or permission. Read-only screens spend no game time and do not create facts.
-- A scoped fictional event may be authored through existing simulation writers, then rendered from its recorded context. A prose-only renderer must not invent facts absent from its packet. Do not replace a missing producer with vague text or pretend a proposed action already happened.
-- Use actual jurisdiction/location records. Kentucky/Lexington is an explicit scenario, not a universal normal-start default. Do not overwrite newer sourced behavior with an old placeholder assumption.
-- Preserve asset originals, hashes, views and source-to-derivative lineage. Check the correct existing source bank before asking for replacement art. No raster enlargement, fabricated measurement, automatic art approval, or side-view deletion to satisfy a front-view consumer. Candidate preview and approved production remain distinguishable, with isolated saves.
-- A room is first-person. Render actual present NPCs; do not manufacture relatives or add a second visible player merely to fill it.
-- Write American English everywhere — player text, content, tests, docs, skill and instruction files: color, center, labor; miles, feet, inches, pounds, ounces; month/day/year dates. `tests/american-english-sweep.test.ts` enforces it, and `npm run spelling` lists what it would flag (`-- --write` repairs prose in place) — run it before merging new docs or copy; the house style is in `.agents/skills/civic-prose/references/prose-contract.md`. Persisted identifiers keep their spelling (`"cancelled"`, `returning-favour`); rename one only with the lanes that read it.
-- No proprietary material from other games. Version numbers and patch notes remain owned by the release machinery, not hand-edited branch bumps.
-
-## Ownership and execution
-
-Use preflight and identify workspace, branch, local/upstream head before substantial work. Keep one writer per overlapping surface, working in your registered workspace (below); a genuinely parallel writer may need a separate tree, a retry or a new branch does not. Do not stash, reset, clean, force-push or overwrite someone else's work. Protect the owner's play folder, saves and port. Recheck upstream immediately before publishing.
-
-Safe local implementation, fixture tests and repairs caused by the task do not require permission at every step. Continue through the running route, observed defects and handoff the task requests, rather than stop after the first component or report. Escalate only a material product/authority decision, missing permission, destructive action or paid external operation. LAND retains merge authority; do not self-approve consequential code.
-
-A helper needs an independently useful bounded output and explicit path/tool ownership; no recursive delegation or duplicate full-repo review. Preserve configured concurrency limits. Model effort is proportional to the actual task, not permanently maximum.
+- Simulation code is pure TypeScript, independent of React, DOM and external APIs.
+- Unknown facts are not zero or permission. Read-only screens spend no game time and create no facts.
+- Preserve asset originals, hashes and source-to-derivative lineage. No proprietary material from other games. Version numbers and patch notes belong to the release machinery.
 
 ## Workspaces and storage
 
-On 2026-09-19 more than 100 GB of project copies had accumulated on the owner's Mac, and a manual cleanup removed the repository every worktree shared. `scripts/storage/` exists so that does not recur. It is a script, not an operating-system quota.
+On 2026-09-19 more than 100 GB of project copies filled the owner's Mac. Never copy the repository.
 
-- Reuse the registered workspace: `npm run storage -- workspace --owner <owner>` returns the same folder every time. A new chat, retry, viewport, browser or small repair is not a new directory, and a new branch is a version-control operation in the folder you have. A temporary comparison tree needs a named task, exact baseline, lease and retirement condition.
-- Guarded entry points take byte headroom first and refuse (exit 3) with the numbers, leaving source, saves, apps and evidence untouched. `npm run build` and any command started as `npm run storage -- run <operation> -- <command>` (or `node scripts/agent-run-receipt.mjs --storage <operation> …`) hold the reservation until the command ends, fails or is signaled. Playwright (`playwright.config.ts`), `desktop/scripts/stage.mjs` and `desktop/scripts/package.mjs` (all `dist:*`) hold it for their own process. `npm run agent:preflight` and `npm run storage -- gate <operation>` are admission checks only: they hold nothing afterwards. Defaults: 25 GiB free-space reserve; 60 GiB across at most 8 registered workspaces; 6 GiB and 3 recent runs per disposable output root. Machine overrides: `~/.ocd-dev/storage-policy.json`. The only exempt host is a GitHub-hosted Actions runner (`CI=true` alone is not); `OCD_STORAGE_OVERRIDE="reason"` records a deliberate bypass.
-- What this is not. A reservation is admission control on an estimate, not a byte quota: a command can write more than was reserved, and nothing stops it mid-run. The workspace byte budget is checked when a workspace is created or registered, not continuously. The registry in `~/.ocd-dev/` is shared state, not interception: a checkout that does not contain `scripts/storage/` is not guarded at all.
-- Outside the guard even here: `npm ci`/`npm install`, `vite`/`npm run dev`, plain `vitest`, the art, pack and source-acquisition scripts, raw `git clone`, `git worktree add`, `cp -R`, downloads, and any tool that never calls it. Run a heavy one through `npm run storage -- run <operation> -- …`, and never use them to provision another copy of the project.
-- Output cleanup removes runs only inside an exact directory registered with `npm run storage -- output-root --path <dir>`, which must sit inside a registered workspace and may not be, contain or lie within source, a Git checkout or a protected path; any other root is measured read-only. A run stays if a `.pin` exists anywhere inside it, if it overlaps a protected path, if a live operation is writing it, or if it predates the root's registration and no disposition has been recorded (`--historical-disposable` records one).
-- Never delete by name — `base`, `raw`, `scratch`, `backup`, `test-results` prove nothing. `npm run storage -- check --path <folder>` lists what blocks retirement: an active or protected path, a live reservation, unpublished commits, stashes, tracked changes, untracked files (private inputs and evidence are in no bundle), a common Git directory other worktrees use, an object store another clone borrows through alternates, or a folder another checkout reaches through a symlink (a shared `node_modules`). Only a network remote counts as published; a remote that is a folder on this machine does not. `npm run storage -- record --plan <plan.json>` writes a content manifest into the plan: source identity plus a SHA-256 of every tracked difference, staged entry, untracked file, index-skipped path and ignored file outside the plan's named `disposableRoots`, with symlinks bound by target. Approval covers those bytes only; `retire --plan <approved.json> --apply` refuses a path with no manifest and any path whose manifest no longer matches, re-checked at each removal.
-- Large inputs are referenced, not copied: a code-only change reuses installed artwork and data, an unchanged lockfile reuses the valid install, and private packs are immutable — stage them, never edit in place.
-
-## Validation and delivery
-
-Use relevant format/lint/type checks, the actual release declaration range, focused behavior/regression tests and the affected integration path. Run the full gate when required by repository protections or by the final composition; don't repeat unaffected full suites after every tiny edit. Art changes run the applicable art gates; a prose or menu typo does not by itself require all art regeneration. No removed assertions, fake baselines, false passes or blanket timeout/exclusion workarounds.
-
-UI changes need the real interaction and viewport being changed. Prose needs the actual assembled output and saved follow-through, not only row counts. Passing code tests is not human visual approval. Keep captures outside tracked evidence unless performing its explicit refresh workflow.
-
-**Generated-world proof.** Claims about simulation-driven events, scenes, dialogue, or law consequences require the affected route in an ordinary generated world through existing producers and canonical writers. Fixed or hand-inserted fixtures supply edge-case evidence only; they do not prove the generated-world route.
-
-Name the checked head, seed, world ID, simulation date, place, and relevant record IDs. Show actual conditions and effective laws only where the route consults them, and identify the actor knowledge, personality, and relationships it uses. Follow the same selected subject from eligibility through meaning and assembled English to saved consequences and reload. When applicable, include a different eligible subject or context, plus an ineligible or quiet case.
-
-Reuse existing causal inspectors, traces, and calculators. Distinguish saved reasons from reconstruction using current code, and explicitly identify missing provenance. Inspection must remain pure: it must not advance time, write records, or invent facts.
-
-Declare a finite acceptance endpoint for the affected route. In cloud work, complete focused checks on changed paths and send the exact checked head to Merge. Unrelated suites or worldwide coverage must not add a hold to that endpoint; repository protections remain binding. A documentation-only assignment ends when its changed documents are checked and merged and authorizes no engine edits.
-
-A fix is not landed until it is on the branch where the failure reproduces. A correct fix with a correct explanation, committed to a sibling branch, leaves the failing branch exactly as red as before and looks from there like an unsolved problem; check the failing branch's own history before diagnosing, and after fixing, before calling it done. Diagnose a failure from a log on every platform that shows it, not from the first one: name an entry or a report after the failure observed, never after the suspected cause, until the cause is measured.
-
-Publish cohesive ready fixes promptly. Minor safe polish is a follow-up, not a hold on unrelated useful work. Preserve unsafe paths behind their proper boundary until fixed. Report the exact published head/build route, what changed for the player, tests executed and specific remaining gaps. A PR, a merge into a feature branch, the build the owner plays, art approval and public release are different states.
+- **Cloud sessions set the override themselves** (owner, Oct 15, 2026): a session in a cloud environment runs every npm command with `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` and never asks the owner to confirm it; the storage rules below protect the owner's Mac, not cloud containers.
+- Reuse your registered workspace: `npm run storage -- workspace --owner <owner>`. A new chat, retry or branch is not a new directory.
+- Run heavy commands through `npm run storage -- run <operation> -- <command>`. Never use `npm ci`, `git clone`, `git worktree add` or `cp -R` to provision another copy of the project.
+- Never delete by name; check first with `npm run storage -- check --path <folder>`.
+- No world runs, full suites or package builds on the owner's Mac; heavy runs go to the cloud.
+- Full rules: `.agents/rules/storage-and-workspaces.md`. Command reference: `.agents/rules/repository-reference.md`.

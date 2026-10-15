@@ -7,7 +7,7 @@ import {
   recordById,
   type GrowingIndexKind,
 } from "./history-index";
-import { addDays, daysBetween } from "./dates";
+import { addDays, daysBetween } from "../core2/kernel/dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import {
   currentLifeCutoff,
@@ -175,7 +175,7 @@ function annualPay(
         annualMinor: inForce.annualDollars * 100,
         note:
           inForce.estimatedBecause ??
-          `Salary for this office, published (The Book of the States 2023; Congressional Research Service 97-1011 for Congress).`,
+          `Salary for this office, published (official government salary records; Congressional Research Service 97-1011 for Congress).`,
       }
     : null;
 }

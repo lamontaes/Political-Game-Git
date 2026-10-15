@@ -1,3 +1,4 @@
+import { storyPerson } from "./story-people-store";
 import { campaignFundraiserPayments } from "./campaign-money-source-queries";
 import { eventById } from "./event-index";
 import { assertCampaignLifeIntegrity } from "./campaign-life-integrity";
@@ -11,7 +12,7 @@ import {
   campaignStateRecords,
   campaigns,
 } from "./campaign-queries";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { municipalSeatChoiceByKey } from "./municipal-seat-identity";
 import type {
   CampaignActionRecord,
@@ -519,6 +520,30 @@ function assertCampaignActionResults(
         `Campaign result consequence linkage is invalid: ${result.id}`,
       );
     }
+    // A canvass names only residents its outcome event says were there, and
+    // story-only residents the story records (`story-people.ts`); each
+    // conversation is with one of them.
+    const canvassMet = new Set([
+      ...(result.canvass?.metPersonIds ?? []),
+      ...(result.canvass?.storyPersonIds ?? []),
+    ]);
+    if (
+      result.canvass &&
+      (action.kind !== "outreach" ||
+        result.canvass.metPersonIds.some(
+          (personId) => !outcomeEvent.involvedEntityIds.includes(personId),
+        ) ||
+        (result.canvass.storyPersonIds ?? []).some(
+          (personId) => !storyPerson(world, personId),
+        ) ||
+        (result.canvass.conversations ?? []).some(
+          (row) => !canvassMet.has(row.personId),
+        ))
+    ) {
+      throw new Error(
+        `Campaign canvass names somebody it did not meet: ${result.id}`,
+      );
+    }
 
     // Support has to move for everybody in the contest, not only the filer:
     // a campaign that recorded its own rise without recording whose it came
@@ -815,7 +840,7 @@ function assertCampaignRoutineIntegrity(
       routine.supersedesRoutineId !== (latest.get(campaign.id) ?? null) ||
       routine.blocks.some(
         (block) =>
-          !["outreach", "fundraising"].includes(block.work) ||
+          !["outreach", "fundraising", "petition"].includes(block.work) ||
           block.weekdays.length === 0 ||
           block.weekdays.some(
             (day) => !Number.isSafeInteger(day) || day < 0 || day > 6,

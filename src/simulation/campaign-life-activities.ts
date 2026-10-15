@@ -1,6 +1,7 @@
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { eventById } from "./event-index";
 import { modelCampaignFieldReach } from "./campaign-contact-calibration";
+import { circulateCandidatePetition } from "./candidate-petitions";
 import { wasRefused } from "./scheduled-activity-answer";
 import { onShiftAt, workSchedulesFor } from "./living-world/work-schedules";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
@@ -31,6 +32,7 @@ import {
   campaigns,
 } from "./campaign-queries";
 import { recordSupportShift } from "./campaign-support";
+import { currentCampaignRoutine } from "./campaign-routine";
 import {
   candidacyAuthority,
   candidacyEligibility,
@@ -49,7 +51,7 @@ import {
   makeIsoDate,
   simulationMinutesBetween,
   simulationMomentAtLocalTime,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { evaluateDecision } from "./decisions";
 import { evaluateCampaignHelpDecision } from "./campaign-help-decision";
 import { registeredTraitConsiderations } from "./trait-readings";
@@ -59,7 +61,7 @@ import {
   requireElectionContest,
 } from "./election-contests";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import type { RuleValue } from "./legislature-rules";
 import { organizationParticipationStateAt } from "./life-queries";
 import { workStatusAt } from "./life-queries";
@@ -73,7 +75,7 @@ import {
 import { drawCanonicalNamedIdentity, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   cancelScheduledActivity,
   createScheduledActivity,
@@ -1665,6 +1667,20 @@ export function recordCampaignLifeAttendance(
     });
     next = shift.world;
     supportStateIds = shift.stateIds;
+  }
+  const petitionRoutine = openCampaign
+    ? currentCampaignRoutine(next, openCampaign.id)?.blocks.some(
+        (block) => block.work === "petition",
+      ) === true
+    : false;
+  if (openCampaign && petitionRoutine && FIELD_FORMS.includes(record.form)) {
+    next = circulateCandidatePetition(next, {
+      campaignId: openCampaign.id,
+      circulatorPersonId: personId,
+      stableKey: `${record.stableKey}:petition-circulation`,
+      minutes,
+      at: completedAt,
+    });
   }
 
   let guidanceKnowledgeId: EntityId | null = null;

@@ -51,8 +51,8 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
     key: "cause-policing",
     connects: "How many police a place has and what they are paid to do.",
     status: "not-built",
-    rule: "Not read. The world holds no police force or police budget for a place; the arrest share is the same everywhere.",
-    where: "src/simulation/crime/contract.ts arrestShare",
+    rule: "Not read. The world holds no police force or police budget for a place; an arrest follows from the offender's own circumstances, the same everywhere.",
+    where: "src/simulation/crime/offenders.ts",
   },
   {
     key: "cause-enacted-law",

@@ -1,0 +1,1100 @@
+{
+  "version": "p13-director-v1",
+  "note": "Story director on the new core (docs/design/director-on-core2.md). Developer data, never shown to a player. Channels, kept-fact kinds and tie rows are open data rows; the code registers one measure per channel operation.",
+  "chosenJobEnds": ["jobs:quit:", "jobs:left-work:"],
+  "chosenJobEndsNote": "Sources of a job's end the worker chose (src/core2/modules/jobs.ts: a quit when hired elsewhere, leaving or retiring from work). Those ends are a job left, not a job lost, so no family scene says 'I lost my job.' for them (owner, Oct 14, 2026, night: scenes from the household's records).",
+  "parameters": {
+    "directorMomentFloor": {
+      "value": 0.11,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 1, October 9, 2026: the smallest adult row of the Holmes and Rahe Social Readjustment Rating Scale, 'Minor violations of the law', 11 life-change units divided by 100. Holmes, T. H., and Rahe, R. H. (1967), Journal of Psychosomatic Research 11(2):213-218.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-param-directorMomentFloor",
+      "checkRange": {
+        "ref": "P13-STORED-MOMENTS-PER-ADULT-YEAR"
+      }
+    },
+    "directorInterruptImpact": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Owner ruling on answer 2, October 9, 2026: the scale's anchor event, 'Marriage', 50 life-change units divided by 100 (Holmes and Rahe 1967), so losing a household's only pay takes over the screen.",
+      "stopgapId": "SG-P13-param-directorInterruptImpact",
+      "checkRange": {
+        "ref": "P13-OWNER-INTERRUPT-LINE"
+      }
+    },
+    "directorScaleFeeling": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "Identity: the core's appraised event impulses are already expressed on the life-change scale divided by 100 (src/core2/emotion.ts appraiseEvent)."
+    },
+    "directorFeelingSignals": {
+      "value": 2,
+      "tag": "SOURCED",
+      "citation": "The core's appraisal carries an event's size on two signals, mood and stress (src/core2/emotion.ts appraiseEvent); the drives package puts the same life-change share on each (src/core2/modules/health.ts severityImpulse). Averaging the two returns that share."
+    },
+    "directorScaleTie": {
+      "value": 0.35,
+      "tag": "ESTIMATED",
+      "citation": "Holmes and Rahe (1967) 'Change in number of arguments with spouse', 35 life-change units divided by 100; the October 8, 2026 story director design caps relationship moments at this row.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale"
+    },
+    "directorScaleCause": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "Identity: drive strength from the drives package is already trait-weighted on the life-change impulse scale."
+    },
+    "directorScaleReentry": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "Identity: a re-entry adds the pair's importance from before it faded, which is already a sum of moment impacts and standing ties (October 8, 2026 story director design, part 5, rule 1)."
+    },
+    "directorScaleMoney": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Holmes and Rahe (1967) 'Fired at work', 47 life-change units divided by 100, applied to a loss of the household's whole yearly pay.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale"
+    },
+    "directorScaleHome": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Holmes and Rahe (1967) 'Change in residence', 20 life-change units divided by 100.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale"
+    },
+    "directorScaleHealth": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "The watched person's own death ends the watched life; scale 1 places it at the top of the life-change scale. No direct source for the director's weighting.",
+      "stopgapId": "SG-P13-param-directorScaleHealth",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorWeightTieSociability": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), reused for sociability on the tie channel. No direct source.",
+      "stopgapId": "SG-P13-param-directorWeightTieSociability",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorWeightMoneyRisk": {
+      "value": -0.25,
+      "tag": "TUNABLE",
+      "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), signed so that a person who avoids risk weighs a money loss more. No direct source.",
+      "stopgapId": "SG-P13-param-directorWeightMoneyRisk",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorCostHorizonDays": {
+      "value": 30.436875,
+      "tag": "SOURCED",
+      "citation": "Average Gregorian month: 146,097 days per 400 years divided by 4,800 months."
+    },
+    "directorTieParent": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTieChild": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTieSibling": {
+      "value": 0.35,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTieGrandparent": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTieGrandchild": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTiePartner": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Not in the October 8, 2026 calibration, which had no partner row. Set equal to a parent or child; Holmes and Rahe (1967) rank a spouse's death (100) above a close family member's (63), so this is a floor.",
+      "estimatedFrom": "October 8, 2026 parent tie and Holmes and Rahe (1967) ranking",
+      "stopgapId": "SG-P13-param-directorTies"
+    },
+    "directorTieSharedHome": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorFadingDiscount": {
+      "value": 0.75,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration: fading discounts a pair's moments by up to three quarters.",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorFriendHalfLifeDays": {
+      "value": 548,
+      "tag": "TUNABLE",
+      "citation": "Owner question 4 (P13 design note): about 18 months, the same value P15 uses for closeness between people who are not relatives. No study reports a half-life for closeness without contact: Roberts and Dunbar (2015), Human Nature 26(4):426-450, report only that friends' closeness fell over their 18-month study, and 18 months is the study's length, not a half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
+      "stopgapId": "SG-P13-param-directorHalfLives",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      }
+    },
+    "directorKinHalfLifeDays": {
+      "value": 1096,
+      "tag": "TUNABLE",
+      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, the same value P15 uses for relatives. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
+      "stopgapId": "SG-P13-param-directorHalfLives",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      }
+    },
+    "directorRenewedFading": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Labeling only: a contact is labeled a renewal when at least half of the pair's closeness had faded, one half-life. Decides no outcome.",
+      "stopgapId": "SG-P13-param-directorRenewedFading",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorAnniversaryHalfDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "citation": "Owner answer 7, October 9, 2026: a weight highest on the anniversary that falls smoothly over two weeks either side; it halves every 7 days from the date, with no cut-off. No direct source.",
+      "stopgapId": "SG-P13-param-directorAnniversaryHalfDays",
+      "checkRange": {
+        "ref": "P13-OWNER-ANNIVERSARY"
+      }
+    },
+    "directorPastChildBorn": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Gain of a new family member' row, 39 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastPartner": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Marriage' row, 50 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastSchoolStage": {
+      "value": 0.26,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Begin or end school' row, 26 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastWorkStart": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in work hours or conditions' row, 20 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastEraJobLoss": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Fired at work' row, 47 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastEraFamilyDeath": {
+      "value": 0.63,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Death of a close family member' row, 63 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastEraIllness": {
+      "value": 0.53,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Personal injury or illness' row, 53 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastEraFinancialLoss": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in financial state' row, 38 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorMemoryRecentDays": {
+      "value": 91,
+      "tag": "TUNABLE",
+      "citation": "No study sets how long a person keeps every moment in full. A season (91 days) keeps the recent past whole for scenes, callbacks and the journal; older moments keep only the strongest by hindsight. Checked by a watched person's stored moments staying about the same size across a year (P15 two-level population).",
+      "stopgapId": "SG-P15-memory-forgetting",
+      "checkRange": {
+        "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
+      }
+    },
+    "directorMemoryKeptMoments": {
+      "value": 24,
+      "tag": "TUNABLE",
+      "citation": "No study sets how many older moments a person keeps one by one. Two a month over a year, matching the Social Readjustment Rating Scale's twelve-month window (Holmes and Rahe 1967); the rest stay as monthly summaries and as each pair's summed impact. Checked by stored moments staying about the same size across a year.",
+      "stopgapId": "SG-P15-memory-forgetting",
+      "checkRange": {
+        "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
+      }
+    },
+    "directorFilingImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "Filing to run for office, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same scale the director uses for every life event.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorOfficeReplyImpact": {
+      "value": 0.15,
+      "tag": "ESTIMATED",
+      "citation": "Hearing back from a town office about one's cause. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized below filing to run (0.28) and the scale's smallest civic items, so it reaches the person's journal without interrupting play (interrupt line 0.5). Checked by the reply appearing as a journal line in a played year.",
+      "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
+    },
+    "directorKinMovedImpact": {
+      "value": 0.29,
+      "tag": "ESTIMATED",
+      "citation": "Someone close moving away, sized as the Social Readjustment Rating Scale's 'Son or daughter leaving home', 29 life-change units divided by 100 (Holmes and Rahe 1967), reaching those tied to the movers by how much they matter to them.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorEvictionImpact": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Losing one's home to eviction, sized like losing one's job (the Social Readjustment Rating Scale's 'Fired at work', 47 life-change units divided by 100; its nearest item, 'Foreclosure of mortgage or loan', 30, understates it per Desmond and Kimbro 2015, Social Forces 94(1):295-324), the same size the drives engine gives an eviction.",
+      "estimatedFrom": "Holmes and Rahe (1967); Desmond and Kimbro (2015); spread 0.3 to 0.47"
+    },
+    "directorHomeLostImpact": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Losing one's home (doubled up with kin, in a shelter or on the street), the same size the drives engine gives it (driveHomeLostImpulse) and an eviction (directorEvictionImpact): Holmes and Rahe (1967), 'Fired at work', 47 life-change units divided by 100.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.6"
+    },
+    "directorHomePurchaseImpact": {
+      "value": 0.31,
+      "tag": "ESTIMATED",
+      "citation": "Buying a home, sized as the Social Readjustment Rating Scale's 'Mortgage over $10,000', 31 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.4"
+    },
+    "directorBusinessFoundedImpact": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "Starting a business, sized as the Social Readjustment Rating Scale's 'Business readjustment', 39 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.28 to 0.45"
+    },
+    "directorBirthImpact": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "A child born into the family, sized as the Social Readjustment Rating Scale's 'Gain of new family member', 39 life-change units divided by 100 (Holmes and Rahe 1967), reaching the parents fully and others tied to them by how much they matter.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.45"
+    },
+    "directorChargedImpact": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Being charged with a felony, sized between the Social Readjustment Rating Scale's 'Minor violations of the law' (11) and 'Jail term' (63) life-change units, divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.63"
+    },
+    "directorConvictedImpact": {
+      "value": 0.63,
+      "tag": "ESTIMATED",
+      "citation": "A guilty verdict, sized as the Social Readjustment Rating Scale's 'Jail term', 63 life-change units divided by 100 (Holmes and Rahe 1967); a verdict to probation alone weighs less in life but is read the same until the scale is split.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.45 to 0.63"
+    },
+    "directorAcquittedImpact": {
+      "value": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "Acquittal at trial, sized like the Social Readjustment Rating Scale's nearest relief item, 'Marital reconciliation', 45 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.5"
+    },
+    "directorJailTermImpact": {
+      "value": 0.63,
+      "tag": "SOURCED",
+      "citation": "A jail term, the Social Readjustment Rating Scale's 'Jail term', 63 life-change units divided by 100 (Holmes and Rahe 1967), reaching those tied to the person by how much they matter."
+    },
+    "directorReleasedImpact": {
+      "value": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "Release from prison, sized like the Social Readjustment Rating Scale's 'Marital reconciliation', 45 life-change units divided by 100 (Holmes and Rahe 1967): a return to the household after a separation.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.5"
+    },
+    "directorElectionResultImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses; the owner rules that running, winning and losing are journal entries (Oct 14).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorChoicesPerTurn": {
+      "value": 4,
+      "tag": "SOURCED",
+      "citation": "Owner ruling, Oct 14, 2026 (afternoon, docs/coordination/OWNER-DECISIONS.md): a conversation always offers four replies ranked by the engine, with 'say nothing' a smaller control beside them, never one of the four."
+    },
+    "dialogueGuardJournalOpeners": {
+      "value": 0.48,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 20 journal lines. Mean 0.58 minus one standard deviation (0.09) over 400 draws of 20 real sentences from the mined journal bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/journal.json real-use counts (156 parts)",
+      "spread": {
+        "low": 0.45,
+        "high": 0.7,
+        "unit": "share of 20 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind journal"
+      }
+    },
+    "dialogueGuardJournalClosers": {
+      "value": 0.44,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 20 journal lines. Mean 0.55 minus one standard deviation (0.10) over 400 draws of 20 real sentences from the mined journal bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/journal.json real-use counts (156 parts)",
+      "spread": {
+        "low": 0.4,
+        "high": 0.65,
+        "unit": "share of 20 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind journal"
+      }
+    },
+    "dialogueGuardJournalShapes": {
+      "value": 0.59,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 20 journal lines. Mean 0.69 minus one standard deviation (0.09) over 400 draws of 20 real sentences from the mined journal bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/journal.json real-use counts (156 parts)",
+      "spread": {
+        "low": 0.55,
+        "high": 0.8,
+        "unit": "share of 20 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind journal"
+      }
+    },
+    "dialogueGuardJournalVerbs": {
+      "value": 0.37,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 20 journal lines. Mean 0.46 minus one standard deviation (0.09) over 400 draws of 20 real sentences from the mined journal bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/journal.json real-use counts (156 parts)",
+      "spread": {
+        "low": 0.35,
+        "high": 0.6,
+        "unit": "share of 20 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind journal"
+      }
+    },
+    "dialogueGuardLegislationOpeners": {
+      "value": 0.33,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 12 legislation lines. Mean 0.43 minus one standard deviation (0.10) over 400 draws of 12 real sentences from the mined legislation bank (moves short-title, long-title, enacting-clause), each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/legislation.json real-use counts (21 parts)",
+      "spread": {
+        "low": 0.33,
+        "high": 0.58,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind legislation"
+      }
+    },
+    "dialogueGuardLegislationClosers": {
+      "value": 0.29,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 12 legislation lines. Mean 0.37 minus one standard deviation (0.07) over 400 draws of 12 real sentences from the mined legislation bank (moves short-title, long-title, enacting-clause), each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/legislation.json real-use counts (21 parts)",
+      "spread": {
+        "low": 0.25,
+        "high": 0.5,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind legislation"
+      }
+    },
+    "dialogueGuardLegislationShapes": {
+      "value": 0.37,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 12 legislation lines. Mean 0.48 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined legislation bank (moves short-title, long-title, enacting-clause), each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/legislation.json real-use counts (21 parts)",
+      "spread": {
+        "low": 0.33,
+        "high": 0.58,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind legislation"
+      }
+    },
+    "dialogueGuardLegislationVerbs": {
+      "value": 0.31,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 12 legislation lines. Mean 0.41 minus one standard deviation (0.09) over 400 draws of 12 real sentences from the mined legislation bank (moves short-title, long-title, enacting-clause), each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/legislation.json real-use counts (21 parts)",
+      "spread": {
+        "low": 0.33,
+        "high": 0.5,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind legislation"
+      }
+    },
+    "dialogueGuardNoticesOpeners": {
+      "value": 0.49,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 2 notices lines. Mean 0.74 minus one standard deviation (0.25) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 2 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind notices"
+      }
+    },
+    "dialogueGuardNoticesClosers": {
+      "value": 0.59,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 2 notices lines. Mean 0.83 minus one standard deviation (0.24) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 2 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind notices"
+      }
+    },
+    "dialogueGuardNoticesShapes": {
+      "value": 0.59,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 2 notices lines. Mean 0.83 minus one standard deviation (0.24) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 2 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind notices"
+      }
+    },
+    "dialogueGuardNoticesVerbs": {
+      "value": 0.49,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 2 notices lines. Mean 0.74 minus one standard deviation (0.25) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 2 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind notices"
+      }
+    },
+    "dialogueGuardMinutesOpeners": {
+      "value": 0.8,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 4 minutes lines. Mean 0.93 minus one standard deviation (0.12) over 400 draws of 4 real sentences from the mined minutes bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/minutes.json real-use counts (37 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind minutes"
+      }
+    },
+    "dialogueGuardMinutesClosers": {
+      "value": 0.56,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 4 minutes lines. Mean 0.76 minus one standard deviation (0.20) over 400 draws of 4 real sentences from the mined minutes bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/minutes.json real-use counts (37 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind minutes"
+      }
+    },
+    "dialogueGuardMinutesShapes": {
+      "value": 0.82,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 4 minutes lines. Mean 0.94 minus one standard deviation (0.11) over 400 draws of 4 real sentences from the mined minutes bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/minutes.json real-use counts (37 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind minutes"
+      }
+    },
+    "dialogueGuardMinutesVerbs": {
+      "value": 0.64,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 4 minutes lines. Mean 0.81 minus one standard deviation (0.17) over 400 draws of 4 real sentences from the mined minutes bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/minutes.json real-use counts (37 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind minutes"
+      }
+    },
+    "dialogueGuardHearingOpeners": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 4 hearing lines. Mean 0.80 minus one standard deviation (0.20) over 400 draws of 4 real sentences from the mined hearing bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/hearing.json real-use counts (76 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind hearing"
+      }
+    },
+    "dialogueGuardHearingClosers": {
+      "value": 0.82,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 4 hearing lines. Mean 0.94 minus one standard deviation (0.11) over 400 draws of 4 real sentences from the mined hearing bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/hearing.json real-use counts (76 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind hearing"
+      }
+    },
+    "dialogueGuardHearingShapes": {
+      "value": 0.86,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 4 hearing lines. Mean 0.96 minus one standard deviation (0.10) over 400 draws of 4 real sentences from the mined hearing bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/hearing.json real-use counts (76 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind hearing"
+      }
+    },
+    "dialogueGuardHearingVerbs": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 4 hearing lines. Mean 0.65 minus one standard deviation (0.17) over 400 draws of 4 real sentences from the mined hearing bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/hearing.json real-use counts (76 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 0.75,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind hearing"
+      }
+    },
+    "dialogueGuardMeetingOpeners": {
+      "value": 0.09,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 12 meeting lines. Mean 0.15 minus one standard deviation (0.06) over 400 draws of 12 real sentences from the mined meeting bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/meeting.json real-use counts (131 parts)",
+      "spread": {
+        "low": 0.08,
+        "high": 0.25,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind meeting"
+      }
+    },
+    "dialogueGuardMeetingClosers": {
+      "value": 0.78,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 12 meeting lines. Mean 0.87 minus one standard deviation (0.09) over 400 draws of 12 real sentences from the mined meeting bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/meeting.json real-use counts (131 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind meeting"
+      }
+    },
+    "dialogueGuardMeetingShapes": {
+      "value": 0.91,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 12 meeting lines. Mean 0.96 minus one standard deviation (0.05) over 400 draws of 12 real sentences from the mined meeting bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/meeting.json real-use counts (131 parts)",
+      "spread": {
+        "low": 0.92,
+        "high": 1,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind meeting"
+      }
+    },
+    "dialogueGuardMeetingVerbs": {
+      "value": 0.52,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 12 meeting lines. Mean 0.63 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined meeting bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/meeting.json real-use counts (131 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 0.75,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind meeting"
+      }
+    },
+    "dialogueGuardCampaignOpeners": {
+      "value": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 8 campaign lines. Mean 0.62 minus one standard deviation (0.16) over 400 draws of 8 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.75,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind campaign"
+      }
+    },
+    "dialogueGuardCampaignClosers": {
+      "value": 0.71,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 8 campaign lines. Mean 0.84 minus one standard deviation (0.12) over 400 draws of 8 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts)",
+      "spread": {
+        "low": 0.63,
+        "high": 1,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind campaign"
+      }
+    },
+    "dialogueGuardCampaignShapes": {
+      "value": 0.73,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 8 campaign lines. Mean 0.85 minus one standard deviation (0.12) over 400 draws of 8 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind campaign"
+      }
+    },
+    "dialogueGuardCampaignVerbs": {
+      "value": 0.35,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 8 campaign lines. Mean 0.49 minus one standard deviation (0.13) over 400 draws of 8 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.63,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind campaign"
+      }
+    },
+    "dialogueGuardInterviewOpeners": {
+      "value": 0.37,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 8 interview lines. Mean 0.51 minus one standard deviation (0.13) over 400 draws of 8 real sentences from the mined interview bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/interview.json real-use counts (85 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.63,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind interview"
+      }
+    },
+    "dialogueGuardInterviewClosers": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 8 interview lines. Mean 0.52 minus one standard deviation (0.13) over 400 draws of 8 real sentences from the mined interview bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/interview.json real-use counts (85 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.75,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind interview"
+      }
+    },
+    "dialogueGuardInterviewShapes": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 8 interview lines. Mean 0.52 minus one standard deviation (0.13) over 400 draws of 8 real sentences from the mined interview bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/interview.json real-use counts (85 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.75,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind interview"
+      }
+    },
+    "dialogueGuardInterviewVerbs": {
+      "value": 0.34,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 8 interview lines. Mean 0.46 minus one standard deviation (0.11) over 400 draws of 8 real sentences from the mined interview bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/interview.json real-use counts (85 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.63,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind interview"
+      }
+    },
+    "dialogueGuardEmotionOpeners": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 18 emotion lines. Mean 0.47 minus one standard deviation (0.09) over 400 draws of 18 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.33,
+        "high": 0.61,
+        "unit": "share of 18 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind emotion"
+      }
+    },
+    "dialogueGuardEmotionClosers": {
+      "value": 0.58,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 18 emotion lines. Mean 0.67 minus one standard deviation (0.09) over 400 draws of 18 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.56,
+        "high": 0.78,
+        "unit": "share of 18 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind emotion"
+      }
+    },
+    "dialogueGuardEmotionShapes": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 18 emotion lines. Mean 0.70 minus one standard deviation (0.09) over 400 draws of 18 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.61,
+        "high": 0.83,
+        "unit": "share of 18 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind emotion"
+      }
+    },
+    "dialogueGuardEmotionVerbs": {
+      "value": 0.24,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 18 emotion lines. Mean 0.31 minus one standard deviation (0.07) over 400 draws of 18 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.22,
+        "high": 0.39,
+        "unit": "share of 18 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind emotion"
+      }
+    },
+    "dialogueGuardConversationOpeners": {
+      "value": 0.71,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 12 conversation lines. Mean 0.83 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined conversation bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/conversation.json real-use counts (361 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.67,
+        "high": 1,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
+      }
+    },
+    "dialogueGuardConversationClosers": {
+      "value": 0.71,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 12 conversation lines. Mean 0.83 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined conversation bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/conversation.json real-use counts (361 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.67,
+        "high": 1,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
+      }
+    },
+    "dialogueGuardConversationShapes": {
+      "value": 0.71,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 12 conversation lines. Mean 0.83 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined conversation bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/conversation.json real-use counts (361 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.67,
+        "high": 1,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
+      }
+    },
+    "dialogueGuardConversationVerbs": {
+      "value": 0.21,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 12 conversation lines. Mean 0.31 minus one standard deviation (0.10) over 400 draws of 12 real sentences from the mined conversation bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/conversation.json real-use counts (361 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.17,
+        "high": 0.42,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
+      }
+    },
+    "directorTalkRecentDays": {
+      "value": 90,
+      "tag": "TUNABLE",
+      "citation": "Owner, Oct 14, 2026, night: a talk starts from the biggest recorded event of either person, and someone not in the room is asked after only when something recorded happened to them. How long ago an event still counts as news between two people: one season.",
+      "spread": "30 to 180 days, checked by reading the talks of a played year (src/director/conversation.test.ts)",
+      "stopgapId": "SG-WORDS-param-directorTalkRecentDays",
+      "checkRange": {
+        "min": 30,
+        "max": 180,
+        "ref": "WORDS-TALK-RECENT-DAYS"
+      }
+    },
+    "directorTalkAddressImpact": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Owner, Oct 14, 2026, night: public news comes up only for people who follow politics closely. The President's address weighs as a talk's topic as this impact times the speaker's political engagement (src/core2/modules/views.ts), so it leads only for the engaged and only when no bigger event of their own does; kept small so a life event of their own (a job, a move, a birth) leads first.",
+      "spread": "0.1 to 0.3, checked by reading the talks of a played year",
+      "stopgapId": "SG-WORDS-param-directorTalkAddressImpact",
+      "checkRange": {
+        "min": 0.1,
+        "max": 0.3,
+        "ref": "WORDS-TALK-ADDRESS-IMPACT"
+      }
+    }
+  },
+  "channels": [
+    {
+      "id": "feeling",
+      "measure": "event-appraisal",
+      "scaleParameter": "directorScaleFeeling",
+      "traitWeights": []
+    },
+    {
+      "id": "tie",
+      "measure": "closeness-change",
+      "scaleParameter": "directorScaleTie",
+      "traitWeights": [
+        {
+          "traitId": "people-mind-v1:sociability",
+          "weightParameter": "directorWeightTieSociability"
+        }
+      ]
+    },
+    {
+      "id": "re-entry",
+      "measure": "faded-thread-importance",
+      "scaleParameter": "directorScaleReentry",
+      "traitWeights": []
+    },
+    {
+      "id": "cause",
+      "measure": "drive-strength-change",
+      "scaleParameter": "directorScaleCause",
+      "traitWeights": []
+    },
+    {
+      "id": "money",
+      "measure": "household-pay-and-unpaid-wages",
+      "scaleParameter": "directorScaleMoney",
+      "traitWeights": [
+        {
+          "traitId": "people-mind-v1:risk",
+          "weightParameter": "directorWeightMoneyRisk"
+        }
+      ]
+    },
+    {
+      "id": "home",
+      "measure": "household-or-place-change",
+      "scaleParameter": "directorScaleHome",
+      "traitWeights": []
+    },
+    {
+      "id": "health",
+      "measure": "own-death",
+      "scaleParameter": "directorScaleHealth",
+      "traitWeights": []
+    }
+  ],
+  "keptFactKinds": [
+    {
+      "id": "knew-each-other",
+      "endsOn": "never",
+      "producedBy": []
+    },
+    {
+      "id": "lie",
+      "endsOn": "contradicting-fact-learned",
+      "producedBy": ["conversation.lie"],
+      "stopgapId": "SG-P13-kept-fact-producers"
+    },
+    {
+      "id": "favor",
+      "endsOn": "world-event",
+      "producedBy": [],
+      "stopgapId": "SG-P13-kept-fact-producers"
+    },
+    {
+      "id": "promise",
+      "endsOn": "world-event",
+      "producedBy": [],
+      "stopgapId": "SG-P13-kept-fact-producers"
+    }
+  ],
+  "broadEventFlags": ["publicRecord", "news"],
+  "eventKinds": ["*"],
+  "relationshipKinds": ["*"],
+  "kinTies": [
+    {
+      "relation": "parent",
+      "parameter": "directorTieParent"
+    },
+    {
+      "relation": "child",
+      "parameter": "directorTieChild"
+    },
+    {
+      "relation": "sibling",
+      "parameter": "directorTieSibling"
+    },
+    {
+      "relation": "grandparent",
+      "parameter": "directorTieGrandparent"
+    },
+    {
+      "relation": "grandchild",
+      "parameter": "directorTieGrandchild"
+    },
+    {
+      "relation": "partner",
+      "parameter": "directorTiePartner"
+    }
+  ],
+  "backdropPastFactPrefixes": ["era:"],
+  "pastFactMoments": [
+    {
+      "kindPrefix": "family:child",
+      "parameter": "directorPastChildBorn",
+      "counterpart": "child-born-that-day"
+    },
+    {
+      "kindPrefix": "family:partner",
+      "parameter": "directorPastPartner",
+      "counterpart": "partner"
+    },
+    {
+      "kindPrefix": "school:",
+      "parameter": "directorPastSchoolStage"
+    },
+    {
+      "kindPrefix": "work:",
+      "parameter": "directorPastWorkStart"
+    }
+  ],
+  "pastEraHits": [
+    {
+      "factKey": "personalJobLoss",
+      "parameter": "directorPastEraJobLoss"
+    },
+    {
+      "factKey": "personalLoss",
+      "parameter": "directorPastEraFamilyDeath"
+    },
+    {
+      "factKey": "personalInfection",
+      "parameter": "directorPastEraIllness"
+    },
+    {
+      "factKey": "personalFinancialLoss",
+      "parameter": "directorPastEraFinancialLoss"
+    }
+  ],
+  "pastNotRecordedValues": ["not-inferred", "not-established"],
+  "interruptStop": {
+    "reasonKey": "p13-story-director:interrupting-moment",
+    "citation": "The story director's stored moment: its impact, measured from the change on each channel and sized by the person's traits, is at or over the interrupt line, the Holmes and Rahe (1967) marriage anchor of 50 life-change units divided by 100 (owner ruling, October 9, 2026; CTO ruling on at-or-over, October 10, 2026)."
+  },
+  "eventImpacts": [
+    {
+      "eventKind": "pay-raised-to-minimum-wage",
+      "channel": "money",
+      "fromFact": "fromMinor",
+      "toFact": "toMinor"
+    },
+    {
+      "eventKind": "candidate-filed",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "election-result",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "office.replied",
+      "channel": "cause",
+      "impactParameter": "directorOfficeReplyImpact"
+    },
+    {
+      "eventKind": "person.moved-away",
+      "channel": "feeling",
+      "impactParameter": "directorKinMovedImpact"
+    },
+    {
+      "eventKind": "housing.eviction",
+      "channel": "feeling",
+      "impactParameter": "directorEvictionImpact"
+    },
+    {
+      "eventKind": "housing.status-changed",
+      "channel": "feeling",
+      "impactParameter": "directorHomeLostImpact"
+    },
+    {
+      "eventKind": "housing.purchase",
+      "channel": "feeling",
+      "impactParameter": "directorHomePurchaseImpact"
+    },
+    {
+      "eventKind": "organization.founded",
+      "channel": "feeling",
+      "impactParameter": "directorBusinessFoundedImpact"
+    },
+    {
+      "eventKind": "person-birth",
+      "channel": "feeling",
+      "impactParameter": "directorBirthImpact",
+      "counterpartFact": "childId"
+    },
+    {
+      "eventKind": "justice.charged",
+      "channel": "feeling",
+      "impactParameter": "directorChargedImpact"
+    },
+    {
+      "eventKind": "justice.convicted",
+      "channel": "feeling",
+      "impactParameter": "directorConvictedImpact"
+    },
+    {
+      "eventKind": "justice.acquitted",
+      "channel": "feeling",
+      "impactParameter": "directorAcquittedImpact"
+    },
+    {
+      "eventKind": "justice.imprisoned",
+      "channel": "feeling",
+      "impactParameter": "directorJailTermImpact"
+    },
+    {
+      "eventKind": "justice.released",
+      "channel": "feeling",
+      "impactParameter": "directorReleasedImpact"
+    }
+  ]
+}

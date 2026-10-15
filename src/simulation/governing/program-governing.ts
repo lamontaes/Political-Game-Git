@@ -8,7 +8,7 @@ import {
   PASSENGER_RAIL_PROGRAM_KEY,
   EXPAND_PASSENGER_RAIL_QUESTION,
 } from "../federal-passenger-rail";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   draftLineageComponents,
   draftLineageForMeasure,
@@ -24,7 +24,11 @@ import {
   stateKeyForJurisdiction,
 } from "../life-places";
 import { organizationProfileAt } from "../life-queries";
-import { standingServiceProgram } from "../law-consequences/service-delivered-data";
+import {
+  isCountyServiceProgram,
+  standingServiceProgram,
+} from "../law-consequences/service-delivered-data";
+import { organizationServesCounty } from "../county-service-authority";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   STATE_TRANSIT_VARIANT_KEY,
@@ -35,7 +39,6 @@ import {
   LEGACY_TRANSIT_COMPILED_STATE,
 } from "../legislation-transit-families";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
-import { isCongressRulePack } from "../congress-rule-pack";
 import { packMayEnactVariant } from "../legislation-drafting";
 import { rulePackById } from "../legislature-rule-packs";
 import type { LegislativeRulePack } from "../legislature-rules";
@@ -43,7 +46,7 @@ import { localFiscalAuthorityScopeForRulePackId } from "../municipal-government"
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { createOrganization } from "../life";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import { programFamilyTitle } from "./program-families";
 import {
   programVariant,
@@ -890,7 +893,7 @@ function npcProgramServiceCapacityProfileForEnactment(input: {
   } else {
     if (
       measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
-      !isCongressRulePack(measure.rulePackId)
+      rulePackById(measure.rulePackId)?.institution?.government !== "federal"
     )
       return null;
     governmentLevel = governmentScope.kind;
@@ -1030,7 +1033,7 @@ function publicProgramGovernmentScope(
     readonly rulePackId: string;
   },
 ): PublicProgramGovernmentScope | null {
-  if (isCongressRulePack(measure.rulePackId))
+  if (rulePackById(measure.rulePackId)?.institution?.government === "federal")
     return measure.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
       ? {
           kind: "federal",
@@ -1332,7 +1335,20 @@ export function eligibleStandingOperator(
     const rank = profile
       ? program.operatorClassifications.indexOf(profile.classification)
       : -1;
-    if (rank < 0 || !inPlace(profile!.locationJurisdictionId)) continue;
+    if (rank < 0) continue;
+    // A county's own service is run by an organization in that county; the
+    // same-state reach below is for a state's programs.
+    if (isCountyServiceProgram(programKey)) {
+      if (
+        !organizationServesCounty(
+          world,
+          organization.id,
+          programKey,
+          jurisdictionId,
+        )
+      )
+        continue;
+    } else if (!inPlace(profile!.locationJurisdictionId)) continue;
     const candidate = {
       rank,
       formedAt: organization.formedAt,

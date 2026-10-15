@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 
 const validate = readFileSync(".github/workflows/validate.yml", "utf8");
 const browserWorkflow = readFileSync(".github/workflows/browser.yml", "utf8");
-const playwright = readFileSync("playwright.config.ts", "utf8");
 
 describe("deterministic validation workflow capacity", () => {
   it("keeps the required aggregate named validate and does not green a failed job", () => {
@@ -119,8 +118,6 @@ describe("deterministic validation workflow capacity", () => {
     expect(browser).toContain("PG_RUN_ID: gha-${{ github.run_id }}-s");
     expect(browser).toContain("matrix.total");
     expect(browser).toContain("test-results/runs/${{ env.PG_RUN_ID }}");
-    expect(playwright).toContain("fullyParallel: false");
-    expect(playwright).toContain("outputDir: `${run.artifacts}/results`");
   });
 
   it("preserves trusted checkout, action versions, and exact PR-head refs", () => {

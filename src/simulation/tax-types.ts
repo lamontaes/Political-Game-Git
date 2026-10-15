@@ -15,13 +15,23 @@ export interface TaxPowerEvidence {
   /** Required before a local authority can bind a proposal to one government. */
   readonly governmentKey?: string;
   readonly instrument:
-    "selective-excise" | "sales" | "property" | "wage-income";
+    | "selective-excise"
+    | "sales"
+    | "property"
+    | "wage-income"
+    | "payroll"
+    | "corporate-income";
   readonly asOf: IsoDate;
   readonly sourceArtifactId: string;
   readonly sourceSha256: string;
   readonly sourceUrl: string;
   readonly citations: readonly string[];
   readonly constraints: readonly string[];
+  /** Local evidence only: the status the lookup returned. */
+  readonly authorityStatus?: string;
+  /** True when the evidence rests on a secondary source, not a first-party record. */
+  readonly estimated?: boolean;
+  readonly estimatedFrom?: string;
 }
 
 /** Immutable identity for an explicitly fictional, versioned game profile.
@@ -37,7 +47,10 @@ export interface TaxTerms {
   readonly seriesKey: string;
   readonly baseKey: string;
   readonly baseLabel: string;
-  /** Exact share; zero is an explicit repeal/zero rate, never missing data. */
+  /** Absent means a monetary base. A quantity rate is USD minor units per unit. */
+  readonly baseUnit?: "vehicle-mile";
+  readonly allowanceUnits?: number;
+  /** Exact share, or minor units per baseUnit; zero is an explicit zero rate. */
   readonly rateNumerator: number;
   readonly rateDenominator: number;
   readonly exemptBaseKeys: readonly string[];
@@ -52,6 +65,9 @@ export interface TaxTerms {
   readonly assumptionNote: string;
   readonly legalBaselineAssumption:
     "carry-forward-acquired-baseline-in-game" | "authored-state-game-profile";
+  /** Which local tax this is. Absent means the original selective excise. */
+  readonly instrument?:
+    "property" | "sales" | "payroll" | "corporate-income" | "wage-income";
 }
 
 interface TaxHistoryRoot {
@@ -59,6 +75,17 @@ interface TaxHistoryRoot {
   readonly stableKey: string;
   readonly sequence: number;
   readonly recordedAt: IsoDate;
+}
+
+export interface TaxQuantity {
+  readonly unit: "vehicle-mile";
+  readonly units: number;
+}
+
+export type TaxBaseAmount = MoneyAmount | TaxQuantity;
+
+export function isTaxQuantity(amount: TaxBaseAmount): amount is TaxQuantity {
+  return "unit" in amount;
 }
 
 export interface TaxProposalRecord extends TaxHistoryRoot {
@@ -89,7 +116,7 @@ export interface TaxBaseRecord extends TaxHistoryRoot {
   readonly payer: ResourcePositionOwner;
   readonly baseKey: string;
   readonly occurredAt: IsoDate;
-  readonly amount: MoneyAmount;
+  readonly amount: TaxBaseAmount;
   readonly assumptionNote: string;
   readonly sourceEventId: EntityId;
 }
@@ -100,7 +127,7 @@ export interface TaxAssessmentRecord
   readonly policyId: EntityId;
   readonly baseId: EntityId;
   readonly dueAt: IsoDate;
-  readonly taxableAmount: MoneyAmount;
+  readonly taxableAmount: TaxBaseAmount;
   readonly taxAmount: MoneyAmount;
   readonly exemptionReason: "excluded-base" | "allowance" | null;
 }

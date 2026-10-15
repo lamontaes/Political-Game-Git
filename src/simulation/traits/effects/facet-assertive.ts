@@ -13,8 +13,6 @@ export const facetAssertiveEffects: readonly TraitEffectDeclaration[] = [
         option: "counter",
         trait: "personality-v1:facet-assertive",
         pole: "high",
-        explanation:
-          "They state what they need and set their own terms rather than simply agreeing.",
       },
     ],
   },

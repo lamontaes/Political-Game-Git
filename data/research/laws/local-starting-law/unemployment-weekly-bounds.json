@@ -1,0 +1,1444 @@
+{
+  "id": "unemployment-weekly-benefit-bounds-january-2026",
+  "status": "research-not-integrated",
+  "scope": "Regular state UI summary, not a benefit eligibility or award evaluator. Does not cover extensions or special programs. DOL says consult state law for its full text.",
+  "sourceSHA256": "6e78c921551ab04398f82908d0fd0a238125269a6887f730d63ed2a454b438ec",
+  "publishedRangeFootnote": "When a range is provided, the higher figure for both the minimum and maximum WBAs includes the dependents allowance for the maximum number of dependents.",
+  "alternativeCalculationFootnote": "Footnote 6: the lower amount shown is based on high-quarter wages and the higher amount is based on total base-period wages.",
+  "missingPlaceIds": ["US-AS", "US-GU", "US-MP"],
+  "missingBasis": "Not included in this DOL table; program coverage and any local benefit laws still require primary-source research. No zero-benefit inference.",
+  "places": {
+    "US-AL": [
+      {
+        "placeId": "US-AL",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [45],
+        "maximumPublished": [275],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                     0.20%\n                                                                                          Lesser of 1/4               20 weeks or                    5.40%\n                            1/26 avg of 2 highest\nAL    1\u00bd x HQW                                         $45     $275      1/3 WBA          BPW or 14 x      145        $1,500 in         $8,000\n                            qtrs\n                                                                                          WBA                         any qtr\n                                                                                                                                                     2.70%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-AK": [
+      {
+        "placeId": "US-AK",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [56, 128],
+        "maximumPublished": [370, 442],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                          Weighted                                                   1.00%\n      $2,500; wages in 2                                                 $50 and 1/4      schedule of                                                5.40%\n                            0.9-2.2% of annual         $56 -   $370 -\nAK    qtrs; at least $250                                                wages over       BPW to HQW       16-26      Any size          $54,200\n                            wages + DA up to $72       $128    $442\n      outside HQ                                                         $50              for # of weeks                                             1.00%\n                                                                                          x WBA",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-AZ": [
+      {
+        "placeId": "US-AZ",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [229],
+        "maximumPublished": [320],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "      390 x minimum                                                                       26 x WBA or                                                8.36%\n      wage in effect in 1                                                                 24 x WBA if\n      qtr; or wages in 2                                                                  the unemploy-               20 weeks or\nAZ    qtrs with wages in    1/25 HQW                   $229    $320      $160.49          ment rate in     8-24       $1,500 in         $8,000\n      1 qtr sufficient to                                                                 the prior cal-              any qtr                        2.00%\n      qualify for maxi-                                                                   endar qtr is\n      maximum WBA and to-                                                                     less than 5%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-AR": [
+      {
+        "placeId": "US-AR",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [81],
+        "maximumPublished": [451],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                     0.10%\n                                                                                          Lesser of 1/3               One employee\n      35 x WBA; wages       1/26 of the avg of the 4                                                                                                 6.00%\nAR                                                     $81     $451      40% WBA          BPW or 12 x      9-12       for 10 or more    $7,000\n      in 2 qtrs             qtrs in BP\n                                                                                          WBA                         days in a CY                   1.8%\n                                                                                                                                                     1.50%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-CA": [
+      {
+        "placeId": "US-CA",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [40],
+        "maximumPublished": [450],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                     1.50%\n      $1,300 in HQ, or                                                                    Lesser of 1/2\n                                                                         Greater of $25                               Over $100 in                   6.20%\nCA    $900 in HQ with       1/23 to 1/26 HQW           $40     $450                       BPW or 26 x      14-26                        $7,000\n                                                                         or 1/4 wages                                 any qtr\n      BPW = 1\u00bc x HQ                                                                       WBA                                                        3.40%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-CO": [
+      {
+        "placeId": "US-CO",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [25],
+        "maximumPublished": [767, 844],
+        "rangeBasis": "alternative-earnings-calculation",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                           capped by 50% of\n                                                               $767                       Lesser of 1/3               20 weeks or\n      40 x WBA or $2,500, State avg weekly earn-\nCO                                                     $25     or        1/2 WBA          BPW or 26 x      13-26      $1,500 in         $30,600\n      whichever is greater ings or 50% of 1/52 BP\n                                                               $8446                      WBA                         any qtr\n                           earnings capped by                                                                                                        1.53%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-CT": [
+      {
+        "placeId": "US-CT",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [44, 88],
+        "maximumPublished": [721, 796],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                            1/26 avg of 2 HQs +                                                                                                      0.1%\n                            $15 per dep, up to 5;                                                          Uniform    20 weeks or                    10.0%\n                                                       $44 -   $721 -\nCT    40 x WBA              DA capped at WBA                             1/3 wages        N/A              duration   $1,500 in         $27,000\n                                                       $88     $796\n                            (For construction work-                                                        26         any qtr\n                            ers, 1/26 HQ)                                                                                                            1.9%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-DE": [
+      {
+        "placeId": "US-DE",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [20],
+        "maximumPublished": [450],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                     0.40%\n                                                                                          Lesser of 1/2               20 weeks or                    5.40%\n                            1/46 total wages in 2                        Greater of $10\nDE    36 x WBA                                         $20     $450                       BPW or 26 x      24-26      $1,500 in         $14,500\n                            highest qtrs                                 or 50% WBA\n                                                                                          WBA                         any qtr                        1.0%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-DC": [
+      {
+        "placeId": "US-DC",
+        "level": "district",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [50],
+        "maximumPublished": [444],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "      1\u00bd x HQW or within                                                                                                                             1.90%\n                                                                                                           Uniform                                   7.40%\n      $70; not less than                                                 1/3 of wages\nDC                          1/26 HQW                   $50     $444                       N/A              duration   Any size          $9,000\n      $1,950 in 2 qtrs;                                                  plus $50\n                                                                                                           26\n      $1,300 in 1 qtr                                                                                                                                2.70%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-FL": [
+      {
+        "placeId": "US-FL",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [32],
+        "maximumPublished": [275],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                       maximum       maximum\n                                                                                                                                                        0.10%\n     1\u00bd x HQW;                                                             8 x Federal     Lesser of 25%                 20 weeks or                    5.40%\nFL   minimum $3,400;         1/26 HQW                  $32       $275      hourly mini-    BPW or 12 x      9-12 5\n                                                                                                                         $1,500 in         $7,000\n     wages in 2 qtrs                                                       maximum wage        WBA                           any qtr\n                                                                                                                                                        2.70%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-GA": [
+      {
+        "placeId": "US-GA",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [55],
+        "maximumPublished": [365],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     150% x HQW or                                                                                                                                      0.04%\n     HQW divided by                                                                        Lesser of 14 x                20 weeks or                    8.10%\n                             1/42 of wages in high-\nGA   21 for WBA w/ total                               $55       $365      $50             WBA or 1/4       6-265        $1,500 in         $9,500\n                             est 2 qtrs or 1/21 HQW\n     earnings in 2 qtrs                                                                    BPW                           any qtr\n     totaling at least 40                                                                                                                               2.64%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-HI": [
+      {
+        "placeId": "US-HI",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [5],
+        "maximumPublished": [868],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "\n                                                                                                            Uniform                                     0.00%\n     26 x WBA; wages                                                                                                                                    5.60%\nHI                           1/21 HQW                  $5        $868      $150            26 x WBA         duration     Any size          $64,500\n     in 2 qtrs\n                                                                                                            26                                          2.40%\n                                                                                           Weighted                                                     0.208%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-ID": [
+      {
+        "placeId": "US-ID",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [72],
+        "maximumPublished": [624],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                           Weighted                                                     0.208%\n                                                                                           schedule of                   20 weeks or                    5.4%\n     1\u00bc x HQW; mini-\nID                           1/26 HQW                  $72       $624      1/2 WBA         BPW to HQW       10-265       $1,500 in         $58,300\n     maximum $1,872 in 1 qtr\n                                                                                           for # of weeks                any qtr                        1.00%\n                                                                                           x WBA",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-IL": [
+      {
+        "placeId": "US-IL",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [51, 77],
+        "maximumPublished": [628, 859],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                           Lesser of 26 x                                               0.20%\n                                                                                                            Uniform      20 weeks or\n     $1,600; $440 out-       47% of claimant\u2019s         $51 -     $628 -                    WBA (plus                                                    6.50%\nIL                                                                         1/2 WBA                          duration     $1,500 in         $14,250\n     side HQ                 AWW in 2 highest qtrs     $77       $859                      DA) or BP\n                                                                                                            26           any qtr\n                                                                                           wages                                                        2.80%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-IN": [
+      {
+        "placeId": "US-IN",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [37],
+        "maximumPublished": [390],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     1\u00bd x HQW totaling                                                                                                                                  0.50%\n                                                                                           Lesser of 28%\n     at least $2,500 in                                                                                                                                 7.40%\nIN                           47% of AWW in BP          $37       $390      $100            BPW or 26 x      26           Any size          $9,500\n     last 2 qtrs; not less\n                                                                                           WBA\n     than $4,200 in BP                                                                                                                                  2.50%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-IA": [
+      {
+        "placeId": "US-IA",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [93, 112],
+        "maximumPublished": [622, 763],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     1\u00bc x HQW; 3.5% of                                                                                                                                  0.00%\n                             1/23 HQW or 1/19-1/22                                         Lesser of 1/3                 Any wages\n     the statewide AAW                                 $93 -     $622 -                                                                                 5.40%\nIA                           HQW for claimants with                        25% WBA         BPW or 16 x      9-16         preceding or      $20,400\n     in HQ; 1/2 HQW in                                 $112      $763\n                             deps                                                          WBA                           current CY                     1.00%\n     qtr not the HQ",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-KS": [
+      {
+        "placeId": "US-KS",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [159],
+        "maximumPublished": [637],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                        0.00%\n                                                                                           Lesser of 1/3                 20 weeks or\n     30 x WBA; wages                                                                                                                                    6.95%\nKS                           4.25% HQW                 $159      $637      25% WBA         BPW or 26 x      10-16        $1,500 in         $15,100\n     in 2 qtrs\n                                                                                           WBA                           any qtr                        1.75%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-KY": [
+      {
+        "placeId": "US-KY",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [39],
+        "maximumPublished": [720],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     1\u00bd x HQW; 8 x                                                                                                                                      0.30%\n                                                                                           Lesser of 16-                 20 weeks or\n     WBA in last 2 qtrs;                                                                                                                                9.00%\nKY                           1.1923% BPW               $39       $720      1/5 wages       24 x WBA or      16-24    5\n                                                                                                                         $1,500 in         $12,000\n     at least $1,500 out-\n                                                                                           1/3 BPW                       any qtr                        2.70%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-LA": [
+      {
+        "placeId": "US-LA",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [35],
+        "maximumPublished": [282],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "\n     $1,200 total BPW;                                                                                                   20 weeks or                    0.09%\n                             1/25 of the avg of                            Lesser of 1/2                                                                6.00%\nLA   wages in 2 qtrs; 1\u00bd                               $35       $282                      N/A              12-20        $1,500 in         $7,000\n                             wages in 4 qtrs of BP                         WBA or $50\n     x HQW                                                                                                               any qtr\n                                                                                                                                                        IndAvg%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-ME": [
+      {
+        "placeId": "US-ME",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [108, 189],
+        "maximumPublished": [623, 1090],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     2 x AWW in 2            1/22 avg wages paid                                                                                                        0.00%\n                                                                                           Lesser of 1/3                 20 weeks or\n     different BP qtrs;      in 2 highest qtrs of BP   $108 -    $623 -                                                                                 6.29%\nME                                                                         $123            BPW or 26 x      15-26        $1,500 in         $12,000\n     total BPW = 6 x         + $25 per dep up to       $189      $1,090\n                                                                                           WBA                           any qtr\n     AWW                     75% of WBA                                                                                                                 2.23%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-MD": [
+      {
+        "placeId": "US-MD",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [50, 90],
+        "maximumPublished": [430],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                        0.30%\n     1\u00bd x HQW;                                                                                              Uniform\n                             1/24 HQW + $8 per         $50 -               Less than or                                                                 7.50%\nMD   $1,176.01 in HQ;                                            $430                      N/A              duration     Any size          $8,500\n                             dep up to 5 deps          $90                 equal to $50\n     $1,800 in 2 qtrs                                                                                       26\n                                                                                                                                                        2.60%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-MA": [
+      {
+        "placeId": "US-MA",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [60],
+        "maximumPublished": [1105],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": true,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                        0.94%\n                                                       $60 (no   $1,105                    Lesser of 36%                 13 weeks or\n     30 x WBA;               50% AWW + $25 per                                                                                                          14.37%\nMA                                                     cap on    (no cap   1/3 WBA         BPW or 30 x      10-30    5\n                                                                                                                         $1,500 in         $15,000\n     $6,300 minimum          dep (no cap on DA)\n                                                       DA)       on DA)                    WBA                           any qtr                        2.42%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        },
+        "note": "Published minimum and maximum both exclude the uncapped dependents allowance. Neither is a total-benefit cap."
+      }
+    ],
+    "US-MI": [
+      {
+        "placeId": "US-MI",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [218, 315],
+        "maximumPublished": [530],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     least 2 BP qtrs; at                                               earned or if                                                    $9,000 or\n                                                                                         Lesser of 43%\n     least $5,328 in HQ;    4.1% HQW + $19.33        $218 -            >1.5 * WBA,                                   20 weeks or       $9,500 for\nMI                                                            $530                       BPW or 26 x      14-26\n     or wages in at least   for each dep up to 5     $315              reduction is                                  $1,000 in CY      delinquent\n                                                                                         WBA\n     2 BP qtrs; BPW at                                                 $1.00 for $1.00                                                 employers",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-MN": [
+      {
+        "placeId": "US-MN",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [37],
+        "maximumPublished": [611, 948],
+        "rangeBasis": "alternative-earnings-calculation",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                       WBA reduced                                                                   9.30%\n                            HQW up to 43% of                  $611                       Lesser of 1/3\n                                                                       by 50\u00a2 for\nMN   5.3% of State AAW      State AWW or 50% of      $37      or                         BPW or 26 x      9-26       Any size          $44,000\n                                                                       every $1\n                            1/52 BPW up to 66\u2154%               $9486                      WBA                                                         IndAvg%\n                                                                       earned",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-MS": [
+      {
+        "placeId": "US-MS",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [30],
+        "maximumPublished": [235],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                     0.00%\n     40 x WBA; $780 in                                                                   Lesser of 1/3               20 weeks or\n                                                                                                                                                     5.40%\nMS   HQ; wages in 2         1/26 HQW                 $30      $235     $40               BPW or 26 x      13-26      $1,500 in         $14,000\n     qtrs                                                                                WBA                         any qtr\n                                                                                                                                                     1.00%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-MO": [
+      {
+        "placeId": "US-MO",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [35],
+        "maximumPublished": [320],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     1\u00bd x HQW; $1,500                                                                                                                                0.00%\n                                                                       Greater of        Lesser of 1/3               20 weeks or                     6.00%\n     in 1 qtr; or wages     4% of the avg of the 2\nMO                                                   $35      $320     20% WBA or        BPW or 20 x      8-20       $1,500 in         $9,000\n     in 2 qtrs of BP = 1\u00bd   HQWs\n                                                                       $20               WBA                         any qtr\n     maximum TWB                                                                                                                                     2.376%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-MT": [
+      {
+        "placeId": "US-MT",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [227],
+        "maximumPublished": [767],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     BPW > 1\u00bd x HQW                                                                      Weighted                                                    0.00%\n     and total wages >                                                                   schedule of                 $1,000 in cur-                  6.12%\n                            1% BPW or 1.9%\nMT   7% of AAW or                                    $227     $767     1/4 WBA           BPW to HQW       8-24       rent or preced-   $47,300\n                            wages in 2 HQs\n     BPW > 50% of                                                                        for # of weeks              ing year\n                                                                                                                                                     IndAvg%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-NE": [
+      {
+        "placeId": "US-NE",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [70],
+        "maximumPublished": [582],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     $5,440 in BP                                                                                                                      $9,000 or     0.00%\n     $1,850 in HQW                                                                       Lesser of 1/3               20 weeks or       $24,000 for   5.40%\n                            1/2 AWW of High\nNE   and wages in at                                 $70      $582     1/4 WBA           BPW or 26 x      10-26      $1,500 in         high tax\n                            Quarter\n     least one other                                                                     WBA                         any qtr           group\n     quarter of $800                                                                                                                   employers     1.25%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-NV": [
+      {
+        "placeId": "US-NV",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [16],
+        "maximumPublished": [631],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "\n     1\u00bd x HQW in BP                                                                                                                                  0.25%\n     and $400 in HQ; or                                                                  Lesser of 1/3                                               5.40%\nNV   wages in 3 of 4        1/25 HQW                 $16      $631     1/3 wages         BPW or 26 x      8-26       $225 in any qtr   $43,700\n     qtrs in BP and                                                                      WBA\n                                                                                                                                                     2.95%\n     $400 in HQ",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-NH": [
+      {
+        "placeId": "US-NH",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [32],
+        "maximumPublished": [427],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                     0.10%\n                                                                                                          Uniform    20 weeks or                     7.00%7, 8\n     $2,800; $1,400 in      1% - 1.1% annual\nNH                                                   $32      $427     30% WBA           N/A              duration   $1,500 in         $14,000\n     each of 2 qtrs         wages\n                                                                                                          26         any qtr                         2.7%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-NJ": [
+      {
+        "placeId": "US-NJ",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [186, 213],
+        "maximumPublished": [905],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     ment at 20 x State                                                                                                                              5.8%7, 8\n                                                                       Greater of        weeks worked\n     hourly minimum         60% of claimant\u2019s        $186 -                                                          $1,000 in any\nNJ                                                            $905     20% WBA           in base year     20-26                        $44,800\n     wage or 1,000 x        AWW + DA                 $213                                                            year\n                                                                       or $5             up to 26 x\n     State hourly                                                                                                                                    2.8%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-NM": [
+      {
+        "placeId": "US-NM",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [116, 166],
+        "maximumPublished": [624, 674],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                     0.33%\n     $2,818.70 in HQW       53.5% of AWW paid in                                         Lesser of 60%                                               5.40%\n                                                     $116 -   $624 -                                                 20 weeks or\nNM   and wages in at        BP qtr in which wages                      1/5 WBA           BPW or 26 x      14-26                        $34,800\n                                                     $166     $674                                                   $450 in any qtr\n     least 1 other qtr      were highest                                                 WBA                                                         IndAvg%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-NY": [
+      {
+        "placeId": "US-NY",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [140],
+        "maximumPublished": [869],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                        Up to 10 hrs of                                                               2.025%\n                                                                        work as long                       Uniform                                    9.825%\n     1\u00bd x HQW; $3,500\nNY                         1/25 to 1/26 HQW           $140    $869      as earnings at    N/A              duration   $300 in any qtr   $17,600\n     in HQ\n                                                                        or below WBA                       26                                         4.025%\n                                                                        Max",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-NC": [
+      {
+        "placeId": "US-NC",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [15],
+        "maximumPublished": [350],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                           Last 2 qtrs of BP/52\n                                                                                                                      20 weeks or                     5.76%\n     6 x AWW; wages in     (must be at least 6 x\nNC                                                    $15     $350      20% WBA           12 x WBA         12-20      $1,500 in         $34,200\n     2 qtrs of BP          AWW in last two qtrs of\n                                                                                                                      any qtr                         1.00%\n                           BP to establish a WBA)",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-ND": [
+      {
+        "placeId": "US-ND",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [43],
+        "maximumPublished": [815],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                          Weighted                                                    0.07%\n                                                                                          schedule of                 20 weeks or                     9.67%\n     1\u00bd x HQW; wages       1/65 of wages in 2 HQs\nND                                                    $43     $815      60% WBA           BPW to HQW       12-26      $1,500 in         $46,600\n     in 2 qtrs             + 1/2 wages in 3rd HQ\n                                                                                          for # of weeks              any qtr\n                                                                                                                                                      1.00%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-OH": [
+      {
+        "placeId": "US-OH",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [176],
+        "maximumPublished": [624, 842],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                           1/2 claimant\u2019s AWW +                                                                                                       10.1%\n     ment with wages                                                                      1 x WBA for                 20 weeks or\n                           DA of $1 - $218 based              $624 -\nOH   averaging 27.5%                                  $176              1/5 WBA           each qualify-    20-26      $1,500 in         $9,000\n                           on claimant\u2019s AWW                  $842\n     of State AWW;                                                                        ing week in                 any qtr                         2.70%\n                           and number of dep",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-OK": [
+      {
+        "placeId": "US-OK",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [16],
+        "maximumPublished": [649],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     HQW or any taxa-                                                                                                                                 5.8%\n                                                                                                                      20 weeks or\n     ble wages if total\nOK                         1/23 HQW                   $16     $649      $100              16 X WBA         16         $1,500 in         $25,000\n     wages equal or ex-\n                                                                                                                      any qtr\n     ceed TWB for year                                                                                                                                1.50%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-OR": [
+      {
+        "placeId": "US-OR",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [204],
+        "maximumPublished": [872],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "     BPW > $1,000 and                                                                                                                                 0.90%\n                                                                        Greater of 1/3    Lesser of 1/3               18 weeks or                     5.40%\n     BPW > 1\u00bd x HQW;\nOR                         1.25% BPW                  $204    $872      WBA or            BPW or 26 x      1-26       $1,000 in         $56,700\n     or 500 hours of\n                                                                        $163.00           WBA                         any qtr                         2.4%\n     employment in BP",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-PA": [
+      {
+        "placeId": "US-PA",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [68, 76],
+        "maximumPublished": [605, 613],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                          Actual\n     $2,718 in BP; at      (4% HQW + 2) x 0.98 +                                                                                                      8.95%\n                                                      $68 -   $605 -    Greater of $21    number of\nPA   least 37% of BPW      2 DA; $5 for 1st dep; $3                                                        18-26      Any size          $10,000\n                                                      $76     $613      or 30% WBA        credit weeks\n     outside HQ; 18        for 2nd dep\n                                                                                          in BP x WBA                                                 3.8220%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-PR": [
+      {
+        "placeId": "US-PR",
+        "level": "territory",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [60],
+        "maximumPublished": [240],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                      1.2%\n     40 x WBA; $280                                                                                        Uniform\n                                                                                                                                                      5.40%\nPR   minimum; wages in     1/11-1/26 HQW              $60     $240      WBA               N/A              duration   Any size          $7,000\n     2 qtrs                                                                                                26\n                                                                                                                                                      2.80%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-RI": [
+      {
+        "placeId": "US-RI",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [82, 132],
+        "maximumPublished": [745, 931],
+        "rangeBasis": "dependents-allowance",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                           qtrs in BP + greater of\n     wage in 1 qtr and                                                                    Lesser of 33%                                 $32,300 for\n                           $15 or 5% of weekly        $82 -   $745 -\nRI   400 x minimum                                                      1/2 WBA           BPW or 26 x      17-26      Any size          high tax\n                           benefit rate per dep,      $132    $931\n     hourly wage in BP;                                                                   WBA                                           group em-\n                           capped at the greater                                                                                                      1.00%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-SC": [
+      {
+        "placeId": "US-SC",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [42],
+        "maximumPublished": [350],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                      0.00%\n     1\u00bd x HQW; $4,455                                                                     Lesser of 1/3               20 weeks or                     5.40%\n                           50% of HQ avg weekly\nSC   minimum; $1,092 in                               $42     $350      1/4 WBA           BPW or 20 x      13-20      $1,500 in         $14,000\n                           wage\n     HQ                                                                                   WBA                         any qtr                         1.00%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-SD": [
+      {
+        "placeId": "US-SD",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [28],
+        "maximumPublished": [553],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                      0.00%\n                                                                                          Lesser of 1/3               20 weeks or\n     $728 in HQ; 20 x                                                   1/4 wages                                                                     8.52%\nSD                         1/26 HQW                   $28     $553                        BPW or 26 x      15-26      $1,500 in         $15,000\n     WBA outside HQ                                                     over $25\n                                                                                          WBA                         any qtr\n                                                                                                                                                      1.20%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-TN": [
+      {
+        "placeId": "US-TN",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [55],
+        "maximumPublished": [325],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "      avg wages in high-                                                                                                                              10.00%7, 8\n                                                                                          12-20 (index-                20 weeks or\n      est 2 qtrs; BPW       1/26 of avg wages paid                       Greater of $50\nTN                                                     $55     $325                       ing rate) x       12-205     $1,500 in         $7,000\n      outside HQW > the     in 2 highest qtrs                            or 25% WBA\n                                                                                          WBA                          any qtr\n      lesser of 6 x WBA                                                                                                                               2.70%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-TX": [
+      {
+        "placeId": "US-TX",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [75],
+        "maximumPublished": [605],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                            1/25 HQW Capped at                                                                                                        0.32%\n                            47.6% of AWW in                                               Lesser of 27%                20 weeks or                    6.32%\n      37 x WBA; wages                                                    Greater of $5\nTX                          covered employment         $75     $605                       BPW or 26 x       10-26      $1,500 in         $9,000\n      in at least 2 qtrs                                                 or 1/4 WBA\n                            in TX, calculated                                             WBA                          any qtr\n                                                                                                                                                      2.70%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-UT": [
+      {
+        "placeId": "US-UT",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [47],
+        "maximumPublished": [806],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "\n                                                                                                                                                      0.20%\n      $5,500 in BP and                                                                                                                                7.20%\nUT                          1/26 HQW minus $5          $47     $806      30% WBA          27% BPW           10-26      Any size          $50,700\n      1\u00bd x HQW\n                                                                                                                                                      IndAvg%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-VT": [
+      {
+        "placeId": "US-VT",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [94],
+        "maximumPublished": [757],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                      0.4%\n                                                                                          Lesser of 46%                20 weeks or                    5.4%8\n      1.4 x HQW and         Wages in the 2 highest                       50% of gross\nVT                                                     $94     $757                       BPW or 26 x       23-26      $1,500 in         $15,400\n      $3,739 in HQ          qtrs divided by 45                           wages\n                                                                                          WBA                          any qtr\n                                                                                                                                                      1.00%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-VA": [
+      {
+        "placeId": "US-VA",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [112],
+        "maximumPublished": [430],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                          Weighted                                                    0.10%\n                                                                                          schedule of 2                20 weeks or                    6.20%\n      $3,000 in highest 2\nVA                          Listed in Statute Tables   $112    $430      $100             highest qtrs to   12-26      $1,500 in         $8,000\n      qtrs of BP\n                                                                                          WBA for #                    any qtr\n                                                                                                                                                      2.50%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-VI": [
+      {
+        "placeId": "US-VI",
+        "level": "territory",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [33],
+        "maximumPublished": [648],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "      1\u00bd x HQW and                                                                                                                                    2.43%\n                                                                                          Lesser of 1/3                                               5.40%\n      $858 in HQ; or                                                     25% in ex-\nVI                          1/16 HQW                   $33     $648                       BPW or 16 x       13-16      Any size          $32,100\n      $858 in HQ and 39                                                  cess of $15\n                                                                                          WBA\n      x WBA in BP                                                                                                                                     4.04%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-WA": [
+      {
+        "placeId": "US-WA",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [366],
+        "maximumPublished": [1152],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                      0.00%\n      680 hours; wages                                                                    Lesser of 1/3                                               5.40%\n                            3.85% of avg of high 2                       1/4 of wages\nWA    in BP or alternate                               $366    $1,152                     BPW or 26 x       1-26       Any size          $78,200\n                            qtrs in BP                                   over $5\n      BP                                                                                  WBA\n                                                                                                                                                      IndAvg%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-WV": [
+      {
+        "placeId": "US-WV",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [24],
+        "maximumPublished": [662],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "                                                                                                                                                      1.50%\n                            55% of 1/52 of median                                                           Uniform    20 weeks or                    7.50%\n      $2,200 and wages\nWV                          wages in worker\u2019s          $24     $662      $609\n                                                                                          N/A               duration   $1,500 in         $9,500\n      in 2 qtrs\n                            wage class                                                                      26         any qtr                        2.70%",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-WI": [
+      {
+        "placeId": "US-WI",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [54],
+        "maximumPublished": [370],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "\n                                                                                                                                                      0.00%\n      35 x WBA, HQ                                                       $30 + 33% of     Lesser of 40%                20 weeks or                    10.7%\nWI    >$1,350 and 4 x       4% HQW                     $54     $370      wages in         of BPW or 26      14-26      $1,500 in         $14,000\n      WBA outside HQ                                                     excess of $30    X WBA                        any qtr\n                                                                                                                                                      2.50%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ],
+    "US-WY": [
+      {
+        "placeId": "US-WY",
+        "level": "state",
+        "series": "unemployment-weekly-benefit-bounds",
+        "effectiveDate": "2026-01-01",
+        "effectiveDateBasis": "DOL report states effective as of January 1, 2026; not a claim that all component laws commenced that day.",
+        "unit": "USD/week",
+        "minimumPublished": [47],
+        "maximumPublished": [651],
+        "rangeBasis": "single-published-bound",
+        "dependentAllowanceUncapped": false,
+        "source": "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/January2026.pdf",
+        "sourcePage": 1,
+        "sourceExcerpt": "\n                                                                                                                                                      0.10%\n      1.4 x HQW; at                                                                       Lesser of 30%                                               8.50\nWY    least 8% of           4% HQW                     $47     $651      50% WBA          BPW or 26 x       11-26      Any size          $33,800\n      statewide AAW                                                                       WBA\n                                                                                                                                                      IndAvg%\n",
+        "retrievalDate": "2026-10-11",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.dol.gov/general/aboutdol/copyright",
+          "checkedDate": "2026-10-11",
+          "basis": "Agency-authored numerical UI law summary; public-domain materials may be used without permission, no implied DOL endorsement; third-party material excluded."
+        }
+      }
+    ]
+  }
+}

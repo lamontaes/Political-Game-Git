@@ -25,9 +25,20 @@
     {
       "source": "src/simulation/office-transition.ts on branch claude/project-thread-xh4kyk",
       "whatItDidNotSettle": "Every profile carries one blanket swearingIn description per level. Taking the oath records office.oath-taken, and nothing withholds the office if the oath is not taken."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/amendments-11-27",
+      "whatItDidNotSettle": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
     }
   ],
   "title": "Swearing-in ceremonies, and when each legislative term actually begins",
   "usableAnswer": "Table 1: one row per office (each state chamber, each governor, U.S. House and Senate), with columns for who administers, where, when relative to term start, together or individually, oath source, notable customs, and the consequence of not taking the oath. Table 2: the term start rule for each state chamber. Then a few local patterns. Every entry marked sourced, synthesized or unknown.",
-  "whyItMatters": "Swearing-in is now an action the player takes from the first day of a held term. Its description is one blanket line per level, so a Maine and a Georgia legislator read the same ceremony. The term itself begins on a blanket January 1 in every state without a sourced rule (BLANKET_LEGISLATIVE_TERM_RULE_VERSION in src/simulation/legislative-term-rules.ts), which the owner has already said is wrong for Maine (early December). The blanket is also known wrong for Nevada."
+  "whyItMatters": "Swearing-in is now an action the player takes from the first day of a held term. Its description is one blanket line per level, so a Maine and a Georgia legislator read the same ceremony. The term itself begins on a blanket January 1 in every state without a sourced rule (BLANKET_LEGISLATIVE_TERM_RULE_VERSION in src/simulation/legislative-term-rules.ts), which the owner has already said is wrong for Maine (early December). The blanket is also known wrong for Nevada.",
+  "answer": {
+    "summary": "NARA20th amendment fixes congressional term start noonJanuary3;27th amendment delays compensation changes until intervening House election. Neither establishes every state term-start, oath ceremony or state in-term pay-change restriction.",
+    "sources": ["https://www.archives.gov/founding-docs/amendments-11-27"],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:20:24.386693+00:00",
+    "stillOpen": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
+  }
 }

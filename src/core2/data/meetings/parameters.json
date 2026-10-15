@@ -1,0 +1,119 @@
+{
+  "about": "Public meetings, hearings, town halls and debates (OPUS-GOV).",
+  "parameters": {
+    "publicCommentSpeakers": {
+      "value": 6,
+      "tag": "ESTIMATED",
+      "source": "Speakers at an ordinary council agenda item's public comment; local meetings commonly hear a handful (Einstein, Glick and Palmer 2019, 'Neighborhood Defenders': most meetings draw few commenters, older and more engaged residents).",
+      "spread": [2, 15]
+    },
+    "commentBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How strongly a resident must feel about a question, times their civic temperament, to stand up at public comment; tuned against the handful who speak.",
+      "spread": [0.3, 1.2]
+    },
+    "commentWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "How far the public comment and testimony on a bill move a member, against their own views and constituents (weight 1 each); comment rarely changes a vote alone.",
+      "spread": [0.05, 0.3]
+    },
+    "commentSaturation": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Speakers at which the room's balance counts in full: one speaker counts a quarter as much as a room of them.",
+      "spread": [1, 6]
+    },
+    "townHallSize": {
+      "value": 40,
+      "tag": "ESTIMATED",
+      "source": "Attendance at a local official's town hall: a few dozen residents (Congressional Management Foundation 2017, 'Citizen-Centric Advocacy': in-person town halls draw dozens in most districts).",
+      "spread": [15, 120]
+    },
+    "townHallBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "The civic temperament (duty plus half of sociability) a resident needs to come to a town hall.",
+      "spread": [0, 1]
+    },
+    "questionsPerTownHall": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "Questions the host takes at a short town hall.",
+      "spread": [3, 8]
+    },
+    "townHallWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How far a town hall moves those in the room: in person, like a speech.",
+      "spread": [0.15, 0.45]
+    },
+    "debateWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far a debate watched moves a viewer toward each candidate; debates move few votes (Le Pennec and Pons 2023: 'How do campaigns shape vote choice?').",
+      "spread": [0.05, 0.3]
+    },
+    "debateDaysBefore": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "source": "Days before a general election a local station or paper hosts the race's debate or forum.",
+      "spread": [7, 30]
+    },
+    "questionsPerDebate": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "Questions a moderator puts to every candidate in a short local debate or forum.",
+      "spread": [3, 8]
+    },
+    "lifeConcernWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more a question weighs with a resident when it touches their own life (their job for labor and taxes; children at home for schools and family; age 55 and over for health; under 35 for housing, when most rent), against their view's strength alone.",
+      "spread": [0.5, 2]
+    },
+    "housingConcernAgeBelow": {
+      "value": 35,
+      "tag": "ESTIMATED",
+      "source": "Census Housing Vacancies and Homeownership (CPS/HVS) 2024: householders under 35 are mostly renters (homeownership about 37%), older age groups mostly own.",
+      "spread": [30, 40]
+    },
+    "healthConcernAge": {
+      "value": 55,
+      "tag": "TUNABLE",
+      "source": "Age from which health coverage weighs as a personal concern (chronic conditions and coverage gaps rise through the fifties toward Medicare at 65).",
+      "spread": [50, 65]
+    },
+    "townHallCauseWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight on an official's reason to hold a town hall: how evenly the town splits on a bill before their body (1 at an even split), or their own race coming up (1). Officials hold town halls on contested questions and in campaign season (Congressional Management Foundation, Communicating with Congress, 2011; Lee, 'Insecure Majorities', 2016).",
+      "spread": [0.5, 2]
+    },
+    "townHallEffort": {
+      "value": 0.8,
+      "tag": "TUNABLE",
+      "source": "The effort of holding a town hall, against which the official's reasons are weighed: below a strong cause, most officials hold none in an ordinary week. Spread checked against members of Congress holding a few in-person town halls a year (Town Hall Project counts, 2017 to 2019).",
+      "spread": [0.5, 1.2]
+    },
+    "townHallGapDays": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "source": "Days after a town hall at which the pull against holding another has halved (a sliding recency, no fixed cooldown).",
+      "spread": [30, 120]
+    },
+    "townHallCampaignDays": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "source": "Days before their election within which a candidate's race is a reason to hold a town hall (campaign season).",
+      "spread": [30, 90]
+    },
+    "townHallBillDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "source": "Days before a bill's vote within which it is a reason for its body's members to hold a town hall.",
+      "spread": [7, 30]
+    }
+  }
+}

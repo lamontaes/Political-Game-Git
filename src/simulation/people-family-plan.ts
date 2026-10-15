@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import {
   createFutureTransitionHandlerRegistry,
@@ -10,7 +10,7 @@ import {
   currentLifeCutoff,
   householdMembershipsAt,
 } from "./life-queries";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { personName } from "./people";
 import { childrenOf, parentsOf, recordFamilyAddition } from "./people-family";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";

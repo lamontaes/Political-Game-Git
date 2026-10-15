@@ -4,6 +4,7 @@ import type {
   LawEffectStampedRecord,
 } from "../law-effect-stamp";
 import type { LawLevel } from "../law-hierarchy";
+import type { CountyBudgetHearing } from "../county-budget-record";
 import type { EntityId, IsoDate, World } from "../types";
 import {
   FEDERAL_RECEIPTS,
@@ -183,7 +184,13 @@ export interface AdoptedBudget {
    * the year. "automatic": the government's own modeled adoption; a budget
    * passed as a bill comes later (Claude CTO, call 3).
    */
-  readonly basis: "opening" | "automatic";
+  readonly basis: "opening" | "automatic" | "board-vote";
+  /**
+   * "board-vote": a county board voted this year's property tax levy at its
+   * budget hearing (`living-world/county-budget-hearings.ts`); the expected
+   * property tax revenue is exactly that levy. Absent otherwise.
+   */
+  readonly hearingKey?: string;
   /** Annual, aligned to BUDGET_SOURCES. */
   readonly expectedRevenue: readonly number[];
   /** Annual, aligned to BUDGET_PROGRAMS. */
@@ -378,6 +385,11 @@ export interface PublicBudgetStore {
   readonly governments: readonly PublicBudgetGovernment[];
   readonly adjustments: readonly BudgetAdjustment[];
   /**
+   * Each county board's budget hearing, with the levy it proposed and the one
+   * it adopted (CO-5). Absent in a world whose counties never held one.
+   */
+  readonly countyBudgetHearings?: readonly CountyBudgetHearing[];
+  /**
    * The public jobs a budget funds in the watched town: the staff and the
    * real funding when the town was first staffed from its budget
    * (`staffing.ts`). Absent in a world whose town was never staffed.
@@ -416,15 +428,6 @@ export function publicBudgetFor(
         entry.lawJurisdictionId === jurisdictionId,
     ) ?? null
   );
-}
-
-/** A month row's amount for one source or program. */
-export function sourceAmount(row: BudgetMonthRow, source: BudgetSource) {
-  return row.revenue[BUDGET_SOURCES.indexOf(source)] ?? 0;
-}
-
-export function programAmount(row: BudgetMonthRow, program: BudgetProgram) {
-  return row.spending[BUDGET_PROGRAMS.indexOf(program)] ?? 0;
 }
 
 /**

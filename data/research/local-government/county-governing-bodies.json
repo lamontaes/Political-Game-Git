@@ -430,5 +430,536 @@
         "memberTitle": "Commissioner"
       }
     }
+  },
+  "structure": {
+    "note": "The form of county government each state's counties take unless a charter says otherwise: which body governs, and whether the people elect an executive. electedExecutive is all, most, some or none. A state marked some or most needs a county or charter row to name which counties; until one exists the county falls back to this row with its spread read as an estimate. SOURCED rows rest on the cited page; every other row is ESTIMATED FROM AVERAGE from the pages listed and the known shape of the state's law.",
+    "readOn": "2026-10-06",
+    "readBy": "CO-3 data",
+    "states": {
+      "AL": {
+        "structure": "commission",
+        "electedExecutive": "all",
+        "executiveTitle": "Probate judge",
+        "executivePresidesOverBody": true,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "The county commission's chair is the elected probate judge in most counties; local acts change this.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "AK": {
+        "structure": "borough-assembly",
+        "electedExecutive": "most",
+        "executiveTitle": "Borough mayor",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Alaska has boroughs; most elect a mayor. Census areas outside a borough have no county government.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "AZ": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of supervisors chooses its chair; an appointed county manager is common.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "AR": {
+        "structure": "county-judge",
+        "electedExecutive": "all",
+        "executiveTitle": "County judge",
+        "executivePresidesOverBody": true,
+        "status": "SOURCED",
+        "note": "NACo names Arkansas among the states with notable elected executives; the elected county judge presides over the quorum court.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances",
+          "https://en.wikipedia.org/wiki/County_executive"
+        ]
+      },
+      "CA": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of supervisors with an appointed chief administrative officer; San Francisco's mayor and Los Angeles's chief executive office are charter exceptions.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances",
+          "https://en.wikipedia.org/wiki/County_executive"
+        ]
+      },
+      "CO": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of commissioners chooses its chair; home rule counties and Denver differ.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "CT": {
+        "structure": "none",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "No county government since 1960.",
+        "sourceUrls": []
+      },
+      "DE": {
+        "structure": "council-executive",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "New Castle has an elected county executive; Kent and Sussex use a council with an appointed administrator.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "FL": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County mayor",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Commissions are the default; charter counties may elect an executive (Miami-Dade elects a mayor).",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances",
+          "https://en.wikipedia.org/wiki/County_executive"
+        ]
+      },
+      "GA": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "Chairman",
+        "executivePresidesOverBody": true,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Structure is set by local act: sole commissioner, chairman-and-commission, or elected chief executive officer.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "HI": {
+        "structure": "council-executive",
+        "electedExecutive": "all",
+        "executiveTitle": "Mayor",
+        "executivePresidesOverBody": false,
+        "status": "SOURCED",
+        "note": "NACo names Hawaii among the states with elected executives; each county elects a mayor.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "ID": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of county commissioners; no elected executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "IL": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Most counties have a board whose chair is chosen by the board; Cook elects a board president and some counties elect an executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances",
+          "https://en.wikipedia.org/wiki/County_executive"
+        ]
+      },
+      "IN": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three-member board of commissioners with an elected county council; no elected executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "IA": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of supervisors with an appointed administrator in some counties.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "KS": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of county commissioners; a few counties have a unified government with a mayor.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "KY": {
+        "structure": "county-judge",
+        "electedExecutive": "all",
+        "executiveTitle": "County judge-executive",
+        "executivePresidesOverBody": true,
+        "status": "SOURCED",
+        "note": "NACo names Kentucky among the states with elected executives; the judge-executive presides over the fiscal court.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances",
+          "https://en.wikipedia.org/wiki/County_executive"
+        ]
+      },
+      "LA": {
+        "structure": "police-jury-and-parish-council",
+        "electedExecutive": "some",
+        "executiveTitle": "Parish president",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Police jury parishes have no elected executive; council-president and consolidated parishes elect a parish president.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "ME": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three county commissioners with an appointed administrator in some counties.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "MD": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Nine charter counties elect a county executive; the commissioner counties do not.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "MA": {
+        "structure": "partial",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Six counties keep a government with a commission or an advisory board; the rest were abolished.",
+        "sourceUrls": []
+      },
+      "MI": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Boards of commissioners are the default; some counties elect an executive or hire a controller.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "MN": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "County board chooses its chair; an appointed administrator is common.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "MS": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Five supervisors choose a president from among themselves.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "MO": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "Presiding commissioner",
+        "executivePresidesOverBody": true,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Third-class counties elect a presiding commissioner who sits on the commission; charter counties elect an executive.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "MT": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three commissioners choose a chair; some counties have charter governments.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "NE": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of commissioners or supervisors; no elected executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "NV": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of county commissioners with an appointed county manager.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "NH": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three commissioners and a county delegation of state representatives.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "NJ": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Five of 21 counties elect an executive; the others use commissioners with a director chosen from within.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "NM": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of county commissioners with an appointed manager in some counties.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "NY": {
+        "structure": "legislature",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Seven counties elect an executive; the others use a board chair or an appointed administrator.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "NC": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of commissioners with an appointed county manager.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "ND": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of county commissioners; no elected executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "OH": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three commissioners in most counties; charter counties elect an executive.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "OK": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three commissioners; no elected executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "OR": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Commissioners with an elected county judge in a few counties and home rule charters elsewhere.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "PA": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three commissioners in most counties; home rule counties elect an executive.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "RI": {
+        "structure": "none",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "No county government.",
+        "sourceUrls": []
+      },
+      "SC": {
+        "structure": "council",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "County council with an appointed administrator or manager.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "SD": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of county commissioners; no elected executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "TN": {
+        "structure": "county-mayor",
+        "electedExecutive": "all",
+        "executiveTitle": "County mayor",
+        "executivePresidesOverBody": true,
+        "status": "SOURCED",
+        "note": "NACo names Tennessee among the states with elected executives; every county elects a county mayor.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances",
+          "https://en.wikipedia.org/wiki/County_executive"
+        ]
+      },
+      "TX": {
+        "structure": "county-judge",
+        "electedExecutive": "all",
+        "executiveTitle": "County judge",
+        "executivePresidesOverBody": true,
+        "status": "SOURCED",
+        "note": "NACo names Texas among the states with elected executives; the county judge presides over the commissioners court.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances",
+          "https://en.wikipedia.org/wiki/County_executive"
+        ]
+      },
+      "UT": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "Mayor",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Commissions are the default; council-mayor counties elect a mayor.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "VT": {
+        "structure": "none",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "No county commission; counties elect assistant judges and a sheriff.",
+        "sourceUrls": []
+      },
+      "VA": {
+        "structure": "board-of-supervisors",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of supervisors with an appointed county administrator; the board chair is chosen by the board.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "WA": {
+        "structure": "commission",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three-member commissions in non-charter counties; charter counties such as the largest elect an executive.",
+        "sourceUrls": [
+          "https://mrsc.org/explore-topics/officials/roles/county-officials",
+          "https://en.wikipedia.org/wiki/County_executive"
+        ]
+      },
+      "WV": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Three commissioners; no elected executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      },
+      "WI": {
+        "structure": "board",
+        "electedExecutive": "some",
+        "executiveTitle": "County executive",
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "County boards with a chair chosen by the board or an elected executive; roughly a dozen elect an executive.",
+        "sourceUrls": ["https://en.wikipedia.org/wiki/County_executive"]
+      },
+      "WY": {
+        "structure": "commission",
+        "electedExecutive": "none",
+        "executiveTitle": null,
+        "executivePresidesOverBody": false,
+        "status": "ESTIMATED FROM AVERAGE",
+        "note": "Board of county commissioners; no elected executive.",
+        "sourceUrls": [
+          "https://www.naco.org/page/county-structure-authority-and-finances"
+        ]
+      }
+    }
   }
 }

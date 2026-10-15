@@ -1,11 +1,10 @@
 import { writeCanonicalJson, writeJson } from "./canonical-json";
-import { createStableIdFromParts } from "./ids";
+import { createStableIdFromParts } from "../core2/kernel/ids";
 import { retireDrawnIncidentModes } from "./incident-legacy-modes";
 import {
   collectJsonChunks,
   JSON_CHUNK_LENGTH,
   parseJsonChunks,
-  sameJsonChunks,
 } from "./json-chunks";
 import { packRollCalls, unpackRollCalls } from "./roll-call-packing";
 import { packPrinciples, unpackPrinciples } from "./principle-packing";
@@ -15,7 +14,7 @@ import {
   unpackTendencies,
 } from "./tendency-packing";
 import type { EntityId, IsoDate, World } from "./types";
-import { assertWorldIntegrity, assertWorldIntegrityFully } from "./world";
+import { assertWorldIntegrity } from "./world";
 
 /**
  * Format 15 changed how `snapshotId` is derived, not what a world is.
@@ -324,19 +323,6 @@ export function worldPayloadMatches(
   return same && chunk === payload.length;
 }
 
-/** Whether two stored payloads hold the same text, however each was cut. */
-export function sameWorldPayload(
-  left: WorldPayload,
-  right: WorldPayload,
-): boolean {
-  if (typeof left === "string" && typeof right === "string")
-    return left === right;
-  return sameJsonChunks(
-    typeof left === "string" ? [left] : left,
-    typeof right === "string" ? [right] : right,
-  );
-}
-
 function packRollCallsApplies(world: World): boolean {
   return packRollCalls(world) !== null;
 }
@@ -534,8 +520,7 @@ export function readWorldSnapshot(payload: WorldPayload): {
       "World content packs require their supported snapshot format.",
     );
   }
-  // Whatever the play-time check mode, a World read from disk is walked whole.
-  assertWorldIntegrityFully(world);
+  assertWorldIntegrity(world);
   const expected = createWorldSnapshot(world);
   if (
     parsed.snapshotId !== (writtenId ?? expected.snapshotId) ||

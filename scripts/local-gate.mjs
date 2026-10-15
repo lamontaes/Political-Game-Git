@@ -21,7 +21,10 @@ if (
     "Speed baseline must contain three exclusive years on current origin/main",
   );
 const testsAt = args.indexOf("--tests");
-const tests = testsAt < 0 ? [] : args.slice(testsAt + 1);
+const tests =
+  testsAt < 0
+    ? []
+    : args.slice(testsAt + 1).filter((arg) => arg !== "--runtime-text");
 const tracked = execFileSync(
   "git",
   ["diff", "--name-only", "origin/main", "--diff-filter=ACM"],
@@ -75,6 +78,9 @@ if (roots.length) {
 run("npm", ["run", "release:check", "--", "--mode", "pr"]);
 run("npm", ["run", "zero-dice"]);
 if (tests.length) run("npx", ["--no-install", "vitest", "run", ...tests]);
+// Opt-in: a change to what a screen prints runs the golden-path text guard.
+if (args.includes("--runtime-text"))
+  run("npm", ["run", "audit:runtime-text:guard"]);
 run(process.execPath, [
   "--max-old-space-size=4096",
   "--import",

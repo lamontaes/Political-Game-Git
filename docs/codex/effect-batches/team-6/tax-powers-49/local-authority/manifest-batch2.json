@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-06",
+  "readBy": "Builder M3",
+  "purpose": "Batch 2 of first-party text behind 92N local income and payroll cells, same row format as manifest.json (batch 1, #2887). A cell upgrades from estimated to sourced when its row is present with a matching sha256.",
+  "sourced": [
+    {
+      "state": "PA",
+      "instrument": "earned-income",
+      "file": "raw/pa-act-511-of-1965.html",
+      "sha256": "6ad30576cea669076a777ff4596c6b26e29c68a7ae0a1fe4f69763addc854756",
+      "bytes": 454610,
+      "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1965/0/0511..HTM",
+      "citation": "Act of Dec. 31, 1965, P.L. 1257, No. 511 (Local Tax Enabling Act)",
+      "coverage": "full act text",
+      "status": "SOURCED",
+      "note": "Authorizes political subdivisions to levy earned income and other local taxes; the matrix's Act 511 cell.",
+      "retrievedAt": "2026-10-06T23:50:00Z"
+    },
+    {
+      "state": "DE",
+      "instrument": "earned-income",
+      "file": "raw/de-22-del-c-ch-9.html",
+      "sha256": "e6aafdca9c2730b4d9d26c2bd1d74f4cb0ad09a3777a608c0fe0e7d0a338b6ed",
+      "bytes": 14768,
+      "url": "https://delcode.delaware.gov/title22/c009/index.html",
+      "citation": "22 Del. C. ch. 9 (\u00a7\u00a7 901-908)",
+      "coverage": "full chapter text",
+      "status": "SOURCED",
+      "note": "Municipalities over 50,000 may tax earned income of residents and income earned in the city by nonresidents; \u00a7 902 caps the rate at 1.25 percent of income for residents and for nonresidents.",
+      "retrievedAt": "2026-10-06T23:50:00Z"
+    },
+    {
+      "state": "KY",
+      "instrument": "occupational-license",
+      "file": "raw/ky-krs-92-281.pdf",
+      "sha256": "3783b20564626de56a4e20e57f7fe48fe8ffe990089530a2ac9601b8bea81fe4",
+      "bytes": 8650,
+      "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=48683",
+      "citation": "KRS 92.281",
+      "coverage": "section text (PDF)",
+      "status": "SOURCED",
+      "note": "Cities of all classes may levy the taxes provided for in Ky. Const. \u00a7 181, including license fees and the occupational tax.",
+      "retrievedAt": "2026-10-06T23:50:00Z"
+    },
+    {
+      "state": "KY",
+      "instrument": "occupational-license",
+      "file": "raw/ky-krs-68-180.pdf",
+      "sha256": "70b2bee1a9f64748effdb42b149e41738265941c26a52bc324cbfe2900d68ef3",
+      "bytes": 10666,
+      "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=50960",
+      "citation": "KRS 68.180",
+      "coverage": "section text (PDF)",
+      "status": "SOURCED",
+      "note": "Counties of 300,000 or more may impose occupational license fees by order or resolution.",
+      "retrievedAt": "2026-10-06T23:50:00Z"
+    },
+    {
+      "state": "KY",
+      "instrument": "occupational-license",
+      "file": "raw/ky-krs-91-260.pdf",
+      "sha256": "e16c24aea5dc3d1d82eb3908afb5dae64a0853cb6d5918edf678a16bd2e1d063",
+      "bytes": 7206,
+      "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=44919",
+      "citation": "KRS 91.260",
+      "coverage": "section text (PDF)",
+      "status": "SOURCED",
+      "note": "Cities of the first class raise revenue from taxes based on income, licenses and franchises.",
+      "retrievedAt": "2026-10-06T23:50:00Z"
+    },
+    {
+      "state": "NJ",
+      "instrument": "payroll",
+      "file": "raw/nj-njsa-40-48c-14-to-16.txt",
+      "sha256": "9c8ca2a842ee5d7de30eda694c665d73b219b25f8b24499c09a9aebadf9ac187",
+      "bytes": 6429,
+      "url": "https://pub.njleg.state.nj.us/statutes/STATUTES-TEXT.zip",
+      "citation": "N.J.S.A. 40:48C-14 to 40:48C-16",
+      "coverage": "sections 14 to 16, extracted from STATUTES.TXT in the Legislature's own STATUTES-TEXT.zip (zip sha256 b8555ad548052e36ab0e9996405341385d6f12d7e9956bbd602b0a8e09905913, 41343034 bytes, as of 10/6/2026)",
+      "status": "SOURCED",
+      "note": "Employer payroll tax under the Local Tax Authorization Act; section 15 says any municipality may impose it by ordinance at up to one percent of employer payroll.",
+      "retrievedAt": "2026-10-06T23:50:00Z"
+    }
+  ],
+  "notAcquired": [
+    {
+      "state": "IN",
+      "instrument": "local-income",
+      "citation": "IC 6-3.6",
+      "reason": "iga.in.gov and in.gov/legislative return a 691-byte script shell for every statute and PDF path tried (title, article, chapter and pdf-documents URLs); no static first-party text found"
+    },
+    {
+      "state": "CO",
+      "instrument": "head-tax",
+      "citation": "C.R.S. 29-2 (matrix); none found",
+      "reason": "Colorado's 2023 title 29 PDF (leg.colorado.gov, sha256 27850abcc636e8b690807ecaa1da5348443661bbc703dab90f28387f04cc7935) holds no occupational privilege or head tax section; the authority is a home-rule city's own charter and code under Colo. Const. art. XX, so the cell should cite that, not C.R.S. title 29"
+    },
+    {
+      "state": "AL",
+      "instrument": "occupational-license",
+      "citation": "Ala. Code \u00a7 11-51-90",
+      "reason": "alison.legislature.state.al.us/code-of-alabama is a script shell (1.9 KB of text) and the alisondb static code host does not connect"
+    }
+  ],
+  "findings": [
+    {
+      "state": "NJ",
+      "finding": "The matrix calls the payroll tax a City of Newark tax under N.J.S.A. 40:48C-14 (restricted to specific cities). The statute's section 15, as of 10/6/2026, says any municipality may impose an employer payroll tax by ordinance at up to one percent, and routes the revenue to schools when median household income is $55,000 or more. The cell should say any municipality, not Newark only."
+    },
+    {
+      "state": "DE",
+      "finding": "The matrix says the City of Wilmington levies a 1.25 percent Earned Income Tax under 22 Del. C. \u00a7 901. Chapter 9 is titled Municipal User Tax and authorizes any municipality over 50,000 people; section 902 caps both resident and nonresident rates at 1.25 percent. The cap is the statute; Wilmington's levy is its own ordinance."
+    }
+  ]
+}

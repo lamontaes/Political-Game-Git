@@ -487,11 +487,6 @@
       "levels": ["county"],
       "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
     },
-    "us-tax-terms:county.payroll-tax-terms": {
-      "dial": "payroll-tax",
-      "levels": ["county"],
-      "why": "This question changes this government level’s own tax terms. The existing powers catalog and actual dated legal evidence govern authority; the question itself grants none."
-    },
     "us-tax-terms:county.corporate-tax-terms": {
       "dial": "income-tax",
       "levels": ["county"],

@@ -11,7 +11,7 @@ import {
   resourcePositionsOf,
 } from "./resource-queries";
 import { createResourcePosition, makeCurrencyCode, money } from "./resources";
-import { daysBetween, isoDateFromParts, yearOf } from "./dates";
+import { daysBetween, isoDateFromParts, yearOf } from "../core2/kernel/dates";
 import {
   TOWN_WORKPLACES,
   townWorkplaceFor,

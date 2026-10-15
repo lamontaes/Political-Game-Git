@@ -1,0 +1,167 @@
+[
+  {
+    "item": {
+      "situation": "Your grandmother, Aria O'Donnell (95), in Bolindale, Ohio, on February 3, 2026. You are 34.",
+      "prior": "You: Say hello",
+      "reply": "Your grandmother: Hi, Vincent.",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bolindale, Ohio",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:1"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your dad, Roger O'Donnell (64), in Bolindale, Ohio, on February 3, 2026. You are 34.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your dad: Me too. I've been meaning to make time to learn something.",
+      "part": "life-reply.tell-shared-plan:core:core",
+      "parts": [
+        "life-reply.tell-shared-plan:core:core",
+        "life-reply.tell-shared-plan:reason:continuation"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bolindale, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:1"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your mom, Kelly Lewis (104), in Enfield, North Carolina, on January 5, 2026. You are 70.",
+      "prior": "",
+      "reply": "Your mom: Nothing yet. Just go in with your eyes open.",
+      "part": "life-reply.running-worry-none:core:core",
+      "parts": [
+        "life-reply.running-worry-none:core:core",
+        "life-reply.running-worry-none:reason:continuation"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-worry",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, North Carolina",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:3"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your mom, Gabriela Smith (86), in Isleta, New Mexico, on January 5, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your mom: I can’t make it.",
+      "part": "everyday.social-decline-reply:core:core",
+      "parts": [
+        "everyday.social-decline-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Isleta, New Mexico",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1c-variety:2"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your dad, Ravi Love (46), in Nortonville, Kentucky, on January 5, 2026. You are 17.",
+      "prior": "You: Mention something in the news",
+      "reply": "Your dad: I hadn't heard a thing about it. Go on.",
+      "part": "small-talk.matter-uninformed:core:not-a-thing",
+      "parts": [
+        "small-talk.matter-uninformed:core:not-a-thing",
+        "small-talk.matter-uninformed:closer:go-on"
+      ],
+      "composer": "matterUninformedLine in small-talk-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "share-news",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "matter-uninformed",
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your dad, Ravi Love (46), in Nortonville, Kentucky, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "Your dad: Yes, I’ll come.",
+      "part": "everyday.social-accept-reply:core:core",
+      "parts": [
+        "everyday.social-accept-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "everyday-accept",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nortonville, Kentucky",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1c-variety:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  }
+]

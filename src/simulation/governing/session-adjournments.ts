@@ -1,5 +1,6 @@
-import { isoDateFromParts } from "../dates";
-import { createStableId } from "../ids";
+import { isoDateFromParts } from "../../core2/kernel/dates";
+import { LOCAL_ORDINANCE_GAME_PROFILE_VERSION } from "../local-ordinance-game-profile";
+import { createStableId } from "../../core2/kernel/ids";
 import type { LegislativeRulePack } from "../legislature-rules";
 import type {
   EntityId,
@@ -41,6 +42,11 @@ export function sessionLegalLimit(
     return isoDateFromParts(year, boundary.month, boundary.day);
   }
   if (!/^US-[A-Z]{2}$/.test(pack.jurisdictionKey)) return null;
+  // A county board or council keeps its own sitting year; the state
+  // legislature's session never closes it (CO-5: a county in a state whose
+  // legislature adjourns in March could not vote its April levy).
+  if (pack.packId.endsWith(`:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`))
+    return null;
   if (stateSessionEndEstimate(pack.jurisdictionKey, year) !== null) return null;
   return stateSessionEnds(pack.jurisdictionKey, year).at(-1) ?? null;
 }

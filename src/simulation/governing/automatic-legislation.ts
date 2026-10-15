@@ -15,7 +15,7 @@ import {
   draftScope,
   type CompiledBillDraft,
 } from "../legislation-drafting";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   introduceMeasure,
   measureActions,
@@ -32,7 +32,7 @@ import { principledLeaning } from "./officeholder-principles";
 import {
   censusRegionOf,
   censusRegionStates,
-} from "../world-setup/census-regions";
+} from "../../core2/reference/census-regions";
 import { publicBudgetFor } from "../public-budgets/store";
 import { recordWorldEvent } from "../world";
 import {
@@ -492,7 +492,7 @@ export function stateTransitAutomaticLawContext(
 export const AUTOMATIC_LAW_QUESTION_COOLDOWN_DAYS = 365;
 
 /**
- * Prevents an automatic producer from repeatedly toggling the same supported
+ * Prevents one automatic sponsor from repeatedly toggling the same supported
  * question. Only explicitly answered measures in that producer's persisted
  * key namespace count, and the window starts at a terminal legislative action.
  */
@@ -501,6 +501,7 @@ export function automaticLawQuestionOnCooldown(
   input: {
     readonly jurisdictionId: EntityId;
     readonly propositionId: EntityId;
+    readonly sponsorPersonId: EntityId;
     readonly stableKeyPrefix: string;
     readonly asOf?: IsoDate;
     readonly cooldownDays?: number;
@@ -519,6 +520,7 @@ export function automaticLawQuestionOnCooldown(
     if (
       measure.origin !== "member-introduction" ||
       measure.jurisdictionId !== input.jurisdictionId ||
+      measure.sponsorPersonId !== input.sponsorPersonId ||
       !measure.stableKey.startsWith(input.stableKeyPrefix) ||
       !(measure.propositionAnswers ?? []).some(
         (row) => row.propositionId === input.propositionId,
@@ -553,18 +555,6 @@ function mappingFor(
   governmentLevel: AutomaticLawGovernmentLevel = "state",
 ): AutomaticLawPositionMapping | null {
   return mappingsFor(propositionKey, answer, governmentLevel)[0] ?? null;
-}
-
-export function automaticLawPropositionKeysForLevel(
-  governmentLevel: AutomaticLawGovernmentLevel,
-): readonly string[] {
-  return [
-    ...new Set(
-      AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
-        (mapping) => mapping.governmentLevel === governmentLevel,
-      ).map((mapping) => mapping.propositionKey),
-    ),
-  ];
 }
 
 export function automaticLawMappingFor(

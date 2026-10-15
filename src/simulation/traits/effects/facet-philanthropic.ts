@@ -13,8 +13,6 @@ export const facetPhilanthropicEffects: readonly TraitEffectDeclaration[] = [
         option: "petition",
         trait: "personality-v1:facet-philanthropic",
         pole: "high",
-        explanation:
-          "They turn concern for someone's plight into action on their behalf.",
       },
     ],
   },

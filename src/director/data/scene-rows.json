@@ -1,0 +1,21 @@
+{
+  "version": "words-scene-v1",
+  "about": "The structure of scene narration: the setting kinds, the cause label prefixes and the word that joins several names. It holds no sentences; they come from the mined bank (data/english/parts/scene-words.json) through src/director/mined/scene-bank.ts. A setting or cause the bank has no sentence for is left out.",
+  "and": "and",
+  "settings": [
+    "home",
+    "other-home",
+    "workplace",
+    "school",
+    "public",
+    "venue",
+    "phone",
+    "letter"
+  ],
+  "causes": [
+    "tie:contact",
+    "money:job-ended",
+    "money:job-started",
+    "home:moved"
+  ]
+}

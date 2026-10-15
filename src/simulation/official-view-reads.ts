@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -429,18 +429,6 @@ export function groupsAgainst(
       result.push({ organizationId: group.id, members: members.size });
   }
   return result;
-}
-
-/** The measure a law-interest group was formed against. */
-export function lawInterestMeasure(
-  world: World,
-  organizationId: EntityId,
-): EntityId | null {
-  const key = world.history.organizations.find(
-    (row) => row.id === organizationId,
-  )?.stableKey;
-  if (!key?.startsWith(`${G}:`)) return null;
-  return (key.split(":").at(-1) as EntityId | undefined) ?? null;
 }
 
 /** Members of every law-interest group formed against this law. */

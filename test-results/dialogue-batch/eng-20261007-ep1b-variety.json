@@ -1,0 +1,641 @@
+{
+  "id": "eng-20261007-ep1b-variety",
+  "title": "Dialogue batch eng-20261007-ep1b-variety (23 exchanges)",
+  "at": "2026-10-07T00:44:33.229Z",
+  "head": "77f4cdab977eeb02387a85cde044dc3aadbc5889",
+  "status": "open",
+  "variety": {
+    "items": 23,
+    "places": 4,
+    "kinds": {
+      "conversation": 13,
+      "legislation": 0,
+      "winning-and-losing": 0,
+      "judges": 3,
+      "news": 3,
+      "journal": 3,
+      "press": 1,
+      "hearing": 0,
+      "meeting": 0,
+      "minutes": 0,
+      "notices-and-screens": 0
+    },
+    "distinctSituationRelationship": 23
+  },
+  "absent": [
+    {
+      "kind": "legislation",
+      "reason": "Hawaiian Beaches, Hawaii: no Congress measure with printed text is filed; Hialeah Gardens, Florida: no Congress measure with printed text is filed; Topstone, Connecticut: no Congress measure with printed text is filed; Guttenberg, Iowa: no Congress measure with printed text is filed"
+    },
+    {
+      "kind": "winning-and-losing",
+      "reason": "Hawaiian Beaches, Hawaii: no race in this world is decided yet; Hialeah Gardens, Florida: no race in this world is decided yet; Topstone, Connecticut: no race in this world is decided yet; Guttenberg, Iowa: no race in this world is decided yet"
+    },
+    {
+      "kind": "hearing",
+      "reason": "Hawaiian Beaches, Hawaii: no producer writes committee hearing text yet; Hialeah Gardens, Florida: no producer writes committee hearing text yet; Topstone, Connecticut: no producer writes committee hearing text yet; Guttenberg, Iowa: no producer writes committee hearing text yet"
+    },
+    {
+      "kind": "meeting",
+      "reason": "Hawaiian Beaches, Hawaii: the player is not at a meeting; Hialeah Gardens, Florida: the player is not at a meeting; Topstone, Connecticut: the player is not at a meeting; Guttenberg, Iowa: the player is not at a meeting"
+    },
+    {
+      "kind": "minutes",
+      "reason": "Hawaiian Beaches, Hawaii: no producer writes meeting minutes yet; Hialeah Gardens, Florida: no producer writes meeting minutes yet; Topstone, Connecticut: no producer writes meeting minutes yet; Guttenberg, Iowa: no producer writes meeting minutes yet"
+    },
+    {
+      "kind": "notices-and-screens",
+      "reason": "Hawaiian Beaches, Hawaii: no producer writes notices or letters to the player from the world yet; Hialeah Gardens, Florida: no producer writes notices or letters to the player from the world yet; Topstone, Connecticut: no producer writes notices or letters to the player from the world yet; Guttenberg, Iowa: no producer writes notices or letters to the player from the world yet"
+    }
+  ],
+  "items": [
+    {
+      "i": 0,
+      "situation": "Your dad, Gregory Hopkins (56), in Hawaiian Beaches, Hawaii, on January 5, 2026. You are 17.",
+      "prior": "You: Say hello",
+      "reply": "Your dad: Hi, Eden. How are you?",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core",
+        "life-reply.first-greeting:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 1,
+      "situation": "Your grandmother, Sabrina Snider (97), in Topstone, Connecticut, on January 5, 2026. You are 52.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your grandmother: Yeah, let's play.",
+      "part": "invitation.company-agree:core:yeah-play",
+      "parts": [
+        "invitation.company-agree:core:yeah-play"
+      ],
+      "composer": "invitationAgreeLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "invite-game-accept",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Topstone, Connecticut",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-variety:2"
+    },
+    {
+      "i": 2,
+      "situation": "Your dad, Ibrahim Harrison (99), in Guttenberg, Iowa, on January 5, 2026. You are 70.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your dad: I mean, no, not right now. I feel like doing something else. Maybe another time.",
+      "part": "english.slow-opener:opener:i-mean",
+      "parts": [
+        "english.slow-opener:opener:i-mean",
+        "invitation.company-decline:core:no-not-now",
+        "invitation.company-decline:reason:something-else",
+        "invitation.company-decline:closer:another-time"
+      ],
+      "composer": "invitationDeclineLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Guttenberg, Iowa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-variety:3"
+    },
+    {
+      "i": 3,
+      "situation": "Your dad, Gregory Hopkins (56), in Hawaiian Beaches, Hawaii, on January 5, 2026. You are 17.",
+      "prior": "You: Talk about an earlier conversation",
+      "reply": "Your dad: I remember you bringing up “$7,000,000 is set aside for behavioral health crisis response from July 1, 2025, through June 30, 2027.” What happened after that?",
+      "part": "life-reply.remembered-topic:core:core",
+      "parts": [
+        "life-reply.remembered-topic:core:core",
+        "life-reply.remembered-topic:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (remembered-topic) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "remembered-topic",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "remember-news-topic",
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 4,
+      "situation": "Your dad, Wesley Newman (71), in Hialeah Gardens, Florida, on February 3, 2026. You are 34.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your dad: Me too. I've been meaning to make time to learn something.",
+      "part": "life-reply.tell-shared-plan:core:core",
+      "parts": [
+        "life-reply.tell-shared-plan:core:core",
+        "life-reply.tell-shared-plan:reason:continuation"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hialeah Gardens, Florida",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-variety:1"
+    },
+    {
+      "i": 5,
+      "situation": "Your dad, Tony Snider (75), in Topstone, Connecticut, on January 5, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your dad: If you want to, go ahead.",
+      "part": "life-reply.running-open-agree-even:core:core",
+      "parts": [
+        "life-reply.running-open-agree-even:core:core"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-open",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Topstone, Connecticut",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-variety:2"
+    },
+    {
+      "i": 6,
+      "situation": "Your dad, Ibrahim Harrison (99), in Guttenberg, Iowa, on January 5, 2026. You are 70.",
+      "prior": "",
+      "reply": "Your dad: Nothing yet. Just go in with your eyes open.",
+      "part": "life-reply.running-worry-none:core:core",
+      "parts": [
+        "life-reply.running-worry-none:core:core",
+        "life-reply.running-worry-none:reason:continuation"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-worry",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Guttenberg, Iowa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-variety:3"
+    },
+    {
+      "i": 7,
+      "situation": "Your classmate, Sasha Stein (16), in Hawaiian Beaches, Hawaii, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "Your classmate: Show me the part you mean.",
+      "part": "subject-reply.school_raise:core:even-0-core-1",
+      "parts": [
+        "subject-reply.school_raise:core:even-0-core-1"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-raise",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 8,
+      "situation": "Your former classmate, Victoria Rivas (34), in Hialeah Gardens, Florida, on February 3, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your former classmate: What do you think about going?",
+      "part": "subject-reply.neighborhood_mention:core:warm-0-core-0",
+      "parts": [
+        "subject-reply.neighborhood_mention:core:warm-0-core-0"
+      ],
+      "composer": "composeSubjectReply (neighborhood) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "neighborhood-mention",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hialeah Gardens, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:1"
+    },
+    {
+      "i": 9,
+      "situation": "Your dad, Gregory Hopkins (56), in Hawaiian Beaches, Hawaii, on January 5, 2026. You are 17.",
+      "prior": "You: Mention something in the news",
+      "reply": "Your dad: I haven't seen anything about it. When was this?",
+      "part": "small-talk.matter-uninformed:core:havent-seen",
+      "parts": [
+        "small-talk.matter-uninformed:core:havent-seen",
+        "small-talk.matter-uninformed:closer:when-was-this"
+      ],
+      "composer": "matterUninformedLine in small-talk-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "share-news",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "matter-uninformed",
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 10,
+      "situation": "You, in Topstone, Connecticut, on January 5, 2026. You are 52.",
+      "prior": "Reporter: What happened?",
+      "reply": "You: I can't answer that yet.",
+      "part": "press.answer-unknown:core:not-yet",
+      "parts": [
+        "press.answer-unknown:core:not-yet"
+      ],
+      "composer": "composePressLine (answer-unknown) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Topstone, Connecticut",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:2"
+    },
+    {
+      "i": 11,
+      "situation": "Judge Thomas Gonzales sentences Bethany Saunders (41) for vandalism after a guilty plea. The judge chose probation. In Guttenberg, Iowa, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: They accepted responsibility by pleading guilty. It is their first offense. The law asks for a sentence no greater than necessary.",
+      "part": "justice.sentence:core:accepted-responsibility",
+      "parts": [
+        "justice.sentence:core:accepted-responsibility",
+        "justice.sentence:core:first-offense",
+        "justice.sentence:core:parsimony"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Guttenberg, Iowa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:3"
+    },
+    {
+      "i": 12,
+      "situation": "Judge Karen Talley sentences Hugo Smith (64) for assault after a trial. The judge chose jail. In Hawaiian Beaches, Hawaii, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: The offense was violent.",
+      "part": "justice.sentence:core:violent",
+      "parts": [
+        "justice.sentence:core:violent"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 13,
+      "situation": "Judge James Walters sentences Gabriel Whitley (29) for burglary after a trial. The judge chose jail. In Hialeah Gardens, Florida, on February 3, 2026.",
+      "prior": "",
+      "reply": "Judge: They had been found at fault for the same thing before.",
+      "part": "justice.sentence:core:findings",
+      "parts": [
+        "justice.sentence:core:findings"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hialeah Gardens, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:1"
+    },
+    {
+      "i": 14,
+      "situation": "Your classmate, Sasha Stein (16), in Hawaiian Beaches, Hawaii, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "Your classmate: I understand. You’re taking that part.",
+      "part": "subject-reply.school_offer:core:even-0-core-2",
+      "parts": [
+        "subject-reply.school_offer:core:even-0-core-2",
+        "subject-reply.school_offer:reason:even-0-reason-2"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-offer",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 15,
+      "situation": "Your former classmate, Victoria Rivas (34), in Hialeah Gardens, Florida, on February 3, 2026. You are 34.",
+      "prior": "You: Ask if they would like this to be a date",
+      "reply": "Your former classmate: I mean, no, thank you. I like how things are between us now.",
+      "part": "english.slow-opener:opener:i-mean",
+      "parts": [
+        "english.slow-opener:opener:i-mean",
+        "invitation.date-decline:core:no-thank-you",
+        "invitation.date-decline:reason:like-things-now"
+      ],
+      "composer": "invitationDeclineLine (date) in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "decline",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hialeah Gardens, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:1"
+    },
+    {
+      "i": 16,
+      "situation": "Your dad, Gregory Hopkins (56), in Hawaiian Beaches, Hawaii, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "Your dad: Yes, I’ll come.",
+      "part": "everyday.social-accept-reply:core:core",
+      "parts": [
+        "everyday.social-accept-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "everyday-accept",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 17,
+      "situation": "A Civic Ledger story from South Carolina. In Hawaiian Beaches, Hawaii, on January 5, 2026.",
+      "prior": "",
+      "reply": "Newspaper: $3,300,000 is set aside for behavioral health crisis response from July 1, 2025, through June 30, 2026.",
+      "part": "news:story:event_acb1bfa02aa53eef",
+      "parts": [
+        "news:story:event_acb1bfa02aa53eef"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 18,
+      "situation": "An entry in the player's journal (event). In Hawaiian Beaches, Hawaii, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: You are at home.",
+      "part": "journal:entry:event_9fa77c801f01fd36",
+      "parts": [
+        "journal:entry:event_9fa77c801f01fd36"
+      ],
+      "composer": "projectJournalView in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 19,
+      "situation": "An entry in the player's journal (life). In Hawaiian Beaches, Hawaii, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: You live in Hawaiian Beaches, Hawaii.",
+      "part": "journal:entry:fact_4ff715df7961864e",
+      "parts": [
+        "journal:entry:fact_4ff715df7961864e"
+      ],
+      "composer": "projectJournalView in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 20,
+      "situation": "An entry in the player's journal (life). In Hawaiian Beaches, Hawaii, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: You were enrolled at Hawaiian Beaches High School.",
+      "part": "journal:entry:education-enrollment-state_5ed4a83355dae5c3",
+      "parts": [
+        "journal:entry:education-enrollment-state_5ed4a83355dae5c3"
+      ],
+      "composer": "projectJournalView in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hawaiian Beaches, Hawaii",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1b-variety:0"
+    },
+    {
+      "i": 21,
+      "situation": "A Civic Ledger story from Florida. In Hialeah Gardens, Florida, on February 3, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 1 person entered the race for Member of the Florida House of Representatives, District 29.",
+      "part": "news:story:event_1dfceca1cf6794aa",
+      "parts": [
+        "news:story:event_1dfceca1cf6794aa"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hialeah Gardens, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:1"
+    },
+    {
+      "i": 22,
+      "situation": "A Civic Ledger story from California. In Hialeah Gardens, Florida, on February 3, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 2 people entered the race for U.S. Representative for California's 8th congressional district.",
+      "part": "news:story:event_fd08e8abbe4d18ca",
+      "parts": [
+        "news:story:event_fd08e8abbe4d18ca"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hialeah Gardens, Florida",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:1"
+    }
+  ]
+}

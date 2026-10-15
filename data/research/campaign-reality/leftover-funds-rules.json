@@ -1,0 +1,296 @@
+{
+  "version": "leftover-funds-rules-v1",
+  "notes": "Estimates are provisional menu estimates from the named similar state; no personal-use option is permitted. Research the state-specific menu before treating an estimate as legal advice.",
+  "rules": [
+    {
+      "jurisdiction": "AL",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "AK",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "AZ",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "AR",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "CA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "NY"
+    },
+    {
+      "jurisdiction": "CO",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "CT",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "DE",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "FL",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "GA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "HI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "ID",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "IL",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "IN",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "IA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "KS",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "KY",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "LA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "ME",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "MD",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "MA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "MI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "MN",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "MS",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "MO",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "MT",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "NE",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "NV",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "NH",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "NJ",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "NM",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "NY",
+      "allowedUses": [
+        "keep-for-future-race",
+        "refund-donors",
+        "give-to-charity",
+        "give-to-party/candidate"
+      ],
+      "source": "Brooklyn Eagle, \u201cState law allows defeated candidates to keep campaign funds\u201d (2019-01-25); assignment research summary"
+    },
+    {
+      "jurisdiction": "NC",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "ND",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "OH",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "OK",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "OR",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "NY"
+    },
+    {
+      "jurisdiction": "PA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "RI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "SC",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "SD",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "TN",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "TX",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "UT",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "VT",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "VA",
+      "allowedUses": [
+        "keep-for-future-race",
+        "refund-donors",
+        "give-to-charity",
+        "give-to-party/candidate"
+      ],
+      "source": "VPM, \u201cVirginia candidates raked in millions, what can they do with what\u2019s left over?\u201d; assignment research summary"
+    },
+    {
+      "jurisdiction": "WA",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "NY"
+    },
+    {
+      "jurisdiction": "WV",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "WI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "WY",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "DC",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "AS",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "GU",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "MP",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "PR",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    },
+    {
+      "jurisdiction": "VI",
+      "allowedUses": ["keep-for-future-race", "refund-donors"],
+      "estimatedFrom": "VA"
+    }
+  ]
+}

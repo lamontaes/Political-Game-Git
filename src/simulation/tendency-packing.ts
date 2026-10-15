@@ -1,4 +1,4 @@
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import type { EntityId, PersonalityTendencyRecord, World } from "./types";
 
 /**

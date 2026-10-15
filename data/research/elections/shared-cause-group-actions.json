@@ -1,0 +1,43 @@
+{
+  "id": "shared-cause-group-actions",
+  "basis": "recorded-goal-actions",
+  "note": "Action choices match the leader's recorded goal. Availability comes from each canonical action writer, not a place-specific branch or a turnout target.",
+  "actions": [
+    {
+      "key": "petition",
+      "label": "Circulate a petition",
+      "description": "Ask residents to sign the proposition through the petition engine.",
+      "goalKey": "civic:petition"
+    },
+    {
+      "key": "protest",
+      "label": "Organize a protest",
+      "description": "Invite residents to a recorded public protest.",
+      "goalKey": "civic:protest"
+    },
+    {
+      "key": "letter-drive",
+      "label": "Organize a letter drive",
+      "description": "Ask residents to write to the responsible officials.",
+      "goalKey": "civic:letter-drive"
+    },
+    {
+      "key": "endorsement",
+      "label": "Endorse a candidate",
+      "description": "Record support through the existing endorsement writer.",
+      "goalKey": "civic:endorsement"
+    },
+    {
+      "key": "testimony",
+      "label": "Give testimony",
+      "description": "Speak on the recorded item at the relevant hearing or meeting.",
+      "goalKey": "civic:testimony"
+    },
+    {
+      "key": "suing",
+      "label": "Bring a lawsuit",
+      "description": "File the group's claim through the court process.",
+      "goalKey": "civic:suing"
+    }
+  ]
+}

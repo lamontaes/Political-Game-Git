@@ -13,8 +13,6 @@ export const facetCalmEffects: readonly TraitEffectDeclaration[] = [
         option: "continue-work",
         trait: "personality-v1:facet-calm",
         pole: "high",
-        explanation:
-          "Their composure lets them stay put through a rough stretch at work.",
       },
     ],
   },

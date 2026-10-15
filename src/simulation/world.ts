@@ -1,3 +1,8 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
+import { assertStoryMomentIntegrity, storyMoments } from "./story/moments";
+import { assertStoryPeopleIntegrity, storyPeople } from "./story-people-store";
+import { assertStoryThreadIntegrity, storyThreadStates } from "./story/threads";
+import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
 import {
@@ -81,7 +86,7 @@ import {
   makeSimulationMoment,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
 import { assertTownFinanceIntegrity } from "./living-world/town-finances";
@@ -143,11 +148,12 @@ import {
 } from "./future-transitions";
 import {
   appendHistoricalEvent,
+  appendMemoryRecord,
   createHistoryStore,
   eventsInvolving,
 } from "./history";
 import type { HistoricalEventInput } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assertLifeHistoryIntegrity,
   lifeEntityAvailableAt,
@@ -182,7 +188,7 @@ import {
   policySemanticsEntityAvailableAt,
   policySemanticsEntityExists,
 } from "./policy-semantics";
-import { normalizeSeed } from "./rng";
+import { normalizeSeed } from "../core2/kernel/rng";
 import {
   assertResourceHousingIntegrity,
   resourceHousingEntityAvailableAt,
@@ -523,7 +529,9 @@ export function createWorld(input: CreateWorldInput): World {
   );
   validateControl(control, new Set(input.people.map((person) => person.id)));
   const jurisdictions = input.jurisdictions.map(cloneJurisdiction);
-  const people = input.people.map(clonePerson);
+  const people = input.people.map((person) =>
+    clonePerson(initializePersonCitizenship(person, seed, currentDate)),
+  );
 
   if (input.setupPriors) assertSetupPriorIntegrity(input.setupPriors);
 
@@ -644,7 +652,28 @@ function markValidated(world: World): void {
   lastValidatedWorld = world;
 }
 
+let worldChecksOff = 0;
+
+/**
+ * Run a generator without World integrity checks (play, where bookkeeping is
+ * off). Tests and the bench keep them.
+ */
+export function withoutWorldChecks<T>(run: () => T): T {
+  worldChecksOff += 1;
+  try {
+    return run();
+  } finally {
+    worldChecksOff -= 1;
+  }
+}
+
+/** Let go of the last checked World (e.g. a generator's temporary World once it's done). */
+export function forgetLastValidatedWorld(): void {
+  lastValidatedWorld = null;
+}
+
 export function assertWorldIntegrity(world: World): void {
+  if (worldChecksOff > 0) return;
   if (VALIDATED_WORLDS.has(world)) return;
   if (integrityDeferredDepth > 0) return;
   const last = lastValidatedWorld;
@@ -1397,14 +1426,47 @@ export function recordWorldEvent(
     }
   }
 
-  return {
-    ...world,
-    history: appendHistoricalEvent(world.history, world.id, {
-      ...input,
-      occurredAt,
-      recordedAt,
-    }),
-  };
+  const history = appendHistoricalEvent(world.history, world.id, {
+    ...input,
+    occurredAt,
+    recordedAt,
+  });
+  const event = history.events.at(-1)!;
+  const memoryWorthy = new Set([
+    "work.job-ended",
+    "life.couple-formed",
+    "life.couple-ended",
+    "life.started-dating",
+    "life.household-move",
+    "life.moved-into-home",
+    "life.left-home",
+    "life.death-learned",
+    "law.effect-reached-town",
+  ]).has(event.type);
+  let nextHistory = history;
+  if (memoryWorthy) {
+    const involvedPeople =
+      event.type === "life.death-learned"
+        ? event.participants
+            .filter((participant) => participant.role === "focus:told")
+            .map((participant) => participant.personId)
+        : event.involvedEntityIds;
+    for (const personId of involvedPeople) {
+      if (!world.people[personId]) continue;
+      nextHistory = appendMemoryRecord(nextHistory, world.id, {
+        stableKey: `event-memory:${event.id}:${personId}`,
+        personId,
+        eventId: event.id,
+        formedAt: occurredAt,
+        rememberedSummary: event.summary,
+        interpretation: event.summary,
+        strength: "moderate",
+        relevanceTags: [event.type],
+        supersedesMemoryId: null,
+      });
+    }
+  }
+  return { ...world, history: nextHistory };
 }
 
 /** Compatibility day entry; the canonical minute clock owns completion. */
@@ -1732,6 +1794,7 @@ function validateInitialEntities(
       throw new Error(`Materialized person is missing details: ${person.id}`);
     }
 
+    assertPersonCitizenshipIntegrity(person, currentDate);
     const facts = [
       ...person.establishedFacts,
       ...(person.detailLevel === "materialized"
@@ -2084,6 +2147,10 @@ function validateHistoryIntegrity(
         ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
         ...childhoodRecordEntries(world),
+        ...storyMoments(world),
+        ...(history.storyIntakeMarks ?? []),
+        ...storyPeople(world),
+        ...storyThreadStates(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2289,6 +2356,15 @@ function validateHistoryIntegrity(
   for (const entry of childhoodRecordEntries(world))
     assertUniqueId(ids, entry.id);
   assertChildhoodRecordIntegrity(world);
+  for (const moment of storyMoments(world)) assertUniqueId(ids, moment.id);
+  for (const mark of world.history.storyIntakeMarks ?? [])
+    assertUniqueId(ids, mark.id);
+  assertStoryMomentIntegrity(world);
+  // A story person's id is the one they keep once written out, so it is
+  // checked against the other story people, not against every id.
+  assertStoryPeopleIntegrity(world);
+  for (const state of storyThreadStates(world)) assertUniqueId(ids, state.id);
+  assertStoryThreadIntegrity(world);
   for (const proposal of history.legislativeProposals ?? []) {
     assertUniqueId(ids, proposal.id);
     if (!world.people[proposal.sponsorPersonId]) {
@@ -2348,6 +2424,7 @@ function validateHistoryIntegrity(
   const officeIds = new Set([
     ...history.workRelationships.map((record) => record.id),
     ...history.organizationParticipations.map((record) => record.id),
+    ...Object.keys(world.judiciary?.seats ?? {}),
   ]);
   for (const record of history.officeWorkflowPreferences ?? []) {
     assertUniqueId(ids, record.id);
@@ -4509,6 +4586,21 @@ function clonePerson(person: Person): Person {
   const core = {
     ...person,
     establishedFacts: person.establishedFacts.map(cloneFact),
+    ...(person.citizenshipStatuses
+      ? {
+          citizenshipStatuses: person.citizenshipStatuses.map((record) => ({
+            ...record,
+            provenance: {
+              ...record.provenance,
+              countyGeoids: [...record.provenance.countyGeoids],
+              sourceArtifactSha256s: [
+                ...record.provenance.sourceArtifactSha256s,
+              ],
+              sourceEntityIds: [...record.provenance.sourceEntityIds],
+            },
+          })),
+        }
+      : {}),
   };
 
   if (person.detailLevel === "lightweight") {

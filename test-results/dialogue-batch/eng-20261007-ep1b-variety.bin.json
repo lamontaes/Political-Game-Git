@@ -1,0 +1,111 @@
+[
+  {
+    "item": {
+      "situation": "Your grandmother, Kendall Newman (102), in Hialeah Gardens, Florida, on February 3, 2026. You are 34.",
+      "prior": "You: Say hello",
+      "reply": "Your grandmother: Hi, Alice.",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Hialeah Gardens, Florida",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-variety:1"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your dad, Tony Snider (75), in Topstone, Connecticut, on January 5, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your dad: I can’t make it.",
+      "part": "everyday.social-decline-reply:core:core",
+      "parts": [
+        "everyday.social-decline-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Topstone, Connecticut",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-variety:2"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "Reporter, Angela Roth (32), in Guttenberg, Iowa, on January 5, 2026. You are 70.",
+      "prior": "",
+      "reply": "Reporter: Clayton County is governed by County board, under a disclosed fictional game profile; the Census catalog identifies the unit but does not establish its procedure. What is established, and what is still open?",
+      "part": "press.reporter-known-topic:opener:development",
+      "parts": [
+        "press.reporter-known-topic:opener:development",
+        "press.reporter-known-topic:core:question"
+      ],
+      "composer": "composePressLine (reporter question) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview-question",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Guttenberg, Iowa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-variety:3"
+    },
+    "rule": "developer words: \"game profile\""
+  },
+  {
+    "item": {
+      "situation": "Your grandmother, Zara Harrison (127), in Guttenberg, Iowa, on January 5, 2026. You are 70.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your grandmother: Good luck with it.",
+      "part": "life-reply.tell-plain-plan:core:core",
+      "parts": [
+        "life-reply.tell-plain-plan:core:core"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Guttenberg, Iowa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-variety:3"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  }
+]

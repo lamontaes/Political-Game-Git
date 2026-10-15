@@ -1,0 +1,945 @@
+{
+  "id": "eng-20261007-ep1e",
+  "title": "Dialogue batch eng-20261007-ep1e (36 exchanges)",
+  "at": "2026-10-07T20:54:06.453Z",
+  "head": "fb42e80dff8453c3a7106d763a9bcfe670f453f9",
+  "status": "open",
+  "variety": {
+    "items": 36,
+    "places": 6,
+    "kinds": {
+      "conversation": 0,
+      "legislation": 4,
+      "winning-and-losing": 1,
+      "judges": 0,
+      "news": 0,
+      "journal": 10,
+      "press": 0,
+      "hearing": 10,
+      "meeting": 9,
+      "minutes": 1,
+      "notices-and-screens": 1
+    },
+    "distinctSituationRelationship": 36
+  },
+  "absent": [
+    {
+      "kind": "conversation",
+      "reason": "no output, because no composer reached this kind. In these worlds: no situation in the batch reaches this kind yet"
+    },
+    {
+      "kind": "judges",
+      "reason": "no output, because no composer reached this kind. In these worlds: no situation in the batch reaches this kind yet"
+    },
+    {
+      "kind": "news",
+      "reason": "no output, because no composer reached this kind. In these worlds: Tonopah, Arizona: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Bothell East, Washington: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Chama, New Mexico: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Lesage, West Virginia: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Hull, Massachusetts: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Leal, North Dakota: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; Crookston, Minnesota: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from; New River, Arizona: no published legislative vote or veto can be composed from linked record fields; no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from"
+    },
+    {
+      "kind": "press",
+      "reason": "no output, because no composer reached this kind. In these worlds: no situation in the batch reaches this kind yet"
+    }
+  ],
+  "items": [
+    {
+      "i": 0,
+      "situation": "The player's journal, the chapter \"At 28\" (2026). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I lived in Tonopah, Arizona. I noted my reservations about the proposal privately. Corey Blake's household moved into an apartment: they had no home in town yet. I met Samuel Pratt through Mason.",
+      "part": "journal:chapter:phase:chapter:28",
+      "parts": [
+        "journal:chapter:phase:chapter:28"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 1,
+      "situation": "The player's journal, the chapter \"2015\" (2015). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at Tonopah Valley High School in December 2015. My work as a store assistant at Tonopah Market ended.",
+      "part": "journal:chapter:year:2015",
+      "parts": [
+        "journal:chapter:year:2015"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 2,
+      "situation": "The player's journal, the chapter \"2013\" (2013). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I began working as a store assistant at Tonopah Market.",
+      "part": "journal:chapter:year:2013",
+      "parts": [
+        "journal:chapter:year:2013"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 3,
+      "situation": "The player's journal, the chapter \"2011\" (2011). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at Saddle Mountain Unified School District (4254) in December 2011. I was enrolled at Tonopah Valley High School.",
+      "part": "journal:chapter:year:2011",
+      "parts": [
+        "journal:chapter:year:2011"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 4,
+      "situation": "The player's journal, the chapter \"2008\" (2008). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I was enrolled at Saddle Mountain Unified School District (4254).",
+      "part": "journal:chapter:year:2008",
+      "parts": [
+        "journal:chapter:year:2008"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 5,
+      "situation": "The player's journal, the chapter \"At 10\" (2007). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: At lunch I made room at the table for another kid.",
+      "part": "journal:chapter:phase:chapter:10",
+      "parts": [
+        "journal:chapter:phase:chapter:10"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 6,
+      "situation": "The player's journal, the chapter \"2004\" (2004). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I transferred out of Saddle Mountain Unified School District (4254) because household move changed school context.",
+      "part": "journal:chapter:year:2004",
+      "parts": [
+        "journal:chapter:year:2004"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 7,
+      "situation": "The player's journal, the chapter \"At 6\" (2003). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: A household move changed the child's local routine.",
+      "part": "journal:chapter:phase:chapter:6",
+      "parts": [
+        "journal:chapter:phase:chapter:6"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 8,
+      "situation": "The player's journal, the chapter \"1997\" (1997). In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Your journal: I was born on December 21, 1997. I was born in Tonopah, Arizona. Joshua Blake is my parent. Jennifer Blake is my relative. Russell Blake is my relative.",
+      "part": "journal:chapter:year:1997",
+      "parts": [
+        "journal:chapter:year:1997"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 9,
+      "situation": "The short title of LD 2, a filed measure. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This title may be cited as the \"Limit groundwater withdrawal\".",
+      "part": "bank:legislation.short-title.this-title-may-be-cited-as-the",
+      "parts": [
+        "bank:legislation.short-title.this-title-may-be-cited-as-the"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 10,
+      "situation": "The short title of LD 3, a filed measure. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This Act may be cited as the \"Dedicated parks funding\".",
+      "part": "bank:legislation.short-title.this-act-may-be-cited-as-the-act",
+      "parts": [
+        "bank:legislation.short-title.this-act-may-be-cited-as-the-act"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 11,
+      "situation": "The short title of LD 4, a filed measure. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This Act may be cited as the \"Shift highway funds to transit\".",
+      "part": "bank:legislation.short-title.this-act-may-be-cited-as-the-act",
+      "parts": [
+        "bank:legislation.short-title.this-act-may-be-cited-as-the-act"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 12,
+      "situation": "The recorded defeat of a measure on January 12, 2026. Move: lost. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Results: The motion was rejected.",
+      "part": "bank:winning-losing.lost.the-motion-was-rejected",
+      "parts": [
+        "bank:winning-losing.lost.the-motion-was-rejected"
+      ],
+      "composer": "readWinningLosingBank in bank-english.ts",
+      "kind": "winning-and-losing",
+      "cell": {
+        "register": "everyday",
+        "kind": "winning-and-losing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 13,
+      "situation": "Minutes of the roll call taken on January 12, 2026: who voted for, read from each member's recorded vote. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Minutes: Voting for this action: Luna Swanson, Kelly Klein, Emerson Warner, Yosef Allen, Anna Powell, Isaiah Copeland, Dakota Larson and Charlotte Wilkinson.",
+      "part": "bank:minutes.vote.voting-for-this-action-members",
+      "parts": [
+        "bank:minutes.vote.voting-for-this-action-members"
+      ],
+      "composer": "readMinutesBank in bank-english.ts",
+      "kind": "minutes",
+      "cell": {
+        "register": "everyday",
+        "kind": "minutes",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 14,
+      "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: thanks. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you, Chair.",
+      "part": "bank:hearing.thanks.thank-you-chair",
+      "parts": [
+        "bank:hearing.thanks.thank-you-chair"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 15,
+      "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: answer. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "At the hearing: That is a great question.",
+      "part": "bank:hearing.answer.that-is-a-great-question",
+      "parts": [
+        "bank:hearing.answer.that-is-a-great-question"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 16,
+      "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: chair procedure. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Good morning.",
+      "part": "bank:hearing.chair-procedure.good-morning",
+      "parts": [
+        "bank:hearing.chair-procedure.good-morning"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 17,
+      "situation": "The player's journal, the chapter \"2026\" (2026). In Bothell East, Washington, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: I lived in Bothell East, Washington. I began working as a cashier at Snohomish County Market.",
+      "part": "journal:chapter:year:2026",
+      "parts": [
+        "journal:chapter:year:2026"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bothell East, Washington",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:1"
+    },
+    {
+      "i": 18,
+      "situation": "A hearing exchange before County of Snohomish, from its recorded seats. Move: thanks. In Bothell East, Washington, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you for that answer.",
+      "part": "bank:hearing.thanks.thank-you-for-that-answer",
+      "parts": [
+        "bank:hearing.thanks.thank-you-for-that-answer"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bothell East, Washington",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:1"
+    },
+    {
+      "i": 19,
+      "situation": "A hearing exchange before County of Snohomish, from its recorded seats. Move: answer. In Bothell East, Washington, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you for the question.",
+      "part": "bank:hearing.answer.thank-you-for-the-question",
+      "parts": [
+        "bank:hearing.answer.thank-you-for-the-question"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bothell East, Washington",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:1"
+    },
+    {
+      "i": 20,
+      "situation": "The short title of ORD 1, a filed measure. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This title may be cited as the \"Meeting Room Evening Hours Ordinance\".",
+      "part": "bank:legislation.short-title.this-title-may-be-cited-as-the",
+      "parts": [
+        "bank:legislation.short-title.this-title-may-be-cited-as-the"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 21,
+      "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: opener. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Madam Chair, I rise today to honor the life of a true public servant.",
+      "part": "bank:meeting.opener.i-rise-today-to-honor-the-life-of-a-true-public-servant",
+      "parts": [
+        "bank:meeting.opener.i-rise-today-to-honor-the-life-of-a-true-public-servant"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 22,
+      "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: procedural. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Madam Chair, I missed a vote today.",
+      "part": "bank:meeting.procedural.i-missed-a-vote-today",
+      "parts": [
+        "bank:meeting.procedural.i-missed-a-vote-today"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 23,
+      "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: closer. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Madam Chair, I will be brief.",
+      "part": "bank:meeting.closer.i-will-be-brief",
+      "parts": [
+        "bank:meeting.closer.i-will-be-brief"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 24,
+      "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: thanks. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Oh, thank you.",
+      "part": "bank:hearing.thanks.oh-thank-you",
+      "parts": [
+        "bank:hearing.thanks.oh-thank-you"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 25,
+      "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: answer. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Yes, thank you for that.",
+      "part": "bank:hearing.answer.yes-thank-you-for-that",
+      "parts": [
+        "bank:hearing.answer.yes-thank-you-for-that"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 26,
+      "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: chair procedure. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Without objection.",
+      "part": "bank:hearing.chair-procedure.without-objection",
+      "parts": [
+        "bank:hearing.chair-procedure.without-objection"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 27,
+      "situation": "Recorded local measure ORD 1, introduced January 5, 2026. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "Screen: Council Resolutions and Ordinances: ORD 1, Meeting Room Evening Hours Ordinance",
+      "part": "bank:notice.ordinance.council-ordinances",
+      "parts": [
+        "bank:notice.ordinance.council-ordinances"
+      ],
+      "composer": "readNoticesBank in bank-english.ts",
+      "kind": "notices-and-screens",
+      "cell": {
+        "register": "everyday",
+        "kind": "notices-and-screens",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 28,
+      "situation": "A hearing exchange before County of Cabell, from its recorded seats. Move: thanks. In Lesage, West Virginia, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you for that.",
+      "part": "bank:hearing.thanks.thank-you-for-that",
+      "parts": [
+        "bank:hearing.thanks.thank-you-for-that"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Lesage, West Virginia",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:3"
+    },
+    {
+      "i": 29,
+      "situation": "A hearing exchange before County of Cabell, from its recorded seats. Move: answer. In Lesage, West Virginia, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you for your question.",
+      "part": "bank:hearing.answer.thank-you-for-your-question",
+      "parts": [
+        "bank:hearing.answer.thank-you-for-your-question"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Lesage, West Virginia",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:3"
+    },
+    {
+      "i": 30,
+      "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: opener. In Leal, North Dakota, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I rise today with a profound sense of loss.",
+      "part": "bank:meeting.opener.i-rise-today-with-a-profound-sense-of-loss",
+      "parts": [
+        "bank:meeting.opener.i-rise-today-with-a-profound-sense-of-loss"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Leal, North Dakota",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:5"
+    },
+    {
+      "i": 31,
+      "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: procedural. In Leal, North Dakota, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I have a motion at the desk.",
+      "part": "bank:meeting.procedural.i-have-a-motion-at-the-desk",
+      "parts": [
+        "bank:meeting.procedural.i-have-a-motion-at-the-desk"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Leal, North Dakota",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:5"
+    },
+    {
+      "i": 32,
+      "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: closer. In Leal, North Dakota, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I have no more speakers.",
+      "part": "bank:meeting.closer.i-have-no-more-speakers",
+      "parts": [
+        "bank:meeting.closer.i-have-no-more-speakers"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Leal, North Dakota",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:5"
+    },
+    {
+      "i": 33,
+      "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: opener. In Crookston, Minnesota, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I thank the chair for the time.",
+      "part": "bank:meeting.opener.i-thank-the-chair-for-the-time",
+      "parts": [
+        "bank:meeting.opener.i-thank-the-chair-for-the-time"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Crookston, Minnesota",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "eng-20261007-ep1e:6"
+    },
+    {
+      "i": 34,
+      "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: procedural. In Crookston, Minnesota, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I move to proceed to executive session.",
+      "part": "bank:meeting.procedural.i-move-to-proceed-to-executive-session",
+      "parts": [
+        "bank:meeting.procedural.i-move-to-proceed-to-executive-session"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Crookston, Minnesota",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "eng-20261007-ep1e:6"
+    },
+    {
+      "i": 35,
+      "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: closer. In Crookston, Minnesota, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Mr. Chair, I will be brief.",
+      "part": "bank:meeting.closer.i-will-be-brief",
+      "parts": [
+        "bank:meeting.closer.i-will-be-brief"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Crookston, Minnesota",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "eng-20261007-ep1e:6"
+    }
+  ]
+}

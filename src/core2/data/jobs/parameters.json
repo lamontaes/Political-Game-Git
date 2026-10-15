@@ -1,0 +1,403 @@
+{
+  "jobsSalesForecastWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Staffing combines realized firm sales with the regional demand forecast; Hamermesh and Pfann (1996), Adjustment Costs in Factor Demand, Journal of Economic Literature. Calibration checked jointly against BLS JOLTS hires, quits, and layoffs, not used as actor rates.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "share of staffing forecast from smoothed realized sales",
+      "citation": "Sensitivity range for a forecast combining paid sales and macro/regional demand."
+    }
+  },
+  "jobsStaffGapActedPerMonth": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Firms close roughly a third of an employment gap per quarter (Hamermesh 1989, AER; Hamermesh and Pfann 1996, JEL); checked against JOLTS hires and layoffs.",
+    "spread": {
+      "low": 0.08,
+      "high": 0.35,
+      "unit": "share of the staffing gap per month",
+      "citation": "Firms close roughly a third of an employment gap per quarter (Hamermesh 1989, AER; Hamermesh and Pfann 1996, JEL); checked against JOLTS hires and layoffs."
+    }
+  },
+  "jobsCashCoverMonths": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "A business hires with its own cash in reach of a few months of payroll (Federal Reserve Small Business Credit Survey cash-buffer findings).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "months of payroll",
+      "citation": "A business hires with its own cash in reach of a few months of payroll (Federal Reserve Small Business Credit Survey cash-buffer findings)."
+    }
+  },
+  "jobsPayGapWeight": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "A worker paid well below the going rate for their job looks around; checked against JOLTS quits.",
+    "spread": {
+      "low": 2,
+      "high": 12,
+      "unit": "score per share of pay",
+      "citation": "A worker paid well below the going rate for their job looks around; checked against JOLTS quits."
+    }
+  },
+  "jobsMoneyBufferWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Savings let a worker leave work; checked against JOLTS quits.",
+    "spread": {
+      "low": 0.2,
+      "high": 2,
+      "unit": "score per month of buffer",
+      "citation": "Savings let a worker leave work; checked against JOLTS quits."
+    }
+  },
+  "jobsLeaveBaseline": {
+    "value": -5,
+    "tag": "TUNABLE",
+    "citation": "How far leaving work sits below staying before strain; checked against JOLTS quits and CPS flows out of the labor force.",
+    "spread": {
+      "low": -7,
+      "high": -3,
+      "unit": "score",
+      "citation": "How far leaving work sits below staying before needs and savings; checked against JOLTS quits and CPS flows out of the labor force."
+    }
+  },
+  "jobsLookBaseline": {
+    "value": -2.4,
+    "tag": "TUNABLE",
+    "citation": "How far looking sits below staying before pay; checked against JOLTS quits.",
+    "spread": {
+      "low": -4,
+      "high": -1,
+      "unit": "score",
+      "citation": "How far looking sits below staying before pay; checked against JOLTS quits."
+    }
+  },
+  "jobsApplyPayWeight": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "How strongly pay against what a seeker has (or had) draws an application.",
+    "spread": {
+      "low": 3,
+      "high": 15,
+      "unit": "score per share of pay",
+      "citation": "How strongly pay against what a seeker has (or had) draws an application."
+    }
+  },
+  "jobsUnemployedNeedWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "A seeker without work wants work.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "score",
+      "citation": "A seeker without work wants work."
+    }
+  },
+  "jobsAcceptBaseline": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "An offer in hand sits slightly above declining before pay.",
+    "spread": {
+      "low": -1,
+      "high": 2,
+      "unit": "score",
+      "citation": "An offer in hand sits slightly above declining before pay."
+    }
+  },
+  "jobsFitExperienceWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Employers weigh experience in the same occupation (Lazear and Oyer 2013, Handbook of Organizational Economics).",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score per year in the occupation",
+      "citation": "Employers weigh experience in the same occupation (Lazear and Oyer 2013, Handbook of Organizational Economics)."
+    }
+  },
+  "jobsFitReliabilityWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Employers weigh a recorded record of turning up; traitScale 3.",
+    "spread": {
+      "low": 0.2,
+      "high": 1.5,
+      "unit": "score per trait point",
+      "citation": "Employers weigh a recorded record of turning up; traitScale 3."
+    }
+  },
+  "jobsKeepTenureWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Tenure and firm-specific skill make an employer keep a worker (Topel 1991, JPE).",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score per year",
+      "citation": "Tenure and firm-specific skill make an employer keep a worker (Topel 1991, JPE)."
+    }
+  },
+  "jobsRateWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Module reasons outweigh one trait pull in the shared chooser.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score per pull",
+      "citation": "Module reasons outweigh one trait pull in the shared chooser."
+    }
+  },
+  "benefitsFileBase": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "spread": {
+      "low": 0.3,
+      "high": 0.9,
+      "unit": "scaled trait lean (about -1 to 1)",
+      "citation": "Unemployment insurance recipiency among eligible unemployed workers is well below 100%, about 0.7 to 0.8 take-up among eligibles (Auray, Fuller & Lkhagvasuren 2019). A worker files when this base plus their traits' scaled lean toward filing over skipping is above zero."
+    },
+    "citation": "How readily an eligible worker files for unemployment insurance before their traits tilt it (OPUS-TRAITS, Oct 12, 2026)."
+  },
+  "jobsDaysPerYear": {
+    "value": 365,
+    "tag": "SOURCED",
+    "citation": "Days per year."
+  },
+  "jobsWeeksPerMonth": {
+    "value": 4.345,
+    "tag": "SOURCED",
+    "citation": "Mean weeks per month (52.14 / 12)."
+  },
+  "jobsEnterBaseline": {
+    "value": -1.5,
+    "tag": "TUNABLE",
+    "citation": "How far starting to look sits below staying out before money pressure; checked against CPS flows into the labor force and the region's unemployment rate.",
+    "spread": {
+      "low": -3,
+      "high": 0,
+      "unit": "score",
+      "citation": "CPS labor force flows, 1990-2019."
+    }
+  },
+  "jobsEarliestRetirementAge": {
+    "value": 62,
+    "tag": "SOURCED",
+    "citation": "42 U.S.C. 402(a), 416(l): Social Security retirement benefits start at 62 at the earliest."
+  },
+  "jobsRetireBaseline": {
+    "value": -4,
+    "tag": "TUNABLE",
+    "citation": "How far retiring sits below staying at 62 before age and savings; checked against CPS labor force participation by age (about 57% at 62-64, 26% at 65-69, BLS 2019). First generated-world month (Landrum, July 2022) at -3 and 0.6 retired 63 of about 2,300 workers at once, far above CPS exits at 65-69.",
+    "spread": {
+      "low": -6,
+      "high": -2,
+      "unit": "score",
+      "citation": "BLS CPS participation by age, 2015-2019."
+    }
+  },
+  "jobsRetireAgeWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Each year past 62 pulls further toward retiring; checked against CPS participation falling from 62 to 70.",
+    "spread": {
+      "low": 0.15,
+      "high": 0.6,
+      "unit": "score per year",
+      "citation": "BLS CPS participation by age, 2015-2019."
+    }
+  },
+  "jobsOnTheJobSearchMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How long an employed person keeps looking before giving up for now; on-the-job search spells are short (Faberman, Mueller, Sahin and Topa 2022, Survey of Consumer Expectations job search supplement).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "How long an employed person keeps looking before giving up for now; on-the-job search spells are short (Faberman, Mueller, Sahin and Topa 2022, Survey of Consumer Expectations job search supplement)."
+    }
+  },
+  "jobsBenefitWeeklyShare": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
+    "estimatedFrom": "Fill-in for a program whose law row records no benefit fraction (Alaska's weighted schedule): most states pay 1/26 of high-quarter wages, about half the weekly wage.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.6,
+      "unit": "share of weekly pay",
+      "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law)."
+    }
+  },
+  "jobsBenefitMinimumBasePeriodMinor": {
+    "value": 277500,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law).",
+    "estimatedFrom": "Fill-in for a program whose law row records no base-period or high-quarter minimum: median minimum base-period wages across the state programs, July 2026.",
+    "spread": {
+      "low": 100000,
+      "high": 600000,
+      "unit": "cents",
+      "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law)."
+    }
+  },
+  "jobsCountedEntryBaseline": {
+    "value": -7,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
+    "spread": {
+      "low": -8,
+      "high": -5.5,
+      "unit": "logit of a month's pull to start looking",
+      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
+    }
+  },
+  "jobsCountedEntryYouthWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
+    "spread": {
+      "low": 2.5,
+      "high": 5,
+      "unit": "added at the peak of school-leaving years",
+      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
+    }
+  },
+  "jobsCountedEntryYouthYears": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Ages 18 to 25: the BLS CPS school-leaving years (16-24 enrollment and July youth labor force tables)."
+  },
+  "jobsCountedStopLookingBaseline": {
+    "value": -1.4,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment).",
+    "spread": {
+      "low": -2,
+      "high": -0.9,
+      "unit": "logit of a month's pull to stop looking",
+      "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment)."
+    }
+  },
+  "jobsQuitToNonemploymentShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "About half of quits go straight to another job and half to unemployment or out of the labor force (Fallick and Fleischman 2004, CPS job-to-job flows; BLS CPS gross flows E to U and E to N).",
+    "spread": {
+      "low": 0.35,
+      "high": 0.65,
+      "unit": "share of quits",
+      "citation": "About half of quits go straight to another job and half to unemployment or out of the labor force (Fallick and Fleischman 2004, CPS job-to-job flows; BLS CPS gross flows E to U and E to N)."
+    }
+  },
+  "jobsQuitBaseline": {
+    "value": -4.65,
+    "tag": "TUNABLE",
+    "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker.",
+    "spread": {
+      "low": -5.2,
+      "high": -4.2,
+      "unit": "logit of a month's pull to quit",
+      "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker."
+    }
+  },
+  "jobsTypicalTenureYears": {
+    "value": 3.9,
+    "tag": "SOURCED",
+    "citation": "BLS Employee Tenure in 2024, median tenure of wage and salary workers (about 3.9 years)."
+  },
+  "jobsQuitTenureWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "Short-tenure workers quit far more often than long-tenure ones (BLS Employee Tenure; Farber 1994, JOLE): each log step of tenure below the typical raises the pull; checked against JOLTS quits by industry.",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "logit per log-year of tenure below the typical",
+      "citation": "Short-tenure workers quit far more often than long-tenure ones (BLS Employee Tenure; Farber 1994, JOLE): each log step of tenure below the typical raises the pull; checked against JOLTS quits by industry."
+    }
+  },
+  "jobsUnemploymentQuitWeight": {
+    "value": 0.13,
+    "tag": "TUNABLE",
+    "citation": "Quits fall when unemployment rises: JOLTS total private quits fell from about 2.2% (2007) to 1.2% (2009) while unemployment rose about 4.7 points (BLS JOLTS, LNS14000000).",
+    "spread": {
+      "low": 0.06,
+      "high": 0.2,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Quits fall when unemployment rises: JOLTS total private quits fell from about 2.2% (2007) to 1.2% (2009) while unemployment rose about 4.7 points (BLS JOLTS, LNS14000000)."
+    }
+  },
+  "jobsUnemploymentLookWeight": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "On-the-job search falls when jobs are scarce (Faberman, Mueller, Sahin and Topa 2022); checked against JOLTS quits and hires through the cycle.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.2,
+      "unit": "score per point of unemployment above the natural rate",
+      "citation": "On-the-job search falls when jobs are scarce (Faberman, Mueller, Sahin and Topa 2022); checked against JOLTS quits and hires through the cycle."
+    }
+  },
+  "jobsUnemploymentEntryWeight": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Discouraged-worker effect: fewer enter the labor force when the local unemployment rate is high (BLS CPS participation through the 2007-2010 recession).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.12,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Discouraged-worker effect: fewer enter the labor force when the local unemployment rate is high (BLS CPS participation through the 2007-2010 recession)."
+    }
+  },
+  "jobsUnemploymentStopLookingWeight": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Long unemployment spells end in leaving the labor force more often when unemployment is high (BLS CPS gross flows U to N through the 2007-2010 recession).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.12,
+      "unit": "logit per point of unemployment above the natural rate",
+      "citation": "Long unemployment spells end in leaving the labor force more often when unemployment is high (BLS CPS gross flows U to N through the 2007-2010 recession)."
+    }
+  },
+  "jobsSwitchCost": {
+    "value": -1,
+    "tag": "TUNABLE",
+    "citation": "Changing employers costs something (lost tenure, search, relocation of routine): job-to-job movers gain on the order of 5 to 10 percent in pay (Topel and Ward 1992, QJE; Fallick and Fleischman 2004). With the accept baseline of 0.5 and an apply pay weight of 8, a worker needs about a 6 percent raise, or a trait pull, to move.",
+    "spread": {
+      "low": -2,
+      "high": -0.25,
+      "unit": "score for an employed worker taking another job",
+      "citation": "Changing employers costs something (lost tenure, search, relocation of routine): job-to-job movers gain on the order of 5 to 10 percent in pay (Topel and Ward 1992, QJE; Fallick and Fleischman 2004). With the accept baseline of 0.5 and an apply pay weight of 8, a worker needs about a 6 percent raise, or a trait pull, to move."
+    }
+  },
+  "jobsWithdrawActedPerMonth": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "An employer that has all the staff it wants lets its open postings lapse over a couple of months rather than at once; vacancies stay open about a month on average (BLS JOLTS vacancy duration, DHI).",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "open positions withdrawn per position of surplus, per month",
+      "citation": "An employer that has all the staff it wants lets its open postings lapse over a couple of months rather than at once; vacancies stay open about a month on average (BLS JOLTS vacancy duration, DHI)."
+    }
+  },
+  "jobsOfferDays": {
+    "value": 7,
+    "tag": "TUNABLE",
+    "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control.",
+    "spread": {
+      "low": 3,
+      "high": 14,
+      "unit": "days an offer stays open",
+      "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control."
+    }
+  }
+}

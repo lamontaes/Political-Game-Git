@@ -1,0 +1,119 @@
+{
+  "about": "The electorate the world does not name (owner, Oct 14, 2026): the town's counted residents, and every place outside the town counted on the same engine at a coarser level (each county's, House district's or state legislative district's eligible voters, voting as the town's counted residents would on the place's own 2024 lean). Read by src/core2/electorate.ts, src/core2/electorate-places.ts and src/core2/electorate-inputs.ts. Every number is tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it is checked against). Vote effects are in shares of the two-party vote in an evenly split electorate; the engine turns them into appeal on the lean scale.",
+  "typicalSpendPerVoteMinor": {
+    "about": "What one major-party candidate typically spends in a general election, per two-party vote cast in the race, by office family, in cents. A candidate the world records no campaign for spends this; a recorded campaign spends what its books show.",
+    "tag": "ESTIMATED",
+    "source": "OpenSecrets, Cost of Election and race totals, 2022 and 2024: the average major-party House general-election candidate spends about $1 to $2 million in a district of about 300,000 two-party votes; Senate and governor candidates about $10 to $30 million in states of 2 to 6 million votes; each 2024 presidential campaign about $1.5 billion of about 152 million two-party votes. National Institute on Money in Politics (FollowTheMoney), state legislative candidates 2022: about $50,000 to $250,000 per candidate in districts of 20,000 to 100,000 votes.",
+    "spread": "half to twice each value",
+    "byFamily": {
+      "usHouse": 500,
+      "statewideExecutive": 500,
+      "president": 1000,
+      "stateLegislative": 250
+    }
+  },
+  "parameters": {
+    "experiencedCandidateShare": {
+      "value": 0.03,
+      "tag": "ESTIMATED",
+      "source": "The two-party vote share a non-incumbent who has held elected office gains over a political amateur: about 3 points in House races (Jacobson and Carson, The Politics of Congressional Elections, 2020 edition; Carson, Engstrom and Roberts, American Political Science Review, 2007).",
+      "spread": [0.015, 0.05]
+    },
+    "scandalShare": {
+      "value": 0.05,
+      "tag": "ESTIMATED",
+      "source": "The two-party vote share a candidate tainted by a public scandal loses: incumbents who stood again lost about 5 points on average, more for corruption and with a strong challenger (Basinger, Political Research Quarterly, 2013; Praino, Stockemer and Moscardelli, Social Science Quarterly, 2013).",
+      "spread": [0.03, 0.08]
+    },
+    "spendingSharePerLogUnit": {
+      "value": 0.015,
+      "tag": "ESTIMATED",
+      "source": "The two-party vote share a candidate gains per natural-log unit of their own spending against the typical: Jacobson's House models put challenger spending in logs with about 2 to 4 points per log unit, incumbents' less; Sides, Vavreck and Warshaw (American Political Science Review, 2022) find television advertising advantages move a few tenths of a point in presidential races and more down the ballot.",
+      "spread": [0.005, 0.04]
+    },
+    "spendingFloorShareOfTypical": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Coverage, a party label and the ballot itself reach voters even for a candidate who spends nothing, so spending counts from a floor of this share of the typical race's spending. Checked against Jacobson's finding that challengers spending almost nothing still win about a third of the two-party vote in districts their party could compete in.",
+      "spread": [0.01, 0.2]
+    },
+    "unemploymentShare": {
+      "value": 0.008,
+      "tag": "ESTIMATED",
+      "source": "The two-party share the president's party loses per point the national unemployment rate rose since the opening: about 0.5 to 1.5 points (Kramer, American Political Science Review, 1971; Lewis-Beck and Stegmaier, Annual Review of Political Science, 2000).",
+      "spread": [0.003, 0.015]
+    },
+    "inflationShare": {
+      "value": 0.0072,
+      "tag": "ESTIMATED",
+      "source": "The two-party share the president's party loses per point of annual inflation above the opening's: 0.72 points in Fair's presidential vote equation (Fair, Predicting Presidential Elections and Other Things, 2020 update).",
+      "spread": [0.003, 0.01]
+    },
+    "downBallotNationalShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "The share of the national economy's pull on the president's party that reaches state offices: state legislative and governor elections follow the national tide (Rogers, American Political Science Review, 2016) while governors are also judged on their state (Carsey and Wright, American Journal of Political Science, 1998). Checked against a quarter to the whole.",
+      "spread": [0.25, 1]
+    },
+    "localUnemploymentShare": {
+      "value": 0.003,
+      "tag": "ESTIMATED",
+      "source": "The two-party share the seat's incumbent party loses in the town's own county per point the town's unemployment rose: local conditions move votes far less than national ones (Healy and Lenz, Journal of Politics, 2017).",
+      "spread": [0, 0.008]
+    },
+    "localCrimeShare": {
+      "value": 0.002,
+      "tag": "TUNABLE",
+      "source": "The two-party share the seat's incumbent party loses in the town's own county per tenth that the town's recorded crime rose above its base: small next to party and the economy (Baumer and Wolff, Public Opinion Quarterly, 2014, on crime salience). Checked against zero to half a point.",
+      "spread": [0, 0.005]
+    },
+    "recordShareWeight": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "source": "The two-party share an officeholder's recorded votes move per unit of the record's appeal (the same appeal named voters weigh, src/core2/modules/record.ts), weighed at the race's own lean. Checked against roll-call ideology costing incumbents about 1 to 4 points when they vote against their district (Canes-Wrone, Brady and Cogan, American Political Science Review, 2002).",
+      "spread": [0, 0.05]
+    },
+    "typicalVoterAgeYears": {
+      "value": 48,
+      "tag": "ESTIMATED",
+      "source": "The age of the typical eligible voter, at which the election laws' cost is read for a block: the median age of adult citizens is about 48 (U.S. Census Bureau, American Community Survey 2023, citizen voting-age population by age).",
+      "spread": [46, 50]
+    },
+    "typicalWeeklyWorkMinutes": {
+      "value": 1400,
+      "tag": "ESTIMATED",
+      "source": "The scheduled weekly work of the typical adult, at which the election laws' cost is read for a block: about 60% of adults are employed (BLS, Current Population Survey 2024 employment-population ratio) at about 39 hours a week, about 23 hours across all adults.",
+      "spread": [1200, 1600]
+    },
+    "crimeChangeUnit": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The rise in the town's recorded crime above its base (a share) that localCrimeShare is stated per: a tenth.",
+      "spread": [0.1, 0.1]
+    },
+    "appealPerShare": {
+      "value": 4,
+      "tag": "SOURCED",
+      "source": "How much appeal on the lean scale moves one share of the two-party vote. Each place's voters stand evenly along the lean order across a width of 2 (personLean: lean = 2 x (right share - rank)), and a voter backs the right-hand candidate when lean exceeds half the appeal gap; one unit of appeal therefore moves a quarter of the vote. Arithmetic of the engine's own lean order, not an estimate.",
+      "spread": [4, 4]
+    },
+    "coarseSampleVoters": {
+      "value": 400,
+      "tag": "TUNABLE",
+      "source": "How many of the town's counted adults, evenly spaced along the lean order, stand for a place outside the town when it is counted coarsely; each carries the place's eligible voters over this count. Checked against the full set giving the same state share within 0.002 on drawn states.",
+      "spread": [200, 2000]
+    },
+    "stateShareTolerance": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "source": "How far a state's Republican two-party share, counted on the engine with the opening's inputs and no candidate standing, may sit from its 2024 presidential share (Clerk of the House) in the calibration test. Each place's people are placed on the lean order where the town's counted voters, turning out by their own readiness, would split as the place voted (src/core2/electorate.ts orderPlacement); the test checks that placement and the coarse sample together, and every change in play moves the vote from there.",
+      "spread": [0.01, 0.06]
+    },
+    "countedTurnoutTolerance": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How far the counted residents' turnout in a presidential-year count may sit from their state's November 2024 CPS citizen turnout (table 4c), in turnout share, in the calibration test. Wide while turnout comes from each resident's own duty, engagement and costs rather than any rate; the engine is never forced to the figure.",
+      "spread": [0.1, 0.35]
+    }
+  }
+}

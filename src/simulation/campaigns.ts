@@ -1,6 +1,10 @@
-import { recordCampaignFundraiserReceipts } from "./campaign-money-sources";
+import {
+  carryForwardLeftoverFunds,
+  recordCampaignFundraiserReceipts,
+} from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { campaignCompliancePackIdForPlace } from "./campaign-compliance";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
@@ -8,6 +12,8 @@ import {
 } from "./household-loans";
 import { paydayHandlers } from "./living-world/town-pay";
 import { rentDayHandlers } from "./living-world/town-rent";
+import { propertyTaxHandlers } from "./property-tax-bases";
+import { countyBudgetHearingHandlers } from "./living-world/county-budget-hearings";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -16,10 +22,13 @@ import {
 import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
+  townHomeReviewHandler,
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
+import { circulateCandidatePetition } from "./candidate-petitions";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import { campaignOfficePollingEstimate } from "./campaign-polling-estimate";
@@ -39,8 +48,16 @@ import { enactedDutyHandlers } from "./enacted-duties";
 import { officeContinuityHandlers } from "./governing/office-continuity";
 import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
 import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
-import { federalReformHandlers } from "./living-world/federal-reform";
-import { articleVHandlers } from "./governing/article-v";
+import {
+  FEDERAL_REFORM_REVIEW,
+  federalReformHandlers,
+  federalReformReviewHandler,
+} from "./living-world/federal-reform";
+import {
+  ARTICLE_V_REVIEW,
+  articleVHandlers,
+  articleVReviewHandler,
+} from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -55,10 +72,7 @@ import {
   localMemberAgendaHandlers,
   scheduleLocalMemberAgendaIntakes,
 } from "./governing/member-agenda";
-import {
-  createNationalElectionTransitionRegistry,
-  linkedNationalUnitTransition,
-} from "./national-election-consumer";
+import { createNationalElectionTransitionRegistry } from "./national-election-consumer";
 import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
@@ -69,6 +83,7 @@ import { lifePaths2Handlers } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { seatCountyRowOfficerWinner } from "./living-world/local-government-seats";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   localElectionHandlers,
@@ -113,7 +128,7 @@ import {
   addDays,
   compareSimulationMoments,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
   electionContestResult,
@@ -128,7 +143,7 @@ import {
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
 } from "./future-transitions";
-import { createStableId, stableHash } from "./ids";
+import { createStableId, stableHash } from "../core2/kernel/ids";
 import {
   createOrganization,
   createOrganizationParticipation,
@@ -137,7 +152,7 @@ import {
   recordWorkStatus,
 } from "./life";
 import { lifeTransitionHandlers } from "./life-callbacks";
-import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_CONTACT_HANDLERS } from "./relationship-contact";
 import { STATE_LEGISLATURE_QUEUE_HANDLERS } from "./nationwide-world/state-legislature-queue";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { peopleFamilyHandlers } from "./people-family-plan";
@@ -179,14 +194,20 @@ import {
   createResourcePosition,
   recordResourceTransferOutcome,
 } from "./resources";
-import { recordEventKnowledge } from "./records";
+import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
+import {
+  CANVASS_SUPPORT_EFFECT,
+  campaignCanvassSoFar,
+  walkCampaignCanvass,
+} from "./campaign-canvass";
+import { nameStoryPeople, writeOutStoryPerson } from "./story-people";
 import {
   CAMPAIGN_ROUTINE_WORK,
   campaignRoutineBlockAt,
   campaignRoutineSlots,
   routineIdOfActivity,
 } from "./campaign-routine";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   cancelScheduledActivity,
   controlledCommitmentsBlockingActivityPerformance,
@@ -199,6 +220,7 @@ import type {
   CampaignActionKind,
   CampaignActionRecord,
   CampaignActionResultRecord,
+  CampaignDoorConversation,
   CampaignActionStrategyRecord,
   CampaignCandidateSupportScope,
   CampaignRecord,
@@ -240,6 +262,7 @@ import {
   SUPPORT_FLOOR_BASIS_POINTS,
   latestSupportState,
   quantityBasisPoints,
+  recordSupportLoss,
   recordSupportShift,
 } from "./campaign-support";
 import { moneyText } from "./money-text";
@@ -305,6 +328,8 @@ export interface FileCampaignInput {
   readonly advertisingVendorName: string;
   readonly staffPersonIds: readonly EntityId[];
   readonly treasuryCurrency: CurrencyCode;
+  /** Explicitly opt into a completed campaign's permitted keep-for-next-race balance. */
+  readonly carryForwardFromCampaignId?: EntityId | null;
 }
 
 export interface FiledCampaignResult {
@@ -867,11 +892,14 @@ export function fileCampaign(
     jurisdictionId: input.jurisdictionId,
     officeKey: option.officeKey,
     candidacyPackId: packId,
-    compliancePackId:
-      lifePlaceByJurisdictionId(input.jurisdictionId)?.stateJurisdictionKey ===
-      "US-KY"
-        ? "us-ky-candidate-campaign-compliance-v1"
-        : null,
+    compliancePackId: (() => {
+      const jurisdictionKey = lifePlaceByJurisdictionId(
+        input.jurisdictionId,
+      )?.stateJurisdictionKey;
+      return jurisdictionKey
+        ? campaignCompliancePackIdForPlace(jurisdictionKey)
+        : null;
+    })(),
     organizationId,
     donorPoolOrganizationId,
     advertisingVendorOrganizationId,
@@ -923,6 +951,13 @@ export function fileCampaign(
   // A town seat the town's own election already has on its ballot is decided
   // in this campaign's election instead.
   world = withdrawTownRaceForCampaign(world, campaignRecord.contestId);
+  if (input.carryForwardFromCampaignId) {
+    world = carryForwardLeftoverFunds(
+      world,
+      input.carryForwardFromCampaignId,
+      campaignRecord.id,
+    );
+  }
   return { world, campaign: campaignRecord };
 }
 
@@ -1193,6 +1228,39 @@ function requestedGainBasisPoints(
   return Math.max(1, Math.floor(base));
 }
 
+/** A resident met at the door during a campaign's outreach session. */
+export const CAMPAIGN_DOOR_CONTACT_KIND = "contact:campaign-door";
+
+/**
+ * What a session's conversations at the doors moved. Every resident the
+ * candidate spoke with moves toward them by the share of a vote a candidate's
+ * own visit moves a canvassed voter (`CANVASS_SUPPORT_EFFECT`); what was said
+ * moves that a little, up for a resident who took to the candidate and down
+ * for one who took against them, and not at all for one who only heard them
+ * out. The sum is a share of the adults the race reaches.
+ */
+export function doorConversationBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  conversations: readonly CampaignDoorConversation[],
+): number {
+  const moved = conversations.reduce((sum, row) => {
+    const base = row.partisan
+      ? CANVASS_SUPPORT_EFFECT.partisan
+      : CANVASS_SUPPORT_EFFECT.pooled;
+    const said =
+      row.response === "warm"
+        ? CANVASS_SUPPORT_EFFECT.warm
+        : row.response === "cool"
+          ? CANVASS_SUPPORT_EFFECT.cool
+          : 1;
+    return sum + base * said;
+  }, 0);
+  if (moved === 0) return 0;
+  const { electorate } = doorKnockingReturn(world, campaign);
+  return electorate > 0 ? (SUPPORT_DENOMINATOR * moved) / electorate : 0;
+}
+
 /**
  * Support is a share, so a gain is a transfer. Taking it evenly from the field
  * and refusing to push anybody below the floor keeps the split a real
@@ -1204,17 +1272,32 @@ function recordSupportAfterAction(
   campaign: CampaignRecord,
   action: CampaignActionRecord,
   outcomeEventId: EntityId,
+  conversations: readonly CampaignDoorConversation[] = [],
 ): {
   readonly world: World;
   readonly stateIds: readonly EntityId[];
   readonly candidateStateId: EntityId;
 } {
-  const shift = recordSupportShift(world, campaign, {
-    stableKeyBase: action.stableKey,
-    gainerPersonId: campaign.candidatePersonId,
-    gainBasisPoints: requestedGainBasisPoints(world, campaign, action),
-    sourceEntityIds: [outcomeEventId],
-  });
+  // Being met and recognized moves support up, and so does each
+  // conversation, by a little more or less for what was said.
+  const total = Math.floor(
+    requestedGainBasisPoints(world, campaign, action) +
+      doorConversationBasisPoints(world, campaign, conversations),
+  );
+  const shift =
+    total > 0
+      ? recordSupportShift(world, campaign, {
+          stableKeyBase: action.stableKey,
+          gainerPersonId: campaign.candidatePersonId,
+          gainBasisPoints: total,
+          sourceEntityIds: [outcomeEventId],
+        })
+      : recordSupportLoss(world, campaign, {
+          stableKeyBase: action.stableKey,
+          loserPersonId: campaign.candidatePersonId,
+          lossBasisPoints: -total,
+          sourceEntityIds: [outcomeEventId],
+        });
   const candidateStateId = shift.stateIdByPerson[campaign.candidatePersonId];
   if (!candidateStateId) {
     throw new Error("Candidate support state was not recorded.");
@@ -1528,7 +1611,7 @@ function recordCampaignActionOutcome(
   const baseOutcomeSummary =
     action.kind === "fundraising"
       ? money.raisedAmount
-        ? `The committee reported completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
+        ? `completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
         : "The fundraising session recorded no completed gifts; a dated monetary ask and contribution-cap law term are not available."
       : action.kind === "advertising"
         ? `The committee placed an advertising buy worth ${moneyLabel(money.spentAmount!)}.`
@@ -1536,6 +1619,72 @@ function recordCampaignActionOutcome(
   const outcomeSummary = action.strategy
     ? `${baseOutcomeSummary} The approved geography was ${action.strategy.geographyLabel}.`
     : baseOutcomeSummary;
+  // The doors an outreach session reached, and the residents home to answer.
+  // Most are story-only: named, with what they raised and how they took the
+  // candidate, and nobody written out. One met before and met again starts
+  // to matter, and is written out now.
+  const metBefore = campaignCanvassSoFar(next, campaign).storyPersonIds;
+  const doors = walkCampaignCanvass(next, campaign, action);
+  const meetings = doors.flatMap((door) => door.met);
+  for (const meeting of meetings)
+    if (!meeting.written && metBefore.has(meeting.personId))
+      next = writeOutStoryPerson(next, meeting.personId);
+  const metPersonIds = [
+    ...new Set(
+      meetings
+        .filter((meeting) => next.people[meeting.personId])
+        .map((meeting) => meeting.personId),
+    ),
+  ];
+  const storyPersonIds = [
+    ...new Set(
+      meetings
+        .filter((meeting) => !next.people[meeting.personId])
+        .map((meeting) => meeting.personId),
+    ),
+  ];
+  next = nameStoryPeople(
+    next,
+    meetings.flatMap((meeting) =>
+      meeting.roster && !next.people[meeting.personId]
+        ? [
+            {
+              ...meeting.roster,
+              sourceStore: "campaignActions",
+              sourceRecordId: action.id,
+              whereMet: {
+                jurisdictionId: meeting.roster.town,
+                setting: "campaign-door",
+                on: next.currentDate,
+              },
+              // What they raised, then how they answered the candidate.
+              lines: [
+                meeting.subject
+                  ? { act: "complain", about: meeting.subject.measure }
+                  : { act: "greet", about: null },
+                {
+                  act:
+                    meeting.response === "warm"
+                      ? "agree"
+                      : meeting.response === "cool"
+                        ? "decline"
+                        : "undecided",
+                  about: null,
+                },
+              ],
+            },
+          ]
+        : [],
+    ),
+  );
+  const conversations: readonly CampaignDoorConversation[] = meetings.map(
+    (meeting) => ({
+      personId: meeting.personId,
+      subject: meeting.subject,
+      response: meeting.response,
+      partisan: meeting.partisan,
+    }),
+  );
   next = recordWorldEvent(next, {
     stableKey: `${action.stableKey}:outcome-event`,
     type: `campaign.${action.kind}-completed`,
@@ -1547,6 +1696,7 @@ function recordCampaignActionOutcome(
       campaign.organizationId,
       campaign.candidatePersonId,
       action.scheduledActivityId,
+      ...metPersonIds,
     ],
     participants: [
       {
@@ -1559,6 +1709,11 @@ function recordCampaignActionOutcome(
               ? "Signed off the advertising buy"
               : "Led the door-knocking",
       },
+      ...metPersonIds.map((personId) => ({
+        personId,
+        role: "presence:participant" as const,
+        detail: null,
+      })),
     ],
     personFactConstraints: [],
     visibility: "limited",
@@ -1591,12 +1746,45 @@ function recordCampaignActionOutcome(
     },
   });
   const outcomeEventId = next.history.events.at(-1)!.id;
+  // Each resident who answered meets the candidate, and knows of the visit.
+  for (const personId of metPersonIds) {
+    const pair = [campaign.candidatePersonId, personId].sort();
+    const knownBefore = next.history.relationshipInteractions.some(
+      (interaction) =>
+        interaction.personIds[0] === pair[0] &&
+        interaction.personIds[1] === pair[1],
+    );
+    next = recordRelationshipInteraction(next, {
+      stableKey: `${action.stableKey}:door:${personId}`,
+      personIds: [campaign.candidatePersonId, personId],
+      eventId: outcomeEventId,
+      occurredAt: next.currentDate,
+      kind: CAMPAIGN_DOOR_CONTACT_KIND,
+      change: knownBefore ? "maintained" : "formed",
+      significance: "minor",
+      summary: outcomeSummary,
+      // "campaign.contact" is what `doorKnockingReturn` counts as a resident
+      // who has met the candidate, so the next door returns more.
+      tags: ["campaign.door", "campaign.contact"],
+    });
+    next = recordEventKnowledge(next, {
+      stableKey: `${action.stableKey}:door-knowledge:${personId}`,
+      personId,
+      eventId: outcomeEventId,
+      learnedAt: next.currentDate,
+      believedSummary: outcomeSummary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  }
 
   const supportResult = recordSupportAfterAction(
     next,
     campaign,
     action,
     outcomeEventId,
+    conversations,
   );
   next = supportResult.world;
   const observationResult = recordCampaignObservation(
@@ -1704,6 +1892,19 @@ function recordCampaignActionOutcome(
     observationId: observation.id,
     feedbackEventId,
     feedbackKnowledgeId,
+    ...(action.kind === "outreach"
+      ? {
+          canvass: {
+            householdIds: doors.flatMap((door) =>
+              door.householdId ? [door.householdId] : [],
+            ),
+            metPersonIds,
+            doorKeys: doors.map((door) => door.doorKey),
+            storyPersonIds,
+            conversations,
+          },
+        }
+      : {}),
   };
   next = {
     ...next,
@@ -1925,6 +2126,19 @@ function seatOnLocalGoverningBody(
   winnerPersonId: EntityId,
 ): World {
   const unit = office.unit;
+  if (office.seat === "row-office" && office.rowOffice) {
+    const next = seatCountyRowOfficerWinner(world, {
+      unit,
+      office: office.rowOffice,
+      title: office.officeTitle,
+      winnerPersonId,
+      effectiveAt,
+      contestId: contest.id,
+      outcomeEventId,
+    });
+    assertWorldIntegrity(next);
+    return next;
+  }
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalWorkspaceGovernmentForUnit(unit);
@@ -2233,8 +2447,6 @@ export function campaignElectionTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const national = linkedNationalUnitTransition(world, dueItem);
-  if (national) return national;
   const contestId = dueItem.entityIds[0];
   const campaign = contestId ? campaignForContest(world, contestId) : null;
   if (!campaign || campaignState(world, campaign.id).status !== "active") {
@@ -2335,6 +2547,16 @@ function endCampaignStaff(
   return next;
 }
 
+/** Both federal amendment routes enter through one clock-handler function. */
+function federalAmendmentReviewHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return due.transitionKey === ARTICLE_V_REVIEW
+    ? articleVReviewHandler(world, due)
+    : federalReformReviewHandler(world, due);
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2368,6 +2590,8 @@ export function composeWorldTimeHandlers(
         // A legislature and voters changing the governor's term limit.
         ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
+        [FEDERAL_REFORM_REVIEW, federalAmendmentReviewHandler],
+        [ARTICLE_V_REVIEW, federalAmendmentReviewHandler],
         ...federalReformHandlers(),
         ...articleVHandlers(),
         ...presidentialTurnoverHandlers(),
@@ -2417,10 +2641,15 @@ export function composeWorldTimeHandlers(
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        [TOWN_HOME_REVIEW_TRANSITION_KEY, townHomeReviewHandler],
         // PAYDAY: everyone with a recorded job is paid, every four weeks.
         ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
         ...rentDayHandlers(),
+        // PROPERTY TAX: a local property tax assesses homes on its day.
+        ...propertyTaxHandlers(),
+        // COUNTY BUDGET: a county board hears and votes its yearly levy.
+        ...countyBudgetHearingHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...campaignLifeHandlers(),
       ]),
@@ -2589,7 +2818,7 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       try {
         return scheduleCampaignAction(world, {
           campaignId: campaign.id,
-          kind: block.work,
+          kind: block.work === "petition" ? "outreach" : block.work,
           plan: {
             start: slot.start,
             end: slot.end,
@@ -2623,11 +2852,29 @@ export function createCampaignRoutineHook(): RoutineTimeHook {
       if (!activity || !routineIdOfActivity(world, activity.sourceEntityIds))
         return world;
       const action = campaignActionForActivity(world, activityId);
-      if (!action || campaignActionResult(world, action.id)) return world;
+      if (!action) return world;
       const campaign = campaignById(world, action.campaignId);
       if (!campaign || campaignState(world, campaign.id).status !== "active")
         return world;
-      return recordCampaignActionOutcome(world, campaign, action);
+      const timing = scheduledActivityState(world, activity.id);
+      const routineEventId = activity.sourceEntityIds.find((id) =>
+        Boolean(routineIdOfActivity(world, [id])),
+      );
+      const block = routineEventId
+        ? campaignRoutineBlockAt(world, routineEventId, timing.start)
+        : null;
+      const completed = campaignActionResult(world, action.id)
+        ? world
+        : recordCampaignActionOutcome(world, campaign, action);
+      return block?.work === "petition"
+        ? circulateCandidatePetition(completed, {
+            campaignId: campaign.id,
+            circulatorPersonId: campaign.candidatePersonId,
+            stableKey: `${action.stableKey}:petition-circulation`,
+            minutes: simulationMinutesBetween(timing.start, timing.end),
+            at: timing.end.date,
+          })
+        : completed;
     },
   };
 }

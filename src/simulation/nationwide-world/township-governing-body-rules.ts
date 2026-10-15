@@ -3,8 +3,8 @@ import placeTowns from "../../../data/research/money/place-towns-acs-2024.json" 
 import {
   governmentUnitStates,
   governmentUnitsForState,
-} from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+} from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import {
   countyGoverningBodyRules,
   type CountyGoverningBodyRules,
@@ -121,6 +121,16 @@ export function townshipGoverningBodyRules(
     bodyName: reading.bodyName,
     memberTitle: reading.memberTitle,
     chiefTitle: null,
+    // A town or township board seats no separate chief; its supervisor or
+    // trustee chair sits as a member.
+    structure: null,
+    executive: {
+      kind: "none",
+      title: null,
+      presidesOverBody: false,
+      basis: "state-none",
+      status: "ESTIMATED FROM AVERAGE",
+    },
     citation: reading.citation,
     url: reading.url,
     inForceSince: null,

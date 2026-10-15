@@ -3,7 +3,7 @@ import {
   makeIsoDate,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import {
   LEXINGTON_DEMO_CONTEXT,
   type DemoJurisdictionContext,
@@ -15,7 +15,7 @@ export {
   LEXINGTON_PLACEHOLDER_ID,
 } from "./demo-jurisdiction-context";
 export type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   createCareResponsibility,
   createHousehold,
@@ -56,7 +56,7 @@ import {
   applyNpcPoliticalBeliefFormation,
   evaluatePoliticalBeliefFormation,
 } from "./political-belief-formation";
-import { pickDistinct, SeededRng, normalizeSeed } from "./rng";
+import { pickDistinct, SeededRng, normalizeSeed } from "../core2/kernel/rng";
 import {
   recordClaim,
   recordEventKnowledge,
@@ -72,6 +72,7 @@ import {
 } from "./world";
 import { advanceWorldMinutes } from "./time-work";
 import { composeWorldTimeHandlers } from "./campaigns";
+import { ensureCrisisMortality } from "./crisis/mortality";
 
 export const DEFAULT_DEMO_SEED = "lexington-foundation";
 
@@ -649,7 +650,7 @@ export function createScenarioWorld(
     provenance: lifeProvenance,
   });
 
-  return world;
+  return ensureCrisisMortality(world);
 }
 
 /**

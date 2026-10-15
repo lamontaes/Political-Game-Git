@@ -434,7 +434,8 @@ export type MinorityProcedureMotion =
   | "recommit"
   | "recorded-vote"
   | "full-reading"
-  | "suspend-rules";
+  | "suspend-rules"
+  | "sine-die";
 
 /** Complete per-chamber delay, debate, and attendance rules. */
 export interface MinorityPartyProcedureRow {
@@ -609,6 +610,19 @@ export interface LegislativeRulePack {
   readonly packId: string;
   readonly jurisdictionKey: string;
   readonly displayName: string;
+  /** Institution facts consumed by generic engines instead of pack-id branches. */
+  readonly institution?: {
+    readonly government: "federal" | "state" | "territory" | "local";
+    readonly workKey?: string;
+    readonly numberingCycle?: "biennial-congress";
+    readonly context?: {
+      readonly goalScope: string;
+      readonly householdLocationLabel: string;
+      readonly timeZone: string;
+      readonly utcOffsetMinutes: number;
+      readonly creationSummary: string;
+    };
+  };
   /**
    * The saved roster this institution reads, and how far that roster supplies
    * party cues. Older packs use candidacy openings and the current chamber.

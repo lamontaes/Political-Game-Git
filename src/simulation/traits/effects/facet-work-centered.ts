@@ -13,7 +13,6 @@ export const facetWorkCenteredEffects: readonly TraitEffectDeclaration[] = [
         option: "continue-work",
         trait: "personality-v1:facet-work-centered",
         pole: "high",
-        explanation: "Their work matters most to them and they stay at it.",
       },
     ],
   },

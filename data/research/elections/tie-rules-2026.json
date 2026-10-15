@@ -1,0 +1,2163 @@
+{
+  "id": "tie-rules-2026",
+  "asOf": "2026-10-12",
+  "sources": [
+    "NCSL, Resolving Tied Elections for Legislative Offices (page blocked, only search excerpt read for AL-IA)",
+    "William & Mary State of Elections blog, Tiebreakers Across the Country, 2018-01-04 (secondary, dated)",
+    "RCW 29A.60.221 (WA), fetched",
+    "Va. Code 24.2-674, fetched",
+    "Randle Law Office summary of Tex. Elec. Code 2.002, fetched",
+    "CSG Midwest, Capital Closeup, 2026-05-21 (LG tie-breaking), fetched",
+    "NCSL, In Case of a Tie (search excerpt: LG presides in 25 states)",
+    "Remaining rows from general knowledge of state codes; all marked estimate true. Verify before shipping."
+  ],
+  "states": {
+    "US-AL": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by secretary of state before governor",
+        "citation": "AL election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by secretary of state before governor",
+        "citation": "AL election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-AK": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "recount, then lot",
+        "citation": "AK election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "recount, then lot",
+        "citation": "AK election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-AZ": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "AZ election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "AZ election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "lot",
+        "detail": "lot by secretary of state/ legislature (estimate)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "no lieutenant governor; senate president is a member",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-AR": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "special runoff election four weeks after",
+        "citation": "AR election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "special runoff election four weeks after",
+        "citation": "AR election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "runoff",
+        "detail": "runoff or new primary",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-CA": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "secretary of state draws lot",
+        "citation": "CA election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "secretary of state draws lot",
+        "citation": "CA election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-CO": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "lot after recounts",
+        "citation": "CO election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "lot after recounts",
+        "citation": "CO election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-CT": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "recount, then special election between tied candidates",
+        "citation": "CT election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "recount, then special election between tied candidates",
+        "citation": "CT election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "new-election",
+        "detail": "runoff or new primary",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-DE": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "vacancy; special election",
+        "citation": "DE election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "vacancy; special election",
+        "citation": "DE election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-FL": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "FL election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "FL election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-GA": {
+      "generalElectionTie": {
+        "method": "runoff",
+        "detail": "runoff 28 days later",
+        "citation": "GA election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "runoff",
+        "detail": "runoff 28 days later",
+        "citation": "GA election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "runoff",
+        "detail": "runoff after tied general election",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "runoff",
+        "detail": "runoff or new primary",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "LG presides but does not break roll-call ties (CSG 2026)",
+        "citation": "CSG Midwest 2026",
+        "estimate": false
+      }
+    },
+    "US-HI": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "lot drawn by chief election officer",
+        "citation": "HI election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "lot drawn by chief election officer",
+        "citation": "HI election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature decides (estimate)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-ID": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "coin toss before secretary of state",
+        "citation": "ID election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "coin toss before secretary of state",
+        "citation": "ID election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-IL": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "IL election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "IL election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-IN": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "IN election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "IN election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-IA": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "names drawn before board of canvassers",
+        "citation": "IA election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "names drawn before board of canvassers",
+        "citation": "IA election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-KS": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "KS election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "KS election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-KY": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "KY election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "KY election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-LA": {
+      "generalElectionTie": {
+        "method": "runoff",
+        "detail": "drawing at state capitol (runoff ties)",
+        "citation": "LA election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "runoff",
+        "detail": "drawing at state capitol (runoff ties)",
+        "citation": "LA election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "runoff",
+        "detail": "tied runoff handled by drawing/legislature (estimate)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-ME": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "special election (21-A M.R.S. 732)",
+        "citation": "ME election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "special election (21-A M.R.S. 732)",
+        "citation": "ME election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint ballot",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "no lieutenant governor; senate president is a member",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-MD": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "special election (estimate)",
+        "citation": "MD election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "special election (estimate)",
+        "citation": "MD election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-MA": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "MA election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "MA election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-MI": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "MI election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "MI election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-MN": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "MN election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "MN election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-MS": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "MS election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "MS election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "House of Representatives chooses",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-MO": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "MO election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "MO election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-MT": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "MT election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "MT election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-NE": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "NE election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "NE election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; yes vote cannot pass a bill on 24-24 tie (CSG 2026)",
+        "citation": "CSG Midwest 2026",
+        "estimate": false
+      }
+    },
+    "US-NV": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "NV election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "NV election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; may not break ties on final passage (CSG 2026)",
+        "citation": "CSG Midwest 2026",
+        "estimate": false
+      }
+    },
+    "US-NH": {
+      "generalElectionTie": {
+        "method": "runoff",
+        "detail": "runoff/new election",
+        "citation": "NH election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "runoff",
+        "detail": "runoff/new election",
+        "citation": "NH election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "new-election",
+        "detail": "runoff or new primary",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "no lieutenant governor; senate president is a member",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-NJ": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "NJ election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "NJ election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-NM": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "NM election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "NM election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-NY": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "runoff/special election",
+        "citation": "NY election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "runoff/special election",
+        "citation": "NY election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG tie-break covers procedural matters only (CSG 2026)",
+        "citation": "CSG Midwest 2026",
+        "estimate": false
+      }
+    },
+    "US-NC": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "new election for large races; lot for small",
+        "citation": "NC election code (not fetched)",
+        "estimate": true,
+        "smallRace": {
+          "method": "lot",
+          "belowVotesParameter": "tieSmallRaceVotes",
+          "atOrBelowVotes": 5000,
+          "citation": "N.C. Gen. Stat. 163-182.8: more than 5,000 voters casting ballots in the ballot item, the State Board orders a new election; 5,000 or fewer, the board certifying the election breaks the tie by random selection. https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-182.8.html",
+          "estimate": false
+        }
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "new election for large races; lot for small",
+        "citation": "NC election code (not fetched)",
+        "estimate": true,
+        "smallRace": {
+          "method": "lot",
+          "belowVotesParameter": "tieSmallRaceVotes",
+          "atOrBelowVotes": 5000,
+          "citation": "N.C. Gen. Stat. 163-182.8: more than 5,000 voters casting ballots in the ballot item, the State Board orders a new election; 5,000 or fewer, the board certifying the election breaks the tie by random selection. https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-182.8.html",
+          "estimate": false
+        }
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; breaks ties except on bills and some supermajority votes",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-ND": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "ND election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "ND election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-OH": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "OH election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "OH election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-OK": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "OK election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "OK election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-OR": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "OR election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "OR election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "no lieutenant governor; senate president is a member",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-PA": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "PA election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "PA election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-RI": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "RI election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "special election",
+        "citation": "RI election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-SC": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "SC election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "SC election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-SD": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "SD election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "SD election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG may break ties on any matter (SD Sup. Ct. advisory opinion, Feb 2026)",
+        "citation": "CSG Midwest 2026",
+        "estimate": false
+      }
+    },
+    "US-TN": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "TN election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "TN election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-TX": {
+      "generalElectionTie": {
+        "method": "new-election",
+        "detail": "recount, then withdrawal, lot or second election",
+        "citation": "TX election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "new-election",
+        "detail": "recount, then withdrawal, lot or second election",
+        "citation": "TX election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "other",
+        "detail": "tied candidates withdraw or draw lots, else second election (Elec. Code 2.002)",
+        "citation": "state election code",
+        "estimate": false
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-UT": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "UT election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "UT election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-VT": {
+      "generalElectionTie": {
+        "method": "runoff",
+        "detail": "runoff/new election",
+        "citation": "VT election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "runoff",
+        "detail": "runoff/new election",
+        "citation": "VT election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "new-election",
+        "detail": "special/runoff election",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "new-election",
+        "detail": "runoff or new primary",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-VA": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "State Board of Elections draws lot (24.2-674)",
+        "citation": "24.2-674",
+        "estimate": false
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "State Board of Elections draws lot (24.2-674)",
+        "citation": "24.2-674",
+        "estimate": false
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "electoral board draws lot (24.2-674)",
+        "citation": "state election code",
+        "estimate": false
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-WA": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "tied candidates decide by lot publicly (RCW 29A.60.221)",
+        "citation": "RCW 29A.60.221",
+        "estimate": false
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "tied candidates decide by lot publicly (RCW 29A.60.221)",
+        "citation": "RCW 29A.60.221",
+        "estimate": false
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature decides (WA Const. art. III, s 4)",
+        "citation": "state constitution art. III s 4",
+        "estimate": false
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "decided by lot publicly (RCW 29A.60.221)",
+        "citation": "state election code",
+        "estimate": false
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot (RCW 29A.60.221)",
+        "citation": "state election code",
+        "estimate": false
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-WV": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "WV election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "WV election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "lieutenant governor",
+        "detail": "LG presides; votes only to break ties",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-WI": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "WI election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "WI election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "senate elects its own president; LG (if any) does not preside",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-WY": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "WY election code (not fetched)",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "drawn by lot by the canvassing/election authority",
+        "citation": "WY election code (not fetched)",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "legislature-decides",
+        "detail": "legislature joint session chooses (state constitution)",
+        "citation": "state constitution",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "drawn by lot by election board",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot",
+        "citation": "state election code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "no lieutenant governor; senate president is a member",
+        "citation": "state constitution",
+        "estimate": true
+      }
+    },
+    "US-DC": {
+      "generalElectionTie": {
+        "method": "lot",
+        "detail": "decided by Council of the District of Columbia / Board of Elections (lot)",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "lot",
+        "detail": "decided by Council of the District of Columbia / Board of Elections (lot)",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "lot",
+        "detail": "decided by Council of the District of Columbia / Board of Elections (lot)",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "other",
+        "detail": "mayor tie: lot/board (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "unicameral or no tie-breaking officer (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      }
+    },
+    "US-PR": {
+      "generalElectionTie": {
+        "method": "board-decides",
+        "detail": "decided by Comision Estatal de Elecciones per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "board-decides",
+        "detail": "decided by Comision Estatal de Elecciones per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "board-decides",
+        "detail": "decided by Comision Estatal de Elecciones per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "new-election",
+        "detail": "special/new election (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "Senate president is member; no LG",
+        "citation": "territorial code",
+        "estimate": true
+      }
+    },
+    "US-GU": {
+      "generalElectionTie": {
+        "method": "board-decides",
+        "detail": "decided by Guam Election Commission per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "board-decides",
+        "detail": "decided by Guam Election Commission per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "board-decides",
+        "detail": "decided by Guam Election Commission per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "new-election",
+        "detail": "special/new election (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "unicameral or no tie-breaking officer (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      }
+    },
+    "US-VI": {
+      "generalElectionTie": {
+        "method": "board-decides",
+        "detail": "decided by Board of Elections per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "board-decides",
+        "detail": "decided by Board of Elections per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "board-decides",
+        "detail": "decided by Board of Elections per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "new-election",
+        "detail": "special/new election (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "unicameral or no tie-breaking officer (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      }
+    },
+    "US-AS": {
+      "generalElectionTie": {
+        "method": "board-decides",
+        "detail": "decided by Election Office per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "board-decides",
+        "detail": "decided by Election Office per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "board-decides",
+        "detail": "decided by Election Office per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "other",
+        "detail": "special/new election (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "unicameral or no tie-breaking officer (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      }
+    },
+    "US-MP": {
+      "generalElectionTie": {
+        "method": "board-decides",
+        "detail": "decided by Commonwealth Election Commission per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "legislativeTie": {
+        "method": "board-decides",
+        "detail": "decided by Commonwealth Election Commission per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "localTie": {
+        "method": "board-decides",
+        "detail": "decided by Commonwealth Election Commission per local election law; method estimated",
+        "citation": "territorial election code",
+        "estimate": true
+      },
+      "statewideExecutiveTie": {
+        "method": "new-election",
+        "detail": "special/new election (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "primaryTie": {
+        "method": "lot",
+        "detail": "decided by lot (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      },
+      "stateSenateTieBreaker": {
+        "who": "none",
+        "detail": "unicameral or no tie-breaking officer (estimate)",
+        "citation": "territorial code",
+        "estimate": true
+      }
+    }
+  },
+  "federal": {
+    "usSenateTieBreaker": "Vice President (U.S. Const. art. I, s 3, cl. 4)",
+    "houseTie": "a tied vote fails",
+    "presidentialElectoralTie": "House chooses by state delegation (amend. XII)"
+  }
+}

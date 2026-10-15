@@ -114,6 +114,30 @@
       "locator": "Study 1 Treatment Delivery, 2012 state-legislative challenger bid and market context; Study 2 Treatment Delivery, 2012 U.S. House challenger bid, paid-price comparison and impressions",
       "sourceKind": "research-paper",
       "acquisition": "Public original article read online September 27, 2026; page not copied into this repository"
+    },
+    "aclu-ok-volunteer-canvassing-2018": {
+      "title": "Volunteer Canvassing",
+      "publisher": "ACLU of Oklahoma",
+      "url": "https://www.acluok.org/?p=2568",
+      "locator": "Event page for June 9-10, 2018: \"Canvassing shifts last 2 hours: 10-12, 12-2, 2-4.\"",
+      "sourceKind": "campaign-practice-event",
+      "acquisition": "Public event page read online October 8, 2026; page not copied into this repository"
+    },
+    "9to5-georgia-canvassing-2014": {
+      "title": "Volunteers needed for Canvassing, Phonebanking, and Cooking!",
+      "publisher": "9to5, Georgia chapter",
+      "url": "https://9to5.org/?p=23191",
+      "locator": "Post of October 22, 2014: Saturday canvasses \"From 11:30am-4pm\"; November 3-4 shifts \"9am-1pm 12pm-4pm 3pm-7pm\"",
+      "sourceKind": "campaign-practice-event",
+      "acquisition": "Public post read online October 8, 2026; page not copied into this repository"
+    },
+    "barton-castillo-petrie-2012": {
+      "title": "What Persuades Voters? A Field Experiment on Political Campaigning",
+      "publisher": "Jared Barton, Marco Castillo and Ragan Petrie, Interdisciplinary Center for Economic Science, George Mason University, discussion paper (January 2012); published in The Economic Journal 124 (2014)",
+      "url": "https://www3.gmu.edu/schools/chss/economics/icesworkingpapers.gmu.edu/pdf/1031.pdf",
+      "locator": "Pages 4-5: canvassed voters \"roughly 20 percentage points more likely to vote for the candidate relative to the control group, conditional on voting\"; unaffiliated voters 29 percentage points; partisans a statistically insignificant 9 percentage points; the message's effect on support is zero",
+      "sourceKind": "peer-reviewed-field-experiment",
+      "acquisition": "Public discussion paper read online October 8, 2026; page not copied into this repository"
     }
   },
   "observations": [
@@ -335,6 +359,118 @@
       "sourceIds": ["miller-2015"],
       "id": "state-house-experienced-nonincumbent-women",
       "population": "Mean for women with prior elected-office experience but no incumbency in the 2008 contested state House survey, first week of October"
+    },
+    {
+      "id": "canvass-shift-aclu-ok-2018",
+      "metric": "canvass-shift-hours",
+      "range": {
+        "min": 2,
+        "max": 2,
+        "unit": "hours/volunteer-shift"
+      },
+      "population": "ACLU of Oklahoma volunteer issue canvass, June 9-10, 2018: three two-hour shifts a day",
+      "geography": "Oklahoma",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-canvass"],
+      "sourceIds": ["aclu-ok-volunteer-canvassing-2018"]
+    },
+    {
+      "id": "canvass-shift-9to5-ga-2014",
+      "metric": "canvass-shift-hours",
+      "range": {
+        "min": 4,
+        "max": 4.5,
+        "unit": "hours/volunteer-shift"
+      },
+      "population": "9to5 Georgia volunteer canvass before the November 4, 2014 election: four-hour weekday shifts and four-and-a-half-hour Saturday shifts",
+      "geography": "Georgia",
+      "officeLevel": null,
+      "actionCatalogIds": ["gotv-door"],
+      "sourceIds": ["9to5-georgia-canvassing-2014"]
+    },
+    {
+      "id": "candidate-canvass-support-pooled",
+      "metric": "candidate-canvass-support-effect",
+      "range": {
+        "min": 0.2,
+        "max": 0.2,
+        "unit": "share-of-canvassed-voters"
+      },
+      "population": "Voters a Democratic candidate for local office canvassed in person at their door, 2010 general election in a Midwestern state, against an uncanvassed control group; conditional on voting: all canvassed voters",
+      "geography": "United States (one Midwestern local race)",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-canvass"],
+      "sourceIds": ["barton-castillo-petrie-2012"]
+    },
+    {
+      "id": "candidate-canvass-support-unaffiliated",
+      "metric": "candidate-canvass-support-effect",
+      "range": {
+        "min": 0.29,
+        "max": 0.29,
+        "unit": "share-of-canvassed-voters"
+      },
+      "population": "Voters a Democratic candidate for local office canvassed in person at their door, 2010 general election in a Midwestern state, against an uncanvassed control group; conditional on voting: voters without a party affiliation",
+      "geography": "United States (one Midwestern local race)",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-canvass"],
+      "sourceIds": ["barton-castillo-petrie-2012"]
+    },
+    {
+      "id": "candidate-canvass-support-partisan",
+      "metric": "candidate-canvass-support-effect",
+      "range": {
+        "min": 0.09,
+        "max": 0.09,
+        "unit": "share-of-canvassed-voters"
+      },
+      "population": "Voters a Democratic candidate for local office canvassed in person at their door, 2010 general election in a Midwestern state, against an uncanvassed control group; conditional on voting: partisans (not statistically significant)",
+      "geography": "United States (one Midwestern local race)",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-canvass"],
+      "sourceIds": ["barton-castillo-petrie-2012"]
+    },
+    {
+      "id": "candidate-canvass-support-pooled-att",
+      "metric": "candidate-canvass-support-effect",
+      "range": {
+        "min": 0.207,
+        "max": 0.207,
+        "unit": "share-of-canvassed-voters"
+      },
+      "population": "Voters a Democratic candidate for local office canvassed in person at their door, 2010 general election in a Midwestern state; both canvass arms pooled, effect on those canvassed (Table 5, page 41 of the January 2012 paper)",
+      "geography": "United States (one Midwestern local race)",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-canvass"],
+      "sourceIds": ["barton-castillo-petrie-2012"]
+    },
+    {
+      "id": "candidate-canvass-support-political-arm",
+      "metric": "candidate-canvass-support-effect",
+      "range": {
+        "min": 0.176,
+        "max": 0.176,
+        "unit": "share-of-canvassed-voters"
+      },
+      "population": "The same canvass, the arm whose leaflet carried the candidate's platform, effect on those canvassed (Table 5, page 41 of the January 2012 paper); not significantly different from the other arm",
+      "geography": "United States (one Midwestern local race)",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-canvass"],
+      "sourceIds": ["barton-castillo-petrie-2012"]
+    },
+    {
+      "id": "candidate-canvass-support-vote-info-arm",
+      "metric": "candidate-canvass-support-effect",
+      "range": {
+        "min": 0.246,
+        "max": 0.246,
+        "unit": "share-of-canvassed-voters"
+      },
+      "population": "The same canvass, the arm whose leaflet carried voting information, effect on those canvassed (Table 5, page 41 of the January 2012 paper); not significantly different from the other arm",
+      "geography": "United States (one Midwestern local race)",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-canvass"],
+      "sourceIds": ["barton-castillo-petrie-2012"]
     }
   ],
   "officeCoverage": [

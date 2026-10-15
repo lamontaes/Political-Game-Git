@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { eventIndexOf } from "../event-index";
 import type { IsoDate, World } from "../types";
 import {
@@ -9,7 +9,6 @@ import {
   UNEMPLOYMENT_RECOVERY_RULE,
 } from "./policy";
 import type {
-  MacroEconomyStore,
   MacroHousingCondition,
   MacroMonthRecord,
   MacroScopeKey,
@@ -87,13 +86,6 @@ export function classifyHousing(
   if (ratio < 0.98) return "shortage";
   if (ratio > 1.02) return "surplus";
   return "adequate";
-}
-
-export function macroMonthsForScope(
-  store: MacroEconomyStore,
-  scope: MacroScopeKey,
-): readonly MacroMonthRecord[] {
-  return store.months.filter((record) => record.scope === scope);
 }
 
 function validHousing(month: MacroMonthRecord): boolean {

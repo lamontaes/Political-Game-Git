@@ -6,7 +6,7 @@ import type { TraitEffectDeclaration } from "../../trait-packs";
  * outcome: health, family, the office and every other recorded reason still
  * meet it in the decision engine.
  */
-const thrillSeekingEffects = [
+export const facetThrillSeekingEffects: readonly TraitEffectDeclaration[] = [
   {
     decision: "career.consider-another-term",
     leans: [
@@ -14,11 +14,7 @@ const thrillSeekingEffects = [
         option: "seek",
         trait: "personality-v1:facet-thrill-seeking",
         pole: "high",
-        explanation:
-          "The uncertainty and intensity of another contest appeal to them.",
       },
     ],
   },
-] as const satisfies readonly TraitEffectDeclaration[];
-
-export default thrillSeekingEffects;
+];

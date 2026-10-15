@@ -41,7 +41,7 @@
  * No rent, price or mortgage payment is recorded here.
  */
 
-import { ageOnDate, addDays } from "../dates";
+import { ageOnDate, addDays } from "../../core2/kernel/dates";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   createDwelling,
@@ -60,7 +60,8 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
-import { TOWN_RESIDENTS_VERSION } from "./town-residents";
+import { recordDirectEventMemories } from "../records";
+import { TOWN_RESIDENTS_VERSION } from "../../core2/town-households";
 import { startTownJobPay } from "./town-pay";
 import { ensureOpeningMortgages } from "./opening-mortgages";
 import { homePurchaseTerms } from "../home-purchase";
@@ -209,8 +210,8 @@ export function homeForNewHousehold(
 /** The quarterly review's interval (`migration/review.ts`), in days. */
 const REVIEW_INTERVAL_DAYS = 91;
 
-/** How long a household stays before it moves again by choice. */
-const SETTLED_DAYS = 365;
+/** Let a household's recorded home begin before it reconsiders its next move. */
+const SETTLED_DAYS = 1;
 
 interface Household {
   readonly id: EntityId;
@@ -806,6 +807,11 @@ export function reviewTownHomes(
     leaveHome(writer, key, home, "Moved within town.", provenance);
     enterHome(writer, key, household.id, move.kind, move.tenure, provenance);
   }
+  const eventIds = writer.world.history.events
+    .filter((row) => row.stableKey.startsWith(prefix))
+    .map((row) => row.id);
+  for (const eventId of eventIds)
+    writer.world = recordDirectEventMemories(writer.world, eventId);
   return writer.world;
 }
 

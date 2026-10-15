@@ -2,6 +2,7 @@ import { openHouseholdLoan, householdLoansOf } from "./household-loans";
 import type { OpenHouseholdLoanInput } from "./household-loans";
 import { educationEnrollmentStateAt } from "./life-queries";
 import { publicGovernmentOrganizationKey } from "./public-government-identity";
+import debtResearch from "../../data/research/money/debt-and-credit-2026.json" with { type: "json" };
 import {
   resourceFlowTermsAt,
   resourcePositionAt,
@@ -36,6 +37,38 @@ export interface RecordedStudentFinancingInput {
     | "missedPaymentsToDefault"
     | "missedPaymentsToCollections"
   >;
+}
+
+const STUDENT_LOAN_RATE_ROW = debtResearch.rates.federalStudentLoans2026_27;
+
+/**
+ * Published Federal Direct undergraduate rates are fixed for the award year.
+ * The research pack currently has one published row; callers outside that
+ * award year use the nearest row with estimated provenance until more years
+ * are added. Keep this selector as the seam for the expanding sourced table.
+ */
+export function studentLoanRateFor(asOf: IsoDate): {
+  readonly annualRateBasisPoints: number;
+  readonly awardYear: string;
+  readonly source: string;
+  readonly publishedWindow: boolean;
+  readonly estimated: boolean;
+} {
+  const start = STUDENT_LOAN_RATE_ROW.firstDisbursedBetween[0]!;
+  const end = STUDENT_LOAN_RATE_ROW.firstDisbursedBetween[1]!;
+  const rate = STUDENT_LOAN_RATE_ROW.undergraduateDirect.value;
+  const publishedWindow = asOf >= start && asOf <= end;
+  return {
+    annualRateBasisPoints: Math.round(rate * 100),
+    awardYear: "2026-27",
+    source: debtResearch.sources.find(
+      (source) => source.key === "fsa-rates-2026-27",
+    )!.url,
+    publishedWindow,
+    // The checked-in evidence is snippet-derived; outside its award window,
+    // this is additionally the nearest published row rather than a match.
+    estimated: true,
+  };
 }
 
 /** Shared validation for the existing shortfall writer and its saved-fact adapter. */
@@ -171,8 +204,14 @@ export function financeRecordedStudentTuition(
   )
     return world;
   const principal = money(amount, terms.amount.currency);
+  const rate = studentLoanRateFor(world.currentDate);
+  const rateSource = {
+    ...input.source,
+    reference: `${input.source.reference}; ESTIMATED FROM AVERAGE: Federal Direct undergraduate award-year rate ${rate.annualRateBasisPoints} basis points from ${rate.awardYear} (${rate.source}); ${rate.publishedWindow ? "date falls in its published disbursement window" : "nearest published row; date is outside its disbursement window"}`,
+  } as const;
   let next = openHouseholdLoan(world, {
     ...input.loan,
+    marketAnnualRateBasisPoints: rate.annualRateBasisPoints,
     stableKey,
     borrower,
     lenderOrganizationId: lender.id,
@@ -182,7 +221,7 @@ export function financeRecordedStudentTuition(
     rateCap: null,
     jurisdictionId: federal.id,
     housingTenureId: null,
-    provenance: input.source,
+    provenance: rateSource,
   });
   next = createResourceFlow(next, {
     stableKey: `${stableKey}:disbursement`,
@@ -195,7 +234,7 @@ export function financeRecordedStudentTuition(
     basisReference: { kind: "general" },
     restrictionKind: null,
     jurisdictionId: federal.id,
-    provenance: input.source,
+    provenance: rateSource,
   });
   return recordResourceTransferOutcome(next, {
     stableKey: `${stableKey}:disbursed`,
@@ -208,6 +247,6 @@ export function financeRecordedStudentTuition(
     transferredAmount: principal,
     reasonKind: null,
     note: "Federal loan finances this recorded tuition shortfall.",
-    provenance: input.source,
+    provenance: rateSource,
   });
 }

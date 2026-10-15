@@ -36,16 +36,21 @@ import {
  * is given its jobs when it is written out, never before.
  */
 
+import {
+  businessNameStyles,
+  countyDisplayName,
+  fillBusinessName,
+  type BusinessNameContext,
+} from "../../core2/business-names";
 import { jailTermOn } from "../justice/jail-terms";
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import {
   activeCareResponsibilitiesAt,
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
-  kinshipRelationshipsAt,
   organizationClosingAt,
   organizationProfileAt,
 } from "../life-queries";
@@ -53,10 +58,14 @@ import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   countyGeoidsForPlace,
   countyGovernmentUnitsForPlace,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
-import { SeededRng } from "../rng";
+import {
+  localInstitutionProvenance,
+  localInstitutionsFor,
+} from "../local-institutions";
+import { SeededRng } from "../../core2/kernel/rng";
 import { townBusinessHasRoomToHire } from "./town-business-books";
 import type {
   EntityId,
@@ -80,6 +89,11 @@ export const TOWN_EMPLOYMENT_VERSION = "town-employment-v1";
 const PROVENANCE = {
   kind: "generated" as const,
   generatorKey: TOWN_EMPLOYMENT_VERSION,
+};
+
+const ESTIMATED_EMPLOYER_NAME_PROVENANCE = {
+  kind: "generated" as const,
+  generatorKey: `${TOWN_EMPLOYMENT_VERSION}:estimated-local-name`,
 };
 
 /** The youngest and oldest ages the town's jobs are filled for. */
@@ -228,160 +242,6 @@ export interface Role {
   readonly rigidity?: ScheduleRigidity;
 }
 
-interface NameContext {
-  readonly town: string;
-  readonly state: string;
-  /** Its founder's family name, or a family of the town's. */
-  readonly family: string;
-  /** The county government's name, such as "Humphreys County". */
-  readonly county: string;
-  /** The street it stands on. */
-  readonly street: string;
-}
-
-/**
- * GAME ASSUMPTION: streets a business may be named for, among the most
- * common street names in American towns. The game has no street map yet.
- */
-const TOWN_STREETS = [
-  "Main Street",
-  "Oak Street",
-  "Maple Avenue",
-  "Pine Street",
-  "Cedar Street",
-  "Elm Street",
-  "Park Avenue",
-  "Washington Street",
-  "Lake Street",
-  "Hill Street",
-  "Church Street",
-  "Mill Street",
-  "Depot Street",
-  "Front Street",
-  "Second Street",
-  "Railroad Avenue",
-] as const;
-
-/**
- * Other names each kind of employer goes by, beside its own `name`: for
- * its founder or a family of the town, for its street or county, or a
- * plain trade name. One is chosen when the employer is written, so a town's
- * inn, bank and clinic do not all carry the town's name.
- */
-const MORE_NAMES: Readonly<
-  Record<string, readonly ((context: NameContext) => string)[]>
-> = {
-  farm: [
-    ({ family }) => `${family} Farms`,
-    ({ family }) => `${family} Brothers Farm`,
-  ],
-  quarry: [
-    ({ county }) => `${county} Aggregates`,
-    ({ family }) => `${family} Sand and Gravel`,
-  ],
-  utility: [
-    ({ county }) => `${county} Rural Electric Cooperative`,
-    ({ town }) => `${town} Municipal Utilities`,
-  ],
-  construction: [
-    ({ family }) => `${family} Builders`,
-    ({ county }) => `${county} Contracting`,
-    ({ family }) => `${family} Roofing and Remodeling`,
-  ],
-  manufacturing: [
-    ({ county }) => `${county} Machine Works`,
-    ({ family }) => `${family} Tool and Die`,
-    ({ family }) => `${family} Fabrication`,
-  ],
-  wholesale: [
-    ({ county }) => `${county} Farm Supply`,
-    ({ town }) => `${town} Feed and Grain`,
-    ({ family }) => `${family} Distributing`,
-  ],
-  retail: [
-    ({ family }) => `${family} Hardware`,
-    ({ street }) => `${street} Market`,
-    () => "Country Mercantile",
-    ({ family }) => `${family}'s Grocery`,
-  ],
-  trucking: [
-    ({ county }) => `${county} Freight`,
-    ({ family }) => `${family} Transport`,
-  ],
-  information: [
-    ({ county }) => `${county} Telephone Cooperative`,
-    ({ county }) => `${county} Communications`,
-  ],
-  bank: [
-    () => "Farmers and Merchants Bank",
-    ({ town }) => `First State Bank of ${town}`,
-    ({ county }) => `${county} Savings Bank`,
-    () => "Citizens Bank",
-    () => "Peoples Bank",
-  ],
-  insurance: [
-    ({ street }) => `${street} Insurance`,
-    ({ county }) => `${county} Insurance Services`,
-  ],
-  realty: [
-    ({ family }) => `${family} Real Estate`,
-    ({ county }) => `${county} Land and Homes`,
-  ],
-  professional: [
-    ({ family }) => `${family} Law Office`,
-    ({ family }) => `${family} Accounting`,
-    ({ street }) => `${street} Tax Service`,
-  ],
-  "building-services": [
-    ({ family }) => `${family} Cleaning`,
-    () => "Hometown Janitorial",
-  ],
-  "private-school": [
-    ({ county }) => `${county} Christian School`,
-    ({ family }) => `${family} Academy`,
-  ],
-  hospital: [
-    ({ county }) => `${county} Memorial Hospital`,
-    ({ family }) => `${family} Memorial Hospital`,
-  ],
-  clinic: [
-    ({ family }) => `${family} Family Medicine`,
-    ({ street }) => `${street} Medical Clinic`,
-    ({ county }) => `${county} Health Center`,
-    () => "Family Care Clinic",
-  ],
-  "care-home": [
-    ({ family }) => `${family} Manor`,
-    ({ street }) => `${street} Care Center`,
-    () => "Heritage Care Center",
-  ],
-  recreation: [
-    ({ family }) => `${family}'s Bowling Lanes`,
-    ({ street }) => `${street} Fitness`,
-    () => "Hometown Fitness",
-  ],
-  restaurant: [
-    ({ street }) => `${street} Diner`,
-    ({ family }) => `${family}'s Cafe`,
-    () => "Country Kitchen",
-    ({ town }) => `${town} Family Restaurant`,
-  ],
-  inn: [
-    ({ family }) => `The ${family} House`,
-    ({ street }) => `${street} Inn`,
-    ({ county }) => `${county} Motor Inn`,
-    () => "Travelers Rest Motel",
-  ],
-  repair: [
-    ({ street }) => `${street} Garage`,
-    ({ town }) => `${town} Tire and Auto`,
-  ],
-  "personal-care": [
-    ({ street }) => `${street} Barber Shop`,
-    ({ family }) => `${family}'s Beauty Salon`,
-  ],
-};
-
 /** The family name of each of the town's residents, in the world's order. */
 function townFamilyNames(world: World, town: EntityId): readonly string[] {
   const names: string[] = [];
@@ -397,8 +257,6 @@ export interface Workplace {
   readonly key: string;
   readonly classification: OrganizationClassification;
   readonly kind: WorkRelationshipKind;
-  /** Named for the town, or for the family that runs it. */
-  readonly name: (context: NameContext) => string;
   /** GAME ASSUMPTION: how many separate employers of this kind a town has. */
   readonly outlets: number;
   readonly roles: readonly Role[];
@@ -422,7 +280,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "farm",
     classification: "enterprise:agriculture",
     kind: "employment:agriculture",
-    name: ({ family }) => `${family} Family Farm`,
     outlets: 2,
     roles: [
       role("Farmworker", "occupation:farmworker", 5, { rigidity: "mixed" }),
@@ -433,7 +290,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "quarry",
     classification: "enterprise:mining",
     kind: "employment:mining",
-    name: ({ family }) => `${family} Stone and Gravel`,
     outlets: 1,
     roles: [
       role("Equipment operator", "trade:equipment-operator", 3),
@@ -444,7 +300,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "utility",
     classification: "enterprise:utility",
     kind: "employment:utility",
-    name: ({ town }) => `${town} Electric and Water`,
     outlets: 1,
     roles: [
       role("Line worker", "trade:line-worker", 3),
@@ -455,7 +310,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "construction",
     classification: "enterprise:construction",
     kind: "employment:construction",
-    name: ({ family }) => `${family} Construction`,
     outlets: 3,
     roles: [
       role("Carpenter", "trade:carpenter", 3),
@@ -468,7 +322,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "manufacturing",
     classification: "enterprise:manufacturing",
     kind: "employment:manufacturing",
-    name: ({ family }) => `${family} Manufacturing`,
     outlets: 2,
     roles: [
       role("Production worker", "occupation:production-worker", 6),
@@ -480,7 +333,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "wholesale",
     classification: "enterprise:wholesale",
     kind: "employment:wholesale",
-    name: ({ family }) => `${family} Supply Company`,
     outlets: 1,
     roles: [
       role("Warehouse worker", "occupation:warehouse-worker", 3),
@@ -491,7 +343,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "retail",
     classification: "enterprise:retail",
     kind: "employment:retail",
-    name: ({ family }) => `${family}'s General Store`,
     outlets: 3,
     roles: [
       role("Cashier", "occupation:cashier", 4),
@@ -504,7 +355,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "trucking",
     classification: "enterprise:transportation",
     kind: "employment:transportation",
-    name: ({ family }) => `${family} Trucking`,
     outlets: 2,
     roles: [
       role("Truck driver", "occupation:truck-driver", 4, {
@@ -517,7 +367,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "information",
     classification: "enterprise:telecommunications",
     kind: "employment:information",
-    name: ({ town }) => `${town} Telephone and Internet`,
     outlets: 1,
     roles: [
       role("Installation technician", "trade:telecom-technician", 2),
@@ -528,7 +377,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "bank",
     classification: "enterprise:banking",
     kind: "employment:finance",
-    name: ({ town }) => `${town} Community Bank`,
     outlets: 1,
     roles: [
       role("Bank teller", "occupation:bank-teller", 3),
@@ -540,7 +388,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "insurance",
     classification: "enterprise:insurance",
     kind: "employment:finance",
-    name: ({ family }) => `${family} Insurance Agency`,
     outlets: 1,
     roles: [
       role("Insurance agent", "profession:insurance-agent", 2),
@@ -551,7 +398,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "realty",
     classification: "enterprise:real-estate",
     kind: "employment:real-estate",
-    name: ({ family }) => `${family} Realty`,
     outlets: 1,
     roles: [
       role("Real estate agent", "profession:real-estate-agent", 2),
@@ -562,7 +408,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "professional",
     classification: "enterprise:professional-services",
     kind: "employment:professional-services",
-    name: ({ family }) => `${family} and Associates`,
     outlets: 2,
     roles: [
       role("Accountant", "profession:accountant", 2, { minAge: 22 }),
@@ -575,7 +420,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "regional-office",
     classification: "enterprise:corporate-office",
     kind: "employment:corporate-office",
-    name: ({ town }) => `${town} Regional Office`,
     outlets: 1,
     roles: [
       role("Office manager", "occupation:office-manager", 1),
@@ -588,7 +432,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "building-services",
     classification: "enterprise:building-services",
     kind: "employment:building-services",
-    name: ({ family }) => `${family} Building Services`,
     outlets: 1,
     roles: [
       role("Janitor", "occupation:janitor", 3, { rigidity: "mixed" }),
@@ -600,7 +443,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "private-school",
     classification: "service:private-school",
     kind: "employment:education",
-    name: ({ town }) => `${town} Academy`,
     outlets: 1,
     roles: [
       role("Teacher", "profession:teacher", 3, { minAge: 22 }),
@@ -611,7 +453,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "hospital",
     classification: "service:hospital",
     kind: "employment:health-care",
-    name: ({ town }) => `${town} Regional Hospital`,
     outlets: 1,
     roles: [
       role("Registered nurse", "profession:registered-nurse", 4, {
@@ -627,7 +468,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "clinic",
     classification: "service:clinic",
     kind: "employment:health-care",
-    name: ({ town }) => `${town} Family Clinic`,
     outlets: 1,
     roles: [
       role("Nurse", "profession:registered-nurse", 2, { minAge: 21 }),
@@ -639,7 +479,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "care-home",
     classification: "service:nursing-home",
     kind: "employment:health-care",
-    name: ({ town }) => `${town} Nursing and Rehabilitation`,
     outlets: 1,
     roles: [
       role("Home health aide", "occupation:home-health-aide", 3),
@@ -652,7 +491,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "recreation",
     classification: "enterprise:recreation",
     kind: "employment:recreation",
-    name: ({ town }) => `${town} Fitness and Recreation`,
     outlets: 1,
     roles: [
       role("Recreation attendant", "occupation:recreation-attendant", 2),
@@ -663,7 +501,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "restaurant",
     classification: "enterprise:food-service",
     kind: "employment:food-service",
-    name: ({ family }) => `${family}'s Kitchen`,
     outlets: 3,
     roles: [
       role("Cook", "occupation:cook", 3, { rigidity: "mixed" }),
@@ -676,7 +513,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "inn",
     classification: "enterprise:lodging",
     kind: "employment:lodging",
-    name: ({ town }) => `${town} Inn`,
     outlets: 1,
     roles: [
       role("Front desk clerk", "occupation:hotel-clerk", 2),
@@ -687,7 +523,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "repair",
     classification: "enterprise:repair",
     kind: "employment:repair",
-    name: ({ family }) => `${family} Auto Service`,
     outlets: 1,
     roles: [role("Mechanic", "trade:automotive-mechanic", 3)],
   },
@@ -695,7 +530,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "personal-care",
     classification: "enterprise:personal-services",
     kind: "employment:personal-services",
-    name: ({ family }) => `${family}'s Salon and Barbershop`,
     outlets: 1,
     roles: [
       role("Hairstylist", "service:hairstylist", 2),
@@ -708,7 +542,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "congregation",
     classification: "community:congregation",
     kind: "employment:religious",
-    name: ({ town }) => `${town} Community Church`,
     outlets: 1,
     existing: "community:congregation",
     roles: [
@@ -720,7 +553,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "organizing",
     classification: "community:organizing-nonprofit",
     kind: "employment:nonprofit",
-    name: ({ town }) => `${town} Neighbors United`,
     outlets: 1,
     roles: [role("Community organizer", "profession:community-organizer", 1)],
   },
@@ -728,7 +560,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "union",
     classification: "membership:labor-union",
     kind: "employment:labor-union",
-    name: ({ town }) => `${town} Area Workers Union Local`,
     outlets: 1,
     roles: [
       role("Union representative", "profession:union-representative", 1, {
@@ -740,7 +571,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "party-office",
     classification: "membership:party-chapter",
     kind: "employment:party-staff",
-    name: ({ town }) => `${town} Party Office`,
     outlets: 1,
     existing: "membership:party-chapter",
     roles: [
@@ -752,7 +582,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "campaign-staff",
     classification: "enterprise:political-consulting",
     kind: "employment:campaign-staff",
-    name: ({ town }) => `${town} Campaign Works`,
     outlets: 1,
     roles: [
       role("Campaign field organizer", "profession:political-organizer", 2, {
@@ -770,7 +599,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "public-school",
     classification: "service:school",
     kind: "employment:education",
-    name: ({ town }) => `${town} Public Schools`,
     outlets: 1,
     existing: "service:school",
     roles: [
@@ -787,7 +615,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     governmentOffice: "municipal",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
-    name: ({ town }) => `${town} City Hall`,
     outlets: 1,
     roles: [
       role("City clerk", "profession:municipal-clerk", 0, { minAge: 25 }),
@@ -803,7 +630,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     governmentOffice: "county",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
-    name: ({ county }) => `${county} Clerk's Office`,
     outlets: 1,
     roles: [
       role("County clerk", "profession:county-clerk", 0, { minAge: 30 }),
@@ -814,7 +640,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "police",
     classification: "service:police",
     kind: "employment:public-safety",
-    name: ({ town }) => `${town} Police Department`,
     outlets: 1,
     roles: [
       role("Police officer", "profession:police-officer", 5, {
@@ -828,7 +653,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "fire",
     classification: "service:fire",
     kind: "employment:public-safety",
-    name: ({ town }) => `${town} Fire Department`,
     outlets: 1,
     roles: [
       role("Firefighter", "profession:firefighter", 1, { rigidity: "rigid" }),
@@ -838,7 +662,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "public-works",
     classification: "sector:local-government-office",
     kind: "employment:public-service",
-    name: ({ town }) => `${town} Public Works Department`,
     outlets: 1,
     roles: [
       role("Maintenance worker", "trade:maintenance-worker", 3),
@@ -850,7 +673,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "public-health",
     classification: "service:public-health",
     kind: "employment:public-service",
-    name: ({ town }) => `${town} Health Department`,
     outlets: 1,
     roles: [
       role("Public health nurse", "profession:registered-nurse", 2, {
@@ -863,7 +685,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "state-office",
     classification: "sector:state-government-office",
     kind: "employment:public-service",
-    name: ({ town, state }) => `${state} State Offices in ${town}`,
     outlets: 1,
     roles: [
       role("State caseworker", "profession:social-worker", 2, { minAge: 22 }),
@@ -875,7 +696,6 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
     key: "post-office",
     classification: "sector:federal-government-office",
     kind: "employment:public-service",
-    name: ({ town }) => `${town} Post Office`,
     outlets: 1,
     roles: [
       role("Mail carrier", "occupation:mail-carrier", 3),
@@ -885,6 +705,21 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
 ];
 
 const WORKPLACE = new Map(TOWN_WORKPLACES.map((place) => [place.key, place]));
+
+/** Public facilities get a real source name, or they do not enter the world. */
+export function sourcedTownInstitution(
+  world: World,
+  town: EntityId,
+  key: string,
+) {
+  const institutions = localInstitutionsFor(world, town);
+  if (key === "bank") return institutions.banks[0];
+  if (key === "hospital")
+    return institutions.hospitals.find((row) => row.kind === "hospital");
+  if (key === "clinic")
+    return institutions.hospitals.find((row) => row.kind === "clinic");
+  return undefined;
+}
 
 const FULL_TIME_HOURS = [35, 45] as const;
 const PART_TIME_HOURS = [16, 29] as const;
@@ -939,25 +774,6 @@ export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {
   organizing: 0.2,
 };
 export const TOWN_PART_TIME_DEFAULT = 0.08;
-
-/**
- * A county government's listed name as people say it: "COUNTY OF HUMPHREYS"
- * is "Humphreys County", "PARISH OF ORLEANS" is "Orleans Parish".
- */
-export function countyDisplayName(listed: string): string {
-  const title = (text: string) =>
-    text
-      .toLowerCase()
-      .split(" ")
-      .map((word) =>
-        word === "and" || word === "of"
-          ? word
-          : word.replace(/(^|-)([a-z])/g, (found) => found.toUpperCase()),
-      )
-      .join(" ");
-  const match = /^(.+?) OF (.+)$/.exec(listed.trim());
-  return match ? `${title(match[2]!)} ${title(match[1]!)}` : title(listed);
-}
 
 /** The town workplace an employer was written from, and the role held. */
 export function townWorkplaceFor(
@@ -1063,6 +879,9 @@ const CIVIC_MINIMUM: readonly (readonly [string, string])[] = [
   ["clinic", "Nurse"],
   ["police", "Police officer"],
   ["fire", "Firefighter"],
+  // Every town keeps its roads up; the department is small and the mix
+  // alone leaves some towns without one.
+  ["public-works", "Maintenance worker"],
   ["party-office", "Party office manager"],
   ["campaign-staff", "Campaign field organizer"],
   ["campaign-staff", "Campaign field organizer"],
@@ -1234,7 +1053,6 @@ export function ensureTownEmployment(
   world: World,
   town: EntityId,
   playerPersonId: EntityId | null,
-  familyMoney: "comfortable" | "ordinary" | "tight" = "ordinary",
 ): World {
   const working = new Set(
     world.history.workRelationships.map((row) => row.personId),
@@ -1245,26 +1063,8 @@ export function ensureTownEmployment(
       !working.has(resident.personId) &&
       laborStatus(world, resident) === "employed",
   );
-  const familyIds =
-    playerPersonId === null
-      ? []
-      : kinshipRelationshipsAt(world, playerPersonId)
-          .filter(
-            (entry) =>
-              entry.kind.startsWith("lineal:") &&
-              entry.kind.includes("parent-child"),
-          )
-          .map((entry) => entry.personIds.find((id) => id !== playerPersonId)!)
-          .filter(
-            (id) =>
-              world.people[id] !== undefined &&
-              world.people[id]!.birthDate <
-                world.people[playerPersonId]!.birthDate,
-          );
   return fillTownJobs(world, town, open, {
     round: null,
-    familyMoney,
-    familyPersonIds: familyIds,
   });
 }
 
@@ -1296,9 +1096,9 @@ export function townEmployerOutlets(
 }
 
 /**
- * Write one of the town's employers, outlet `outlet` of `workplace`, named
- * for the town or for the family that runs it. Writing one already written
- * changes nothing.
+ * Write one employer, outlet `outlet` of `workplace`, with an estimated name
+ * based on a resident family or county when no source record names it.
+ * Writing one already written changes nothing.
  */
 export function writeTownEmployer(
   world: World,
@@ -1320,6 +1120,21 @@ export function writeTownEmployer(
     ? countyGovernmentUnitsForPlace(place.sourceGeoid)[0]?.unit
     : undefined;
   const countyName = countyUnit ? countyDisplayName(countyUnit.name) : null;
+  const institutions = localInstitutionsFor(world, town);
+  const institution =
+    sourcedTownInstitution(world, town, workplace.key) ??
+    (workplace.key === "public-school"
+      ? institutions.largeEmployers.find(
+          (row) => row.kind === "school-district",
+        )
+      : undefined);
+  if (
+    (workplace.key === "bank" ||
+      workplace.key === "hospital" ||
+      workplace.key === "clinic") &&
+    !institution
+  )
+    return world;
   const rng = new SeededRng(world.seed).fork(stableKey);
   // Named for its founder's family, or for the family of one of the town's
   // residents, so a family with more members in town is on more doors. A
@@ -1336,7 +1151,7 @@ export function writeTownEmployer(
       )
       .map((row) => organizationProfileAt(world, row.id)?.name),
   );
-  const styles = [workplace.name, ...(MORE_NAMES[workplace.key] ?? [])];
+  const styles = businessNameStyles(workplace.key);
   const firstStyle = rng.fork("name-style").integer(0, styles.length);
   let name = "";
   for (let attempt = 0; attempt < styles.length * 4; attempt += 1) {
@@ -1345,27 +1160,33 @@ export function writeTownEmployer(
       (attempt === 0 && founder?.familyName) ||
       (residents.length > 0
         ? residents[draw.fork("family").integer(0, residents.length)]!
-        : drawCanonicalNameForGender(
+        : (countyName ??
+          drawCanonicalNameForGender(
             draw.fork("family"),
             "unstated",
             nameCorpusVersionForWorld(world, town),
-          ).familyName);
-    const context: NameContext = {
+          ).familyName));
+    const context: BusinessNameContext = {
       town: townName,
       state: stateName,
-      county: countyName ?? townName,
+      county: countyName ?? family,
       family,
-      street:
-        TOWN_STREETS[draw.fork("street").integer(0, TOWN_STREETS.length)]!,
     };
-    name = styles[(firstStyle + attempt) % styles.length]!(context);
+    name =
+      institution?.name ??
+      fillBusinessName(
+        styles[(firstStyle + attempt) % styles.length]!,
+        context,
+      );
     if (!taken.has(name)) break;
   }
   return createOrganization(world, {
     stableKey,
     formedAt,
     detailLevel: "lightweight",
-    provenance: PROVENANCE,
+    provenance: institution
+      ? localInstitutionProvenance(institution, formedAt)
+      : ESTIMATED_EMPLOYER_NAME_PROVENANCE,
     initialProfile: {
       name,
       classification: workplace.classification,
@@ -1387,8 +1208,6 @@ export function fillTownJobs(
   open: readonly Resident[],
   options: {
     readonly round: string | null;
-    readonly familyMoney?: "comfortable" | "ordinary" | "tight";
-    readonly familyPersonIds?: readonly EntityId[];
     /**
      * Hire everyone into this one employer instead (a business just opened):
      * the first who is old enough runs it, the rest take its other roles.
@@ -1409,7 +1228,6 @@ export function fillTownJobs(
   const today = world.currentDate;
   const prefix = `${TOWN_EMPLOYMENT_VERSION}:${town}`;
   const round = options.round;
-  const familyPersonIds = new Set(options.familyPersonIds ?? []);
   const jobKey = (personId: EntityId) =>
     round === null
       ? `${prefix}:job:${personId}`
@@ -1540,18 +1358,7 @@ export function fillTownJobs(
       const balance =
         (entry.weight / total) * (held + 1) -
         (counted().byRole.get(`${workplace.key}|${entry.title}`) ?? 0);
-      if (!familyPersonIds.has(resident.personId)) return balance;
-      const premise = options.familyMoney ?? "ordinary";
-      const management = entry.authority === "directs-others" ? 1 : 0;
-      return (
-        balance +
-        (premise === "comfortable"
-          ? management
-          : premise === "tight"
-            ? -management
-            : 0) *
-          100
-      );
+      return balance;
     };
     return [...fits].sort(
       (a, b) => short(b) - short(a) || a.title.localeCompare(b.title),
@@ -1601,6 +1408,13 @@ export function fillTownJobs(
    * closed is never written again; a business opened later is another outlet.
    */
   const employer = (workplace: Workplace): EntityId | null => {
+    if (
+      (workplace.key === "bank" ||
+        workplace.key === "hospital" ||
+        workplace.key === "clinic") &&
+      !sourcedTownInstitution(next, town, workplace.key)
+    )
+      return null;
     const already = existingOf(workplace);
     if (workplace.existing || workplace.governmentOffice)
       return already.length > 0

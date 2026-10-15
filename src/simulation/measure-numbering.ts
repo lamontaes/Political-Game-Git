@@ -2,7 +2,6 @@ import {
   stateBillNumberingStyle,
   stateChamberStyle,
 } from "./bill-numbering-styles";
-import { isCongressRulePack } from "./congress-rule-pack";
 import billIntroductionTable from "../../data/research/laws/bill-introductions-2022.json" with { type: "json" };
 import { rulePackById } from "./legislature-rule-packs";
 import { isFederalDistrictUsps } from "./state-reference";
@@ -92,10 +91,10 @@ export function openingBillNumber(
 
 /** Where the council ordinance pace comes from. */
 export const COUNCIL_ORDINANCE_ESTIMATE = {
-  provenance: "estimated-from-average",
-  estimated: true,
-  estimatedFrom:
-    "about one ordinance a week for a town council; no town's legislative volume has been read yet (research key local-council-legislative-volume)",
+  provenance: "designed",
+  estimated: false,
+  rationale:
+    "designed game pace: reads the date a council measure is introduced and balances every town council at about one ordinance a week, so numbers climb through the year; no town's legislative volume is modeled (research key local-council-legislative-volume)",
   researchQuestionId: "local-council-legislative-volume",
 } as const;
 
@@ -202,7 +201,7 @@ function schemeFor(
       firstNumberOf: FROM_ONE,
     };
   }
-  if (isCongressRulePack(pack.packId)) {
+  if (pack.institution?.numberingCycle === "biennial-congress") {
     return {
       kind: "congress",
       template: plainTemplate,

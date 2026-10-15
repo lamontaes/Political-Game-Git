@@ -1,5 +1,4 @@
 import { evaluateDecision, isSelectedDecision } from "../decisions";
-import { traitConsiderations } from "../people-traits";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -30,7 +29,7 @@ import type {
  * - that staying where the rent is already paid is the easier thing;
  * - their own taste for risk.
  *
- * The weights are PLACEHOLDERS (research: `why-young-adults-leave-home`);
+ * The weights are ESTIMATED FROM AVERAGE (research: `why-young-adults-leave-home`);
  * the survey's shares check the town's totals in the tests and never decide
  * one person.
  */
@@ -44,9 +43,12 @@ export const LEAVING_HOME_OPTIONS = {
   leave: "own-home",
 } as const;
 
-/** PLACEHOLDER weights, as strengths from 0 to 1. */
-export const UNRESEARCHED_LEAVING_HOME = {
-  provenance: "unresearched-blanket-rule",
+/** ESTIMATED FROM AVERAGE weights, as strengths from 0 to 1. */
+export const LEAVING_HOME_ESTIMATE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "Census Bureau Current Population Survey, \"Living Arrangements Varied Across Age Groups\" (May 2024): 57 percent of men and 55 percent of women aged 18 to 24 and 19 and 12 percent at 25 to 34 live in a parent's home; HUD's 30 percent rent-burden line. The strengths themselves (easierToStay, noPay, partner) are game values with no survey ratio behind them",
   /** Age at which age argues neither way, and the years to full strength. */
   ageFrom: 18,
   ageYearsToFull: 10,
@@ -65,7 +67,7 @@ export const UNRESEARCHED_LEAVING_HOME = {
   researchQuestions: ["why-young-adults-leave-home"],
 } as const;
 
-const W = UNRESEARCHED_LEAVING_HOME;
+const W = LEAVING_HOME_ESTIMATE;
 
 /** What one grown child weighs, read from the record by the caller. */
 export interface LeavingHomeFacts {
@@ -93,8 +95,6 @@ function importanceOf(strength: number): DecisionImportance | null {
 
 /** Each circumstance, as a strength toward one option. */
 export function leavingHomeConsiderations(
-  world: World,
-  personId: EntityId,
   facts: LeavingHomeFacts,
   stableKey: string,
 ): DecisionConsideration[] {
@@ -166,22 +166,6 @@ export function leavingHomeConsiderations(
       sourceRefs: [],
     });
   }
-  list.push(
-    ...traitConsiderations(world, personId, stableKey, [
-      {
-        optionKey: LEAVING_HOME_OPTIONS.leave,
-        trait: "risk",
-        pole: "high",
-        explanation: "They want a place of their own.",
-      },
-      {
-        optionKey: LEAVING_HOME_OPTIONS.stay,
-        trait: "risk",
-        pole: "low",
-        explanation: "They would rather keep what they know.",
-      },
-    ]),
-  );
   return list;
 }
 
@@ -219,12 +203,7 @@ export function decideToLeaveHome(
       },
     ],
     constraints: [],
-    considerations: leavingHomeConsiderations(
-      world,
-      personId,
-      facts,
-      stableKey,
-    ),
+    considerations: leavingHomeConsiderations(facts, stableKey),
     perceptionIds: [],
     randomness: "none",
     retention: "ephemeral",

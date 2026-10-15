@@ -46,6 +46,12 @@
       "publisher": "Our Civic Duty research pack",
       "title": "Estimated from the England childhood life-limiting-condition average recorded by Fraser et al. (2021)",
       "note": "ESTIMATED FROM AVERAGE. Place used: England. The pack's 0.3% share is a conservative calibrated subset of the recorded 0.66% England average because the mortality model separately represents severity."
+    },
+    "samhsa-nsduh-2023": {
+      "publisher": "Substance Abuse and Mental Health Services Administration (SAMHSA)",
+      "title": "Highlights for the 2023 National Survey on Drug Use and Health",
+      "url": "https://www.samhsa.gov/data/sites/default/files/NSDUH%202023%20Annual%20Release/2023-nsduh-main-highlights.pdf",
+      "note": "Past-year substance use disorder (alcohol or drug) in 2023: 17.1% of people 12 or older; 8.5% at ages 12 to 17, 27.1% at 18 to 25, 16.6% at 26 or older. National figures; no state breakdown is used here."
     }
   },
   "prevalenceNote": "Each row gives the share of people of an age band who already have the condition, at the band's middle age. Between middles the share slides in a straight line; below the first middle it slides to zero at the band's start, and above the last it holds. A band's share is the source's figure, not a modeled one.",
@@ -286,13 +292,46 @@
         "note": "Calibrated (Ruling 39) against the table's death rate at ages 1 to 14; carries no severity grade or age factor."
       },
       "onsetScale": null
+    },
+    {
+      "key": "substance-use-disorder",
+      "label": "a substance use disorder",
+      "ungraded": true,
+      "prevalence": [
+        {
+          "fromAge": 12,
+          "toAge": 17,
+          "percent": 8.5,
+          "source": "samhsa-nsduh-2023"
+        },
+        {
+          "fromAge": 18,
+          "toAge": 25,
+          "percent": 27.1,
+          "source": "samhsa-nsduh-2023"
+        },
+        {
+          "fromAge": 26,
+          "toAge": 90,
+          "percent": 16.6,
+          "source": "samhsa-nsduh-2023",
+          "note": "One national band for everyone 26 or older; the survey's own older bands are not read here, so the share is carried across all older ages."
+        }
+      ],
+      "mortalityWeight": {
+        "value": 1.0,
+        "status": "RECORDED GAME CALIBRATION",
+        "note": "Calibrated neutral (Ruling 39 weights stay equal): no represented change to all-cause mortality: overdose and alcohol deaths have no producer yet, so the record multiplies strain by one and takes no severity grade or age factor. A missing link, not a claim that the condition is harmless."
+      },
+      "onsetScale": null
     }
   ],
   "onsetCauses": {
     "note": "Conditions that begin during life (Ruling 38, step 2): each condition's strain grows from the life table's age hazard times the condition's onset scale, times these recorded causes, and the condition begins when it crosses the same fixed threshold as mortality strain. Only causes the world stores today are read; smoking and occupation have no person-level fields and remain missing links. An infant row has no onset scale: it is a condition of birth, not one that begins later.",
     "missingLinks": [
       "smoking: no person record says whether someone smokes; it drives heart disease, cancer, COPD and stroke",
-      "occupation exposure: employment records name the job, but no record says what the work exposes a person to"
+      "occupation exposure: employment records name the job, but no record says what the work exposes a person to",
+      "substance use: the record is written for people who hold the condition when the model first exposes them (NSDUH 2023 by age); no onset from recorded causes (poverty, loss, trauma, access to drugs) begins one later in life yet, so a child who grows up after the world opens does not start one"
     ],
     "belowPovertyLine": {
       "value": 2.0,

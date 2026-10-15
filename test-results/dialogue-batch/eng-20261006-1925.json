@@ -1,0 +1,444 @@
+{
+  "id": "eng-20261006-1925",
+  "title": "Dialogue batch eng-20261006-1925 (17 exchanges)",
+  "at": "2026-10-06T23:23:27.000Z",
+  "head": "b57b87f13de01cca6747b0312bba1c6924bd37d7",
+  "status": "open",
+  "items": [
+    {
+      "i": 0,
+      "situation": "Your dad, Jeffrey Barton (56), in Enfield, New Hampshire, on 2026-01-05. You are 17.",
+      "prior": "You: Say hello",
+      "reply": "Your dad: Hi, Xavier. How are you?",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core",
+        "life-reply.first-greeting:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, New Hampshire",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:1"
+    },
+    {
+      "i": 1,
+      "situation": "Someone in town, Cora Newton (63), in Enfield, New Hampshire, on 2026-01-05. You are 17.",
+      "prior": "You: Say hello",
+      "reply": "Someone in town: Hi, Xavier.",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "greet",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, New Hampshire",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:1"
+    },
+    {
+      "i": 2,
+      "situation": "Your grandmother, Victoria Jimenez (93), in Teton Village, Wyoming, on 2026-01-14. You are 34.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your grandmother: Sure, let's play.",
+      "part": "invitation.company-agree:core:sure-play",
+      "parts": [
+        "invitation.company-agree:core:sure-play"
+      ],
+      "composer": "invitationAgreeLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "invite-game-accept",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Teton Village, Wyoming",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1-first:2"
+    },
+    {
+      "i": 3,
+      "situation": "Your dad, Samuel Greene (76), in Susupe, Northern Mariana Islands, on 2026-01-05. You are 52.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your dad: I mean, no, not right now. I'm in the mood for something different. Maybe another time.",
+      "part": "english.slow-opener:opener:i-mean",
+      "parts": [
+        "english.slow-opener:opener:i-mean",
+        "invitation.company-decline:core:no-not-now",
+        "invitation.company-decline:reason:something-different",
+        "invitation.company-decline:closer:another-time"
+      ],
+      "composer": "invitationDeclineLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Susupe, Northern Mariana Islands",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1-first:3"
+    },
+    {
+      "i": 4,
+      "situation": "Your dad, Jeffrey Barton (56), in Enfield, New Hampshire, on 2026-01-05. You are 17.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your dad: Me too. I've been meaning to make time to learn something.",
+      "part": "life-reply.tell-shared-plan:core:core",
+      "parts": [
+        "life-reply.tell-shared-plan:core:core",
+        "life-reply.tell-shared-plan:reason:continuation"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, New Hampshire",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:1"
+    },
+    {
+      "i": 5,
+      "situation": "Your dad, Nathan Jimenez (66), in Teton Village, Wyoming, on 2026-01-14. You are 34.",
+      "prior": "",
+      "reply": "Your dad: If you want to, go ahead.",
+      "part": "life-reply.running-open-agree-even:core:core",
+      "parts": [
+        "life-reply.running-open-agree-even:core:core"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-open",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Teton Village, Wyoming",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1-first:2"
+    },
+    {
+      "i": 6,
+      "situation": "Your dad, Samuel Greene (76), in Susupe, Northern Mariana Islands, on 2026-01-05. You are 52.",
+      "prior": "",
+      "reply": "Your dad: Nothing yet. Just go in with your eyes open.",
+      "part": "life-reply.running-worry-none:core:core",
+      "parts": [
+        "life-reply.running-worry-none:core:core",
+        "life-reply.running-worry-none:reason:continuation"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-worry",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Susupe, Northern Mariana Islands",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1-first:3"
+    },
+    {
+      "i": 7,
+      "situation": "Your classmate, Landon Simpson (6), in Grainola, Oklahoma, on 2026-01-05. You are 6.",
+      "prior": "",
+      "reply": "Your classmate: Show me the part you mean.",
+      "part": "subject-reply.school_raise:core:even-0-core-1",
+      "parts": [
+        "subject-reply.school_raise:core:even-0-core-1"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-raise",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Grainola, Oklahoma",
+        "pose": null,
+        "ageBand": "child"
+      },
+      "seed": "ep1-first:0"
+    },
+    {
+      "i": 8,
+      "situation": "Your younger sister, Eva Barton (13), in Enfield, New Hampshire, on 2026-01-05. You are 17.",
+      "prior": "",
+      "reply": "Your younger sister: What about the meeting?",
+      "part": "subject-reply.neighborhood_mention:core:even-0-core-0",
+      "parts": [
+        "subject-reply.neighborhood_mention:core:even-0-core-0"
+      ],
+      "composer": "composeSubjectReply (neighborhood) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "neighborhood-mention",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Enfield, New Hampshire",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1-first:1"
+    },
+    {
+      "i": 9,
+      "situation": "Your dad, Nathan Jimenez (66), in Teton Village, Wyoming, on 2026-01-14. You are 34.",
+      "prior": "",
+      "reply": "Your dad: I can’t make it.",
+      "part": "everyday.social-decline-reply:core:core",
+      "parts": [
+        "everyday.social-decline-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Teton Village, Wyoming",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1-first:2"
+    },
+    {
+      "i": 10,
+      "situation": "Your mom, Melissa Saunders (46), in Grainola, Oklahoma, on 2026-01-05. You are 6.",
+      "prior": "You: Mention something in the news",
+      "reply": "Your mom: I hadn't heard a thing about it. When was this?",
+      "part": "small-talk.matter-uninformed:core:not-a-thing",
+      "parts": [
+        "small-talk.matter-uninformed:core:not-a-thing",
+        "small-talk.matter-uninformed:closer:when-was-this"
+      ],
+      "composer": "matterUninformedLine in small-talk-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "share-news",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "matter-uninformed",
+        "belief": null,
+        "place": "Grainola, Oklahoma",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:0"
+    },
+    {
+      "i": 11,
+      "situation": "You, in Teton Village, Wyoming, on 2026-01-14. You are 34.",
+      "prior": "Reporter: What happened?",
+      "reply": "You: I can't answer that yet.",
+      "part": "press.answer-unknown:core:not-yet",
+      "parts": [
+        "press.answer-unknown:core:not-yet"
+      ],
+      "composer": "composePressLine (answer-unknown) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Teton Village, Wyoming",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:2"
+    },
+    {
+      "i": 12,
+      "situation": "Your grandmother, Rene Greene (106), in Susupe, Northern Mariana Islands, on 2026-01-05. You are 52.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your grandmother: Good luck with it.",
+      "part": "life-reply.tell-plain-plan:core:core",
+      "parts": [
+        "life-reply.tell-plain-plan:core:core"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Susupe, Northern Mariana Islands",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1-first:3"
+    },
+    {
+      "i": 13,
+      "situation": "Your classmate, Landon Simpson (6), in Grainola, Oklahoma, on 2026-01-05. You are 6.",
+      "prior": "",
+      "reply": "Your classmate: Okay, that part is yours. You take that part.",
+      "part": "subject-reply.school_offer:core:even-0-core-1",
+      "parts": [
+        "subject-reply.school_offer:core:even-0-core-1",
+        "subject-reply.school_offer:reason:even-0-reason-0"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-offer",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Grainola, Oklahoma",
+        "pose": null,
+        "ageBand": "child"
+      },
+      "seed": "ep1-first:0"
+    },
+    {
+      "i": 14,
+      "situation": "Your former classmate, Justin Carr (34), in Teton Village, Wyoming, on 2026-01-14. You are 34.",
+      "prior": "You: Ask if they would like this to be a date",
+      "reply": "Your former classmate: Oh, I don't think so. I'd like to keep this as it is.",
+      "part": "english.slow-opener:opener:oh",
+      "parts": [
+        "english.slow-opener:opener:oh",
+        "invitation.date-decline:core:dont-think-so",
+        "invitation.date-decline:reason:keep-as-is"
+      ],
+      "composer": "invitationDeclineLine (date) in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "decline",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Teton Village, Wyoming",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:2"
+    },
+    {
+      "i": 15,
+      "situation": "Your mom, Melissa Saunders (46), in Grainola, Oklahoma, on 2026-01-05. You are 6.",
+      "prior": "",
+      "reply": "Your mom: Yes, I’ll come.",
+      "part": "everyday.social-accept-reply:core:core",
+      "parts": [
+        "everyday.social-accept-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "everyday-accept",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Grainola, Oklahoma",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:0"
+    },
+    {
+      "i": 16,
+      "situation": "Your mom, Melissa Saunders (46), in Grainola, Oklahoma, on 2026-01-05. You are 6.",
+      "prior": "You: Say hello",
+      "reply": "Your mom: Hi, sweetheart.",
+      "part": "life-reply.hi-sweetheart:core:core",
+      "parts": [
+        "life-reply.hi-sweetheart:core:core"
+      ],
+      "composer": "lifeReplyLine (hi-sweetheart) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Grainola, Oklahoma",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:0"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "source": "data/research/outcome-web/links.json",
+  "rows": [
+    {
+      "questionKey": "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+      "outcome": "disaster.flood-damage",
+      "causeKey": "flood-zone-limits-to-damage"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "outcome": "env.litter",
+      "causeKey": "container-deposit-to-litter"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+      "outcome": "household.prices",
+      "causeKey": "container-deposit-to-prices"
+    },
+    {
+      "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+      "outcome": "env.particulates",
+      "causeKey": "emission-rules-to-particulates"
+    }
+  ]
+}

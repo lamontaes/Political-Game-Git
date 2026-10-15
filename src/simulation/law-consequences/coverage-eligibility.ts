@@ -26,6 +26,7 @@ import {
 export {
   COVERAGE_QUESTION_KEYS,
   COVERAGE_ELIGIBILITY_ROWS,
+  COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS,
 } from "./coverage-eligibility-rows";
 
 function questionFor(row: LawConsequenceRow): string {

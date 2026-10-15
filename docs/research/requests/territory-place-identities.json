@@ -32,9 +32,45 @@
     {
       "source": "www2.census.gov from this environment",
       "whatItDidNotSettle": "Blocked by the network proxy (403), so the Island Areas code lists could not be fetched directly."
+    },
+    {
+      "source": "US Census Bureau 2020 Island Areas release and API access checks, 2026-10-11",
+      "url": "https://www.census.gov/library/stories/2021/10/first-2020-census-united-states-island-areas-data-released-today.html",
+      "whatItDidNotSettle": "Verified territory counts AS 49,710; GU 153,836; MP 47,329; VI 87,146. API requests returned Missing Key HTML. No complete county/place list, government-unit classification or spelling aliases extracted. Request remains unanswered; see data/research/places/roadmap-r11-population-v2025-manifest.json."
+    },
+    {
+      "source": "Census Vintage2025 Puerto Rico municipio population",
+      "url": "https://www2.census.gov/programs-surveys/popest/tables/2020-2025/municipios/totals/prm-est2025-pop.xlsx",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
+        "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
+      },
+      "sourceCoverage": ["PR"]
     }
   ],
   "title": "Which towns and villages a life can start in on Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands",
   "usableAnswer": "One table per territory: place name as a resident writes it, a plain-letter search spelling, the Census 2020 Island Areas place code, the county-equivalent it sits in, its 2020 population, and whether it is a local government with elected officers (and which), with the source and vintage of each column.",
-  "whyItMatters": "lamontae asked on September 23, 2026 for a life in every territory. To let one start today, the territories thread seated a marked placeholder list of well-known villages and towns (src/simulation/territory-places.ts on branch claude/project-thread-ysy15i), keyed in its own namespace rather than with invented Census codes. Every such key is a provisional identity: once real place codes arrive the list is replaced and a crosswalk carries existing saves forward. Until then the placeholder list may omit villages and the population of each is unknown, so nothing in the game may treat a territory town's size as known."
+  "whyItMatters": "lamontae asked on September 23, 2026 for a life in every territory. To let one start today, the territories thread seated a marked placeholder list of well-known villages and towns (src/simulation/territory-places.ts on branch claude/project-thread-ysy15i), keyed in its own namespace rather than with invented Census codes. Every such key is a provisional identity: once real place codes arrive the list is replaced and a crosswalk carries existing saves forward. Until then the placeholder list may omit villages and the population of each is unknown, so nothing in the game may treat a territory town's size as known.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/places/roadmap-r11-territory-identities-AS.json",
+        "data/research/places/roadmap-r11-territory-identities-GU.json",
+        "data/research/places/roadmap-r11-territory-identities-MP.json",
+        "data/research/places/roadmap-r11-territory-identities-PR.json",
+        "data/research/places/roadmap-r11-territory-identities-VI.json",
+        "data/research/places/roadmap-r11-pr-municipio-geoid-join.json",
+        "data/research/places/roadmap-r11-handoff.json"
+      ],
+      "finding": "2025official place identities and class/function codes supplied for all five territories. PR municipios uniquely join official county-equivalent GEOIDs. Island-place population/growth remain gaps; labels do not imply elected governments."
+    },
+    "finalCorrections": [
+      "data/research/places/roadmap-r11-island-baselines-verified.json"
+    ]
+  }
 }
