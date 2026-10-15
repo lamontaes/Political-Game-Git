@@ -16,6 +16,8 @@ The engine already has the three layers (situations, moves, pieces) but they are
 
 ## Order 2: batch 12, from batch 11 and the coverage gaps
 
+Batch 12's family, conversation and lie pieces are written under the text rule of Oct 15 (OWNER-DECISIONS.md), not mined only.
+
 Batch 11 (`docs/grading/words-batch-11.md`, PR #4323) is held for four record defects and for repeating the same few situations. Do not regenerate it blind; build on it:
 
 1. Fix the two engine-side defects that are yours: the chapter that printed "My daughter was born. My daughter was born." (two children, two dates; one sentence that says both, or two chapters) and the family scene that opened on a roll call of ten relatives (who is in the room shows in the picture and the talk) and was staged in a neighbor's household instead of the player's. The other two (a winner as a seat-term id; a body named by a member's title, "County of Darlington commissioner") are the government engine's; the overnight PR #4343 fixes the first in the engine and part of the second; until it merges, the batch builder skips a scene whose speaker or body resolves to a raw id and says so under "Facts that were stood in".
@@ -37,9 +39,9 @@ Batch 11 (`docs/grading/words-batch-11.md`, PR #4323) is held for four record de
 
 **Owner plays it:** he grades `docs/grading/words-batch-12.md` with thirty different moments in it. The CTO builds his grading page from the Markdown.
 
-## Order 3: mine for the empty cells
+## Order 3: fill the empty cells
 
-For each empty or thin cell the table names, in the order of the golden path (a talk at home, a council meeting, filing, the campaign, election night, the first bill, the town reacting): a shape in `scripts/english-corpus/shapes/`, the mining run over the corpus (rebuild it with `mine-all.sh` if the container lost it; the README lists every source and its license), the bank script and its test composing a whole exchange through the real engine in a drawn place. First targets, from batch 11's own gaps: a town body's own words to its chair and a local chair's own procedure (council minutes are patterns only; the shipping source must be public-domain, so look for town and county meetings in the Congressional Record's extensions, federal advisory committee transcripts and Florida's local governments); a chair's or member's question at a hearing (the hearing bank has only witnesses); what a body says of an official's service ("has served as {office}"); boasts, threats and alarms ("arrogance, anger and fear", owner Oct 14); a wedding, a pork-barrel ask, a member arguing against another by name on the floor.
+Filling an empty cell means writing pieces to the pattern through the `civic-prose` authoring process, and mining where a record offers good ones, not mining only (text rule, OWNER-DECISIONS.md, Oct 15). For each empty or thin cell the table names, in the order of the golden path (a talk at home, a council meeting, filing, the campaign, election night, the first bill, the town reacting): a shape in `scripts/english-corpus/shapes/`, the mining run over the corpus (rebuild it with `mine-all.sh` if the container lost it; the README lists every source and its license), the bank script and its test composing a whole exchange through the real engine in a drawn place. First targets, from batch 11's own gaps: a town body's own words to its chair and a local chair's own procedure (council minutes are patterns only; the shipping source must be public-domain, so look for town and county meetings in the Congressional Record's extensions, federal advisory committee transcripts and Florida's local governments); a chair's or member's question at a hearing (the hearing bank has only witnesses); what a body says of an official's service ("has served as {office}"); boasts, threats and alarms ("arrogance, anger and fear", owner Oct 14); a wedding, a pork-barrel ask, a member arguing against another by name on the floor.
 
 ## Order 4: the director's reach
 
