@@ -4,6 +4,10 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
+## 2026-10-15 — Session B, a signed lease before rehousing (draft #4347)
+
+Households recovering from homelessness can now take a completed rental unit when income and cash qualify them. The signed lease consumes one vacancy; no lease means they remain homeless. All 13 focused housing tests pass. The same five-year Vaitogi run balances, retains 30 local moves and has 25 distinct occupied units. No household qualified for the new rehousing route in that run, so that edge is proved only by its focused test. Build plus first year took 74.506 seconds against the rounded 66-second base. Incoming-household, job-location and family-space matching remain registered gaps. Layoffs still miss their calibration bands; no pool claim or self-merge.
+
 ## 2026-10-15 — Session B, completed-home occupancy (draft #4347)
 
 Full and counted households can choose a completed rental for lower rent. The choice changes the actual lease or rent flow and reserves one unit. Both population tiers now renew rents from vacancy. The old full-only completion discount was removed. Nine focused housing tests pass after repairing an invalid income fixture. In the drawn Vaitogi world, the first apartment project finishes in September 2028, so the first year cannot prove a move into it. Five ordinary years produced 30 counted-household moves into 25 completed units, including turnover. Cash balanced at all five annual checks. Build plus first year took 73.277 seconds against a rounded 66-second base. No full household moved in that run; the full route passed its unit check. Arrival and homeless assignment, job locations and family-space needs remain registered gaps. Next: continue the core order; the broader housing gaps remain open.

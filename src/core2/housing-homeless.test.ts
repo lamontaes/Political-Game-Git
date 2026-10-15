@@ -211,36 +211,32 @@ describe("where an evicted household goes", () => {
     expect(housingStatusOf(api, "tenant")).toBe("unsheltered");
     const housing = api.moduleState("housing");
     const stock = housing.table("stock").get(`stock:${place}`)!;
-    housing
-      .table("stock")
-      .put({
-        ...stock,
-        rentalUnits: Number(stock.rentalUnits) + 1,
-        vacantRental: Number(stock.vacantRental) + 1,
-      });
+    housing.table("stock").put({
+      ...stock,
+      rentalUnits: Number(stock.rentalUnits) + 1,
+      vacantRental: Number(stock.vacantRental) + 1,
+    });
     const available = Number(
       housing.table("stock").get(`stock:${place}`)!.vacantRental,
     );
     const projectId = "project:rehousing-fixture";
-    housing
-      .table("projects")
-      .put({
-        id: projectId,
-        placeId: place,
-        kind: "multi",
-        units: 1,
-        affordableUnits: 0,
-        askingRentMinor: 80_000,
-        medianPayMinor: 400_000,
-        payerId: landlord,
-        builderId: landlord,
-        monthlyCostMinor: 0,
-        paidMinor: 0,
-        startedAt: start,
-        completesAt: "2021-08-01",
-        open: false,
-        isProject: true,
-      });
+    housing.table("projects").put({
+      id: projectId,
+      placeId: place,
+      kind: "multi",
+      units: 1,
+      affordableUnits: 0,
+      askingRentMinor: 80_000,
+      medianPayMinor: 400_000,
+      payerId: landlord,
+      builderId: landlord,
+      monthlyCostMinor: 0,
+      paidMinor: 0,
+      startedAt: start,
+      completesAt: "2021-08-01",
+      open: false,
+      isProject: true,
+    });
     advanceCore(core, "2021-10-31");
     const occupancy = housing.table("occupancy").get("household:tenant")!;
     expect(occupancy).toMatchObject({ projectId, unit: 0 });
