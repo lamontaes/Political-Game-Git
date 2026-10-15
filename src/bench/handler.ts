@@ -450,6 +450,10 @@ export async function benchRequest(
                 portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
                 placeName,
                 date: core!.date,
+                minuteOfDay:
+                  player!.packet?.at.minuteOfDay ??
+                  opening?.home?.minuteOfDay ??
+                  0,
                 packet: player!.packet,
               }
             : null,

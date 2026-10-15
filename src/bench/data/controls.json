@@ -56,6 +56,14 @@
   "opening": {
     "news": "News"
   },
+  "options": {
+    "version": "Version",
+    "fullScreen": "Full screen",
+    "fullScreenUnavailable": "Full screen is unavailable.",
+    "continue": "Continue",
+    "skipOpening": "Skip opening",
+    "quitToTitle": "Quit to title"
+  },
   "polling": {
     "leaveBlank": "Leave blank",
     "leave": "Leave"

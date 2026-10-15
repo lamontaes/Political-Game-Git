@@ -5,4 +5,4 @@ title: Options no longer lists which scenes interrupt you
 impact: patch
 ---
 
-Options drops the list of scene kinds that may stop your day. The director decides what interrupts, so Options keeps only Skip opening, the version and Quit to title.
+Options uses a compact panel with the existing Kit 13 frame and controls. Continue returns to play, Full screen changes the window, and Quit to title keeps the current life available. The director decides which scenes interrupt; the scene-kind toggles are removed.
