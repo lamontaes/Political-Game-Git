@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-outside-revenue-fees
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T22:24:46.229Z
 ---
 
 **What.** TODO
