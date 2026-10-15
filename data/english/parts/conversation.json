@@ -1544,12 +1544,6 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
-        },
-        {
-          "move": "eviction-where-reply-answer-ok",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "ok"
         }
       ],
       "transcriptsUsing": 2389,
@@ -1656,13 +1650,6 @@
           "stages": ["none"]
         },
         {
-          "move": "other-work-answer-brief",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
           "move": "tenure-reply-answer-brief",
           "subject": "tenure-reply",
           "role": "answer",
@@ -1681,24 +1668,6 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
-        },
-        {
-          "move": "eviction-reply-answer-brief",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
-          "move": "eviction-cause-reply-answer-brief",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
-          "move": "eviction-where-reply-answer-ok",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "ok"
         }
       ],
       "transcriptsUsing": 3800,
@@ -3708,12 +3677,6 @@
           "subject": "heard-work",
           "role": "reply",
           "choice": "ok"
-        },
-        {
-          "move": "eviction-reply-answer-brief",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "brief"
         }
       ],
       "transcriptsUsing": 444,
@@ -3931,12 +3894,6 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
-        },
-        {
-          "move": "eviction-cause-reply-answer-brief",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "brief"
         }
       ],
       "transcriptsUsing": 348,
@@ -4524,12 +4481,6 @@
           "subject": "tenure-reply",
           "role": "answer",
           "choice": "ack"
-        },
-        {
-          "move": "eviction-reply-answer-brief",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "brief"
         }
       ],
       "transcriptsUsing": 995,
@@ -5588,13 +5539,6 @@
           "raises": "next"
         },
         {
-          "move": "other-work-answer-brief",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
           "move": "tenure-reply-answer-brief",
           "subject": "tenure-reply",
           "role": "answer",
@@ -5686,24 +5630,10 @@
           "raises": "next"
         },
         {
-          "move": "shared-school-answer-brief",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
           "move": "shared-work-answer-plain",
           "subject": "shared-work",
           "role": "answer",
           "choice": "plain"
-        },
-        {
-          "move": "other-work-answer-brief",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
         },
         {
           "move": "tenure-reply-answer-brief",
@@ -5782,29 +5712,10 @@
           "raises": "next"
         },
         {
-          "move": "other-work-answer-brief",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
           "move": "ack-reply-right",
           "subject": "ack",
           "role": "reply",
           "choice": "right"
-        },
-        {
-          "move": "eviction-reply-answer-brief",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
-          "move": "eviction-cause-reply-answer-brief",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "brief"
         }
       ],
       "transcriptsUsing": 669,
@@ -6309,13 +6220,6 @@
           "choice": "plain"
         },
         {
-          "move": "shared-school-answer-brief",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
           "move": "shared-work-answer-plain",
           "subject": "shared-work",
           "role": "answer",
@@ -6799,13 +6703,6 @@
       "text": "Yes.",
       "uses": [
         {
-          "move": "shared-school-answer-brief",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
           "move": "shared-work-answer-brief",
           "subject": "shared-work",
           "role": "answer",
@@ -6875,13 +6772,6 @@
       "kind": "spoken",
       "text": "Yeah.",
       "uses": [
-        {
-          "move": "shared-school-answer-brief",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
         {
           "move": "shared-work-answer-brief",
           "subject": "shared-work",
@@ -7561,13 +7451,6 @@
           "role": "answer",
           "choice": "not",
           "requiresFacts": ["my_not"]
-        },
-        {
-          "move": "asked-mutual-answer-brief",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
         },
         {
           "move": "asked-kin-answer-no",
@@ -9468,20 +9351,6 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"]
-        },
-        {
-          "move": "asked-mutual-answer-brief",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "asked-kin-answer-brief",
-          "subject": "asked-kin",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
         }
       ],
       "transcriptsUsing": 1887,
@@ -13483,58 +13352,6 @@
       }
     },
     {
-      "key": "conversation.asked-mutual-answer-brief.nope",
-      "move": "asked-mutual-answer-brief",
-      "kind": "spoken",
-      "text": "Nope.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-brief",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        },
-        {
-          "move": "asked-kin-answer-brief",
-          "subject": "asked-kin",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 127,
-      "bySource": {
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 5,
-        "U.S. Senate Historical Office oral history": 4,
-        "briefing": 17,
-        "crec": 9,
-        "dcpd": 36,
-        "hearings": 14,
-        "house": 2,
-        "nasa": 4,
-        "nasa2": 6,
-        "nps": 24
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
-        "date": "2026-09-04",
-        "granule": "DCPD-202600575",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600575/html/DCPD-202600575.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "guarded"
-    },
-    {
       "key": "conversation.asked-kin-answer-not-yet.no-not-yet",
       "move": "asked-kin-answer-not-yet",
       "kind": "spoken",
@@ -17008,6 +16825,1428 @@
       "tag": {
         "move": "tell",
         "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.good-to-know",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Good to know.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.that-makes-sense",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "That makes sense.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.fair-enough",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Fair enough.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "guarded",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.huh-i-didn-t-know-that",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Huh. I didn't know that.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.well-good-for-you",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Well, good for you.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.i-ll-remember-that",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "I'll remember that.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.interesting",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Interesting.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.can-t-argue-with-that",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Can't argue with that.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "agree"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.got-a-minute",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Got a minute?",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.can-i-tell-you-something",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Can I tell you something?",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "nervous",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.there-s-something-i-need-to-tell-you",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "There's something I need to tell you.",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.come-sit-with-me",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Come sit with me.",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.i-need-to-talk-to-you-about-something",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "I need to talk to you about something.",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.do-you-have-a-second",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Do you have a second?",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-home.we-can-pick-this-up-later",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "We can pick this up later.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-home.let-s-leave-it-there-for-now",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "Let's leave it there for now.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "guarded",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-home.thanks-for-listening",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "Thanks for listening.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-home.okay-that-s-all-i-wanted-to-say",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "Okay. That's all I wanted to say.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-answer-bye.you-too-take-care",
+      "move": "farewell-answer-bye",
+      "kind": "spoken",
+      "text": "You too. Take care.",
+      "uses": [
+        {
+          "move": "farewell-answer-bye",
+          "subject": "farewell",
+          "role": "answer",
+          "choice": "bye"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-answer-bye.see-you-around",
+      "move": "farewell-answer-bye",
+      "kind": "spoken",
+      "text": "See you around.",
+      "uses": [
+        {
+          "move": "farewell-answer-bye",
+          "subject": "farewell",
+          "role": "answer",
+          "choice": "bye"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-answer-bye.okay-talk-soon",
+      "move": "farewell-answer-bye",
+      "kind": "spoken",
+      "text": "Okay, talk soon.",
+      "uses": [
+        {
+          "move": "farewell-answer-bye",
+          "subject": "farewell",
+          "role": "answer",
+          "choice": "bye"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.have-you-been-there-long",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "Have you been there long?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure"
+        },
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.how-long-has-it-been",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "How long has it been?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure"
+        },
+        {
+          "move": "their-tenure-raise-ask",
+          "subject": "their-tenure",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.is-that-new",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "Is that new?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.do-you-like-it-there",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "Do you like it there?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-ack.employer-how-do-you-like-it",
+      "move": "other-work-answer-ack",
+      "kind": "spoken",
+      "text": "{employer}? How do you like it?",
+      "uses": [
+        {
+          "move": "other-work-answer-ack",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "ack"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-ack.good-for-you-is-it-busy",
+      "move": "other-work-answer-ack",
+      "kind": "spoken",
+      "text": "Good for you. Is it busy?",
+      "uses": [
+        {
+          "move": "other-work-answer-ack",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "ack"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-brief.oh-how-s-that-going",
+      "move": "other-work-answer-brief",
+      "kind": "spoken",
+      "text": "Oh. How's that going?",
+      "uses": [
+        {
+          "move": "other-work-answer-brief",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-brief.right-is-it-busy-there",
+      "move": "other-work-answer-brief",
+      "kind": "spoken",
+      "text": "Right. Is it busy there?",
+      "uses": [
+        {
+          "move": "other-work-answer-brief",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-brief.oh-nice-how-is-it",
+      "move": "other-work-answer-brief",
+      "kind": "spoken",
+      "text": "Oh, nice. How is it?",
+      "uses": [
+        {
+          "move": "other-work-answer-brief",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-not.not-lately",
+      "move": "asked-mutual-answer-not",
+      "kind": "spoken",
+      "text": "Not lately.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-not.not-in-a-while",
+      "move": "asked-mutual-answer-not",
+      "kind": "spoken",
+      "text": "Not in a while.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time",
+      "move": "asked-mutual-answer-not",
+      "kind": "spoken",
+      "text": "I can't remember the last time.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "nervous",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask",
+      "move": "asked-mutual-answer-brief",
+      "kind": "spoken",
+      "text": "No, I haven't. Why do you ask?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-brief",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-brief.nope-not-in-a-while",
+      "move": "asked-mutual-answer-brief",
+      "kind": "spoken",
+      "text": "Nope. Not in a while.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-brief",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "guarded",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-turn.why-do-you-ask",
+      "move": "asked-mutual-answer-turn",
+      "kind": "spoken",
+      "text": "Why do you ask?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-turn",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "turn"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.asked-kin-answer-brief.no-should-i",
+      "move": "asked-kin-answer-brief",
+      "kind": "spoken",
+      "text": "No. Should I?",
+      "uses": [
+        {
+          "move": "asked-kin-answer-brief",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.asked-kin-answer-brief.no-tell-me-about-name",
+      "move": "asked-kin-answer-brief",
+      "kind": "spoken",
+      "text": "No. Tell me about {name}.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-brief",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.of-course-how-could-i-forget",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Of course. How could I forget?",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.yeah-that-takes-me-back",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Yeah. That takes me back.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-plain.how-could-i-forget-school",
+      "move": "shared-school-answer-plain",
+      "kind": "spoken",
+      "text": "How could I forget {school}?",
+      "uses": [
+        {
+          "move": "shared-school-answer-plain",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-plain.those-were-the-days",
+      "move": "shared-school-answer-plain",
+      "kind": "spoken",
+      "text": "Those were the days.",
+      "uses": [
+        {
+          "move": "shared-school-answer-plain",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years",
+      "move": "shared-school-answer-years",
+      "kind": "spoken",
+      "text": "Hard to believe it's been {years} years.",
+      "uses": [
+        {
+          "move": "shared-school-answer-years",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "years"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-years.feels-like-forever-ago",
+      "move": "shared-school-answer-years",
+      "kind": "spoken",
+      "text": "Feels like forever ago.",
+      "uses": [
+        {
+          "move": "shared-school-answer-years",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "years"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-ask-remember.do-you-ever-think-about-school",
+      "move": "shared-school-ask-remember",
+      "kind": "spoken",
+      "text": "Do you ever think about {school}?",
+      "uses": [
+        {
+          "move": "shared-school-ask-remember",
+          "subject": "shared-school",
+          "role": "ask",
+          "choice": "remember"
+        },
+        {
+          "move": "shared-school-raise-remember",
+          "subject": "shared-school",
+          "role": "raise",
+          "choice": "remember"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we",
+      "move": "shared-school-ask-remember",
+      "kind": "spoken",
+      "text": "We were at {school} together, weren't we?",
+      "uses": [
+        {
+          "move": "shared-school-ask-remember",
+          "subject": "shared-school",
+          "role": "ask",
+          "choice": "remember"
+        },
+        {
+          "move": "shared-school-raise-remember",
+          "subject": "shared-school",
+          "role": "raise",
+          "choice": "remember"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "conversation.kin-answer-turn.i-d-like-that",
+      "move": "kin-answer-turn",
+      "kind": "spoken",
+      "text": "I'd like that.",
+      "uses": [
+        {
+          "move": "kin-answer-turn",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "turn"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.kin-answer-turn.sometime-soon-i-hope",
+      "move": "kin-answer-turn",
+      "kind": "spoken",
+      "text": "Sometime soon, I hope.",
+      "uses": [
+        {
+          "move": "kin-answer-turn",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "turn"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "ask"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.i-d-better-get-going",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "I'd better get going.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "stages": ["default"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.i-should-let-you-go",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "I should let you go.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "stages": ["default"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.it-was-good-running-into-you",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "It was good running into you.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "stages": ["default"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.don-t-be-a-stranger",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Don't be a stranger.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "stages": ["default"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.i-ll-catch-you-later",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "I'll catch you later.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye",
+          "stages": ["default"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.eviction-raise.we-re-being-evicted",
+      "move": "eviction-raise",
+      "kind": "spoken",
+      "text": "We're being evicted.",
+      "uses": [
+        {
+          "move": "eviction-raise",
+          "subject": "eviction",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.eviction-raise.we-have-to-be-out-of-the-house",
+      "move": "eviction-raise",
+      "kind": "spoken",
+      "text": "We have to be out of the house.",
+      "uses": [
+        {
+          "move": "eviction-raise",
+          "subject": "eviction",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.eviction-raise.the-landlord-says-we-have-to-leave",
+      "move": "eviction-raise",
+      "kind": "spoken",
+      "text": "The landlord says we have to leave.",
+      "uses": [
+        {
+          "move": "eviction-raise",
+          "subject": "eviction",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-brief.wait-we-have-to-move",
+      "move": "eviction-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Wait. We have to move?",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-brief",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "braced",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-brief.really-since-when",
+      "move": "eviction-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Really? Since when?",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-brief",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "braced",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-brief.oh-no-how-long-do-we-have",
+      "move": "eviction-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh, no. How long do we have?",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-brief",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "nervous",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.eviction-cause-reply-answer-brief.i-see-so-what-happens-now",
+      "move": "eviction-cause-reply-answer-brief",
+      "kind": "spoken",
+      "text": "I see. So what happens now?",
+      "uses": [
+        {
+          "move": "eviction-cause-reply-answer-brief",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "nervous",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.eviction-cause-reply-answer-brief.oh-i-didn-t-know-it-was-that-bad",
+      "move": "eviction-cause-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh. I didn't know it was that bad.",
+      "uses": [
+        {
+          "move": "eviction-cause-reply-answer-brief",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.eviction-where-reply-answer-ok.okay-tell-me-what-you-need",
+      "move": "eviction-where-reply-answer-ok",
+      "kind": "spoken",
+      "text": "Okay. Tell me what you need.",
+      "uses": [
+        {
+          "move": "eviction-where-reply-answer-ok",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "ok"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.eviction-where-reply-answer-ok.all-right-we-ll-make-it-work",
+      "move": "eviction-where-reply-answer-ok",
+      "kind": "spoken",
+      "text": "All right. We'll make it work.",
+      "uses": [
+        {
+          "move": "eviction-where-reply-answer-ok",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "ok"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "answer"
       }
     }
   ]

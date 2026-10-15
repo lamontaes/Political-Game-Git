@@ -97,13 +97,23 @@ describe("the bench's dedupe rules (Order 2, section 2)", () => {
     expect(other.kept).toHaveLength(4);
   });
 
-  it("shows a phrase once per page", () => {
+  it("grades a phrase once per page", () => {
     const rows = [
       item({ phrases: ["Good to see you."] }),
       item({ sceneId: "s2", pieces: ["q"], phrases: ["good to see you"] }),
+      item({
+        sceneId: "s3",
+        pieces: ["r"],
+        phrases: ["Good to see you.", "I lost my job."],
+      }),
     ];
-    expect(dedupe(rows, 3).dropped["repeated-phrase"]).toBe(1);
-    expect(dedupe(rows, 3, false).kept).toHaveLength(2);
+    const result = dedupe(rows, 3);
+    // An item with nothing new to grade is dropped; one with a new line is
+    // kept, its repeated line marked as graded above.
+    expect(result.dropped["repeated-phrase"]).toBe(1);
+    expect(result.kept).toHaveLength(2);
+    expect([...result.repeats.get(result.kept[1]!)!]).toHaveLength(1);
+    expect(dedupe(rows, 3, false).kept).toHaveLength(3);
   });
 
   it("orders the page so neighbors differ in type and register", () => {

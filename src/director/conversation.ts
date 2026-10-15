@@ -439,10 +439,10 @@ function evictionSubjects(
     ...recentMoments(core, director, speakerId),
     ...(together ? recentMoments(core, director, listenerId) : []),
   ].find(
+    // The record is the household's: it may name the other members too.
     (moment) =>
       moment.label === EVICTION_LABEL &&
-      moment.causeId.startsWith(EVICTION_EVENT) &&
-      !moment.counterpartIds.length,
+      moment.causeId.startsWith(EVICTION_EVENT),
   );
   if (!evicted || !core.modules.has(HOUSING_MODULE_ID)) return [];
   const housing = coreAPI(core as CoreState).moduleState(HOUSING_MODULE_ID);

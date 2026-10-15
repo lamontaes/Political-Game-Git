@@ -1,16 +1,16 @@
 # Grading bench batch-12
 
-One cached world (Brookside, Delaware, seed fa3bbb297a4b3ea7c25595f71a3f37a7f7fdf08dfd6801c411add18d4f9f0a45), 27 scenes the director staged from records, composed once per profile (warm, cold, stubborn, anxious, boastful) by the same functions play calls. 15 items. Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too short, right, too long), creativity, trait fit and, for lies, plausibility.
+One cached world (Brookside, Delaware, seed fa3bbb297a4b3ea7c25595f71a3f37a7f7fdf08dfd6801c411add18d4f9f0a45), 84 scenes the director staged from records, composed once per profile (warm, cold, stubborn, anxious, boastful) by the same functions play calls. 175 items. Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too short, right, too long), creativity, trait fit and, for lies, plausibility.
 
 ## Dropped items (section 2 rules)
 
-- identical-profile: 9
+- identical-profile: 11
 - duplicate-item: 0
-- same-choice-set: 12
-- type-cap: 67
-- repeated-phrase: 32
+- same-choice-set: 97
+- type-cap: 48
+- repeated-phrase: 89
 
-Scenes the director staged from records, by situation type: celebration 4, funeral 2, news-arrives 11, reunion 10.
+Scenes the director staged from records, by situation type: celebration 48, funeral 2, news-arrives 24, reunion 10.
 
 ## Situations skipped, with why
 
@@ -33,7 +33,7 @@ Scenes the director staged from records, by situation type: celebration 4, funer
 - breakup: awaitingProducer: broke-up, separated
 - betrayal: awaitingProducer: 
 - rescue: awaitingProducer: 
-- visit: no cause record in this world's year (it fires from feeling:event:justice.imprisoned, feeling:event:health.serious-illness)
+- visit: no cause record in this world's year (it fires from feeling:event:justice.imprisoned, feeling:event:health.serious-illness, feeling:event:health.serious-illness)
 - arrival: awaitingProducer: family-birth
 - care: awaitingProducer: 
 - advice: awaitingProducer: next-step, relationship:mentorship:*:formed
@@ -59,7 +59,6 @@ Scenes the director staged from records, by situation type: celebration 4, funer
 - filing: awaitingProducer: filing-visit
 - layoff: awaitingProducer: job-ended-at-work
 - eviction-notice: awaitingProducer: eviction-served
-- funeral speech house-floor: composeAddress stopped: No mined register house-floor
 
 ## Facts that were stood in
 
@@ -73,22 +72,21 @@ Scenes the director staged from records, by situation type: celebration 4, funer
 
 **Liam Melendez:** Hello, Jocelyn.
 
-**Liam Melendez:** You remember Newark Charter School?
+**Liam Melendez:** Do you remember Newark Charter School?
 
 Replies:
 
-1. Of course.
-2. That was a while ago.
-3. Oh, yes.
-4. I do.
+1. Hard to believe it's been 6 years.
+2. Those were the days.
+3. I do.
 
-**Jocelyn Fisher:** Of course.
+**Jocelyn Fisher:** Hard to believe it's been 6 years.
 
-**Liam Melendez:** Oh.
+**Liam Melendez:** Interesting.
 
-**Liam Melendez:** Bye now.
+**Liam Melendez:** Talk to you soon.
 
-<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-name]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/brief/conversation/glad/2w1s [conversation.shared-school-answer-plain.of-course]; L6 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-a-while-ago]; L7 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L8 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L9 t98 speaker/shared-school/conversation/glad/2w1s [conversation.shared-school-answer-plain.of-course]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.home-reply-answer-brief.oh]; L11 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.bye-now]</sub>
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-name]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.those-were-the-days]; L7 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L8 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L9 t98 speaker/ack/conversation/glad/1w1s [conversation.ack-reply-right.interesting]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
 
 ## Item 1: reunion (arrival, ends in personal), profile cold
 
@@ -98,7 +96,7 @@ Replies:
 
 **Liam Melendez:** Hey.
 
-**Liam Melendez:** Remember Newark Charter School?
+**Liam Melendez:** You remember Newark Charter School?
 
 Replies:
 
@@ -108,13 +106,38 @@ Replies:
 
 **Jocelyn Fisher:** That was a while ago.
 
-**Liam Melendez:** Got it.
+**Liam Melendez:** Interesting.
 
-**Liam Melendez:** Bye now.
+**Liam Melendez:** I've got to run.
 
-<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hey]; L4 t0 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-ask-remember.remember-school]; L5 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-a-while-ago]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.school-yes]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-a-while-ago]; L9 t98 speaker/ack/conversation/glad/2w1s [conversation.ack-reply-right.got-it]; L10 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.bye-now]</sub>
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hey]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-a-while-ago]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.school-yes]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-a-while-ago]; L9 t98 speaker/ack/conversation/glad/1w1s [conversation.ack-reply-right.interesting]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.ive-got-to-run]</sub>
 
-## Item 2: reunion (arrival, ends in personal), profile boastful
+## Item 2: reunion (arrival, ends in personal), profile anxious
+
+*Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi, Jocelyn.
+
+**Liam Melendez:** Remember Newark Charter School?
+
+Replies:
+
+1. That was a long time ago.
+2. I'll never forget it.
+3. I do remember.
+4. Yeah. That takes me back.
+
+**Jocelyn Fisher:** That was a long time ago.
+
+**Liam Melendez:** All right.
+
+**Liam Melendez:** I'll talk to you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-name]; L4 t0 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-ask-remember.remember-school]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.ill-never-forget-it]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L10 t98 speaker/ack/conversation/glad/2w1s [conversation.greet-answer-fine.all-right]; L11 t98 speaker/farewell/conversation/glad/5w1s [conversation.farewell-leave-bye.ill-talk-to-you-later]</sub>
+
+## Item 3: reunion (arrival, ends in personal), profile boastful
 
 *Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e.*
 
@@ -122,23 +145,23 @@ Replies:
 
 **Liam Melendez:** Hello there.
 
-**Liam Melendez:** You remember Newark Charter School?
+**Liam Melendez:** Do you remember Newark Charter School?
 
 Replies:
 
-1. That was a long time ago.
-2. Oh, yes.
+1. Feels like forever ago.
+2. I remember that.
 3. Yes, I do.
 
-**Jocelyn Fisher:** That was a long time ago.
+**Jocelyn Fisher:** Feels like forever ago.
 
-**Liam Melendez:** Oh.
+**Liam Melendez:** Huh. I didn't know that.
 
-**Liam Melendez:** See you.
+**Liam Melendez:** Bye now.
 
-<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-there]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L9 t98 speaker/ack/conversation/glad/1w1s [conversation.home-reply-answer-brief.oh]; L10 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.see-you]</sub>
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-there]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-answer-years.feels-like-forever-ago]; L6 t0 reply/plain/conversation/glad/3w1s [conversation.shared-school-answer-plain.i-remember-that]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-answer-years.feels-like-forever-ago]; L9 t98 speaker/ack/conversation/glad/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L10 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.bye-now]</sub>
 
-## Item 3: funeral (loss, ends in personal), profile warm
+## Item 4: funeral (loss, ends in personal), profile warm
 
 *Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:head:0, person:press:outlet:online:0:national:owner:0.*
 
@@ -148,13 +171,2522 @@ Replies:
 
 <sub>L1 t0 narrator/narrate/scene-words/grieving/4w1s [scene-words.cause-feeling:event:life.death-other.other-has-died]; L2 t99 journal/tell/journal/grieving/3w1s [journal.death-line-died.other-died]</sub>
 
-## Item 4: news-arrives (news-received, ends in personal), profile warm
+## Item 5: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+
+> You are in Brookside. Liam Melendez is with you.
+
+**Liam Melendez:** Hello, Lauren.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. Hard to believe it's been 6 years.
+2. Newark Charter School, yes.
+3. Yes, I do.
+4. Yeah. That takes me back.
+
+**Lauren Villanueva:** Hard to believe it's been 6 years.
+
+**Liam Melendez:** Got it.
+
+**Liam Melendez:** Don't be a stranger.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-name]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.school-yes]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L10 t98 speaker/ack/conversation/glad/2w1s [conversation.ack-reply-right.got-it]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.don-t-be-a-stranger]</sub>
+
+## Item 6: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hello there.
+
+**Liam Melendez:** You remember Newark Charter School?
+
+Replies:
+
+1. Hard to believe it's been 6 years.
+2. Of course.
+3. Yes, I do.
+
+**Lauren Villanueva:** Hard to believe it's been 6 years.
+
+**Liam Melendez:** Okay.
+
+**Liam Melendez:** I have to go.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-there]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.of-course]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L9 t98 speaker/ack/conversation/glad/1w1s [conversation.greet-answer-fine.okay]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.i-have-to-go]</sub>
+
+## Item 7: reunion (arrival, ends in personal), profile stubborn
+
+*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi there.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. That was 6 years ago.
+2. I remember.
+3. I do remember.
+
+**Lauren Villanueva:** That was 6 years ago.
+
+**Liam Melendez:** Got it.
+
+**Liam Melendez:** I've got to go.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-there]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.i-remember]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t98 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L9 t98 speaker/ack/conversation/glad/2w1s [conversation.ack-reply-right.got-it]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.ive-got-to-go]</sub>
+
+## Item 8: reunion (arrival, ends in personal), profile anxious
+
+*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi there.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. Feels like forever ago.
+2. Yes, I do.
+3. How could I forget Newark Charter School?
+
+**Lauren Villanueva:** Feels like forever ago.
+
+**Liam Melendez:** Uh-huh.
+
+**Liam Melendez:** Have a nice day.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-there]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-answer-years.feels-like-forever-ago]; L6 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L7 t0 reply/plain/conversation/glad/7w1s [conversation.shared-school-answer-plain.how-could-i-forget-school]; L8 t98 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-answer-years.feels-like-forever-ago]; L9 t98 speaker/ack/conversation/glad/1w1s [conversation.ack-reply-right.uh-huh]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.have-a-nice-day]</sub>
+
+## Item 9: reunion (arrival, ends in personal), profile boastful
+
+*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hey, Lauren.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. How could I forget Newark Charter School?
+2. Of course. How could I forget?
+3. Feels like forever ago.
+4. I do remember.
+
+**Lauren Villanueva:** How could I forget Newark Charter School?
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** I'll see you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hey-name]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/plain/conversation/glad/7w1s [conversation.shared-school-answer-plain.how-could-i-forget-school]; L6 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L7 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-answer-years.feels-like-forever-ago]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L9 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-plain.how-could-i-forget-school]; L10 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L11 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-bye.ill-see-you]</sub>
+
+## Item 10: funeral (loss, ends in personal), profile warm
+
+*Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:reporter:0, person:press:outlet:online:0:national:owner:0.*
+
+> Nancy Schneider died.
+
+*Journal:* Nancy Schneider died.
+
+<sub>L1 t0 narrator/narrate/scene-words/grieving/3w1s [scene-words.cause-feeling:event:life.death-other.other-died]; L2 t99 journal/tell/journal/grieving/3w1s [journal.death-line-died.other-died]</sub>
+
+## Item 11: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e.*
+
+> You are in Brookside. Liam Melendez is with you.
+
+**Liam Melendez:** It's good to see you.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. Of course. How could I forget?
+2. Hard to believe it's been 6 years.
+3. Those were the days.
+4. I do.
+
+**John Fletcher:** Of course. How could I forget?
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** Stay in touch.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/5w1s [conversation.greet-open-hello.its-good-to-see-you]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L7 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.those-were-the-days]; L8 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L11 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-bye.stay-in-touch]</sub>
+
+## Item 12: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hey.
+
+**Liam Melendez:** Do you remember Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. That was 6 years ago.
+3. I remember.
+4. I do remember.
+
+**John Fletcher:** Of course. How could I forget?
+
+**Liam Melendez:** Oh.
+
+**Liam Melendez:** Bye now.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hey]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L7 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.i-remember]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.home-reply-answer-brief.oh]; L11 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.bye-now]</sub>
+
+## Item 13: reunion (arrival, ends in personal), profile stubborn
+
+*Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** It's nice to see you.
+
+**Liam Melendez:** You remember Newark Charter School?
+
+Replies:
+
+1. That was 6 years ago.
+2. Of course.
+3. I do.
+4. Yeah. That takes me back.
+
+**John Fletcher:** That was 6 years ago.
+
+**Liam Melendez:** All right.
+
+**Liam Melendez:** I should let you go.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/5w1s [conversation.greet-open-hello.its-nice-to-see-you]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.of-course]; L7 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L10 t98 speaker/ack/conversation/glad/2w1s [conversation.greet-answer-fine.all-right]; L11 t98 speaker/farewell/conversation/glad/5w1s [conversation.farewell-leave-bye.i-should-let-you-go]</sub>
+
+## Item 14: reunion (arrival, ends in personal), profile anxious
+
+*Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hello, John.
+
+**Liam Melendez:** Do you remember Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. That was a while ago.
+3. Oh, yes.
+4. I do remember.
+
+**John Fletcher:** Of course. How could I forget?
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** Have a nice day.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-name]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-a-while-ago]; L7 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.have-a-nice-day]</sub>
+
+## Item 15: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_02140118cffd720f, person_02140018cffd705c.*
+
+> You're home in New Castle County. Your sister is there. Your sister wants to talk to you.
+
+**Abigail Alexander:** Good to see you, Wesley.
+
+**Abigail Alexander:** Tell Wyatt I said hello.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t98 speaker/greet/conversation/proud/5w1s [conversation.greet-open-hello.good-to-see-you-name]; L5 t98 speaker/farewell/conversation/proud/5w1s [conversation.farewell-leave-bye.tell-name-i-said-hello]</sub>
+
+## Item 16: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_02140118cffd720f, person_02140018cffd705c.*
+
+*The same scene as above, with this profile's talk.*
+
+**Abigail Alexander:** Good to see you, Wesley.
+
+**Abigail Alexander:** I need to go.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t98 speaker/greet/conversation/proud/5w1s [conversation.greet-open-hello.good-to-see-you-name]; L5 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.i-need-to-go]</sub>
+
+## Item 17: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e.*
+
+> You're outside. Liam Melendez is with you.
+
+**Liam Melendez:** Hi, Wyatt.
+
+**Liam Melendez:** Remember Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. That was years ago.
+3. Oh, yes.
+4. Yes, I do.
+
+**Wyatt Alexander:** Of course. How could I forget?
+
+**Liam Melendez:** I see.
+
+**Liam Melendez:** Have a nice day.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-name]; L4 t0 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-ask-remember.remember-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L7 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.i-see]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.have-a-nice-day]</sub>
+
+## Item 18: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi there.
+
+**Liam Melendez:** Do you remember Newark Charter School?
+
+Replies:
+
+1. That was a long time ago.
+2. I remember.
+3. I do remember.
+
+**Wyatt Alexander:** That was a long time ago.
+
+**Liam Melendez:** Good to know.
+
+**Liam Melendez:** I'll see you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-there]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.i-remember]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L9 t98 speaker/ack/conversation/glad/3w1s [conversation.ack-reply-right.good-to-know]; L10 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-bye.ill-see-you]</sub>
+
+## Item 19: reunion (arrival, ends in personal), profile stubborn
+
+*Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hello there.
+
+**Liam Melendez:** Do you ever think about Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. Hard to believe it's been 6 years.
+3. I remember that.
+4. Yes, I do.
+
+**Wyatt Alexander:** Of course. How could I forget?
+
+**Liam Melendez:** Uh-huh.
+
+**Liam Melendez:** I'll see you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-there]; L4 t0 speaker/shared-school/conversation/glad/8w1s [conversation.shared-school-ask-remember.do-you-ever-think-about-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L7 t0 reply/plain/conversation/glad/3w1s [conversation.shared-school-answer-plain.i-remember-that]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.ack-reply-right.uh-huh]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.ill-see-you-later]</sub>
+
+## Item 20: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c.*
+
+> You're home in New Castle County. Your sister is here. Your sister wants to talk to you.
+
+**Abigail Alexander:** Nice to see you.
+
+**Abigail Alexander:** Have you talked to Wesley?
+
+Replies:
+
+1. How about you?
+2. I talked to Wesley today.
+3. Not in a while.
+4. Nope. Not in a while.
+
+**Wyatt Alexander:** How about you?
+
+**Abigail Alexander:** I'll remember that.
+
+**Abigail Alexander:** How's Wesley?
+
+Replies:
+
+1. He's good. You should come by and see him.
+2. Thanks for asking. I'll tell Wesley you asked.
+
+**Wyatt Alexander:** He's good. You should come by and see him.
+
+**Abigail Alexander:** Fair enough.
+
+**Abigail Alexander:** It was good running into you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/4w1s [conversation.greet-open-hello.nice-to-see-you]; L5 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L6 t0 reply/turn/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L7 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L8 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L9 t0 reply/brief/conversation/glad/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L10 t1 speaker/asked-mutual/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L11 t1 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L12 t1 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L13 t1 reply/well/conversation/glad/9w2s [conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him]; L14 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L15 t98 speaker/family/conversation/glad/9w2s [conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him]; L16 t98 speaker/ack/conversation/proud/2w1s [conversation.ack-reply-right.fair-enough]; L17 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-bye.it-was-good-running-into-you]</sub>
+
+## Item 21: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c.*
+
+*The same scene as above, with this profile's talk.*
+
+**Abigail Alexander:** Hey.
+
+**Abigail Alexander:** Have you seen Wesley?
+
+Replies:
+
+1. I saw Wesley today.
+2. Not in a while.
+3. Nope. Not in a while.
+
+**Wyatt Alexander:** I saw Wesley today.
+
+**Abigail Alexander:** Good to know.
+
+**Abigail Alexander:** How's Wesley doing?
+
+Replies:
+
+1. Doing well. I'll let Wesley know I ran into you.
+2. Thank you for asking. I'll let Wesley know.
+
+**Wyatt Alexander:** Doing well. I'll let Wesley know I ran into you.
+
+**Abigail Alexander:** Fair enough.
+
+**Abigail Alexander:** Bye now.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/1w1s [conversation.greet-open-hello.hey]; L5 t0 speaker/asked-mutual/conversation/proud/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L6 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L7 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L10 t1 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.good-to-know]; L11 t1 speaker/family/conversation/proud/3w1s [conversation.mutual-raise-seen.hows-name-doing]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L15 t98 speaker/ack/conversation/proud/2w1s [conversation.ack-reply-right.fair-enough]; L16 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.bye-now]</sub>
+
+## Item 22: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c.*
+
+*The same scene as above, with this profile's talk.*
+
+**Abigail Alexander:** It's good to see you.
+
+**Abigail Alexander:** Have you talked to Wesley?
+
+Replies:
+
+1. Have you?
+2. I talked to Wesley today.
+3. Not in a while.
+4. Nope. Not in a while.
+
+**Wyatt Alexander:** Have you?
+
+**Abigail Alexander:** All right.
+
+**Abigail Alexander:** How is your brother?
+
+Replies:
+
+1. Doing well. I'll let Wesley know I ran into you.
+2. Thanks for asking. I'll tell Wesley you asked.
+
+**Wyatt Alexander:** Doing well. I'll let Wesley know I ran into you.
+
+**Abigail Alexander:** Interesting.
+
+**Abigail Alexander:** Take care.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/5w1s [conversation.greet-open-hello.its-good-to-see-you]; L5 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L6 t0 reply/turn/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L7 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L8 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L9 t0 reply/brief/conversation/glad/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L10 t1 speaker/asked-mutual/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L11 t1 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L12 t1 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L13 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L14 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L15 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L16 t98 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.interesting]; L17 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.take-care]</sub>
+
+## Item 23: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e.*
+
+> You're in Brookside. Liam Melendez is here too.
+
+**Liam Melendez:** Hello, Parker.
+
+**Liam Melendez:** Do you ever think about Newark Charter School?
+
+Replies:
+
+1. Hard to believe it's been 6 years.
+2. Yes, I remember.
+3. I do.
+4. Yeah. That takes me back.
+
+**Parker Bryant:** Hard to believe it's been 6 years.
+
+**Liam Melendez:** Huh. I didn't know that.
+
+**Liam Melendez:** Take care.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/3w1s [scene-words.setting-public-out.youre-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-name]; L4 t0 speaker/shared-school/conversation/glad/8w1s [conversation.shared-school-ask-remember.do-you-ever-think-about-school]; L5 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L6 t0 reply/plain/conversation/glad/3w1s [conversation.shared-school-answer-plain.yes-i-remember]; L7 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L10 t98 speaker/ack/conversation/glad/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L11 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.take-care]</sub>
+
+## Item 24: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hey.
+
+**Liam Melendez:** Do you remember Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. That was a long time ago.
+3. Oh, sure.
+4. I do.
+
+**Parker Bryant:** Of course. How could I forget?
+
+**Liam Melendez:** Oh.
+
+**Liam Melendez:** I've got to run.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/3w1s [scene-words.setting-public-out.youre-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hey]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L7 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-sure]; L8 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.home-reply-answer-brief.oh]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.ive-got-to-run]</sub>
+
+## Item 25: reunion (arrival, ends in personal), profile stubborn
+
+*Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Good to see you.
+
+**Liam Melendez:** Do you ever think about Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. That was a long time ago.
+3. I'll never forget it.
+4. Yes, I do.
+
+**Parker Bryant:** Of course. How could I forget?
+
+**Liam Melendez:** Uh-huh.
+
+**Liam Melendez:** It was good running into you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/3w1s [scene-words.setting-public-out.youre-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/4w1s [conversation.greet-open-hello.good-to-see-you]; L4 t0 speaker/shared-school/conversation/glad/8w1s [conversation.shared-school-ask-remember.do-you-ever-think-about-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L7 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.ill-never-forget-it]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.ack-reply-right.uh-huh]; L11 t98 speaker/farewell/conversation/glad/6w1s [conversation.farewell-leave-bye.it-was-good-running-into-you]</sub>
+
+## Item 26: reunion (arrival, ends in personal), profile boastful
+
+*Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Nice to see you.
+
+**Liam Melendez:** Remember Newark Charter School?
+
+Replies:
+
+1. Hard to believe it's been 6 years.
+2. Oh, yes.
+3. Yes, I do.
+4. Yeah. That takes me back.
+
+**Parker Bryant:** Hard to believe it's been 6 years.
+
+**Liam Melendez:** Huh. I didn't know that.
+
+**Liam Melendez:** Have a good day.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/3w1s [scene-words.setting-public-out.youre-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/4w1s [conversation.greet-open-hello.nice-to-see-you]; L4 t0 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-ask-remember.remember-school]; L5 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L10 t98 speaker/ack/conversation/glad/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.have-a-good-day]</sub>
+
+## Item 27: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a.*
+
+> You're at home in Brookside. Your father is with you. Your father has something to tell you.
+
+**Zachary Shepard:** Have you talked to Stacy?
+
+Replies:
+
+1. Have you seen Stacy?
+2. No, I haven't. Why do you ask?
+3. I saw Stacy today.
+4. I can't remember the last time.
+
+**Chloe Shepard:** Have you seen Stacy?
+
+**Zachary Shepard:** I'll remember that.
+
+**Zachary Shepard:** How's Jeffrey doing?
+
+Replies:
+
+1. He's doing well. I'll tell him you asked.
+2. Thank you for asking. I'll let Jeffrey know.
+
+**Chloe Shepard:** He's doing well. I'll tell him you asked.
+
+**Zachary Shepard:** Yeah.
+
+**Zachary Shepard:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-first]; L5 t0 reply/turn/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L8 t0 reply/not/conversation/glad/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L9 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L10 t1 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L11 t1 speaker/family/conversation/proud/3w1s [conversation.mutual-raise-seen.hows-name-doing]; L12 t1 reply/well/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L14 t98 speaker/family/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L15 t98 speaker/ack/conversation/proud/1w1s [conversation.shared-school-answer-brief.yeah]; L16 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 28: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a.*
+
+*The same scene as above, with this profile's talk.*
+
+**Zachary Shepard:** Have you talked to Stacy?
+
+Replies:
+
+1. Have you?
+2. No, I haven't. Why do you ask?
+3. I talked to Stacy today.
+4. Not lately.
+
+**Chloe Shepard:** Have you?
+
+**Zachary Shepard:** Right.
+
+**Zachary Shepard:** How's Jeffrey doing?
+
+Replies:
+
+1. Doing well. I'll let Jeffrey know I ran into you.
+2. Thanks for asking. I'll tell Jeffrey you asked.
+
+**Chloe Shepard:** Doing well. I'll let Jeffrey know I ran into you.
+
+**Zachary Shepard:** All right.
+
+**Zachary Shepard:** We can pick this up later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L5 t0 reply/turn/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L8 t0 reply/not/conversation/glad/2w1s [conversation.asked-mutual-answer-not.not-lately]; L9 t1 speaker/asked-mutual/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L10 t1 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.right]; L11 t1 speaker/family/conversation/proud/3w1s [conversation.mutual-raise-seen.hows-name-doing]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L15 t98 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L16 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.we-can-pick-this-up-later]</sub>
+
+## Item 29: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a.*
+
+*The same scene as above, with this profile's talk.*
+
+**Zachary Shepard:** Have you heard from Stacy?
+
+Replies:
+
+1. Why?
+2. No, I haven't. Why do you ask?
+3. I saw Stacy today.
+4. Not in a while.
+
+**Chloe Shepard:** Why?
+
+**Zachary Shepard:** Huh. I didn't know that.
+
+**Zachary Shepard:** How is your brother?
+
+Replies:
+
+1. Doing well. I'll let Jeffrey know I ran into you.
+2. Thank you for asking. I'll let Jeffrey know.
+
+**Chloe Shepard:** Doing well. I'll let Jeffrey know I ran into you.
+
+**Zachary Shepard:** All right.
+
+**Zachary Shepard:** Let me know if you need anything.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-heard-from-name]; L5 t0 reply/turn/conversation/glad/1w1s [conversation.asked-mutual-answer-turn.why]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L8 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/1w1s [conversation.asked-mutual-answer-turn.why]; L10 t1 speaker/ack/conversation/proud/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L11 t1 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L15 t98 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L16 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.let-me-know-if-you-need-anything]</sub>
+
+## Item 30: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a.*
+
+*The same scene as above, with this profile's talk.*
+
+**Zachary Shepard:** Have you heard from Stacy?
+
+Replies:
+
+1. How about you?
+2. No, I haven't. Why do you ask?
+3. I talked to Stacy today.
+4. Not in a while.
+
+**Chloe Shepard:** How about you?
+
+**Zachary Shepard:** All right.
+
+**Zachary Shepard:** How's your brother?
+
+Replies:
+
+1. Jeffrey is doing well. We should all get together soon.
+2. Thank you for asking. I'll let Jeffrey know.
+
+**Chloe Shepard:** Jeffrey is doing well. We should all get together soon.
+
+**Zachary Shepard:** Sure.
+
+**Zachary Shepard:** Talk to you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-heard-from-name]; L5 t0 reply/turn/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L8 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L10 t1 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L11 t1 speaker/family/conversation/proud/3w1s [conversation.family-ask-how.hows-relation]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L15 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.sure]; L16 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+
+## Item 31: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+
+> You are in Brookside. Liam Melendez is here too.
+
+**Liam Melendez:** Hello.
+
+**Liam Melendez:** You remember Newark Charter School?
+
+Replies:
+
+1. How could I forget Newark Charter School?
+2. That was a while ago.
+3. I do remember.
+4. Yeah. That takes me back.
+
+**Cora Robbins:** How could I forget Newark Charter School?
+
+**Liam Melendez:** I'll remember that.
+
+**Liam Melendez:** Take care.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hello]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/plain/conversation/glad/7w1s [conversation.shared-school-answer-plain.how-could-i-forget-school]; L6 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-a-while-ago]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-plain.how-could-i-forget-school]; L10 t98 speaker/ack/conversation/glad/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L11 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.take-care]</sub>
+
+## Item 32: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi there.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. Of course. How could I forget?
+2. That was years ago.
+3. Oh, yes.
+4. I do.
+
+**Cora Robbins:** Of course. How could I forget?
+
+**Liam Melendez:** Right.
+
+**Liam Melendez:** I have to run.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-there]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L7 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L8 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.home-reply-answer-brief.right]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.i-have-to-run]</sub>
+
+## Item 33: reunion (arrival, ends in personal), profile stubborn
+
+*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hey.
+
+**Liam Melendez:** Remember Newark Charter School?
+
+Replies:
+
+1. That was a long time ago.
+2. I remember that.
+3. I do remember.
+4. Yeah. That takes me back.
+
+**Cora Robbins:** That was a long time ago.
+
+**Liam Melendez:** Interesting.
+
+**Liam Melendez:** I have to run.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hey]; L4 t0 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-ask-remember.remember-school]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/plain/conversation/glad/3w1s [conversation.shared-school-answer-plain.i-remember-that]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.ack-reply-right.interesting]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.i-have-to-run]</sub>
+
+## Item 34: reunion (arrival, ends in personal), profile anxious
+
+*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hello there.
+
+**Liam Melendez:** You remember Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. That was years ago.
+3. I remember.
+4. I do remember.
+
+**Cora Robbins:** Of course. How could I forget?
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** See you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hello-there]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L7 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.i-remember]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L11 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.see-you]</sub>
+
+## Item 35: reunion (arrival, ends in personal), profile boastful
+
+*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** It's good to see you.
+
+**Liam Melendez:** You remember Newark Charter School?
+
+Replies:
+
+1. That was a long time ago.
+2. I'll never forget it.
+3. Yes, I do.
+4. Yeah. That takes me back.
+
+**Cora Robbins:** That was a long time ago.
+
+**Liam Melendez:** Okay.
+
+**Liam Melendez:** Don't be a stranger.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/5w1s [conversation.greet-open-hello.its-good-to-see-you]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.ill-never-forget-it]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.greet-answer-fine.okay]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.don-t-be-a-stranger]</sub>
+
+## Item 36: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d41289db77e7, person_b6f0d51289db799a.*
+
+> You're home in Brookside. Your father is there. Your father wants to talk to you.
+
+**Zachary Shepard:** Have you talked to Stacy?
+
+Replies:
+
+1. Have you seen Stacy?
+2. No, I haven't. Why do you ask?
+3. I saw Stacy today.
+4. Not in a while.
+
+**Jeffrey Shepard:** Have you seen Stacy?
+
+**Zachary Shepard:** I'll remember that.
+
+**Zachary Shepard:** How's Chloe?
+
+Replies:
+
+1. Chloe is doing well. We should all get together soon.
+2. Thanks for asking. I'll tell Chloe you asked.
+
+**Jeffrey Shepard:** Chloe is doing well. We should all get together soon.
+
+**Zachary Shepard:** Good to know.
+
+**Zachary Shepard:** I'll talk to you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L5 t0 reply/turn/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L8 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L10 t1 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L11 t1 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L15 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.good-to-know]; L16 t98 speaker/farewell/conversation/proud/5w1s [conversation.farewell-leave-bye.ill-talk-to-you-later]</sub>
+
+## Item 37: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d41289db77e7, person_b6f0d51289db799a.*
+
+*The same scene as above, with this profile's talk.*
+
+**Zachary Shepard:** Have you talked to Stacy?
+
+Replies:
+
+1. I talked to Stacy today.
+2. I can't remember the last time.
+3. Nope. Not in a while.
+
+**Jeffrey Shepard:** I talked to Stacy today.
+
+**Zachary Shepard:** Well, good for you.
+
+**Zachary Shepard:** How is your sister?
+
+Replies:
+
+1. Doing well. I'll let Chloe know I ran into you.
+2. Thanks for asking. I'll tell Chloe you asked.
+
+**Jeffrey Shepard:** Doing well. I'll let Chloe know I ran into you.
+
+**Zachary Shepard:** Good to know.
+
+**Zachary Shepard:** I'll let you get back to it.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-first]; L5 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L6 t0 reply/not/conversation/glad/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L8 t1 speaker/asked-mutual/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L9 t1 speaker/ack/conversation/proud/4w1s [conversation.ack-reply-right.well-good-for-you]; L10 t1 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L11 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L12 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L13 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L14 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.good-to-know]; L15 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.i-ll-let-you-get-back-to-it]</sub>
+
+## Item 38: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e.*
+
+> You're outside. Liam Melendez is here too.
+
+**Liam Melendez:** Hi.
+
+**Liam Melendez:** Do you ever think about Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. Feels like forever ago.
+3. Oh, yes.
+4. Yes, I do.
+
+**Olivia Keller:** Of course. How could I forget?
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** Have a nice day.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hi]; L4 t0 speaker/shared-school/conversation/glad/8w1s [conversation.shared-school-ask-remember.do-you-ever-think-about-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-answer-years.feels-like-forever-ago]; L7 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.have-a-nice-day]</sub>
+
+## Item 39: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hey.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. That was years ago.
+2. Oh, yes.
+3. I do remember.
+4. Yeah. That takes me back.
+
+**Olivia Keller:** That was years ago.
+
+**Liam Melendez:** Huh.
+
+**Liam Melendez:** I've got to run.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hey]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L10 t98 speaker/ack/conversation/glad/1w1s [conversation.mutual-answer-brief.huh]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.ive-got-to-run]</sub>
+
+## Item 40: reunion (arrival, ends in personal), profile boastful
+
+*Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi.
+
+**Liam Melendez:** Do you remember Newark Charter School?
+
+Replies:
+
+1. Of course. How could I forget?
+2. That was years ago.
+3. I remember that.
+4. Yes, I do.
+
+**Olivia Keller:** Of course. How could I forget?
+
+**Liam Melendez:** I'll remember that.
+
+**Liam Melendez:** See you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hi]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/brief/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L6 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L7 t0 reply/plain/conversation/glad/3w1s [conversation.shared-school-answer-plain.i-remember-that]; L8 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L9 t98 speaker/shared-school/conversation/glad/6w2s [conversation.shared-school-answer-brief.of-course-how-could-i-forget]; L10 t98 speaker/ack/conversation/glad/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L11 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-bye.see-you-soon]</sub>
+
+## Item 41: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d61289db7b4d, person_b6f0d51289db799a.*
+
+> You're at home in Brookside. Your partner is with you. Your partner has something to tell you.
+
+**Zachary Shepard:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 42: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e.*
+
+> You're outside. Liam Melendez is here too.
+
+**Liam Melendez:** Hi, Amanda.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. Hard to believe it's been 6 years.
+2. I'll never forget it.
+3. Yes, I do.
+4. Yeah. That takes me back.
+
+**Amanda Nixon:** Hard to believe it's been 6 years.
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** Good to see you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-name]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.ill-never-forget-it]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L10 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.greet-open-hello.good-to-see-you]</sub>
+
+## Item 43: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi.
+
+**Liam Melendez:** Remember Newark Charter School?
+
+Replies:
+
+1. That was years ago.
+2. I'll never forget it.
+3. I do.
+
+**Amanda Nixon:** That was years ago.
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** I have to go.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hi]; L4 t0 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-ask-remember.remember-school]; L5 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.ill-never-forget-it]; L7 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L8 t98 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L9 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.i-have-to-go]</sub>
+
+## Item 44: reunion (arrival, ends in personal), profile anxious
+
+*Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Good to see you.
+
+**Liam Melendez:** Do you ever think about Newark Charter School?
+
+Replies:
+
+1. That was years ago.
+2. Oh, yes.
+3. Yes, I do.
+4. Yeah. That takes me back.
+
+**Amanda Nixon:** That was years ago.
+
+**Liam Melendez:** That makes sense.
+
+**Liam Melendez:** I have to go.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/4w1s [conversation.greet-open-hello.good-to-see-you]; L4 t0 speaker/shared-school/conversation/glad/8w1s [conversation.shared-school-ask-remember.do-you-ever-think-about-school]; L5 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L10 t98 speaker/ack/conversation/glad/3w1s [conversation.ack-reply-right.that-makes-sense]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.i-have-to-go]</sub>
+
+## Item 45: reunion (arrival, ends in personal), profile boastful
+
+*Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi.
+
+**Liam Melendez:** Remember Newark Charter School?
+
+Replies:
+
+1. Hard to believe it's been 6 years.
+2. I'll never forget it.
+3. I do remember.
+4. Yeah. That takes me back.
+
+**Amanda Nixon:** Hard to believe it's been 6 years.
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** Say hi to Megan.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hi]; L4 t0 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-ask-remember.remember-school]; L5 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L6 t0 reply/plain/conversation/glad/4w1s [conversation.shared-school-answer-plain.ill-never-forget-it]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L10 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.say-hi-to-name]</sub>
+
+## Item 46: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:2:person_bc041df6bd9d1a47. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47.*
+
+> You're home in Brookside. Your mother is here. Your mother wants to talk to you.
+
+**Alicia Keller:** We can pick this up later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.we-can-pick-this-up-later]</sub>
+
+## Item 47: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+
+> You're in Brookside. Liam Melendez is here too.
+
+**Liam Melendez:** Hey, Bentley.
+
+**Liam Melendez:** You remember Newark Charter School?
+
+Replies:
+
+1. That was years ago.
+2. I remember.
+3. Yes, I do.
+4. Yeah. That takes me back.
+
+**Bentley Rivas:** That was years ago.
+
+**Liam Melendez:** All right.
+
+**Liam Melendez:** Goodbye.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/3w1s [scene-words.setting-public-out.youre-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hey-name]; L4 t0 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.i-remember]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L10 t98 speaker/ack/conversation/glad/2w1s [conversation.greet-answer-fine.all-right]; L11 t98 speaker/farewell/conversation/glad/1w1s [conversation.farewell-leave-bye.goodbye]</sub>
+
+## Item 48: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hey, Bentley.
+
+**Liam Melendez:** Do you remember Newark Charter School?
+
+Replies:
+
+1. That was a long time ago.
+2. Of course.
+3. Yes, I do.
+
+**Bentley Rivas:** That was a long time ago.
+
+**Liam Melendez:** Got it.
+
+**Liam Melendez:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/3w1s [scene-words.setting-public-out.youre-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hey-name]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.of-course]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L9 t98 speaker/ack/conversation/glad/2w1s [conversation.ack-reply-right.got-it]; L10 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 49: reunion (arrival, ends in personal), profile stubborn
+
+*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi, Bentley.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. That was years ago.
+2. Oh, yes.
+3. Yes, I do.
+
+**Bentley Rivas:** That was years ago.
+
+**Liam Melendez:** Well, good for you.
+
+**Liam Melendez:** I need to go.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/3w1s [scene-words.setting-public-out.youre-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-name]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-yes]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L9 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.i-need-to-go]</sub>
+
+## Item 50: reunion (arrival, ends in personal), profile boastful
+
+*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Liam Melendez:** Hi, Bentley.
+
+**Liam Melendez:** We were at Newark Charter School together, weren't we?
+
+Replies:
+
+1. That was a long time ago.
+2. I remember.
+3. Yes, I do.
+
+**Bentley Rivas:** That was a long time ago.
+
+**Liam Melendez:** Okay.
+
+**Liam Melendez:** Goodbye.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/3w1s [scene-words.setting-public-out.youre-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-name]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.i-remember]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L9 t98 speaker/ack/conversation/glad/1w1s [conversation.greet-answer-fine.okay]; L10 t98 speaker/farewell/conversation/glad/1w1s [conversation.farewell-leave-bye.goodbye]</sub>
+
+## Item 51: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2.*
+
+> You're at home in Brookside. Your father is here too. Your father has something to tell you.
+
+**Nicholas Rivas:** Have you heard from Latoya?
+
+Replies:
+
+1. How about you?
+2. No, I haven't. Why do you ask?
+3. I talked to Latoya today.
+4. I can't remember the last time.
+
+**Bentley Rivas:** How about you?
+
+**Nicholas Rivas:** That makes sense.
+
+**Nicholas Rivas:** How's Joy?
+
+Replies:
+
+1. Joy is doing well. We should all get together soon.
+2. Thanks for asking. I'll tell Joy you asked.
+
+**Bentley Rivas:** Joy is doing well. We should all get together soon.
+
+**Nicholas Rivas:** Good to know.
+
+**Nicholas Rivas:** Talk to you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-heard-from-name]; L5 t0 reply/turn/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L8 t0 reply/not/conversation/glad/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L9 t1 speaker/asked-mutual/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L10 t1 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.that-makes-sense]; L11 t1 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L15 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.good-to-know]; L16 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+
+## Item 52: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Rivas:** Have you talked to Latoya?
+
+Replies:
+
+1. I talked to Latoya today.
+2. I can't remember the last time.
+3. How about you?
+
+**Bentley Rivas:** I talked to Latoya today.
+
+**Nicholas Rivas:** I see.
+
+**Nicholas Rivas:** How's Joy?
+
+Replies:
+
+1. She's doing well. I'll tell her you asked.
+2. Thank you for asking. I'll let Joy know.
+
+**Bentley Rivas:** She's doing well. I'll tell her you asked.
+
+**Nicholas Rivas:** Got it.
+
+**Nicholas Rivas:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L5 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L6 t0 reply/not/conversation/glad/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L8 t1 speaker/asked-mutual/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L9 t1 speaker/ack/conversation/proud/2w1s [conversation.other-work-answer-ack.i-see]; L10 t1 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L11 t1 reply/well/conversation/glad/8w2s [conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked]; L12 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L13 t98 speaker/family/conversation/glad/8w2s [conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked]; L14 t98 speaker/ack/conversation/proud/2w1s [conversation.ack-reply-right.got-it]; L15 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 53: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Rivas:** Have you talked to Latoya?
+
+Replies:
+
+1. I talked to Latoya today.
+2. Not lately.
+3. Why?
+
+**Bentley Rivas:** I talked to Latoya today.
+
+**Nicholas Rivas:** Uh-huh.
+
+**Nicholas Rivas:** How's Joy doing?
+
+Replies:
+
+1. Doing well. I'll let Joy know I ran into you.
+2. Thanks for asking. I'll tell Joy you asked.
+
+**Bentley Rivas:** Doing well. I'll let Joy know I ran into you.
+
+**Nicholas Rivas:** Right.
+
+**Nicholas Rivas:** I'll talk to you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-first]; L5 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L6 t0 reply/not/conversation/glad/2w1s [conversation.asked-mutual-answer-not.not-lately]; L7 t0 reply/turn/conversation/glad/1w1s [conversation.asked-mutual-answer-turn.why]; L8 t1 speaker/asked-mutual/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L9 t1 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.uh-huh]; L10 t1 speaker/family/conversation/proud/3w1s [conversation.mutual-raise-seen.hows-name-doing]; L11 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L12 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L13 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L14 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.right]; L15 t98 speaker/farewell/conversation/proud/5w1s [conversation.farewell-leave-bye.ill-talk-to-you-later]</sub>
+
+## Item 54: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Rivas:** Have you talked to Latoya?
+
+Replies:
+
+1. I saw Latoya today.
+2. Not in a while.
+3. Why do you ask?
+
+**Bentley Rivas:** I saw Latoya today.
+
+**Nicholas Rivas:** Good to know.
+
+**Nicholas Rivas:** How is your sister?
+
+Replies:
+
+1. Doing well. I'll let Joy know I ran into you.
+2. Thank you for asking. I'll let Joy know.
+
+**Bentley Rivas:** Doing well. I'll let Joy know I ran into you.
+
+**Nicholas Rivas:** Can't argue with that.
+
+**Nicholas Rivas:** See you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L5 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L6 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L7 t0 reply/turn/conversation/glad/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L8 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L9 t1 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.good-to-know]; L10 t1 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L11 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L12 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L13 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L14 t98 speaker/ack/conversation/proud/4w1s [conversation.ack-reply-right.can-t-argue-with-that]; L15 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.see-you-later]</sub>
+
+## Item 55: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5.*
+
+> You're home in Brookside. Your mother is there. Your mother wants to talk to you.
+
+**Alicia McCarthy:** Can I tell you something?
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. Really?
+2. That's not fair.
+
+**Nora McCarthy:** Really?
+
+**Alicia McCarthy:** That makes sense.
+
+**Alicia McCarthy:** I'll see you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/5w1s [conversation.family-open-open.can-i-tell-you-something]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L7 t0 reply/comfort/conversation/braced/3w1s [conversation.job-cause-reply-answer-comfort.thats-not-fair]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L9 t98 speaker/ack/conversation/solemn/3w1s [conversation.ack-reply-right.that-makes-sense]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.ill-see-you-later]</sub>
+
+## Item 56: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5.*
+
+*The same scene as above, with this profile's talk.*
+
+**Alicia McCarthy:** Can I tell you something?
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. Wow.
+2. That's not fair.
+
+**Nora McCarthy:** Wow.
+
+**Alicia McCarthy:** Huh.
+
+**Alicia McCarthy:** Talk to you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/5w1s [conversation.family-open-open.can-i-tell-you-something]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L7 t0 reply/comfort/conversation/braced/3w1s [conversation.job-cause-reply-answer-comfort.thats-not-fair]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L9 t98 speaker/ack/conversation/solemn/1w1s [conversation.mutual-answer-brief.huh]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+
+## Item 57: news-arrives (news-received, ends in personal), profile anxious
+
+*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5.*
+
+*The same scene as above, with this profile's talk.*
+
+**Alicia McCarthy:** We need to talk.
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. I'm sorry.
+2. I see.
+
+**Nora McCarthy:** I'm sorry.
+
+**Alicia McCarthy:** Oh.
+
+**Alicia McCarthy:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.we-need-to-talk]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/comfort/conversation/braced/2w1s [conversation.other-work-answer-ack-none.im-sorry]; L7 t0 reply/ack:right.conversation.other-work-answer-ack.i-see/conversation/braced/2w1s [conversation.other-work-answer-ack.i-see]; L8 t98 speaker/eviction-reply/conversation/braced/2w1s [conversation.other-work-answer-ack-none.im-sorry]; L9 t98 speaker/ack/conversation/solemn/1w1s [conversation.home-reply-answer-brief.oh]; L10 t98 speaker/farewell/conversation/solemn/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 58: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11f75ee46ab6c, person_d3c12175ee46aed2.*
+
+> You're at home in Brookside. Your father is with you. Your father has something to tell you.
+
+**Nicholas Rivas:** Have you seen Latoya?
+
+Replies:
+
+1. Why do you ask?
+2. I saw Latoya today.
+3. Not lately.
+4. Nope. Not in a while.
+
+**Joy Rivas:** Why do you ask?
+
+**Nicholas Rivas:** All right.
+
+**Nicholas Rivas:** How's Bentley?
+
+Replies:
+
+1. He's doing well. I'll tell him you asked.
+2. Thanks for asking. I'll tell Bentley you asked.
+
+**Joy Rivas:** He's doing well. I'll tell him you asked.
+
+**Nicholas Rivas:** That makes sense.
+
+**Nicholas Rivas:** I'll see you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/asked-mutual/conversation/proud/4w1s [conversation.mutual-raise-seen.have-you-seen-first]; L5 t0 reply/turn/conversation/glad/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L6 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L7 t0 reply/not/conversation/glad/2w1s [conversation.asked-mutual-answer-not.not-lately]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L10 t1 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L11 t1 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L12 t1 reply/well/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L14 t98 speaker/family/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L15 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.that-makes-sense]; L16 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.ill-see-you-later]</sub>
+
+## Item 59: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8ff45e5d15f2, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be90f45e5d17a5.*
+
+> You're home in Brookside. Your mother is here. Your mother wants to talk to you.
+
+**Alicia McCarthy:** Let's talk.
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. Wow.
+2. I'm sorry.
+
+**Liam McCarthy:** Wow.
+
+**Alicia McCarthy:** Uh-huh.
+
+**Alicia McCarthy:** See you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.lets-talk]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.other-work-answer-ack-none.im-sorry]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L9 t98 speaker/ack/conversation/solemn/1w1s [conversation.ack-reply-right.uh-huh]; L10 t98 speaker/farewell/conversation/solemn/3w1s [conversation.farewell-leave-bye.see-you-later]</sub>
+
+## Item 60: news-arrives (news-received, ends in personal), profile boastful
+
+*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8ff45e5d15f2, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be90f45e5d17a5.*
+
+*The same scene as above, with this profile's talk.*
+
+**Alicia McCarthy:** Can we talk?
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. Wow.
+2. That's terrible.
+
+**Liam McCarthy:** Wow.
+
+**Alicia McCarthy:** Uh-huh.
+
+**Alicia McCarthy:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/3w1s [conversation.family-open-open.can-we-talk]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.thats-terrible]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L9 t98 speaker/ack/conversation/solemn/1w1s [conversation.ack-reply-right.uh-huh]; L10 t98 speaker/farewell/conversation/solemn/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 61: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+
+> You're home in Brookside. Your father is here. Your father wants to talk to you.
+
+**Nicholas Rivas:** Have you seen Latoya?
+
+Replies:
+
+1. Have you?
+2. No, I haven't. Why do you ask?
+3. I saw Latoya today.
+4. Not lately.
+
+**Rebekah Rivas:** Have you?
+
+**Nicholas Rivas:** That makes sense.
+
+**Nicholas Rivas:** How is your brother?
+
+Replies:
+
+1. Bentley is doing well. We should all get together soon.
+2. Thanks for asking. I'll tell Bentley you asked.
+
+**Rebekah Rivas:** Bentley is doing well. We should all get together soon.
+
+**Nicholas Rivas:** All right.
+
+**Nicholas Rivas:** See you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/asked-mutual/conversation/proud/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L5 t0 reply/turn/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L8 t0 reply/not/conversation/glad/2w1s [conversation.asked-mutual-answer-not.not-lately]; L9 t1 speaker/asked-mutual/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L10 t1 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.that-makes-sense]; L11 t1 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L15 t98 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L16 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.see-you-later]</sub>
+
+## Item 62: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Rivas:** Have you talked to Latoya?
+
+Replies:
+
+1. Have you seen Latoya?
+2. I saw Latoya today.
+3. Not in a while.
+4. Nope. Not in a while.
+
+**Rebekah Rivas:** Have you seen Latoya?
+
+**Nicholas Rivas:** Right.
+
+**Nicholas Rivas:** How's Bentley?
+
+Replies:
+
+1. Doing well. I'll let Bentley know I ran into you.
+2. Thank you for asking. I'll let Bentley know.
+
+**Rebekah Rivas:** Doing well. I'll let Bentley know I ran into you.
+
+**Nicholas Rivas:** Right.
+
+**Nicholas Rivas:** I'll see you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L5 t0 reply/turn/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L6 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L7 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L10 t1 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.right]; L11 t1 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L15 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.right]; L16 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.ill-see-you-later]</sub>
+
+## Item 63: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Rivas:** Have you heard from Latoya?
+
+Replies:
+
+1. Why?
+2. No, I haven't. Why do you ask?
+3. I saw Latoya today.
+4. Not lately.
+
+**Rebekah Rivas:** Why?
+
+**Nicholas Rivas:** Sure.
+
+**Nicholas Rivas:** How's Bentley?
+
+Replies:
+
+1. Bentley is doing well. We should all get together soon.
+2. Thank you for asking. I'll let Bentley know.
+
+**Rebekah Rivas:** Bentley is doing well. We should all get together soon.
+
+**Nicholas Rivas:** Uh-huh.
+
+**Nicholas Rivas:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-heard-from-name]; L5 t0 reply/turn/conversation/glad/1w1s [conversation.asked-mutual-answer-turn.why]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L8 t0 reply/not/conversation/glad/2w1s [conversation.asked-mutual-answer-not.not-lately]; L9 t1 speaker/asked-mutual/conversation/glad/1w1s [conversation.asked-mutual-answer-turn.why]; L10 t1 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.sure]; L11 t1 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L15 t98 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.uh-huh]; L16 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 64: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Rivas:** Have you seen Latoya?
+
+Replies:
+
+1. Have you seen Latoya?
+2. I talked to Latoya today.
+3. Not in a while.
+4. Nope. Not in a while.
+
+**Rebekah Rivas:** Have you seen Latoya?
+
+**Nicholas Rivas:** Fair enough.
+
+**Nicholas Rivas:** How is your brother?
+
+Replies:
+
+1. He's good. You should come by and see him.
+2. Thanks for asking. I'll tell Bentley you asked.
+
+**Rebekah Rivas:** He's good. You should come by and see him.
+
+**Nicholas Rivas:** Oh.
+
+**Nicholas Rivas:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/asked-mutual/conversation/proud/4w1s [conversation.mutual-raise-seen.have-you-seen-first]; L5 t0 reply/turn/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L6 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L7 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L10 t1 speaker/ack/conversation/proud/2w1s [conversation.ack-reply-right.fair-enough]; L11 t1 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L12 t1 reply/well/conversation/glad/9w2s [conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L14 t98 speaker/family/conversation/glad/9w2s [conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him]; L15 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.oh]; L16 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 65: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Rivas:** Have you heard from Latoya?
+
+Replies:
+
+1. Have you?
+2. No, I haven't. Why do you ask?
+3. I talked to Latoya today.
+4. Not in a while.
+
+**Rebekah Rivas:** Have you?
+
+**Nicholas Rivas:** Good to know.
+
+**Nicholas Rivas:** How's Bentley doing?
+
+Replies:
+
+1. He's good. You should come by and see him.
+2. Thank you for asking. I'll let Bentley know.
+
+**Rebekah Rivas:** He's good. You should come by and see him.
+
+**Nicholas Rivas:** Oh.
+
+**Nicholas Rivas:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-heard-from-name]; L5 t0 reply/turn/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L6 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L7 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L8 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L10 t1 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.good-to-know]; L11 t1 speaker/family/conversation/proud/3w1s [conversation.mutual-raise-seen.hows-name-doing]; L12 t1 reply/well/conversation/glad/9w2s [conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L14 t98 speaker/family/conversation/glad/9w2s [conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him]; L15 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.oh]; L16 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 66: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be90f45e5d17a5, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be8ff45e5d15f2.*
+
+> You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
+
+**Alicia McCarthy:** We need to talk.
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. Really?
+2. Oh, no.
+
+**Elijah McCarthy:** Really?
+
+**Alicia McCarthy:** All right.
+
+**Alicia McCarthy:** Talk to you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.we-need-to-talk]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.oh-no]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L9 t98 speaker/ack/conversation/solemn/2w1s [conversation.greet-answer-fine.all-right]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+
+## Item 67: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be90f45e5d17a5, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be8ff45e5d15f2.*
+
+*The same scene as above, with this profile's talk.*
+
+**Alicia McCarthy:** Let's talk.
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. Oh.
+2. Oh, no.
+
+**Elijah McCarthy:** Oh.
+
+**Alicia McCarthy:** Got it.
+
+**Alicia McCarthy:** I'll let you get back to it.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.lets-talk]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.home-reply-answer-brief.oh]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.oh-no]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.home-reply-answer-brief.oh]; L9 t98 speaker/ack/conversation/solemn/2w1s [conversation.ack-reply-right.got-it]; L10 t98 speaker/farewell/conversation/solemn/7w1s [conversation.farewell-leave-home.i-ll-let-you-get-back-to-it]</sub>
+
+## Item 68: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12275ee46b085, person_d3c12175ee46aed2.*
+
+> You're at home in Brookside. Your partner is here too. Your partner has something to tell you.
+
+**Nicholas Rivas:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 69: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_4781c41d913088ea, person_f9be8ef45e5d143f, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+> You're at home in Brookside. Your mother is here too. Your mother has something to tell you.
+
+**Alicia McCarthy:** Come sit with me.
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. Wow.
+2. Oh, no.
+
+**Erin McCarthy:** Wow.
+
+**Alicia McCarthy:** Huh. I didn't know that.
+
+**Alicia McCarthy:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.come-sit-with-me]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.oh-no]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L9 t98 speaker/ack/conversation/solemn/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L10 t98 speaker/farewell/conversation/solemn/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 70: news-arrives (news-received, ends in personal), profile anxious
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_4781c41d913088ea, person_f9be8ef45e5d143f, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+*The same scene as above, with this profile's talk.*
+
+**Alicia McCarthy:** Can I tell you something?
+
+**Alicia McCarthy:** We have to move.
+
+Replies:
+
+1. Oh.
+2. That's awful.
+
+**Erin McCarthy:** Oh.
+
+**Alicia McCarthy:** Fair enough.
+
+**Alicia McCarthy:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/5w1s [conversation.family-open-open.can-i-tell-you-something]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.home-reply-answer-brief.oh]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.job-cause-reply-answer-comfort.thats-awful]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.home-reply-answer-brief.oh]; L9 t98 speaker/ack/conversation/solemn/2w1s [conversation.ack-reply-right.fair-enough]; L10 t98 speaker/farewell/conversation/solemn/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 71: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be.*
+
+> You're at home in New Castle County. Your mother is with you. Your mother has something to tell you.
+
+**Jamie Alexander:** Nice to see you.
+
+**Jamie Alexander:** How is your brother?
+
+Replies:
+
+1. Wesley is doing well. We should all get together soon.
+2. Thanks for asking. I'll tell Wesley you asked.
+
+**Abigail Alexander:** Wesley is doing well. We should all get together soon.
+
+**Jamie Alexander:** I'll remember that.
+
+**Jamie Alexander:** Say hi to Wesley.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/greet/conversation/proud/4w1s [conversation.greet-open-hello.nice-to-see-you]; L5 t0 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L6 t0 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L7 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L8 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L9 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L10 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.say-hi-to-name]</sub>
+
+## Item 72: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be.*
+
+*The same scene as above, with this profile's talk.*
+
+**Jamie Alexander:** It's nice to see you.
+
+**Jamie Alexander:** How's Wesley?
+
+Replies:
+
+1. He's doing well. I'll tell him you asked.
+2. Thank you for asking. I'll let Wesley know.
+
+**Abigail Alexander:** He's doing well. I'll tell him you asked.
+
+**Jamie Alexander:** Sure.
+
+**Jamie Alexander:** I'll see you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/greet/conversation/proud/5w1s [conversation.greet-open-hello.its-nice-to-see-you]; L5 t0 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L6 t0 reply/well/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L7 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L8 t98 speaker/family/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.sure]; L10 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.ill-see-you]</sub>
+
+## Item 73: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be.*
+
+*The same scene as above, with this profile's talk.*
+
+**Jamie Alexander:** Hey, Abigail.
+
+**Jamie Alexander:** How's Wesley?
+
+Replies:
+
+1. Wesley is doing well. We should all get together soon.
+2. Thank you for asking. I'll let Wesley know.
+
+**Abigail Alexander:** Wesley is doing well. We should all get together soon.
+
+**Jamie Alexander:** Okay.
+
+**Jamie Alexander:** Talk to you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/greet/conversation/proud/2w1s [conversation.greet-open-hello.hey-name]; L5 t0 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L6 t0 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L7 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L8 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.greet-answer-fine.okay]; L10 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+
+## Item 74: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_565361c9720b3966, person_565365c9720b4032, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+> You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
+
+**Emily Villanueva:** Come sit with me.
+
+**Emily Villanueva:** We have to move.
+
+Replies:
+
+1. Oh.
+2. That's not fair.
+
+**Lauren Villanueva:** Oh.
+
+**Emily Villanueva:** I'll remember that.
+
+**Emily Villanueva:** Okay. That's all I wanted to say.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.come-sit-with-me]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.home-reply-answer-brief.oh]; L7 t0 reply/comfort/conversation/braced/3w1s [conversation.job-cause-reply-answer-comfort.thats-not-fair]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.home-reply-answer-brief.oh]; L9 t98 speaker/ack/conversation/solemn/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L10 t98 speaker/farewell/conversation/solemn/7w2s [conversation.farewell-leave-home.okay-that-s-all-i-wanted-to-say]</sub>
+
+## Item 75: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_565361c9720b3966, person_565365c9720b4032, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** Got a minute?
+
+**Emily Villanueva:** We have to move.
+
+Replies:
+
+1. That's not fair.
+2. I see.
+
+**Lauren Villanueva:** That's not fair.
+
+**Emily Villanueva:** All right.
+
+**Emily Villanueva:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/3w1s [conversation.family-open-open.got-a-minute]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/comfort/conversation/braced/3w1s [conversation.job-cause-reply-answer-comfort.thats-not-fair]; L7 t0 reply/ack:right.conversation.other-work-answer-ack.i-see/conversation/braced/2w1s [conversation.other-work-answer-ack.i-see]; L8 t98 speaker/eviction-reply/conversation/braced/3w1s [conversation.job-cause-reply-answer-comfort.thats-not-fair]; L9 t98 speaker/ack/conversation/solemn/2w1s [conversation.greet-answer-fine.all-right]; L10 t98 speaker/farewell/conversation/solemn/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 76: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140118cffd720f, person_a52334a2a50177be.*
+
+> You're home in New Castle County. Your mother is here. Your mother wants to talk to you.
+
+**Jamie Alexander:** It's good to see you.
+
+**Jamie Alexander:** How's Abigail?
+
+Replies:
+
+1. Abigail is doing well. We should all get together soon.
+2. Thank you for asking. I'll let Abigail know.
+
+**Wesley Alexander:** Abigail is doing well. We should all get together soon.
+
+**Jamie Alexander:** All right.
+
+**Jamie Alexander:** Say hi to Abigail.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/5w1s [conversation.greet-open-hello.its-good-to-see-you]; L5 t0 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L6 t0 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L7 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L8 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L9 t98 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L10 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.say-hi-to-name]</sub>
+
+## Item 77: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140118cffd720f, person_a52334a2a50177be.*
+
+*The same scene as above, with this profile's talk.*
+
+**Jamie Alexander:** Hello there.
+
+**Jamie Alexander:** How's your sister?
+
+Replies:
+
+1. Doing well. I'll let Abigail know I ran into you.
+2. Thanks for asking. I'll tell Abigail you asked.
+
+**Wesley Alexander:** Doing well. I'll let Abigail know I ran into you.
+
+**Jamie Alexander:** Sure.
+
+**Jamie Alexander:** I have to run.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/2w1s [conversation.greet-open-hello.hello-there]; L5 t0 speaker/family/conversation/proud/3w1s [conversation.family-ask-how.hows-relation]; L6 t0 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L7 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L8 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.sure]; L10 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.i-have-to-run]</sub>
+
+## Item 78: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_6863ec73f5017811, person_6863ea73f50174ab, person_6863e973f50172f8, person_6863eb73f501765e.*
+
+> Your mother is there. Your mother wants to talk to you.
+
+**Quinn Melendez:** We need to talk.
+
+**Quinn Melendez:** We have to move.
+
+Replies:
+
+1. Really?
+2. That's terrible.
+
+**Hannah Melendez:** Really?
+
+**Quinn Melendez:** Interesting.
+
+**Quinn Melendez:** See you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t0 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.we-need-to-talk]; L4 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L5 t0 reply/brief/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L6 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.thats-terrible]; L7 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L8 t98 speaker/ack/conversation/solemn/1w1s [conversation.ack-reply-right.interesting]; L9 t98 speaker/farewell/conversation/solemn/3w1s [conversation.farewell-leave-bye.see-you-later]</sub>
+
+## Item 79: news-arrives (news-received, ends in personal), profile stubborn
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_6863ec73f5017811, person_6863ea73f50174ab, person_6863e973f50172f8, person_6863eb73f501765e.*
+
+*The same scene as above, with this profile's talk.*
+
+**Quinn Melendez:** Sit down.
+
+**Quinn Melendez:** We have to move.
+
+Replies:
+
+1. That's terrible.
+2. I see.
+
+**Hannah Melendez:** That's terrible.
+
+**Quinn Melendez:** Huh.
+
+**Quinn Melendez:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.sit-down]; L4 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L5 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.thats-terrible]; L6 t0 reply/ack:right.conversation.other-work-answer-ack.i-see/conversation/braced/2w1s [conversation.other-work-answer-ack.i-see]; L7 t98 speaker/eviction-reply/conversation/braced/2w1s [conversation.news-answer-react.thats-terrible]; L8 t98 speaker/ack/conversation/solemn/1w1s [conversation.mutual-answer-brief.huh]; L9 t98 speaker/farewell/conversation/solemn/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 80: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+
+> You're at home in Brookside. Your mother is here too. Your mother has something to tell you.
+
+**Emily Villanueva:** I'm working for New Castle County Feed and Grain.
+
+Replies:
+
+1. Do you like it there?
+2. Oh, nice. How is it?
+3. That's good.
+4. I work for New Castle County Diner.
+
+**Lauren Villanueva:** Do you like it there?
+
+**Emily Villanueva:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.thats-good]; L8 t0 reply/own/conversation/glad/7w1s [conversation.other-work-answer-own.i-work-for-my-employer]; L9 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L10 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 81: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I work for New Castle County Feed and Grain.
+
+Replies:
+
+1. I'm with New Castle County Diner.
+2. Is that new?
+3. Oh. How's that going?
+
+**Lauren Villanueva:** I'm with New Castle County Diner.
+
+**Emily Villanueva:** Right.
+
+**Emily Villanueva:** Okay. That's all I wanted to say.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/own/conversation/glad/6w1s [conversation.other-work-answer-own.im-with-my-employer]; L6 t0 reply/tenure/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L7 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L8 t98 speaker/other-work/conversation/glad/6w1s [conversation.other-work-answer-own.im-with-my-employer]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.right]; L10 t98 speaker/farewell/conversation/proud/7w2s [conversation.farewell-leave-home.okay-that-s-all-i-wanted-to-say]</sub>
+
+## Item 82: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I'm with New Castle County Feed and Grain.
+
+Replies:
+
+1. I'm with New Castle County Diner.
+2. How long have you been there?
+3. Oh, nice. How is it?
+
+**Lauren Villanueva:** I'm with New Castle County Diner.
+
+**Emily Villanueva:** Uh-huh.
+
+**Emily Villanueva:** Let me know if you need anything.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/own/conversation/glad/6w1s [conversation.other-work-answer-own.im-with-my-employer]; L6 t0 reply/tenure/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L8 t98 speaker/other-work/conversation/glad/6w1s [conversation.other-work-answer-own.im-with-my-employer]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.uh-huh]; L10 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.let-me-know-if-you-need-anything]</sub>
+
+## Item 83: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I work at New Castle County Feed and Grain.
+
+Replies:
+
+1. New Castle County Feed and Grain, right.
+2. I work at New Castle County Diner.
+3. Is that new?
+4. Oh, nice. How is it?
+
+**Lauren Villanueva:** New Castle County Feed and Grain, right.
+
+**Emily Villanueva:** Huh. I didn't know that.
+
+**Emily Villanueva:** I'll talk to you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/ack/conversation/glad/7w1s [conversation.other-work-answer-ack.employer-right]; L6 t0 reply/own/conversation/glad/7w1s [conversation.other-work-answer-own.i-work-at-my-employer]; L7 t0 reply/tenure/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L9 t98 speaker/other-work/conversation/glad/7w1s [conversation.other-work-answer-ack.employer-right]; L10 t98 speaker/ack/conversation/proud/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L11 t98 speaker/farewell/conversation/proud/5w1s [conversation.farewell-leave-bye.ill-talk-to-you-later]</sub>
+
+## Item 84: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I'm working for New Castle County Feed and Grain.
+
+Replies:
+
+1. New Castle County Feed and Grain? How do you like it?
+2. How long has it been?
+3. Oh. How's that going?
+4. I work at New Castle County Diner.
+
+**Lauren Villanueva:** New Castle County Feed and Grain? How do you like it?
+
+**Emily Villanueva:** I'll remember that.
+
+**Emily Villanueva:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/ack/conversation/glad/11w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L6 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L7 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L8 t0 reply/own/conversation/glad/7w1s [conversation.other-work-answer-own.i-work-at-my-employer]; L9 t98 speaker/other-work/conversation/glad/11w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L10 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L11 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 85: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+> You're home in Brookside. Your mother is here. Your mother wants to talk to you.
+
+**Erin Bryant:** Hi, Parker.
+
+**Erin Bryant:** Have you seen Liam Melendez?
+
+Replies:
+
+1. Why do you ask?
+2. No, I haven't. Why do you ask?
+3. I saw Liam Melendez a few months ago.
+4. Not in a while.
+
+**Parker Bryant:** Why do you ask?
+
+**Erin Bryant:** Huh. I didn't know that.
+
+**Erin Bryant:** Don't be a stranger.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/solemn/2w1s [conversation.greet-open-hello.hi-name]; L5 t0 speaker/asked-mutual/conversation/solemn/5w1s [conversation.mutual-raise-seen.have-you-seen-name]; L6 t0 reply/turn/conversation/braced/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L7 t0 reply/brief/conversation/braced/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L8 t0 reply/saw/conversation/braced/8w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L9 t0 reply/not/conversation/braced/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L10 t98 speaker/asked-mutual/conversation/braced/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L11 t98 speaker/ack/conversation/solemn/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L12 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.don-t-be-a-stranger]</sub>
+
+## Item 86: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+*The same scene as above, with this profile's talk.*
+
+**Erin Bryant:** Hey, Parker.
+
+**Erin Bryant:** Have you seen Liam Melendez?
+
+Replies:
+
+1. Have you?
+2. No, I haven't. Why do you ask?
+3. I saw Liam Melendez a few months ago.
+4. I can't remember the last time.
+
+**Parker Bryant:** Have you?
+
+**Erin Bryant:** I see.
+
+**Erin Bryant:** I need to go.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/solemn/2w1s [conversation.greet-open-hello.hey-name]; L5 t0 speaker/asked-mutual/conversation/solemn/5w1s [conversation.mutual-raise-seen.have-you-seen-name]; L6 t0 reply/turn/conversation/braced/2w1s [conversation.asked-mutual-answer-turn.have-you]; L7 t0 reply/brief/conversation/braced/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L8 t0 reply/saw/conversation/braced/8w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L9 t0 reply/not/conversation/braced/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L10 t98 speaker/asked-mutual/conversation/braced/2w1s [conversation.asked-mutual-answer-turn.have-you]; L11 t98 speaker/ack/conversation/solemn/2w1s [conversation.other-work-answer-ack.i-see]; L12 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.i-need-to-go]</sub>
+
+## Item 87: news-arrives (news-received, ends in personal), profile stubborn
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+*The same scene as above, with this profile's talk.*
+
+**Erin Bryant:** It's good to see you.
+
+**Erin Bryant:** Have you talked to Liam?
+
+Replies:
+
+1. Have you?
+2. I saw Liam Melendez a few months ago.
+3. I can't remember the last time.
+4. Nope. Not in a while.
+
+**Parker Bryant:** Have you?
+
+**Erin Bryant:** Yeah.
+
+**Erin Bryant:** I've got to run.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/solemn/5w1s [conversation.greet-open-hello.its-good-to-see-you]; L5 t0 speaker/asked-mutual/conversation/solemn/5w1s [conversation.mutual-raise-seen.have-you-talked-to-first]; L6 t0 reply/turn/conversation/braced/2w1s [conversation.asked-mutual-answer-turn.have-you]; L7 t0 reply/saw/conversation/braced/8w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L8 t0 reply/not/conversation/braced/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L9 t0 reply/brief/conversation/braced/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L10 t98 speaker/asked-mutual/conversation/braced/2w1s [conversation.asked-mutual-answer-turn.have-you]; L11 t98 speaker/ack/conversation/solemn/1w1s [conversation.shared-school-answer-brief.yeah]; L12 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.ive-got-to-run]</sub>
+
+## Item 88: news-arrives (news-received, ends in personal), profile anxious
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+*The same scene as above, with this profile's talk.*
+
+**Erin Bryant:** It's good to see you.
+
+**Erin Bryant:** Have you seen Liam?
+
+Replies:
+
+1. Have you seen Liam Melendez?
+2. No, I haven't. Why do you ask?
+3. I saw Liam Melendez a few months ago.
+4. I can't remember the last time.
+
+**Parker Bryant:** Have you seen Liam Melendez?
+
+**Erin Bryant:** All right.
+
+**Erin Bryant:** I'll see you.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/solemn/5w1s [conversation.greet-open-hello.its-good-to-see-you]; L5 t0 speaker/asked-mutual/conversation/solemn/4w1s [conversation.mutual-raise-seen.have-you-seen-first]; L6 t0 reply/turn/conversation/braced/5w1s [conversation.mutual-raise-seen.have-you-seen-name]; L7 t0 reply/brief/conversation/braced/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L8 t0 reply/saw/conversation/braced/8w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L9 t0 reply/not/conversation/braced/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L10 t98 speaker/asked-mutual/conversation/braced/5w1s [conversation.mutual-raise-seen.have-you-seen-name]; L11 t98 speaker/ack/conversation/solemn/2w1s [conversation.greet-answer-fine.all-right]; L12 t98 speaker/farewell/conversation/solemn/3w1s [conversation.farewell-leave-bye.ill-see-you]</sub>
+
+## Item 89: news-arrives (news-received, ends in personal), profile boastful
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+*The same scene as above, with this profile's talk.*
+
+**Erin Bryant:** It's good to see you.
+
+**Erin Bryant:** Have you talked to Liam Melendez?
+
+Replies:
+
+1. Why do you ask?
+2. No, I haven't. Why do you ask?
+3. I talked to Liam Melendez a few months ago.
+4. I can't remember the last time.
+
+**Parker Bryant:** Why do you ask?
+
+**Erin Bryant:** That makes sense.
+
+**Erin Bryant:** Come back soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/solemn/5w1s [conversation.greet-open-hello.its-good-to-see-you]; L5 t0 speaker/asked-mutual/conversation/solemn/6w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L6 t0 reply/turn/conversation/braced/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L7 t0 reply/brief/conversation/braced/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L8 t0 reply/saw/conversation/braced/9w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L9 t0 reply/not/conversation/braced/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L10 t98 speaker/asked-mutual/conversation/braced/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L11 t98 speaker/ack/conversation/solemn/3w1s [conversation.ack-reply-right.that-makes-sense]; L12 t98 speaker/farewell/conversation/solemn/3w1s [conversation.farewell-leave-bye.come-back-soon]</sub>
+
+## Item 90: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+
+> You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
+
+**Emily Villanueva:** I'm with New Castle County Feed and Grain.
+
+Replies:
+
+1. Really?
+2. How long have you been doing that?
+3. Right. Is it busy there?
+
+**Caroline Villanueva:** Really?
+
+**Emily Villanueva:** That makes sense.
+
+**Emily Villanueva:** We can pick this up later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/ack/conversation/glad/1w1s [conversation.other-work-answer-ack.really]; L6 t0 reply/tenure/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L8 t98 speaker/other-work/conversation/glad/1w1s [conversation.other-work-answer-ack.really]; L9 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.that-makes-sense]; L10 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.we-can-pick-this-up-later]</sub>
+
+## Item 91: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I'm with New Castle County Feed and Grain.
+
+Replies:
+
+1. Is that new?
+2. Oh, nice. How is it?
+
+**Caroline Villanueva:** Is that new?
+
+**Emily Villanueva:** We can pick this up later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/tenure/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t98 speaker/other-work/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L8 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.we-can-pick-this-up-later]</sub>
+
+## Item 92: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I work for New Castle County Feed and Grain.
+
+Replies:
+
+1. Do you like it there?
+2. Right. Is it busy there?
+3. Oh, New Castle County Feed and Grain.
+
+**Caroline Villanueva:** Do you like it there?
+
+**Emily Villanueva:** Talk to you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L7 t0 reply/ack/conversation/glad/7w1s [conversation.other-work-answer-ack.oh-employer]; L8 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L9 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+
+## Item 93: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I'm with New Castle County Feed and Grain.
+
+Replies:
+
+1. Do you like it there?
+2. Oh, nice. How is it?
+
+**Caroline Villanueva:** Do you like it there?
+
+**Emily Villanueva:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L8 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 94: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I'm with New Castle County Feed and Grain.
+
+Replies:
+
+1. How long has it been?
+2. Oh. How's that going?
+3. Oh, New Castle County Feed and Grain.
+
+**Caroline Villanueva:** How long has it been?
+
+**Emily Villanueva:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/7w1s [conversation.other-work-answer-ack.oh-employer]; L8 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L9 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 95: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+> You're home in Brookside. Your mother is there. Your mother wants to talk to you.
+
+**Alicia Keller:** Sit down.
+
+**Alicia Keller:** We have to move.
+
+Replies:
+
+1. Really?
+2. I'm sorry.
+
+**Olivia Keller:** Really?
+
+**Alicia Keller:** Huh. I didn't know that.
+
+**Alicia Keller:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.sit-down]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.other-work-answer-ack-none.im-sorry]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L9 t98 speaker/ack/conversation/solemn/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L10 t98 speaker/farewell/conversation/solemn/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 96: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+*The same scene as above, with this profile's talk.*
+
+**Alicia Keller:** Sit down.
+
+**Alicia Keller:** We have to move.
+
+Replies:
+
+1. That's terrible.
+2. Really?
+
+**Olivia Keller:** That's terrible.
+
+**Alicia Keller:** Oh.
+
+**Alicia Keller:** I'll see you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.sit-down]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.thats-terrible]; L7 t0 reply/brief/conversation/braced/1w1s [conversation.other-work-answer-ack.really]; L8 t98 speaker/eviction-reply/conversation/braced/2w1s [conversation.news-answer-react.thats-terrible]; L9 t98 speaker/ack/conversation/solemn/1w1s [conversation.home-reply-answer-brief.oh]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.ill-see-you-later]</sub>
+
+## Item 97: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+
+> You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
+
+**Emily Villanueva:** I work for New Castle County Feed and Grain.
+
+Replies:
+
+1. New Castle County Feed and Grain? How do you like it?
+2. How long have you been doing that?
+3. Right. Is it busy there?
+
+**Evelyn Villanueva:** New Castle County Feed and Grain? How do you like it?
+
+**Emily Villanueva:** That makes sense.
+
+**Emily Villanueva:** See you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/ack/conversation/glad/11w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L6 t0 reply/tenure/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L8 t98 speaker/other-work/conversation/glad/11w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L9 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.that-makes-sense]; L10 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.see-you-later]</sub>
+
+## Item 98: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I work for New Castle County Feed and Grain.
+
+Replies:
+
+1. Is that new?
+2. Oh. How's that going?
+
+**Evelyn Villanueva:** Is that new?
+
+**Emily Villanueva:** I'll let you get back to it.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/tenure/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t98 speaker/other-work/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L8 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.i-ll-let-you-get-back-to-it]</sub>
+
+## Item 99: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I work at New Castle County Feed and Grain.
+
+Replies:
+
+1. Good for you. Is it busy?
+2. How long have you been doing that?
+3. Oh, nice. How is it?
+
+**Evelyn Villanueva:** Good for you. Is it busy?
+
+**Emily Villanueva:** Interesting.
+
+**Emily Villanueva:** We can pick this up later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/ack/conversation/glad/6w2s [conversation.other-work-answer-ack.good-for-you-is-it-busy]; L6 t0 reply/tenure/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L8 t98 speaker/other-work/conversation/glad/6w2s [conversation.other-work-answer-ack.good-for-you-is-it-busy]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.interesting]; L10 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.we-can-pick-this-up-later]</sub>
+
+## Item 100: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I work at New Castle County Feed and Grain.
+
+Replies:
+
+1. How long have you been there?
+2. Oh, nice. How is it?
+3. Oh, New Castle County Feed and Grain.
+
+**Evelyn Villanueva:** How long have you been there?
+
+**Emily Villanueva:** Talk to you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/tenure/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t0 reply/ack/conversation/glad/7w1s [conversation.other-work-answer-ack.oh-employer]; L8 t98 speaker/other-work/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L9 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+
+## Item 101: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+
+*The same scene as above, with this profile's talk.*
+
+**Emily Villanueva:** I work for New Castle County Feed and Grain.
+
+Replies:
+
+1. Have you been there long?
+2. Right. Is it busy there?
+3. That's great.
+
+**Evelyn Villanueva:** Have you been there long?
+
+**Emily Villanueva:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/9w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.have-you-been-there-long]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L7 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.thats-great]; L8 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.have-you-been-there-long]; L9 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 102: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_d3c11e75ee46a9b9, person_d3c12275ee46b085, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+> You're home in Brookside. Your mother is there. Your mother wants to talk to you.
+
+**Latoya Rivas:** I need to talk to you about something.
+
+**Latoya Rivas:** We have to move.
+
+Replies:
+
+1. Oh.
+2. That's terrible.
+
+**Bentley Rivas:** Oh.
+
+**Latoya Rivas:** Well, good for you.
+
+**Latoya Rivas:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/8w1s [conversation.family-open-open.i-need-to-talk-to-you-about-something]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.home-reply-answer-brief.oh]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.thats-terrible]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.home-reply-answer-brief.oh]; L9 t98 speaker/ack/conversation/solemn/4w1s [conversation.ack-reply-right.well-good-for-you]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 103: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+
+> Your partner is here. Your partner wants to talk to you.
+
+**Nicholas Melendez:** How's Liam?
+
+Replies:
+
+1. Liam is doing well. We should all get together soon.
+2. Thanks for asking. I'll tell Liam you asked.
+
+**Quinn Melendez:** Liam is doing well. We should all get together soon.
+
+**Nicholas Melendez:** Well, good for you.
+
+**Nicholas Melendez:** Let me know if you need anything.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t0 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L4 t0 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L5 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L6 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L7 t98 speaker/ack/conversation/proud/4w1s [conversation.ack-reply-right.well-good-for-you]; L8 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.let-me-know-if-you-need-anything]</sub>
+
+## Item 104: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Melendez:** How's Liam?
+
+Replies:
+
+1. He's doing well. I'll tell him you asked.
+2. Thanks for asking. I'll tell Liam you asked.
+
+**Quinn Melendez:** He's doing well. I'll tell him you asked.
+
+**Nicholas Melendez:** Right.
+
+**Nicholas Melendez:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t0 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L4 t0 reply/well/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L5 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L6 t98 speaker/family/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L7 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.right]; L8 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 105: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Melendez:** How's Liam?
+
+Replies:
+
+1. He's doing well. I'll tell him you asked.
+2. Thank you for asking. I'll let Liam know.
+
+**Quinn Melendez:** He's doing well. I'll tell him you asked.
+
+**Nicholas Melendez:** I'll remember that.
+
+**Nicholas Melendez:** See you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t0 speaker/family/conversation/proud/2w1s [conversation.mutual-raise-seen.hows-name]; L4 t0 reply/well/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L5 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L6 t98 speaker/family/conversation/glad/8w2s [conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked]; L7 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L8 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.see-you-later]</sub>
+
+## Item 106: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Melendez:** How is your son?
+
+Replies:
+
+1. Doing well. I'll let Liam know I ran into you.
+2. Thank you for asking. I'll let Liam know.
+
+**Quinn Melendez:** Doing well. I'll let Liam know I ran into you.
+
+**Nicholas Melendez:** Interesting.
+
+**Nicholas Melendez:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t0 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L4 t0 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L5 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L6 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L7 t98 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.interesting]; L8 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 107: news-arrives (news-received, ends in personal), profile warm
 
 *Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
 
 > Your partner is here too. Your partner has something to tell you.
 
-**Nicholas Melendez:** Sit down.
+**Nicholas Melendez:** Come sit with me.
 
 **Nicholas Melendez:** I lost my job.
 
@@ -165,59 +2697,13 @@ Replies:
 
 **Quinn Melendez:** Oh, no. Are you all right?
 
-**Nicholas Melendez:** I see.
+**Nicholas Melendez:** Can't argue with that.
 
-**Nicholas Melendez:** Good to see you.
+**Nicholas Melendez:** Talk to you soon.
 
-<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.sit-down]; L4 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L5 t0 reply/brief/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L6 t0 reply/comfort/conversation/braced/2w1s [conversation.other-work-answer-ack-none.im-sorry]; L7 t98 speaker/job-lost-reply/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L8 t98 speaker/ack/conversation/solemn/2w1s [conversation.other-work-answer-ack.i-see]; L9 t98 speaker/farewell/conversation/solemn/4w1s [conversation.greet-open-hello.good-to-see-you]</sub>
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.come-sit-with-me]; L4 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L5 t0 reply/brief/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L6 t0 reply/comfort/conversation/braced/2w1s [conversation.other-work-answer-ack-none.im-sorry]; L7 t98 speaker/job-lost-reply/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L8 t98 speaker/ack/conversation/solemn/4w1s [conversation.ack-reply-right.can-t-argue-with-that]; L9 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
 
-## Item 5: news-arrives (news-received, ends in personal), profile cold
-
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
-
-*The same scene as above, with this profile's talk.*
-
-**Nicholas Melendez:** We need to talk.
-
-**Nicholas Melendez:** I lost my job.
-
-Replies:
-
-1. That's too bad.
-2. Oh. Are you okay?
-
-**Quinn Melendez:** That's too bad.
-
-**Nicholas Melendez:** Okay.
-
-**Nicholas Melendez:** I've got to go.
-
-<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.we-need-to-talk]; L4 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L5 t0 reply/comfort/conversation/braced/3w1s [conversation.news-answer-react.thats-too-bad]; L6 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L7 t98 speaker/job-lost-reply/conversation/braced/3w1s [conversation.news-answer-react.thats-too-bad]; L8 t98 speaker/ack/conversation/solemn/1w1s [conversation.greet-answer-fine.okay]; L9 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.ive-got-to-go]</sub>
-
-## Item 6: news-arrives (news-received, ends in personal), profile stubborn
-
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
-
-*The same scene as above, with this profile's talk.*
-
-**Nicholas Melendez:** Sit down.
-
-**Nicholas Melendez:** I lost my job.
-
-Replies:
-
-1. Oh. Are you okay?
-2. That's too bad.
-
-**Quinn Melendez:** Oh. Are you okay?
-
-**Nicholas Melendez:** Huh.
-
-**Nicholas Melendez:** Tell Liam I said hello.
-
-<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.sit-down]; L4 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L5 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L6 t0 reply/comfort/conversation/braced/3w1s [conversation.news-answer-react.thats-too-bad]; L7 t98 speaker/job-lost-reply/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L8 t98 speaker/ack/conversation/solemn/1w1s [conversation.mutual-answer-brief.huh]; L9 t98 speaker/farewell/conversation/solemn/5w1s [conversation.farewell-leave-bye.tell-name-i-said-hello]</sub>
-
-## Item 7: news-arrives (news-received, ends in personal), profile boastful
+## Item 108: news-arrives (news-received, ends in personal), profile cold
 
 *Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
 
@@ -229,152 +2715,1481 @@ Replies:
 
 Replies:
 
+1. That's too bad.
+2. Oh. Are you okay?
+
+**Quinn Melendez:** That's too bad.
+
+**Nicholas Melendez:** Interesting.
+
+**Nicholas Melendez:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family-open/conversation/solemn/3w1s [conversation.family-open-open.have-a-seat]; L4 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L5 t0 reply/comfort/conversation/braced/3w1s [conversation.news-answer-react.thats-too-bad]; L6 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L7 t98 speaker/job-lost-reply/conversation/braced/3w1s [conversation.news-answer-react.thats-too-bad]; L8 t98 speaker/ack/conversation/solemn/1w1s [conversation.ack-reply-right.interesting]; L9 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 109: news-arrives (news-received, ends in personal), profile boastful
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Melendez:** Let's talk.
+
+**Nicholas Melendez:** I lost my job.
+
+Replies:
+
 1. Oh, no. Are you all right?
 2. Oh, no.
 
 **Quinn Melendez:** Oh, no. Are you all right?
 
-**Nicholas Melendez:** Huh.
+**Nicholas Melendez:** I'll remember that.
 
-**Nicholas Melendez:** Good to see you.
+**Nicholas Melendez:** Let me know if you need anything.
 
-<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family-open/conversation/solemn/3w1s [conversation.family-open-open.have-a-seat]; L4 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L5 t0 reply/brief/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L6 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.oh-no]; L7 t98 speaker/job-lost-reply/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L8 t98 speaker/ack/conversation/solemn/1w1s [conversation.mutual-answer-brief.huh]; L9 t98 speaker/farewell/conversation/solemn/4w1s [conversation.greet-open-hello.good-to-see-you]</sub>
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.lets-talk]; L4 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L5 t0 reply/brief/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L6 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.oh-no]; L7 t98 speaker/job-lost-reply/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L8 t98 speaker/ack/conversation/solemn/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L9 t98 speaker/farewell/conversation/solemn/7w1s [conversation.farewell-leave-home.let-me-know-if-you-need-anything]</sub>
 
-## Item 8: funeral (loss, ends in personal), profile warm
+## Item 110: celebration (honor, ends in personal), profile warm
 
-*Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:reporter:0, person:press:outlet:online:0:national:owner:0.*
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8.*
 
-> Nancy Schneider died.
+> Your father is there. Your father wants to talk to you.
 
-*Journal:* Nancy Schneider died.
+**Nicholas Melendez:** Nice to see you.
 
-<sub>L1 t0 narrator/narrate/scene-words/grieving/3w1s [scene-words.cause-feeling:event:life.death-other.other-died]; L2 t99 journal/tell/journal/grieving/3w1s [journal.death-line-died.other-died]</sub>
+**Nicholas Melendez:** See you soon.
 
-## Item 9: celebration (honor, ends in personal), profile warm
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t98 speaker/greet/conversation/proud/4w1s [conversation.greet-open-hello.nice-to-see-you]; L4 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.see-you-soon]</sub>
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c439f5f42fc2, person_7436c539f5f43175.*
+## Item 111: celebration (honor, ends in personal), profile cold
 
-> You're at home in Brookside. Your son is here too. You start at New Castle County Diner.
-
-**John Fletcher:** Have a good day.
-
-<sub>L1 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/proud/7w1s [scene-words.cause-money:job-started-self.you-start-at-employer]; L4 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.have-a-good-day]</sub>
-
-## Item 10: celebration (honor, ends in personal), profile boastful
-
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c439f5f42fc2, person_7436c539f5f43175.*
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8.*
 
 *The same scene as above, with this profile's talk.*
 
-**John Fletcher:** Talk to you soon.
+**Nicholas Melendez:** Hey.
 
-<sub>L1 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/proud/7w1s [scene-words.cause-money:job-started-self.you-start-at-employer]; L4 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+**Nicholas Melendez:** I've got to go.
 
-## Item 11: reunion (arrival, ends in personal), profile stubborn
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t98 speaker/greet/conversation/proud/1w1s [conversation.greet-open-hello.hey]; L4 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.ive-got-to-go]</sub>
 
-*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+## Item 112: celebration (honor, ends in personal), profile anxious
 
-> You are in Brookside. Liam Melendez is with you.
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8.*
 
-**Liam Melendez:** Hi there.
+*The same scene as above, with this profile's talk.*
 
-**Liam Melendez:** Do you remember Newark Charter School?
+**Nicholas Melendez:** Hi.
+
+**Nicholas Melendez:** See you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t98 speaker/greet/conversation/proud/1w1s [conversation.greet-open-hello.hi]; L4 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.see-you-soon]</sub>
+
+## Item 113: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Melendez:** Good to see you, Liam.
+
+**Nicholas Melendez:** I'd better get going.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L3 t98 speaker/greet/conversation/proud/5w1s [conversation.greet-open-hello.good-to-see-you-name]; L4 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.i-d-better-get-going]</sub>
+
+## Item 114: reunion (arrival, ends in personal), profile warm
+
+*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+
+> You're outside. Kelly Riggs is here too.
+
+**Kelly Riggs:** Hi.
+
+**Kelly Riggs:** You remember Delcastle Technical High School?
 
 Replies:
 
-1. That was 6 years ago.
-2. Oh, sure.
+1. Hard to believe it's been 34 years.
+2. Yes, I remember.
 3. I do remember.
+4. Yeah. That takes me back.
 
-**Lauren Villanueva:** That was 6 years ago.
+**Emily Villanueva:** Hard to believe it's been 34 years.
 
-**Liam Melendez:** Right.
+**Kelly Riggs:** Fair enough.
 
-**Liam Melendez:** We'll talk.
+**Kelly Riggs:** See you later.
 
-<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-public-out.you-are-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-there]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.do-you-remember-school]; L5 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.oh-sure]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t98 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L9 t98 speaker/ack/conversation/glad/1w1s [conversation.home-reply-answer-brief.right]; L10 t98 speaker/farewell/conversation/glad/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hi]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L6 t0 reply/plain/conversation/glad/3w1s [conversation.shared-school-answer-plain.yes-i-remember]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.i-do-remember]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/7w1s [conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years]; L10 t98 speaker/ack/conversation/glad/2w1s [conversation.ack-reply-right.fair-enough]; L11 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-bye.see-you-later]</sub>
 
-## Item 12: celebration (honor, ends in personal), profile cold
+## Item 115: reunion (arrival, ends in personal), profile cold
+
+*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+
+*The same scene as above, with this profile's talk.*
+
+**Kelly Riggs:** Hi there.
+
+**Kelly Riggs:** You remember Delcastle Technical High School?
+
+Replies:
+
+1. That was years ago.
+2. Of course.
+3. I do.
+4. Yeah. That takes me back.
+
+**Emily Villanueva:** That was years ago.
+
+**Kelly Riggs:** That makes sense.
+
+**Kelly Riggs:** I'd better get going.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/2w1s [conversation.greet-open-hello.hi-there]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.of-course]; L7 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/4w1s [conversation.shared-school-reply-years.that-was-years-ago]; L10 t98 speaker/ack/conversation/glad/3w1s [conversation.ack-reply-right.that-makes-sense]; L11 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.i-d-better-get-going]</sub>
+
+## Item 116: reunion (arrival, ends in personal), profile stubborn
+
+*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+
+*The same scene as above, with this profile's talk.*
+
+**Kelly Riggs:** Hi.
+
+**Kelly Riggs:** We were at Delcastle Technical High School together, weren't we?
+
+Replies:
+
+1. That was a long time ago.
+2. I remember.
+3. I do.
+4. Yeah. That takes me back.
+
+**Emily Villanueva:** That was a long time ago.
+
+**Kelly Riggs:** Good to know.
+
+**Kelly Riggs:** See you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hi]; L4 t0 speaker/shared-school/conversation/glad/10w1s [conversation.shared-school-ask-remember.we-were-at-school-together-weren-t-we]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.i-remember]; L7 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L9 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L10 t98 speaker/ack/conversation/glad/3w1s [conversation.ack-reply-right.good-to-know]; L11 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-bye.see-you-soon]</sub>
+
+## Item 117: reunion (arrival, ends in personal), profile anxious
+
+*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+
+*The same scene as above, with this profile's talk.*
+
+**Kelly Riggs:** Hello.
+
+**Kelly Riggs:** You remember Delcastle Technical High School?
+
+Replies:
+
+1. That was a long time ago.
+2. I do.
+3. Yeah. That takes me back.
+
+**Emily Villanueva:** That was a long time ago.
+
+**Kelly Riggs:** Good to know.
+
+**Kelly Riggs:** Good to see you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/1w1s [conversation.greet-open-hello.hello]; L4 t0 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-ask-remember.you-remember-school]; L5 t0 reply/years/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L6 t0 reply/turn/conversation/glad/2w1s [conversation.shared-school-answer-turn.i-do]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.shared-school-answer-brief.yeah-that-takes-me-back]; L8 t98 speaker/shared-school/conversation/glad/6w1s [conversation.shared-school-reply-years.that-was-a-long-time-ago]; L9 t98 speaker/ack/conversation/glad/3w1s [conversation.ack-reply-right.good-to-know]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.greet-open-hello.good-to-see-you]</sub>
+
+## Item 118: reunion (arrival, ends in personal), profile boastful
+
+*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+
+*The same scene as above, with this profile's talk.*
+
+**Kelly Riggs:** Nice to see you.
+
+**Kelly Riggs:** Do you ever think about Delcastle Technical High School?
+
+Replies:
+
+1. That was 34 years ago.
+2. I remember.
+3. Yes, I do.
+
+**Emily Villanueva:** That was 34 years ago.
+
+**Kelly Riggs:** Can't argue with that.
+
+**Kelly Riggs:** Don't be a stranger.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/2w1s [scene-words.setting-public-out.youre-outside]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 speaker/greet/conversation/glad/4w1s [conversation.greet-open-hello.nice-to-see-you]; L4 t0 speaker/shared-school/conversation/glad/9w1s [conversation.shared-school-ask-remember.do-you-ever-think-about-school]; L5 t0 reply/years/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L6 t0 reply/plain/conversation/glad/2w1s [conversation.shared-school-answer-plain.i-remember]; L7 t0 reply/turn/conversation/glad/3w1s [conversation.shared-school-answer-turn.yes-i-do]; L8 t98 speaker/shared-school/conversation/glad/5w1s [conversation.shared-school-reply-years.that-was-years-years-ago]; L9 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.can-t-argue-with-that]; L10 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.don-t-be-a-stranger]</sub>
+
+## Item 119: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ec73f5017811, person_6863e973f50172f8.*
+
+> Your father is with you. Your father has something to tell you.
+
+**Nicholas Melendez:** How's your brother?
+
+Replies:
+
+1. He's good. You should come by and see him.
+2. Thank you for asking. I'll let Liam know.
+
+**Hannah Melendez:** He's good. You should come by and see him.
+
+**Nicholas Melendez:** That makes sense.
+
+**Nicholas Melendez:** I'll talk to you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family/conversation/proud/3w1s [conversation.family-ask-how.hows-relation]; L4 t0 reply/well/conversation/glad/9w2s [conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him]; L5 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L6 t98 speaker/family/conversation/glad/9w2s [conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him]; L7 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.that-makes-sense]; L8 t98 speaker/farewell/conversation/proud/5w1s [conversation.farewell-leave-bye.ill-talk-to-you-later]</sub>
+
+## Item 120: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ec73f5017811, person_6863e973f50172f8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Nicholas Melendez:** How is your brother?
+
+Replies:
+
+1. Liam is doing well. We should all get together soon.
+2. Thank you for asking. I'll let Liam know.
+
+**Hannah Melendez:** Liam is doing well. We should all get together soon.
+
+**Nicholas Melendez:** Oh.
+
+**Nicholas Melendez:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L4 t0 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L5 t0 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L6 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L7 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.oh]; L8 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 121: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d.*
+
+> You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
+
+**Erin Bryant:** Hello, Parker.
+
+**Erin Bryant:** I lost my job.
+
+Replies:
+
+1. Oh. Are you okay?
+2. I'm sorry.
+
+**Parker Bryant:** Oh. Are you okay?
+
+**Erin Bryant:** Huh. I didn't know that.
+
+**Erin Bryant:** Say hello to Jack.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/greet/conversation/solemn/2w1s [conversation.greet-open-hello.hello-name]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.other-work-answer-ack-none.im-sorry]; L8 t98 speaker/job-lost-reply/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L9 t98 speaker/ack/conversation/solemn/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.say-hello-to-name]</sub>
+
+## Item 122: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d.*
+
+*The same scene as above, with this profile's talk.*
+
+**Erin Bryant:** Hello there.
+
+**Erin Bryant:** I lost my job.
+
+Replies:
+
+1. Oh. Are you okay?
+2. That's too bad.
+
+**Parker Bryant:** Oh. Are you okay?
+
+**Erin Bryant:** I see.
+
+**Erin Bryant:** I've got to run.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/greet/conversation/solemn/2w1s [conversation.greet-open-hello.hello-there]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L7 t0 reply/comfort/conversation/braced/3w1s [conversation.news-answer-react.thats-too-bad]; L8 t98 speaker/job-lost-reply/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L9 t98 speaker/ack/conversation/solemn/2w1s [conversation.other-work-answer-ack.i-see]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.ive-got-to-run]</sub>
+
+## Item 123: news-arrives (news-received, ends in personal), profile boastful
+
+*Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d.*
+
+*The same scene as above, with this profile's talk.*
+
+**Erin Bryant:** It's good to see you.
+
+**Erin Bryant:** I lost my job.
+
+Replies:
+
+1. Oh. Are you okay?
+2. I'm sorry to hear that.
+
+**Parker Bryant:** Oh. Are you okay?
+
+**Erin Bryant:** That makes sense.
+
+**Erin Bryant:** Take care of yourself.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/greet/conversation/solemn/5w1s [conversation.greet-open-hello.its-good-to-see-you]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L7 t0 reply/comfort/conversation/braced/5w1s [conversation.other-work-answer-ack-none.im-sorry-to-hear-that]; L8 t98 speaker/job-lost-reply/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L9 t98 speaker/ack/conversation/solemn/3w1s [conversation.ack-reply-right.that-makes-sense]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-bye.take-care-of-yourself]</sub>
+
+## Item 124: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be.*
+
+> You're home in New Castle County. Your mother is there. Your mother wants to talk to you.
+
+**Jamie Alexander:** Good to see you, Wyatt.
+
+**Jamie Alexander:** Have you talked to Abigail?
+
+Replies:
+
+1. Why do you ask?
+2. No, I haven't. Why do you ask?
+3. I talked to Abigail today.
+4. Not lately.
+
+**Wyatt Alexander:** Why do you ask?
+
+**Jamie Alexander:** Well, good for you.
+
+**Jamie Alexander:** How is your sister?
+
+Replies:
+
+1. She's doing well. I'll tell her you asked.
+2. Thank you for asking. I'll let Abigail know.
+
+**Wyatt Alexander:** She's doing well. I'll tell her you asked.
+
+**Jamie Alexander:** I'll remember that.
+
+**Jamie Alexander:** Have a good day.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/5w1s [conversation.greet-open-hello.good-to-see-you-name]; L5 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L6 t0 reply/turn/conversation/glad/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L7 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L8 t0 reply/saw/conversation/glad/5w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L9 t0 reply/not/conversation/glad/2w1s [conversation.asked-mutual-answer-not.not-lately]; L10 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.asked-mutual-answer-turn.why-do-you-ask]; L11 t1 speaker/ack/conversation/proud/4w1s [conversation.ack-reply-right.well-good-for-you]; L12 t1 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L13 t1 reply/well/conversation/glad/8w2s [conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked]; L14 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L15 t98 speaker/family/conversation/glad/8w2s [conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked]; L16 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L17 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.have-a-good-day]</sub>
+
+## Item 125: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be.*
+
+*The same scene as above, with this profile's talk.*
+
+**Jamie Alexander:** Hello.
+
+**Jamie Alexander:** Have you seen Abigail?
+
+Replies:
+
+1. I saw Abigail today.
+2. I can't remember the last time.
+3. Nope. Not in a while.
+
+**Wyatt Alexander:** I saw Abigail today.
+
+**Jamie Alexander:** Well, good for you.
+
+**Jamie Alexander:** How's your sister?
+
+Replies:
+
+1. Abigail is doing well. We should all get together soon.
+2. Thanks for asking. I'll tell Abigail you asked.
+
+**Wyatt Alexander:** Abigail is doing well. We should all get together soon.
+
+**Jamie Alexander:** I'll remember that.
+
+**Jamie Alexander:** I'll see you.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/1w1s [conversation.greet-open-hello.hello]; L5 t0 speaker/asked-mutual/conversation/proud/4w1s [conversation.mutual-raise-seen.have-you-seen-first]; L6 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L7 t0 reply/not/conversation/glad/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.asked-mutual-answer-brief.nope-not-in-a-while]; L9 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L10 t1 speaker/ack/conversation/proud/4w1s [conversation.ack-reply-right.well-good-for-you]; L11 t1 speaker/family/conversation/proud/3w1s [conversation.family-ask-how.hows-relation]; L12 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L13 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L14 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L15 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L16 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.ill-see-you]</sub>
+
+## Item 126: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be.*
+
+*The same scene as above, with this profile's talk.*
+
+**Jamie Alexander:** Good to see you, Wyatt.
+
+**Jamie Alexander:** Have you talked to Abigail?
+
+Replies:
+
+1. How about you?
+2. No, I haven't. Why do you ask?
+3. I saw Abigail today.
+4. Not lately.
+
+**Wyatt Alexander:** How about you?
+
+**Jamie Alexander:** All right.
+
+**Jamie Alexander:** How's Abigail doing?
+
+Replies:
+
+1. She's good. You should come by and see her.
+2. Thank you for asking. I'll let Abigail know.
+
+**Wyatt Alexander:** She's good. You should come by and see her.
+
+**Jamie Alexander:** Okay.
+
+**Jamie Alexander:** Take care of yourself.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/5w1s [conversation.greet-open-hello.good-to-see-you-name]; L5 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L6 t0 reply/turn/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L7 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L8 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L9 t0 reply/not/conversation/glad/2w1s [conversation.asked-mutual-answer-not.not-lately]; L10 t1 speaker/asked-mutual/conversation/glad/3w1s [conversation.greet-answer-fine.how-about-you]; L11 t1 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L12 t1 speaker/family/conversation/proud/3w1s [conversation.mutual-raise-seen.hows-name-doing]; L13 t1 reply/well/conversation/glad/9w2s [conversation.family-answer-well.she-s-good-you-should-come-by-and-see-her]; L14 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L15 t98 speaker/family/conversation/glad/9w2s [conversation.family-answer-well.she-s-good-you-should-come-by-and-see-her]; L16 t98 speaker/ack/conversation/proud/1w1s [conversation.greet-answer-fine.okay]; L17 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.take-care-of-yourself]</sub>
+
+## Item 127: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be.*
+
+*The same scene as above, with this profile's talk.*
+
+**Jamie Alexander:** Hey.
+
+**Jamie Alexander:** Have you heard from Abigail?
+
+Replies:
+
+1. Have you?
+2. No, I haven't. Why do you ask?
+3. I saw Abigail today.
+4. Not in a while.
+
+**Wyatt Alexander:** Have you?
+
+**Jamie Alexander:** Uh-huh.
+
+**Jamie Alexander:** How's Abigail doing?
+
+Replies:
+
+1. Doing well. I'll let Abigail know I ran into you.
+2. Thank you for asking. I'll let Abigail know.
+
+**Wyatt Alexander:** Doing well. I'll let Abigail know I ran into you.
+
+**Jamie Alexander:** Huh. I didn't know that.
+
+**Jamie Alexander:** See you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/greet/conversation/proud/1w1s [conversation.greet-open-hello.hey]; L5 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-heard-from-name]; L6 t0 reply/turn/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L7 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L8 t0 reply/saw/conversation/glad/4w1s [conversation.mutual-answer-mine-saw.i-saw-name-my-when]; L9 t0 reply/not/conversation/glad/4w1s [conversation.asked-mutual-answer-not.not-in-a-while]; L10 t1 speaker/asked-mutual/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L11 t1 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.uh-huh]; L12 t1 speaker/family/conversation/proud/3w1s [conversation.mutual-raise-seen.hows-name-doing]; L13 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L14 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L15 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you]; L16 t98 speaker/ack/conversation/proud/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L17 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.see-you-soon]</sub>
+
+## Item 128: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b9cd31243633d:2027-05-01:1:person_8875c9c2afd1ae76. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76.*
+
+> You're home in New Castle County. Your partner is there. Your partner wants to talk to you.
+
+**Sharon Peters:** There's something I need to tell you.
+
+**Sharon Peters:** I lost my job.
+
+Replies:
+
+1. Oh. Are you okay?
+2. Sorry to hear that.
+
+**Andrew Peters:** Oh. Are you okay?
+
+**Sharon Peters:** I'll remember that.
+
+**Sharon Peters:** I'll talk to you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/7w1s [conversation.family-open-open.there-s-something-i-need-to-tell-you]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L7 t0 reply/comfort/conversation/braced/4w1s [conversation.other-work-answer-ack-none.sorry-to-hear-that]; L8 t98 speaker/job-lost-reply/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L9 t98 speaker/ack/conversation/solemn/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L10 t98 speaker/farewell/conversation/solemn/5w1s [conversation.farewell-leave-bye.ill-talk-to-you-later]</sub>
+
+## Item 129: news-arrives (news-received, ends in personal), profile anxious
+
+*Fired by job:position:organization_b74b9cd31243633d:2027-05-01:1:person_8875c9c2afd1ae76. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76.*
+
+*The same scene as above, with this profile's talk.*
+
+**Sharon Peters:** There's something I need to tell you.
+
+**Sharon Peters:** I lost my job.
+
+Replies:
+
+1. Oh, no. Are you all right?
+2. That's too bad.
+
+**Andrew Peters:** Oh, no. Are you all right?
+
+**Sharon Peters:** I'll remember that.
+
+**Sharon Peters:** Let me know if you need anything.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/family-open/conversation/solemn/7w1s [conversation.family-open-open.there-s-something-i-need-to-tell-you]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/brief/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L7 t0 reply/comfort/conversation/braced/3w1s [conversation.news-answer-react.thats-too-bad]; L8 t98 speaker/job-lost-reply/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L9 t98 speaker/ack/conversation/solemn/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L10 t98 speaker/farewell/conversation/solemn/7w1s [conversation.farewell-leave-home.let-me-know-if-you-need-anything]</sub>
+
+## Item 130: celebration (honor, ends in personal), profile warm
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+
+> You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
+
+**Leslie Robbins:** I work for New Castle County Cleaning Services.
+
+Replies:
+
+1. Good for you. Is it busy?
+2. Do you like it there?
+3. Oh, nice. How is it?
+4. I'm with New Castle County Cleaning Services.
+
+**Sean Robbins:** Good for you. Is it busy?
+
+**Leslie Robbins:** Can't argue with that.
+
+**Leslie Robbins:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/ack/conversation/glad/6w2s [conversation.other-work-answer-ack.good-for-you-is-it-busy]; L6 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L8 t0 reply/own/conversation/glad/7w1s [conversation.other-work-answer-own.im-with-my-employer]; L9 t98 speaker/other-work/conversation/glad/6w2s [conversation.other-work-answer-ack.good-for-you-is-it-busy]; L10 t98 speaker/ack/conversation/proud/4w1s [conversation.ack-reply-right.can-t-argue-with-that]; L11 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 131: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Leslie Robbins:** I work at New Castle County Cleaning Services.
+
+Replies:
+
+1. Oh, okay.
+2. I work for New Castle County Cleaning Services.
+3. Is that new?
+4. Oh. How's that going?
+
+**Sean Robbins:** Oh, okay.
+
+**Leslie Robbins:** Sure.
+
+**Leslie Robbins:** See you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.oh-okay]; L6 t0 reply/own/conversation/glad/8w1s [conversation.other-work-answer-own.i-work-for-my-employer]; L7 t0 reply/tenure/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L8 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L9 t98 speaker/other-work/conversation/glad/2w1s [conversation.other-work-answer-ack.oh-okay]; L10 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.sure]; L11 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-bye.see-you-later]</sub>
+
+## Item 132: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Leslie Robbins:** I'm with New Castle County Cleaning Services.
+
+Replies:
+
+1. New Castle County Cleaning Services? How do you like it?
+2. How long have you been doing that?
+3. Oh, nice. How is it?
+4. I'm at New Castle County Cleaning Services.
+
+**Sean Robbins:** New Castle County Cleaning Services? How do you like it?
+
+**Leslie Robbins:** Good to know.
+
+**Leslie Robbins:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/ack/conversation/glad/10w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L6 t0 reply/tenure/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L8 t0 reply/own/conversation/glad/7w1s [conversation.other-work-answer-own.im-at-my-employer]; L9 t98 speaker/other-work/conversation/glad/10w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L10 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.good-to-know]; L11 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 133: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Leslie Robbins:** I'm working for New Castle County Cleaning Services.
+
+Replies:
+
+1. Good for you.
+2. I work for New Castle County Cleaning Services.
+3. Do you like it there?
+4. Oh. How's that going?
+
+**Sean Robbins:** Good for you.
+
+**Leslie Robbins:** All right.
+
+**Leslie Robbins:** Let me know if you need anything.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/ack/conversation/glad/3w1s [conversation.other-work-answer-ack.good-for-you]; L6 t0 reply/own/conversation/glad/8w1s [conversation.other-work-answer-own.i-work-for-my-employer]; L7 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L8 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L9 t98 speaker/other-work/conversation/glad/3w1s [conversation.other-work-answer-ack.good-for-you]; L10 t98 speaker/ack/conversation/proud/2w1s [conversation.greet-answer-fine.all-right]; L11 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.let-me-know-if-you-need-anything]</sub>
+
+## Item 134: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Leslie Robbins:** I'm with New Castle County Cleaning Services.
+
+Replies:
+
+1. How long has it been?
+2. Oh. How's that going?
+3. Oh, I see.
+4. I'm with New Castle County Cleaning Services.
+
+**Sean Robbins:** How long has it been?
+
+**Leslie Robbins:** Let me know if you need anything.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/3w1s [conversation.other-work-answer-ack.oh-i-see]; L8 t0 reply/own/conversation/glad/7w1s [conversation.other-work-answer-own.im-with-my-employer]; L9 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L10 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.let-me-know-if-you-need-anything]</sub>
+
+## Item 135: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6661730b7a44c8, person_5df2739ae2587c09.*
+
+> You're at home in Brookside. Your son is with you. Your son has something to tell you.
+
+**Andrew Robbins:** Have a seat.
+
+**Andrew Robbins:** I lost my job.
+
+Replies:
+
+1. Sorry to hear that.
+2. Oh. Are you okay?
+
+**Leslie Robbins:** Sorry to hear that.
+
+**Andrew Robbins:** Can't argue with that.
+
+**Andrew Robbins:** I'll talk to you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/3w1s [conversation.family-open-open.have-a-seat]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/comfort/conversation/braced/4w1s [conversation.other-work-answer-ack-none.sorry-to-hear-that]; L7 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L8 t98 speaker/job-lost-reply/conversation/braced/4w1s [conversation.other-work-answer-ack-none.sorry-to-hear-that]; L9 t98 speaker/ack/conversation/solemn/4w1s [conversation.ack-reply-right.can-t-argue-with-that]; L10 t98 speaker/farewell/conversation/solemn/5w1s [conversation.farewell-leave-bye.ill-talk-to-you-later]</sub>
+
+## Item 136: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2739ae2587c09, person_ad6661730b7a44c8.*
+
+> You're home in Brookside. Your mother is here. Your mother wants to talk to you.
+
+**Leslie Robbins:** I'm working for New Castle County Cleaning Services.
+
+Replies:
+
+1. Do you like it there?
+2. Oh. How's that going?
+3. New Castle County Cleaning Services, right.
+
+**Andrew Robbins:** Do you like it there?
+
+**Leslie Robbins:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/6w1s [conversation.other-work-answer-ack.employer-right]; L8 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L9 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 137: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2739ae2587c09, person_ad6661730b7a44c8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Leslie Robbins:** I work at New Castle County Cleaning Services.
+
+Replies:
+
+1. How long has it been?
+2. Oh, nice. How is it?
+3. New Castle County Cleaning Services, right.
+
+**Andrew Robbins:** How long has it been?
+
+**Leslie Robbins:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t0 reply/ack/conversation/glad/6w1s [conversation.other-work-answer-ack.employer-right]; L8 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L9 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 138: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6663730b7a482e, person_5df2739ae2587c09.*
+
+> You're at home in Brookside. Your brother is with you. Your brother has something to tell you.
+
+**Andrew Robbins:** Let's talk.
+
+**Andrew Robbins:** I lost my job.
+
+Replies:
+
+1. Oh, no. Are you all right?
+2. I'm sorry to hear that.
+
+**Bo Robbins:** Oh, no. Are you all right?
+
+**Andrew Robbins:** I'll remember that.
+
+**Andrew Robbins:** Okay. That's all I wanted to say.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/2w1s [conversation.family-open-open.lets-talk]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/brief/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L7 t0 reply/comfort/conversation/braced/5w1s [conversation.other-work-answer-ack-none.im-sorry-to-hear-that]; L8 t98 speaker/job-lost-reply/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L9 t98 speaker/ack/conversation/solemn/3w1s [conversation.ack-reply-right.i-ll-remember-that]; L10 t98 speaker/farewell/conversation/solemn/7w2s [conversation.farewell-leave-home.okay-that-s-all-i-wanted-to-say]</sub>
+
+## Item 139: news-arrives (news-received, ends in personal), profile boastful
+
+*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6663730b7a482e, person_5df2739ae2587c09.*
+
+*The same scene as above, with this profile's talk.*
+
+**Andrew Robbins:** We need to talk.
+
+**Andrew Robbins:** I lost my job.
+
+Replies:
+
+1. I'm sorry to hear that.
+2. Oh, no. Are you all right?
+
+**Bo Robbins:** I'm sorry to hear that.
+
+**Andrew Robbins:** Huh. I didn't know that.
+
+**Andrew Robbins:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.we-need-to-talk]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/comfort/conversation/braced/5w1s [conversation.other-work-answer-ack-none.im-sorry-to-hear-that]; L7 t0 reply/brief/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L8 t98 speaker/job-lost-reply/conversation/braced/5w1s [conversation.other-work-answer-ack-none.im-sorry-to-hear-that]; L9 t98 speaker/ack/conversation/solemn/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L10 t98 speaker/farewell/conversation/solemn/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 140: celebration (honor, ends in personal), profile cold
 
 *Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6661730b7a44c8, person_ad6664730b7a49e1.*
 
 > You're at home in Brookside. Your daughter is here too. You got a job.
 
-**Cora Robbins:** Where are you working now?
+**Cora Robbins:** I heard you got the job at New Castle County Cleaning Services.
 
 Replies:
 
-1. I work at New Castle County Cleaning Services.
-2. At New Castle County Cleaning Services.
-3. I work at New Castle County Cleaning Services. Where do you work?
+1. Thanks. It finally came through.
+2. It's a good job. I'll tell you more about it.
 
-Lies:
+**Leslie Robbins:** Thanks. It finally came through.
 
-4. Not right now.
-5. I work at Brookside Messenger.
-6. I work at Brookside Messenger. Where do you work?
+**Cora Robbins:** Can't argue with that.
+
+**Cora Robbins:** We can pick this up later.
+
+<sub>L1 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/proud/4w1s [scene-words.cause-money:job-started-started.you-got-a-job]; L4 t0 speaker/job-new-told-reply/conversation/glad/12w1s [conversation.job-new-told-raise-raise.i-heard-you-got-the-job-at-employer]; L5 t0 reply/thank/conversation/proud/5w2s [conversation.job-new-told-reply-answer-thank.thanks-it-finally-came-through]; L6 t0 reply/tell/conversation/proud/10w2s [conversation.job-new-told-reply-answer-tell.it-s-a-good-job-i-ll-tell-you-more-about-it]; L7 t98 speaker/job-new-told-reply/conversation/proud/5w2s [conversation.job-new-told-reply-answer-thank.thanks-it-finally-came-through]; L8 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.can-t-argue-with-that]; L9 t98 speaker/farewell/conversation/glad/6w1s [conversation.farewell-leave-home.we-can-pick-this-up-later]</sub>
+
+## Item 141: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6661730b7a44c8, person_ad6664730b7a49e1.*
+
+*The same scene as above, with this profile's talk.*
+
+**Cora Robbins:** Congratulations on the job at New Castle County Cleaning Services.
+
+Replies:
+
+1. Thank you. I appreciate that.
+2. It's a good job. I'll tell you more about it.
+
+**Leslie Robbins:** Thank you. I appreciate that.
+
+**Cora Robbins:** That makes sense.
+
+**Cora Robbins:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/proud/4w1s [scene-words.cause-money:job-started-started.you-got-a-job]; L4 t0 speaker/job-new-told-reply/conversation/glad/10w1s [conversation.job-new-told-raise-raise.congratulations-on-the-job-at-employer]; L5 t0 reply/thank/conversation/proud/5w2s [conversation.job-new-told-reply-answer-thank.thank-you-i-appreciate-that]; L6 t0 reply/tell/conversation/proud/10w2s [conversation.job-new-told-reply-answer-tell.it-s-a-good-job-i-ll-tell-you-more-about-it]; L7 t98 speaker/job-new-told-reply/conversation/proud/5w2s [conversation.job-new-told-reply-answer-thank.thank-you-i-appreciate-that]; L8 t98 speaker/ack/conversation/glad/3w1s [conversation.ack-reply-right.that-makes-sense]; L9 t98 speaker/farewell/conversation/glad/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 142: news-arrives (news-received, ends in personal), profile warm
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+
+> You're home in Brookside. Your partner is here. Your partner wants to talk to you.
+
+**Stacy Shepard:** Come sit with me.
+
+**Stacy Shepard:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t98 speaker/family-open/conversation/solemn/4w1s [conversation.family-open-open.come-sit-with-me]; L5 t98 speaker/farewell/conversation/solemn/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 143: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+
+*The same scene as above, with this profile's talk.*
+
+**Stacy Shepard:** Can I talk to you?
+
+**Stacy Shepard:** I'll let you get back to it.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t98 speaker/family-open/conversation/solemn/5w1s [conversation.family-open-open.can-i-talk-to-you]; L5 t98 speaker/farewell/conversation/solemn/7w1s [conversation.farewell-leave-home.i-ll-let-you-get-back-to-it]</sub>
+
+## Item 144: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8.*
+
+> You're at home in Brookside. Your mother is here too. Your mother has something to tell you.
+
+**Leslie Robbins:** I'm with New Castle County Cleaning Services.
+
+Replies:
+
+1. Have you been there long?
+2. Oh, nice. How is it?
+
+**Bo Robbins:** Have you been there long?
+
+**Leslie Robbins:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.have-you-been-there-long]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.have-you-been-there-long]; L8 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 145: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Leslie Robbins:** I work for New Castle County Cleaning Services.
+
+Replies:
+
+1. That's good.
+2. How long?
+3. Oh. How's that going?
+
+**Bo Robbins:** That's good.
+
+**Leslie Robbins:** Huh.
+
+**Leslie Robbins:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.thats-good]; L6 t0 reply/tenure/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L7 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L8 t98 speaker/other-work/conversation/glad/2w1s [conversation.other-work-answer-ack.thats-good]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.mutual-answer-brief.huh]; L10 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 146: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8.*
+
+*The same scene as above, with this profile's talk.*
 
 **Leslie Robbins:** I work at New Castle County Cleaning Services.
 
-**Cora Robbins:** Yeah.
+Replies:
 
-**Cora Robbins:** Goodbye.
+1. New Castle County Cleaning Services, right.
+2. How long?
+3. Oh, nice. How is it?
 
-<sub>L1 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/proud/4w1s [scene-words.cause-money:job-started-started.you-got-a-job]; L4 t0 speaker/own-work-new/conversation/glad/5w1s [conversation.own-work-new-ask-where.where-are-you-working-now]; L5 t0 reply/plain/conversation/proud/8w1s [conversation.own-work-raise-tell.i-work-at-employer]; L6 t0 reply/brief/conversation/proud/6w1s [conversation.own-work-new-answer-plain.at-employer]; L7 t0 reply/turn/conversation/proud/12w2s [conversation.own-work-raise-tell.i-work-at-employer, conversation.own-work-answer-turn.where-do-you-work, conversation.own-work-answer-turn.where-do-you-work]; L8 t0 lie/lie-none/conversation/proud/3w1s [conversation.other-work-reply-none.not-right-now]; L9 t0 lie/lie-elsewhere/conversation/proud/5w1s [conversation.own-work-new-lie-elsewhere.i-work-at-claimed]; L10 t0 lie/lie-elsewhere+turn/conversation/proud/9w2s [conversation.own-work-new-lie-elsewhere.i-work-at-claimed, conversation.own-work-answer-turn.where-do-you-work]; L11 t98 speaker/own-work-new/conversation/proud/8w1s [conversation.own-work-raise-tell.i-work-at-employer]; L12 t98 speaker/ack/conversation/glad/1w1s [conversation.shared-school-answer-brief.yeah]; L13 t98 speaker/farewell/conversation/glad/1w1s [conversation.farewell-leave-bye.goodbye]</sub>
+**Bo Robbins:** New Castle County Cleaning Services, right.
 
-## Item 13: celebration (honor, ends in personal), profile stubborn
+**Leslie Robbins:** Got it.
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6661730b7a44c8, person_ad6664730b7a49e1.*
+**Leslie Robbins:** Let's leave it there for now.
 
-*The same scene as above, with this profile's talk.*
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/ack/conversation/glad/6w1s [conversation.other-work-answer-ack.employer-right]; L6 t0 reply/tenure/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L8 t98 speaker/other-work/conversation/glad/6w1s [conversation.other-work-answer-ack.employer-right]; L9 t98 speaker/ack/conversation/proud/2w1s [conversation.ack-reply-right.got-it]; L10 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
 
-**Cora Robbins:** What are you doing now?
+## Item 147: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_7436c539f5f43175, person_7436c439f5f42fc2, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+
+> You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
+
+**Morgan Fletcher:** Can we talk?
+
+**Morgan Fletcher:** We have to move.
 
 Replies:
 
-1. I'm at New Castle County Cleaning Services.
-2. At New Castle County Cleaning Services.
-3. I'm at New Castle County Cleaning Services. What do you do?
+1. Wow.
+2. That's awful.
 
-Lies:
+**John Fletcher:** Wow.
 
-4. Not right now.
-5. I work for Brookside Messenger.
-6. I work for Brookside Messenger. What do you do?
+**Morgan Fletcher:** Huh.
 
-**Leslie Robbins:** I'm at New Castle County Cleaning Services.
+**Morgan Fletcher:** Let me know if you need anything.
 
-**Cora Robbins:** Yeah.
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/3w1s [conversation.family-open-open.can-we-talk]; L5 t0 speaker/eviction-reply/conversation/solemn/4w1s [conversation.eviction-raise.we-have-to-move]; L6 t0 reply/brief/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L7 t0 reply/comfort/conversation/braced/2w1s [conversation.job-cause-reply-answer-comfort.thats-awful]; L8 t98 speaker/eviction-reply/conversation/braced/1w1s [conversation.tenure-reply-answer-turn.wow]; L9 t98 speaker/ack/conversation/solemn/1w1s [conversation.mutual-answer-brief.huh]; L10 t98 speaker/farewell/conversation/solemn/7w1s [conversation.farewell-leave-home.let-me-know-if-you-need-anything]</sub>
 
-**Cora Robbins:** I'll see you.
+## Item 148: celebration (honor, ends in personal), profile cold
 
-<sub>L1 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/proud/4w1s [scene-words.cause-money:job-started-started.you-got-a-job]; L4 t0 speaker/own-work-new/conversation/glad/5w1s [conversation.own-work-answer-turn.what-are-you-doing-now]; L5 t0 reply/plain/conversation/proud/7w1s [conversation.own-work-new-answer-plain.im-at-employer]; L6 t0 reply/brief/conversation/proud/6w1s [conversation.own-work-new-answer-plain.at-employer]; L7 t0 reply/turn/conversation/proud/11w2s [conversation.own-work-new-answer-plain.im-at-employer, conversation.own-work-answer-turn.what-do-you-do, conversation.own-work-answer-turn.what-do-you-do]; L8 t0 lie/lie-none/conversation/proud/3w1s [conversation.other-work-reply-none.not-right-now]; L9 t0 lie/lie-elsewhere/conversation/proud/5w1s [conversation.own-work-new-lie-elsewhere.i-work-for-claimed]; L10 t0 lie/lie-elsewhere+turn/conversation/proud/9w2s [conversation.own-work-new-lie-elsewhere.i-work-for-claimed, conversation.own-work-answer-turn.what-do-you-do]; L11 t98 speaker/own-work-new/conversation/proud/7w1s [conversation.own-work-new-answer-plain.im-at-employer]; L12 t98 speaker/ack/conversation/glad/1w1s [conversation.shared-school-answer-brief.yeah]; L13 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-bye.ill-see-you]</sub>
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8.*
 
-## Item 14: celebration (honor, ends in personal), profile boastful
+> You're home in Brookside. Your mother is here. Your mother wants to talk to you.
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6661730b7a44c8, person_ad6664730b7a49e1.*
-
-*The same scene as above, with this profile's talk.*
-
-**Cora Robbins:** What do you do?
+**Leslie Robbins:** I'm with New Castle County Cleaning Services.
 
 Replies:
 
-1. I'm at New Castle County Cleaning Services.
-2. I'm with New Castle County Cleaning Services.
-3. I'm at New Castle County Cleaning Services. How about you?
+1. How long have you been there?
+2. Right. Is it busy there?
+3. New Castle County Cleaning Services, right.
 
-Lies:
+**Cora Robbins:** How long have you been there?
 
-4. Not right now.
-5. I'm with Brookside Messenger.
-6. I'm with Brookside Messenger. How about you?
+**Leslie Robbins:** We'll talk.
 
-**Leslie Robbins:** I'm at New Castle County Cleaning Services.
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/tenure/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L7 t0 reply/ack/conversation/glad/6w1s [conversation.other-work-answer-ack.employer-right]; L8 t98 speaker/other-work/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L9 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
 
-**Cora Robbins:** Yeah.
+## Item 149: celebration (honor, ends in personal), profile anxious
 
-**Cora Robbins:** Take care of yourself.
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8.*
 
-<sub>L1 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/proud/4w1s [scene-words.cause-money:job-started-started.you-got-a-job]; L4 t0 speaker/own-work-new/conversation/glad/4w1s [conversation.own-work-answer-turn.what-do-you-do]; L5 t0 reply/plain/conversation/proud/7w1s [conversation.own-work-new-answer-plain.im-at-employer]; L6 t0 reply/brief/conversation/proud/7w1s [conversation.own-work-raise-tell.im-with-employer]; L7 t0 reply/turn/conversation/proud/10w2s [conversation.own-work-new-answer-plain.im-at-employer, conversation.greet-answer-fine.how-about-you, conversation.greet-answer-fine.how-about-you]; L8 t0 lie/lie-none/conversation/proud/3w1s [conversation.other-work-reply-none.not-right-now]; L9 t0 lie/lie-elsewhere/conversation/proud/4w1s [conversation.own-work-new-lie-elsewhere.im-with-claimed]; L10 t0 lie/lie-elsewhere+turn/conversation/proud/7w2s [conversation.own-work-new-lie-elsewhere.im-with-claimed, conversation.greet-answer-fine.how-about-you]; L11 t98 speaker/own-work-new/conversation/proud/7w1s [conversation.own-work-new-answer-plain.im-at-employer]; L12 t98 speaker/ack/conversation/glad/1w1s [conversation.shared-school-answer-brief.yeah]; L13 t98 speaker/farewell/conversation/glad/4w1s [conversation.farewell-leave-bye.take-care-of-yourself]</sub>
+*The same scene as above, with this profile's talk.*
+
+**Leslie Robbins:** I'm working for New Castle County Cleaning Services.
+
+Replies:
+
+1. How long?
+2. Oh. How's that going?
+3. That's great.
+
+**Cora Robbins:** How long?
+
+**Leslie Robbins:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.thats-great]; L8 t98 speaker/other-work/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L9 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 150: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8.*
+
+*The same scene as above, with this profile's talk.*
+
+**Leslie Robbins:** I'm working for New Castle County Cleaning Services.
+
+Replies:
+
+1. Is that new?
+2. Right. Is it busy there?
+3. Oh, New Castle County Cleaning Services.
+
+**Cora Robbins:** Is that new?
+
+**Leslie Robbins:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/8w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L7 t0 reply/ack/conversation/glad/6w1s [conversation.other-work-answer-ack.oh-employer]; L8 t98 speaker/other-work/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L9 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 151: news-arrives (news-received, ends in personal), profile cold
+
+*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_5df2709ae25876f0, person_5df2739ae2587c09.*
+
+> You're at home in Brookside. Your brother is here too. Your brother has something to tell you.
+
+**Andrew Robbins:** Do you have a second?
+
+**Andrew Robbins:** I lost my job.
+
+Replies:
+
+1. Oh, no.
+2. Oh. Are you okay?
+
+**Sean Robbins:** Oh, no.
+
+**Andrew Robbins:** Sure.
+
+**Andrew Robbins:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/5w1s [conversation.family-open-open.do-you-have-a-second]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/comfort/conversation/braced/2w1s [conversation.news-answer-react.oh-no]; L7 t0 reply/brief/conversation/braced/4w2s [conversation.job-lost-reply-answer-brief.oh-are-you-okay]; L8 t98 speaker/job-lost-reply/conversation/braced/2w1s [conversation.news-answer-react.oh-no]; L9 t98 speaker/ack/conversation/solemn/1w1s [conversation.home-reply-answer-brief.sure]; L10 t98 speaker/farewell/conversation/solemn/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 152: news-arrives (news-received, ends in personal), profile anxious
+
+*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_5df2709ae25876f0, person_5df2739ae2587c09.*
+
+*The same scene as above, with this profile's talk.*
+
+**Andrew Robbins:** Do you have a second?
+
+**Andrew Robbins:** I lost my job.
+
+Replies:
+
+1. Sorry to hear that.
+2. Oh, no. Are you all right?
+
+**Sean Robbins:** Sorry to hear that.
+
+**Andrew Robbins:** Fair enough.
+
+**Andrew Robbins:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/braced/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/braced/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/family-open/conversation/solemn/5w1s [conversation.family-open-open.do-you-have-a-second]; L5 t0 speaker/job-lost-reply/conversation/solemn/4w1s [conversation.job-lost-raise.i-lost-my-job]; L6 t0 reply/comfort/conversation/braced/4w1s [conversation.other-work-answer-ack-none.sorry-to-hear-that]; L7 t0 reply/brief/conversation/braced/6w2s [conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right]; L8 t98 speaker/job-lost-reply/conversation/braced/4w1s [conversation.other-work-answer-ack-none.sorry-to-hear-that]; L9 t98 speaker/ack/conversation/solemn/2w1s [conversation.ack-reply-right.fair-enough]; L10 t98 speaker/farewell/conversation/solemn/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 153: celebration (honor, ends in personal), profile cold
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5.*
+
+> You're home in Brookside. Your father is here. Your father wants to talk to you.
+
+**Victor Villanueva:** I work for Peck Mart.
+
+Replies:
+
+1. How long have you been there?
+2. Oh, nice. How is it?
+3. Oh, Peck Mart.
+
+**Caroline Villanueva:** How long have you been there?
+
+**Victor Villanueva:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/5w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/tenure/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t0 reply/ack/conversation/glad/3w1s [conversation.other-work-answer-ack.oh-employer]; L8 t98 speaker/other-work/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L9 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 154: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5.*
+
+*The same scene as above, with this profile's talk.*
+
+**Victor Villanueva:** I work at Peck Mart.
+
+Replies:
+
+1. Have you been there long?
+2. Oh. How's that going?
+3. I see.
+
+**Caroline Villanueva:** Have you been there long?
+
+**Victor Villanueva:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/5w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.have-you-been-there-long]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.i-see]; L8 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.have-you-been-there-long]; L9 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 155: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5.*
+
+*The same scene as above, with this profile's talk.*
+
+**Victor Villanueva:** I work for Peck Mart.
+
+Replies:
+
+1. How long has it been?
+2. Oh, nice. How is it?
+3. Oh, okay.
+
+**Caroline Villanueva:** How long has it been?
+
+**Victor Villanueva:** Talk to you soon.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/5w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.oh-okay]; L8 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L9 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.talk-to-you-soon]</sub>
+
+## Item 156: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5.*
+
+*The same scene as above, with this profile's talk.*
+
+**Victor Villanueva:** I'm working for Peck Mart.
+
+Replies:
+
+1. How long have you been doing that?
+2. Oh. How's that going?
+3. Oh, Peck Mart.
+
+**Caroline Villanueva:** How long have you been doing that?
+
+**Victor Villanueva:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/5w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/3w1s [conversation.other-work-answer-ack.oh-employer]; L8 t98 speaker/other-work/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L9 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 157: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565361c9720b3966, person_565366c9720b41e5.*
+
+> You're home in Brookside. Your father is there. Your father wants to talk to you.
+
+**Victor Villanueva:** I'm with Peck Mart.
+
+Replies:
+
+1. Oh, I see.
+2. I'm with New Castle County Diner.
+3. Is that new?
+4. Oh, nice. How is it?
+
+**Lauren Villanueva:** Oh, I see.
+
+**Victor Villanueva:** That makes sense.
+
+**Victor Villanueva:** I'll let you get back to it.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/4w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/ack/conversation/glad/3w1s [conversation.other-work-answer-ack.oh-i-see]; L6 t0 reply/own/conversation/glad/6w1s [conversation.other-work-answer-own.im-with-my-employer]; L7 t0 reply/tenure/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L8 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L9 t98 speaker/other-work/conversation/glad/3w1s [conversation.other-work-answer-ack.oh-i-see]; L10 t98 speaker/ack/conversation/proud/3w1s [conversation.ack-reply-right.that-makes-sense]; L11 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.i-ll-let-you-get-back-to-it]</sub>
+
+## Item 158: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565365c9720b4032, person_565366c9720b41e5.*
+
+> You're at home in Brookside. Your partner is with you. Your partner has something to tell you.
+
+**Victor Villanueva:** I'm working for Peck Mart.
+
+Replies:
+
+1. I work for New Castle County Feed and Grain.
+2. Is that new?
+3. Right. Is it busy there?
+
+**Emily Villanueva:** I work for New Castle County Feed and Grain.
+
+**Victor Villanueva:** Got it.
+
+**Victor Villanueva:** I'll let you get back to it.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/5w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/own/conversation/glad/9w1s [conversation.other-work-answer-own.i-work-for-my-employer]; L6 t0 reply/tenure/conversation/glad/3w1s [conversation.other-work-answer-tenure.is-that-new]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L8 t98 speaker/other-work/conversation/glad/9w1s [conversation.other-work-answer-own.i-work-for-my-employer]; L9 t98 speaker/ack/conversation/proud/2w1s [conversation.ack-reply-right.got-it]; L10 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.i-ll-let-you-get-back-to-it]</sub>
+
+## Item 159: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565365c9720b4032, person_565366c9720b41e5.*
+
+*The same scene as above, with this profile's talk.*
+
+**Victor Villanueva:** I'm working for Peck Mart.
+
+Replies:
+
+1. Good for you.
+2. I'm with New Castle County Feed and Grain.
+3. How long has it been?
+4. Oh. How's that going?
+
+**Emily Villanueva:** Good for you.
+
+**Victor Villanueva:** Uh-huh.
+
+**Victor Villanueva:** We'll talk more later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/5w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/ack/conversation/glad/3w1s [conversation.other-work-answer-ack.good-for-you]; L6 t0 reply/own/conversation/glad/8w1s [conversation.other-work-answer-own.im-with-my-employer]; L7 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L8 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L9 t98 speaker/other-work/conversation/glad/3w1s [conversation.other-work-answer-ack.good-for-you]; L10 t98 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.uh-huh]; L11 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-home.we-ll-talk-more-later]</sub>
+
+## Item 160: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab. Cast: person_6863e973f50172f8, person_6863ea73f50174ab.*
+
+> Your partner is here too. Your partner has something to tell you.
+
+**Quinn Melendez:** Have you talked to Hannah?
+
+Replies:
+
+1. Have you seen Hannah?
+2. No, I haven't. Why do you ask?
+3. I talked to Hannah last week.
+4. I can't remember the last time.
+
+**Nicholas Melendez:** Have you seen Hannah?
+
+**Quinn Melendez:** Well, good for you.
+
+**Quinn Melendez:** How is your daughter?
+
+Replies:
+
+1. She's doing well. I'll tell her you asked.
+2. Thank you for asking. I'll let Hannah know.
+
+**Nicholas Melendez:** She's doing well. I'll tell her you asked.
+
+**Quinn Melendez:** Huh. I didn't know that.
+
+**Quinn Melendez:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-name]; L4 t0 reply/turn/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L5 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L6 t0 reply/saw/conversation/glad/6w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L7 t0 reply/not/conversation/glad/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L8 t1 speaker/asked-mutual/conversation/glad/4w1s [conversation.mutual-raise-seen.have-you-seen-name]; L9 t1 speaker/ack/conversation/proud/4w1s [conversation.ack-reply-right.well-good-for-you]; L10 t1 speaker/family/conversation/proud/4w1s [conversation.family-ask-how.how-is-relation]; L11 t1 reply/well/conversation/glad/8w2s [conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked]; L12 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know]; L13 t98 speaker/family/conversation/glad/8w2s [conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked]; L14 t98 speaker/ack/conversation/proud/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L15 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 161: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab. Cast: person_6863e973f50172f8, person_6863ea73f50174ab.*
+
+*The same scene as above, with this profile's talk.*
+
+**Quinn Melendez:** Have you talked to Hannah?
+
+Replies:
+
+1. Have you?
+2. No, I haven't. Why do you ask?
+3. I talked to Hannah last week.
+4. I can't remember the last time.
+
+**Nicholas Melendez:** Have you?
+
+**Quinn Melendez:** Fair enough.
+
+**Quinn Melendez:** How's your daughter?
+
+Replies:
+
+1. Hannah is doing well. We should all get together soon.
+2. Thanks for asking. I'll tell Hannah you asked.
+
+**Nicholas Melendez:** Hannah is doing well. We should all get together soon.
+
+**Quinn Melendez:** Huh. I didn't know that.
+
+**Quinn Melendez:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L2 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L3 t0 speaker/asked-mutual/conversation/proud/5w1s [conversation.mutual-raise-seen.have-you-talked-to-first]; L4 t0 reply/turn/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L5 t0 reply/brief/conversation/glad/7w2s [conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask]; L6 t0 reply/saw/conversation/glad/6w1s [conversation.mutual-answer-mine-saw.i-talked-to-name-my-when]; L7 t0 reply/not/conversation/glad/6w1s [conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time]; L8 t1 speaker/asked-mutual/conversation/glad/2w1s [conversation.asked-mutual-answer-turn.have-you]; L9 t1 speaker/ack/conversation/proud/2w1s [conversation.ack-reply-right.fair-enough]; L10 t1 speaker/family/conversation/proud/3w1s [conversation.family-ask-how.hows-relation]; L11 t1 reply/well/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L12 t1 reply/thanks/conversation/glad/8w2s [conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked]; L13 t98 speaker/family/conversation/glad/10w2s [conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon]; L14 t98 speaker/ack/conversation/proud/5w2s [conversation.ack-reply-right.huh-i-didn-t-know-that]; L15 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 162: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c239f5f42c5c, person_7436c439f5f42fc2.*
+
+> You're at home in Brookside. Your mother is here too. Your mother has something to tell you.
+
+**Morgan Fletcher:** I'm working for New Castle County Diner.
+
+Replies:
+
+1. How long has it been?
+2. Oh. How's that going?
+3. Oh, okay.
+
+**Zoe Fletcher:** How long has it been?
+
+**Morgan Fletcher:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.oh-okay]; L8 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-tenure.how-long-has-it-been]; L9 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 163: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c439f5f42fc2, person_7436c539f5f43175.*
+
+> You're at home in Brookside. Your son is here too. You start at New Castle County Diner.
+
+**John Fletcher:** Congratulations on the job at New Castle County Diner.
+
+Replies:
+
+1. Thanks. It finally came through.
+2. I start soon.
+
+**Morgan Fletcher:** Thanks. It finally came through.
+
+**John Fletcher:** Sure.
+
+**John Fletcher:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/proud/7w1s [scene-words.cause-money:job-started-self.you-start-at-employer]; L4 t0 speaker/job-new-told-reply/conversation/glad/9w1s [conversation.job-new-told-raise-raise.congratulations-on-the-job-at-employer]; L5 t0 reply/thank/conversation/proud/5w2s [conversation.job-new-told-reply-answer-thank.thanks-it-finally-came-through]; L6 t0 reply/tell/conversation/proud/3w1s [conversation.job-new-told-reply-answer-tell.i-start-soon]; L7 t98 speaker/job-new-told-reply/conversation/proud/5w2s [conversation.job-new-told-reply-answer-thank.thanks-it-finally-came-through]; L8 t98 speaker/ack/conversation/glad/1w1s [conversation.home-reply-answer-brief.sure]; L9 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 164: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d41289db77e7, person_b6f0d61289db7b4d.*
+
+> You're home in Brookside. Your mother is here. Your mother wants to talk to you.
+
+**Stacy Shepard:** I'm working for New Castle County Diner.
+
+Replies:
+
+1. How long have you been doing that?
+2. Oh. How's that going?
+3. New Castle County Diner, right.
+
+**Jeffrey Shepard:** How long have you been doing that?
+
+**Stacy Shepard:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/5w1s [conversation.other-work-answer-ack.employer-right]; L8 t98 speaker/other-work/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L9 t98 speaker/farewell/conversation/proud/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 165: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+
+> You're at home in Brookside. Your partner is with you. Your partner has something to tell you.
+
+**Stacy Shepard:** I work at New Castle County Diner.
+
+Replies:
+
+1. How long have you been doing that?
+2. Oh, nice. How is it?
+3. New Castle County Diner, right.
+
+**Zachary Shepard:** How long have you been doing that?
+
+**Stacy Shepard:** We can pick this up later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/tenure/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t0 reply/ack/conversation/glad/5w1s [conversation.other-work-answer-ack.employer-right]; L8 t98 speaker/other-work/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L9 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.we-can-pick-this-up-later]</sub>
+
+## Item 166: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+
+*The same scene as above, with this profile's talk.*
+
+**Stacy Shepard:** I work at New Castle County Diner.
+
+Replies:
+
+1. Good for you. Is it busy?
+2. Do you like it there?
+3. Oh. How's that going?
+
+**Zachary Shepard:** Good for you. Is it busy?
+
+**Stacy Shepard:** Interesting.
+
+**Stacy Shepard:** I'll see you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/ack/conversation/glad/6w2s [conversation.other-work-answer-ack.good-for-you-is-it-busy]; L6 t0 reply/tenure/conversation/glad/5w1s [conversation.other-work-answer-tenure.do-you-like-it-there]; L7 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L8 t98 speaker/other-work/conversation/glad/6w2s [conversation.other-work-answer-ack.good-for-you-is-it-busy]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.ack-reply-right.interesting]; L10 t98 speaker/farewell/conversation/proud/4w1s [conversation.farewell-leave-bye.ill-see-you-later]</sub>
+
+## Item 167: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+
+*The same scene as above, with this profile's talk.*
+
+**Stacy Shepard:** I work at New Castle County Diner.
+
+Replies:
+
+1. How long?
+2. Oh, nice. How is it?
+3. That's good.
+
+**Zachary Shepard:** How long?
+
+**Stacy Shepard:** I'll let you get back to it.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-with-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/tenure/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L7 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.thats-good]; L8 t98 speaker/other-work/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L9 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.i-ll-let-you-get-back-to-it]</sub>
+
+## Item 168: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:2:person_565361c9720b3966. Cast: person_565366c9720b41e5, person_565361c9720b3966.*
+
+> You're at home in Brookside. Your daughter is here too. Your daughter has something to tell you.
+
+**Lauren Villanueva:** I'm working for New Castle County Diner.
+
+Replies:
+
+1. How long?
+2. Right. Is it busy there?
+3. Oh, New Castle County Diner.
+4. I work at Peck Mart.
+
+**Victor Villanueva:** How long?
+
+**Lauren Villanueva:** We'll talk.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L6 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L7 t0 reply/ack/conversation/glad/5w1s [conversation.other-work-answer-ack.oh-employer]; L8 t0 reply/own/conversation/glad/5w1s [conversation.other-work-answer-own.i-work-at-my-employer]; L9 t98 speaker/other-work/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L10 t98 speaker/farewell/conversation/proud/2w1s [conversation.farewell-leave-bye.well-talk]</sub>
+
+## Item 169: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:2:person_565361c9720b3966. Cast: person_565366c9720b41e5, person_565361c9720b3966.*
+
+*The same scene as above, with this profile's talk.*
+
+**Lauren Villanueva:** I'm with New Castle County Diner.
+
+Replies:
+
+1. Oh, really?
+2. How long have you been doing that?
+3. Oh, nice. How is it?
+4. I'm with Peck Mart.
+
+**Victor Villanueva:** Oh, really?
+
+**Lauren Villanueva:** Sure.
+
+**Lauren Villanueva:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/6w1s [conversation.own-work-raise-tell.im-with-employer]; L5 t0 reply/ack/conversation/glad/2w1s [conversation.other-work-answer-ack.oh-really]; L6 t0 reply/tenure/conversation/glad/7w1s [conversation.other-work-answer-tenure.how-long-have-you-been-doing-that]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.oh-nice-how-is-it]; L8 t0 reply/own/conversation/glad/4w1s [conversation.other-work-answer-own.im-with-my-employer]; L9 t98 speaker/other-work/conversation/glad/2w1s [conversation.other-work-answer-ack.oh-really]; L10 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.sure]; L11 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
+
+## Item 170: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:1:person_8875cac2afd1b029. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76.*
+
+> You're home in New Castle County. Your partner is here. You start at New Castle County Diner.
+
+**Sharon Peters:** So you're going to work at New Castle County Diner?
+
+Replies:
+
+1. Thank you. I appreciate that.
+2. I start soon.
+
+**Andrew Peters:** Thank you. I appreciate that.
+
+**Sharon Peters:** Well, good for you.
+
+**Sharon Peters:** Thanks for listening.
+
+<sub>L1 t0 narrator/narrate/scene-words/proud/6w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/proud/4w1s [scene-words.present-one-one.who-is-here]; L3 t0 narrator/narrate/scene-words/proud/7w1s [scene-words.cause-money:job-started-self.you-start-at-employer]; L4 t0 speaker/job-new-told-reply/conversation/glad/10w1s [conversation.job-new-told-raise-raise.so-you-re-going-to-work-at-employer]; L5 t0 reply/thank/conversation/proud/5w2s [conversation.job-new-told-reply-answer-thank.thank-you-i-appreciate-that]; L6 t0 reply/tell/conversation/proud/3w1s [conversation.job-new-told-reply-answer-tell.i-start-soon]; L7 t98 speaker/job-new-told-reply/conversation/proud/5w2s [conversation.job-new-told-reply-answer-thank.thank-you-i-appreciate-that]; L8 t98 speaker/ack/conversation/glad/4w1s [conversation.ack-reply-right.well-good-for-you]; L9 t98 speaker/farewell/conversation/glad/3w1s [conversation.farewell-leave-home.thanks-for-listening]</sub>
+
+## Item 171: celebration (honor, ends in personal), profile stubborn
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea.*
+
+> You're at home in Brookside. Your daughter is here too. Your daughter has something to tell you.
+
+**Erin McCarthy:** I'm working for New Castle County Diner.
+
+Replies:
+
+1. How long have you been there?
+2. Oh. How's that going?
+3. Good for you.
+4. I work for Brookside Neighbors United.
+
+**Alicia McCarthy:** How long have you been there?
+
+**Erin McCarthy:** Let's leave it there for now.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.im-working-for-employer]; L5 t0 reply/tenure/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L6 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L7 t0 reply/ack/conversation/glad/3w1s [conversation.other-work-answer-ack.good-for-you]; L8 t0 reply/own/conversation/glad/6w1s [conversation.other-work-answer-own.i-work-for-my-employer]; L9 t98 speaker/other-work/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L10 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.let-s-leave-it-there-for-now]</sub>
+
+## Item 172: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea.*
+
+*The same scene as above, with this profile's talk.*
+
+**Erin McCarthy:** I work at New Castle County Diner.
+
+Replies:
+
+1. Oh, New Castle County Diner.
+2. I'm at Brookside Neighbors United.
+3. How long?
+4. Oh. How's that going?
+
+**Alicia McCarthy:** Oh, New Castle County Diner.
+
+**Erin McCarthy:** Got it.
+
+**Erin McCarthy:** I'll let you get back to it.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/ack/conversation/glad/5w1s [conversation.other-work-answer-ack.oh-employer]; L6 t0 reply/own/conversation/glad/5w1s [conversation.other-work-answer-own.im-at-my-employer]; L7 t0 reply/tenure/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L8 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L9 t98 speaker/other-work/conversation/glad/5w1s [conversation.other-work-answer-ack.oh-employer]; L10 t98 speaker/ack/conversation/proud/2w1s [conversation.ack-reply-right.got-it]; L11 t98 speaker/farewell/conversation/proud/7w1s [conversation.farewell-leave-home.i-ll-let-you-get-back-to-it]</sub>
+
+## Item 173: celebration (honor, ends in personal), profile boastful
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea.*
+
+*The same scene as above, with this profile's talk.*
+
+**Erin McCarthy:** I work for New Castle County Diner.
+
+Replies:
+
+1. Good for you. Is it busy?
+2. How long have you been there?
+3. Right. Is it busy there?
+4. I work for Brookside Neighbors United.
+
+**Alicia McCarthy:** Good for you. Is it busy?
+
+**Erin McCarthy:** Can't argue with that.
+
+**Erin McCarthy:** I'll talk to you later.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.setting-home-home.you-re-at-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/5w1s [scene-words.present-one-one.who-is-here-too]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-has-something-to-tell-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.i-work-for-employer]; L5 t0 reply/ack/conversation/glad/6w2s [conversation.other-work-answer-ack.good-for-you-is-it-busy]; L6 t0 reply/tenure/conversation/glad/6w1s [conversation.other-work-answer-tenure.how-long-have-you-been-there]; L7 t0 reply/brief/conversation/glad/5w2s [conversation.other-work-answer-brief.right-is-it-busy-there]; L8 t0 reply/own/conversation/glad/6w1s [conversation.other-work-answer-own.i-work-for-my-employer]; L9 t98 speaker/other-work/conversation/glad/6w2s [conversation.other-work-answer-ack.good-for-you-is-it-busy]; L10 t98 speaker/ack/conversation/proud/4w1s [conversation.ack-reply-right.can-t-argue-with-that]; L11 t98 speaker/farewell/conversation/proud/5w1s [conversation.farewell-leave-bye.ill-talk-to-you-later]</sub>
+
+## Item 174: celebration (honor, ends in personal), profile anxious
+
+*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c339f5f42e0f, person_7436c439f5f42fc2.*
+
+> You're home in Brookside. Your mother is there. Your mother wants to talk to you.
+
+**Morgan Fletcher:** I work at New Castle County Diner.
+
+Replies:
+
+1. New Castle County Diner? How do you like it?
+2. How long?
+3. Oh. How's that going?
+
+**Ryan Fletcher:** New Castle County Diner? How do you like it?
+
+**Morgan Fletcher:** Huh.
+
+**Morgan Fletcher:** I'm here if you need me.
+
+<sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.present-one-one.who-is-there]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/ack/conversation/glad/9w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L6 t0 reply/tenure/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L7 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L8 t98 speaker/other-work/conversation/glad/9w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.mutual-answer-brief.huh]; L10 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
 

@@ -255,7 +255,8 @@ const normal = (text: string) =>
  *  2. no two items share (situation type, cast, pieces used);
  *  3. no two items share the same four replies;
  *  4. a situation type appears at most `maxPerType` times per profile;
- *  5. a phrase appears once per page.
+ *  5. a phrase is graded once per page: a line said in an earlier scene is
+ *     shown as graded above, and an item that adds no new line is dropped.
  */
 export function dedupe<T extends DedupeItem>(
   items: readonly T[],
@@ -265,6 +266,8 @@ export function dedupe<T extends DedupeItem>(
   kept: T[];
   dropped: Record<DropRule, number>;
   log: { rule: DropRule; item: T }[];
+  /** Each kept item's phrases already graded in an earlier scene. */
+  repeats: Map<T, Set<string>>;
 } {
   const dropped = Object.fromEntries(DROP_RULES.map((r) => [r, 0])) as Record<
     DropRule,
@@ -279,6 +282,7 @@ export function dedupe<T extends DedupeItem>(
   // A phrase is shown once per page; profiles of one scene may share a line,
   // since comparing them is what the scene is for.
   const phrases = new Map<string, string>();
+  const repeats = new Map<T, Set<string>>();
   for (const item of items) {
     const pieces = [...new Set(item.pieces)].sort().join("|");
     const sceneSignature = `${item.sceneId}#${pieces}`;
@@ -307,22 +311,26 @@ export function dedupe<T extends DedupeItem>(
     }
     perType.set(capKey, (perType.get(capKey) ?? 0) + 1);
     const said = item.phrases.map(normal).filter(Boolean);
-    if (
-      phraseOnce &&
-      said.some((phrase) => {
-        const where = phrases.get(phrase);
-        return where !== undefined && where !== item.sceneId;
-      })
-    ) {
+    // A phrase is graded once (Order 2, section 2): one already graded in
+    // another scene is shown as graded above, and an item with no line of
+    // its own to grade adds no data point and is dropped.
+    const seen = said.filter((phrase) => {
+      const where = phrases.get(phrase);
+      return where !== undefined && where !== item.sceneId;
+    });
+    if (phraseOnce && said.length && seen.length === said.length) {
+      perType.set(capKey, (perType.get(capKey) ?? 1) - 1);
       drop("repeated-phrase");
       continue;
     }
+    if (seen.length) repeats.set(item, new Set(seen));
     identity.add(who);
     for (const set of item.choiceSets) choiceSets.add(set);
-    for (const phrase of said) phrases.set(phrase, item.sceneId);
+    for (const phrase of said)
+      if (!phrases.has(phrase)) phrases.set(phrase, item.sceneId);
     kept.push(item);
   }
-  return { kept, dropped, log };
+  return { kept, dropped, log, repeats };
 }
 
 /** Orders the page so adjacent items differ in situation type and in register, where the items allow. */
@@ -573,6 +581,7 @@ export function runBench(args: string[]): number {
     profiles,
     kept,
     dropped: deduped.dropped,
+    repeats: deduped.repeats,
     skipped,
     standIn,
     maxPerType,
@@ -923,6 +932,7 @@ function writeOutputs(input: {
   cache: string;
   profiles: GradingProfile[];
   kept: (BenchItem & DedupeItem)[];
+  repeats: Map<BenchItem & DedupeItem, Set<string>>;
   dropped: Record<DropRule, number>;
   skipped: Skipped[];
   standIn: string[];
@@ -963,6 +973,9 @@ function writeOutputs(input: {
     `${JSON.stringify(json, null, 2)}\n`,
   );
 
+  // A line graded in an earlier scene is marked, so it is graded once.
+  const graded = (item: BenchItem & DedupeItem, text: string) =>
+    input.repeats.get(item)?.has(normal(text)) ? " *(graded above)*" : "";
   const out: string[] = [];
   out.push(`# Grading bench ${id}`, "");
   out.push(
@@ -1009,12 +1022,14 @@ function writeOutputs(input: {
       for (const l of here.filter(
         (x) => x.role === "speaker" || x.role === "speech",
       ))
-        out.push(`**${l.speaker}:** ${l.text}`, "");
+        out.push(`**${l.speaker}:** ${l.text}${graded(item, l.text)}`, "");
       const picked = here.filter((x) => x.role === "reply");
       const lies = here.filter((x) => x.role === "lie");
       if (picked.length) {
         out.push("Replies:", "");
-        picked.forEach((l, at) => out.push(`${at + 1}. ${l.text}`));
+        picked.forEach((l, at) =>
+          out.push(`${at + 1}. ${l.text}${graded(item, l.text)}`),
+        );
         out.push("");
       }
       if (lies.length) {
