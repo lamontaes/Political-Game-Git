@@ -5,6 +5,7 @@ import {
   fill,
   formalityOf,
   minedParts,
+  saysTheSame,
   slotValues,
   variantsFor,
 } from "./mined-variants";
@@ -31,6 +32,22 @@ describe("variants come from the mined bank, one axis each", () => {
       slotValues({ text: "{relation} was {age}." }, "My father was 84.")
         ?.values,
     ).toEqual({ relation: "My father", age: "84" });
+  });
+
+  it("offers no part of a broad move that means something else", () => {
+    const all = minedParts();
+    const find = (text: string) =>
+      [...all.values()].find((part) => part.text === text)!;
+    expect(
+      saysTheSame(
+        find("The meeting will come to order."),
+        find("Please state your name for the record."),
+      ),
+    ).toBe(false);
+    // A record's choice is its event: a marriage never retells a birth.
+    expect(
+      saysTheSame(find("{relation} was born."), find("I got married.")),
+    ).toBe(false);
   });
 
   it("assigns one axis by its proxy", () => {

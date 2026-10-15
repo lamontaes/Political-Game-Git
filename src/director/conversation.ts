@@ -164,6 +164,28 @@ export interface Conversation {
   last?: LastLine;
 }
 
+/**
+ * How either speaker says someone: by first name for their own household or
+ * family ("I saw Stephen."), by full name otherwise (batch 10: "I talked to
+ * Stephen Harrison yesterday" about the player's own household).
+ */
+function spokenName(
+  core: Readonly<CoreState>,
+  between: readonly PersonId[],
+  id: PersonId,
+): string {
+  const named = core.people.get(id);
+  const close = between.some((who) => {
+    const row = core.people.get(who);
+    return (
+      !!row &&
+      !!named &&
+      (row.householdId === named.householdId || row.familyIds.has(id))
+    );
+  });
+  return close && named ? named.givenName : fullName(core, id);
+}
+
 function fullName(core: Readonly<CoreState>, id: PersonId): string {
   const row = core.people.get(id)!;
   return `${row.givenName} ${row.familyName}`;
@@ -317,7 +339,7 @@ export function subjectsBetween(
       aboutId: id,
       facts: {
         name: {
-          text: fullName(core, id),
+          text: spokenName(core, [speakerId, listenerId], id),
           sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
         },
         first: {
@@ -505,7 +527,7 @@ function replyFacts(
     }
     case "mutual": {
       const name = {
-        text: fullName(core, subject.aboutId!),
+        text: spokenName(core, [listenerId], subject.aboutId!),
         sourceRecordIds: [
           listener.knownIdSources?.[subject.aboutId!]?.sourceFactId ??
             subject.aboutId!,

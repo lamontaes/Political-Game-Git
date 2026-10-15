@@ -121,7 +121,14 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         // same question turned back, or their work after yours.
         const follows =
           CONVERSATION_DATA.follows[last.kind.replace(/-new$/, "")] ?? [];
+        // A how-is question is answered, never with whether they were seen
+        // (batch 10: "How's Stephen doing?" offered "No, I haven't.").
+        const howIs = /^How(?:'s| is)\b/.test(last.text);
         for (const choice of talk.choices) {
+          if (howIs)
+            expect(choice.text).not.toMatch(
+              /\bhaven't\b|\btalked to\b|\bI saw\b/,
+            );
           expect(choice.answers).toBe(last.subjectId);
           expect(choice.sourceRecordIds.length).toBeGreaterThan(0);
           expect(choice.text).not.toMatch(/\b(goodbye|leave|bye)\b/i);
