@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-trait-coverage-red-on-main
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T23:27:28.258Z
 ---
 
 **What.** TODO
