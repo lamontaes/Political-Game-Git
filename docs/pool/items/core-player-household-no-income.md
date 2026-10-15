@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/core-player-household-no-income
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: found by a Claude session verifying core-player-money-spending in a played year
-claimed-at: 2026-10-15T21:16:15.346Z
+claimed-at:
 ---
 
 **What.** TODO
