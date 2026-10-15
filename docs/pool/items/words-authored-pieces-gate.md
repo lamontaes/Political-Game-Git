@@ -4,9 +4,9 @@ title: "Let the bank checks accept authored parts (origin: authored)"
 area: words
 kind: cleanup
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/words-authored-pieces-gate
-pr:
+pr: #4443
 blocked-on:
 milestone:
 source: "text rule, OWNER-DECISIONS.md, Oct 15 evening"

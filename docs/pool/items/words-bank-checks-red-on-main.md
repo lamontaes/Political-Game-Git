@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/words-bank-checks-red-on-main
+pr: #4472
 blocked-on:
 source: found by a Claude session while changing the bank gates (words-authored-pieces-gate)
+claimed-at: 2026-10-15T22:03:23.508Z
 ---
 
 **What.** `tests/english-parts-banks.test.ts` and `tests/english-era-register.test.ts` fail six checks on main, all in the bank data: `journal.json` carries the line "I ran for {office}." twice; `notices.json` names its register "notice" (the check wants the file name's register) and `notice.election.notice-of-election` has no source date; `newspaper-ledes.json` keys do not follow the `register.move.` shape and its six pieces come from 1902 to 1947 records, which the era check (2015 on) refuses. Under the text rule (Oct 15) such pieces are rewritten as authored parts (`origin: authored`, author, date) or re-mined, a Words decision.
