@@ -1,7 +1,8 @@
 /**
- * The director's conversation words, from the mined conversation bank
+ * The director's conversation words, from the conversation bank
  * (`data/english/parts/conversation.json`): sentences real Americans said,
- * each with its public-domain source. Nothing here is written by hand; the
+ * with their public-domain sources, and sentences authored to the calibrated
+ * patterns (`origin: authored`). Nothing here is written by hand; the
  * rules a conversation runs by (`../data/conversation-rules.json`) carry no
  * sentence text.
  *
@@ -36,9 +37,14 @@ export interface MinedPart {
   move: string;
   text: string;
   uses: MinedUse[];
-  transcriptsUsing: number;
+  transcriptsUsing?: number;
   shippable: boolean;
-  source: { document: string; date: string; url: string; license?: string };
+  /** Where a mined part came from: an optional note (the text rule, Oct 15). */
+  source?: { document: string; date: string; url: string; license?: string };
+  /** A part written to the calibrated patterns, with its author and date. */
+  origin?: "authored";
+  author?: string;
+  date?: string;
 }
 export interface MinedBank {
   register: string;

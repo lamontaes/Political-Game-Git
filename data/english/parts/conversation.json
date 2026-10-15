@@ -1477,12 +1477,6 @@
           "subject": "greet",
           "role": "answer",
           "choice": "fine"
-        },
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
         }
       ],
       "transcriptsUsing": 2,
@@ -4836,75 +4830,6 @@
       }
     },
     {
-      "key": "conversation.home-lie-moved.we-moved",
-      "move": "home-lie-moved",
-      "kind": "spoken",
-      "text": "We moved.",
-      "uses": [
-        {
-          "move": "home-lie-moved",
-          "subject": "home",
-          "role": "lie",
-          "choice": "moved",
-          "stages": ["none"]
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "dcpd": 3,
-        "nps": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at a Campaign Rally for Governor Kathleen C. Hochul in Bronxville, New York",
-        "date": "2022-11-06",
-        "granule": "DCPD-202201007",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202201007/html/DCPD-202201007.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "lie"
-      }
-    },
-    {
-      "key": "conversation.home-lie-moved.i-left-place",
-      "move": "home-lie-moved",
-      "kind": "spoken",
-      "text": "I left {place}.",
-      "uses": [
-        {
-          "move": "home-lie-moved",
-          "subject": "home",
-          "role": "lie",
-          "choice": "moved",
-          "stages": ["none"]
-        }
-      ],
-      "transcriptsUsing": 33,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 1,
-        "hearings": 4,
-        "nasa": 5,
-        "nasa2": 7,
-        "nih": 3,
-        "nps": 8,
-        "wpa": 4
-      },
-      "shippable": true,
-      "source": {
-        "document": "FREIGHT FORWARD: OVERCOMING SUPPLY CHAIN CHALLENGES TO DELIVER FOR AMERICA",
-        "date": "2023-05-10",
-        "granule": "CHRG-118hhrg55550",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55550/html/CHRG-118hhrg55550.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "lie"
-      }
-    },
-    {
       "key": "conversation.home-lie-elsewhere.i-moved-to-claimed",
       "move": "home-lie-elsewhere",
       "kind": "spoken",
@@ -5348,40 +5273,6 @@
       },
       "tag": {
         "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.home-new-lie-none.not-here",
-      "move": "home-new-lie-none",
-      "kind": "spoken",
-      "text": "Not here.",
-      "uses": [
-        {
-          "move": "home-new-lie-none",
-          "subject": "home-new",
-          "role": "lie",
-          "choice": "none",
-          "stages": ["none"]
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "briefing": 3,
-        "crec": 1,
-        "dcpd": 3,
-        "nps": 1,
-        "va": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks Honoring the 2025 College Football National Champion Indiana University Hoosiers",
-        "date": "2026-05-11",
-        "granule": "DCPD-202600332",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600332/html/DCPD-202600332.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "lie"
       }
     },
     {
@@ -7230,7 +7121,7 @@
     },
     {
       "key": "conversation.mutual-raise-seen.hows-name",
-      "move": "mutual-raise-seen",
+      "move": "family-ask-how",
       "kind": "spoken",
       "text": "How's {name}?",
       "uses": [
@@ -7260,7 +7151,7 @@
     },
     {
       "key": "conversation.mutual-raise-seen.hows-name-doing",
-      "move": "mutual-raise-seen",
+      "move": "family-ask-how",
       "kind": "spoken",
       "text": "How's {name} doing?",
       "uses": [
@@ -8217,16 +8108,10 @@
     },
     {
       "key": "conversation.family-answer-well.fine",
-      "move": "family-answer-well",
+      "move": "school-answer-fine",
       "kind": "spoken",
       "text": "Fine.",
       "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        },
         {
           "move": "school-answer-fine",
           "subject": "school",
@@ -8269,328 +8154,11 @@
       }
     },
     {
-      "key": "conversation.family-answer-well.theyre-fine",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "They're fine.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 3,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at a Swearing-in Ceremony for Markwayne Mullin as Secretary of Homeland Security and an Exchange With Reporters",
-        "date": "2026-03-24",
-        "granule": "DCPD-202600199",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600199/html/DCPD-202600199.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.theyre-doing-fine",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "They're doing fine.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 3,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "dcpd of 2025-10-09",
-        "date": "2025-10-09",
-        "granule": "DCPD-202500993",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500993/html/DCPD-202500993.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.theyre-doing-well",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "They're doing well.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "briefing": 2,
-        "dcpd": 7,
-        "house": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks to the United Nations General Assembly in New York City",
-        "date": "2025-09-23",
-        "granule": "DCPD-202500944",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500944/html/DCPD-202500944.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.theyre-good",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "They're good.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "dcpd": 7,
-        "hearings": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at Mount Rushmore in Keystone, South Dakota",
-        "date": "2026-07-03",
-        "granule": "DCPD-202600442",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600442/html/DCPD-202600442.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.shes-fine",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "She's fine.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on the National Economy in Walton, Kentucky",
-        "date": "2026-03-11",
-        "granule": "DCPD-202600165",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600165/html/DCPD-202600165.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.hes-fine",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "He's fine.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "briefing": 1,
-        "dcpd": 4,
-        "nasa": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on Signing the Secure America Act and an Exchange With Reporters",
-        "date": "2026-06-10",
-        "granule": "DCPD-202600391",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600391/html/DCPD-202600391.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.hes-doing-fine",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "He's doing fine.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at the United States-Saudi Investment Forum",
-        "date": "2025-11-19",
-        "granule": "DCPD-202501132",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501132/html/DCPD-202501132.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.hes-doing-well",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "He's doing well.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "briefing": 3,
-        "dcpd": 4,
-        "nasa2": 1,
-        "va": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks in an Exchange With Reporters at Joint Base Andrews, Maryland",
-        "date": "2026-05-20",
-        "granule": "DCPD-202600353",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600353/html/DCPD-202600353.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.shes-good",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "She's good.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 4,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on the National Economy in Suffern, New York",
-        "date": "2026-05-22",
-        "granule": "DCPD-202600362",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600362/html/DCPD-202600362.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.hes-good",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "He's good.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        }
-      ],
-      "transcriptsUsing": 18,
-      "bySource": {
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "briefing": 1,
-        "dcpd": 13,
-        "nih": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks on the United States Automobile Industry in Milford, Michigan",
-        "date": "2026-07-27",
-        "granule": "DCPD-202600494",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600494/html/DCPD-202600494.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.family-answer-well.good",
-      "move": "family-answer-well",
+      "move": "school-answer-fine",
       "kind": "spoken",
       "text": "Good.",
       "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        },
         {
           "move": "school-answer-fine",
           "subject": "school",
@@ -8634,69 +8202,6 @@
       },
       "tag": {
         "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-ill.not-so-good",
-      "move": "family-answer-ill",
-      "kind": "spoken",
-      "text": "Not so good.",
-      "uses": [
-        {
-          "move": "family-answer-ill",
-          "subject": "family",
-          "role": "answer",
-          "choice": "ill",
-          "stages": ["ill"]
-        }
-      ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "dcpd": 8
-      },
-      "shippable": true,
-      "source": {
-        "document": "dcpd of 2026-03-17",
-        "date": "2026-03-17",
-        "granule": "DCPD-202600183",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600183/html/DCPD-202600183.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.family-answer-ill.not-too-well",
-      "move": "family-answer-ill",
-      "kind": "spoken",
-      "text": "Not too well.",
-      "uses": [
-        {
-          "move": "family-answer-ill",
-          "subject": "family",
-          "role": "answer",
-          "choice": "ill",
-          "stages": ["ill"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
-        "date": "2020-03-22",
-        "granule": "WH-2020-03-22-remarks-president-trump-vice-president-pence-members-coronavirus-task",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-8/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "threat"
       }
     },
     {
@@ -8931,72 +8436,6 @@
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.family-answer-thanks.thanks-for-asking",
-      "move": "family-answer-thanks",
-      "kind": "spoken",
-      "text": "Thanks for asking.",
-      "uses": [
-        {
-          "move": "family-answer-thanks",
-          "subject": "family",
-          "role": "answer",
-          "choice": "thanks"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "briefing": 1,
-        "hearings": 4,
-        "nasa2": 2,
-        "nih": 1,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "LEGISLATIVE HEARING ON H.R. 1395, TO AMEND THE WATER INFRASTRUCTURE IMPROVEMENTS FOR THE NATION ACT TO REAUTHORIZE DELAWARE RIVER BASIN CONSERVATION PROGRAMS, AND FOR OTHER PURPOSES, \"DELAWARE RIVER BASIN CONSERVATION REAUTHORIZATION ACT OF 2023\"; H.R. 5487, TO REQUIRE THE SECRETARY OF COMMERCE TO ESTABLISH AND CARRY OUT A GRANT PROGRAM TO CONSERVE, RESTORE, AND MANAGE KELP FOREST ECOSYSTEMS, AND FOR OTHER PURPOSES, \"HELP OUR KELP ACT\"; H.R. 6814, TO REQUIRE THE UNDER SECRETARY OF COMMERCE FOR OCEANS AND ATMOSPHERE TO ASSESS CERTAIN OFFSHORE OIL AND GAS PLATFORMS AND PIPELINES FOR POTENTIAL USE AS ARTIFICIAL REEFS, AND FOR OTHER PURPOSES, \"MARINE FISHERIES HABITAT PROTECTION ACT\"; AND H.R. 7020, TO DIRECT THE ADMINISTRATOR OF THE NATIONAL OCEANIC AND ATMOSPHERIC ADMINISTRATION TO CONDUCT HIGH- RESOLUTION MAPPING OF THE LAKEBEDS OF THE GREAT LAKES, AND FOR OTHER PURPOSES, \"GREAT LAKES MAPPING ACT\"",
-        "date": "2024-03-21",
-        "granule": "CHRG-118hhrg55274",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55274/html/CHRG-118hhrg55274.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "thank"
-      }
-    },
-    {
-      "key": "conversation.family-answer-thanks.thank-you-for-asking",
-      "move": "family-answer-thanks",
-      "kind": "spoken",
-      "text": "Thank you for asking.",
-      "uses": [
-        {
-          "move": "family-answer-thanks",
-          "subject": "family",
-          "role": "answer",
-          "choice": "thanks"
-        }
-      ],
-      "transcriptsUsing": 21,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 4,
-        "dcpd": 2,
-        "hearings": 12,
-        "nps": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "RENEWING OUR COMMITMENT: HOW THE OLDER AMERICANS ACT UPLIFTS FAMILIES LIVING WITH AGING-RELATED DISEASES",
-        "date": "2025-11-05",
-        "granule": "CHRG-119shrg62490",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62490/html/CHRG-119shrg62490.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "thank"
       }
     },
     {
@@ -14166,38 +13605,6 @@
       }
     },
     {
-      "key": "conversation.home-lie-moved.we-left-place",
-      "move": "home-lie-moved",
-      "kind": "spoken",
-      "text": "We left {place}.",
-      "uses": [
-        {
-          "move": "home-lie-moved",
-          "subject": "home",
-          "role": "lie",
-          "choice": "moved",
-          "stages": ["none"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1,
-        "nasa": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "The Usaid Betrayal",
-        "date": "2025-02-13",
-        "granule": "CHRG-119hhrg59986",
-        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59986",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "lie"
-      }
-    },
-    {
       "key": "conversation.mutual-reply-saw.i-talked-to-name-when",
       "move": "mutual-reply-saw",
       "kind": "spoken",
@@ -16023,6 +15430,328 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "She's doing well. I'll tell her you asked.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "He's doing well. I'll tell him you asked.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-well.they-re-doing-well-i-ll-tell-them-you-asked",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "They're doing well. I'll tell them you asked.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-well.she-s-good-you-should-come-by-and-see-her",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "She's good. You should come by and see her.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "He's good. You should come by and see him.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-well.they-re-good-you-should-come-by-and-see-them",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "They're good. You should come by and see them.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "Doing well. I'll let {name} know I ran into you.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name} is doing well. We should all get together soon.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked",
+      "move": "family-answer-thanks",
+      "kind": "spoken",
+      "text": "Thanks for asking. I'll tell {name} you asked.",
+      "uses": [
+        {
+          "move": "family-answer-thanks",
+          "subject": "family",
+          "role": "answer",
+          "choice": "thanks"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank"
+      }
+    },
+    {
+      "key": "conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know",
+      "move": "family-answer-thanks",
+      "kind": "spoken",
+      "text": "Thank you for asking. I'll let {name} know.",
+      "uses": [
+        {
+          "move": "family-answer-thanks",
+          "subject": "family",
+          "role": "answer",
+          "choice": "thanks"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank"
+      }
+    },
+    {
+      "key": "conversation.family-answer-ill.not-so-good-i-ll-tell-name-you-asked",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "Not so good. I'll tell {name} you asked.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.family-answer-ill.not-too-well-it-would-mean-a-lot-if-you-called-name",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "Not too well. It would mean a lot if you called {name}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "conversation.home-lie-elsewhere.i-live-in-claimed-now",
+      "move": "home-lie-elsewhere",
+      "kind": "spoken",
+      "text": "I live in {claimed} now.",
+      "uses": [
+        {
+          "move": "home-lie-elsewhere",
+          "subject": "home",
+          "role": "lie",
+          "choice": "elsewhere",
+          "stages": ["elsewhere"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.home-lie-elsewhere.we-re-out-in-claimed-these-days",
+      "move": "home-lie-elsewhere",
+      "kind": "spoken",
+      "text": "We're out in {claimed} these days.",
+      "uses": [
+        {
+          "move": "home-lie-elsewhere",
+          "subject": "home",
+          "role": "lie",
+          "choice": "elsewhere",
+          "stages": ["elsewhere"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.home-lie-elsewhere.i-ve-been-living-in-claimed",
+      "move": "home-lie-elsewhere",
+      "kind": "spoken",
+      "text": "I've been living in {claimed}.",
+      "uses": [
+        {
+          "move": "home-lie-elsewhere",
+          "subject": "home",
+          "role": "lie",
+          "choice": "elsewhere",
+          "stages": ["elsewhere"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "lie"
       }
     }
   ]

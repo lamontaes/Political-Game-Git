@@ -20,6 +20,7 @@ interface Use {
   subject: string;
   role: string;
   choice: string;
+  stages?: string[];
 }
 interface MinedPart {
   key: string;
@@ -55,7 +56,16 @@ function variants(bank: Bank, subject: string, role: string) {
         !heldByGrades(part.key) &&
         part.uses.some((use) => use.subject === subject && use.role === role),
     )
-    .map((part) => ({ key: part.key, text: directorText(part.text) }));
+    .map((part) => {
+      const stages = part.uses.find(
+        (use) => use.subject === subject && use.role === role,
+      )?.stages;
+      return {
+        key: part.key,
+        text: directorText(part.text),
+        ...(stages ? { stages } : {}),
+      };
+    });
 }
 
 export function sceneWordsFromBank(
@@ -78,6 +88,12 @@ export function sceneWordsFromBank(
       labelPrefix,
       variants: variants(bank, "cause", labelPrefix),
     })),
+    openings: Object.fromEntries(
+      (rows.openings ?? []).map((move) => [
+        move,
+        variants(bank, "opening", move),
+      ]),
+    ),
   };
 }
 
