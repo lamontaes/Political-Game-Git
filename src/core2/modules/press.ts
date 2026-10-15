@@ -812,6 +812,23 @@ function isIncumbent(api: CoreAPI, contest: ContestRow, personId: string) {
 export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
   const speaker = asSpeaker(who);
   const filing = speaker.filing;
+  const officeWorth = servingTerms(api, speaker.personId).reduce(
+    (highest, term) => {
+      const office = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as
+        { kind: string; level: string } | undefined;
+      if (!office) return highest;
+      const key = `officeNewsworthiness:${office.kind}`;
+      const fallback = `officeNewsworthiness:${office.level}`;
+      return Math.max(
+        highest,
+        pressParameter(key in PARAMETERS ? key : fallback),
+      );
+    },
+    0,
+  );
   if (!filing) {
     // An officeholder between races: who has heard of them, and the seat.
     const campaigns = api.state.modules.has(CAMPAIGNS_MODULE_ID)
@@ -834,6 +851,7 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
         ).size / adults
       : 0;
     return (
+      officeWorth +
       Math.min(1, known) +
       (servingTerms(api, speaker.personId).length
         ? pressParameter("incumbentNewsworthiness")
@@ -866,6 +884,7 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
     )?.raisedMinor ?? 0;
   const total = ballot(api, contest.id).reduce((s, f) => s + raised(f), 0);
   return (
+    officeWorth +
     Math.min(1, known) +
     (isIncumbent(api, contest, filing.personId)
       ? pressParameter("incumbentNewsworthiness")

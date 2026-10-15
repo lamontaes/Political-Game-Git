@@ -7,6 +7,15 @@ import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./modules/offices";
 import { candidacyReasons } from "./modules/candidacy";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { incompatibleOffices } from "./office-incompatibility";
+import {
+  outletsHere,
+  requestInterview,
+  newsworthiness,
+  officeholderSpeaker,
+  pressParameter,
+} from "./modules/press";
+import { wireItem } from "./press-topics";
+import { lawChain } from "./modules/laws";
 import { winningPersonId } from "./modules/voting";
 import { drawPlace } from "../../scripts/core2-year/place";
 
@@ -19,6 +28,39 @@ it("resolves term aliases without rewriting real official person ids", () => {
     placeKey: place.key,
   });
   const api = coreAPI(core);
+  const president = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        "seat:US:president",
+        "serving",
+      ]) as unknown as TermRow[]
+  )[0]!.personId!;
+  expect(
+    newsworthiness(api, officeholderSpeaker(api, president)!),
+  ).toBeGreaterThan(pressParameter("nationalInterviewBar"));
+  const national = outletsHere(api).find((o) => o.tier === "national")!;
+  expect(
+    requestInterview(api, { outletId: national.id, personId: president })
+      .reason,
+  ).not.toBe("not-newsworthy");
+  const chain = lawChain(api);
+  expect(
+    wireItem(
+      api,
+      {
+        id: "fixture:president-public-act",
+        date: core.date,
+        kind: "executive-action",
+        personIds: [president],
+        placeId: chain.townPlaceId,
+        publicRecord: true,
+        source: { tag: "SOURCED", citation: "edge fixture", asOf: core.date },
+      },
+      { placeId: chain.townPlaceId, stateKey: chain.stateKey },
+    )?.level,
+  ).toBe("nation");
   const seats = townSeats(api);
   const house = seats.find((s) => s.office.kind === "us-house");
   const local = seats.find(

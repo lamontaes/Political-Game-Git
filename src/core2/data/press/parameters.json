@@ -463,6 +463,48 @@
       "tag": "TUNABLE",
       "source": "Days before an outlet sits down again with an officeholder between races (a local beat reporter's monthly check-in with a council member or mayor).",
       "spread": [14, 90]
+    },
+    "officeNewsworthiness:president": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.5, 1.5]
+    },
+    "officeNewsworthiness:vice-president": {
+      "value": 0.7,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.35, 1.0499999999999998]
+    },
+    "officeNewsworthiness:federal": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.25, 0.75]
+    },
+    "officeNewsworthiness:state": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.15, 0.44999999999999996]
+    },
+    "officeNewsworthiness:county": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.075, 0.22499999999999998]
+    },
+    "officeNewsworthiness:city": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.025, 0.07500000000000001]
+    },
+    "officeNewsworthiness:township": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
+      "spread": [0.025, 0.07500000000000001]
     }
   }
 }
