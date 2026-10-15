@@ -147,6 +147,12 @@ describe("estate and inheritance taxes", () => {
         e.kind === "estate.settled" && e.facts?.decedentId === decedent!.id,
     );
     expect(settlements.length, `${where}: no settlement`).toBeGreaterThan(0);
+    // A $20 million estate sits well past the trust midpoint: part of it
+    // passed by the decedent's living trust, at death, outside probate.
+    expect(
+      settlements.some((e) => e.facts!.by === "trust"),
+      `${where}: no trust settlement`,
+    ).toBe(true);
     const estate = settlements.reduce(
       (n, e) => n + Number(e.facts!.estateMinor),
       0,
