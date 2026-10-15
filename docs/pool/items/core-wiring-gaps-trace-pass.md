@@ -21,4 +21,4 @@ source: "follow-up to core-wiring-gaps (static scan, Oct 15, 2026)"
 
 **Files.** docs/, scripts/core2-year/
 
-**Notes.** The `trace-audit` skill describes the full 56-place audit; this is the smaller per-module pass.
+**Notes.** Start with the tables the static scan did not settle: `chairs` (parties), `households` and `payments` (credit), `kin` and `parameters` (renewal), `regions` (regional). The `trace-audit` skill describes the full 56-place audit; this is the smaller per-module pass.
