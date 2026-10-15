@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/core-rent-transfer-hooks
-pr:
+pr: #4526
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-15T23:21:45.683Z
