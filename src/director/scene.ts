@@ -192,10 +192,24 @@ export function composeScene(
   );
   if (setting) narration.push(setting);
 
-  // Who is there.
-  const present = binding.presentIds
-    .filter((id) => id !== personId && core.people.get(id)?.alive)
-    .map(who)
+  // Who is there. Two people with the same relation ("your son", "your
+  // son") are said by their given names instead, so each is someone.
+  const here = binding.presentIds.filter(
+    (id) => id !== personId && core.people.get(id)?.alive,
+  );
+  const said = here.map(who);
+  const counts = new Map<string, number>();
+  for (const row of said)
+    if (row) counts.set(row.text, (counts.get(row.text) ?? zero) + one);
+  const present = said
+    .map((row, at) =>
+      row && (counts.get(row.text) ?? zero) > one
+        ? {
+            text: core.people.get(here[at]!)!.givenName,
+            sourceRecordIds: [...row.sourceRecordIds, here[at]!],
+          }
+        : row,
+    )
     .filter((row): row is Fact => row !== null);
   if (present.length) {
     const names = present.map((row) => row.text);
