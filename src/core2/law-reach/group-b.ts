@@ -227,7 +227,7 @@ const ASSISTANCE_WORK =
  * adults it reaches (by age, hours, income and young children) draw only for
  * its time limit. Null while it is not law.
  */
-function assistanceTimeLimit(
+export function assistanceTimeLimit(
   api: CoreAPI,
   facts: TownFacts,
   stateKey: string,

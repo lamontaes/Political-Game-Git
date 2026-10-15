@@ -4597,5 +4597,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
     "line": 82
+  },
+  {
+    "id": "SG-GOV-snap-simplified-eligibility",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/assistance.ts",
+    "line": 212,
+    "whatItFakes": "SNAP eligibility and benefit use only the federal gross income line, the earned income and standard deductions and the household's recorded income. Assets, shelter, medical and dependent-care deductions, the elderly and disabled rules, student and immigrant rules, state broad-based categorical eligibility and a state's own application steps are not read.",
+    "why": "The game records households' pay and retirement income but no assets, rent burden against the shelter cap, medical expenses, disability, enrollment or immigration status for most households.",
+    "addedBy": "Claude (gov-snap-program)",
+    "addedAt": "2026-10-15",
+    "replacement": "Each of those records on people and households (health, housing, school and citizenship engines), read by the benefit formula; the state's broad-based categorical eligibility option from data per place.",
+    "status": "open"
   }
 ]

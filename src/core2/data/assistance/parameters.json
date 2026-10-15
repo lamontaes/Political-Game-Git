@@ -1,0 +1,74 @@
+{
+  "about": "Numbers the SNAP program (src/core2/modules/assistance.ts) uses, each tagged SOURCED (with its citation), ESTIMATED (with its source and spread) or TUNABLE (with the spread it is checked against). Maximum allotments are not here: they are the starting law's snap-maximum rows.",
+  "parameters": {
+    "earnedIncomeDeductionShare": {
+      "value": 0.2,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2014(e)(2): a 20 percent deduction from earned income."
+    },
+    "benefitReductionShare": {
+      "value": 0.3,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2017(a): the allotment is the maximum less 30 percent of the household's net income."
+    },
+    "standardDeductionSmallMinor": {
+      "value": 20900,
+      "tag": "SOURCED",
+      "source": "USDA Food and Nutrition Service, SNAP FY 2026 cost-of-living adjustments (October 1, 2025): the standard deduction for households of one to three people is $209 a month in the 48 states and D.C."
+    },
+    "standardDeductionLargeMinor": {
+      "value": 26100,
+      "tag": "ESTIMATED",
+      "source": "USDA FNS, SNAP standard deductions by household size (FY 2026 about $223 for four people, $261 for five, $299 for six or more): the middle value stands for households of four or more.",
+      "spread": [22300, 29900]
+    },
+    "minimumBenefitMinor": {
+      "value": 2400,
+      "tag": "SOURCED",
+      "source": "USDA Food and Nutrition Service, SNAP FY 2026 cost-of-living adjustments: the minimum benefit for one- and two-person households is $24 a month in the 48 states and D.C."
+    },
+    "minimumBenefitMaxSize": {
+      "value": 2,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2017(a): the minimum benefit applies to households of one or two people."
+    },
+    "applyNeedThreshold": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "USDA FNS, Reaching Those in Need: State SNAP Participation Rates in FY 2022: 88 percent of eligible people took part nationally, and households with the least income took part at higher rates. Chosen so a household whose benefit is a tenth of the maximum is on the edge of applying; checked against the 80 to 95 percent range among eligible households.",
+      "spread": [0, 0.25]
+    },
+    "applyLeanWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a person's own leaning toward filing for a public benefit (their traits, as for an unemployment claim) moves them across the line, against the size of their benefit; checked against the same 80 to 95 percent range.",
+      "spread": [0.25, 1]
+    },
+    "participationMin": {
+      "value": 0.8,
+      "tag": "SOURCED",
+      "source": "USDA FNS, Reaching Those in Need: State SNAP Participation Rates in FY 2022 (the low end of the range the program's take-up is checked against)."
+    },
+    "participationMax": {
+      "value": 0.95,
+      "tag": "SOURCED",
+      "source": "USDA FNS, Reaching Those in Need: State SNAP Participation Rates in FY 2022 (the high end of the range the program's take-up is checked against)."
+    },
+    "centsPerDollar": {
+      "value": 100,
+      "tag": "SOURCED",
+      "source": "Currency: one dollar is 100 cents."
+    },
+    "monthsPerYear": {
+      "value": 12,
+      "tag": "SOURCED",
+      "source": "Calendar year."
+    },
+    "reviewDay": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "The day of the month the monthly review of who is eligible runs, early in the month after the month's pay is in.",
+      "spread": [1, 28]
+    }
+  }
+}

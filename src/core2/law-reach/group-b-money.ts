@@ -317,7 +317,7 @@ function monthsBetween(from: string, to: string): number {
  * caller keeps them off the pay list, and each named person's stop is recorded
  * with the law row that caused it.
  */
-function timeLimitedNow(
+export function timeLimitedNow(
   api: CoreAPI,
   governmentId: string,
   key: string,
