@@ -7,6 +7,7 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 12,
+        "composition": null,
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -22,6 +23,7 @@
       "reading": {
         "form": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -34,6 +36,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -46,6 +49,7 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -58,6 +62,7 @@
       "reading": {
         "form": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -70,6 +75,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 9,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 9,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -85,6 +95,11 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 7,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -97,6 +112,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 9,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 9,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -109,6 +129,11 @@
       "reading": {
         "form": null,
         "bodySize": 8,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": 0,
+          "wardSeats": 8
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -121,6 +146,11 @@
       "reading": {
         "form": "OTHER",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 4
+        },
         "executiveSelection": "Separately elected",
         "mayor": {
           "title": "Mayor",
@@ -136,6 +166,7 @@
       "reading": {
         "form": null,
         "bodySize": 10,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -148,6 +179,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -160,6 +196,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 8,
+          "wardSeats": null
+        },
         "executiveSelection": "Elected at large",
         "mayor": {
           "title": "Mayor",
@@ -175,6 +216,7 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -187,6 +229,7 @@
       "reading": {
         "form": null,
         "bodySize": 15,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -199,6 +242,7 @@
       "reading": {
         "form": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -211,6 +255,11 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 8,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -223,6 +272,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -235,6 +285,7 @@
       "reading": {
         "form": null,
         "bodySize": 11,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -247,6 +298,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -259,6 +315,11 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 11,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -274,6 +335,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -286,6 +348,7 @@
       "reading": {
         "form": null,
         "bodySize": 20,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -298,6 +361,11 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -310,6 +378,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 30,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": null,
+          "wardSeats": 30
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -325,6 +398,11 @@
       "reading": {
         "form": null,
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 8
+        },
         "executiveSelection": "The Mayor is elected by the registered qualified electors of the District.",
         "mayor": {
           "title": "Mayor of the District of Columbia",
@@ -340,6 +418,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -352,6 +435,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 8,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -367,6 +455,11 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 19,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 14,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -382,6 +475,7 @@
       "reading": {
         "form": null,
         "bodySize": 5,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -394,6 +488,7 @@
       "reading": {
         "form": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -406,6 +501,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -418,6 +514,11 @@
       "reading": {
         "form": "COMMISSION_MANAGER",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -430,6 +531,11 @@
       "reading": {
         "form": null,
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 12,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -442,6 +548,11 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 10,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 10,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -454,6 +565,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -469,6 +585,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -481,6 +598,11 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 9,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 9,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -496,6 +618,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -508,6 +631,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -520,6 +644,7 @@
       "reading": {
         "form": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -532,6 +657,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 10,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 8
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -544,6 +674,7 @@
       "reading": {
         "form": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -556,6 +687,7 @@
       "reading": {
         "form": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -568,6 +700,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 3,
+          "wardSeats": null
+        },
         "executiveSelection": "Chosen by the Council from among its own members at the first meeting of a new Council.",
         "mayor": {
           "title": "Mayor",
@@ -583,6 +720,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 6,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 6,
+          "wardSeats": null
+        },
         "executiveSelection": "Elected at large",
         "mayor": {
           "title": "Mayor",
@@ -598,6 +740,11 @@
       "reading": {
         "form": null,
         "bodySize": 6,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -610,6 +757,7 @@
       "reading": {
         "form": null,
         "bodySize": 50,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -622,6 +770,7 @@
       "reading": {
         "form": null,
         "bodySize": 10,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -634,6 +783,7 @@
       "reading": {
         "form": null,
         "bodySize": 10,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -646,6 +796,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -658,6 +813,11 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -670,6 +830,11 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 25,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 25,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -685,6 +850,11 @@
       "reading": {
         "form": "OTHER",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 12
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -697,6 +867,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 10,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 9,
+          "wardSeats": null
+        },
         "executiveSelection": "Directly elected",
         "mayor": {
           "title": "Mayor",
@@ -712,6 +887,11 @@
       "reading": {
         "form": "OTHER",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -724,6 +904,11 @@
       "reading": {
         "form": "COMMISSION_MANAGER",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": null
+        },
         "executiveSelection": "Mayor elected at-large; the Mayor is a member of and presides over the Board of Commissioners rather than a separate executive.",
         "mayor": {
           "title": "Mayor",
@@ -748,6 +933,11 @@
       "reading": {
         "form": "URBAN_COUNTY_CONSOLIDATED",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 12,
+          "wardSeats": null
+        },
         "executiveSelection": "Separately elected Mayor, elected at-large countywide",
         "mayor": {
           "title": "Mayor",
@@ -776,6 +966,11 @@
       "reading": {
         "form": "METRO_CONSOLIDATED",
         "bodySize": 26,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 26,
+          "wardSeats": null
+        },
         "executiveSelection": "Separately elected Metro Mayor, elected at-large countywide",
         "mayor": {
           "title": "Mayor",
@@ -800,6 +995,11 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 12,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 12,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor-President",
@@ -815,6 +1015,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 5,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -830,6 +1035,11 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 7,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -842,6 +1052,7 @@
       "reading": {
         "form": null,
         "bodySize": 13,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -854,6 +1065,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 9,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "After taking office the nine Councillors elect one of themselves as Mayor.",
         "mayor": {
           "title": "Mayor",
@@ -874,6 +1090,11 @@
       "reading": {
         "form": "TOWN_MEETING",
         "bodySize": null,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -886,6 +1107,11 @@
       "reading": {
         "form": "TOWN_MEETING",
         "bodySize": null,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -898,6 +1124,11 @@
       "reading": {
         "form": null,
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 8
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -910,6 +1141,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 11,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 5,
+          "wardSeats": null
+        },
         "executiveSelection": "Popularly elected, holding one of the at-large Council seats.",
         "mayor": {
           "title": "Mayor",
@@ -925,6 +1161,11 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 8
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -937,6 +1178,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 14,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -952,6 +1198,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 7,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -964,6 +1215,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 9,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "After the November election the Council selects one of its own members as Chair for the year; that Chair serves as Mayor.",
         "mayor": {
           "title": "Mayor",
@@ -984,6 +1240,7 @@
       "reading": {
         "form": "TOWN_MEETING",
         "bodySize": null,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -996,6 +1253,11 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": 0,
+          "wardSeats": 7
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1008,6 +1270,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 5,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1020,6 +1287,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1032,6 +1300,7 @@
       "reading": {
         "form": null,
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1044,6 +1313,7 @@
       "reading": {
         "form": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1056,6 +1326,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 5,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1071,6 +1346,7 @@
       "reading": {
         "form": null,
         "bodySize": 13,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1083,6 +1359,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1095,6 +1372,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 13,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 6,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1110,6 +1392,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1122,6 +1405,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 14,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": null,
+          "wardSeats": 14
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1137,6 +1425,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1149,6 +1438,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 7,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": null,
+          "wardSeats": 7
+        },
         "executiveSelection": "Elected at large, full time",
         "mayor": {
           "title": "Mayor",
@@ -1164,6 +1458,11 @@
       "reading": {
         "form": null,
         "bodySize": 11,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 0,
+          "wardSeats": 10
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1176,6 +1475,11 @@
       "reading": {
         "form": "COMMISSION_MANAGER",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "Elected at large",
         "mayor": {
           "title": "Mayor",
@@ -1191,6 +1495,11 @@
       "reading": {
         "form": null,
         "bodySize": 12,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": 0,
+          "wardSeats": 12
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1203,6 +1512,7 @@
       "reading": {
         "form": null,
         "bodySize": 11,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1215,6 +1525,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1227,6 +1538,7 @@
       "reading": {
         "form": null,
         "bodySize": 4,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1239,6 +1551,7 @@
       "reading": {
         "form": "COMMISSION",
         "bodySize": 4,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1251,6 +1564,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1263,6 +1577,11 @@
       "reading": {
         "form": null,
         "bodySize": 10,
+        "composition": {
+          "pattern": "WARD",
+          "districtSeats": 0,
+          "wardSeats": 10
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1275,6 +1594,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1287,6 +1607,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 7,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 7,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1302,6 +1627,7 @@
       "reading": {
         "form": "TOWN_MEETING",
         "bodySize": null,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1314,6 +1640,7 @@
       "reading": {
         "form": "TOWN_MEETING",
         "bodySize": null,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1326,6 +1653,11 @@
       "reading": {
         "form": null,
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 10
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1338,6 +1670,11 @@
       "reading": {
         "form": "TOWN_MEETING",
         "bodySize": null,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1350,6 +1687,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 12
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1370,6 +1712,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 15,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 9
+        },
         "executiveSelection": "Separately elected at large",
         "mayor": {
           "title": "Mayor",
@@ -1394,6 +1741,7 @@
       "reading": {
         "form": "TOWN_MEETING",
         "bodySize": null,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1406,6 +1754,11 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 0,
+          "wardSeats": 6
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1418,6 +1771,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 5
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1433,6 +1791,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 4
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1453,6 +1816,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1465,6 +1829,7 @@
       "reading": {
         "form": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1477,6 +1842,11 @@
       "reading": {
         "form": "CITY_COUNTY_CONSOLIDATED",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "There is no separately elected executive. The Mayor is one of the five members of the Board and is elected at large like the other Supervisors.",
         "mayor": {
           "title": "Mayor",
@@ -1497,6 +1867,7 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 6,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1509,6 +1880,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 7,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": 6
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1524,6 +1900,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1536,6 +1913,7 @@
       "reading": {
         "form": null,
         "bodySize": 51,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1548,6 +1926,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1560,6 +1939,7 @@
       "reading": {
         "form": null,
         "bodySize": 15,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1572,6 +1952,11 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": [
@@ -1589,6 +1974,7 @@
       "reading": {
         "form": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1601,6 +1987,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1613,6 +2000,11 @@
       "reading": {
         "form": null,
         "bodySize": 12,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 12,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": {
           "title": "Mayor",
@@ -1628,6 +2020,7 @@
       "reading": {
         "form": null,
         "bodySize": 17,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1640,6 +2033,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1652,6 +2046,7 @@
       "reading": {
         "form": null,
         "bodySize": 15,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1664,6 +2059,7 @@
       "reading": {
         "form": null,
         "bodySize": 12,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1676,6 +2072,7 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1688,6 +2085,7 @@
       "reading": {
         "form": null,
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1700,6 +2098,7 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 8,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1712,6 +2111,7 @@
       "reading": {
         "form": null,
         "bodySize": 40,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1724,6 +2124,7 @@
       "reading": {
         "form": null,
         "bodySize": 10,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1736,6 +2137,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 7,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 7,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1748,6 +2154,11 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 5,
+        "composition": {
+          "pattern": "AT_LARGE",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": "There is no separately elected executive. The council elects one of its own members as mayor at its first meeting in January 2022 and biennially thereafter.",
         "mayor": {
           "title": "Mayor",
@@ -1772,6 +2183,11 @@
       "reading": {
         "form": "MAYOR_COUNCIL",
         "bodySize": 9,
+        "composition": {
+          "pattern": "SINGLE_MEMBER_DISTRICT",
+          "districtSeats": 9,
+          "wardSeats": null
+        },
         "executiveSelection": "The mayor is elected separately from the council and is the city's chief executive officer.",
         "mayor": {
           "title": "Mayor",
@@ -1792,6 +2208,7 @@
       "reading": {
         "form": null,
         "bodySize": 12,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1804,6 +2221,11 @@
       "reading": {
         "form": "TOWN_MEETING",
         "bodySize": null,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": null,
+          "wardSeats": null
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1816,6 +2238,11 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": {
+          "pattern": "HYBRID_DISTRICT_AT_LARGE",
+          "districtSeats": 7,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1828,6 +2255,11 @@
       "reading": {
         "form": null,
         "bodySize": 7,
+        "composition": {
+          "pattern": "OTHER",
+          "districtSeats": 6,
+          "wardSeats": 0
+        },
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1840,6 +2272,7 @@
       "reading": {
         "form": null,
         "bodySize": 20,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1852,6 +2285,7 @@
       "reading": {
         "form": null,
         "bodySize": 15,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1864,6 +2298,7 @@
       "reading": {
         "form": null,
         "bodySize": 26,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1876,6 +2311,7 @@
       "reading": {
         "form": null,
         "bodySize": 11,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1888,6 +2324,7 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 7,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1900,6 +2337,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1912,6 +2350,7 @@
       "reading": {
         "form": null,
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []
@@ -1924,6 +2363,7 @@
       "reading": {
         "form": "COUNCIL_MANAGER",
         "bodySize": 9,
+        "composition": null,
         "executiveSelection": null,
         "mayor": null,
         "terms": []

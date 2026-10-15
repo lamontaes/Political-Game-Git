@@ -450,7 +450,11 @@ export function openOffices(core: CoreState, worldSeed: string): void {
       (_, index) => ({
         id: `seat:${office.id.slice("office:".length)}:${index}`,
         officeId: office.id,
-        district: office.districted ? String(index + 1) : null,
+        // A council's ward seats are numbered; its other seats are at large.
+        district:
+          office.districted && index < (office.wardSeats ?? office.seats)
+            ? String(index + 1)
+            : null,
         index,
         coversTown: true,
         party: null,

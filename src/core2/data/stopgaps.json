@@ -4597,5 +4597,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
     "line": 82
+  },
+  {
+    "id": "SG-GOV-ward-map",
+    "kind": "missing-record",
+    "file": "src/core2/modules/voting.ts",
+    "line": 1888,
+    "whatItFakes": "A council seat chosen by part of town counts only the voters of its part: the town's households in their recorded order are cut into equal runs, one per seat chosen that way, and the counted residents and the rest of the town divide equally among them. No part of town has a boundary or a street behind it.",
+    "why": "The world holds no street map or address inside a town, and no record of how a place's council districts or wards are drawn.",
+    "addedBy": "claude/gov-council-election-method",
+    "addedAt": "2026-10-15",
+    "replacement": "Council districts drawn from the town's dwellings (by the council or a commission, to near equal population as its charter says), each household and each sitting member placed by their dwelling.",
+    "status": "open"
   }
 ]
