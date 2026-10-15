@@ -301,10 +301,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       "schoolAgeFrom",
       "schoolAgeBelow",
     ],
-    [
-      Q("transportation-infrastructure.mileage-fee-replaces-fuel-tax"),
-      "drivingAge",
-    ],
   ];
   for (const [key, from, below] of ageRecords)
     it(`${key}: every resident of the ages it covers is reached; a repeal ends it`, () => {
@@ -326,11 +322,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
     });
 
   const householdRecords = [
-    Q("transportation-infrastructure.public-broadband"),
     Q("fiscal.cap-property-tax-growth"),
     Q("fiscal.exempt-groceries-from-sales-tax"),
-    Q("environment-energy.clean-electricity-standard"),
-    Q("environment-energy.price-carbon"),
   ];
   for (const key of householdRecords)
     it(`${key}: every household reached (its head carries the terms); employers bound; repeal ends it`, () => {
@@ -352,7 +345,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   const employerRecords = [
     Q("environment-energy.clean-air-plan-for-polluted-counties"),
-    Q("environment-energy.bottle-deposit"),
     Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
   ];
   // Gas hookups and farmland protection are read by construction now.
@@ -733,7 +725,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
   });
 
   // ---- Acts that move budget money ----
-  it("fare-free transit funds the fares from the budget and reaches riders; repeal takes the money back", () => {
+  // Price-law settlement and repeal are checked in price-laws.test.ts.
+  // Eligibility notes do not prove that a household paid a changed price.
+  it("fare-free transit funds the fares from the budget; repeal takes the money back", () => {
     const key = Q("transportation-infrastructure.fare-free-transit");
     const state = governments(api).find((g) => g.level === "state")!;
     const level = residentsOf(api, state) > 0 ? "state" : LOCAL;
@@ -747,9 +741,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
           residentsOf(api, gov),
       ),
     );
-    expect(reached(key), where).toBe(
-      residentsAged(reachParameter("transitRiderAgeFrom")),
-    );
+    expect(reached(key), "funding alone does not notify every rider").toBe(0);
     enact(key, 0, level);
     expectEnded(key);
     expect(line(gov, "transit")).toBe(before);
