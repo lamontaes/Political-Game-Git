@@ -26,6 +26,14 @@ it("names a governor by the president's choice and the Senate's vote, with the r
     placeKey: draw.key,
   });
   const api = coreAPI(core);
+  // The appointment events as the engine emitted them.
+  const emitted = new Map<string, Record<string, string>>();
+  const emit = api.emit.bind(api);
+  api.emit = (event) => {
+    if (event.id.startsWith("event:economy.board-appointment:"))
+      emitted.set(event.id, event.facts as Record<string, string>);
+    return emit(event);
+  };
   // The board's members are on the record from the first day.
   advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const board = () =>
@@ -59,7 +67,7 @@ it("names a governor by the president's choice and the Senate's vote, with the r
       before.get(seatId)!.personId,
     );
     expect(core.people.get(String(now.personId)), where).toBeTruthy();
-    const event = core.durableLog.get(id);
+    const event = emitted.has(id) ? { facts: emitted.get(id) } : undefined;
     expect(
       event,
       `${where} ${id}: the appointment is on the record`,
