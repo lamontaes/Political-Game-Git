@@ -2127,6 +2127,8 @@ interface RentHelpRow {
   billedMinor?: number;
   /** The lease's next due date when that bill was set: the government owes its part once it passes. */
   billedFrom?: string;
+  /** The household's monthly pay the help was weighed against. */
+  incomeMinor?: number;
 }
 
 /** The government pays the landlord its part of a due date the lease billed at the household's share. */
@@ -2245,6 +2247,7 @@ function payRentHelp(api: CoreAPI): void {
       helpMinor: help,
       billedMinor: rent - help,
       billedFrom: lease.dueAt,
+      incomeMinor: Math.round(income),
     });
   }
 }
@@ -2300,7 +2303,13 @@ function payCountedRentHelp(
           },
         })
       : 0;
-  table.put({ ...row, helpMinor: paid, billedMinor: flow.amountMinor });
+  // The pay it was weighed against, kept with it: why the help was what it was.
+  table.put({
+    ...row,
+    helpMinor: paid,
+    billedMinor: flow.amountMinor,
+    incomeMinor: Math.round(income),
+  });
 }
 
 export function setRentIncreaseCap(

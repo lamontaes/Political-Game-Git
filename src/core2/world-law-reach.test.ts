@@ -196,19 +196,19 @@ describe(`laws reach the economy (${drawn.name}, ${drawn.state}, seed ${drawn.se
       householdId: string;
       monthlyLimitMinor: number;
       helpMinor?: number;
+      billedMinor?: number;
+      incomeMinor?: number;
     }[]) {
       const ix = rt.store.householdOf.get(row.householdId);
       const flow = rt.flows.get(`rent:${row.householdId}`);
       if (ix === undefined || !flow || flow.endedAt) continue;
-      const h = rt.store.households[ix]!;
+      if (row.incomeMinor === undefined || row.billedMinor === undefined)
+        continue;
+      // Against the rent and pay the month's review weighed (pay can change after it).
       const owed = Math.round(
         Math.min(
           row.monthlyLimitMinor,
-          Math.max(
-            0,
-            flow.amountMinor -
-              (0.3 * (h.wagesMinorYear + h.retirementMinorYear)) / 12,
-          ),
+          Math.max(0, row.billedMinor - 0.3 * row.incomeMinor),
         ),
       );
       console.log(
