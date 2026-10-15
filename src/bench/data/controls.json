@@ -134,5 +134,21 @@
   },
   "travel": {
     "staff": "staff"
+  },
+  "people": {
+    "all": "All",
+    "family": "Family",
+    "friends": "Friends",
+    "work": "Work",
+    "politics": "Politics",
+    "household": "Household",
+    "other": "Other connections",
+    "search": "Search people",
+    "list": "List",
+    "web": "Web",
+    "card": "View person",
+    "talk": "Talk",
+    "back": "Back",
+    "next": "Continue"
   }
 }
