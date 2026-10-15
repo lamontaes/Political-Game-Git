@@ -2616,7 +2616,9 @@
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day."
+    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day.",
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: named local owners and successors are filled from their existing household before monthly decisions, use chooseAct and receive draws in their own account; counted-demotion already protects owners."
   },
   {
     "id": "SG-WORLD-housing-mortgage-history",
@@ -2945,7 +2947,9 @@
     "why": "The core closes a business only when it can't pay (closeEmployer); there is no voluntary closure for a solvent business yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling."
+    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling.",
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: succeed already records no-successor and calls closeByChoice, which uses the core closeBusinessByChoice writer to settle a solvent business. Retired the stale entry after focused closure and played-year checks."
   },
   {
     "id": "SG-PLAY-act-control-names",
