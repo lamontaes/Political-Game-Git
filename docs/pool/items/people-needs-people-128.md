@@ -12,15 +12,12 @@ milestone:
 source: 'docs/coordination/people.md "Needs from other sessions" (line 128)'
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** Two requests remain for the people display and journal. A screen 40 card (named 'age 18') showed 17 on the card, so the card's age may not follow the game date (figures switch at 18 on the game date). And when a household moves, the journal or news should say so, though the home picture already follows the dwelling record. Check both on main, fix the card age to read the game date and add the move to the journal and news. The player would notice his card showing the right age on his birthday and a line in his journal when the family moves.
 
-- OPUS-PLAY: screen 40 (named "age 18") shows 17 on the card; please check the card's age follows the game date. Figures switch at 18 on the game date.
-- OPUS-WORLD and the story director: when a household moves, the journal or news should say so; the home picture already follows the household's dwelling record.
+**Rules.** An effect is a read, not a record: the card reads the person's birth date and the game date at display time; the journal reads the household move record; No hand-written player text: the journal line is worded by the English engine from the move record, with no hand-written label; Ask why: the move line cites the reason recorded for the move; The chain is the acceptance: follow one household move from its cause to the dwelling record, the journal line and the news; One rule, all 56 places: no place named in code; Replace, never layer: any stored age on the card is deleted in favor of the read.
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): a person's card shows 17 the day before their 18th birthday and 18 on it (person record id), and a household move in the year produces a journal line and a news line citing the move record id. Tests in `src/bench/card.ts` tests or `src/bench/whole-figures.test.ts` and `src/director/journal.test.ts`. The owner plays it: reaches his birthday and sees the new age, and moves house and reads it in the journal.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
-
-**Files.** varies
+**Files.** src/bench/card.ts, src/bench/whole-figures.ts, src/director/journal.ts, src/core2/modules/moves.ts
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
