@@ -1377,20 +1377,33 @@ const median = (values: number[]) => {
   return sorted.length ? sorted[Math.floor(sorted.length / 2)]! : 0;
 };
 
-/** A town's typical home value, monthly rent and monthly pay today, and its renters. */
-export function townFigures(
-  api: CoreAPI,
-  placeId: string,
-): {
+export interface TownHousingFigures {
   homeValueMinor: number;
   rentMinor: number;
   monthlyPayMinor: number;
   renters: number;
-} {
-  const c = core(api);
-  const values = ownedHomes(api, placeId).map((row) => row.valueMinor);
-  const rents: number[] = [];
-  let renters = 0;
+}
+
+/** Read the requested places together without rescanning every dwelling for each place. */
+export function townFiguresByPlace(
+  api: CoreAPI,
+  placeIds: ReadonlySet<string>,
+): Map<string, TownHousingFigures> {
+  const c = core(api),
+    residents = residentsRuntime(c);
+  const grouped = new Map(
+    [...placeIds].map((id) => [
+      id,
+      { values: [] as number[], rents: [] as number[], pay: [] as number[] },
+    ]),
+  );
+  if (!grouped.size) return new Map();
+  const homes = ownedHomes(
+    api,
+    placeIds.size === 1 ? placeIds.values().next().value : undefined,
+  );
+  for (const row of homes)
+    grouped.get(row.placeId)?.values.push(row.valueMinor);
   for (const row of store(api).table("dwellings").rows() as unknown as {
     householdId: string;
     tenure: string;
@@ -1399,30 +1412,38 @@ export function townFigures(
     if (row.tenure !== "rent") continue;
     const at =
       c.households.get(row.householdId)?.placeId ??
-      residentsRuntime(c)?.households.get(row.householdId)?.household.placeId;
-    if (at !== placeId) continue;
-    renters += 1;
+      residents?.households.get(row.householdId)?.household.placeId;
+    const place = at === undefined ? undefined : grouped.get(at);
+    if (!place) continue;
     const lease = c.finance.contracts.get(`lease:${row.householdId}`);
-    rents.push(
+    place.rents.push(
       lease && !lease.endedAt ? lease.amountMinor : (row.rentMinor ?? 0),
     );
   }
-  const pay: number[] = [];
-  for (const job of c.jobs.values())
-    if (
-      job.endsAt === undefined &&
-      c.organizations.get(job.organizationId)?.placeId === placeId
-    )
-      pay.push(
-        (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) /
-          api.parameter("macroMonthsPerYear"),
-      );
-  return {
-    homeValueMinor: median(values),
-    rentMinor: median(rents),
-    monthlyPayMinor: median(pay),
-    renters,
-  };
+  const days = api.parameter("jobsDaysPerYear"),
+    months = api.parameter("macroMonthsPerYear");
+  for (const job of c.jobs.values()) {
+    if (job.endsAt !== undefined) continue;
+    const at = c.organizations.get(job.organizationId)?.placeId;
+    if (at !== undefined)
+      grouped.get(at)?.pay.push((job.wageDailyMinor * days) / months);
+  }
+  return new Map(
+    [...grouped].map(([id, row]) => [
+      id,
+      {
+        homeValueMinor: median(row.values),
+        rentMinor: median(row.rents),
+        monthlyPayMinor: median(row.pay),
+        renters: row.rents.length,
+      },
+    ]),
+  );
+}
+
+/** A town's typical home value, monthly rent and monthly pay today, and its renters. */
+export function townFigures(api: CoreAPI, placeId: string): TownHousingFigures {
+  return townFiguresByPlace(api, new Set([placeId])).get(placeId)!;
 }
 
 /** What the law allows builders here (OPUS-GOV's handlers): apartments' land share, inclusionary set-aside, all-electric code, farmland protection. */
