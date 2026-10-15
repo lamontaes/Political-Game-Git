@@ -4,8 +4,8 @@ title: "Let the bank checks accept authored parts (origin: authored)"
 area: words
 kind: cleanup
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/grading-bench
 pr:
 blocked-on:
 milestone:

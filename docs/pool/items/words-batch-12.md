@@ -4,8 +4,8 @@ title: "Batch 12 is the first grading bench run (see words-grading-bench)"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/grading-bench
 pr:
 blocked-on: "words-catalog-coverage"
 milestone:
