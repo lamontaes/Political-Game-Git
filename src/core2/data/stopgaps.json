@@ -4416,5 +4416,17 @@
     "addedAt": "2026-10-14",
     "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-federal-proposal-coverage",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 834,
+    "whatItFakes": "Background Congress uses the shared platform question pool, which lacks most federal-only questions in the powers catalog. Only supported questions with federal scope can be proposed; state-specific questions no longer stand in for federal policy.",
+    "why": "Federal-only policy questions need recorded starting answers, official stances and downstream effect readers before adding them to the shared proposal pool.",
+    "addedBy": "SESSION-D-SECOND",
+    "addedAt": "2026-10-15",
+    "replacement": "Wire the federal-only questions through the existing stance, law and effect engines, with named-person played-world evidence, then include them in the proposal pool.",
+    "status": "open"
   }
 ]
