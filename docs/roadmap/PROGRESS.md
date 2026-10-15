@@ -8,6 +8,10 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
+## 2026-10-15 — Counted death notices need opening records (`pool/counted-death-notices`)
+
+Recorded monthly deaths can notify existing full circles without filling in the deceased. Eight focused cases and changed-file checks pass. Played acceptance is still open: drawn Garden City had zero known counted deaths, both before and after. Its years took 129.70 and 137.53 seconds (+6.03%); both fail the absolute speed limit. The first test lacked a relationship and correctly gave no grief; its explicit retained-tie fixture now proves the conditional reader. SG-CORE-counted-death-relations records missing full-to-counted family closeness and the bench’s full-family closure. Next: repair those opening prerequisites; do not substitute the fixture for a played recipient.
+
 ## 2026-10-15 — Session D: counted family ties (#4373)
 
 The combined drafts let a known counted relative's death reach grief and the chooser. Fifty changed-file tests and scoped checks pass. Family-only Garden City year: 138.63 seconds versus 129.70 main; the combined opening/notices/ties year: 137.03, both above 120 seconds. Combined counts `jurisdiction_b553cb6877c707f2:2026-03` lead to death notice `life.death:person_c38af58d60a26649:2026-03-01`, learned by `person_e8deee8f8252b647`; relationship `person_c38af58d60a26649:person_e8deee8f8252b647` supplies 0.637095 grief. The captured chooser ranks rest 2.157707 over contact 1.951921; subtracting grief reverses that order. No extra act was committed by the probe. Proof source 0ccbd7cb55 combines separate unmerged #4369/#4370/#4373; the stopgap stays open until assembled. Tuition still has no observed payment. Next: speed and unfinished readers. No helpers; usage unavailable.
