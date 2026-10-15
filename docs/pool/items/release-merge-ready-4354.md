@@ -4,7 +4,7 @@ title: "Merge #4354 (unit suite): resolve the finance-day-order conflict by taki
 area: release
 kind: cleanup
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: pool/unit-suite
 pr: #4354
 blocked-on:
