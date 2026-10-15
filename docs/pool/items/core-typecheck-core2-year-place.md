@@ -4,9 +4,9 @@ title: "npm run typecheck fails on main: scripts/core2-year/place.ts import and 
 area: core
 kind: bug
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/core-typecheck-core2-year-place
-pr:
+pr: "#PENDING"
 blocked-on:
 milestone:
 source: "found while running typecheck on claude/laws-reach-group-b-failures"
