@@ -1,0 +1,346 @@
+{
+  "federal": {
+    "legislativeKinds": ["us-house", "us-senate"],
+    "executiveKinds": ["president", "vice-president"],
+    "citation": "U.S. Constitution, Article I, Section 6, Clause 2; no person holding an office under the United States shall be a member of either House.",
+    "tag": "SOURCED"
+  },
+  "places": {
+    "US-AL": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-AK": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-AZ": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-AR": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-CA": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-CO": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-CT": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-DE": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-FL": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-GA": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-HI": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-ID": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-IL": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-IN": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-IA": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-KS": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-KY": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-LA": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-ME": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-MD": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-MA": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-MI": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-MN": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-MS": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-MO": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-MT": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-NE": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-NV": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-NH": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-NJ": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-NM": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-NY": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-NC": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-ND": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-OH": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-OK": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-OR": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-PA": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-RI": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-SC": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-SD": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-TN": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-TX": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-UT": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-VT": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-VA": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-WA": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-WV": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-WI": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-WY": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-DC": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-PR": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-GU": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-VI": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-AS": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    },
+    "US-MP": {
+      "multipleElectiveOffices": false,
+      "tag": "ESTIMATED",
+      "citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+      "stopgapId": "SG-GOV-dual-office-law"
+    }
+  }
+}

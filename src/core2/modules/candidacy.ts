@@ -173,7 +173,7 @@ export function candidacyReasons(
         ) / votes.length;
     }
   }
-  return reasonsFrom(
+  const reasons = reasonsFrom(
     api,
     {
       id: person.id,
@@ -188,6 +188,36 @@ export function candidacyReasons(
     },
     contest,
   );
+  if (
+    !api.state.modules.has(ELECTIONS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return reasons;
+  // Changing office costs the authority and unfinished term already held.
+  const race = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contest.contestId) as unknown as ContestRow | undefined;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const held = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [person.id]) as unknown as TermRow[]
+  ).filter((term) => term.status === "serving");
+  const currentRank = held.reduce((highest, term) => {
+    const office = offices.get(term.officeId) as unknown as
+      OfficeInput | undefined;
+    return office
+      ? Math.max(highest, FAMILY_RANK[officeFamily(office)])
+      : highest;
+  }, -1);
+  reasons.officeOpportunity =
+    race && currentRank >= 0 && contest.incumbentId !== person.id
+      ? -c(api, "candidacyOfficeOpportunityWeight") *
+        Math.max(one, currentRank - FAMILY_RANK[race.family] + one)
+      : zero;
+  return reasons;
 }
 
 /**
@@ -394,7 +424,21 @@ export function decideToRun(
       actionId: entry.offer.definition.id,
       score: entry.score,
     })),
-    sourceIds: [...contest.sourceIds, person.id, person.householdId],
+    sourceIds: [
+      ...contest.sourceIds,
+      person.id,
+      person.householdId,
+      ...(api.state.modules.has(OFFICES_MODULE_ID)
+        ? (
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("terms")
+              .query("byPerson", [person.id]) as unknown as TermRow[]
+          )
+            .filter((term) => term.status === "serving")
+            .map((term) => term.id)
+        : []),
+    ],
   };
   table(api).put(row as unknown as { id: string });
   return row;

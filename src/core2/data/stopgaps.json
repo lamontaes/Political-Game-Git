@@ -4428,5 +4428,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-dual-office-law",
+    "kind": "estimated-rule",
+    "file": "src/core2/office-incompatibility.ts",
+    "line": 12,
+    "whatItFakes": "Until jurisdiction-specific dual-office exceptions are compiled, the data conservatively treats two elected mandates as incompatible. The federal legislative/executive prohibition is sourced separately.",
+    "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "status": "open"
   }
 ]

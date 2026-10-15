@@ -115,5 +115,11 @@
     "tag": "TUNABLE",
     "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyOfficeOpportunityWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Opportunity cost of leaving a current mandate for another office, multiplied by steps down the existing office rank. Schlesinger, Ambition and Politics (1966), progressive and static ambition. Spread 1 to 3.",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }
