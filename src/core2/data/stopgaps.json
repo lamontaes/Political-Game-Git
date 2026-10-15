@@ -2434,11 +2434,11 @@
     "file": "src/core2/credit-stand-in.ts",
     "line": 13,
     "whatItFakes": "One named business gets a prime-linked credit line from a town lender for the M1-02 proof; no bank chose to lend.",
-    "why": "The generated opening has no credit lines; banks and loans are M1-06 (OPUS-WORLD, next on the checklist).",
+    "why": "The generated opening has no credit lines; banks and loans are M1-06 (OPUS-WORLD, next on the checklist). Removed by Session D on 2026-10-15: credit-stand-in.ts is deleted and its only caller, tooling/macro-proof.ts, now runs buildBenchWorld with every module. It observes the actual credit engine applications and facilities without injecting a loan.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-regional-territory-estimate",

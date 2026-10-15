@@ -1,121 +1,88 @@
-/** M1-02 proof in a generated world: national figures, every vote's reasons, and a named business's line repriced. */
+/** A played year: actual bank applications, approved lines and their macro repricings.
+ * node --import tsx src/core2/tooling/macro-proof.ts [--seed S] [--place KEY] [--out PATH]
+ * Without replay arguments, draw a seed and a place across all 56 jurisdictions.
+ */
+import { randomBytes } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { performance } from "node:perf_hooks";
-import { prepareWorldAt } from "./world-prepare";
-import { advanceCore, createLifeCore } from "../life";
+import { buildBenchWorld } from "../../bench/world";
+import { drawPlace } from "../../../scripts/core2-year/place";
+import { gameStartDate } from "../game-start";
+import { advanceCore } from "../life";
 import { coreAPI } from "../state";
-import { MACRO_MODULE, macroCoreData, withCentralBank } from "../modules/macro";
-import { standInPrimeLine } from "../credit-stand-in";
-import { REGIONAL_MODULE } from "../modules/regional";
-import { buildOpeningEconomy } from "../opening-economy";
-import { checkBands, type MacroMonth } from "../macro-model";
-import { parameter } from "../parameters";
+import { setBookkeeping } from "../bookkeeping";
+import { addDays, makeIsoDate } from "../kernel/dates";
+import { CREDIT_MODULE_ID } from "../modules/credit";
+import { MACRO_MODULE_ID } from "../modules/macro";
 
-const [seed, placeKey, through, output, mode, startedAt] =
-  process.argv.slice(2);
-const withMacro = mode !== "--no-macro";
-if (!seed || !placeKey || !through || !output)
-  throw new Error(
-    "Usage: macro-proof <seed> <placeKey> <throughDate> <output>",
-  );
-const prepared = prepareWorldAt({ seed, placeKey, startedAt });
-const input = process.env.MACRO_PROOF_ECONOMY
-    ? buildOpeningEconomy(prepared.input).input
-    : prepared.input,
-  place = prepared.place;
-const data = macroCoreData();
-const core = withMacro
-  ? createLifeCore(withCentralBank(input), {
-      data,
-      modules: [MACRO_MODULE, REGIONAL_MODULE],
-    })
-  : createLifeCore(input);
-if (!withMacro) {
-  const started = performance.now();
-  advanceCore(core, through);
-  console.log(
-    JSON.stringify({
-      place: place.name,
-      base: true,
-      ms: performance.now() - started,
-    }),
-  );
-  process.exit(0);
-}
-const api = coreAPI(core);
-const borrower = {
-  organizationId: [...core.organizations.values()]
-    .filter((row) => row.kind === "employer")
-    .sort((a, b) => a.id.localeCompare(b.id))[0]!.id,
+const args = process.argv.slice(2);
+const value = (key: string, fallback: string) => {
+  const at = args.indexOf(key);
+  if (at < 0) return fallback;
+  if (!args[at + 1] || args[at + 1]!.startsWith("--"))
+    throw new Error(`Missing value for ${key}`);
+  return args[at + 1]!;
 };
-const lender = [...core.organizations.values()]
-  .filter((row) => row.id !== borrower.organizationId)
-  .sort(
-    (a, b) =>
-      Number(/bank|credit/i.test(b.name)) -
-        Number(/bank|credit/i.test(a.name)) || a.id.localeCompare(b.id),
-  )[0]!;
-const started = performance.now();
-advanceCore(core, core.date);
-const facilityId = standInPrimeLine(
-  api,
-  borrower.organizationId,
-  lender.id,
-  1_000_000,
-  1.5,
+const seed = value("--seed", randomBytes(20).toString("hex"));
+const drawn = drawPlace(seed, "macro-credit-proof");
+const placeKey = value("--place", drawn.key);
+const startedAt = value("--start", gameStartDate());
+const output = value("--out", "");
+setBookkeeping(false);
+const { core } = buildBenchWorld(seed, startedAt, { twoLevel: true, placeKey });
+const api = coreAPI(core);
+console.error(
+  JSON.stringify({ seed, placeKey, startedAt, modules: core.modules.size }),
 );
-advanceCore(core, through);
+const started = performance.now();
+let through = makeIsoDate(startedAt);
+for (let day = 0; day < 365; day += 1) {
+  through = addDays(through, 1);
+  advanceCore(core, through);
+}
 const milliseconds = performance.now() - started;
-const snap = api.moduleState("macro").snapshot();
-const months = snap.tables.months as unknown as MacroMonth[];
-const p = (key: string) => parameter(key, data.parameters);
-const bands = checkBands(months, p);
+const macro = api.moduleState(MACRO_MODULE_ID).snapshot();
+const credit = api.moduleState(CREDIT_MODULE_ID).snapshot();
+const owners = api.moduleState("business").table("owners");
+const facilities = [...core.finance.facilities.values()];
+if (facilities.some((row) => row.id.startsWith("facility:stand-in:")))
+  throw new Error("A fabricated credit facility reached the played world");
 const result = {
-  schema: "macro-proof-v1",
+  schema: "macro-proof-v2",
   head: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
   seed,
-  place,
-  startedAt: input.startedAt,
+  place: {
+    key: placeKey,
+    ...(placeKey === drawn.key ? { name: drawn.name } : {}),
+  },
+  startedAt,
   through,
   milliseconds,
-  business: {
-    id: borrower.organizationId,
-    name: core.organizations.get(borrower.organizationId)!.name,
-    lender: lender.name,
-    facilityId,
-    facility: core.finance.facilities.get(facilityId),
-  },
-  repricings: snap.tables.repricings,
-  meetings: snap.tables.meetings,
-  votes: snap.tables.votes,
-  members: snap.tables.members,
-  months: months.map((row) => ({
-    month: row.month,
-    kind: row.kind,
-    unemploymentPct: row.unemploymentPct,
-    inflationPct: row.inflationPct,
-    payrollJobsThousands: row.payrollJobsThousands,
-    policyRatePct: row.policyRatePct,
-    mortgage30Pct: row.mortgage30Pct,
-    townIncomeGrowthPct: row.townIncomeGrowthPct,
+  installedModules: core.modules.size,
+  banks: credit.tables.banks,
+  applications: credit.tables.applications,
+  facilities: facilities.map((facility) => ({
+    ...facility,
+    borrower: core.organizations.get(facility.borrowerId)?.name,
+    ownerId: owners.get(facility.borrowerId)?.ownerId ?? null,
   })),
-  bands: {
-    simulatedBase: bands.filter((row) => !row.baseIsHistory),
-    historyBase: bands.filter((row) => row.baseIsHistory),
-  },
-  conditions: core.finance.conditionsByPlace.get(
-    core.organizations.get(borrower.organizationId)!.placeId,
-  ),
+  bankBooks: credit.tables.books,
+  householdLoans: credit.tables.loans,
+  householdPayments: credit.tables.payments,
+  repricings: macro.tables.repricings,
+  meetings: macro.tables.meetings,
+  votes: macro.tables.votes,
 };
-writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
-console.log(
+const json = JSON.stringify(result, null, 2) + "\n";
+if (output) writeFileSync(output, json);
+else process.stdout.write(json);
+console.error(
   JSON.stringify({
-    place: place.name,
-    ms: milliseconds,
-    meetings: (snap.tables.meetings as unknown[]).length,
-    repricings: (snap.tables.repricings as unknown[]).length,
-    simulatedOutside: result.bands.simulatedBase.filter((row) => !row.inside)
-      .length,
+    placeKey,
+    milliseconds,
+    facilities: facilities.length,
+    applications: credit.tables.applications?.length ?? 0,
+    repricings: macro.tables.repricings?.length ?? 0,
   }),
 );
