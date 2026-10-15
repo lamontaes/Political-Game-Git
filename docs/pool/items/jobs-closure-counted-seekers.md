@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/jobs-closure-counted-seekers
-pr:
+pr: #4442
 blocked-on:
 source: found by a Claude session running jobs tests for gov-follow-up; fails identically on clean main
 claimed-at: 2026-10-15T20:32:14.549Z
