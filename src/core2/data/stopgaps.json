@@ -4631,5 +4631,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Each territory's own business property tax collections (its government's finance reports) over its private payroll (BLS QCEW for Puerto Rico and the Virgin Islands; the census of the island areas for the rest).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-owner-decision-unfilled-offer-pay",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1,
+    "whatItFakes": "An opening's pay stays at the role's rate (the region's pay and the wage floor) however long it goes unfilled; employers never raise an offer to fill it.",
+    "why": "The owner ruled on Oct 14 that a new opening's pay comes from the role's own rate, the region's pay and the wage floor; raising offers to fill openings changes that and is his call.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-15",
+    "replacement": "The owner's ruling: keep one rate per role, or let an unfilled opening's offer rise each month it stays open, up to a cap.",
+    "status": "open"
   }
 ]

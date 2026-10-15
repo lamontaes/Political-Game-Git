@@ -1139,6 +1139,7 @@ function reviewEmployers(api: CoreAPI): void {
  * force. Each role keeps its own rate above the floor; the median of whoever
  * holds the role now plays no part (owner, Oct 14).
  */
+// stopgapId: SG-WORLD-owner-decision-unfilled-offer-pay
 function payFor(
   api: CoreAPI,
   organizationId: string,
