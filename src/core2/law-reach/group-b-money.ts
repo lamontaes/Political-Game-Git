@@ -316,15 +316,17 @@ export function payBenefits(
     (a) => a.placeId === town,
   )?.accountId;
   const named = input.heads.filter((h) => h.named);
-  const counted = input.heads.length - named.length;
+  // Real heads: a counted row stands for as many households as its weight says.
+  const everyone = input.heads.reduce((n, h) => n + (h.scale ?? 1), 0);
+  const counted = everyone - named.length;
   const months = reachParameter("monthsPerYear");
   const want = new Map<string, number>();
   const out = new Map<string, Record<string, number>>();
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
-    if (!gov || delta <= 0 || !input.heads.length) continue;
+    if (!gov || delta <= 0 || !everyone) continue;
     const perHousehold = Math.floor(
-      (delta * input.modeledShare) / months / input.heads.length,
+      (delta * input.modeledShare) / months / everyone,
     );
     if (perHousehold <= 0) continue;
     for (const head of named) {
