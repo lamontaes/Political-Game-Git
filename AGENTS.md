@@ -67,7 +67,7 @@ Every package names its model and effort with a one-line reason. Balance usage a
 
 ## How every session works
 
-- **The pool is the only backlog** (owner, Oct 15, 2026): `docs/pool/` holds every piece of work; a session claims an item by editing its file, adds an item for anything it finds, and reads `docs/pool/INDEX.md` to pick the next one. See `docs/pool/README.md`. Any agent with repository access (Claude, Codex, Cursor, Antigravity or another) may take pool items the same way; only the CTO merges.
+- **The pool is the only backlog** (owner, Oct 15, 2026): `docs/pool/` holds every piece of work; a session claims an item with `npm run pool -- claim <id> --branch <branch>`, which pushes the claim to main before any building, adds an item for anything it finds, and reads `docs/pool/INDEX.md` to pick the next one. See `docs/pool/README.md`. Any agent with repository access (Claude, Codex, Cursor, Antigravity or another) may take pool items the same way; only the CTO merges.
 
 - **Red main comes first** (owner, Oct 15, 2026): a session that finds the release run on main red claims `release-main-red` in the pool, fixes it at the root on its own PR, and then returns to its item; nobody builds on a red main for long.
 

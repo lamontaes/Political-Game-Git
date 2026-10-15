@@ -72,6 +72,16 @@
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(2): 20 hours a week of work or a work program."
     },
+    "snapWorkTimeLimitMonths": {
+      "value": 3,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2015(o)(2): an able-bodied adult without dependents who is not working 20 hours a week gets benefits for 3 months in any 36-month period."
+    },
+    "snapWorkTimeLimitWindowMonths": {
+      "value": 36,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2015(o)(2): the 36-month period the 3-month limit counts within."
+    },
     "snapWorkAgeFrom": {
       "value": 18,
       "tag": "SOURCED",
