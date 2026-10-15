@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.6.1
+
+_Released October 14, 2026._
+
+### Fixed
+
+- **Employer names read as names in conversation** A place of work named in
+  capitals inside a longer name now reads normally in conversation and the
+  journal.
+
 ## PRE-ALPHA 0.6.0
 
 _Released October 14, 2026._
