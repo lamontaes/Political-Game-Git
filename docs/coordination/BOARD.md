@@ -81,3 +81,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 6. Oct 10–11 stale pool PR disposition — `pool/stale-pr-disposition` (second Session D; review pool/*, english/*, codex/session35-* and cto/title-people-national-scenes, record superseding or carried-forward locations, then close covered PRs without deleting branches).
 
 - After the blocked/claimed pool: cause-group founding — `pool/cause-group-founding` (first Session D; SG-P10-cause-group-founding, check the existing organizing/membership rule against the owner's no-paperwork order; earlier law-reach missing mechanics are Session A, other drives civic acts depend on active GOV work).
+
+- 8. Powers by level — `pool/powers-by-level` (second Session D; read the existing powers catalog before bill introduction and executive orders, distinguishing county/city/state/federal jurisdictions; item 7 remains Session A’s active law-reach work).
