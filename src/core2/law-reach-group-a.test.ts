@@ -199,7 +199,7 @@ function recordRoundTrip(
       expect(
         api.knows(row.targetId, `law-reach:${key}`)?.value,
         `${where}: ${key} ${row.targetId}`,
-      ).toBe(row.kind);
+      ).toBeUndefined();
   }
   between?.();
   enact(key, level, 0);
@@ -208,8 +208,8 @@ function recordRoundTrip(
   if (one)
     expect(
       api.knows(one.targetId, `law-reach:${key}`)?.value,
-      `${where}: ${key} repeal known`,
-    ).toBe("repealed");
+      `${where}: ${key} repeal is not a delivered notice`,
+    ).toBeUndefined();
   afterRepeal?.();
 }
 
@@ -495,9 +495,7 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     report[key] = { assisted: assisted.length };
     expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
     for (const row of assisted)
-      expect(api.knows(row.targetId, `law-reach:${key}`)?.value).toBe(
-        "service",
-      );
+      expect(api.knows(row.targetId, `law-reach:${key}`)).toBeUndefined();
     amendBudget(api, {
       governmentId: gov.id,
       line: "housing",
