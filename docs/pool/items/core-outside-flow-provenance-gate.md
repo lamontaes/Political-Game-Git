@@ -4,8 +4,8 @@ title: "Outside-flow provenance gate fails on main"
 area: core
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: pool/core-outside-flow-provenance-gate
 pr:
 blocked-on:
 milestone:
