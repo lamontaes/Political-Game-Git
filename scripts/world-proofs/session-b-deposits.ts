@@ -1,4 +1,5 @@
 /** Ordinary played-world bank proof. Seed comes from the assignment's base SHA. */
+import { bankView } from "../../src/bench/bank";
 import { performance } from "node:perf_hooks";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -94,6 +95,33 @@ const examples = ["full", "counted", "business"].map((tier) => {
       : undefined,
   };
 });
+const viewPersonId = examples.find((row) => row.tier === "full")
+  ?.namedMembers?.[0];
+if (!viewPersonId) throw new Error("No full depositor to inspect on Money.");
+const beforeRead = {
+  date: core.date,
+  sequence: core.cashJournal.nextSequence,
+  people: core.people.size,
+  cash: cash(),
+};
+const moneyScreen = bankView(core, viewPersonId);
+if (
+  !moneyScreen?.books ||
+  moneyScreen.books.assetsMinor !== moneyScreen.books.liabilitiesAndEquityMinor
+)
+  throw new Error("Money screen balance sheet does not balance.");
+if (
+  JSON.stringify(beforeRead) !==
+  JSON.stringify({
+    date: core.date,
+    sequence: core.cashJournal.nextSequence,
+    people: core.people.size,
+    cash: cash(),
+  })
+)
+  throw new Error("Money screen read changed the world.");
+if (bankView(core, "missing-person") !== null)
+  throw new Error("Unknown person exposed bank data.");
 console.log(
   JSON.stringify(
     {
@@ -101,6 +129,8 @@ console.log(
       place,
       span: [start, core.date],
       bankId,
+      viewPersonId,
+      moneyScreen,
       seconds: {
         build: (built - started) / 1000,
         year: (finished - built) / 1000,
