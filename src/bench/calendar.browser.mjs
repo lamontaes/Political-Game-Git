@@ -1,3 +1,4 @@
+/* global process, URL, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 const browser = await chromium.launch({
