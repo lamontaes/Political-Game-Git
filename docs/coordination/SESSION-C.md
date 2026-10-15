@@ -37,4 +37,4 @@ The six related test files produced 29 passes and five failures. Both federal vo
 
 The same speed script measured 73.117 seconds on base `1977d40995` and 78.428 seconds at `0e38a27f21`, a 7.3% increase. These speed measurements precede the reduction and attendance changes. Item-veto limits remain registered as open.
 
-The follow-up speed run at `f76070a74c` measured 97.373 seconds, above the allowed increase from the earlier 73.117-second base. A fresh clean-base comparison is pending; the speed gate remains open.
+The follow-up speed run at `f76070a74c` measured 97.373 seconds, above the allowed increase from the earlier 73.117-second base. A fresh clean-base run measured 94.533 seconds with the same command and seed (`/tmp/session-c-veto-base-recheck.log`). Against that comparison the branch is 3.0% slower and below two minutes. The speed gate passes; the older 73.117-second measurement no longer describes the current run conditions.
