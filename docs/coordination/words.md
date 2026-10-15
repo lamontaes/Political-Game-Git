@@ -1,8 +1,8 @@
-# OPUS-WORDS: The English engine's phrase banks
+# WORDS: The English engine and the story director
 
 Only OPUS-WORDS writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
-- **Owns:** The data the English engine composes from: `data/english/parts/**`, `data/english/counts/**`, the corpus tooling in `scripts/english-corpus/**` and the research notes in `docs/research/english-corpus/**`. OPUS-PEOPLE owns the engine itself (`src/presentation/english-*.ts`, the `*-english.ts` writers, `src/director/**`).
+- **Owns (owner, Oct 15, 1:05 a.m.: the English engine and the director stay with the Claude "Words" cloud session):** the English engine (`src/english/**`, formerly `src/presentation/english-*`), the story director (`src/director/**`) and the data they compose from: `data/english/**`, the corpus tooling in `scripts/english-corpus/**`, the grading tooling in `scripts/dialogue-batch/**` and the research notes in `docs/research/english-corpus/**`. Work order: `docs/work-orders/astra-2026-10-15.md`, Order 4.
 - **Branch:** `opus-words`, restarted from `main` after #4025 merged (Oct 12), with `pool/P15-people-5` merged in whenever it moves.
 - **Model:** Opus, high: choosing which real sentences carry each conversation move is judgment work.
 - **Starts from:** The owner's approval, Oct 12 at 10:20 a.m.; PEOPLE's Words item (`docs/coordination/people.md`); the speech corpus research (`docs/research/speech-and-dialogue-corpus-2026-09-28.md`); the existing mined banks in `data/english/parts/`.
@@ -58,6 +58,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [x] **Choice names for the decision bench**: `benchControlNames(controls.actions)` in `scripts/english-corpus/choice-names-bank.ts` turns the mined choice-names bank (57 sentences) into the bench's `controls.json` shape: `actions` (11 plain button names: "Go to work", "Rest", "Keep going", "Look it up", "Spread the word", "Sign up", "Donate", "Organize", "Run", "Speak up") and `actionTemplates` (8 names with their target: "Call {name}", "Take care of {relation}", "Join {group}", "Call {office}", "Meet {name}", "Stand up for {cause}"). A bench name that is also mined stays as it is, and the pick is the same every time (`choice-names-bank.test.ts`, 5 checks). Still unnamed by any record: "Hold a meeting" (`organize-meeting`).
 
 ## Needs from other sessions
+
+- **OPUS-WORLD or OPUS-PEOPLE (a 17-year-old left alone):** in Richland, Georgia (`scene-year.ts --seed w15-h`, place 1365016), the mother Crystal Schroeder (`person_3a757177f2398cbe`) and the brother Jose moved away on November 7, 2026 (`person.moved-away:person_3a757177f2398cbe:2026-11-07`) and left Alexander, 17, alone in household `household_a3ed9de88e5107c7`, which was then evicted on January 23, 2027 (`event:housing.eviction:eviction:lease:household_a3ed9de88e5107c7:2027-01-06`). A minor moves with the guardian; with no one home, no family scene could tell him (Oct 15).
+- **OPUS-PEOPLE (no divorce yet):** the owner's family-scene example "a divorce" needs a producer: the situation library's `separated` cause is `awaitingProducer`. When the people engines end a marriage from the two people's records, the family scene at home reads it like a lost job (Oct 15).
+- **OPUS-CORE (a played year stops on a finance contract):** a two-level bench world in Wakonda, South Dakota (`scene-year.ts --seed w15-c`, place 4668100) throws "Outside obligation refers to missing, inactive or unmatched recipient terms." (`src/core2/finance-cash.ts:1697`, from `runFinanceDay`) partway through its year (Oct 15).
+- **OPUS-CORE (a small place has no 17-year-old, again):** `buildPopulation` throws "No household of Utica, Montana holds a resident aged 17." (`scene-year.ts --seed w15-s`) (Oct 15).
 
 - **OPUS-CORE (a played year stops on public pay):** a two-level bench world for `scripts/dialogue-batch/scene-year.ts --seed scenes-c` throws "Public pay does not match its actual owned work obligation." (`src/core2/public-work-pay.ts:177`, from the work module's payroll day) partway through its year (Oct 14).
 - **OPUS-CORE (the address isn't a news story):** with the press module installed, the news module leaves stories to the press (`src/core2/modules/news.ts:434`), and the press never files the President's address. So `opening-story.test.ts` "is a public record the news carries" fails on `main` and on #4287. Either the press files the address as a national story, or the test reads where the press carries it (Oct 14).
