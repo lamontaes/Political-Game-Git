@@ -107,3 +107,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 10. OPUS-GOV Needs, prison hiring — `pool/jobs-custody-eligibility` (second Session D; jobs reads existing custody before seeking, applications and offer acceptance; replace justice's daily hire-then-dismiss fallback while retaining termination of jobs held at imprisonment. Checked #4329: no custody implementation; its demand/layoff work remains Session B's).
 
 - 10. Core Needs / played-year speed — `pool/core-year-speed` (first Session D; profile Garden City on current main and repair one measured core hot path; no overlapping jobs/custody or law edits).
+
+- 10. Speed claim narrowed by profile: `pool/core-year-speed` owns housing `ownedHomes` / `townFigures` reads and housing-prices only. #4347 inspected: Session B retains construction/occupancy/renewal, which does not edit these reader functions. Baseline 166.89 seconds; ownedHomes accounts for about 20.6 profiled seconds.
