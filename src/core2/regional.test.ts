@@ -139,18 +139,24 @@ describe("state and metro economies", () => {
 });
 
 describe("other places, coarser (M1-13, the economy's part)", () => {
-  it("moves people out of regions whose unemployment runs above the nation's", () => {
+  it("moves people out of regions whose unemployment rises against the nation's, and into those where it falls", () => {
     const { opening, months } = year("2021-01-01");
-    const gap = (row: RegionMonth) => row.unemploymentPct;
-    const high = [...opening]
-      .filter((row) => row.population > 0)
-      .sort((a, b) => gap(b) - gap(a))[0]!;
-    const low = [...opening]
-      .filter((row) => row.population > 0)
-      .sort((a, b) => gap(a) - gap(b))[0]!;
-    const after = (id: string) => months.find((row) => row.regionId === id)!;
-    expect(after(high.regionId).population).toBeLessThan(high.population);
-    expect(after(low.regionId).population).toBeGreaterThan(low.population);
+    // How far the region's gap to the nation moved since the opening (a place's usual gap moves no one).
+    const nationNow =
+      months.reduce((n, row) => n + row.unemploymentPct * row.population, 0) /
+      months.reduce((n, row) => n + row.population, 0);
+    const before = new Map(opening.map((row) => [row.regionId, row]));
+    const rise = (row: RegionMonth) =>
+      row.unemploymentPct - nationNow - before.get(row.regionId)!.openingGapPct;
+    const live = months.filter((row) => row.population > 0);
+    const worse = [...live].sort((a, b) => rise(b) - rise(a))[0]!;
+    const better = [...live].sort((a, b) => rise(a) - rise(b))[0]!;
+    expect(worse.population).toBeLessThan(
+      before.get(worse.regionId)!.population,
+    );
+    expect(better.population).toBeGreaterThan(
+      before.get(better.regionId)!.population,
+    );
   });
   it("records a monthly jobs report for every state as a public record", async () => {
     const { advanceCore } = await import("./life");
