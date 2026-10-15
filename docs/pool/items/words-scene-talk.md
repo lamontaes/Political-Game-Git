@@ -5,12 +5,11 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: claimed
-claimed-by: words/scene-talk
-pr:
+status: in-pr
+claimed-by:
+pr: #4459
 blocked-on:
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
-claimed-at: 2026-10-15T21:09:19.521Z
 ---
 
 **What.** TODO
@@ -22,3 +21,5 @@ claimed-at: 2026-10-15T21:09:19.521Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Session handed off Oct 15, 2026: PR #4459 (words/scene-talk, draft) has the catalog (14 types), purpose arcs and the 250-piece scene-talk bank, school opener off; remainder: the root fix of talk openings (no opener without a long-ago record, yes/no always followed up), the exchange engine with its 15-talk test, then batch 13.

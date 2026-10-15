@@ -4,16 +4,18 @@ title: "Needs from other sessions listed in core.md (line 172): 30 lines"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-needs-core-172
+pr: #4496
 blocked-on:
 milestone:
 source: 'docs/coordination/core.md "Needs from other sessions" (line 172)'
+claimed-at: 2026-10-15T22:45:41.593Z
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** This list holds 30 requests one session made of another about the core. The asking sessions are gone, so each is a wiring job for whoever claims it. Many are already built: verify each line against main first, mark what is done, and split any large line into its own pool item with its own done-when (an L item is split before building). The lines that matter most to play are the bench opening skipping five core opening steps, one counted-population engine instead of two, the people never caring for family in the time-use check, and the stand-in figures flagged for the owner.
 
+Lines (as of 2026-10-15, from the status file):
 - **OPUS-PLAY: open the played game with the core's opening steps.** `src/bench/world.ts` builds its own opening and skips five steps that `generatedOpening` (`src/core2/tooling/generated-world.ts`) runs. (1) `withPublicSchoolDistrict`: teachers on public pay, which school laws reach. (2) `withPrivateTuition`: private
 - **CTO: one engine for the counted population, not two.** FIXER's PW-8 (`births-counted.ts`, run by renewal) and my `modules/counted-drift.ts` both move the counts. Mine stands down where renewal runs. Each has things the other lacks. PW-8 has state birth rates (NCHS), newcomers' temperaments and rent. Mine has deaths
 - **Every pillar: switch `src/simulation/dates`, `ids`, `rng` and `types` (brand types) imports to `src/core2/kernel/dates`, `ids`, `rng` and `brands`, and `simulation/government-units`, `living-costs-data`, `living-costs-category-data` and `place-county-relations.generated` to `src/core2/reference/`, and `simulation/l
@@ -45,10 +47,10 @@ source: 'docs/coordination/core.md "Needs from other sessions" (line 172)'
   - Utilities used everywhere (move first, into `src/core2` or a shared folder): `simulation/dates` (71 imports), `simulation/ids` (18), `simulation/types` (17, mostly `EntityId`/`World` types), `simulation/rng` (4).
   - Place and government data readers, used by the opening: `simulation/life-places` (23), `simulation/government-units` (9), `nationwide-world/government-unit-names`, `nationwide-world/place-population`, `nationwide-world/local-governments`, `place-county-relations.generated`, `world-setup/political-start` (voter grou
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Rules.** Wire to the world: each line is finished only when another engine reads what it wrote. Replace, never layer: the old import or stand-in is deleted when its replacement lands, and the line about moving imports off src/simulation is a replace. Nothing waits on another session: build the smallest registered stand-in and note it.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
+**Done when.** For each line, one of: built and read by another engine in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named), shown by record id; verified done on main and noted; or split into its own pool item. The time-use check (scripts/core2-year/time-use.ts) shows caring for household members above 0 percent of person-days in three drawn towns. The test for each changed file passes. The owner plays it: the bench opening and the generated opening give the same town.
 
-**Files.** varies
+**Files.** docs/coordination/core.md, src/bench/world.ts, src/core2/tooling/generated-world.ts, src/core2/modules/counted-drift.ts, src/core2/births-counted.ts, scripts/core2-year/time-use.ts
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
