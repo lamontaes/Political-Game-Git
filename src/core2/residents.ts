@@ -112,6 +112,12 @@ export interface ResidentsInput {
   /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
   calendars?: readonly WorkPayrollCalendarInput[];
   /**
+   * Real households each counted household of a place stands for, where the
+   * place opens at its Census count from a sample of its households (omit a
+   * place for one each). Every reader of a count multiplies by it.
+   */
+  weights?: Readonly<Record<PlaceId, number>>;
+  /**
    * Counted people carry no deep past: fill-in rebuilds a household's from
    * the world's seed and start date (deep past depends on nobody else).
    */
@@ -245,6 +251,8 @@ export interface CollapseOptions {
   outsideLivingCosts?: boolean;
   /** Stand-in (SG-CORE-unplaced-workers-income): pay for workers the opening couldn't place. Off when a jobs engine places them. */
   unplacedWorkerIncome?: boolean;
+  /** Real households each counted household of a place stands for (see `ResidentsInput.weights`). */
+  weights?: Readonly<Record<PlaceId, number>>;
 }
 
 export function collapseToTwoLevels(
@@ -880,6 +888,9 @@ export function collapseToTwoLevels(
         accountId,
       })),
       households,
+      ...(options.weights && Object.keys(options.weights).length
+        ? { weights: options.weights }
+        : {}),
       // Flows already recorded (e.g. outside buyers) are kept.
       flows: [...(input.residents?.flows ?? []), ...flows],
       calendars: [

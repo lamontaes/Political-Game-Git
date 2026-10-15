@@ -98,8 +98,31 @@ function el(tag, props = {}, ...children) {
   node.append(...children);
   return node;
 }
+// A record id as the bench stores it (person_<hex>, official:term:seat:...).
+const RECORD_ID =
+  /\b(?:[a-z][a-z-]*_[0-9a-f]{8,}|[a-z][a-z-]*(?::[A-Za-z0-9._@-]+){2,})\b/g;
+/**
+ * A value as a reader sees it: each record id replaced by the name the screen
+ * knows for it. Null when the text names an id the screen has no name for, or
+ * carries a missing value ("undefined", "NaN"), so nothing half-printed shows.
+ */
+function plain(value) {
+  const text = String(value ?? "");
+  if (/\b(?:undefined|NaN|null)\b/.test(text)) return null;
+  let unnamed = false;
+  const named = text.replace(RECORD_ID, (id) => {
+    const name = me?.names?.[id];
+    if (!name) unnamed = true;
+    return name ?? id;
+  });
+  return unnamed ? null : named;
+}
+/** One labeled line; a value that can't be put in a reader's words hides the line. */
 function row(label, value) {
-  return el("div", { className: "row" }, termLabel(label), String(value ?? ""));
+  const text = plain(value);
+  const line = el("div", { className: "row" }, termLabel(label), text ?? "");
+  if (text === null) line.hidden = true;
+  return line;
 }
 function show(id, on) {
   $(id).hidden = !on;
@@ -1074,7 +1097,7 @@ async function campaignRows() {
       campaignResult =
         result.contacted !== undefined
           ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
-              .map(([k, n]) => `${me.names?.[k] ?? k} ${n}`)
+              .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
               .join(" · ")}`
           : result.reached !== undefined
             ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
@@ -1451,7 +1474,7 @@ const sheets = {
         .map((e) =>
           row(
             policyLabel(e.question),
-            `${e.what} · ${e.enforcer} · ${e.since}`,
+            [e.what, e.since].filter(Boolean).join(" · "),
           ),
         ),
     ];
@@ -1899,10 +1922,6 @@ const sheets = {
     return [root];
   },
   async news() {
-    const isRecordId = (v) =>
-      typeof v === "string" &&
-      !me.names?.[v] &&
-      /^[a-z]+_[0-9a-f]{8,}$/.test(v);
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
     const economy = e.nation
@@ -1940,9 +1959,14 @@ const sheets = {
         row(
           `${r.date} · ${r.kind}`,
           Object.entries(r.facts)
-            // Bare record ids are the bench's, not the reader's.
-            .filter(([k, v]) => !/Id$/.test(k) && !isRecordId(v))
-            .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
+            // Bare record ids are the bench's, not the reader's; a policy
+            // question is read by its name.
+            .map(([k, v]) => [
+              k,
+              String(v).startsWith("us-policy-positions:") ? policyLabel(v) : v,
+            ])
+            .filter(([k, v]) => !/Id$/.test(k) && plain(v) !== null)
+            .map(([k, v]) => `${k}: ${v}`)
             .join(" · "),
         ),
       ),
