@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-family-school-012x
-pr:
+pr: "#4432"
 blocked-on:
 milestone:
 source: "split from laws-remaining-families, Oct 15"
