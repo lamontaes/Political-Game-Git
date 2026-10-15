@@ -4,6 +4,7 @@ title: "M5-03 keep playing as someone else."
 area: play
 kind: feature
 priority: 2
+size: L
 status: open
 claimed-by:
 pr:

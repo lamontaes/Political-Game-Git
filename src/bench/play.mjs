@@ -478,7 +478,7 @@ const amount = (value, unit) => {
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
-api("/api/controls").then((value) => (controls = value));
+const controlsReady = api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
   packet = value ?? packet;
@@ -1722,90 +1722,158 @@ const sheets = {
     const { date, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
+    const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
       byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-    const months = [];
-    const first = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-    for (let m = 0; m < 2; m++) {
-      const start = new Date(first.getFullYear(), first.getMonth() + m, 1, 12);
-      const grid = el(
-        "div",
-        { className: "month" },
+    const dateWords = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    const event = (item) =>
+      el(
+        "article",
+        { className: "calendar-event" },
+        el("span", { className: "label", textContent: kindName(item.kind) }),
+        el("p", {
+          textContent:
+            controls.policyNames?.[item.title] ?? slugWords(item.title),
+        }),
+      );
+    let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
+    let selected = date;
+    let upcomingPage = 0;
+    let dayPage = 0;
+    const root = el("div", { className: "calendar-layout" });
+    const monthBox = el("section", { className: "calendar-month" });
+    const details = el("section", { className: "calendar-details" });
+    const upcoming = el("section", { className: "calendar-upcoming" });
+    const button = (label, fn) => {
+      const b = el("button", { type: "button", textContent: label });
+      b.addEventListener("click", fn);
+      return b;
+    };
+    const paging = (index, count, change) => {
+      const back = button(labels.back, () => change(index - 1));
+      const next = button(labels.next, () => change(index + 1));
+      back.disabled = index === 0;
+      next.disabled = (index + 1) * 3 >= count;
+      return el("nav", { className: "calendar-paging" }, back, next);
+    };
+    const drawDetails = () => {
+      const entries = byDate.get(selected) ?? [];
+      details.replaceChildren(
+        el("h3", { textContent: dateWords(selected) }),
+        ...entries.slice(dayPage * 3, dayPage * 3 + 3).map(event),
+      );
+      if (entries.length > 3)
+        details.append(
+          paging(dayPage, entries.length, (page) => {
+            dayPage = page;
+            drawDetails();
+          }),
+        );
+      if (selected > (packet?.at.date ?? date))
+        details.append(
+          button(labels.advance, () => {
+            closeSheet();
+            act(`/api/advance?mode=calendar&date=${selected}`);
+          }),
+        );
+    };
+    const select = (iso) => {
+      selected = iso;
+      dayPage = 0;
+      drawMonth();
+      drawDetails();
+    };
+    const drawMonth = () => {
+      const move = (delta) => {
+        month = new Date(month.getFullYear(), month.getMonth() + delta, 1, 12);
+        drawMonth();
+      };
+      const header = el(
+        "nav",
+        { className: "calendar-heading" },
+        button(labels.previousMonth, () => move(-1)),
         el("h3", {
-          textContent: start.toLocaleDateString("en-US", {
+          textContent: month.toLocaleDateString("en-US", {
             month: "long",
             year: "numeric",
           }),
         }),
+        button(labels.nextMonth, () => move(1)),
       );
-      for (const d of ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"])
-        grid.append(el("div", { className: "weekday", textContent: d }));
-      for (let i = 0; i < start.getDay(); i++) grid.append(el("div"));
-      for (let day = 1; ; day++) {
-        const at = new Date(start.getFullYear(), start.getMonth(), day, 12);
-        if (at.getMonth() !== start.getMonth()) break;
-        const iso = `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-        const cell = el(
-          "div",
-          { className: `day${iso === date ? " today" : ""}` },
-          el("b", { textContent: String(day) }),
-        );
-        // A later day: live until it, stopping early for anything that needs you.
-        if (iso > (packet?.at.date ?? date)) {
-          cell.classList.add("jump");
-          cell.title = iso;
-          cell.addEventListener("click", () => {
-            closeSheet();
-            act(`/api/advance?mode=calendar&date=${iso}`);
-          });
-        }
-        const kinds = new Map();
-        for (const item of byDate.get(iso) ?? [])
-          kinds.set(item.kind, [
-            ...(kinds.get(item.kind) ?? []),
-            slugWords(item.title),
-          ]);
-        for (const [kind, names] of kinds)
+      const grid = el("div", { className: "month" });
+      for (const weekday of labels.weekdays)
+        grid.append(el("span", { className: "weekday", textContent: weekday }));
+      for (let i = 0; i < month.getDay(); i++) grid.append(el("span"));
+      const days = new Date(
+        month.getFullYear(),
+        month.getMonth() + 1,
+        0,
+      ).getDate();
+      for (let day = 1; day <= days; day++) {
+        const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const entries = byDate.get(iso) ?? [];
+        const cell = button(String(day), () => select(iso));
+        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}`;
+        cell.dataset.date = iso;
+        cell.setAttribute("aria-label", dateWords(iso));
+        cell.setAttribute("aria-pressed", String(iso === selected));
+        if (iso === date) cell.setAttribute("aria-current", "date");
+        if (entries.length)
           cell.append(
             el("span", {
               className: "entry",
-              textContent:
-                names.length > 2
-                  ? `${kindName(kind)} (${names.length})`
-                  : `${kindName(kind)}: ${names.join(", ")}`,
-              title: names.join("\n"),
+              textContent: "•",
+              title: entries
+                .map(
+                  (i) => controls.policyNames?.[i.title] ?? slugWords(i.title),
+                )
+                .join("\n"),
             }),
           );
         grid.append(cell);
       }
-      months.push(grid);
-    }
-    const later = items.filter(
-      (i) =>
-        i.date >=
-        new Date(first.getFullYear(), first.getMonth() + 2, 1, 12)
-          .toISOString()
-          .slice(0, 10),
-    );
-    return [
-      ...months,
-      ...later
-        .slice(0, 8)
-        .map((i) =>
-          el(
-            "div",
-            { className: "row" },
-            el("b", { textContent: i.date }),
-            el(
-              "span",
-              {},
-              termLabel(kindName(i.kind)),
-              ` · ${slugWords(i.title)}`,
-            ),
-          ),
-        ),
-    ];
+      monthBox.replaceChildren(
+        header,
+        grid,
+        button(labels.today, () => {
+          month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
+          select(date);
+        }),
+      );
+    };
+    const next = items
+      .filter((i) => i.date >= date)
+      .toSorted((a, b) => a.date.localeCompare(b.date));
+    const drawUpcoming = () => {
+      upcoming.replaceChildren(
+        el("h3", { textContent: labels.upcoming }),
+        ...next.slice(upcomingPage * 3, upcomingPage * 3 + 3).map((item) => {
+          const b = button(dateWords(item.date), () => {
+            month = new Date(`${item.date.slice(0, 7)}-01T12:00:00`);
+            select(item.date);
+          });
+          return el("div", {}, b, event(item));
+        }),
+      );
+      if (next.length > 3)
+        upcoming.append(
+          paging(upcomingPage, next.length, (page) => {
+            upcomingPage = page;
+            drawUpcoming();
+          }),
+        );
+    };
+    drawMonth();
+    drawDetails();
+    drawUpcoming();
+    root.append(monthBox, details, upcoming);
+    return [root];
   },
   async news() {
     const isRecordId = (v) =>
@@ -1949,61 +2017,73 @@ const sheets = {
     return [search, list];
   },
   async options() {
-    const rows = [];
+    await controlsReady;
+    const labels = controls.options;
+    const rows = [
+      el(
+        "div",
+        { className: "option-setting" },
+        el("span", { textContent: labels.version }),
+        el("span", { textContent: await displayVersion() }),
+      ),
+    ];
+    if (document.fullscreenEnabled) {
+      const fullScreen = el("input", {
+        type: "checkbox",
+        checked: Boolean(document.fullscreenElement),
+      });
+      fullScreen.dataset.testid = "options-fullscreen";
+      const status = el("p", { role: "status", className: "option-status" });
+      fullScreen.addEventListener("change", async () => {
+        fullScreen.disabled = true;
+        status.textContent = "";
+        try {
+          if (fullScreen.checked)
+            await document.documentElement.requestFullscreen();
+          else await document.exitFullscreen();
+        } catch {
+          status.textContent = labels.fullScreenUnavailable;
+        } finally {
+          fullScreen.checked = Boolean(document.fullscreenElement);
+          fullScreen.disabled = false;
+        }
+      });
+      rows.push(
+        el(
+          "label",
+          { className: "option-setting" },
+          el("span", { textContent: labels.fullScreen }),
+          fullScreen,
+        ),
+        status,
+      );
+    }
+    const actions = el("div", { className: "acts options-actions" });
+    const resume = el("button", {
+      type: "button",
+      textContent: labels.continue,
+    });
+    resume.addEventListener("click", closeSheet);
+    actions.append(resume);
     if (skipOpening) {
       const skip = el("button", {
         type: "button",
-        textContent: "Skip opening",
+        textContent: labels.skipOpening,
       });
       skip.addEventListener("click", () => {
         closeSheet();
         skipOpening?.();
       });
-      rows.push(skip);
+      actions.append(skip);
     }
-    // Which kinds of scene may stop your day (a record the director reads).
-    const filter = await api("/api/scene-filter").catch(() => null);
-    if (filter) {
-      const allowed = new Set(filter.allowed ?? filter.kinds);
-      const save = () =>
-        post(
-          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
-        );
-      rows.push(
-        el("p", {
-          className: "label",
-          textContent: controls.sceneFilter ?? "",
-        }),
-        el(
-          "div",
-          { className: "scene-filter" },
-          ...filter.kinds.map((kind) => {
-            const box = el("input", {
-              type: "checkbox",
-              checked: allowed.has(kind),
-            });
-            box.addEventListener("change", () => {
-              if (box.checked) allowed.add(kind);
-              else allowed.delete(kind);
-              save();
-            });
-            return el(
-              "label",
-              {},
-              box,
-              ` ${controls.sceneKinds?.[kind] ?? kind}`,
-            );
-          }),
-        ),
-      );
-    }
-    rows.push(
-      el("p", { className: "version", textContent: await displayVersion() }),
-    );
-    const quit = el("button", { type: "button", textContent: "Quit to title" });
+    const quit = el("button", {
+      type: "button",
+      textContent: labels.quitToTitle,
+    });
     quit.dataset.testid = "quit-to-title";
     quit.addEventListener("click", () => window.location.reload());
-    rows.push(quit);
+    actions.append(quit);
+    rows.push(actions);
     return rows;
   },
   async travel() {
@@ -2130,10 +2210,11 @@ async function openSheet(tab) {
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
+  $("sheet").classList.toggle("options-sheet", tab === "options");
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.toggle(
     "cols",
-    tab === "calendar" || body.length > 12,
+    tab !== "calendar" && body.length > 12,
   );
   show("sheet", true);
   show("menu", Boolean(me));
@@ -2157,6 +2238,10 @@ function closeSheet() {
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);
+document.addEventListener("fullscreenchange", () => {
+  const checkbox = document.querySelector('[data-testid="options-fullscreen"]');
+  if (checkbox) checkbox.checked = Boolean(document.fullscreenElement);
+});
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
@@ -2186,6 +2271,7 @@ $("front-continue").addEventListener("click", async () => {
     id: life.personId,
     placeName: life.placeName,
     date: life.date,
+    minuteOfDay: life.minuteOfDay,
     names: {},
     portrait: life.portrait,
   };

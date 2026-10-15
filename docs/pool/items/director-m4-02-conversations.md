@@ -4,6 +4,7 @@ title: "M4-02 Conversations"
 area: director
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

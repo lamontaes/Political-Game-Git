@@ -1056,8 +1056,7 @@
           "enforcer": "the state courts",
           "penalty": "none: a power the state grants"
         }
-      ],
-      "stopgapId": "SG-GOV-REACH-A-local-authority"
+      ]
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "source": "Legislative term limits (National Conference of State Legislatures, The Term-Limited States, 2024).",
