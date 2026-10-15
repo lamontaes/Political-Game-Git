@@ -70,3 +70,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 3. Campaign door fill-in — `pool/campaign-met-households` (second Session D; SG-PLAY-doors-fill-in; action backend only, no screens. Earlier housing/property-tax/moves overlap Session B, place-prices Session A, and outcome drift first Session D).
 
 - 3. Custom world settings duplication — `pool/shared-world-settings` (second Session D; SG-PLAY-world-settings-copy; share opening settings helpers, no screen design changes. Opening-economy fallback depends on the core opening repair and remains separate).
+
+- 3. Press revenue and staff turnover — `pool/press-records` (first Session D; SG-PEOPLE-press-outlet-revenue and SG-PEOPLE-press-staff-turnover; earlier opening/core and housing/jobs are Session B, settings second D, budget/tax reads Session A; changes to press engine only, no English or director changes).
