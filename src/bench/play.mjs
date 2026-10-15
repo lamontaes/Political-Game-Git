@@ -1468,7 +1468,7 @@ const sheets = {
         .map((e) =>
           row(
             policyLabel(e.question),
-            [e.what, e.enforcer, e.since].filter(Boolean).join(" · "),
+            [e.what, e.since].filter(Boolean).join(" · "),
           ),
         ),
     ];
