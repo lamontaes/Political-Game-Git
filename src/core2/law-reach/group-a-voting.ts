@@ -20,6 +20,8 @@ import felonyData from "../data/elections/felony-disenfranchisement.json" with {
 import { electionsParameter } from "../elections-calendar";
 import { corePlaceByKey } from "../place-lookup";
 import { campaignParameter } from "../campaign-views";
+import { incarceratedMayVote } from "../justice-law";
+import { inCustody } from "../modules/justice";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
 import type { PolicyHandler } from "./host";
 import {
@@ -135,17 +137,19 @@ export function felonyDisenfranchisedShare(api: CoreAPI): number {
 }
 
 /**
- * Whether a named person's own record bars them from voting: a conviction
- * whose sentence the state's law says bars the vote. The core holds no
- * conviction or sentence records yet, so no named person is barred; the
- * counted electorate carries the state's share instead
- * (`felonyDisenfranchisedShare`).
+ * Whether a named person's own record bars them from voting: they are serving
+ * a prison term and the state's law takes the vote from someone serving one
+ * (`incarceratedMayVote`; Maine, Vermont, the District of Columbia and Puerto
+ * Rico let them vote). The vote returns on release; what parole, probation
+ * and restoration laws add for the counted electorate is
+ * `felonyDisenfranchisedShare`.
  */
 export function barredFromVoting(api: CoreAPI, personId: string): boolean {
-  void personId;
-  // stopgapId: SG-GOV-named-voters-never-barred
-  api.stopgap("SG-GOV-named-voters-never-barred");
-  return false;
+  if (!inCustody(api, personId)) return false;
+  const stateKey = corePlaceByKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  )?.stateJurisdictionKey;
+  return !incarceratedMayVote(api, stateKey ?? "").may;
 }
 
 function termsOf(api: CoreAPI, personId: string): readonly TermRow[] {

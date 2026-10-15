@@ -1969,8 +1969,8 @@
     "why": "The core holds no conviction or sentence records on people.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law.",
-    "status": "open"
+    "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law. Done Oct 15: barredFromVoting reads the justice engine's custody record against the place's law (data/research/justice/prison-voting-2026.json); the voter rolls, the primary count, turnout and the director's polling place all read it."",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-press-outlet-names",
