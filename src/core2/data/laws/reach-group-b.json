@@ -91,7 +91,7 @@
       "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
-      "mechanic": "records",
+      "mechanic": "assistance-time-limit",
       "effect": "assistance-time-limited-for-work-hours",
       "kind": "rule",
       "people": {
@@ -100,9 +100,6 @@
         "incomeBelowPovertyShare": "assistanceIncomeShare",
         "hoursBelowPerWeek": "snapWorkHoursPerWeek",
         "noChildBelow": "snapWorkExemptChildBelow"
-      },
-      "terms": {
-        "hoursPerWeek": "snapWorkHoursPerWeek"
       },
       "enforcer": "state human services agency",
       "source": "7 U.S.C. 2015(o) as amended by Pub. L. 119-21 (2025), sec. 10102",

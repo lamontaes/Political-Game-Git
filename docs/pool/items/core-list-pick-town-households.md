@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 status: in-pr
-claimed-by: claude/core-list-pick-town-households
+claimed-by:
 pr: #4428
 blocked-on:
 milestone:

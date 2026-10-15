@@ -2,7 +2,8 @@ import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { run } from "./index";
+import { execFileSync } from "node:child_process";
+import { command, run } from "./index";
 
 const item = (id: string, extra = ""): string =>
   `---\nid: ${id}\ntitle: "Title of ${id}"\narea: laws # comment\nkind: wiring\npriority: 1\nstatus: open\n${extra}---\n\nBody.\n`;
@@ -74,5 +75,79 @@ describe("pool index", () => {
     expect(errors).toMatch(/laws-x.md: id/);
     expect(errors).toMatch(/claimed-by is required/);
     expect(errors).toMatch(/area "nowhere"/);
+  });
+});
+
+describe("claims and gates", () => {
+  it("claims with --no-push, refuses a second claim, and gates by after", () => {
+    const dir = fixture();
+    const cwd = process.cwd();
+    const g = (...a: string[]): string =>
+      execFileSync("git", a, { cwd: dir, encoding: "utf8" });
+    const pool = join(dir, "docs", "pool");
+    mkdirSync(join(dir, "docs"));
+    execFileSync("mv", [dir + "/items", join(dir, "docs-items-tmp")]);
+    mkdirSync(pool);
+    execFileSync("mv", [join(dir, "docs-items-tmp"), join(pool, "items")]);
+    writeFileSync(
+      join(pool, "items", "laws-g.md"),
+      item("laws-g", "after: laws-a\n"),
+    );
+    g("init", "-q");
+    g("config", "user.email", "t@t");
+    g("config", "user.name", "t");
+    run(pool, false);
+    g("add", ".");
+    g("commit", "-qm", "init");
+    process.chdir(dir);
+    try {
+      let text = readFileSync(join(pool, "INDEX.md"), "utf8");
+      expect(text).toContain("## Gated (waiting on another item)");
+      expect(text).toContain(
+        "laws-g](items/laws-g.md) (laws, p1, M) — waits on laws-a",
+      );
+      expect(text.split("## Next up")[1].split("## open")[0]).not.toContain(
+        "laws-g",
+      );
+      expect(
+        command(["claim", "laws-a", "--branch", "b1", "--no-push"]),
+      ).toBeNull();
+      text = readFileSync(join(pool, "items", "laws-a.md"), "utf8");
+      expect(text).toContain("status: claimed");
+      expect(text).toContain("claimed-by: b1");
+      expect(readFileSync(join(pool, "INDEX.md"), "utf8")).toContain(
+        "1 claimed",
+      );
+      expect(
+        command(["claim", "laws-a", "--branch", "b2", "--no-push"]),
+      ).toMatch(/already claimed by b1; take the next item/);
+      expect(command(["status", "laws-a", "done", "--no-push"])).toMatch(
+        /--by cto/,
+      );
+      expect(
+        command([
+          "status",
+          "laws-a",
+          "done",
+          "--pr",
+          "9",
+          "--by",
+          "cto",
+          "--no-push",
+        ]),
+      ).toBeNull();
+      text = readFileSync(join(pool, "INDEX.md"), "utf8");
+      expect(text.split("## Next up")[1].split("## open")[0]).toContain(
+        "laws-g",
+      );
+      expect(run(pool, true).errors).toEqual([]);
+      writeFileSync(
+        join(pool, "items", "laws-h.md"),
+        item("laws-h", "after: nope\n"),
+      );
+      expect(run(pool, true).errors.join("\n")).toMatch(/after "nope"/);
+    } finally {
+      process.chdir(cwd);
+    }
   });
 });
