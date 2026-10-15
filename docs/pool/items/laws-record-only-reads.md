@@ -4,7 +4,7 @@ title: "Give the eleven record-only laws their reads (SG-GOV-REACH-A-*)"
 area: laws
 kind: wiring
 priority: 1
-status: in-pr
+status: done
 claimed-by: claude/laws-record-only-reads-012x
 pr: "#4401"
 blocked-on:
