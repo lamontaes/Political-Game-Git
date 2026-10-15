@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 status: in-pr
 claimed-by: pool/core-player-money-spending
-pr:
+pr: "#4448"
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
