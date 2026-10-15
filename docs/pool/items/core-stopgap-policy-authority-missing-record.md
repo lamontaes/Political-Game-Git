@@ -4,12 +4,13 @@ title: "Stopgaps in policy-authority (missing-record): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/policy-power-unresolved
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/policy-authority.ts, kind missing-record"
+claimed-at: 2026-10-15T22:25:46.373Z
 ---
 
 **What.** Replace or clear the 1 open missing-record stopgap row(s) in src/core2/policy-authority.ts: SG-GOV-policy-power-unresolved. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
