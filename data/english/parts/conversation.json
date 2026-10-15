@@ -622,7 +622,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 213,
@@ -663,7 +664,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 124,
@@ -10974,7 +10976,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 22,
@@ -11013,7 +11016,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         },
         {
           "move": "farewell-answer-bye",
@@ -11060,7 +11064,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 2,
@@ -11090,7 +11095,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         },
         {
           "move": "farewell-answer-bye",
@@ -11161,7 +11167,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 3,
@@ -11193,7 +11200,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         },
         {
           "move": "farewell-answer-bye",
@@ -11239,7 +11247,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 8,
@@ -11270,7 +11279,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 40,
@@ -11305,7 +11315,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 7,
@@ -11339,7 +11350,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 2,
@@ -11369,7 +11381,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 5,
@@ -11497,7 +11510,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 12,
@@ -11533,7 +11547,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 10,
@@ -11564,7 +11579,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 3,
@@ -11595,7 +11611,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 2,
@@ -11626,7 +11643,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 2,
@@ -11656,7 +11674,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 11,
@@ -11687,7 +11706,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 2,
@@ -11718,7 +11738,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 2,
@@ -11749,7 +11770,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 4,
@@ -14011,7 +14033,8 @@
           "move": "farewell-leave-bye",
           "subject": "farewell",
           "role": "leave",
-          "choice": "bye"
+          "choice": "bye",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 2,
@@ -16732,6 +16755,259 @@
       "tag": {
         "move": "promise",
         "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-home.we-ll-talk-more-later",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "We'll talk more later.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-home.i-m-here-if-you-need-me",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "I'm here if you need me.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-home.let-me-know-if-you-need-anything",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "Let me know if you need anything.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-home.i-ll-let-you-get-back-to-it",
+      "move": "farewell-leave-home",
+      "kind": "spoken",
+      "text": "I'll let you get back to it.",
+      "uses": [
+        {
+          "move": "farewell-leave-home",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "home",
+          "stages": ["home"]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "guarded",
+      "tag": {
+        "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.job-new-told-raise-raise.congratulations-on-the-job-at-employer",
+      "move": "job-new-told-raise-raise",
+      "kind": "spoken",
+      "text": "Congratulations on the job at {employer}.",
+      "uses": [
+        {
+          "move": "job-new-told-raise-raise",
+          "subject": "job-new-told",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-told-raise-raise.i-heard-you-got-the-job-at-employer",
+      "move": "job-new-told-raise-raise",
+      "kind": "spoken",
+      "text": "I heard you got the job at {employer}.",
+      "uses": [
+        {
+          "move": "job-new-told-raise-raise",
+          "subject": "job-new-told",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-told-raise-raise.so-you-re-going-to-work-at-employer",
+      "move": "job-new-told-raise-raise",
+      "kind": "spoken",
+      "text": "So you're going to work at {employer}?",
+      "uses": [
+        {
+          "move": "job-new-told-raise-raise",
+          "subject": "job-new-told",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-told-reply-answer-thank.thanks-it-finally-came-through",
+      "move": "job-new-told-reply-answer-thank",
+      "kind": "spoken",
+      "text": "Thanks. It finally came through.",
+      "uses": [
+        {
+          "move": "job-new-told-reply-answer-thank",
+          "subject": "job-new-told-reply",
+          "role": "answer",
+          "choice": "thank"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-told-reply-answer-thank.thank-you-i-appreciate-that",
+      "move": "job-new-told-reply-answer-thank",
+      "kind": "spoken",
+      "text": "Thank you. I appreciate that.",
+      "uses": [
+        {
+          "move": "job-new-told-reply-answer-thank",
+          "subject": "job-new-told-reply",
+          "role": "answer",
+          "choice": "thank"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-told-reply-answer-tell.i-start-soon",
+      "move": "job-new-told-reply-answer-tell",
+      "kind": "spoken",
+      "text": "I start soon.",
+      "uses": [
+        {
+          "move": "job-new-told-reply-answer-tell",
+          "subject": "job-new-told-reply",
+          "role": "answer",
+          "choice": "tell"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-told-reply-answer-tell.it-s-a-good-job-i-ll-tell-you-more-about-it",
+      "move": "job-new-told-reply-answer-tell",
+      "kind": "spoken",
+      "text": "It's a good job. I'll tell you more about it.",
+      "uses": [
+        {
+          "move": "job-new-told-reply-answer-tell",
+          "subject": "job-new-told-reply",
+          "role": "answer",
+          "choice": "tell"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     }
   ]

@@ -375,6 +375,21 @@
         "key": "loss"
       },
       {
+        "move": "^job-new-told-raise",
+        "tag": "congratulate",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-told-reply-answer-thank$",
+        "tag": "thank",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-told-reply-answer-tell$",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
         "move": "^job-new-raise",
         "tag": "deliver-news",
         "key": "honor"

@@ -66,9 +66,9 @@
   "dropped": {
     "identical-profile": 9,
     "duplicate-item": 0,
-    "same-choice-set": 5,
-    "type-cap": 74,
-    "repeated-phrase": 38
+    "same-choice-set": 12,
+    "type-cap": 67,
+    "repeated-phrase": 32
   },
   "skipped": [
     {
@@ -260,7 +260,7 @@
   "items": [
     {
       "i": 0,
-      "sceneId": "person_15ba64778a4af32c:person_15ba64778a4af32c:2026-10-19:cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "sceneId": "person_15ba64778a4af32c:person_15ba64778a4af32c:2026-10-19:cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard:reunion",
       "situationType": "reunion",
       "key": "arrival",
       "endpoint": "personal",
@@ -614,7 +614,651 @@
     },
     {
       "i": 1,
-      "sceneId": "person:press:outlet:online:0:national:head:0:person:press:outlet:online:0:national:head:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
+      "sceneId": "person_15ba64778a4af32c:person_15ba64778a4af32c:2026-10-19:cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard:reunion",
+      "situationType": "reunion",
+      "key": "arrival",
+      "endpoint": "personal",
+      "profile": "cold",
+      "causeRecordId": "cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "momentId": "person_15ba64778a4af32c:2026-10-19:cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "castRecordIds": [
+        "person_15ba64778a4af32c",
+        "person_6863eb73f501765e"
+      ],
+      "parts": [
+        "conversation.greet-open-hello.hey",
+        "conversation.shared-school-ask-remember.remember-school",
+        "conversation.shared-school-reply-years.that-was-a-while-ago",
+        "conversation.shared-school-answer-plain.school-yes",
+        "conversation.shared-school-answer-turn.yes-i-do",
+        "conversation.ack-reply-right.got-it",
+        "conversation.farewell-leave-bye.bye-now"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "glad",
+          "words": 2,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You're outside.",
+          "parts": [
+            "scene-words.setting-public-out.youre-outside"
+          ],
+          "slotRecordIds": [
+            "jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "glad",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Liam Melendez is with you.",
+          "parts": [
+            "scene-words.present-one-one.who-is-with-you"
+          ],
+          "slotRecordIds": [
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "greet",
+          "register": "conversation",
+          "bearing": "glad",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Hey.",
+          "parts": [
+            "conversation.greet-open-hello.hey"
+          ],
+          "slotRecordIds": [
+            "person_6863eb73f501765e:p8-opening-school-peers-v1:738c3df66f98b69f"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "shared-school",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "greet",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Remember Newark Charter School?",
+          "parts": [
+            "conversation.shared-school-ask-remember.remember-school"
+          ],
+          "slotRecordIds": [
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "years",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "shared-school",
+          "words": 5,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "That was a while ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-while-ago"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "plain",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "years",
+          "words": 4,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "Newark Charter School, yes.",
+          "parts": [
+            "conversation.shared-school-answer-plain.school-yes"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "turn",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "plain",
+          "words": 3,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "Yes, I do.",
+          "parts": [
+            "conversation.shared-school-answer-turn.yes-i-do"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "shared-school",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "turn",
+          "words": 5,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Jocelyn Fisher",
+          "text": "That was a while ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-while-ago"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "shared-school",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Got it.",
+          "parts": [
+            "conversation.ack-reply-right.got-it"
+          ],
+          "slotRecordIds": [
+            "conversation:person_15ba64778a4af32c:person_6863eb73f501765e:2026-10-19:2:2:years",
+            "person_6863eb73f501765e"
+          ]
+        },
+        {
+          "n": 10,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "ack",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Bye now.",
+          "parts": [
+            "conversation.farewell-leave-bye.bye-now"
+          ],
+          "slotRecordIds": [
+            "person_6863eb73f501765e"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 2,
+      "sceneId": "person_15ba64778a4af32c:person_15ba64778a4af32c:2026-10-19:cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard:reunion",
+      "situationType": "reunion",
+      "key": "arrival",
+      "endpoint": "personal",
+      "profile": "boastful",
+      "causeRecordId": "cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "momentId": "person_15ba64778a4af32c:2026-10-19:cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "castRecordIds": [
+        "person_15ba64778a4af32c",
+        "person_6863eb73f501765e"
+      ],
+      "parts": [
+        "conversation.greet-open-hello.hello-there",
+        "conversation.shared-school-ask-remember.you-remember-school",
+        "conversation.shared-school-reply-years.that-was-a-long-time-ago",
+        "conversation.shared-school-answer-plain.oh-yes",
+        "conversation.shared-school-answer-turn.yes-i-do",
+        "conversation.home-reply-answer-brief.oh",
+        "conversation.farewell-leave-bye.see-you"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "glad",
+          "words": 2,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You're outside.",
+          "parts": [
+            "scene-words.setting-public-out.youre-outside"
+          ],
+          "slotRecordIds": [
+            "jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "glad",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Liam Melendez is with you.",
+          "parts": [
+            "scene-words.present-one-one.who-is-with-you"
+          ],
+          "slotRecordIds": [
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "greet",
+          "register": "conversation",
+          "bearing": "glad",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Hello there.",
+          "parts": [
+            "conversation.greet-open-hello.hello-there"
+          ],
+          "slotRecordIds": [
+            "person_6863eb73f501765e:p8-opening-school-peers-v1:738c3df66f98b69f"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "shared-school",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "greet",
+          "words": 5,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "You remember Newark Charter School?",
+          "parts": [
+            "conversation.shared-school-ask-remember.you-remember-school"
+          ],
+          "slotRecordIds": [
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "years",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "shared-school",
+          "words": 6,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "That was a long time ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-long-time-ago"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "plain",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "years",
+          "words": 2,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "Oh, yes.",
+          "parts": [
+            "conversation.shared-school-answer-plain.oh-yes"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "turn",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "plain",
+          "words": 3,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "Yes, I do.",
+          "parts": [
+            "conversation.shared-school-answer-turn.yes-i-do"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "shared-school",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "turn",
+          "words": 6,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Jocelyn Fisher",
+          "text": "That was a long time ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-long-time-ago"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "shared-school",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Oh.",
+          "parts": [
+            "conversation.home-reply-answer-brief.oh"
+          ],
+          "slotRecordIds": [
+            "conversation:person_15ba64778a4af32c:person_6863eb73f501765e:2026-10-19:2:2:years",
+            "person_6863eb73f501765e"
+          ]
+        },
+        {
+          "n": 10,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "ack",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "See you.",
+          "parts": [
+            "conversation.farewell-leave-bye.see-you"
+          ],
+          "slotRecordIds": [
+            "person_6863eb73f501765e"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 3,
+      "sceneId": "person:press:outlet:online:0:national:head:0:person:press:outlet:online:0:national:head:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28:funeral",
       "situationType": "funeral",
       "key": "loss",
       "endpoint": "personal",
@@ -687,8 +1331,8 @@
       ]
     },
     {
-      "i": 2,
-      "sceneId": "person_6863ea73f50174ab:person_6863ea73f50174ab:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+      "i": 4,
+      "sceneId": "person_6863ea73f50174ab:person_6863ea73f50174ab:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8:news-arrives",
       "situationType": "news-arrives",
       "key": "news-received",
       "endpoint": "personal",
@@ -977,8 +1621,878 @@
       ]
     },
     {
-      "i": 3,
-      "sceneId": "person:press:outlet:online:0:national:reporter:0:person:press:outlet:online:0:national:reporter:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
+      "i": 5,
+      "sceneId": "person_6863ea73f50174ab:person_6863ea73f50174ab:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8:news-arrives",
+      "situationType": "news-arrives",
+      "key": "news-received",
+      "endpoint": "personal",
+      "profile": "cold",
+      "causeRecordId": "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+      "momentId": "person_6863ea73f50174ab:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+      "castRecordIds": [
+        "person_6863ea73f50174ab",
+        "person_6863e973f50172f8"
+      ],
+      "parts": [
+        "conversation.family-open-open.we-need-to-talk",
+        "conversation.job-lost-raise.i-lost-my-job",
+        "conversation.news-answer-react.thats-too-bad",
+        "conversation.job-lost-reply-answer-brief.oh-are-you-okay",
+        "conversation.greet-answer-fine.okay",
+        "conversation.farewell-leave-bye.ive-got-to-go"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "braced",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your partner is here too.",
+          "parts": [
+            "scene-words.present-one-one.who-is-here-too"
+          ],
+          "slotRecordIds": [
+            "partnership_9bd0da0911684337:past:person_6863ea73f50174ab"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "braced",
+          "words": 7,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your partner has something to tell you.",
+          "parts": [
+            "scene-words.opening-tell-tell.who-has-something-to-tell-you"
+          ],
+          "slotRecordIds": [
+            "partnership_9bd0da0911684337:past:person_6863ea73f50174ab"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "family-open",
+          "register": "conversation",
+          "bearing": "solemn",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "We need to talk.",
+          "parts": [
+            "conversation.family-open-open.we-need-to-talk"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+            "person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "job-lost-reply",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "family-open",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "I lost my job.",
+          "parts": [
+            "conversation.job-lost-raise.i-lost-my-job"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "comfort",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "job-lost-reply",
+          "words": 3,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Quinn Melendez",
+          "text": "That's too bad.",
+          "parts": [
+            "conversation.news-answer-react.thats-too-bad"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "brief",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "comfort",
+          "words": 4,
+          "sentences": 2,
+          "role": "reply",
+          "speaker": "Quinn Melendez",
+          "text": "Oh. Are you okay?",
+          "parts": [
+            "conversation.job-lost-reply-answer-brief.oh-are-you-okay"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "job-lost-reply",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "brief",
+          "words": 3,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Quinn Melendez",
+          "text": "That's too bad.",
+          "parts": [
+            "conversation.news-answer-react.thats-too-bad"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "job-lost-reply",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "Okay.",
+          "parts": [
+            "conversation.greet-answer-fine.okay"
+          ],
+          "slotRecordIds": [
+            "conversation:person_6863ea73f50174ab:person_6863e973f50172f8:2027-03-25:2:2:comfort",
+            "person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "ack",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "I've got to go.",
+          "parts": [
+            "conversation.farewell-leave-bye.ive-got-to-go"
+          ],
+          "slotRecordIds": [
+            "kinship_dda259f5d3fee886:past:person_6863ea73f50174ab"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 6,
+      "sceneId": "person_6863ea73f50174ab:person_6863ea73f50174ab:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8:news-arrives",
+      "situationType": "news-arrives",
+      "key": "news-received",
+      "endpoint": "personal",
+      "profile": "stubborn",
+      "causeRecordId": "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+      "momentId": "person_6863ea73f50174ab:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+      "castRecordIds": [
+        "person_6863ea73f50174ab",
+        "person_6863e973f50172f8"
+      ],
+      "parts": [
+        "conversation.family-open-open.sit-down",
+        "conversation.job-lost-raise.i-lost-my-job",
+        "conversation.job-lost-reply-answer-brief.oh-are-you-okay",
+        "conversation.news-answer-react.thats-too-bad",
+        "conversation.mutual-answer-brief.huh",
+        "conversation.farewell-leave-bye.tell-name-i-said-hello"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "braced",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your partner is here too.",
+          "parts": [
+            "scene-words.present-one-one.who-is-here-too"
+          ],
+          "slotRecordIds": [
+            "partnership_9bd0da0911684337:past:person_6863ea73f50174ab"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "braced",
+          "words": 7,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your partner has something to tell you.",
+          "parts": [
+            "scene-words.opening-tell-tell.who-has-something-to-tell-you"
+          ],
+          "slotRecordIds": [
+            "partnership_9bd0da0911684337:past:person_6863ea73f50174ab"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "family-open",
+          "register": "conversation",
+          "bearing": "solemn",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "Sit down.",
+          "parts": [
+            "conversation.family-open-open.sit-down"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+            "person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "job-lost-reply",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "family-open",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "I lost my job.",
+          "parts": [
+            "conversation.job-lost-raise.i-lost-my-job"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "brief",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "job-lost-reply",
+          "words": 4,
+          "sentences": 2,
+          "role": "reply",
+          "speaker": "Quinn Melendez",
+          "text": "Oh. Are you okay?",
+          "parts": [
+            "conversation.job-lost-reply-answer-brief.oh-are-you-okay"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "comfort",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "brief",
+          "words": 3,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Quinn Melendez",
+          "text": "That's too bad.",
+          "parts": [
+            "conversation.news-answer-react.thats-too-bad"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "job-lost-reply",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "comfort",
+          "words": 4,
+          "sentences": 2,
+          "role": "speaker",
+          "speaker": "Quinn Melendez",
+          "text": "Oh. Are you okay?",
+          "parts": [
+            "conversation.job-lost-reply-answer-brief.oh-are-you-okay"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "job-lost-reply",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "Huh.",
+          "parts": [
+            "conversation.mutual-answer-brief.huh"
+          ],
+          "slotRecordIds": [
+            "conversation:person_6863ea73f50174ab:person_6863e973f50172f8:2027-03-25:2:2:brief",
+            "person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "ack",
+          "words": 5,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "Tell Liam I said hello.",
+          "parts": [
+            "conversation.farewell-leave-bye.tell-name-i-said-hello"
+          ],
+          "slotRecordIds": [
+            "kinship_dda259f5d3fee886:past:person_6863ea73f50174ab"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 7,
+      "sceneId": "person_6863ea73f50174ab:person_6863ea73f50174ab:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8:news-arrives",
+      "situationType": "news-arrives",
+      "key": "news-received",
+      "endpoint": "personal",
+      "profile": "boastful",
+      "causeRecordId": "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+      "momentId": "person_6863ea73f50174ab:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+      "castRecordIds": [
+        "person_6863ea73f50174ab",
+        "person_6863e973f50172f8"
+      ],
+      "parts": [
+        "conversation.family-open-open.have-a-seat",
+        "conversation.job-lost-raise.i-lost-my-job",
+        "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right",
+        "conversation.news-answer-react.oh-no",
+        "conversation.mutual-answer-brief.huh",
+        "conversation.greet-open-hello.good-to-see-you"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "braced",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your partner is here too.",
+          "parts": [
+            "scene-words.present-one-one.who-is-here-too"
+          ],
+          "slotRecordIds": [
+            "partnership_9bd0da0911684337:past:person_6863ea73f50174ab"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "braced",
+          "words": 7,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your partner has something to tell you.",
+          "parts": [
+            "scene-words.opening-tell-tell.who-has-something-to-tell-you"
+          ],
+          "slotRecordIds": [
+            "partnership_9bd0da0911684337:past:person_6863ea73f50174ab"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "family-open",
+          "register": "conversation",
+          "bearing": "solemn",
+          "words": 3,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "Have a seat.",
+          "parts": [
+            "conversation.family-open-open.have-a-seat"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+            "person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "job-lost-reply",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "family-open",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "I lost my job.",
+          "parts": [
+            "conversation.job-lost-raise.i-lost-my-job"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "brief",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "job-lost-reply",
+          "words": 6,
+          "sentences": 2,
+          "role": "reply",
+          "speaker": "Quinn Melendez",
+          "text": "Oh, no. Are you all right?",
+          "parts": [
+            "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "comfort",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "brief",
+          "words": 2,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Quinn Melendez",
+          "text": "Oh, no.",
+          "parts": [
+            "conversation.news-answer-react.oh-no"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "job-lost-reply",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "comfort",
+          "words": 6,
+          "sentences": 2,
+          "role": "speaker",
+          "speaker": "Quinn Melendez",
+          "text": "Oh, no. Are you all right?",
+          "parts": [
+            "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "job-lost-reply",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "Huh.",
+          "parts": [
+            "conversation.mutual-answer-brief.huh"
+          ],
+          "slotRecordIds": [
+            "conversation:person_6863ea73f50174ab:person_6863e973f50172f8:2027-03-25:2:2:brief",
+            "person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "ack",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "Good to see you.",
+          "parts": [
+            "conversation.greet-open-hello.good-to-see-you"
+          ],
+          "slotRecordIds": [
+            "kinship_dda259f5d3fee886:past:person_6863ea73f50174ab"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 8,
+      "sceneId": "person:press:outlet:online:0:national:reporter:0:person:press:outlet:online:0:national:reporter:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28:funeral",
       "situationType": "funeral",
       "key": "loss",
       "endpoint": "personal",
@@ -1051,8 +2565,8 @@
       ]
     },
     {
-      "i": 4,
-      "sceneId": "person_7436c439f5f42fc2:person_7436c439f5f42fc2:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2",
+      "i": 9,
+      "sceneId": "person_7436c439f5f42fc2:person_7436c439f5f42fc2:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2:celebration",
       "situationType": "celebration",
       "key": "honor",
       "endpoint": "personal",
@@ -1183,8 +2697,8 @@
       ]
     },
     {
-      "i": 5,
-      "sceneId": "person_7436c439f5f42fc2:person_7436c439f5f42fc2:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2",
+      "i": 10,
+      "sceneId": "person_7436c439f5f42fc2:person_7436c439f5f42fc2:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2:celebration",
       "situationType": "celebration",
       "key": "honor",
       "endpoint": "personal",
@@ -1315,8 +2829,8 @@
       ]
     },
     {
-      "i": 6,
-      "sceneId": "person_565361c9720b3966:person_565361c9720b3966:2026-10-21:cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "i": 11,
+      "sceneId": "person_565361c9720b3966:person_565361c9720b3966:2026-10-21:cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard:reunion",
       "situationType": "reunion",
       "key": "arrival",
       "endpoint": "personal",
@@ -1645,8 +3159,8 @@
       ]
     },
     {
-      "i": 7,
-      "sceneId": "person_ad6661730b7a44c8:person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+      "i": 12,
+      "sceneId": "person_ad6661730b7a44c8:person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8:celebration",
       "situationType": "celebration",
       "key": "honor",
       "endpoint": "personal",
@@ -2063,20 +3577,27 @@
       ]
     },
     {
-      "i": 8,
-      "sceneId": "person_15ba67778a4af845:person_15ba67778a4af845:2027-09-06:job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_15ba67778a4af845",
+      "i": 13,
+      "sceneId": "person_ad6661730b7a44c8:person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8:celebration",
       "situationType": "celebration",
       "key": "honor",
       "endpoint": "personal",
       "profile": "stubborn",
-      "causeRecordId": "job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_15ba67778a4af845",
-      "momentId": "person_15ba67778a4af845:2027-09-06:job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_15ba67778a4af845",
+      "causeRecordId": "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+      "momentId": "person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
       "castRecordIds": [
-        "person_15ba67778a4af845",
-        "person_15ba65778a4af4df"
+        "person_ad6661730b7a44c8",
+        "person_ad6664730b7a49e1"
       ],
       "parts": [
-        "conversation.farewell-leave-bye.ive-got-to-go"
+        "conversation.own-work-answer-turn.what-are-you-doing-now",
+        "conversation.own-work-new-answer-plain.im-at-employer",
+        "conversation.own-work-new-answer-plain.at-employer",
+        "conversation.own-work-answer-turn.what-do-you-do",
+        "conversation.other-work-reply-none.not-right-now",
+        "conversation.own-work-new-lie-elsewhere.i-work-for-claimed",
+        "conversation.shared-school-answer-brief.yeah",
+        "conversation.farewell-leave-bye.ill-see-you"
       ],
       "lines": [
         {
@@ -2095,16 +3616,16 @@
           "move": "narrate",
           "register": "scene-words",
           "bearing": "proud",
-          "words": 6,
+          "words": 5,
           "sentences": 1,
           "role": "narrator",
           "speaker": "Narrator",
-          "text": "You're home in New Castle County.",
+          "text": "You're at home in Brookside.",
           "parts": [
-            "scene-words.setting-home-home.you-re-home-in-place"
+            "scene-words.setting-home-home.you-re-at-home-in-place"
           ],
           "slotRecordIds": [
-            "jurisdiction_307a965f4b66c09a"
+            "jurisdiction_59500182da2857ae"
           ]
         },
         {
@@ -2123,16 +3644,16 @@
           "move": "narrate",
           "register": "scene-words",
           "bearing": "proud",
-          "words": 4,
+          "words": 5,
           "sentences": 1,
           "role": "narrator",
           "speaker": "Narrator",
-          "text": "Your son is here.",
+          "text": "Your daughter is here too.",
           "parts": [
-            "scene-words.present-one-one.who-is-here"
+            "scene-words.present-one-one.who-is-here-too"
           ],
           "slotRecordIds": [
-            "kinship_fe675620f9a015d1:past:person_15ba67778a4af845"
+            "kinship_1fbc680765a22c48:past:person_ad6661730b7a44c8"
           ]
         },
         {
@@ -2160,12 +3681,290 @@
             "scene-words.cause-money:job-started-started.you-got-a-job"
           ],
           "slotRecordIds": [
-            "organization_9bd3c01bc76bc742",
-            "jurisdiction_307a965f4b66c09a"
+            "organization_38be5e02cb70502c",
+            "jurisdiction_59500182da2857ae"
           ]
         },
         {
           "n": 4,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "own-work-new",
+          "register": "conversation",
+          "bearing": "glad",
+          "words": 5,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Cora Robbins",
+          "text": "What are you doing now?",
+          "parts": [
+            "conversation.own-work-answer-turn.what-are-you-doing-now"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "plain",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "own-work-new",
+          "words": 7,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "I'm at New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-new-answer-plain.im-at-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "brief",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "plain",
+          "words": 6,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "At New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-new-answer-plain.at-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "turn",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "brief",
+          "words": 11,
+          "sentences": 2,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "I'm at New Castle County Cleaning Services. What do you do?",
+          "parts": [
+            "conversation.own-work-new-answer-plain.im-at-employer",
+            "conversation.own-work-answer-turn.what-do-you-do",
+            "conversation.own-work-answer-turn.what-do-you-do"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": true,
+          "move": "lie-none",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "turn",
+          "words": 3,
+          "sentences": 1,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "Not right now.",
+          "parts": [
+            "conversation.other-work-reply-none.not-right-now"
+          ],
+          "slotRecordIds": [
+            "person_ad6661730b7a44c8"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": true,
+          "move": "lie-elsewhere",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-none",
+          "words": 5,
+          "sentences": 1,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "I work for Brookside Messenger.",
+          "parts": [
+            "conversation.own-work-new-lie-elsewhere.i-work-for-claimed"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "organization:press:newspaper:3:jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 10,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": true,
+          "move": "lie-elsewhere+turn",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-elsewhere",
+          "words": 9,
+          "sentences": 2,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "I work for Brookside Messenger. What do you do?",
+          "parts": [
+            "conversation.own-work-new-lie-elsewhere.i-work-for-claimed",
+            "conversation.own-work-answer-turn.what-do-you-do"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "organization:press:newspaper:3:jurisdiction_59500182da2857ae",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 11,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "own-work-new",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-elsewhere+turn",
+          "words": 7,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Leslie Robbins",
+          "text": "I'm at New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-new-answer-plain.im-at-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 12,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "own-work-new",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Cora Robbins",
+          "text": "Yeah.",
+          "parts": [
+            "conversation.shared-school-answer-brief.yeah"
+          ],
+          "slotRecordIds": [
+            "conversation:person_ad6661730b7a44c8:person_ad6664730b7a49e1:2027-02-01:1:1:plain",
+            "person_ad6664730b7a49e1"
+          ]
+        },
+        {
+          "n": 13,
           "turn": 98,
           "key": "honor",
           "endpoint": "personal",
@@ -2180,16 +3979,435 @@
           "move": "farewell",
           "register": "conversation",
           "bearing": "glad",
+          "previousMove": "ack",
+          "words": 3,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Cora Robbins",
+          "text": "I'll see you.",
+          "parts": [
+            "conversation.farewell-leave-bye.ill-see-you"
+          ],
+          "slotRecordIds": [
+            "kinship_422c140779142ac4:past:person_ad6661730b7a44c8"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 14,
+      "sceneId": "person_ad6661730b7a44c8:person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8:celebration",
+      "situationType": "celebration",
+      "key": "honor",
+      "endpoint": "personal",
+      "profile": "boastful",
+      "causeRecordId": "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+      "momentId": "person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+      "castRecordIds": [
+        "person_ad6661730b7a44c8",
+        "person_ad6664730b7a49e1"
+      ],
+      "parts": [
+        "conversation.own-work-answer-turn.what-do-you-do",
+        "conversation.own-work-new-answer-plain.im-at-employer",
+        "conversation.own-work-raise-tell.im-with-employer",
+        "conversation.greet-answer-fine.how-about-you",
+        "conversation.other-work-reply-none.not-right-now",
+        "conversation.own-work-new-lie-elsewhere.im-with-claimed",
+        "conversation.shared-school-answer-brief.yeah",
+        "conversation.farewell-leave-bye.take-care-of-yourself"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You're at home in Brookside.",
+          "parts": [
+            "scene-words.setting-home-home.you-re-at-home-in-place"
+          ],
+          "slotRecordIds": [
+            "jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your daughter is here too.",
+          "parts": [
+            "scene-words.present-one-one.who-is-here-too"
+          ],
+          "slotRecordIds": [
+            "kinship_1fbc680765a22c48:past:person_ad6661730b7a44c8"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 4,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You got a job.",
+          "parts": [
+            "scene-words.cause-money:job-started-started.you-got-a-job"
+          ],
+          "slotRecordIds": [
+            "organization_38be5e02cb70502c",
+            "jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "own-work-new",
+          "register": "conversation",
+          "bearing": "glad",
           "words": 4,
           "sentences": 1,
           "role": "speaker",
-          "speaker": "River Fisher",
-          "text": "I've got to go.",
+          "speaker": "Cora Robbins",
+          "text": "What do you do?",
           "parts": [
-            "conversation.farewell-leave-bye.ive-got-to-go"
+            "conversation.own-work-answer-turn.what-do-you-do"
           ],
           "slotRecordIds": [
-            "kinship_05ca7120fd72aebc:past:person_15ba67778a4af845"
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "plain",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "own-work-new",
+          "words": 7,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "I'm at New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-new-answer-plain.im-at-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "brief",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "plain",
+          "words": 7,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "I'm with New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-raise-tell.im-with-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "turn",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "brief",
+          "words": 10,
+          "sentences": 2,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "I'm at New Castle County Cleaning Services. How about you?",
+          "parts": [
+            "conversation.own-work-new-answer-plain.im-at-employer",
+            "conversation.greet-answer-fine.how-about-you",
+            "conversation.greet-answer-fine.how-about-you"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": true,
+          "move": "lie-none",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "turn",
+          "words": 3,
+          "sentences": 1,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "Not right now.",
+          "parts": [
+            "conversation.other-work-reply-none.not-right-now"
+          ],
+          "slotRecordIds": [
+            "person_ad6661730b7a44c8"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": true,
+          "move": "lie-elsewhere",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-none",
+          "words": 4,
+          "sentences": 1,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "I'm with Brookside Messenger.",
+          "parts": [
+            "conversation.own-work-new-lie-elsewhere.im-with-claimed"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "organization:press:newspaper:3:jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 10,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": true,
+          "move": "lie-elsewhere+turn",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-elsewhere",
+          "words": 7,
+          "sentences": 2,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "I'm with Brookside Messenger. How about you?",
+          "parts": [
+            "conversation.own-work-new-lie-elsewhere.im-with-claimed",
+            "conversation.greet-answer-fine.how-about-you"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "organization:press:newspaper:3:jurisdiction_59500182da2857ae",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 11,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "own-work-new",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-elsewhere+turn",
+          "words": 7,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Leslie Robbins",
+          "text": "I'm at New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-new-answer-plain.im-at-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 12,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "own-work-new",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Cora Robbins",
+          "text": "Yeah.",
+          "parts": [
+            "conversation.shared-school-answer-brief.yeah"
+          ],
+          "slotRecordIds": [
+            "conversation:person_ad6661730b7a44c8:person_ad6664730b7a49e1:2027-02-01:1:1:plain",
+            "person_ad6664730b7a49e1"
+          ]
+        },
+        {
+          "n": 13,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "ack",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Cora Robbins",
+          "text": "Take care of yourself.",
+          "parts": [
+            "conversation.farewell-leave-bye.take-care-of-yourself"
+          ],
+          "slotRecordIds": [
+            "kinship_422c140779142ac4:past:person_ad6661730b7a44c8"
           ]
         }
       ]

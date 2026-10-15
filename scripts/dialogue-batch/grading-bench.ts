@@ -276,7 +276,9 @@ export function dedupe<T extends DedupeItem>(
   const identity = new Set<string>();
   const choiceSets = new Set<string>();
   const perType = new Map<string, number>();
-  const phrases = new Set<string>();
+  // A phrase is shown once per page; profiles of one scene may share a line,
+  // since comparing them is what the scene is for.
+  const phrases = new Map<string, string>();
   for (const item of items) {
     const pieces = [...new Set(item.pieces)].sort().join("|");
     const sceneSignature = `${item.sceneId}#${pieces}`;
@@ -305,13 +307,19 @@ export function dedupe<T extends DedupeItem>(
     }
     perType.set(capKey, (perType.get(capKey) ?? 0) + 1);
     const said = item.phrases.map(normal).filter(Boolean);
-    if (phraseOnce && said.some((phrase) => phrases.has(phrase))) {
+    if (
+      phraseOnce &&
+      said.some((phrase) => {
+        const where = phrases.get(phrase);
+        return where !== undefined && where !== item.sceneId;
+      })
+    ) {
       drop("repeated-phrase");
       continue;
     }
     identity.add(who);
     for (const set of item.choiceSets) choiceSets.add(set);
-    for (const phrase of said) phrases.add(phrase);
+    for (const phrase of said) phrases.set(phrase, item.sceneId);
     kept.push(item);
   }
   return { kept, dropped, log };
@@ -863,14 +871,14 @@ function composeSceneItemsAt(ctx: SceneContext): (BenchItem & DedupeItem)[] {
       personId,
       99,
     );
-  const spoken = lines.filter(
+  const said = lines.filter(
     (l) => l.role !== "narrator" && l.role !== "journal",
   );
-  if (spoken.some((l) => RAW_ID.test(l.text))) {
+  if (said.some((l) => RAW_ID.test(l.text))) {
     ctx.standIn.push(`${type.key} ${ctx.sceneId}: a line names a record id`);
     return [];
   }
-  if (spoken.some((l) => DATE_IN_SPEECH.test(l.text))) {
+  if (said.some((l) => DATE_IN_SPEECH.test(l.text))) {
     ctx.standIn.push(
       `${type.key} ${ctx.sceneId}: a line says a date (nobody says a date)`,
     );

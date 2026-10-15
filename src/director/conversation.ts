@@ -611,6 +611,31 @@ export function subjectsBetween(
         },
       },
     });
+  // The listener's own new job, as the speaker would take it up ("Congratulations
+  // on the job at ..."). Said only once the rules map "job-new-told" to a
+  // reply kind and the bank has words for it (src/director/data/conversation-rules.json).
+  const listenerStarted = recentMoments(core, director, listenerId).find(
+    (moment) =>
+      moment.label === "money:job-started" && !moment.counterpartIds.length,
+  );
+  const listenerJob = listenerStarted
+    ? core.jobs.get(listenerStarted.causeId)
+    : undefined;
+  const listenerOrg = listenerJob
+    ? core.organizations.get(listenerJob.organizationId)
+    : undefined;
+  if (listenerStarted && listenerJob && listenerOrg)
+    out.push({
+      id: `job-new-told:${listenerStarted.causeId}`,
+      kind: "job-new-told",
+      aboutId: listenerStarted.causeId,
+      facts: {
+        employer: {
+          text: properName(listenerOrg.name),
+          sourceRecordIds: [listenerJob.id, listenerOrg.id],
+        },
+      },
+    });
   // Hard news about a relative, told by the household member who has it: a
   // death, a serious illness, a prison sentence. The listener's own moment
   // names the person it is about; the listener's family record names how
@@ -2036,13 +2061,17 @@ function endConversation(
   conversation.lies = [];
   const { playerId, otherId } = conversation;
   if (conversation.lines.at(-one)?.kind === "farewell") return;
+  // People who live together close a talk as housemates do: never "Come
+  // back soon." at home, and no hello passed on to their own family.
+  const housemate =
+    core.people.get(otherId)?.householdId ===
+    core.people.get(playerId)?.householdId;
   // "Say hello to {name}." only for someone in the player's family they know.
-  const family = subjectsBetween(
-    core,
-    playerId,
-    otherId,
-    conversation.director,
-  ).find((row) => row.kind === "family");
+  const family = housemate
+    ? undefined
+    : subjectsBetween(core, playerId, otherId, conversation.director).find(
+        (row) => row.kind === "family",
+      );
   const line = words(
     core,
     data,
@@ -2052,6 +2081,7 @@ function endConversation(
     data.subjects.farewell?.leave,
     family ? { name: family.facts.name! } : {},
     `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell`,
+    housemate ? "home" : "default",
   );
   if (line)
     conversation.lines.push({
