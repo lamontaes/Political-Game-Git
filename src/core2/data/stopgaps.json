@@ -3247,7 +3247,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/credit-deposits.ts",
     "line": 77,
-    "whatItFakes": "Only the residents' pooled accounts keep deposits at the town bank; a full household keeps all its money as cash.",
+    "whatItFakes": "Only counted groups (each from its own fund) keep deposits at the town bank; a full household keeps all its money as cash.",
     "why": "Full households' saving is their own choice, made through the chooser with their goals.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
