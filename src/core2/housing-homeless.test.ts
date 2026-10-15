@@ -16,6 +16,7 @@ import {
   HOUSING_STATUS_EVENT,
   housingStatusCounts,
   housingStatusOf,
+  reviewHomeless,
   type HousingStatusRow,
 } from "./housing-homeless";
 import type { CoreInput, PersonInput, Source } from "./types";
@@ -201,7 +202,63 @@ describe("where an evicted household goes", () => {
       source: src,
     });
     core.people.get("tenant")!.jobId = "job:tenant";
+    // Meeting the income/cash test cannot house anyone without a signed lease.
+    reviewHomeless(
+      api,
+      () => 100_000,
+      () => undefined,
+    );
+    expect(housingStatusOf(api, "tenant")).toBe("unsheltered");
+    const housing = api.moduleState("housing");
+    const stock = housing.table("stock").get(`stock:${place}`)!;
+    housing
+      .table("stock")
+      .put({
+        ...stock,
+        rentalUnits: Number(stock.rentalUnits) + 1,
+        vacantRental: Number(stock.vacantRental) + 1,
+      });
+    const available = Number(
+      housing.table("stock").get(`stock:${place}`)!.vacantRental,
+    );
+    const projectId = "project:rehousing-fixture";
+    housing
+      .table("projects")
+      .put({
+        id: projectId,
+        placeId: place,
+        kind: "multi",
+        units: 1,
+        affordableUnits: 0,
+        askingRentMinor: 80_000,
+        medianPayMinor: 400_000,
+        payerId: landlord,
+        builderId: landlord,
+        monthlyCostMinor: 0,
+        paidMinor: 0,
+        startedAt: start,
+        completesAt: "2021-08-01",
+        open: false,
+        isProject: true,
+      });
     advanceCore(core, "2021-10-31");
+    const occupancy = housing.table("occupancy").get("household:tenant")!;
+    expect(occupancy).toMatchObject({ projectId, unit: 0 });
+    expect(housing.table("stock").get(`stock:${place}`)!.vacantRental).toBe(
+      available - 1,
+    );
+    expect(
+      core.finance.contracts.get(String(occupancy.leaseId))!.amountMinor,
+    ).toBe(80_000);
+    expect(
+      housing
+        .table("moves")
+        .rows()
+        .some(
+          (row) =>
+            row.householdId === "household:tenant" && row.vacancyDelta === -1,
+        ),
+    ).toBe(true);
     expect(housingStatusOf(api, "tenant")).toBe("housed");
     expect(
       [...core.finance.contracts.keys()].some((id) =>

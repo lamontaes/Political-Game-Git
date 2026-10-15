@@ -322,8 +322,8 @@ export function placeRemovedHousehold(
  */
 export function reviewHomeless(
   api: CoreAPI,
-  rentOf: (householdId: string) => number,
-  lease: (householdId: string, rentMinor: number) => void,
+  rentOf: (householdId: string, incomeMinor: number) => number,
+  lease: (householdId: string, rentMinor: number) => string | undefined,
 ): void {
   const c = core(api);
   const multiple = api.parameter("housingRehouseIncomeMultiple");
@@ -361,9 +361,10 @@ export function reviewHomeless(
       (n, id) => n + (c.people.get(id)?.liquidMinor ?? 0),
       0,
     );
-    const rent = rentOf(row.id);
+    const rent = rentOf(row.id, income);
     if (rent <= 0 || income < rent * multiple || cash < rent) continue;
-    lease(row.id, rent);
+    const leaseId = lease(row.id, rent);
+    if (!leaseId) continue;
     setStatus(
       api,
       {
@@ -376,7 +377,7 @@ export function reviewHomeless(
           rentMinor: rent,
           cashMinor: cash,
         },
-        reasonRecordIds: [`lease:${row.id}`],
+        reasonRecordIds: [leaseId],
       },
       row.status,
     );

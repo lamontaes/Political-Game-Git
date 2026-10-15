@@ -108,22 +108,41 @@ function tenants(api: CoreAPI): Tenant[] {
   return rows;
 }
 
-/** Monthly matching reviews live offers, never schedules a household to move. */
-export function occupyCompletedRentals(api: CoreAPI): void {
+/** Release actual occupied units before a formerly homeless household signs again. */
+export function releaseVacatedRentals(api: CoreAPI): void {
   const c = api.state as CoreState;
-  // stopgapId: SG-WORLD-new-rental-move-coverage
-  api.stopgap("SG-WORLD-new-rental-move-coverage");
-  // stopgapId: SG-WORLD-housing-vacancy
-  api.stopgap("SG-WORLD-housing-vacancy");
-  const candidates = tenants(api);
-  const byHouse = new Map(candidates.map((row) => [row.id, row]));
   const occupied = table(api, "occupancy");
-  for (const row of occupied.rows() as unknown as Occupancy[]) {
-    const tenant = byHouse.get(row.householdId);
+  const entries = occupied.rows() as unknown as Occupancy[];
+  if (!entries.length) return;
+  const liveLeases = new Set(
+    [...c.finance.contracts.values()]
+      .filter(
+        (row) => row.id.startsWith("lease:") && !row.endedAt && row.householdId,
+      )
+      .map((row) => row.householdId),
+  );
+  const rt = residentsRuntime(c);
+  for (const row of entries) {
     const project = table(api, "projects").get(row.projectId) as unknown as
       ProjectRow | undefined;
-    if (!project || tenant?.placeId === project.placeId) continue;
+    if (!project) continue;
+    const full = c.households.get(row.householdId);
+    const counted = full
+      ? undefined
+      : rt?.households.get(row.householdId)?.household;
+    const flow = rt?.flows.get(`rent:${row.householdId}`);
+    const hasLease = full
+      ? liveLeases.has(row.householdId) &&
+        full.memberIds.some((id) => c.people.get(id)?.alive)
+      : Boolean(counted && flow && !flow.endedAt);
+    if (
+      hasLease &&
+      (full ?? counted)?.placeId === project.placeId &&
+      !table(api, "statuses").get(row.householdId)
+    )
+      continue;
     occupied.remove(row.id);
+    table(api, "affordable").remove(row.householdId);
     const stock = table(api, "stock").get(
       `stock:${project.placeId}`,
     ) as unknown as StockRow;
@@ -132,6 +151,17 @@ export function occupyCompletedRentals(api: CoreAPI): void {
       vacantRental: Math.min(stock.rentalUnits, stock.vacantRental + 1),
     });
   }
+}
+
+/** Monthly matching reviews live offers, never schedules a household to move. */
+export function occupyCompletedRentals(api: CoreAPI): void {
+  const c = api.state as CoreState;
+  // stopgapId: SG-WORLD-new-rental-move-coverage
+  api.stopgap("SG-WORLD-new-rental-move-coverage");
+  // stopgapId: SG-WORLD-housing-vacancy
+  api.stopgap("SG-WORLD-housing-vacancy");
+  const candidates = tenants(api);
+  const occupied = table(api, "occupancy");
   const projects = (table(api, "projects").rows() as unknown as ProjectRow[])
     .filter(
       (row) =>
@@ -345,4 +375,151 @@ export function renewRentalLeases(api: CoreAPI): void {
       ...(vacancy === undefined ? {} : { vacancy }),
     });
   }
+}
+
+export interface CompletedRentalOffer {
+  project: ProjectRow;
+  unit: number;
+  affordable: boolean;
+  rentMinor: number;
+}
+
+/** A real vacant unit a household without a home can afford. */
+export function completedRentalOffer(
+  api: CoreAPI,
+  placeId: string,
+  incomeMinor: number,
+): CompletedRentalOffer | undefined {
+  const stock = table(api, "stock").get(`stock:${placeId}`) as unknown as
+    StockRow | undefined;
+  if (!stock || stock.vacantRental < 1) return undefined;
+  const offers: CompletedRentalOffer[] = [];
+  for (const project of table(
+    api,
+    "projects",
+  ).rows() as unknown as ProjectRow[]) {
+    if (
+      project.open ||
+      project.kind !== "multi" ||
+      project.placeId !== placeId ||
+      project.askingRentMinor === undefined
+    )
+      continue;
+    const used = new Set(
+      (
+        table(api, "occupancy").query("byProject", [
+          project.id,
+        ]) as unknown as Occupancy[]
+      ).map((row) => row.unit),
+    );
+    for (let unit = 0; unit < project.units; unit++) {
+      if (used.has(unit)) continue;
+      const affordable = unit < project.affordableUnits;
+      if (
+        affordable &&
+        incomeMinor >=
+          (project.medianPayMinor ?? 0) * construction.inclusionary.amiShare
+      )
+        continue;
+      const rentMinor = affordable
+        ? Math.round(incomeMinor * construction.inclusionary.rentShareOfIncome)
+        : project.askingRentMinor;
+      if (
+        rentMinor <= 0 ||
+        incomeMinor < rentMinor * api.parameter("housingRehouseIncomeMultiple")
+      )
+        continue;
+      offers.push({ project, unit, affordable, rentMinor });
+    }
+  }
+  return offers.sort(
+    (a, b) =>
+      a.rentMinor - b.rentMinor ||
+      a.project.id.localeCompare(b.project.id) ||
+      a.unit - b.unit,
+  )[0];
+}
+
+/** A signed lease houses someone without a home, consuming one actual vacancy. */
+export function occupyRehousedRental(
+  api: CoreAPI,
+  offer: CompletedRentalOffer,
+  householdId: string,
+  leaseId: string,
+): void {
+  const c = api.state as CoreState;
+  const house = c.households.get(householdId);
+  const lease = c.finance.contracts.get(leaseId);
+  const stock = table(api, "stock").get(
+    `stock:${offer.project.placeId}`,
+  ) as unknown as StockRow | undefined;
+  if (
+    !house ||
+    !lease ||
+    lease.endedAt ||
+    lease.householdId !== householdId ||
+    lease.payeeId !== offer.project.payerId ||
+    lease.amountMinor !== offer.rentMinor ||
+    !stock ||
+    stock.vacantRental < 1
+  )
+    throw new Error(
+      "A completed rental requires its signed lease and a real vacancy.",
+    );
+  const occupied = table(api, "occupancy");
+  if (
+    occupied.get(householdId) ||
+    occupied
+      .query("byProject", [offer.project.id])
+      .some((row) => row.unit === offer.unit)
+  )
+    throw new Error(
+      "A completed rental unit or household is already assigned.",
+    );
+  occupied.put({
+    id: householdId,
+    householdId,
+    projectId: offer.project.id,
+    unit: offer.unit,
+    affordable: offer.affordable,
+    leaseId,
+    tier: "full",
+    since: c.date,
+  });
+  table(api, "stock").put({ ...stock, vacantRental: stock.vacantRental - 1 });
+  table(api, "dwellings").put({
+    ...table(api, "dwellings").get(`dwelling:${householdId}`),
+    id: `dwelling:${householdId}`,
+    householdId,
+    tenure: "rent",
+    kind: "apartment",
+    projectId: offer.project.id,
+    unit: offer.unit,
+    rentMinor: offer.rentMinor,
+    since: c.date,
+    basis: "rehoused-completed-project",
+  });
+  if (offer.affordable)
+    table(api, "affordable").put({
+      id: householdId,
+      householdId,
+      projectId: offer.project.id,
+      rentMinor: offer.rentMinor,
+      since: c.date,
+    });
+  table(api, "moves").put({
+    id: `housing-move:${householdId}:${c.date}`,
+    householdId,
+    personIds: [...house.memberIds],
+    tier: "full",
+    projectId: offer.project.id,
+    leaseId,
+    unit: offer.unit,
+    date: c.date,
+    rentMinor: offer.rentMinor,
+    previousHousingStatus:
+      table(api, "statuses").get(householdId)?.status ?? null,
+    vacancyDelta: -1,
+    reasonKey: "income-and-cash-reach-a-vacant-home",
+  });
 }

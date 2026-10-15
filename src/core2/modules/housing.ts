@@ -45,6 +45,10 @@ import {
 } from "../housing-prices";
 import {
   occupyCompletedRentals,
+  releaseVacatedRentals,
+  completedRentalOffer,
+  occupyRehousedRental,
+  type CompletedRentalOffer,
   renewRentalLeases,
 } from "../housing-occupancy";
 import { residentsRuntime } from "./residents";
@@ -564,10 +568,18 @@ function scheduleReview(api: CoreAPI): void {
  */
 function rehouse(api: CoreAPI): void {
   const c = core(api);
+  const offers = new Map<string, CompletedRentalOffer>();
   reviewHomeless(
     api,
-    (householdId) => {
+    (householdId, incomeMinor) => {
       const placeId = c.households.get(householdId)?.placeId;
+      const offer = placeId
+        ? completedRentalOffer(api, placeId, incomeMinor)
+        : undefined;
+      if (offer) {
+        offers.set(householdId, offer);
+        return offer.rentMinor;
+      }
       // The town's typical rent; its own last rent where the town has no other renters.
       const typical = placeId ? townFigures(api, placeId).rentMinor : 0;
       return typical > 0
@@ -576,7 +588,9 @@ function rehouse(api: CoreAPI): void {
     },
     (householdId, rentMinor) => {
       const household = c.households.get(householdId)!;
-      const landlordId = `organization:landlord:${household.placeId}`;
+      const offer = offers.get(householdId);
+      const landlordId =
+        offer?.project.payerId ?? `organization:landlord:${household.placeId}`;
       if (!c.organizations.has(landlordId)) return;
       const id = `lease:${householdId}:${c.date}`;
       api.addFinanceContract({
@@ -593,7 +607,7 @@ function rehouse(api: CoreAPI): void {
           tag: "ESTIMATED",
           asOf: c.date,
           citation: housingData.source.citation,
-          estimatedFrom: `Rents again at the town's typical rent once pay reached ${api.parameter("housingRehouseIncomeMultiple")} times it.`,
+          estimatedFrom: `Rents again at the offered rent once pay reached ${api.parameter("housingRehouseIncomeMultiple")} times it.`,
         },
       });
       store(api)
@@ -611,6 +625,8 @@ function rehouse(api: CoreAPI): void {
           since: c.date,
           basis: "rehoused",
         });
+      if (offer) occupyRehousedRental(api, offer, householdId, id);
+      return id;
     },
   );
 }
@@ -960,6 +976,7 @@ function buyHomes(api: CoreAPI): void {
 function review(api: CoreAPI): void {
   const c = core(api),
     law = steps(api);
+  releaseVacatedRentals(api);
   rehouse(api);
   renewRentalLeases(api);
   amortize(api);
