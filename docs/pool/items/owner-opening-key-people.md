@@ -4,10 +4,10 @@ title: 'Who the opening''s "key people" are behind the president and in the stat
 area: play
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "docs/coordination/OWNER-DECISIONS.md, Open"
 ---
@@ -21,3 +21,5 @@ source: "docs/coordination/OWNER-DECISIONS.md, Open"
 **Files.** see the question
 
 **Notes.** None.
+
+Ruling (OWNER-DECISIONS.md, Oct 15 afternoon): Key people ruled; see core-opening-key-people.

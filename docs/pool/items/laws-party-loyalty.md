@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: "owner decision: non-commercial data license"
+blocked-on: "owner confirmation of the roll-call route"
 milestone:
 source: "overnight pool item 12; reissue closed note"
 ---

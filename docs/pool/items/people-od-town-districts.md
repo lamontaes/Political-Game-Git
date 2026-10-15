@@ -4,10 +4,10 @@ title: "Owner decision: A town's districts are the state House districts its pop
 area: people
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-CORE-owner-decision-town-districts"
 ---
@@ -21,3 +21,5 @@ source: "stopgap SG-CORE-owner-decision-town-districts"
 **Files.** src/core2/modules/residents.ts
 
 **Notes.** Row SG-CORE-owner-decision-town-districts in src/core2/data/stopgaps.json.
+
+Ruling (OWNER-DECISIONS.md, Oct 15 afternoon): CTO ruling: council method from place data, no wards unless records use them; see gov-council-election-method.

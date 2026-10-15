@@ -4,10 +4,10 @@ title: "Owner decision: Nobody holds anything in a trust: every estate passes th
 area: core
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-CORE-owner-decision-trusts"
 ---
@@ -21,3 +21,5 @@ source: "stopgap SG-CORE-owner-decision-trusts"
 **Files.** src/core2/estates.ts
 
 **Notes.** Row SG-CORE-owner-decision-trusts in src/core2/data/stopgaps.json.
+
+Ruling (OWNER-DECISIONS.md, Oct 15 afternoon): Trusts: background simulation, no player mechanic; see core-trusts-background.
