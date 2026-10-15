@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-g2977r
 pr:
 blocked-on:
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
+claimed-at: 2026-10-15T20:47:40.520Z
 ---
 
 **What.** Generate at most the target number of people as household records, then give each counted household a weight (real households it stands for, from the place's Census reference population over the generated count; 1 for a town at or below the target). Counted groups, `reachOf` and the residents module read the weight wherever they read a household or member count.
