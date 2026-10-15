@@ -31,6 +31,26 @@
     "job-lost": {
       "kind": "job-lost-reply",
       "stage": "default"
+    },
+    "job-cause": {
+      "kind": "job-cause-reply",
+      "stage": "default"
+    },
+    "job-hope": {
+      "kind": "job-hope-reply",
+      "stage": "default"
+    },
+    "eviction": {
+      "kind": "eviction-reply",
+      "stage": "default"
+    },
+    "eviction-cause": {
+      "kind": "eviction-cause-reply",
+      "stage": "default"
+    },
+    "eviction-where": {
+      "kind": "eviction-where-reply",
+      "stage": "default"
     }
   },
   "follows": {
@@ -54,12 +74,29 @@
     "mutual": ["family"],
     "news": ["address"],
     "address": ["news"],
-    "job-lost": []
+    "job-lost": ["job-hope"],
+    "eviction": ["eviction-where"]
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
     "money:job-started": "own-work",
     "money:job-changed": "own-work",
     "home:moved": "home"
+  },
+  "tells": {
+    "about": "Owner, Oct 14, 2026, night (Q10: one 'listen' and one 'ask more'): when the player answers the other person's line with a choice that asks for more, the other person tells this subject of their own, from their records, as a side remark on the same topic. By the line's kind, then the choice.",
+    "job-lost-reply": {
+      "ask": "job-cause"
+    },
+    "job-cause-reply": {
+      "ask": "job-hope"
+    },
+    "eviction-reply": {
+      "ask": "eviction-cause",
+      "where": "eviction-where"
+    },
+    "eviction-cause-reply": {
+      "where": "eviction-where"
+    }
   }
 }

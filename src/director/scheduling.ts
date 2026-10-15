@@ -65,6 +65,8 @@ export interface SituationLibrary {
     openDays: Readonly<Record<string, number>>;
     /** Moments that stage their family scene when a household member is in them. */
     householdScenes: readonly string[];
+    /** Records of the whole household that stage a family scene for each member. */
+    householdRecordScenes?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -195,6 +197,12 @@ function alive(core: Readonly<CoreState>, id: PersonId): boolean {
 }
 
 /** Who fills a role, read from records on the moment's day. */
+/** Who answers for a subject at home, in order: parents, then other older kin. */
+const GUARDIAN_RELATIONS: readonly (readonly string[])[] = [
+  ["parent", "other-parent"],
+  ["grandparent", "aunt-or-uncle"],
+];
+
 function fillRole(
   fill: string,
   core: Readonly<CoreState>,
@@ -258,8 +266,27 @@ function fillRole(
         : setting === "workplace"
           ? coworkers()
           : [];
+    case "authority": {
+      // At home: the subject's parent on record who lives with them, else
+      // another older relative in the household (a guardian).
+      const kinIn = new Map<PersonId, string>();
+      for (const fact of subject?.pastFacts ?? [])
+        if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
+          kinIn.set(
+            fact.facts.otherPersonId as PersonId,
+            fact.kind.slice("family:".length),
+          );
+      const members = household();
+      for (const relations of GUARDIAN_RELATIONS) {
+        const found = members.filter((id) =>
+          relations.includes(kinIn.get(id) ?? ""),
+        );
+        if (found.length) return found;
+      }
+      return [];
+    }
     default:
-      // Classmates, authority and absent have no records in the new core yet.
+      // Classmates and absent have no records in the new core yet.
       return [];
   }
 }
@@ -423,12 +450,16 @@ export function scheduleMoment(
   // serious illness) is a family scene at home whatever its size (owner,
   // Oct 14, 2026, night: the director picks the family scene the
   // household's records make apply).
+  // A record of the whole household (an eviction) is a family scene for
+  // each of them, with no one else named.
   const household = person.householdId;
   const familyNews =
-    library.scheduling.householdScenes.includes(moment.label) &&
-    moment.counterpartIds.some(
-      (id) => core.people.get(id)?.householdId === household,
-    ) &&
+    ((library.scheduling.householdScenes.includes(moment.label) &&
+      moment.counterpartIds.some(
+        (id) => core.people.get(id)?.householdId === household,
+      )) ||
+      (library.scheduling.householdRecordScenes?.includes(moment.label) ??
+        false)) &&
     bindings.some((row) => row.setting.kind === "home");
   const interrupt =
     (moment.impact >= options.interruptImpact || familyNews) && !filteredOut;

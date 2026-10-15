@@ -924,9 +924,21 @@ export function createDirector(
               memberId,
             ),
         );
+        // A job the worker chose to leave (a quit for another job, leaving
+        // work) is not a lost job: the worker's own record of the end says
+        // which (`job:<id>:status`, its source).
+        const endedBy = priorJob
+          ? core.knowledgeByPerson.get(memberId)?.get(`job:${priorJob}:status`)
+              ?.sourceId
+          : undefined;
+        const chosen = (data.chosenJobEnds ?? []).some((prefix) =>
+          endedBy?.startsWith(prefix),
+        );
         const kind =
           priorJob && !nowJob
-            ? "job-ended"
+            ? chosen
+              ? "job-left"
+              : "job-ended"
             : !priorJob && nowJob
               ? "job-started"
               : "job-changed";

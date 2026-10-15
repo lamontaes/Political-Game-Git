@@ -1395,6 +1395,18 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
+        },
+        {
+          "move": "job-hope-reply-answer-brief",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "eviction-where-reply-answer-ok",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "ok"
         }
       ],
       "transcriptsUsing": 2389,
@@ -1528,6 +1540,36 @@
           "subject": "job-lost-reply",
           "role": "answer",
           "choice": "brief"
+        },
+        {
+          "move": "job-cause-reply-answer-brief",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "job-hope-reply-answer-brief",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "eviction-reply-answer-brief",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "eviction-cause-reply-answer-brief",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "eviction-where-reply-answer-ok",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "ok"
         }
       ],
       "transcriptsUsing": 3800,
@@ -3384,6 +3426,18 @@
           "subject": "heard-work",
           "role": "reply",
           "choice": "ok"
+        },
+        {
+          "move": "job-cause-reply-answer-brief",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "eviction-reply-answer-brief",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "brief"
         }
       ],
       "transcriptsUsing": 444,
@@ -3590,6 +3644,12 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
+        },
+        {
+          "move": "eviction-cause-reply-answer-brief",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "brief"
         }
       ],
       "transcriptsUsing": 348,
@@ -4128,6 +4188,18 @@
           "subject": "tenure-reply",
           "role": "answer",
           "choice": "ack"
+        },
+        {
+          "move": "job-cause-reply-answer-brief",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "eviction-reply-answer-brief",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "brief"
         }
       ],
       "transcriptsUsing": 995,
@@ -5397,6 +5469,30 @@
         {
           "move": "job-lost-reply-answer-brief",
           "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "job-cause-reply-answer-brief",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "job-hope-reply-answer-brief",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "eviction-reply-answer-brief",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "brief"
+        },
+        {
+          "move": "eviction-cause-reply-answer-brief",
+          "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "brief"
         }
@@ -9100,6 +9196,12 @@
           "subject": "job-lost-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "eviction-reply-answer-ask",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 243,
@@ -9438,6 +9540,24 @@
           "subject": "job-lost-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 249,
@@ -9519,6 +9639,24 @@
           "subject": "news",
           "role": "answer",
           "choice": "react"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 42,
@@ -9562,6 +9700,12 @@
         {
           "move": "job-lost-reply-answer-comfort",
           "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
           "role": "answer",
           "choice": "comfort"
         }
@@ -11720,6 +11864,24 @@
           "subject": "job-lost-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 622,
@@ -11768,6 +11930,12 @@
         {
           "move": "job-lost-reply-answer-comfort",
           "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
           "role": "answer",
           "choice": "comfort"
         }
@@ -12618,6 +12786,12 @@
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "turn"
+        },
+        {
+          "move": "eviction-reply-answer-ask",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 956,
@@ -13286,6 +13460,944 @@
         "granule": "DCPD-202300667",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.we-need-to-talk",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "We need to talk.",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "THE FUTURE OF DIGITAL ASSET REGULATION",
+        "date": "2022-06-23",
+        "granule": "CHRG-117hhrg49769",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg49769/html/CHRG-117hhrg49769.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.can-we-talk",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Can we talk?",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "STATE, FOREIGN OPERATIONS, AND RELATED PROGRAMS APPROPRIATIONS FOR 2017",
+        "date": "2016-02-03",
+        "granule": "CHRG-114hhrg21440",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg21440/html/CHRG-114hhrg21440.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.have-a-seat",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Have a seat.",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa-oral": 1,
+        "senate-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JOHNSON SPACE CENTER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT KIRK GRIFFIN INTERVIEWED BY SANDRA JOHNSON HUNT, TEXAS – NOVEMBER 13, 20",
+        "date": "2019-11-13",
+        "granule": "griffink-11-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.sit-down",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Sit down.",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "house-oral": 1,
+        "nasa-oral": 4,
+        "senate-oral": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "The Honorable Sue W. Kelly U.S. Representative of New York (1995–2007)",
+        "date": "2016-06-23",
+        "granule": "house-kellys-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.family-open-open.lets-talk",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Let's talk.",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "LEGISLATIVE HEARING ON H.R. 1607, TO CLARIFY JURISDICTION WITH RESPECT TO CERTAIN BUREAU OF RECLAMATION PUMPED STORAGE DEVELOPMENT, AND FOR OTHER PURPOSES; H.R. 3027, TO REAUTHORIZE FUNDING FOR THE RECLAMATION CLIMATE CHANGE AND WATER PROGRAM, \"RECLAMATION CLIMATE CHANGE AND WATER PROGRAM REAUTHORIZATION ACT OF 2023\"; AND H.R. 3675, TO AMEND THE WATER INFRASTRUCTURE IMPROVEMENTS FOR THE NATION ACT TO EXTEND CERTAIN CONTRACT PREPAYMENT AUTHORITY, \"WESTERN WATER ACCELERATED REVENUE REPAYMENT ACT\"",
+        "date": "2023-06-14",
+        "granule": "CHRG-118hhrg52525",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg52525/html/CHRG-118hhrg52525.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-raise-closure.employer-closed",
+      "move": "job-cause-raise-closure",
+      "kind": "spoken",
+      "text": "{employer} closed.",
+      "uses": [
+        {
+          "move": "job-cause-raise-closure",
+          "subject": "job-cause",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["closure"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "DIGITAL G.I. BILL UNDELIVERED: CONTRACTING CHALLENGES AND THE NEED FOR ACQUISITION REFORM",
+        "date": "2026-02-04",
+        "granule": "CHRG-119hhrg63304",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63304/html/CHRG-119hhrg63304.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-raise-closure.employer-shut-down",
+      "move": "job-cause-raise-closure",
+      "kind": "spoken",
+      "text": "{employer} shut down.",
+      "uses": [
+        {
+          "move": "job-cause-raise-closure",
+          "subject": "job-cause",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["closure"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "DRILLING DOWN: OVERSIGHT OF THE CHALLENGES AND OPPORTUNITIES FACING U.S. ENERGY PRODUCTION",
+        "date": "2024-04-23",
+        "granule": "CHRG-118hhrg55545",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55545/html/CHRG-118hhrg55545.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-raise-closure.employer-closed-down",
+      "move": "job-cause-raise-closure",
+      "kind": "spoken",
+      "text": "{employer} closed down.",
+      "uses": [
+        {
+          "move": "job-cause-raise-closure",
+          "subject": "job-cause",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["closure"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "DISCOVERY AND NEW FRONTIERS ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JOHN P. ANDREWS INTERVIEWED BY SANDRA JOHNSON BOULDER, COLORADO – SEPT",
+        "date": "2023-09-29",
+        "granule": "andrewsjp-9-29-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/andrewsjp-9-29-23.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-comfort.thats-awful",
+      "move": "job-cause-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's awful.",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "chrg": 1,
+        "house-oral": 1,
+        "nasa-oral": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "HEARING ON THE WEAPONIZATION OF THE FEDERAL GOVERNMENT",
+        "date": "2024-05-15",
+        "granule": "CHRG-118hhrg55746",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55746/html/CHRG-118hhrg55746.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-comfort.thats-not-fair",
+      "move": "job-cause-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's not fair.",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-comfort",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "chrg": 2,
+        "nasa-oral": 5,
+        "senate-oral": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE FEDERAL COMMUNICATIONS COMMISSION",
+        "date": "2020-06-24",
+        "granule": "CHRG-116shrg52681",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg52681/html/CHRG-116shrg52681.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-comfort.thats-hard",
+      "move": "job-cause-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's hard.",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-comfort",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "chrg": 1,
+        "house-oral": 1,
+        "nasa-oral": 9,
+        "senate-oral": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "EXAMINING NIST'S PRIORITIES FOR 2025 AND BEYOND",
+        "date": "2024-05-22",
+        "granule": "CHRG-118hhrg55659",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55659/html/CHRG-118hhrg55659.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-ask.what-are-you-going-to-do",
+      "move": "job-cause-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What are you going to do?",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-ask",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 55,
+      "bySource": {
+        "chrg": 9,
+        "house-oral": 8,
+        "nasa-oral": 33,
+        "senate-oral": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "NOMINATION OF SCOTT KUPOR AND ERIC M. UELAND",
+        "date": "2025-04-03",
+        "granule": "CHRG-119shrg60000",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60000/html/CHRG-119shrg60000.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-ask.what-now",
+      "move": "job-cause-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What now?",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-ask",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "nasa-oral": 4,
+        "senate-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JOHNSON SPACE CENTER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JULIE A. KRAMER WHITE INTERVIEWED BY JENNIFER ROSS-NAZZAL HOUSTON, TEXAS",
+        "date": "2016-08-09",
+        "granule": "kramer-whiteja-8-9-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/06/kramer-whiteja-8-9-16.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-hope.good-luck",
+      "move": "job-hope-reply-answer-hope",
+      "kind": "spoken",
+      "text": "Good luck.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-hope",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "transcriptsUsing": 21,
+      "bySource": {
+        "chrg": 13,
+        "nasa-oral": 8
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF THE AIR FORCE FISCAL YEAR 2026 POSTURE",
+        "date": "2025-06-05",
+        "granule": "CHRG-119hhrg64331",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64331/html/CHRG-119hhrg64331.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-hope.i-know-you-will",
+      "move": "job-hope-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I know you will.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-hope",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "chrg": 5,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "ADDRESSING AMERICA'S DATA PRIVACY SHORTFALLS: HOW A NATIONAL STANDARD FILLS GAPS TO PROTECT AMERICANS' PERSONAL INFORMATION",
+        "date": "2023-04-27",
+        "granule": "CHRG-118hhrg55613",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55613/html/CHRG-118hhrg55613.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-hope.i-hope-so",
+      "move": "job-hope-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I hope so.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-hope",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "transcriptsUsing": 86,
+      "bySource": {
+        "chrg": 51,
+        "house-oral": 3,
+        "nasa-oral": 29,
+        "senate-oral": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "SHARIA-FREE AMERICA: WHY POLITICAL ISLAM & SHARIA LAW ARE INCOMPATIBLE WITH THE U.S. CONSTITUTION: PART II",
+        "date": "2026-05-13",
+        "granule": "CHRG-119hhrg63735",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63735/html/CHRG-119hhrg63735.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-hope.youll-be-fine",
+      "move": "job-hope-reply-answer-hope",
+      "kind": "spoken",
+      "text": "You'll be fine.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-hope",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa-oral": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "JOHNSON SPACE CENTER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT PEGGY WHITSON INTERVIEWED BY JENNIFER ROSS-NAZZAL HOUSTON, TX – 7 OCTOBER 201",
+        "date": "2015-10-07",
+        "granule": "whitsonpa-10-7-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/whitsonpa-10-7-15.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-help.can-i-help",
+      "move": "job-hope-reply-answer-help",
+      "kind": "spoken",
+      "text": "Can I help?",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-help",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-where-reply-answer-help",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "nasa-oral": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "HEADQUARTERS SCIENCE MISSION DIRECTORATE ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT DONALD JENNINGS INTERVIEWED BY SANDRA JOHNSON GREENBELT, ",
+        "date": "2017-06-09",
+        "granule": "jenningsde-6-9-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/07/jenningsde-6-9-17.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-help.how-can-i-help",
+      "move": "job-hope-reply-answer-help",
+      "kind": "spoken",
+      "text": "How can I help?",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-help",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-where-reply-answer-help",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "house-oral": 1,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "HUBBLE SPACE TELESCOPE OPERATIONAL ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JOSEPH H. ROTHENBERG INTERVIEWED BY CHRISTOPHER GAINOR MOUNTAIN",
+        "date": "2016-09-27",
+        "granule": "rothenbergjr-9-27-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/03/rothenbergjr-9-27-16.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-help.what-can-i-do",
+      "move": "job-hope-reply-answer-help",
+      "kind": "spoken",
+      "text": "What can I do?",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-help",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-where-reply-answer-help",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "chrg": 1,
+        "house-oral": 3,
+        "nasa-oral": 10,
+        "senate-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "SCREENTIME IN SCHOOLS . Tuesday, June 10, 2025",
+        "date": "2025-06-10",
+        "granule": "CHRG-119hhrg62534",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62534/html/CHRG-119hhrg62534.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-help.i-can-help",
+      "move": "job-hope-reply-answer-help",
+      "kind": "spoken",
+      "text": "I can help.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-help",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-where-reply-answer-help",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa-oral": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "HUBBLE SPACE TELESCOPE OPERATIONAL ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JOSEPH H. ROTHENBERG INTERVIEWED BY CHRISTOPHER GAINOR MOUNTAIN",
+        "date": "2016-09-27",
+        "granule": "rothenbergjr-9-27-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/03/rothenbergjr-9-27-16.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-help.what-can-i-do-to-help",
+      "move": "job-hope-reply-answer-help",
+      "kind": "spoken",
+      "text": "What can I do to help?",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-help",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-where-reply-answer-help",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "nasa-oral": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "DISCOVERY 30TH ANNIVERSARY ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT JESSICA LOUNSBURY INTERVIEWED BY SANDRA JOHNSON EDGEWATER, MARYLAND – S",
+        "date": "2023-09-13",
+        "granule": "lounsburyja-9-13-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lounsburyja-9-13-23.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-brief.okay-good",
+      "move": "job-hope-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Okay, good.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-brief",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "transcriptsUsing": 61,
+      "bySource": {
+        "chrg": 49,
+        "house-oral": 2,
+        "nasa-oral": 7,
+        "senate-oral": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE UNITED STATES ARMY CORPS OF ENGINEERS",
+        "date": "2025-09-17",
+        "granule": "CHRG-119shrg63288",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg63288/html/CHRG-119shrg63288.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-ask.how-come",
+      "move": "eviction-reply-answer-ask",
+      "kind": "spoken",
+      "text": "How come?",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-ask",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "chrg": 5,
+        "house-oral": 2,
+        "nasa-oral": 4,
+        "senate-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "SECURING THE SUPPLY CHAIN: THE DEFENSE PRODUCTION ACT IN FOCUS",
+        "date": "2025-08-13",
+        "granule": "CHRG-119hhrg61503",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61503/html/CHRG-119hhrg61503.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-ask.what-do-you-mean",
+      "move": "eviction-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What do you mean?",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-ask",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 105,
+      "bySource": {
+        "chrg": 10,
+        "house-oral": 11,
+        "nasa-oral": 70,
+        "senate-oral": 14
+      },
+      "shippable": true,
+      "source": {
+        "document": "HEARING WITH IRS WHISTLEBLOWERS ABOUT THE BIDEN CRIMINAL INVESTIGATION",
+        "date": "2023-07-19",
+        "granule": "CHRG-118hhrg53006",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53006/html/CHRG-118hhrg53006.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-where.where-are-we-going-to-go",
+      "move": "eviction-reply-answer-where",
+      "kind": "spoken",
+      "text": "Where are we going to go?",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-where",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "where"
+        },
+        {
+          "move": "eviction-cause-reply-answer-where",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "where"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 1,
+        "house-oral": 1,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "FINANCIAL SERVICES AND GENERAL GOVERNMENT APPROPRIATIONS FOR FISCAL YEAR 2023",
+        "date": "2022-05-03",
+        "granule": "CHRG-117shrg39104030",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg39104030/html/CHRG-117shrg39104030.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-where.where-are-we-going",
+      "move": "eviction-reply-answer-where",
+      "kind": "spoken",
+      "text": "Where are we going?",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-where",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "where"
+        },
+        {
+          "move": "eviction-cause-reply-answer-where",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "where"
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "chrg": 4,
+        "nasa-oral": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "CONFIRMATION HEARING ON THE NOMINATION OF KASHYAP PRAMOD PATEL TO BE DIRECTOR OF THE FEDERAL BUREAU OF INVESTIGATION",
+        "date": "2025-01-30",
+        "granule": "CHRG-119shrg61322",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61322/html/CHRG-119shrg61322.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-where.where-do-we-go",
+      "move": "eviction-reply-answer-where",
+      "kind": "spoken",
+      "text": "Where do we go?",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-where",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "where"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "chrg": 8,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "INVESTING IN AMERICA: HOW PRIVATE EQUITY EMPOWERS MAIN STREET",
+        "date": "2025-06-05",
+        "granule": "CHRG-119hhrg60591",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60591/html/CHRG-119hhrg60591.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-cause-reply-answer-where.what-are-we-going-to-do",
+      "move": "eviction-cause-reply-answer-where",
+      "kind": "spoken",
+      "text": "What are we going to do?",
+      "uses": [
+        {
+          "move": "eviction-cause-reply-answer-where",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "where"
+        }
+      ],
+      "transcriptsUsing": 67,
+      "bySource": {
+        "chrg": 10,
+        "house-oral": 3,
+        "nasa-oral": 51,
+        "senate-oral": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "chrg",
+        "date": "2024-09-16",
+        "granule": "CHRG-118hhrg57661",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57661/html/CHRG-118hhrg57661.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-cause-reply-answer-comfort.its-not-your-fault",
+      "move": "eviction-cause-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "It's not your fault.",
+      "uses": [
+        {
+          "move": "eviction-cause-reply-answer-comfort",
+          "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "house-oral": 1,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA VIPER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT DANIEL R. ANDREWS INTERVIEWED BY SANDRA JOHNSON SAN JOSE, CALIFORNIA – OCTOBER 4, 2022",
+        "date": "2022-10-04",
+        "granule": "andrewsdr-10-4-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/andrewsdr-10-4-22.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-where-reply-answer-help.ill-help",
+      "move": "eviction-where-reply-answer-help",
+      "kind": "spoken",
+      "text": "I'll help.",
+      "uses": [
+        {
+          "move": "eviction-where-reply-answer-help",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "house-oral": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "The Honorable Shelley Berkley U.S. Representative of Nevada (1999–2013)",
+        "date": "2019-07-22",
+        "granule": "house-berkley-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/berkley-transcript/",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-where-reply-answer-comfort.itll-be-okay",
+      "move": "eviction-where-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "It'll be okay.",
+      "uses": [
+        {
+          "move": "eviction-where-reply-answer-comfort",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "nasa-oral": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT RICHARD H. KOOS INTERVIEWED BY JENNIFER ROSS-NAZZAL HOUSTON, TEXAS – AUGUST 22, 2023",
+        "date": "2023-08-22",
+        "granule": "koosrh-8-22-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
       }
     }
   ]

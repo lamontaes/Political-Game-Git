@@ -33,6 +33,8 @@ import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
+import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
 import type {
@@ -92,6 +94,13 @@ export interface ConversationData {
   related: Readonly<Record<string, readonly string[]>>;
   /** The subject a moment of the speaker's own is talked about as, by its label. */
   topicOfLabel: Readonly<Record<string, string>>;
+  /**
+   * What the other person tells when the player answers one of their lines
+   * with a choice: by the line's kind, then the choice ("What happened?" to
+   * "I lost my job." has them tell why). The told subject is a side remark on
+   * the same topic, not a new one.
+   */
+  tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** What the player answers when the other person raises one of their own subjects. */
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
@@ -110,6 +119,8 @@ export interface Subject {
   own?: { key: string; value: string };
   /** The person a mutual or kin subject is about, or the shared context's record. */
   aboutId?: string;
+  /** The stage its own line is said in, from its record (a layoff, a closure). */
+  stage?: string;
 }
 
 /** Which mined sentence said a line, and what picked it (for reports and grading). */
@@ -350,6 +361,130 @@ function isAbout(subject: Subject, moment: Moment, data: ConversationData) {
   );
 }
 
+/** The stage a lost job's cause is told in, by the jobs engine's reason. */
+const JOB_LOSS_STAGES: Readonly<Record<string, string>> = {
+  "demand-below-staff": "layoff",
+  "employer-closed": "closure",
+};
+
+/** The jobs engine's record that someone is looking for work, if any. */
+function seekingOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): { id: string; reasonKey: string } | undefined {
+  if (!core.modules.has(JOBS_MODULE_ID)) return undefined;
+  const row = coreAPI(core as CoreState)
+    .moduleState(JOBS_MODULE_ID)
+    .table("seekers")
+    .get(personId) as { isSeeker?: boolean; reasonKey?: string } | undefined;
+  return row?.isSeeker && row.reasonKey
+    ? { id: `${JOBS_MODULE_ID}:seekers:${personId}`, reasonKey: row.reasonKey }
+    : undefined;
+}
+
+/** The job a person last saw end, from their own record of it. */
+function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
+  let best: { jobId: string; at: string } | undefined;
+  for (const [key, row] of core.knowledgeByPerson.get(personId) ?? []) {
+    const match = /^job:(.+):status$/.exec(key);
+    if (!match || row.value !== "ended") continue;
+    if (!best || row.learnedAt > best.at)
+      best = { jobId: match[one]!, at: row.learnedAt };
+  }
+  return best ? core.jobs.get(best.jobId) : undefined;
+}
+
+const EVICTION_LABEL = "feeling:event:housing.eviction";
+const EVICTION_EVENT = "event:housing.eviction:";
+
+/**
+ * A household's eviction as the speaker can tell it, from the housing
+ * engine's records: that it happened (their ledger's moment, or the
+ * listener's when they live together, since the record is the household's),
+ * why (the case's rent owed at removal) and where they go now (the
+ * household's housing status: a relative's home, a shelter, nowhere).
+ */
+function evictionSubjects(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  speakerId: PersonId,
+  listenerId: PersonId,
+): Subject[] {
+  const speaker = core.people.get(speakerId)!;
+  const together =
+    core.people.get(listenerId)?.householdId === speaker.householdId;
+  const evicted = [
+    ...recentMoments(core, director, speakerId),
+    ...(together ? recentMoments(core, director, listenerId) : []),
+  ].find(
+    (moment) =>
+      moment.label === EVICTION_LABEL &&
+      moment.causeId.startsWith(EVICTION_EVENT) &&
+      !moment.counterpartIds.length,
+  );
+  if (!evicted || !core.modules.has(HOUSING_MODULE_ID)) return [];
+  const housing = coreAPI(core as CoreState).moduleState(HOUSING_MODULE_ID);
+  const caseId = evicted.causeId.slice(EVICTION_EVENT.length);
+  const out: Subject[] = [
+    {
+      id: `eviction:${evicted.causeId}`,
+      kind: "eviction",
+      aboutId: evicted.causeId,
+      facts: { evicted: { text: "", sourceRecordIds: [evicted.causeId] } },
+    },
+  ];
+  const owed = (
+    housing.table("cases").get(caseId) as
+      { owedAtRemovalMinor?: number } | undefined
+  )?.owedAtRemovalMinor;
+  if (owed !== undefined && owed > zero)
+    out.push({
+      id: `eviction-cause:${caseId}`,
+      kind: "eviction-cause",
+      aboutId: evicted.causeId,
+      stage: "rent",
+      facts: { owed: { text: "", sourceRecordIds: [caseId] } },
+    });
+  const status = housing.table("statuses").get(speaker.householdId) as
+    | {
+        status: string;
+        caseId: string;
+        reasons: Readonly<Record<string, number | string>>;
+      }
+    | undefined;
+  if (status?.caseId === caseId) {
+    const facts: Facts = {
+      status: { text: "", sourceRecordIds: [caseId, speaker.householdId] },
+    };
+    const hostId = status.reasons.relative;
+    const kin = (speaker.pastFacts ?? []).find(
+      (fact) =>
+        fact.kind.startsWith("family:") && fact.facts?.otherPersonId === hostId,
+    );
+    const host =
+      typeof hostId === "string"
+        ? core.people.get(hostId as PersonId)
+        : undefined;
+    const forms = kin
+      ? JOURNAL_DATA.relationWords[kin.kind.slice("family:".length)]
+      : undefined;
+    const word = forms?.[host?.looks?.gender ?? "other"] ?? forms?.other;
+    if (kin && word)
+      facts.relation = {
+        text: `${JOURNAL_DATA.possessive.journal} ${word}`,
+        sourceRecordIds: [kin.id, caseId],
+      };
+    out.push({
+      id: `eviction-where:${caseId}`,
+      kind: "eviction-where",
+      aboutId: evicted.causeId,
+      stage: status.status,
+      facts,
+    });
+  }
+  return out;
+}
+
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
 export function subjectsBetween(
   core: Readonly<CoreState>,
@@ -389,13 +524,49 @@ export function subjectsBetween(
         moment.label === "money:job-ended" &&
         moment.counterpartIds.includes(speakerId),
     );
-  if (lost && !mine)
+  if (lost && !mine) {
     out.push({
       id: `job-lost:${lost.causeId}`,
       kind: "job-lost",
       aboutId: lost.causeId,
       facts: { lost: { text: "yes", sourceRecordIds: [lost.causeId] } },
     });
+    // Why, and what now: the jobs engine's record of their search, which
+    // names the reason (a layoff, the employer closing) and that they are
+    // looking.
+    const seeking = seekingOf(core, speakerId);
+    const ended = lastEndedJob(core, speakerId);
+    const stage = seeking && JOB_LOSS_STAGES[seeking.reasonKey];
+    if (seeking && stage) {
+      const org = ended
+        ? core.organizations.get(ended.organizationId)
+        : undefined;
+      out.push({
+        id: `job-cause:${lost.causeId}`,
+        kind: "job-cause",
+        aboutId: lost.causeId,
+        stage,
+        facts: {
+          reason: { text: "", sourceRecordIds: [seeking.id] },
+          ...(org
+            ? {
+                employer: {
+                  text: properName(org.name),
+                  sourceRecordIds: [ended!.id, org.id],
+                },
+              }
+            : {}),
+        },
+      });
+      out.push({
+        id: `job-hope:${seeking.id}`,
+        kind: "job-hope",
+        aboutId: lost.causeId,
+        facts: { seeking: { text: "", sourceRecordIds: [seeking.id] } },
+      });
+    }
+  }
+  out.push(...evictionSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
     out.push({ id: `their-work:${listenerId}`, kind: "their-work", facts: {} });
@@ -943,6 +1114,8 @@ function raiseSubject(
   conversation: Conversation,
   data: ConversationData,
   subject: Subject,
+  /** A side remark on the topic in hand, not a topic of its own. */
+  remark = false,
 ): boolean {
   const { playerId, otherId } = conversation;
   conversation.used.push(`${otherId}>${subject.id}`);
@@ -957,7 +1130,7 @@ function raiseSubject(
     data.subjects[subject.kind]?.raise,
     subject.facts,
     `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
-    "default",
+    subject.stage ?? "default",
     subject,
   );
   if (!line) return false;
@@ -984,9 +1157,37 @@ function raiseSubject(
     facts: subject.facts,
     stage: then.stage,
   };
-  conversation.topics.push(raised.id);
+  if (!remark) conversation.topics.push(raised.id);
   offerChoices(core, conversation, data);
   return true;
+}
+
+/** The other person's own subject of a kind, not yet said, that the banks can word. */
+function tellable(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+  kind: string,
+): Subject | undefined {
+  const { playerId, otherId } = conversation;
+  return subjectsBetween(core, otherId, playerId, conversation.director).find(
+    (row) =>
+      row.kind === kind &&
+      !conversation.used.includes(`${otherId}>${row.id}`) &&
+      !!data.otherRaises[row.kind] &&
+      !!words(
+        core,
+        data,
+        otherId,
+        row.kind,
+        "raise",
+        data.subjects[row.kind]?.raise,
+        row.facts,
+        `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
+        row.stage ?? "default",
+        row,
+      ),
+  );
 }
 
 /** The other person asks about the first of these kinds they share with the player, else raises one of their own. */
@@ -1050,6 +1251,9 @@ function otherRaises(
 /** What the place and the occasion open with when no recorded event leads: what they share, then the player's work or home. */
 const OPENING_ORDER = ["shared-school", "shared-work", "own-work", "home"];
 
+/** The subjects that are the two speakers' relationship: what they share. */
+const SHARED_KINDS = ["shared-school", "shared-work"];
+
 /** The key a listener remembers the last talk's topic under. */
 const lastTalkKey = (playerId: PersonId) => `talk:${playerId}:topic`;
 
@@ -1098,10 +1302,17 @@ function mainTopic(
       conversation.used.includes(`${otherId}>${subject.id}`)
     )
       return;
-    const weight =
-      occasion && isAbout(subject, occasion, data)
+    // A scene's moment with the other person in it (a reunion) is about the
+    // two of them: what they share stands for it when no subject is about
+    // its cause, ahead of any other recorded event.
+    const weight = !occasion
+      ? topicWeight(core, director, holderId, subject, data)
+      : isAbout(subject, occasion, data)
         ? Number.POSITIVE_INFINITY
-        : topicWeight(core, director, holderId, subject, data);
+        : occasion.counterpartIds.includes(otherId) &&
+            SHARED_KINDS.includes(subject.kind)
+          ? Number.MAX_VALUE
+          : topicWeight(core, director, holderId, subject, data);
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
@@ -1188,6 +1399,31 @@ export function openConversation(
       kind: "greet",
       act: "tell",
       ...greeting,
+    });
+  // At home, a scene's talk opens by asking for the player's attention
+  // ("We need to talk.") instead of a greeting (owner, Oct 14, 2026, night: a
+  // mother asking the player to sit down).
+  const opener =
+    housemate && occasion
+      ? words(
+          core,
+          data,
+          otherId,
+          "family-open",
+          "open",
+          data.subjects["family-open"]?.open,
+          {},
+          `${playerId}:${otherId}:${occasion.id}:family-open`,
+        )
+      : null;
+  if (opener)
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: `family-open:${occasion!.id}`,
+      kind: "family-open",
+      act: "tell",
+      ...opener,
+      sourceRecordIds: [occasion!.causeId, ...opener.sourceRecordIds],
     });
   // The topic of their last talk isn't opened again (the listener remembers).
   const remembered = core.knowledgeByPerson
@@ -1445,6 +1681,13 @@ function offerChoices(
       choiceKey === "own" &&
       told &&
       conversation.used.includes(`${told}:${playerId}`)
+    )
+      continue;
+    // Asking for more ("What happened?") only when the other person has it
+    // on record and in words; a question nobody can answer is not offered.
+    if (
+      data.tells?.[last.kind]?.[choiceKey] &&
+      !tellable(core, conversation, data, data.tells[last.kind]![choiceKey]!)
     )
       continue;
     const raises = group[zero]!.raises;
@@ -1845,6 +2088,13 @@ export function say(
       sourceId: eventId,
       access: "told",
     });
+  // A choice that asks the other person to say more ("What happened?"):
+  // they tell it from their own records, on the same topic.
+  const told = data.tells?.[last.kind]?.[choice.move];
+  const theirs =
+    told && !doubted ? tellable(core, conversation, data, told) : undefined;
+  if (theirs && raiseSubject(core, conversation, data, theirs, true))
+    return conversation;
   const raised = subjectsBetween(
     core,
     playerId,

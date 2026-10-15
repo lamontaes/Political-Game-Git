@@ -19,7 +19,11 @@ import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import type { CoreState, PersonId } from "../../src/core2/types";
-import { openConversation } from "../../src/director/conversation";
+import {
+  CONVERSATION_DATA,
+  openConversation,
+  say,
+} from "../../src/director/conversation";
 import { composeScene } from "../../src/director/scene";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
@@ -110,6 +114,18 @@ for (let day = 0; day < days; day += 1) {
           occasionId: entry.momentId,
         })
       : null;
+    // Played through as a curious player would: asking for more when a
+    // choice does, else the first offered reply, until the other person
+    // closes the talk.
+    const offered: string[][] = [];
+    for (let turn = 0; talk && turn < 8 && talk.choices.length; turn += 1) {
+      offered.push(talk.choices.map((choice) => choice.text));
+      const kind = talk.lines.at(-1)?.kind ?? "";
+      const asks = CONVERSATION_DATA.tells?.[kind] ?? {};
+      const pick =
+        talk.choices.find((choice) => asks[choice.move]) ?? talk.choices[0]!;
+      say(core, talk, pick.key);
+    }
     report.scenes.push({
       date: core.date,
       outcome: entry.outcome,
@@ -140,7 +156,7 @@ for (let day = 0; day < days; day += 1) {
               text: line.text,
               sourceRecordIds: line.sourceRecordIds,
             })),
-            choices: talk.choices.map((choice) => choice.text),
+            offered,
           }
         : null,
     });

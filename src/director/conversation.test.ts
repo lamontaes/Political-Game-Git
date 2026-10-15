@@ -336,6 +336,42 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(closed).toBeGreaterThan(0);
   });
+  it("opens a reunion scene's talk on what the two share, ahead of any other event", () => {
+    const book = director.ledger.people.get(player.id)!;
+    const template = book.moments[0]!;
+    let checked = 0;
+    for (const otherId of others) {
+      // Not one whose last talk with the player was already about it.
+      const remembered = core.knowledgeByPerson
+        .get(otherId)
+        ?.get(`talk:${player.id}:topic`)?.value;
+      if (
+        !subjectsBetween(core, player.id, otherId, director).some(
+          (row) =>
+            (row.kind === "shared-school" || row.kind === "shared-work") &&
+            row.id !== remembered,
+        )
+      )
+        continue;
+      // Edge case by hand: a re-entry moment whose cause no subject is about.
+      const occasion = {
+        ...template,
+        id: `test-reunion:${otherId}`,
+        causeId: `test-cause:${otherId}`,
+        counterpartIds: [otherId],
+      };
+      book.momentsById.set(occasion.id, occasion);
+      const talk = openConversation(core, player.id, otherId, {
+        director,
+        occasionId: occasion.id,
+      });
+      book.momentsById.delete(occasion.id);
+      expect(talk.topics[0], otherId).toMatch(/(?:^|>)shared-(?:school|work):/);
+      checked += 1;
+      if (checked >= 3) break;
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
   it("remembers the last talk's topic and opens the next one with something else", () => {
     let checked = 0;
     for (const otherId of others.slice(0, 15)) {
@@ -347,5 +383,31 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       checked += 1;
     }
     expect(checked).toBeGreaterThan(0);
+  });
+  it("tells a job the worker chose to leave apart from a lost one, by the end's own record", () => {
+    // Last: it ends the player's job. A quit (hired elsewhere) is a job left,
+    // never "I lost my job."; any other end stays a job lost.
+    const jobId = core.people.get(player.id)!.jobId!;
+    // An end takes effect on a day the job wasn't worked yet.
+    for (let tries = 0; tries < 7; tries += 1) {
+      if (core.work.lastAttendanceByJob.get(jobId)?.date !== core.date) break;
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    }
+    const day = core.date;
+    api.endJob(jobId, `jobs:quit:${day}`);
+    advanceCore(core, addDays(makeIsoDate(day), 1));
+    const labels = director.ledger.people
+      .get(player.id)!
+      .moments.filter((row) => row.date >= day)
+      .map((row) => row.label);
+    expect(labels).toContain("money:job-left");
+    expect(labels).not.toContain("money:job-ended");
+    // Nothing about a lost job to talk about.
+    for (const otherId of others.slice(0, 5))
+      expect(
+        subjectsBetween(core, player.id, otherId, director).filter((row) =>
+          row.kind.startsWith("job-"),
+        ),
+      ).toEqual([]);
   });
 });
