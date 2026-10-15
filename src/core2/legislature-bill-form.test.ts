@@ -18,6 +18,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import {
   billTitle,
+  reviseBill,
   draftBill,
   motionOn,
   openLegislature,
@@ -145,6 +146,17 @@ describe("a bill's form in its body", () => {
       expect(second.number, where).toBe(designation(numbering, n + 1));
       expect(first.form.enactingClause, where).not.toContain("{body}");
       expect(first.form.enactingClause, where).toMatch(/enact|ordain/i);
+      expect(() =>
+        draftBill(api, {
+          bodyOfficeId: body.id,
+          sponsorId: player.id,
+          provisions: [],
+        }),
+      ).toThrow("at least one provision");
+      expect(() => reviseBill(api, first.id, { strike: 0 })).toThrow(
+        "at least one provision",
+      );
+      expect(first.title).toEqual(billTitle(first));
       const title = billTitle(first);
       expect(title.subjects.map((s) => s.key)).toEqual([
         "local-policy:paid-family-leave",

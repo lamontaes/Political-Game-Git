@@ -155,6 +155,8 @@ export interface BillRow {
   readonly id: string;
   /** The body's own designation: "LB 12", "H.R. 25", "S. 3", "2025-12". */
   readonly number: string;
+  /** Structured title at introduction; English renders these record parts. */
+  readonly title?: BillTitle;
   /**
    * What the bill is in its body (a bill for an act, or an ordinance) and the
    * enacting clause the law prescribes for it, with that law's citation.
@@ -354,6 +356,12 @@ function councilBudget(
         : {}),
     }),
   );
+  // Renew the carried appropriations explicitly when no changes were proposed.
+  // The new fiscal year's adoption is still a decision with provisions.
+  if (!provisions.length && carried)
+    for (const [line, amount] of Object.entries(carried.spendingMinor))
+      provisions.push({ kind: "budget-line", line, value: 0, of: amount });
+  if (!provisions.length) return null;
   const sponsor =
     priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!);
   const bill = draftBill(api, {
@@ -442,6 +450,7 @@ function councilBudget(
     }
     result = roll(kept);
   }
+  if (!kept.length) result = { ...result, adopted: false };
   for (const row of result.rows) table(api, "votes").put(row);
   // Each chamber's roll call on the budget is public record the press reads,
   // like any bill's.
@@ -514,7 +523,7 @@ function councilBudget(
   clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
-    provisions: kept,
+    provisions: kept.length ? kept : provisions,
     kind: "budget",
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
@@ -1304,8 +1313,9 @@ export function draftBill(
     deals: [],
     ...checkedText(api, input.bodyOfficeId, input.provisions),
   };
-  table(api, "bills").put(bill as unknown as ModuleRow);
-  return bill;
+  const titled = { ...bill, title: billTitle(bill) };
+  table(api, "bills").put(titled as unknown as ModuleRow);
+  return titled;
 }
 
 /**
@@ -1319,6 +1329,10 @@ function checkedText(
   bodyOfficeId: string,
   provisions: readonly Provision[],
 ): Pick<BillRow, "provisions" | "costEstimate" | "authority" | "status"> {
+  if (!provisions.length)
+    throw new Error("A bill must have at least one provision.");
+  if (provisions.some((p) => !subjectKey(p).trim()))
+    throw new Error("Every bill provision must name its subject.");
   const stateBody = /:(legislature-|us-house|us-senate)/.test(bodyOfficeId);
   const level = /:(us-house|us-senate)/.test(bodyOfficeId)
     ? "federal"
@@ -1379,8 +1393,9 @@ export function reviseBill(
     ...bill,
     ...checkedText(api, bill.bodyOfficeId, provisions),
   };
-  table(api, "bills").put(next as unknown as ModuleRow);
-  return next;
+  const titled = { ...next, title: billTitle(next) };
+  table(api, "bills").put(titled as unknown as ModuleRow);
+  return titled;
 }
 
 /** Everyone serving in a body: every seat of the office, the town's or not. */
