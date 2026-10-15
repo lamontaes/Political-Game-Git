@@ -4,9 +4,9 @@ title: "Next from the audit, this lane:"
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-audit-triage
-pr:
+pr: #4527
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 65 (unchecked checklist line)"
