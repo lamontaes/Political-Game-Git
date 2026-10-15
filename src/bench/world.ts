@@ -49,6 +49,7 @@ import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
+import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { addOutsideMarket } from "../core2/opening-outside-market";
 import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";

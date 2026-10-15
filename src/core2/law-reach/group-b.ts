@@ -40,6 +40,7 @@ import {
   type ActiveRow,
   type Reach,
 } from "./group-b-store";
+import { payVouchers } from "./group-b-school";
 import {
   type AssistanceTimeLimit,
   balancePlan,
@@ -72,7 +73,8 @@ type Mechanic =
   | "income-tax-rate"
   | "balanced-budget"
   | "pension-funding"
-  | "reserve";
+  | "reserve"
+  | "school-voucher";
 
 interface PolicyDef {
   readonly mechanic: Mechanic;
@@ -319,6 +321,23 @@ function runPolicy(
       });
       terms.movedMinor =
         moved && !moved.undone ? (moved.moves.transit ?? 0) : 0;
+      break;
+    }
+    case "school-voucher": {
+      const paid = payVouchers(api, {
+        key,
+        level,
+        inForce: input.enacting,
+        source: {
+          tag: "ESTIMATED",
+          asOf: api.state.date,
+          citation: `${input.lawId}; ${def.source}`,
+          estimatedFrom:
+            "The voucher amount over the average private tuition, applied to the tuition each family pays.",
+        },
+      });
+      terms.familiesPaid = paid.recipients;
+      terms.monthlyMinor = paid.monthlyMinor;
       break;
     }
     case "pension-funding":

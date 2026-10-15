@@ -1675,12 +1675,12 @@
     "id": "SG-GOV-REACH-B-voucher-payment",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 134,
-    "whatItFakes": "Public funds for private schooling are an eligibility record (amount) on named school-age children and a record on private schools; no voucher is paid.",
-    "why": "No child is enrolled at a school, so a payment can't follow a student.",
+    "line": 137,
+    "whatItFakes": "The voucher law pays the state treasury's voucher to each family already paying a town private school (the covered share of its tuition), but no family moves a child between public and private school because of it.",
+    "why": "Private tuition at the opening is the town's aggregate spread over its school-age households (src/core2/opening-private-tuition.ts), not a family's choice of school, so the voucher follows the tuition bills, not a child's enrollment. The voucher is read in src/core2/law-reach/group-b-school.ts.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury to the private school through accounts.transfer each term.",
+    "replacement": "OPUS-PEOPLE schools engine: a child's enrollment in a named school, chosen by the family from cost and distance; the voucher then follows the enrolled child and can move enrollment.",
     "status": "open"
   },
   {
