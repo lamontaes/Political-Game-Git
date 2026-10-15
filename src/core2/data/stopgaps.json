@@ -1569,10 +1569,10 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 947,
     "whatItFakes": "Independent redistricting records the rule on legislators, but no district lines are drawn by anyone.",
-    "why": "There is no redistricting engine.",
+    "why": "There is no redistricting engine in core2, so no districting event occurs in a played world to read the law: maps are drawn only after a census, the next being the 2030 count with new lines in 2031, and a game opened in 2026 holds none for years. Checked Oct 15 (laws-family-government-operations): no code in src/core2 draws wards or districts. The owner approved the design (DECISION-REGISTER, Sept 28 item 8 and D-6); it is specified as bank item b16 (docs/codex/specs/bank/b16-redistricting-vra.md) and tracked as pool item gov-redistricting-after-census.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "GOV: a redistricting step after each census that draws districts, run by the commission when this law is in force.",
+    "replacement": "Pool item gov-redistricting-after-census: the game takes its own census, and a redistricting step draws plans run by the commission or the legislature, as lawInForce(independent-redistricting) says; the law's records on legislators then go.",
     "status": "open"
   },
   {

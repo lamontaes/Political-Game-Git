@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: pool/laws-family-government-operations
 pr:
 blocked-on:
 milestone:
@@ -21,4 +21,4 @@ source: "split of laws-remaining-families (Oct 15)"
 
 **Files.** src/core2/modules/elections.ts or the districting code, src/core2/law-reach/group-a*.ts.
 
-**Notes.** Check SG-GOV-REACH-A-redistricting first.
+**Notes.** Check SG-GOV-REACH-A-redistricting first. (Oct 15) Checked: no code in src/core2 draws a ward or a district, and a game opened in 2026 holds no census until 2030, so there is no districting event to read the law. The stopgap row keeps that reason and points to the new item gov-redistricting-after-census (the b16 design).
