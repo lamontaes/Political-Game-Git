@@ -68,3 +68,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 3. Outcome web drift — `pool/outcome-causes` (first Session D; SG-WEB-outcome-drift; earlier jobs, credit and housing engines are Session B’s, business is claimed by second Session D, and place-prices is active Session A #4335).
 
 - 3. Campaign door fill-in — `pool/campaign-met-households` (second Session D; SG-PLAY-doors-fill-in; action backend only, no screens. Earlier housing/property-tax/moves overlap Session B, place-prices Session A, and outcome drift first Session D).
+
+- 3. Custom world settings duplication — `pool/shared-world-settings` (second Session D; SG-PLAY-world-settings-copy; share opening settings helpers, no screen design changes. Opening-economy fallback depends on the core opening repair and remains separate).
