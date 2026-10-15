@@ -350,24 +350,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expectEnded(key);
     });
 
-  const employerRecords = [
-    Q("environment-energy.clean-air-plan-for-polluted-counties"),
-  ];
-  // Bottle deposits, farmland protection and groundwater limits are read by
-  // the price engine, construction and the business engine (see "laws their
-  // own engine reads" below); employer rows are no evidence for them.
-  for (const key of employerRecords)
-    it(`${key}: binds every employer it covers in town; repeal ends it`, () => {
-      enact(key, 1, "state");
-      const def = groupBPolicy(key)!;
-      const expected = employersOf(def.organizations!);
-      expect(openOrgs(key).length, `${where} ${key}`).toBe(expected);
-      for (const row of openOrgs(key)) expect(row.kind).toBe(def.kind);
-      report[key] = { employers: expected };
-      enact(key, 0, "state");
-      expectEnded(key);
-    });
-
   // Each of these laws is read at the moment an engine decides or pays, so the
   // generic reach handler writes no eligibility row for it (a row would be a
   // second, unread record of the same law). The proof lives with the engine.
@@ -382,6 +364,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
     [
       Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
       "groundwater-law.test.ts",
+    ],
+    [
+      Q("environment-energy.clean-air-plan-for-polluted-counties"),
+      "clean-air-law.test.ts",
     ],
   ];
   for (const [key, proof] of readByOwnEngine)

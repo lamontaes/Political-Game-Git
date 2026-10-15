@@ -1753,8 +1753,8 @@
     "why": "No EPA Green Book nonattainment list is loaded for counties.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "Load EPA Green Book nonattainment counties as data; the plan then binds emitters only in listed counties, and OPUS-WORLD business costs read the compliance record.",
-    "status": "open"
+    "replacement": "Load EPA Green Book nonattainment counties as data; the plan then binds emitters only in listed counties, and OPUS-WORLD business costs read the compliance record. Done Oct 15 (Claude, pool laws-family-clean-air): the EPA Green Book county list is loaded (data/business/nonattainment.json) and the business engine charges only emitters in listed counties, citing the clean air plan law row where one is in force (routeCompliance, business.ts); the generic employer rows are gone.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-business-cost",

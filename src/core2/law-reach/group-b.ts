@@ -57,6 +57,7 @@ import {
 
 type Mechanic =
   | "records"
+  | "compliance-cost"
   | "farm-output"
   | "property-assessment"
   | "price-payment"
@@ -419,6 +420,8 @@ function runPolicy(
       });
       return;
     }
+    case "compliance-cost":
+      return; // The business engine reads the law when it charges a nonattainment county's emitters.
     case "farm-output":
       return; // The business engine reads the law when setting production limits.
     case "property-assessment":
