@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in traits.md (line 29): 3 lines"
 area: people
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-29
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/traits.md "Needs from other sessions" (line 29)'
+claimed-at: 2026-10-15T23:35:54.931Z
 ---
 
 **What.** Two real requests remain from the traits work. `turnoutBase` moved from -1 to -0.6 and `recallOrganizerEffort` from 1.3 to 0.5 so turnout and recalls still happen with the smaller trait term, and both must be re-checked against real turnout and recall counts. And appointers are party-side numbers, not people, so the nomination cannot weigh their traits until an appointer is a person. Re-check the two parameters against the sources and update their tags, then make the appointer a person in `appointments.ts`. The player would notice turnout and recalls at real-world rates and appointments that reflect who the appointer is.
