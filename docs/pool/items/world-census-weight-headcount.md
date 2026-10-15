@@ -13,12 +13,12 @@ after: core-census-weight-money
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** An employer's counted workers stand for as many jobs as their households' weights say. Add one reader beside `countedJobsOf` (`src/core2/residents-economy.ts`) that returns the weighted headcount (the sum of the weight of each counted worker's household), and make the readers that count heads use it: business size and staffing (`modules/business.ts` lines near 175, 1354, 2011), the employer's payroll and cash needs (`finance-state.ts` near 1405, `finance-cash.ts` near 758). Readers that pick one worker (an owner, a first hire) keep the record.
 
-**Rules.** TODO
+**Rules.** One model, two tiers (a counted group is read by every engine with the same rule as a full person, times its count); no dice; one rule, all 56 places; an effect is a read; speed (a year under two minutes, no more than 20% slower than base); replace, never layer.
 
-**Done when.** TODO
+**Done when.** In a one-year run of a drawn town opened at scale 3, each employer's headcount, payroll and staffing read three times the scale-one town's, and a town at scale one is identical to base. Named by employer record id. A test in a random place proves both. The owner plays it: nothing yet; this is the base for the Census-size opening.
 
-**Files.** TODO
+**Files.** src/core2/residents-economy.ts, src/core2/modules/business.ts, src/core2/finance-state.ts, src/core2/finance-cash.ts
 
-**Notes.** TODO
+**Notes.** Split from world-census-weight-economy (claude/world-census-weight-economy) when it was claimed: the original is an L. The weight is `CountedStore.weightOf` (core-census-weight-model, merged); counted money already moves times the weight (core-census-weight-money, #4467). Test by opening a drawn town with `buildBenchWorld(..., { countScale: 3 })` against the same seed at scale one.
