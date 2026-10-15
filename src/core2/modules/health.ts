@@ -466,7 +466,7 @@ function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {
   return [...out].sort();
 }
 
-function severityImpulse(api: CoreAPI, severity: Severity) {
+export function severityImpulse(api: CoreAPI, severity: Severity) {
   api.stopgap(severity.stopgapId);
   const share =
     api.parameter(severity.lifeChangeUnitsParameter) /
