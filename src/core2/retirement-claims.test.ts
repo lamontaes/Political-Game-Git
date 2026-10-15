@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { DEFAULT_DATA } from "./data";
+import { addDays } from "./kernel/dates";
 import { advanceCore, createLifeCore } from "./life";
 import { enactLaw, openLaws } from "./modules/laws";
 import { residentPerson, residentsRuntime } from "./modules/residents";
@@ -144,10 +145,11 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     });
     // Two months in the old law would have started the award; under the new
     // one (68 for every birth year) this adult waits 12 months more (born
-    // 1960 or later) to 24 (born 1943-1954), so by mid-2023 at the latest.
-    advanceCore(core, "2021-06-01");
+    // 1960 or later) to 24 (born 1943-1954), so by 30 months at the latest.
+    const opened = core.date;
+    advanceCore(core, addDays(opened, 120));
     expect(retirementClaims(core).has(adult.id)).toBe(false);
-    advanceCore(core, "2023-06-30");
+    advanceCore(core, addDays(opened, 913));
     expect(retirementClaims(core).has(adult.id)).toBe(true);
   }, 600_000);
 });
