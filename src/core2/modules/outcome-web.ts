@@ -471,14 +471,28 @@ export function placeOutcome(
   api: CoreAPI,
   placeId: string,
   measure: string,
-): { value: number; base?: number; month: string } | undefined {
+):
+  | {
+      value: number;
+      base?: number;
+      month: string;
+      recordId: string;
+      engineRecordId: string | null;
+    }
+  | undefined {
   const rows = store(api)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[];
   const latest = [...rows].sort((a, b) => b.month.localeCompare(a.month))[0];
   const value = latest?.values[measure];
   return latest && value !== undefined
-    ? { value, base: latest.bases[measure], month: latest.month }
+    ? {
+        value,
+        base: latest.bases[measure],
+        month: latest.month,
+        recordId: latest.id,
+        engineRecordId: latest.engineSources?.[measure] ?? null,
+      }
     : undefined;
 }
 
