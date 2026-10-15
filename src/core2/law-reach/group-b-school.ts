@@ -145,5 +145,7 @@ registerLinePayments((api, gov) => {
     if (accounts.obligation(row.obligationId)?.endedAt) continue;
     paid += row.amountMinor;
   }
-  return paid > 0 ? { [LINE]: paid } : {};
+  const out: Record<string, number> = {};
+  if (paid > 0) out[LINE] = paid;
+  return out;
 });
