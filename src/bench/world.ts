@@ -60,11 +60,11 @@ import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
 import {
-  applyWorldSettings,
-  checkWorldSettings,
-  scaleOutsideDemand,
+  applyOpeningSettings as applyWorldSettings,
+  checkSettings as checkWorldSettings,
+  scaleOutsideSales,
   type WorldSettings,
-} from "./world-settings";
+} from "../core2/world-settings";
 
 export interface BenchResident {
   id: string;
@@ -282,9 +282,9 @@ function* benchWorldStages(
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
-    opening = scaleOutsideDemand(
+    opening = scaleOutsideSales(
+      settings.economy?.outsideDemand ?? 1,
       withWorldEconomy(collapseToTwoLevels(economy, { keep: kept })),
-      settings,
     );
     releaseRecentHistory();
     forgetLastValidatedWorld();
