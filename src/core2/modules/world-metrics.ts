@@ -246,14 +246,9 @@ export function townMetrics(api: CoreAPI) {
     if (job && job.endsAt === undefined && !flow.endedAt)
       addPay(job.personId, job.wageDailyMinor * daysPerYear);
   }
-  // Retirement claims made in play (full and counted), and counted retirees' added income.
+  // Retirement claims made in play (full and counted).
   for (const [personId, claim] of retirementClaims(c))
     addPay(personId, claim.monthlyMinor * monthsPerYear);
-  for (const flow of rt?.flows.values() ?? [])
-    if (flow.id.startsWith("residents:retirement:added:") && !flow.endedAt)
-      for (const [part, amount] of Object.entries(flow.amountByContract ?? {}))
-        if (part.startsWith("retiree:"))
-          addPay(part.slice("retiree:".length), amount * monthsPerYear);
   for (const row of rows(api, "jobs", "claims") as unknown as {
     personId: string;
     open: boolean;

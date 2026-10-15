@@ -17,7 +17,6 @@ import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { reviewUnions } from "../jobs-unions";
-import { RETIREMENT_CLAIMS_MODULE_ID } from "./retirement-claims";
 import { traitLean } from "../choice";
 import { traitLeanBetween } from "../trait-decisions";
 import { ownerOf } from "./business";
@@ -39,7 +38,6 @@ import {
 } from "../jobs-elsewhere";
 import {
   addCountedJob,
-  addCountedRetiree,
   countedJobsOf,
   firstCountedJobOf,
   customerSalesByBusiness,
@@ -2437,13 +2435,8 @@ function reviewCountedRetirements(api: CoreAPI): void {
     }
   }
   for (const { job, age, score } of strongestPulls(api, "retire", rows)) {
+    // Their Social Security starts at their own claim age (the core's retirement claims, installed with the counts).
     endCountedJob(c, job.id);
-    // Their Social Security starts at their own claim age (the core's retirement claims); without that engine, their place's retirees' average income stands in.
-    if (!c.modules.has(RETIREMENT_CLAIMS_MODULE_ID)) {
-      stopgap("SG-WORLD-jobs-counted-retiree-income");
-      const placeId = residentPerson(c, job.personId)?.placeId;
-      if (placeId) addCountedRetiree(c, placeId, job.personId);
-    }
     record(api, {
       personId: job.personId,
       organizationId: job.organizationId,
