@@ -2,7 +2,7 @@
 id: pool-outcome-causes
 impact: patch
 section: Fixed
-title: Local election reactions use the recorded change in unemployment
+title: Election reactions use the recorded change in unemployment
 ---
 
-Candidates face the change in their town’s unemployment since the world opened, rather than treating that change as zero.
+The town’s voters react to its recorded unemployment change in state and federal races, rather than treating that change as zero.
