@@ -4,12 +4,13 @@ title: "Council election method from place data"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-council-election-method
+pr: #4473
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
+claimed-at: 2026-10-15T21:46:43.070Z
 ---
 
 **What.** Each place's council or board is elected the way its own records say (at-large, by district, or mixed). Where the repository has no record, estimate at-large with a per-world spread, marked as an estimate with its source. "Wards" is used only where a place's own records use it. State House districts stay the district meaning for state races.

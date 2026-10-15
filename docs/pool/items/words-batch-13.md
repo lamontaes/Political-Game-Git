@@ -5,13 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: words/scene-talk
-pr:
+status: in-pr
+claimed-by:
+pr: #4459
 blocked-on:
 after: words-scene-talk
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
-claimed-at: 2026-10-15T21:09:22.738Z
 ---
 
 **What.** TODO
@@ -23,3 +22,5 @@ claimed-at: 2026-10-15T21:09:22.738Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Session handed off Oct 15, 2026: branch words/scene-talk (PR #4459) has the catalog and bank this builds on; docs/grading/words-batch-13.md is not written; remainder: 30 scenes from one cached world once the exchange engine exists.
