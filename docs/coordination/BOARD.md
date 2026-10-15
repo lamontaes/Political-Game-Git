@@ -1,22 +1,43 @@
-# Board (CTO; rewritten Oct 14, 2026, evening)
+# Board (CTO; rewritten Oct 14, 2026, evening; orders added Oct 15, early)
 
 The board says who is building what today and how work moves. Only the CTO writes it. Each session keeps its own status file in this folder, rulings live in the owner-decisions file and the decision register (look there before asking), and sessions never send messages or set triggers: the top of the PR body is the channel.
+
+## Orders from the CTO (Oct 15, early; read at the start of every turn)
+
+**PLAY (screens).** The owner's menu mockups are on main at `docs/ui/mocks/screens-2026-10-14/` (`README.md`, `shots/` for the 19 screens, `page/` to view in a browser). Build the screens to that look and feel, in the register's order (`docs/coordination/DECISION-REGISTER.md`, "Politics opens as a compact hub"), with the owner's caveats:
+
+1. Ignore the thick or odd borders in the shots; they are regeneration artifacts, not the design.
+2. Nothing that breaks immersion. No "what she thinks of you", no "Your mayor", no "Met Jan 6" style labels on a person card. A card shows the record as the person would be known: name, relation or office, where they live, their work, how you know them.
+3. The person card's "Her story" and "Your record" sections are not a spec; keep them to what the records say, in the English engine's words.
+4. The Issues mockup is not approved. Build Issues to the register: the law in force in words, history and votes on click.
+5. The newspaper mockups are different looks on purpose. Each outlet gets its own layout from that set; never one look for every paper.
+6. The mockup README's decisions stand: the existing Lie scales button, build on the old People web, keep Journal, Travel and Options as they are.
+7. Your office does not exist on the Politics hub until the player holds an office. The calendar is an opaque panel with real contrast. Day advances time and never opens a choice list.
+
+One PR per screen, the changed-file gate line and a full-window screenshot in the PR body, pushed once per PR, merged by the CTO on the owner's yes to the screenshot. Bench PRs no longer trigger Mac packaging.
+
+**Cleanup (release).** The release gate is now the client's only: build, typecheck and the release declarations (`.github/workflows/release.yml`, owner, Oct 15). Update `tests/release/release-workflow.test.ts` to three blocking steps, record the three gone zero-dice lines with `npm run zero-dice -- --update`, and finish the unit-suite PR (#4309) on its own branch. Every push to main needs a declaration in `docs/release/changes/`.
+
+**Fixer.** The new list-pick at `src/core2/town-households.ts:45` (from the ported town builder) is replaced by a decision from the actor's reasons, per the no-dice rule.
+
+**Codex.** The figure set (8 poses × 6 bodies with layers, `art/people-engine/v2/`) per the CTO's brief; the chair maps and furniture masks from #4283 stay, the cut-out people go. The play session wires the renderer when the figures land and removes the v1 figures.
 
 ## Who is building what (live sessions, this account)
 
 | Session                                    | Branch         | Line of work                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ------------------------------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CORE wiring                                | core/*         | every-place runner; moves from causes with officeholders holding their seats; homelessness reads in drives and health; deaths as public records; estates with wills, intestacy and the taxes in force                                                                                                                                                                                                                     |
+| CORE wiring                                | core/*         | every-place runner; moves from causes with officeholders holding their seats; homelessness reads in drives and health; deaths as public records; estates with wills, intestacy and the taxes in force; the Waterford, California standing-obligation crash                                                                                                                                                                 |
 | GOV elections                              | gov/*          | candidates from the whole state at every level; counted voters that split; each place deciding its own votes; primaries that count; special elections outside the town; succession; no-candidate seats; dead candidates off the ballot; reporters barred from office; territory and district data (zero-seat legislatures, Idaho, Maryland, Oklahoma); taking office by the law of the place; debates on the right outlet |
 | GOV wiring                                 | gov/*          | one national Congress on its calendar; vetoes, failures and roll calls as records; the federal budget rule; measure numbering per body; recalls on the right body; the two "none" laws and the flat $15 floor; estate and inheritance tax law series; bill sections composed from the record with editable terms                                                                                                          |
-| WORLD                                      | world/*        | business names; foreclosure for owners; the remaining replacement proof                                                                                                                                                                                                                                                                                                                                                   |
-| Words                                      | words/*        | batch 9 and onward with the guard reading grades; the journal as a memoir with procedural revisions; the director's scenes (first priority, owner, Oct 14)                                                                                                                                                                                                                                                                |
+| WORLD                                      | world/*        | business names; foreclosure for owners; the remaining replacement proof; the player is offered jobs, never hired by the engine                                                                                                                                                                                                                                                                                             |
+| Words                                      | words/*        | the director's scenes and conversations per the Oct 14 night rulings (first priority); the opening's context; batch 11 after the director package                                                                                                                                                                                                                                                                          |
 | OFFICE-LOCAL, OFFICE-STATE, OFFICE-FEDERAL | office/*       | the officeholder's day at each level on one office-day engine (`docs/packages/office-play.md`)                                                                                                                                                                                                                                                                                                                            |
-| PLAY desktop                               | play/*         | Kit 13 reconciliation; dev-mode why panels                                                                                                                                                                                                                                                                                                                                                                                |
+| PLAY desktop                               | play/*         | the screens to the owner's mockups (above); the seat-slot renderer when the figures land                                                                                                                                                                                                                                                                                                                                  |
+| Cleanup                                    | release/*      | the release gate and the unit suite that follows what the game does now                                                                                                                                                                                                                                                                                                                                                  |
 | Fixer                                      | fix/*          | bugs the CTO assigns, one per PR                                                                                                                                                                                                                                                                                                                                                                                          |
 | Law-link merger                            | codex/law-link | merging main into #4116 until it holds                                                                                                                                                                                                                                                                                                                                                                                    |
 
-The desktop package (the app plays in-process, releases publish installers, Check for Updates installs on the Mac) is the CTO's own agent's PR; Windows may stay red until early access (owner, Oct 14).
+The desktop package is the game client alone (owner, Oct 14, night); the release packages it for the Mac and publishes to GitHub Releases, which the app's Check for updates reads; Windows may stay red until early access.
 
 ## Packages in force
 
@@ -24,7 +45,7 @@ The desktop package (the app plays in-process, releases publish installers, Chec
 
 ## Merge order
 
-Green and mergeable merges in the order it lands; a PR red only because main drew a failing place waits for the fix on main, then merges main and pushes. Nobody merges their own PR.
+A PR merges on its builder's changed-file gate line at the top of the PR body (owner, Oct 14, evening); GitHub's runs are not waited on. A screen merges on the owner's yes to its screenshot. Nobody merges their own PR.
 
 ## Open requests between sessions
 

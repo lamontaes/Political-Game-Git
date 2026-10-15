@@ -1,7 +1,7 @@
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
-} from "../invented-person-age";
+} from "../../core2/gov-rules/invented-person-age";
 import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,

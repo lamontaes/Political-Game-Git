@@ -144,6 +144,10 @@ async function launch() {
   // backdrop has a picture, the build version in the corner, and no place field on the front.
   const titleScreen = await page.evaluate(async () => {
     const backdrop = document.getElementById("backdrop");
+    // The title's scene is chosen by the play server, so its picture arrives
+    // a moment after the menu does: wait for it before judging it.
+    for (let i = 0; i < 100 && !backdrop.getAttribute("src"); i++)
+      await new Promise((resolve) => setTimeout(resolve, 100));
     if (backdrop.getAttribute("src") && !backdrop.complete)
       await new Promise((resolve) => {
         backdrop.onload = backdrop.onerror = resolve;

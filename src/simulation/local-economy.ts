@@ -15,7 +15,7 @@ import {
   inventedPersonAge,
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "./invented-person-age";
+} from "../core2/gov-rules/invented-person-age";
 import { makeIsoDate } from "../core2/kernel/dates";
 import {
   createCharacterHistoryContextPeople,

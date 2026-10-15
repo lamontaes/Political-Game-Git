@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import { crisisRecords } from "../crisis/records";
 import { crisisOfficeContinuityNotices } from "../crisis/notices";
 import { applyCongressTurnover } from "../living-world/congress-turnover";
