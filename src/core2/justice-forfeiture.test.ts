@@ -118,10 +118,18 @@ it("forfeits the bribe money a convicted official took, to the treasury, before 
         );
       }
     }
-    // A convicted taker's forfeiture is the whole of what they took in the
-    // case, and the fine is collected only from what is left.
-    const paying = forfeits.find((s) => s.forfeiturePaidMinor > 0)!;
-    expect(paying.forfeiturePaidMinor, where).toBe(paying.forfeitureMinor);
+    // The forfeiture comes first: a fine is collected only from cash left
+    // after the whole forfeiture, and a forfeiture is paid as far as the
+    // official still holds the money.
+    for (const sentence of sentences)
+      if (sentence.finePaidMinor > 0)
+        expect(sentence.forfeiturePaidMinor, `${where} ${sentence.id}`).toBe(
+          sentence.forfeitureMinor,
+        );
+    expect(
+      forfeits.some((s) => s.forfeiturePaidMinor > 0),
+      where,
+    ).toBe(true);
     expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
       core.cashJournal.totals.grossCreditMinor,
     );
