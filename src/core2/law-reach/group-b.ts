@@ -51,6 +51,7 @@ import {
   modeledShare,
   moveBudget,
   payBenefits,
+  payVouchers,
   raiseToSalaryFloor,
   residentsOf,
   scalePayroll,
@@ -60,6 +61,7 @@ import {
 type Mechanic =
   | "records"
   | "assistance-time-limit"
+  | "school-voucher"
   | "farm-output"
   | "property-assessment"
   | "price-payment"
@@ -459,6 +461,32 @@ function runPolicy(
         if (row.id === "budget-line:welfareAndMedicaid")
           runBudgetLine(api, "welfareAndMedicaid", row.lawId);
       return;
+    case "school-voucher": {
+      // The state treasury pays its share of the tuition the town's
+      // households pay the private school; the records are the households paid.
+      const paid = payVouchers(api, { key, inForce });
+      const heads = facts.residents.filter(
+        (r) => r.named && paid.named.has(r.id),
+      );
+      finish(
+        api,
+        key,
+        def,
+        input,
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: heads,
+              counted: paid.counted,
+              countedOf: paid.counted,
+            })
+          : null,
+      );
+      return;
+    }
     case "farm-output":
       return; // The business engine reads the law when setting production limits.
     case "property-assessment":
