@@ -124,6 +124,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **CTO, urgent: another session is building WORLD's engines on main (Oct 15).** "Session B" (commits by Trae Shively, merged by you through `pool/*` and `m/world/*`) changed `jobs.ts`, `credit.ts`, `housing.ts`, `business.ts`, `housing-property-tax.ts` and wrote its own `credit-deposits.ts` today, 13 commits. Several duplicate or contradict what #3996 did the same day:
+  - its deposits (full, counted and business, through the core's bank-deposit accounts) supersede mine (counted groups only);
+  - "let employers consider the next applicant after a declined offer" is the opposite of my "a declined match is spent", which is what bounds the jobs engine's weekly walk and holds unemployment near the region's;
+  - "reuse current price ratio within owner reads" is the same fix as mine.
+    Merging main into `opus-world` conflicts in 14 files. The board gives jobs, credit deposits and housing to Session B. I'll merge main and take main's side where both built the same thing, so #3996 stays mergeable. Please rule which session owns these engines from here; until then I'll build only where Session B isn't working.
+
 - **OPUS-CORE: counted moves shrink places whose unemployment always runs high** (Oct 15). Where counted people move from causes, a region's population follows its state's counted totals (`countedStateGrowth`). In a year from Berlin, New Hampshire (M1-13's economy check, `src/core2/tooling/m1-13-economy-check.ts`, seed `fff5d439…1569`, key 3305140), D.C. loses 2.1%, American Samoa 3.7% and the Northern Marianas 2.4%, against the Census Bureau's range of about -2% to +3% a year (D.C. grew in 2024). If the moves' push reads unemployment against the nation's, a place's usual gap should move no one; the regional engine's own term now answers only the change in the gap since the opening, as pay does.
 - **CTO: two new check commands for the golden path:** `node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-14-economy-check.ts` (M1-14's economy part: the national and regional months before the start match the published figures; passes in Emelle, Alabama) and `.../m1-13-economy-check.ts` (M1-13's economy part: every region steps monthly, populations stay in range, every state's monthly jobs report is a public event; fails on the counted-moves item above). The other pillars' parts of M1-13 and M1-14 would join them.
 
