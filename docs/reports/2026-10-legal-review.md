@@ -433,7 +433,7 @@ The art owner should reconcile every deployed file to its generator and referenc
 
 The release owner should compare the final depot, generated characters, and marketing against refreshed official rosters and this rights register. Remove real officeholder identity fields from the shipped projection in a separately authorized implementation task. Complete the Steam survey and deliver the executed agreements and actual build to the attorney. Attorney review precedes release even where a row below says routine remediation can be done without counsel.
 
-The original 4,250-row citation register is preserved at the [reviewed commit](https://github.com/lamontaes/Political-Game-Git/blob/3ea466ae8e0c69d2b41b21bb1f352a4fe1e63185/docs/reports/2026-10-legal-review.md#individual-citation-register-and-remaining-clearance-status). This carried-forward review links that historical appendix instead of duplicating it.
+The original 4,250-row citation register is preserved at the [reviewed commit](https://github.com/lamontaes/Political-Game-Git/blob/3ea466ae8e0c69d2b41b21bb1f352a4fe1e63185/docs/reports/2026-10-legal-review.md#L434). This carried-forward review links that historical appendix instead of duplicating it.
 
 ## Method, validation, and cost
 
