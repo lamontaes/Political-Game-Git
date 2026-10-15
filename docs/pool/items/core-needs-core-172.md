@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in core.md (line 172): 30 lines"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-needs-core-172
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/core.md "Needs from other sessions" (line 172)'
+claimed-at: 2026-10-15T22:45:41.593Z
 ---
 
 **What.** This list holds 30 requests one session made of another about the core. The asking sessions are gone, so each is a wiring job for whoever claims it. Many are already built: verify each line against main first, mark what is done, and split any large line into its own pool item with its own done-when (an L item is split before building). The lines that matter most to play are the bench opening skipping five core opening steps, one counted-population engine instead of two, the people never caring for family in the time-use check, and the stand-in figures flagged for the owner.
