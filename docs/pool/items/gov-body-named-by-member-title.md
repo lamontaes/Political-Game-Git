@@ -6,7 +6,7 @@ kind: bug
 priority: 1
 status: in-pr
 claimed-by: pool/gov-body-named-by-member-title
-pr:
+pr: "#4422"
 blocked-on:
 milestone:
 source: "batch 11 defects; overnight Session C item 2"
