@@ -331,6 +331,9 @@ export function foldCalibration(
       if (!isBenchGrade(row)) continue;
       const where = `${id} item ${row.i ?? row.n}`;
       const item = batch?.items.find((entry) => entry.i === (row.i ?? row.n));
+      // A grade of the whole scene (line 0) names no piece: it is kept in
+      // the grade file for the page and moves no piece or trait weight.
+      if (row.line === 0) continue;
       const line = item?.lines?.find((entry) => entry.n === row.line);
       if (!line) throw new Error(`${where}: no line ${row.line} in the item`);
       any = true;
