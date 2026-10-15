@@ -57,6 +57,7 @@ import {
 
 type Mechanic =
   | "records"
+  | "property-assessment"
   | "price-payment"
   | "housing-construction"
   | "transit-fares"
@@ -417,6 +418,8 @@ function runPolicy(
       });
       return;
     }
+    case "property-assessment":
+      return; // The housing assessment reads the cap through budgets when billing.
     case "records":
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");

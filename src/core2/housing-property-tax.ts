@@ -12,7 +12,7 @@
  * living cost already sent owners' taxes.
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
-import { residentsRuntime } from "./modules/residents";
+import { countedPayment } from "./counted-money";
 import type { ModuleTable } from "./module-state";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
@@ -23,6 +23,7 @@ export interface PropertyTaxTerms {
   readonly rate: number;
   /** The most assessed value may rise in a year, as a share; none when uncapped. */
   readonly assessmentCapShare?: number;
+  readonly assessmentLawRowId?: string;
   /** Who's paid; the place's outside account when not given. */
   readonly payeeId?: string;
   /** The law row the rate comes from; named on any arrears it leaves. */
@@ -101,7 +102,6 @@ export function billPropertyTax(
     months = api.parameter("macroMonthsPerYear");
   // Monthly, as escrow pays it; a county's own due dates (once or twice a year) come with its law.
   stopgap("SG-WORLD-property-tax-monthly");
-  const pooled = new Map<string, number>();
   const owedRow = (id: string) =>
     arrears.get(ARREARS_PREFIX + id) as unknown as
       PropertyTaxArrearsRow | undefined;
@@ -159,6 +159,10 @@ export function billPropertyTax(
         householdId: home.householdId,
         assessedMinor: assessed,
         year,
+        marketValueMinor: home.valueMinor,
+        previousAssessedMinor: last?.assessedMinor ?? null,
+        capLawId: t.assessmentLawRowId ?? null,
+        savedAssessmentMinor: Math.max(0, home.valueMinor - assessed),
       });
     // Last months' unpaid tax is added to this month's bill and paid first.
     const owed = owedRow(home.householdId)?.amountMinor ?? 0;
@@ -178,7 +182,7 @@ export function billPropertyTax(
         if (paid >= bill) break;
         paid += transferCash(
           api,
-          `property-tax:${home.householdId}:${c.date}:${personId}`,
+          `property-tax:${home.householdId}:${c.date}:${personId}:${t.lawRowId ?? STATE_AVERAGE_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
           personId,
           to,
           bill - paid,
@@ -188,33 +192,18 @@ export function billPropertyTax(
       total += paid;
       keepArrears(home.householdId, home, t, bill - paid);
     } else {
-      pooled.set(home.placeId, (pooled.get(home.placeId) ?? 0) + bill);
+      const paid = countedPayment(api, {
+        id: `property-tax:${home.householdId}:${c.date}:${t.lawRowId ?? STATE_AVERAGE_LAW}:${t.assessmentLawRowId ?? "uncapped"}`,
+        placeId: home.placeId,
+        householdId: home.householdId,
+        otherOwnerId: to,
+        amountMinor: bill,
+        reasonKey: "property-tax",
+        source: t.source,
+      });
+      total += paid;
+      keepArrears(home.householdId, home, t, bill - paid);
     }
-  }
-  // The wider population's cash is pooled by place: its owners' taxes are paid from the pool.
-  for (const [placeId, billed] of pooled) {
-    const bill = billed + (owedRow(`counted:${placeId}`)?.amountMinor ?? 0);
-    const account = residentsRuntime(c)?.input.accounts.find(
-      (row) => row.placeId === placeId,
-    )?.accountId;
-    const t = termsFor(placeId),
-      to = payee(placeId, t);
-    if (!account || !to) continue;
-    const paid = transferCash(
-      api,
-      `property-tax:counted:${placeId}:${c.date}`,
-      account,
-      to,
-      bill,
-      t.source,
-    );
-    total += paid;
-    keepArrears(
-      `counted:${placeId}`,
-      { householdId: `counted:${placeId}`, placeId },
-      t,
-      bill - paid,
-    );
   }
   return total;
 }

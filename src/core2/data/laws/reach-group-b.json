@@ -170,7 +170,7 @@
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025"
     },
     "us-policy-positions:fiscal.cap-property-tax-growth": {
-      "mechanic": "records",
+      "mechanic": "property-assessment",
       "effect": "property-tax-growth-capped",
       "kind": "right",
       "people": {

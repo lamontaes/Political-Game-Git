@@ -1685,14 +1685,14 @@
   },
   {
     "id": "SG-GOV-REACH-B-property-tax-bills",
-    "kind": "missing-engine",
+    "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 184,
-    "whatItFakes": "A property-tax growth cap is a right record (cap share) on household heads; no property tax bill exists to cap.",
-    "why": "Households pay no property tax in the core; the budgets module records property tax only as a revenue line.",
+    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law still uses a generic estimated assessment cap rather than statutory levy-versus-assessment scope, exemptions or ownership-reset terms.",
+    "why": "Session A wires the existing property-tax engine. The catalog has no numeric statutory cap or exemption terms, and the world has no delivered tax notice linking the assessment to an informed stance and director line.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing engine: property tax bills on owners (assessed value times the rate in force) with an assessment-growth cap read from the law in force.",
+    "replacement": "Record each cap statute's size, scope, exemptions and ownership-reset terms; apply them at assessment and prove the bill, received notice, informed stance and director line for a named owner.",
     "status": "open"
   },
   {
