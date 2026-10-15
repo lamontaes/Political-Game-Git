@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: claude/core-census-weight-readers
-pr: "#PENDING"
+pr: "#4456"
 blocked-on:
 milestone:
 source: "split of core-town-size-census (L); left over from core-census-weight-model"
