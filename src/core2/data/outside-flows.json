@@ -128,6 +128,12 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "treasury-tax",
+      "matchedBy": "tax-payment",
+      "what": "A tax with named payers (corporate income, customs, excise, estate and gift, selective sales, vehicle and other) paid to a treasury by its group of payers on the due date, one transfer per line and installment (taxPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "federal-borrowing",
       "matchedBy": "plug",
       "stopgapId": "SG-GOV-outside-revenue-monthly",

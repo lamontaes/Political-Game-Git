@@ -11,6 +11,7 @@
  * short. Social Security paid in town follows the federal line.
  */
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
+import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, Source } from "./types";
 import type { ModuleRow } from "./module-data";
 import {
@@ -40,6 +41,17 @@ const DATA = spendingData as unknown as {
       { classifications: string[]; purchasedShare: Tagged }
     >;
   };
+};
+
+const PAYERS = payerData as unknown as {
+  lines: Record<
+    string,
+    {
+      payer: { id: string; name: string };
+      dueMonths: number[];
+      dueDay: number;
+    }
+  >;
 };
 
 export function treasuryParameter(key: string): number {
@@ -277,6 +289,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     let annual = 0;
     for (const [line, amount] of Object.entries(budget.revenueMinor)) {
       if (aided.has(`${gov.level}|${line}`)) continue;
+      // A tax with named payers is paid by them on its due dates, below.
+      if (PAYERS.lines[line]) continue;
       annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
     }
     const monthly = Math.round(annual / months);
@@ -296,6 +310,40 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       date,
       amountMinor: receipt.paidMinor,
     } as unknown as ModuleRow);
+  }
+  // The taxes with named payers: each installment due last month is paid by
+  // its group of payers, the due date recorded.
+  const lastMonth = new Date(
+    Date.UTC(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 2, 1),
+  )
+    .toISOString()
+    .slice(0, 7);
+  const dueMonth = Number(lastMonth.slice(5, 7));
+  for (const gov of govs) {
+    const budget = budgets.get(gov.id);
+    if (!budget) continue;
+    for (const [line, rule] of Object.entries(PAYERS.lines)) {
+      const annual = budget.revenueMinor[line] ?? 0;
+      if (annual <= 0 || !rule.dueMonths.includes(dueMonth)) continue;
+      const receipt = accounts.transfer({
+        id: `treasury-tax:${line}:${rule.payer.id}:${gov.id}:${date}`,
+        from: accounts.main(outside),
+        to: accounts.main(gov.organizationId),
+        amountMinor: Math.round(annual / rule.dueMonths.length),
+        reasonKey: "treasury-tax",
+        source,
+      });
+      table(api, "taxPayments").put({
+        id: receipt.id,
+        governmentId: gov.id,
+        line,
+        payerId: rule.payer.id,
+        payerName: rule.payer.name,
+        dueOn: `${lastMonth}-${String(rule.dueDay).padStart(2, "0")}`,
+        date,
+        amountMinor: receipt.paidMinor,
+      } as unknown as ModuleRow);
+    }
   }
   const providers = providersIndex(api);
   const aidReceived = new Map<string, number>();
