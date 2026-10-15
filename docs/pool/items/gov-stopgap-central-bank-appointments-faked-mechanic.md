@@ -4,9 +4,9 @@ title: "Stopgaps in central-bank-appointments (faked-mechanic): 1 open"
 area: gov
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-board-appointer
-pr:
+pr: #4510
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/central-bank-appointments.ts, kind faked-mechanic"

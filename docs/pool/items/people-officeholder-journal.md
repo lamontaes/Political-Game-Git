@@ -4,9 +4,9 @@ title: "The officeholder's journal: taking office, a vote, an interview, a town 
 area: director
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/people-officeholder-journal
-pr:
+pr: #4511
 blocked-on: "words-and-director journal data"
 milestone:
 source: "overnight pool item 4; reissue closed note"
