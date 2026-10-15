@@ -1685,8 +1685,7 @@ function runWeek(api: CoreAPI): void {
   ).filter(
     // A closed business's openings went with it.
     (row) =>
-      !row.offeredTo &&
-      !c.finance.businesses.get(row.organizationId)?.closedAt,
+      !row.offeredTo && !c.finance.businesses.get(row.organizationId)?.closedAt,
   );
   if (!positions.length) return;
   const inPlace = new Map<string, PositionRow[]>();
