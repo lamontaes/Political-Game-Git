@@ -4,13 +4,12 @@ title: "The narrator sets the scene in a few sentences"
 area: director
 kind: feature
 priority: 1
-status: claimed
-claimed-by: claude/director-narrator-sets-scene
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
-claimed-at: 2026-10-15T21:40:19.847Z
 ---
 
 **What.** Open each scene with a short narrator paragraph, then let the characters play it out.
@@ -20,3 +19,5 @@ claimed-at: 2026-10-15T21:40:19.847Z
 **Done when.** The next batch shows narrator paragraphs opening scenes in a drawn place.
 
 **Files.** src/director/_, data/english/parts/_
+
+Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.
