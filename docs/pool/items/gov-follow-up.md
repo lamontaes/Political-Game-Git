@@ -4,8 +4,8 @@ title: "Follow-up:"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-follow-up
 pr:
 blocked-on:
 milestone:
