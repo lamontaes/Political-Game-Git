@@ -263,12 +263,12 @@ function showNewsSurface(news) {
   $("news-surface-label").textContent = controls.opening?.news ?? "";
   $("news-surface-headline").textContent =
     story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
-  $("news-surface").onclick = () => openNewsReader(news);
-  show("news-surface", true);
+  $("news-surface").onclick = () => {
+    coachUsed("news-surface");
+    openNewsReader(news);
+  };
   // The paper stays on the table for the evening; living on clears it.
-  $("day").addEventListener("click", () => show("news-surface", false), {
-    once: true,
-  });
+  show("news-surface", true);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -305,28 +305,28 @@ $("news-reader-close").addEventListener("click", () =>
  * The first choices, pointed out one at a time: the news, the people you
  * know, then living the day. Each glows until it is used; nothing to read.
  */
+const COACH_ORDER = ["news-surface", "people-tab", "day"];
+const coachDone = new Set();
+const coachNode = (id) =>
+  id === "people-tab"
+    ? document.querySelector('#rings [data-tab="people"]')
+    : $(id);
+/** Glows the first choice not yet used; each clears however it is used. */
+function coachRender() {
+  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
+  const next = COACH_ORDER.find((id) => {
+    const node = coachNode(id);
+    return !coachDone.has(id) && node && !node.hidden;
+  });
+  if (next) coachNode(next).classList.add("coach");
+}
+function coachUsed(...ids) {
+  for (const id of ids) coachDone.add(id);
+  coachRender();
+}
 function coachFirstChoices() {
-  const steps = ["news-surface", "people-tab", "day"]
-    .map((id) =>
-      id === "people-tab"
-        ? document.querySelector('#rings [data-tab="people"]')
-        : $(id),
-    )
-    .filter((node) => node && !node.hidden);
-  const next = () => {
-    const node = steps.shift();
-    if (!node) return;
-    node.classList.add("coach");
-    node.addEventListener(
-      "click",
-      () => {
-        node.classList.remove("coach");
-        next();
-      },
-      { once: true },
-    );
-  };
-  next();
+  coachDone.clear();
+  coachRender();
 }
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
@@ -436,14 +436,32 @@ function termLabel(text) {
 }
 
 let controls = {};
+/** A slug or camelCase key as words: "snap-maximum" and "snapMaximum" read "Snap maximum". */
+const words = (key) => {
+  const text = String(key ?? "")
+    .split(":")
+    .pop()
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .toLowerCase();
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+};
+/** A title that is a bare slug reads as words; a name or a sentence stays as it is. */
+const slugWords = (text) =>
+  /^[a-z][a-z0-9-]*$/.test(text) ? words(text) : text;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
-const amount = (value, unit) =>
-  unit?.startsWith("minor")
-    ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
-    : `${value ?? ""}${unit ? ` ${unit}` : ""}`;
-/** A policy question by its name on the bill catalog, else its key's last part. */
+// A percent reads with its sign, any other unit in words.
+const amount = (value, unit) => {
+  if (unit?.startsWith("minor"))
+    return `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+  if (unit?.startsWith("percent"))
+    return `${value}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
+  if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
+  return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
+};
+/** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
-  controls.policyNames?.[question] ?? question.split(":").pop();
+  controls.policyNames?.[question] ?? words(question);
 api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
@@ -497,10 +515,9 @@ async function refresh() {
     return;
   }
   // A law that took effect: what changed in town.
-  if (newChanges(await changeCount())) {
-    await openSheet("changes");
-    return;
-  }
+  // A short notice on the card, not a screen taken over mid-play.
+  if (newChanges(await changeCount()))
+    $("card-why").textContent = controls.endedBy?.law ?? "";
   if (openTab) await openSheet(openTab);
 }
 
@@ -768,7 +785,12 @@ function atThePolls(scene) {
   });
 }
 // The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
-$("day").addEventListener("click", () => act("/api/advance?mode=day"));
+$("day").addEventListener("click", () => {
+  // Living on puts the evening's paper away and ends the first-choice glow.
+  show("news-surface", false);
+  coachUsed(...COACH_ORDER);
+  return act("/api/advance?mode=day");
+});
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -1347,125 +1369,33 @@ async function seatRows() {
 const kindName = (kind) =>
   `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
 
-/** The people you know, one line each (a person with two ties shows once, at the closer). */
-function knownPeople() {
-  const byPerson = new Map();
-  for (const tie of me.card.ties)
-    if (
-      !byPerson.has(tie.personId) ||
-      tie.level > byPerson.get(tie.personId).level
-    )
-      byPerson.set(tie.personId, tie);
-  return [...byPerson.values()].sort((a, b) => b.level - a.level);
-}
-
 // ---- Menus ----
 const sheets = {
-  // The relationship web: you at the center, the people you know around you,
-  // nearer for closer, each line a recorded tie. Choosing one opens their card.
-  async web() {
-    const ns = "http://www.w3.org/2000/svg";
-    const ties = knownPeople();
-    const svg = document.createElementNS(ns, "svg");
-    svg.setAttribute("viewBox", "0 0 800 520");
-    svg.setAttribute("class", "web");
-    const add = (tag, attrs, text) => {
-      const node = document.createElementNS(ns, tag);
-      for (const [key, value] of Object.entries(attrs))
-        node.setAttribute(key, value);
-      if (text !== undefined) node.textContent = text;
-      svg.append(node);
-      return node;
-    };
-    const cx = 400;
-    const cy = 260;
-    ties.forEach((tie, index) => {
-      const angle =
-        (index / Math.max(ties.length, 1)) * Math.PI * 2 - Math.PI / 2;
-      const reach = 95 + (1 - Math.min(Math.max(tie.level, 0), 1)) * 120;
-      const x = cx + Math.cos(angle) * reach * 1.55;
-      const y = cy + Math.sin(angle) * reach;
-      add("line", {
-        x1: cx,
-        y1: cy,
-        x2: x,
-        y2: y,
-        class: "web-edge",
-        "stroke-width": 1 + Math.min(Math.max(tie.level, 0), 1) * 4,
-      });
-      const node = add("g", { class: "web-node", tabindex: 0, role: "button" });
-      const dot = document.createElementNS(ns, "circle");
-      for (const [key, value] of Object.entries({ cx: x, cy: y, r: 9 }))
-        dot.setAttribute(key, value);
-      const label = document.createElementNS(ns, "text");
-      for (const [key, value] of Object.entries({
-        x,
-        y: y + 24,
-        "text-anchor": "middle",
-      }))
-        label.setAttribute(key, value);
-      label.textContent = tie.name;
-      const relation = document.createElementNS(ns, "text");
-      for (const [key, value] of Object.entries({
-        x,
-        y: y + 38,
-        "text-anchor": "middle",
-        class: "web-relation",
-      }))
-        relation.setAttribute(key, value);
-      relation.textContent = tie.relation ?? "";
-      node.append(dot, label, relation);
-      const open = () => {
-        closeSheet();
-        showPerson({ personId: tie.personId });
-      };
-      node.addEventListener("click", open);
-      node.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") open();
-      });
-    });
-    add("circle", { cx, cy, r: 14, class: "web-you" });
-    add(
-      "text",
-      { x: cx, y: cy + 34, "text-anchor": "middle", class: "web-you-name" },
-      me.card.name,
-    );
-    return [el("div", { className: "web-wrap" }, svg)];
-  },
-  // The same people as a searchable list, with Talk for whoever is in the room.
-  async list() {
-    const here = new Set((me.scene?.people ?? []).map((p) => p.personId));
-    const search = el("input", {
-      type: "search",
-      className: "people-search",
-      placeholder: controls.search ?? "",
-    });
-    const lines = knownPeople().map((t) => {
-      const line = row(t.name, t.relation ?? "");
-      line.dataset.name = t.name.toLowerCase();
-      if (here.has(t.personId)) {
-        const b = el("button", {
-          type: "button",
-          textContent: controls.talk ?? "",
-        });
-        b.addEventListener("click", () => talkTo(t.personId));
-        line.append(b);
-      }
-      // How the tie last moved, in the engine's numbers: a developer view.
-      if (t.latestChange)
-        line.append(
-          el("span", {
-            className: "dev-only",
-            textContent: ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}`,
-          }),
+  async people() {
+    return [
+      ...(me.scene?.people ?? [])
+        .filter((p) => p.personId !== me.id)
+        .map((p) => {
+          const b = el("button", { type: "button", textContent: "Talk" });
+          b.addEventListener("click", () => talkTo(p.personId));
+          return el("div", { className: "row" }, termLabel(p.name), b);
+        }),
+      ...me.card.ties.map((t) => {
+        const line = row(
+          t.name,
+          `${t.relation ?? t.kind} · ${t.lastContactDate}`,
         );
-      return line;
-    });
-    search.addEventListener("input", () => {
-      const text = search.value.trim().toLowerCase();
-      for (const line of lines) line.hidden = !line.dataset.name.includes(text);
-    });
-    return [search, ...lines];
+        // How the tie last moved, in the engine's numbers: a developer view.
+        if (t.latestChange)
+          line.append(
+            el("span", {
+              className: "dev-only",
+              textContent: ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}`,
+            }),
+          );
+        return line;
+      }),
+    ];
   },
   async who() {
     const c = me.card;
@@ -1473,67 +1403,38 @@ const sheets = {
     const step = progress.steps.find(
       (row) => row.step === progress.furthestReachedStep,
     );
-    const words = controls.who ?? {};
     // The engine's raw measures, for the bench only.
     const dev = (line) => {
       line.classList.add("dev-only");
       return line;
     };
-    const born = new Date(`${c.birthDate}T12:00:00Z`).toLocaleDateString(
-      "en-US",
-      { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
-    );
-    // Work if there is a job, else the latest school on the record.
-    const school = c.schools?.at(-1);
-    const occupation = c.job
-      ? `${c.job.title}${c.job.employer ? `, ${c.job.employer}` : ""}`
-      : school?.name;
     return [
-      el(
-        "div",
-        { className: "character" },
-        me.portrait
-          ? el("img", {
-              className: "portrait",
-              src: `/api/portrait?id=${encodeURIComponent(me.id)}`,
-              alt: c.name,
-            })
-          : "",
-        el("b", { className: "name", textContent: c.name }),
-      ),
-      row(words.age ?? "", c.age),
-      row(words.born ?? "", born),
-      row(words.home ?? "", me.placeName),
-      ...(c.home?.members.length
-        ? [
-            row(
-              words.family ?? "",
-              c.home.members
-                .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
-                .join(", "),
-            ),
-          ]
-        : []),
-      ...(occupation
-        ? [row(c.job ? (words.work ?? "") : (words.school ?? ""), occupation)]
-        : []),
-      row(words.money ?? "", dollars(c.liquidMinor)),
       dev(row("Golden path", step ? `${step.step}. ${step.label}` : "—")),
+      row("Born", c.birthDate),
+      row(
+        "Home",
+        c.home?.members
+          .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
+          .join(", "),
+      ),
       dev(row("Mood", c.affect?.mood?.toFixed(2))),
       dev(row("Stress", c.affect?.stress?.toFixed(2))),
-      ...c.drives.map((d) =>
-        dev(row(d.kind, `${d.topic} · ${d.desiredChange}`)),
-      ),
+      ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
+      ...c.lawEffects
+        .filter((e) => !e.endedOn)
+        .map((e) =>
+          row(
+            policyLabel(e.question),
+            `${e.what} · ${e.enforcer} · ${e.since}`,
+          ),
+        ),
     ];
   },
   async money() {
     const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
-      ...(me.card.dwelling && me.card.age < 18
-        ? [row(controls.who?.householdHome ?? "", me.placeName)]
-        : []),
-      ...(me.card.dwelling && me.card.age >= 18
+      ...(me.card.dwelling
         ? [
             row(
               me.card.dwelling.tenure === "own" ? "Own" : "Rent",
@@ -1721,7 +1622,7 @@ const sheets = {
         "div",
         { className: "row race" },
         el("b", {
-          textContent: `${gov.name} · ${gov.level}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
+          textContent: `${gov.name} · ${controls.levels?.[gov.level] ?? words(gov.level)}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
         }),
       );
       if (!gov.latest) return box;
@@ -1732,11 +1633,13 @@ const sheets = {
       );
       for (const r of gov.latest.revenue.slice(0, 3))
         box.append(
-          el("div", { textContent: `+ ${r.line} · ${dollars(r.minor)}` }),
+          el("div", {
+            textContent: `+ ${words(r.line)} · ${dollars(r.minor)}`,
+          }),
         );
       for (const r of gov.latest.spending.slice(0, 6)) {
         const line = el("div", {
-          textContent: `− ${r.line} · ${dollars(r.minor)} `,
+          textContent: `− ${words(r.line)} · ${dollars(r.minor)} `,
         });
         if (gov.youAreExecutive)
           for (const [label, sign] of [
@@ -1804,7 +1707,10 @@ const sheets = {
         }
         const kinds = new Map();
         for (const item of byDate.get(iso) ?? [])
-          kinds.set(item.kind, [...(kinds.get(item.kind) ?? []), item.title]);
+          kinds.set(item.kind, [
+            ...(kinds.get(item.kind) ?? []),
+            slugWords(item.title),
+          ]);
         for (const [kind, names] of kinds)
           cell.append(
             el("span", {
@@ -1836,7 +1742,12 @@ const sheets = {
             "div",
             { className: "row" },
             el("b", { textContent: i.date }),
-            el("span", {}, termLabel(kindName(i.kind)), ` · ${i.title}`),
+            el(
+              "span",
+              {},
+              termLabel(kindName(i.kind)),
+              ` · ${slugWords(i.title)}`,
+            ),
           ),
         ),
     ];
@@ -1893,37 +1804,30 @@ const sheets = {
   },
   async law() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    // What the law in force puts on your own record.
-    const yours = me.card.lawEffects
-      .filter((e) => !e.endedOn)
-      .map((e) => row(policyLabel(e.question), `${e.what} · ${e.since}`));
-    return [
-      ...yours,
-      ...v.law.map((law) =>
+    return v.law.map((law) =>
+      el(
+        "div",
+        { className: "row narrative" },
+        termLabel(policyLabel(law.series)),
+        ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
         el(
           "div",
-          { className: "row narrative" },
-          termLabel(policyLabel(law.series)),
-          ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
-          el(
-            "div",
-            {},
-            ...law.levels
-              .filter((level) => level.row)
-              .map((level) =>
-                el("div", {
-                  textContent: `${level.level} · ${level.jurisdiction} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
-                }),
-              ),
-            ...law.pending.map((row) =>
+          {},
+          ...law.levels
+            .filter((level) => level.row)
+            .map((level) =>
               el("div", {
-                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+                textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
               }),
             ),
+          ...law.pending.map((row) =>
+            el("div", {
+              textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+            }),
           ),
         ),
       ),
-    ];
+    );
   },
   async changes() {
     const { ahead, took } = await api(
@@ -2002,6 +1906,42 @@ const sheets = {
       });
       rows.push(skip);
     }
+    // Which kinds of scene may stop your day (a record the director reads).
+    const filter = await api("/api/scene-filter").catch(() => null);
+    if (filter) {
+      const allowed = new Set(filter.allowed ?? filter.kinds);
+      const save = () =>
+        post(
+          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
+        );
+      rows.push(
+        el("p", {
+          className: "label",
+          textContent: controls.sceneFilter ?? "",
+        }),
+        el(
+          "div",
+          { className: "scene-filter" },
+          ...filter.kinds.map((kind) => {
+            const box = el("input", {
+              type: "checkbox",
+              checked: allowed.has(kind),
+            });
+            box.addEventListener("change", () => {
+              if (box.checked) allowed.add(kind);
+              else allowed.delete(kind);
+              save();
+            });
+            return el(
+              "label",
+              {},
+              box,
+              ` ${controls.sceneKinds?.[kind] ?? kind}`,
+            );
+          }),
+        ),
+      );
+    }
     rows.push(
       el("p", { className: "version", textContent: await displayVersion() }),
     );
@@ -2021,7 +1961,7 @@ const sheets = {
         { className: "row" },
         el("b", { textContent: p.name }),
         [
-          String(p.staff),
+          `${p.staff} ${controls.travel?.staff ?? ""}`.trim(),
           ...p.known.map((k) => k.name),
           ...p.actions.map((a) => controls.actions?.[a] ?? a),
         ].join(" · ") + " ",
@@ -2085,8 +2025,6 @@ const sheets = {
 };
 const titles = {
   people: "People",
-  web: "Web",
-  list: "List",
   who: "Who you are",
   money: "Money and property",
   jobs: "Jobs and study",
@@ -2106,15 +2044,14 @@ const titles = {
   news: "News",
 };
 // Screens shown as tabs across the top of one menu screen.
-// The tab a menu opens on, when it is not the menu's own name.
-const homeTab = { people: "web" };
 const groups = {
   politics: ["politics", "results", "law", "changes", "budgets", "map"],
-  people: ["web", "list", "family"],
+  people: ["people", "family"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
+  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
@@ -2153,7 +2090,7 @@ for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
       ? closeSheet()
-      : openSheet(homeTab[b.dataset.tab] ?? b.dataset.tab),
+      : openSheet(b.dataset.tab),
   );
 function closeSheet() {
   openTab = undefined;

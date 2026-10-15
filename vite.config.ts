@@ -18,8 +18,6 @@ import {
 const buildIdentity = resolveBuildIdentity(process.cwd());
 
 import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
-import { artDeskBridge } from "./scripts/dev-lab/art-desk-bridge";
-import { artbenchBridge } from "./scripts/dev-lab/artbench-bridge";
 import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 
 // The play page is the game's only page, so it ships as the client's root
@@ -54,8 +52,6 @@ export default defineConfig({
     react(),
     sites(),
     identifiedBuild(),
-    artDeskBridge(process.cwd()),
-    artbenchBridge({ workspace: process.cwd() }),
   ],
   define: buildIdentityDefines(buildIdentity),
   // This repository has thousands of source modules and several HTML entry

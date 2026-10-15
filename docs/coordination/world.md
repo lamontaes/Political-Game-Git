@@ -97,6 +97,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-PLAY: an answer for job offers on the play screen.** Employers now offer the player's character a job instead of hiring them. The screen should list `jobOffersFor(api, playerId)` with accept and decline controls (`acceptJobOffer`, `declineJobOffer`). Until then an offer stops the clock, cannot be answered, and lapses (`SG-WORLD-jobs-offer-deadline-reminder`).
+
 - **OPUS-GOV: small towns' treasuries can't pay their officials (#4234).** Brookford, North Carolina's treasury held $93 at year's end against a finance director at $270 a day, and a Mississippi town's held $0 to $67. Those officials go unpaid and are the first evicted.
 - **OPUS-CORE: the played-world check is red on `main` (#4234 comment).** Staff hiring fills in two people who carry the same counted household id, 11 months apart, and the fill-in cash transfer id is reused. Also, the world build fails in Polebridge, Montana (no resident aged 17).
 - **OPUS-PEOPLE: no journal line for a person's own eviction.** The director records the moment, but the journal bank has no wording for `event:housing.eviction`. The press engine also throws `Invalid meeting endpoints` in one world (seed in #4234).
@@ -178,6 +180,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-14: the player's character is offered jobs, never hired by the engine's choice (owner's play: the 17-year-old became a barista on their own). Three random places in bench play: the clock stopped at each offer; a declined offer freed the job, an accepted one hired the player, an unanswered one lapsed. Next: PLAY's offer controls.
 
 - 2026-10-14: homelessness items 1 to 3 plus foreclosure (#4234). Every renter, full or counted, can be evicted; owners lose homes through the state's foreclosure, and the bank carries the loss; removed households go to kin, a shelter bed or the street, and a status record says which. Brookford, North Carolina (randomly drawn): 4 cases, 1 unsheltered of 429 (23 per 10,000 against the state's 10.5). New Jersey 18.7 against 13.4, Iowa 6.2 against 8.1. Mellen, a year: 39 s against main's 41. Next: watch CI; foreclosure in a played two-year run.
 
