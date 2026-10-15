@@ -776,6 +776,11 @@ export function subjectsBetween(
         },
       },
     });
+  // Between relatives, a talk is personal only (owner, Oct 15, evening).
+  if (speaker.familyIds.has(listenerId))
+    return out.filter(
+      (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
+    );
   return out;
 }
 
