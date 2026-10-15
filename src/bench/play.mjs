@@ -478,7 +478,7 @@ const amount = (value, unit) => {
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
-api("/api/controls").then((value) => (controls = value));
+const controlsReady = api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
   packet = value ?? packet;
@@ -1949,61 +1949,73 @@ const sheets = {
     return [search, list];
   },
   async options() {
-    const rows = [];
+    await controlsReady;
+    const labels = controls.options;
+    const rows = [
+      el(
+        "div",
+        { className: "option-setting" },
+        el("span", { textContent: labels.version }),
+        el("span", { textContent: await displayVersion() }),
+      ),
+    ];
+    if (document.fullscreenEnabled) {
+      const fullScreen = el("input", {
+        type: "checkbox",
+        checked: Boolean(document.fullscreenElement),
+      });
+      fullScreen.dataset.testid = "options-fullscreen";
+      const status = el("p", { role: "status", className: "option-status" });
+      fullScreen.addEventListener("change", async () => {
+        fullScreen.disabled = true;
+        status.textContent = "";
+        try {
+          if (fullScreen.checked)
+            await document.documentElement.requestFullscreen();
+          else await document.exitFullscreen();
+        } catch {
+          status.textContent = labels.fullScreenUnavailable;
+        } finally {
+          fullScreen.checked = Boolean(document.fullscreenElement);
+          fullScreen.disabled = false;
+        }
+      });
+      rows.push(
+        el(
+          "label",
+          { className: "option-setting" },
+          el("span", { textContent: labels.fullScreen }),
+          fullScreen,
+        ),
+        status,
+      );
+    }
+    const actions = el("div", { className: "acts options-actions" });
+    const resume = el("button", {
+      type: "button",
+      textContent: labels.continue,
+    });
+    resume.addEventListener("click", closeSheet);
+    actions.append(resume);
     if (skipOpening) {
       const skip = el("button", {
         type: "button",
-        textContent: "Skip opening",
+        textContent: labels.skipOpening,
       });
       skip.addEventListener("click", () => {
         closeSheet();
         skipOpening?.();
       });
-      rows.push(skip);
+      actions.append(skip);
     }
-    // Which kinds of scene may stop your day (a record the director reads).
-    const filter = await api("/api/scene-filter").catch(() => null);
-    if (filter) {
-      const allowed = new Set(filter.allowed ?? filter.kinds);
-      const save = () =>
-        post(
-          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
-        );
-      rows.push(
-        el("p", {
-          className: "label",
-          textContent: controls.sceneFilter ?? "",
-        }),
-        el(
-          "div",
-          { className: "scene-filter" },
-          ...filter.kinds.map((kind) => {
-            const box = el("input", {
-              type: "checkbox",
-              checked: allowed.has(kind),
-            });
-            box.addEventListener("change", () => {
-              if (box.checked) allowed.add(kind);
-              else allowed.delete(kind);
-              save();
-            });
-            return el(
-              "label",
-              {},
-              box,
-              ` ${controls.sceneKinds?.[kind] ?? kind}`,
-            );
-          }),
-        ),
-      );
-    }
-    rows.push(
-      el("p", { className: "version", textContent: await displayVersion() }),
-    );
-    const quit = el("button", { type: "button", textContent: "Quit to title" });
+    const quit = el("button", {
+      type: "button",
+      textContent: labels.quitToTitle,
+    });
     quit.dataset.testid = "quit-to-title";
     quit.addEventListener("click", () => window.location.reload());
-    rows.push(quit);
+    actions.append(quit);
+    rows.push(actions);
     return rows;
   },
   async travel() {
@@ -2130,6 +2142,7 @@ async function openSheet(tab) {
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
+  $("sheet").classList.toggle("options-sheet", tab === "options");
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.toggle(
     "cols",
@@ -2157,6 +2170,10 @@ function closeSheet() {
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);
+document.addEventListener("fullscreenchange", () => {
+  const checkbox = document.querySelector('[data-testid="options-fullscreen"]');
+  if (checkbox) checkbox.checked = Boolean(document.fullscreenElement);
+});
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
@@ -2186,6 +2203,7 @@ $("front-continue").addEventListener("click", async () => {
     id: life.personId,
     placeName: life.placeName,
     date: life.date,
+    minuteOfDay: life.minuteOfDay,
     names: {},
     portrait: life.portrait,
   };
