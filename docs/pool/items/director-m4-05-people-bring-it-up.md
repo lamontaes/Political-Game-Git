@@ -4,6 +4,7 @@ title: "M4-05 People bring it up (step 10)"
 area: director
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

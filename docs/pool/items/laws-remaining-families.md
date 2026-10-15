@@ -4,6 +4,7 @@ title: "Wire the remaining law families to the engines that pay or decide"
 area: laws
 kind: wiring
 priority: 1
+size: L
 status: open
 claimed-by:
 pr:

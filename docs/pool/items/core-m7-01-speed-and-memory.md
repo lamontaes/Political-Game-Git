@@ -4,6 +4,7 @@ title: "M7-01 Speed and memory"
 area: core
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:
