@@ -177,3 +177,16 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 **Who you are is a character screen (owner, Oct 14, night).** Portrait, name, age, birthday, home and family, school or work, traits and views in words, money in one line, like any game's character screen. Law effects on the player belong under Politics, written as sentences, never as keys with "undefined".
 
 **Scenes carry the consequential dialogue; the day screen carries the dealing (owner, Oct 14, night, 9:25 p.m.).** A scene has a goal, is told as a narrative with the player's character, the narrator (already settled: second-person scene narration, first-person "My life" journal, grounded in records, register line 160) and the other people, and its dialogue is consequential: a family scene at home, or a tense floor vote where the goal is to convince one member to vote no on the amendment (the owner's example: McCain and the Obamacare repeal). The day screen is for dealing: "I'll do this if you do this", negotiating, talking with people, policy. The director fires a scene when the records make one apply; the scene plays the moment out, then play returns to the day screen.
+
+## Oct 15, morning: batches grade content, not only wording (owner)
+
+- **Situations, not just semantics.** A grading batch exists to put varied content in front of the owner: different situations, scenes and lines with their context, so he grades what the game can say and about what, not only whether a sentence is well formed. A batch of thirty scenes where the same two or three situations repeat (a job started, a daughter born, a roll call) is not what he asked for.
+- **Proof scenes are allowed.** A scene or line may be sent for grading before the director fires that situation in play, as long as the English engine composed it from a real record and its context in a played world ("okay, it can generate this line along with context"). The batch says which scenes fired in play and which are composed proofs of a situation the director does not yet fire.
+- **Feed the engine.** The Words session's job is also to give the engine pieces to work with: new situation types, occasions and banks, mined and registered the usual way, so each batch widens what the game can say. The Words session reads what the director does (`src/director/`) and builds on it or extends it; it does not wait for the director to fire a situation before the words for it exist.
+- The CTO holds a batch whose scenes are mostly repeats of the same few situations, the same way it holds one with record defects.
+
+## Oct 15, afternoon: usage (owner, repeated; now written)
+
+- Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind.
+- The CTO session answers the owner and prepares orders, rulings, skills and reports. It never merges, reads diffs, logs or test output, runs tests, creates PRs or holds PR subscriptions; a Sonnet helper does those and returns a table.
+- Recorded in `.agents/skills/cto/SKILL.md` under "Usage rules for the CTO session".

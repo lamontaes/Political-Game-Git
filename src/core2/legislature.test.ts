@@ -21,12 +21,13 @@ import {
   corruptionModule,
 } from "./modules/corruption";
 import { LAWS_MODULE_ID, lawInForce, openLaws } from "./modules/laws";
-import { openOffices, townSeats } from "./modules/offices";
+import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord, votesOf } from "./modules/record";
 import {
   budgetsOf,
+  departmentRequests,
   enactedBudgetChanges,
   governments,
   openBudgets,
@@ -472,6 +473,45 @@ describe(
         }),
       );
     }, 120_000); // a whole fiscal year of daily work in one town
+
+    it("a budget without an executive carries department lines without doubling funding", () => {
+      const { core, api, council } = town(
+        Object.keys(authority).sort(),
+        "department-budget",
+      );
+      openBudgets(core);
+      const city = governments(api).find((g) => g.level === "city")!;
+      expect(city).toBeDefined();
+      // Edge fixture: remove the executive office, leaving the elected council.
+      const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+      for (const office of offices.rows())
+        if (office.kind === "mayor") offices.remove(office.id);
+      const before = budgetsOf(api, city.id)[0]!;
+      const fy = before.fiscalYear + 1;
+      const requested = departmentRequests(api, city, fy);
+      advanceCore(core, `${fy}-${city.fiscalYearStart}`);
+      const bill = (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          kind?: string;
+          bodyOfficeId: string;
+          provisions: Provision[];
+        }[]
+      ).find(
+        (b) => b.kind === "budget" && b.bodyOfficeId === council[0]!.office.id,
+      )!;
+      expect(bill).toBeDefined();
+      expect(bill.provisions.length).toBeGreaterThan(0);
+      expect(
+        Object.fromEntries(bill.provisions.map((p) => [p.line, p.of])),
+      ).toEqual(requested);
+      expect(bill.provisions.every((p) => p.value === 0)).toBe(true);
+      expect(
+        budgetsOf(api, city.id).find((b) => b.fiscalYear === fy)?.spendingMinor,
+      ).toEqual(requested);
+    }, 120_000);
 
     it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
       const { api, council } = town(Object.keys(authority).sort(), "catalog");

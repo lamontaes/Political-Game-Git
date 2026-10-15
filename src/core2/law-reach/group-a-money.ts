@@ -282,7 +282,7 @@ export const housingAssistance: PolicyHandler = (api, change) => {
     (p) => chosen.has(p.householdId) && ageOn(p.birthDate, date) >= adult,
   );
   const keep = new Set(people.map((p) => p.id));
-  endRows(api, HOUSING_KEY, "assisted", keep, change.lawId);
+  endRows(api, HOUSING_KEY, "assisted", keep);
   writeRows(
     api,
     HOUSING_KEY,

@@ -8,6 +8,7 @@ import {
   OUTCOME_WEB_MODULE,
   OUTCOME_WEB_MODULE_ID,
   outcomeWebFactor,
+  placeOutcome,
   type WebMonth,
 } from "./modules/outcome-web";
 import {
@@ -148,6 +149,26 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
     expect(after.values["labor.unemployment-pct"]).toBeCloseTo(
       metrics.unemploymentRate * 100,
     );
+    const opening = api
+      .moduleState(OUTCOME_WEB_MODULE_ID)
+      .table("baselines")
+      .get(town) as unknown as {
+      values: Record<string, number>;
+    };
+    expect(after.bases["labor.unemployment-pct"]).toBe(
+      opening.values["labor.unemployment-pct"],
+    );
+    expect(before.bases["labor.unemployment-pct"]).toBe(
+      after.bases["labor.unemployment-pct"],
+    );
+    expect(after.engineSources["labor.unemployment-pct"]).toBe(
+      `metrics:${town}:${Y}-03-02`,
+    );
+    // The election consumer reads the same public accessor, including its
+    // opening base. Previously it received undefined and treated change as zero.
+    const current = placeOutcome(api, town, "labor.unemployment-pct")!;
+    expect(current.base).toBe(opening.values["labor.unemployment-pct"]);
+    expect(current.value - current.base!).not.toBe(0);
     const u0 = before.values["labor.unemployment-pct"]!,
       u1 = after.values["labor.unemployment-pct"]!;
     expect(u1).toBeGreaterThan(u0);
