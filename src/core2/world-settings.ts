@@ -1,16 +1,34 @@
-// Custom world (M6-04): the new-game settings, applied to the opening.
-//
-// Stopgap SG-PLAY-world-settings-copy: OPUS-CORE's generated world applies
-// these settings in functions it doesn't export (applyOpeningSettings and
-// scaleOutsideSales in src/core2/tooling/generated-world.ts); the bench runs
-// the same arithmetic here until they are exported.
-import type { WorldSettings } from "../core2/tooling/generated-world";
-import type { CoreInput } from "../core2/types";
+import type { CoreInput } from "./types";
 
-export type { WorldSettings };
+/** Population, past, civic records, the player's peers and circle, then the economy. */
+/**
+ * Custom-world settings (M6-04). A new game uses real data unless the player
+ * changes something; every setting is recorded on the world so engines and
+ * screens can show it as the player's choice, not as real data.
+ */
+export interface WorldSettings {
+  /** Residents generated (at least), default from targetPopulation. */
+  population?: number;
+  economy?: {
+    /** Multiplies outside buyers' demand for the town's firms. */
+    outsideDemand?: number;
+    /** Multiplies every household's opening cash. */
+    householdCash?: number;
+    /** Multiplies every job's pay. */
+    wages?: number;
+  };
+  /** Recorded for PEOPLE's views and GOV's elections to read. */
+  politics?: {
+    /** -1 (left) to +1 (right), added to residents' lean. */
+    leanShift?: number;
+    /** Multiplies turnout. */
+    turnout?: number;
+    /** Party name to a strength multiplier. */
+    partyStrength?: Readonly<Record<string, number>>;
+  };
+}
 
-/** The same bounds the core's generated world checks. */
-export function checkWorldSettings(settings: WorldSettings): void {
+export function checkSettings(settings: WorldSettings): void {
   const multiplier = (value: number | undefined, name: string) => {
     if (value !== undefined && !(value >= 0.25 && value <= 4))
       throw new Error(`World setting ${name} must be between 0.25 and 4.`);
@@ -37,24 +55,27 @@ export function checkWorldSettings(settings: WorldSettings): void {
     throw new Error("World lean shift must be between -1 and 1.");
 }
 
-/** Wages and household cash, recorded on the world as the player's choice. */
-export function applyWorldSettings(
+/** Wages and household cash, applied before the economy is built from them. */
+export function applyOpeningSettings(
   input: CoreInput,
   settings: WorldSettings,
 ): CoreInput {
-  if (!Object.keys(settings).length) return input;
   const wages = settings.economy?.wages ?? 1,
     cash = settings.economy?.householdCash ?? 1;
+  const recorded: Record<string, string> =
+    Object.keys(settings).length === 0
+      ? {}
+      : { worldSettings: JSON.stringify(settings) };
   return {
     ...input,
-    placeMetadata: {
-      ...(input.placeMetadata ?? {}),
-      worldSettings: JSON.stringify(settings),
-    },
-    gaps: [
-      ...input.gaps,
-      `Custom world: the player changed real data (${Object.keys(settings).join(", ")}); see placeMetadata.worldSettings.`,
-    ],
+    placeMetadata: { ...(input.placeMetadata ?? {}), ...recorded },
+    gaps:
+      Object.keys(settings).length === 0
+        ? input.gaps
+        : [
+            ...input.gaps,
+            `Custom world: the player changed real data (${Object.keys(settings).join(", ")}); see placeMetadata.worldSettings.`,
+          ],
     people:
       cash === 1
         ? input.people
@@ -82,12 +103,7 @@ export function applyWorldSettings(
   };
 }
 
-/** Outside buyers' demand for the town's firms, on the two-level flows. */
-export function scaleOutsideDemand(
-  input: CoreInput,
-  settings: WorldSettings,
-): CoreInput {
-  const factor = settings.economy?.outsideDemand ?? 1;
+export function scaleOutsideSales(factor: number, input: CoreInput): CoreInput {
   if (factor === 1 || !input.residents) return input;
   return {
     ...input,
