@@ -296,9 +296,12 @@ export function stepRegionMonth(
     publicGapPct / okun -
     mixCycle / p("macroJobsPerUnemploymentPoint");
   const gapNow = unemploymentPct - nationalNow.unemploymentPct;
-  // People leave where unemployment runs above the nation's and come where it runs below.
+  // People leave where unemployment rises above where it stood against the
+  // nation's at the opening and come where it falls below (as pay answers):
+  // a place whose unemployment always runs high loses no one for that alone.
   const migration =
-    (-p("regionalMigrationPerUnemploymentPoint") * gapNow) /
+    (-p("regionalMigrationPerUnemploymentPoint") *
+      (gapNow - previous.openingGapPct)) /
     hundred /
     p("macroMonthsPerYear");
   const month = shiftMonth(previous.month, one, p);
