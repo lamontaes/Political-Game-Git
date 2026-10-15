@@ -260,6 +260,10 @@ Engine gaps the panels name (file these against the engine, not here):
 - **Work engine (OPUS-WORLD):** weekly rollups cover only the weeks still kept, so hours cannot cover a full year; the panel prints how many weeks it counted.
 - **Business engine (OPUS-WORLD):** a closing by insolvency, retirement or no successor writes the book's reason only, with no choice row and so no recorded values.
 - **Budgets engine (OPUS-GOV):** a starting line's change event names the law that set it, not a bill; the panel shows the law, and the history of the line starts there.
+- **OPUS-PEOPLE (Journal, owner's night review, Oct 14):** a generated life's Journal is empty at day 0 (`/api/journal` returns `[]` for a 17-year-old on the opening evening). It needs a first chapter written at the opening ("My life", the memoir's first chapter) and a moment for a law reaching the player or a local vote. Both are director moments with lines from the English bank; the bench cannot hand-write them.
+- **OPUS-PEOPLE and OPUS-WORDS (News headlines):** the News screen is a front page now (`play/news-front-page`), but only the opening's stories carry an engine headline and lede. Every other record (a vote, an adopted budget, a law taking effect, an election result) needs the English engine's one-line headline from its own record; today the screen shows date, kind and who it was about.
+- **OPUS-PEOPLE and OPUS-WORLD (Who you are, Money):** the five temperament dimensions and the views engine's political label are shown in words, but single-issue stances (`desiredChange`) and the household's home ("your parents' house in <town>") have no word bank: a dwelling kind is a raw slug (`house-suburban-living`).
+- **OPUS-GOV (Politics hub):** office rows need a `branch` field (legislative, executive, judicial) for the Government browser's branch picker, and a `playable` flag for the filing menu (register item 5). Government lists only the seats the office table returns for the player's town; State and Federal bodies beyond them are not reachable.
 
 ## Kit 13 controls (branch `play/kit13-controls`)
 
