@@ -2,7 +2,7 @@
 id: pool-core-year-speed
 impact: patch
 section: Fixed
-title: Reduce repeated core work during a played year
+title: Avoid repeated home price calculations in town measurements
 ---
 
-Remove repeated work from the measured played-year core hot path while preserving its decisions.
+Town housing measurements calculate the common home-price change once per read and value only homes in the requested place.

@@ -1388,9 +1388,7 @@ export function townFigures(
   renters: number;
 } {
   const c = core(api);
-  const values = ownedHomes(api)
-    .filter((row) => row.placeId === placeId)
-    .map((row) => row.valueMinor);
+  const values = ownedHomes(api, placeId).map((row) => row.valueMinor);
   const rents: number[] = [];
   let renters = 0;
   for (const row of store(api).table("dwellings").rows() as unknown as {
@@ -1875,6 +1873,7 @@ export const HOUSING_MODULE: CoreModule = {
 /** Owned homes for property tax (OPUS-GOV): each owner household's place and the home's value today. */
 export function ownedHomes(
   api: CoreAPI,
+  atPlaceId?: string,
 ): { householdId: string; placeId: string; valueMinor: number }[] {
   const c = api.state as CoreState;
   if (!c.modules.has(HOUSING_MODULE_ID)) return [];
@@ -1883,13 +1882,17 @@ export function ownedHomes(
       store(api).table("state").get("housing:state") as
         { openedAt: string } | undefined
     )?.openedAt ?? c.date;
+  const residents = residentsRuntime(c);
+  // All opening values use this call's same state, dates and current macro
+  // prices. Keep the result local so the next read sees any intervening change.
+  let openingPriceRatio: number | undefined;
   const prices = () =>
-    homePriceRatio(
+    (openingPriceRatio ??= homePriceRatio(
       c.placeMetadata?.housingState ?? "",
       opened,
       c.date,
       macroPrices(api),
-    );
+    ));
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
   for (const row of store(api).table("dwellings").rows() as unknown as {
@@ -1901,8 +1904,9 @@ export function ownedHomes(
     if (row.tenure !== "own" || !row.valueMinor) continue;
     const placeId =
       c.households.get(row.householdId)?.placeId ??
-      residentsRuntime(c)?.households.get(row.householdId)?.household.placeId;
-    if (!placeId) continue;
+      residents?.households.get(row.householdId)?.household.placeId;
+    if (!placeId || (atPlaceId !== undefined && placeId !== atPlaceId))
+      continue;
     // Opening values move with prices since the opening; a purchase is valued at its price.
     out.push({
       householdId: row.householdId,
