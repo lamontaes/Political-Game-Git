@@ -296,6 +296,207 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.8.1
+
+_Released October 15, 2026._
+
+### Improved
+
+- **An assistance work requirement now stops benefits after three months** When
+  a state requires work for assistance, adults who work fewer than 20 hours a
+  week stop receiving the welfare benefit a raised budget line pays after three
+  months, and the money goes to the households still drawing. Repealing the
+  requirement pays them again. Two benefit changes on the same day no longer
+  clash.
+
+## PRE-ALPHA 0.8.0
+
+_Released October 15, 2026._
+
+### Added
+
+- **Household and business savings fund the town bank.** Households and
+  businesses can hold savings at the town bank. Its books distinguish money owed
+  to depositors from its own capital. Money and property shows household savings
+  and the bank’s dated assets, deposit liabilities, mortgage funding and equity.
+
+- **State officeholders follow their session calendar** State legislators and
+  governors use the shared office day for session work, district hours, speeches
+  and decisions. Legislators receive per diem through their state's treasury,
+  and governors can nominate named appointees and act on budget items under
+  their state's veto rule. Governors can reduce appropriation increases where
+  the place’s rule allows it. Override votes use exact fractions, attendance and
+  joint totals from the legal data.
+
+- **First-party text for six states' local income and payroll tax authority**
+  Statute text for Ohio, Oregon, Maryland, Michigan, New York and Missouri is
+  saved with its source address and hash, and seven more payroll states are
+  listed with what blocked each. One matrix citation (Missouri 92.110, repealed)
+  is flagged.
+
+### Improved
+
+- **Diner seating** Diner booths and counter stools have additional seated
+  positions.
+
+- **The calendar is readable** The calendar is an opaque dark panel with gold
+  rules, every day in its own cell with real contrast, today marked in gold, and
+  the next ten things below the months, dated in words.
+
+- **Options no longer lists which scenes interrupt you** Options uses a compact
+  panel with the existing Kit 13 frame and controls. Continue returns to play,
+  Full screen changes the window, and Quit to title keeps the current life
+  available. The director decides which scenes interrupt; the scene-kind toggles
+  are removed.
+
+- **Consumer rate caps constrain personal loan offers** New personal-loan offers
+  read the consumer rate cap before the borrower and bank decide. Applications
+  and loans retain the market rate and governing law. Product-specific rules and
+  counted borrowers remain registered gaps.
+
+- **Groundwater limits reach agricultural sales** Farm businesses now read the
+  groundwater law when setting their monthly operating limits. Repealing the law
+  removes its restriction. Farm irrigation exposure remains estimated and
+  registered.
+
+### Fixed
+
+- **Door knocking fills in the people you actually meet** Campaign rounds use
+  the engine's on-meet household fill-in instead of creating residents before
+  any door opens.
+
+- **Candidate filings use the shared platform reader** Candidates file the
+  positions read from their own views and party through the same rule used by
+  campaigns.
+
+- **Custody changes personal choice eligibility through the core** Custody and
+  release use the supported person update, preserving the person's prior
+  eligibility to make choices.
+
+- **Budgets without an executive proposal carry department requests** A
+  legislature voting without an executive proposal receives the department's
+  existing spending lines instead of an empty bill.
+
+- **Campaign lean reads current personal views** Campaign calculations read a
+  person's current view against the opening electorate instead of retaining a
+  stale personal lean.
+
+- **Employers do not hire people serving prison terms** Job search and hiring
+  read the custody record before treating a person as available for work.
+
+- **School budget changes no longer undo a raise another law gave school staff**
+  When a school budget line is cut or raised and later put back, teachers and
+  other school staff keep any raise a salary floor or another rule gave them in
+  the meantime, instead of dropping back to their pay from before.
+
+- **Lobbyists meet members who can vote on their bill** Interest groups reach
+  the bill's own chambers instead of unrelated town or legislative seats.
+
+- **Macro records distinguish observed town income growth** The national economy
+  uses local income growth only when comparable paid-income records exist,
+  without publishing invented local growth in the meantime.
+
+- **Played worlds include the core opening records** Played towns use the
+  existing public-school, tuition and representative-population opening steps.
+
+- **Committee negotiations count support for the amended bill** Committee vote
+  trades reconsider members after each added section.
+
+- **Avoid repeated home price calculations in town measurements** Town housing
+  measurements calculate the common home-price change once per read and measure
+  requested places together.
+
+- **Recorded deaths in the wider population reach known relatives** Full
+  relatives and acquaintances learn when someone they know dies in the wider
+  population.
+
+- **Retain family ties to counted relatives** Opening family relationships
+  retain known relatives in the counted population.
+
+- **Health records survive snapshot restore** Restored worlds retain health
+  conditions, strain history and scheduled illness dates.
+
+- **Election reactions use the recorded change in unemployment** The town’s
+  voters react to its recorded unemployment change in state and federal races,
+  rather than treating that change as zero.
+
+- **Press staffing follows employer records** News outlets recognize the workers
+  their employer actually hires.
+
+- **Renewal retains initialization when restoring a world** Restored family
+  plans are retained instead of being initialized again.
+
+- **Bill authority reads the government's own powers** Policy bills consult the
+  recorded powers of their government level and the state's current grants
+  before introduction; executive orders consult the same policy authority.
+
+- **Background lawmakers propose questions for their own level** Background
+  lawmakers read the policy question's recorded government scope before choosing
+  a proposal.
+
+- **Income tax schedule changes remain stable** Flat taxes with deduction
+  schedules are now distinguished from graduated taxes. Repealing a starting
+  graduated schedule writes a stable flat replacement. Restoration runs once and
+  preserves later independent tax acts. Replacement rates remain registered
+  estimates.
+
+- **Legal reach records no longer invent knowledge** People no longer learn
+  about a law merely because its reach table lists them. News and conversations
+  still deliver information through their own records. A view changed by news
+  now cites the received story. A repeal or benefit record also needs a real
+  notice before it changes what someone knows.
+
+- **Housing decisions read the laws in force.** Rent limits apply when leases
+  renew, including homes in the wider population. Construction reads zoning,
+  affordable housing, gas hookup and farmland laws. Eviction repayment plans
+  require a paid lawyer where the law provides counsel.
+
+- **Apply paid-leave contributions to counted wages** Paid-leave contributions
+  read the governing law on payday for full and counted workers.
+
+- **Property-tax caps reach household assessments** The property-tax engine
+  reads the growth-cap law when it updates assessments. Counted owners pay
+  through their household group account and keep household arrears. Bills and
+  assessments name their governing laws. Exact statutory cap terms remain
+  estimated.
+
+- **The played-world closure check uses the current core.** The closure proof
+  loads the current core directly. A test of the retired daily household
+  purchase mechanic is removed; live monthly household spending keeps its
+  coverage.
+
+- **Employers weigh their recent losses when deciding how many jobs to keep.** A
+  business weighs its recent sales and costs before cutting staff. Job changes
+  retain the business records behind the decision.
+
+- **Filing no longer invents voter-registration status** Filing checks no longer
+  call every adult resident a registered voter without a registration record.
+  The existing age, residence, deadline, party, and term-limit checks still
+  apply.
+
+- **Voting reasons no longer invent election-day weather** Voting reasons no
+  longer report a weather cost without a weather record. The same turnout
+  calculation still reads the existing causes for named, counted, and wider
+  voters.
+
+### Changed
+
+- **A consumer data privacy law now costs the town's businesses** When a state's
+  consumer data privacy law is in force, every business in town that employs
+  people sets aside a share of its operating costs to comply, and pays it each
+  month. Repeal the law and the cost stops. A state's home-rule grant also
+  decides whether a town council may draft ordinances on matters the state has
+  not settled.
+
+- **Price laws change household payments** The price engine reads energy,
+  mileage, deposit, broadband and transit laws when it settles monthly costs.
+  Counted households use their own income and group account. Payment sources
+  name the law; a payment alone does not give a person knowledge of it.
+
+- **People you met drift back into the crowd after 180 to 240 days** Each world
+  now picks, once, how long a person you met can go without contact before they
+  return to the wider population, somewhere from 180 to 240 days.
+
 ## PRE-ALPHA 0.7.0
 
 _Released October 15, 2026._

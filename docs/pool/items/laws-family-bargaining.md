@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4446
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
@@ -22,3 +22,5 @@ source: "split of laws-remaining-families (Oct 15)"
 **Files.** New engine; src/core2/law-reach/group-a*.ts.
 
 **Notes.** Owner: unions and strikes are 1.0.
+
+Session handed off Oct 15, 2026: PR #4446 (claude/laws-family-bargaining-v2) holds the right-to-work half only; remainder: the other half of the item (see PR body).
