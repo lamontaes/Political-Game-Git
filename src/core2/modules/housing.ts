@@ -1804,6 +1804,7 @@ export const HOUSING_MODULE: CoreModule = {
       foreclosures: {
         indexes: { openByMortgage: { fields: ["mortgageId", "open"] } },
       },
+      sales: {},
       statusByPerson: {},
     },
   },

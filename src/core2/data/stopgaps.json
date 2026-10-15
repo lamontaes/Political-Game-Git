@@ -2834,11 +2834,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/moves.ts",
     "line": 1,
-    "whatItFakes": "A household that owns its home with a mortgage never leaves together; only a grown child in it can move out.",
-    "why": "No engine yet sells a home and pays off its mortgage when the owners leave.",
+    "whatItFakes": "A household that owns its home with a mortgage and has members who stay in town does not leave together; only a grown child in it can move out. A household that leaves entirely sells its home, pays off its mortgage and takes the surplus.",
+    "why": "Splitting a mortgaged home between those who go and those who stay (who keeps the home and the loan) is not modeled.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD's housing records a sale (price, payoff, a vacant home for a newcomer), and moves calls it when an owner household leaves.",
+    "replacement": "A recorded decision of who keeps a home and its mortgage when some of a household's members leave, so that groups can leave with part of the household behind.",
     "status": "open"
   },
   {
