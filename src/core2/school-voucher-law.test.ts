@@ -6,6 +6,7 @@
  * message. Set GOLDEN_PATH_SEED to reproduce a run.
  */
 import { createHash, randomBytes } from "node:crypto";
+import { writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
@@ -115,7 +116,8 @@ it("pays the state's share of town private tuition while the law stands, and sto
       }
       expect(paid, where).toBeGreaterThan(0);
       if (process.env.VOUCHER_PROOF)
-        console.log(
+        writeFileSync(
+          process.env.VOUCHER_PROOF,
           JSON.stringify({
             where,
             tuitionMonthlyMinor: tuitionBefore,
