@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: claude/core-outside-flow-provenance-gate
-pr:
+pr: #4413
 blocked-on:
 milestone:
 source: "split from core-outside-flow-provenance-gate (#4352 left the sixth closure check red)"
