@@ -4,9 +4,9 @@ title: "Seed playtest-0712 hangs New life."
 area: play
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4430
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 87 (unchecked checklist line)"
