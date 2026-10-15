@@ -161,6 +161,9 @@ describe("owners draw from profit", () => {
   });
 });
 
+/** The founding pull the fixture's lone founder acts on (the parameter's value is set for a town's adults). */
+const FIXTURE_FOUND_BASELINE = -4;
+
 async function foundingCore(owner: boolean, cook = false, big = false) {
   const { CREDIT_MODULE } = await import("./modules/credit");
   const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
@@ -315,8 +318,18 @@ async function foundingCore(owner: boolean, cook = false, big = false) {
     calendarDates: [],
     gaps: [],
   });
+  // The fixture has one would-be founder, not a town's adults: it tests what a
+  // founding does, so the founder is given a reason to found strong enough to act on.
+  const data = worldCoreData();
+  const founding = data.parameters.businessFoundBaseline!;
   const core = createLifeCore(base, {
-    data: worldCoreData(),
+    data: {
+      ...data,
+      parameters: {
+        ...data.parameters,
+        businessFoundBaseline: { ...founding, value: FIXTURE_FOUND_BASELINE },
+      },
+    },
     modules: [MACRO_MODULE, CREDIT_MODULE, BUSINESS_MODULE],
     scheduledWork: false,
   });

@@ -4602,11 +4602,11 @@
     "file": "src/core2/modules/business.ts",
     "line": 1576,
     "whatItFakes": "Full founders weigh the single best market with one baseline; the wider population weighs every market with another baseline and the incumbents' count, and only in months no full person founds.",
-    "why": "The two paths were written separately before one model, two tiers.",
+    "why": "The two paths were written separately before one model, two tiers. Resolved Oct 15 (OPUS-WORLD): every adult weighs every market in their place by the same reasons and baseline; full people choose through the chooser, the wider population by summed pulls (SG-WORLD-jobs-counted-choices).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "One founding rule for both tiers: each adult weighs each market by the same terms, counted ones times their count.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-housing-mortgage-holder-tiers",

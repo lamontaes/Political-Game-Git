@@ -49,14 +49,14 @@
     "citation": "Mean days per month (365/12)."
   },
   "businessFoundBaseline": {
-    "value": -4,
+    "value": -13.5,
     "tag": "TUNABLE",
-    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year).",
+    "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, the same for every adult (full people weigh it through the chooser, the wider population as summed pulls); checked against Census BDS 2023 establishment entry (about 10% a year).",
     "spread": {
-      "low": -6,
-      "high": -2,
+      "low": -15,
+      "high": -12,
       "unit": "score",
-      "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year)."
+      "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, the same for every adult (full people weigh it through the chooser, the wider population as summed pulls); checked against Census BDS 2023 establishment entry (about 10% a year)."
     }
   },
   "businessFoundRoomWeight": {
@@ -127,17 +127,6 @@
       "high": 6,
       "unit": "score per unit of cash strength (cash less cushion over cash plus cushion)",
       "citation": "Owners with cash well above their cushion are the ones able to fund a location; thin ones are not (JPMorgan Chase Institute small business cash buffers)."
-    }
-  },
-  "businessCountedFoundBaseline": {
-    "value": -13.5,
-    "tag": "TUNABLE",
-    "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, summed over the wider population; checked against Census BDS 2023 establishment entry (about 10% a year).",
-    "spread": {
-      "low": -15,
-      "high": -12,
-      "unit": "score",
-      "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, summed over the wider population; checked against Census BDS 2023 establishment entry (about 10% a year)."
     }
   },
   "businessFoundProspectWeight": {

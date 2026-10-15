@@ -14,6 +14,7 @@ import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLeanBetween } from "../trait-decisions";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { ActOffer, CoreAPI, CoreState, PersonState } from "../types";
 import type {
   HistoryWriter,
@@ -1440,7 +1441,6 @@ function foundings(api: CoreAPI): void {
         a.row.kindId.localeCompare(b.row.kindId),
     )[0]?.row;
   if (!market) return;
-  const gaps = gapsOf(market);
   const monthlyPay = new Map<string, number>();
   const rt = residentsRuntime(c);
   for (const jobId of rt?.wageFlowByJob.keys() ?? []) {
@@ -1499,7 +1499,7 @@ function foundings(api: CoreAPI): void {
       (a, b) => b.strength - a.strength || a.row.id.localeCompare(b.row.id),
     );
   // The market an owner or a full founder opened into this month; the wider population weighs the rest.
-  let taken: Market | undefined;
+  const taken = new Set<Market>();
   const decided = new Set<string>();
   for (const grower of growers) {
     const ownerId = grower.owner.person.id;
@@ -1523,7 +1523,7 @@ function foundings(api: CoreAPI): void {
       fundsMinor: Math.max(0, grower.cash - grower.cushion),
       strength: grower.strength,
     });
-    taken = market;
+    taken.add(market);
     break;
   }
   const owners = new Set(ownerRows.map((row) => row.ownerId));
@@ -1540,46 +1540,97 @@ function foundings(api: CoreAPI): void {
       );
     return value;
   };
+  const founderAge = (birthDate: string) => {
+    const age = ageOf(birthDate);
+    return (
+      age >= p("businessFounderMinimumAge") &&
+      age < p("businessFounderMaximumAge")
+    );
+  };
+  // One rule for both tiers: each adult weighs each market in their place by
+  // the same reasons (its room and how many businesses already serve it, the
+  // owner's prospect against their pay, the money it takes, lost work).
+  const marketTerms = new Map<Market, { room: number; monthly: number }>();
+  const termsOf = (row: Market) => {
+    let value = marketTerms.get(row);
+    if (!value)
+      marketTerms.set(
+        row,
+        (value = {
+          // Founders come in proportion to the businesses already in a market (BDS entry as a share of establishments).
+          room:
+            Math.log(row.incumbents.length) +
+            p("businessFoundRoomWeight") * gapsOf(row),
+          monthly: prospectMonthly(api, row),
+        }),
+      );
+    return value;
+  };
+  const reasons = (
+    row: Market,
+    adult: { income: number; own: number; unemployed: boolean },
+  ) => {
+    const terms = termsOf(row);
+    const income = Math.max(
+      adult.income,
+      medianPay(row.placeId) * p("businessProspectIncomeFloorShare"),
+    );
+    return {
+      baseline: p("businessFoundBaseline"),
+      room: terms.room,
+      lostWork: adult.unemployed ? p("businessFoundUnemployedWeight") : 0,
+      prospect:
+        p("businessFoundProspectWeight") *
+        (income > 0 ? Math.log((terms.monthly + 1) / income) : 0),
+      capital: -p("businessFoundCapitalWeight") * capital(row, adult.own),
+    };
+  };
+  const open = (row: Market) => !taken.has(row);
+  const marketsAt = new Map<string, Market[]>();
+  for (const row of candidates) {
+    const list = marketsAt.get(row.placeId);
+    if (list) list.push(row);
+    else marketsAt.set(row.placeId, [row]);
+  }
   const seekers = c.modules.has("jobs")
     ? api.moduleState("jobs").table("seekers")
     : undefined;
-  for (const person of taken
-    ? []
-    : [...c.people.values()].sort((a, b) => a.id.localeCompare(b.id))) {
-    const age = ageOf(person.birthDate);
+  // Full adults choose through the chooser (their personality enters there), among every market in their place.
+  for (const person of [...c.people.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
     if (
       !person.alive ||
-      person.placeId !== market.placeId ||
       owners.has(person.id) ||
-      age < p("businessFounderMinimumAge") ||
-      age >= p("businessFounderMaximumAge")
+      // The player's character starts a business only by the player's own choice.
+      person.id === c.playerId ||
+      isExplicitlyControlledPersonV1(c, person.id) ||
+      !founderAge(person.birthDate)
     )
       continue;
-    const unemployed = seekers?.get(person.id) && !person.jobId ? 1 : 0;
+    const markets = (marketsAt.get(person.placeId) ?? []).filter(open);
+    if (!markets.length) continue;
+    const adult = {
+      income: incomeOf(person.id),
+      own: founderMoney(api, person),
+      unemployed: Boolean(seekers?.get(person.id) && !person.jobId),
+    };
     const result = chooseAct(c, person.id, [
       option(0, {}),
-      foundOption(market.kindId, {
-        baseline: p("businessFoundBaseline"),
-        room: p("businessFoundRoomWeight") * gaps,
-        lostWork: p("businessFoundUnemployedWeight") * unemployed,
-        prospect:
-          p("businessFoundProspectWeight") *
-          prospect(market, incomeOf(person.id)),
-        capital:
-          -p("businessFoundCapitalWeight") *
-          capital(market, founderMoney(api, person)),
-      }),
+      ...markets.map((row) => foundOption(row.kindId, reasons(row, adult))),
     ]);
-    if (result.selected!.definition.id !== businessData.actions.found.id)
-      continue;
-    found(api, person.id, market);
+    const chosen = result.selected!;
+    if (chosen.definition.id !== businessData.actions.found.id) continue;
+    const row = markets.find(
+      (each) => `business-found:${each.kindId}` === chosen.targetId,
+    )!;
+    found(api, person.id, row);
     // One opening a month in this market; the next month's room is measured afresh.
-    taken = market;
+    taken.add(row);
     owners.add(person.id);
-    break;
   }
-  // stopgapId: SG-WORLD-business-founding-tiers
-  // The wider population weighs every market by the same reasons, as summed pulls (stopgap), until filled in: each market draws its own founders.
+  // stopgapId: SG-WORLD-jobs-counted-choices
+  // The wider population weighs the same reasons, plus their personality, as summed pulls until filled in: each market draws its own founders.
   if (!c.modules.has("jobs")) return;
   const countedSeekers = api.moduleState("jobs").table("countedSeekers");
   const rows: {
@@ -1588,64 +1639,36 @@ function foundings(api: CoreAPI): void {
     market: Market;
     score: number;
   }[] = [];
-  // Each adult's own terms once, each market's once.
-  const adults: {
-    id: string;
-    placeId: string;
-    common: number;
-    income: number;
-    own: number;
-  }[] = [];
-  for (const record of residentsRuntime(c)?.households.values() ?? [])
+  for (const record of residentsRuntime(c)?.households.values() ?? []) {
+    const markets = (marketsAt.get(record.household.placeId) ?? []).filter(
+      open,
+    );
+    if (!markets.length) continue;
     for (const person of record.people) {
-      const age = ageOf(person.birthDate);
-      if (
-        owners.has(person.id) ||
-        age < p("businessFounderMinimumAge") ||
-        age >= p("businessFounderMaximumAge")
-      )
-        continue;
+      if (owners.has(person.id) || !founderAge(person.birthDate)) continue;
       const seeker = countedSeekers.get(person.id) as
         { employed: boolean } | undefined;
-      adults.push({
-        id: person.id,
-        placeId: record.household.placeId,
-        common:
-          p("businessCountedFoundBaseline") +
-          p("traitWeight") * countedFoundLean(person) +
-          p("businessFoundUnemployedWeight") *
-            (seeker && !seeker.employed ? 1 : 0),
+      const adult = {
         income: incomeOf(person.id),
         own: founderMoney(api, person),
-      });
-    }
-  const adultsAt = new Map<string, typeof adults>();
-  for (const adult of adults) {
-    const list = adultsAt.get(adult.placeId);
-    if (list) list.push(adult);
-    else adultsAt.set(adult.placeId, [adult]);
-  }
-  for (const each of candidates) {
-    if (each === taken) continue;
-    // Founders come in proportion to the businesses already in a market (BDS entry as a share of establishments).
-    const marketTerm =
-      Math.log(each.incumbents.length) +
-      p("businessFoundRoomWeight") * gapsOf(each);
-    const monthly = prospectMonthly(api, each),
-      floor = medianPay(each.placeId) * p("businessProspectIncomeFloorShare");
-    for (const adult of adultsAt.get(each.placeId) ?? []) {
-      const income = Math.max(adult.income, floor);
-      rows.push({
-        id: `${adult.id}|${each.kindId}`,
-        personId: adult.id,
-        market: each,
-        score:
-          adult.common +
-          marketTerm +
-          p("businessFoundProspectWeight") *
-            (income > 0 ? Math.log((monthly + 1) / income) : 0) -
-          p("businessFoundCapitalWeight") * capital(each, adult.own),
-      });
+        unemployed: Boolean(seeker && !seeker.employed),
+      };
+      const lean = p("traitWeight") * countedFoundLean(person);
+      for (const row of markets) {
+        const why = reasons(row, adult);
+        rows.push({
+          id: `${person.id}|${row.kindId}`,
+          personId: person.id,
+          market: row,
+          score:
+            why.baseline +
+            why.room +
+            why.lostWork +
+            why.prospect +
+            why.capital +
+            lean,
+        });
+      }
     }
   }
   for (const row of strongestPullsBy(
