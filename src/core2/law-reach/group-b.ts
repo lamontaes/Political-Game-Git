@@ -58,6 +58,7 @@ import {
 type Mechanic =
   | "records"
   | "farm-output"
+  | "clean-air-plan"
   | "property-assessment"
   | "price-payment"
   | "housing-construction"
@@ -421,6 +422,8 @@ function runPolicy(
     }
     case "farm-output":
       return; // The business engine reads the law when setting production limits.
+    case "clean-air-plan":
+      return; // The business engine reads the law when it sets a county's compliance duty.
     case "property-assessment":
       return; // The housing assessment reads the cap through budgets when billing.
     case "records":

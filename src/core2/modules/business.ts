@@ -891,8 +891,14 @@ function bookedMonth(
  * A place out of attainment of an air quality standard (EPA Green Book) puts a
  * clean air plan's compliance duty on its stationary emitters; the duty slides
  * with how many standards the county misses and whether the designation covers
- * the whole county or part. A county that attains them all lifts it.
+ * the whole county or part. A county that attains them all lifts it. The duty
+ * is federal either way (a state with no plan of its own answers to EPA's);
+ * where the state's plan is law, the duty's source cites that law row, and a
+ * repeal or a new row rewrites the citation.
  */
+const CLEAN_AIR_QUESTION =
+  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties";
+
 function routeCompliance(api: CoreAPI): void {
   const c = core(api),
     table = store(api).table("operating");
@@ -910,16 +916,30 @@ function routeCompliance(api: CoreAPI): void {
     0,
   );
   const share = api.parameter("businessComplianceShareOfCosts") * weight;
+  const plan = c.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, CLEAN_AIR_QUESTION)
+    : null;
+  // stopgapId: SG-GOV-owner-decision-clean-air-plan (whether a repealed state plan changes the federal duty)
+  const citation =
+    plan?.value === 1 && plan.governing
+      ? `${plan.governing.id}: ${String(plan.governing.source)}; ${businessData.compliance.citation}`
+      : businessData.compliance.citation;
   for (const [id, book] of c.finance.businesses) {
     if (book.closedAt || !businessData.compliance.kinds.includes(book.kindId))
       continue;
     const ruleId = `cost:${id}:${businessData.compliance.cause}`;
-    const existing = table.get(ruleId) as { share: number } | undefined;
+    const existing = table.get(ruleId) as
+      { share: number; source?: { citation?: string } } | undefined;
     if (share <= 0) {
       if (existing) endOperatingRule(api, table, ruleId);
       continue;
     }
-    if (existing && existing.share === share) continue;
+    if (
+      existing &&
+      existing.share === share &&
+      existing.source?.citation === citation
+    )
+      continue;
     stopgap("SG-WORLD-business-compliance-cost");
     addRegulatoryCost(api, table, {
       organizationId: id,
@@ -928,7 +948,7 @@ function routeCompliance(api: CoreAPI): void {
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: businessData.compliance.citation,
+        citation,
         estimatedFrom: `${county} misses ${standards.length} air quality standard(s) in ${year} (EPA Green Book); a clean air plan costs ${share} of other operating costs.`,
       },
     });

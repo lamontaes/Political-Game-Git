@@ -1750,11 +1750,11 @@
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 261,
     "whatItFakes": "A clean air plan binds the town's industrial employers (compliance record) wherever it's law, whether or not the county is in nonattainment.",
-    "why": "No EPA Green Book nonattainment list is loaded for counties.",
+    "why": "No EPA Green Book nonattainment list is loaded for counties. Resolved (laws-family-clean-air, 2026-10-15): the EPA Green Book list is loaded (countyNonattainment) and the business engine's compliance duty reads it and cites the clean air plan law row in force; the generic employer rows are gone.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "Load EPA Green Book nonattainment counties as data; the plan then binds emitters only in listed counties, and OPUS-WORLD business costs read the compliance record.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-business-cost",
@@ -4597,5 +4597,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
     "line": 82
+  },
+  {
+    "id": "SG-GOV-owner-decision-clean-air-plan",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/business.ts",
+    "line": 922,
+    "whatItFakes": "A state's clean air plan law changes only what the duty cites: a county out of attainment charges its manufacturers and quarries the same compliance share whether the state's plan is law or repealed (the federal plan applies in its place).",
+    "why": "The cost is federal either way (Clean Air Act sec. 110(c) federal implementation plan). Whether repealing a state plan should change what the duty costs (a federal plan is stricter, or the state's own plan is what binds) is the owner's call.",
+    "addedBy": "pool/laws-family-clean-air",
+    "addedAt": "2026-10-15",
+    "replacement": "The owner's ruling: either the plan row changes the duty's size (the cost reads the row's terms), or the law stays a citation and this row is resolved.",
+    "status": "open"
   }
 ]
