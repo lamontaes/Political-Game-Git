@@ -14,17 +14,76 @@ The engine already has the three layers (situations, moves, pieces) but they are
 
 **Owner plays it:** nothing new on screen; batch 12 is drawn from this table instead of from one town's year.
 
-## Order 2: batch 12 grades the pieces
+## Order 2: the grading bench
 
-Batch 12 grades pieces, not scenes (OWNER-DECISIONS.md, "Grading grades the engine, not scenarios"). Build the page from the coverage table: one card per (move, register, bearing) cell with 3 to 6 pieces each, shown with the slots they fill, plus the owner's "Batch 12 must" list where it applies to pieces (replies continue, journal subjects, lies name a place, no dates, no say-nothing row). Batch 12's family, conversation and lie pieces are written under the text rule of Oct 15 (OWNER-DECISIONS.md), not mined only.
+Owner, Oct 15, evening: "every word is a data point calibrating the entire engine." Scenes are shown as they would appear in the game; no two scenarios alike, no two choice sets alike; every line graded on several axes; no fresh world simulations (use the director and the engine over one cached world); grades tune the engine, never a hard-coded scenario. We give the simulation the tools to communicate; we do not script what it says. This replaces the old piece-card batch, the "finished scenes" order and the "same scene for different personalities" order. Batch 12 is the first bench run.
 
-Batch 11 (`docs/grading/words-batch-11.md`, PR #4323) is held for four record defects and for repeating the same few situations. Do not regenerate it blind; build on it:
+**The text rule.** Pieces are authored to calibrated patterns (OWNER-DECISIONS.md, "The text rule", Oct 15). Take the pool item `words-authored-pieces-gate` first, so the bank checks accept `origin: authored` parts, then write the pieces a cell needs. The bench does not write text; it shows what the engine does with the pieces it has.
 
-1. Fix the two engine-side defects that are yours: the chapter that printed "My daughter was born. My daughter was born." (two children, two dates; one sentence that says both, or two chapters) and the family scene that opened on a roll call of ten relatives (who is in the room shows in the picture and the talk) and was staged in a neighbor's household instead of the player's. The other two (a winner as a seat-term id; a body named by a member's title, "County of Darlington commissioner") are the government engine's; the overnight PR #4343 fixes the first in the engine and part of the second; until it merges, the batch builder skips a scene whose speaker or body resolves to a raw id and says so under "Facts that were stood in".
-2. Draw batch 12 from the coverage table: thirty scenes, each a different situation type or a different role in one, across registers, with no situation type more than twice. Scenes the director fires in the played year come first; where the table has pieces for a situation the director does not fire in that year, compose it as a **proof scene** from real records of that world (a real death, a real bill, a real appointment that happened in the year, the director's own staging function called on the record) and mark it "proof: the director does not fire this yet". Where the table has no pieces, mine first (Order 3) or leave the cell on the page's OWNER DECISIONS list.
-3. Each scene tests one thing, as before, and the page says for each what the owner is grading: wording on an axis, an opening and closing pair, a choice set, or a situation's content (does this moment, with these people and these facts, read as a scene of this kind).
+### 1. The bench script
 
-**Batch 12 must** (owner rulings, Oct 15 evening, `docs/coordination/OWNER-DECISIONS.md`):
+`scripts/dialogue-batch/grading-bench.ts`, run as `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" npm run words:bench -- --id batch-12 --cache <world cache> --profiles 5`.
+
+- **One cached world.** It loads one played world through the coverage batch's `--cache` mechanism (header of `scripts/dialogue-batch/coverage-batch.ts`). It draws no new worlds and runs no new year. If no cache exists, it says so and stops; building the cache is the coverage batch's job, once.
+- **Situations from records.** For every situation type in `src/director/data/situation-types.json` whose cause records exist in that world, it asks the director's own staging (`src/director/scene.ts`, `scheduling.ts`) to stage it with the real people those records put there. No hand-placed cast. A type with no cause record in the world, or `awaitingProducer`, is listed on the page with why and is skipped, never invented.
+- **Composed by the real engine.** For each staged scene it composes the narration (`composeScene`), the lines (`openConversation`, `say`), a speech where the situation has one (`composeAddress`) and the journal entry (`composeJournal`), plus the player's four replies and the lie set. It calls the same functions play calls.
+- **Once per personality profile.** Profiles are trait vectors in `src/director/data/grading-profiles.json`: 5 to 8 of them, with trait names and levels taken from the game's own trait list (`docs/coordination/traits.md`, `src/core2/data/people/*`). Examples: warm, cold, stubborn, anxious, boastful, liar, and two mixes (warm and anxious; cold and boastful). The profile's values are laid over the speaking non-player character; for the player's replies the same profile is laid over the player. For the lie variants the player's lie trait is scaled up. `--profiles N` takes the first N. The same cast, records and situation are therefore composed N times, and the page shows whether each person sounds like themselves.
+- A profile is a set of trait values. It names no scene and no line.
+
+### 2. Dedupe and variety rules
+
+- No two items share (situation type, cast, pieces used). Two profiles on one scene count as different items only when their pieces differ; the bench reports and drops a profile that reads identically to another on the same scene.
+- No two choice sets share the same four replies.
+- A situation type appears at most N times per profile (default 3; `--max-per-type`).
+- A phrase appears once per page.
+- The page is sorted so adjacent items differ in situation type and in register.
+- The bench counts what it dropped under each rule and prints the counts at the end.
+
+### 3. Each item is a data point
+
+For every line the bench records: move, register, bearing, key, the speaker's traits, lie or not, length in words, sentence count, the ids of the pieces used, and the record ids that filled the slots (so every word answers "why" by record).
+
+- **Data:** `data/english/batches/batch-12.json`, one row per line with those features, grouped by item, with the item's situation type, cast record ids, profile and the cause record that fired it.
+- **Page:** `docs/grading/words-batch-12.md`, rendered as the game would show it: the narrator's paragraph, then the lines with speaker names, then the four replies and the lies. A small footer under each item gives the feature row, not the other way round. The page lists, at the top, the items dropped and the situations skipped, with reasons. The CTO builds the owner's grading artifact from this Markdown.
+
+### 4. Grading axes
+
+Each line, and each whole item, takes a grade from 1 to 5, or is skipped, on:
+
+1. naturalness
+2. prose
+3. sentence structure
+4. length (too short, right, too long)
+5. creativity
+6. trait fit (does this person, with these traits, sound like this; single traits and mixes)
+7. lie plausibility (lie items only)
+
+Each grade may carry a note and a preferred alternative. They go to `data/english/grades/batch-12.json` (`{"i","line","axes":{"naturalness":4,...},"note","prefer"}`). `scripts/dialogue-batch/apply-grades.ts` accepts this shape alongside the old `{"i","grade","prefer"}` and `{"i","choices":{...}}` shapes. An old-shape grade still fails or promotes a part as before.
+
+### 5. The calibration table
+
+`data/english/calibration.json` holds only weights, each marked TUNABLE with its spread (AGENTS.md, the parameter rule):
+
+- **per trait:** the pull toward each bearing, and toward longer or shorter lines;
+- **per register:** the target length in words and the target sentence count;
+- **per piece:** its running grade (a mean over the axes it was graded on, with a count);
+- **per move pair:** whether that arrangement (for example condole then ask) read naturally.
+
+`apply-grades.ts` folds each grade into the table: a line's axes move its trait, register and piece weights a small step; a "too long" moves the register's target down; a preferred alternative raises that piece's weight. The engine reads the table when it chooses and arranges pieces: piece choice and arrangement in `src/presentation/english-composition.ts`, and the reply ranking in `src/director/conversation.ts`. A piece with a low running grade is chosen less; a trait's pulls change which bearing and length the speaker favors; a move pair that read badly is arranged less.
+
+**State plainly, in the code comment and the PR body: no scenario text, no scene script, no if-this-town-then-that. Only weights the engine reads when it chooses and arranges pieces.** Nothing in the table names a place, a person or a situation's wording.
+
+### 6. Done when
+
+- A page of at least 150 items from one cached world, every item distinct by the rules above, every line traceable to its pieces and records.
+- The calibration table is read by the engine in a played year: the PR body names one line whose wording changed because of a grade (before and after, the grade, the piece ids, and the record ids of the scene).
+- The pool item `words-grading-bench` is closed with the page, the JSON and that line named.
+
+**Owner plays it:** he grades the page; the grades tune the engine; the next bench run shows the change. The CTO builds the grading artifact from the Markdown.
+
+### 7. Batch 12 must (owner rulings, Oct 15 evening, `docs/coordination/OWNER-DECISIONS.md`)
+
+The bench keeps every one of these:
 
 1. State each scene's endpoint (money, a bill, political life, or personal) on the page.
 2. Open each scene with a narrator paragraph of a few sentences, not two short lines.
@@ -37,15 +96,7 @@ Batch 11 (`docs/grading/words-batch-11.md`, PR #4323) is held for four record de
 9. Include no "say nothing" row.
 10. Send no school, workplace, notice or public hearing scenes until something new is said in them.
 
-**Owner plays it:** he grades `docs/grading/words-batch-12.md` with the piece cards in it. The CTO builds his grading page from the Markdown.
-
-## Order 2b: finished scenes, when applicable
-
-Once the grammar is calibrated and the engine has enough graded pieces to compose scenes properly, the CTO brings finished composed scenes a few at a time. Draw them from the coverage table: each a different situation type or a different role in one, across registers, no situation type more than twice. Scenes the director fires in the played year come first; where it does not fire one yet, compose a proof scene from real records and mark it "proof: the director does not fire this yet". Each scene tests one thing and the page says what the owner is grading. The earlier "thirty different scenes" target for batch 12 lives here now.
-
-## Order 2c: the same scene for different personalities
-
-The same composed scene rendered for different personalities (traits), graded for whether each person sounds like themselves.
+Batch 11 (`docs/grading/words-batch-11.md`, PR #4323) is held. Fix its two engine-side defects in the bench's path: the chapter that printed "My daughter was born. My daughter was born." (two children, two dates), and the family scene that opened on a roll call of ten relatives and was staged in a neighbor's household. Until the government engine fixes a winner shown as a seat-term id and a body named by a member's title, the bench skips a scene whose speaker or body resolves to a raw id and lists it under "Facts that were stood in".
 
 ## Order 3: fill the empty cells
 
@@ -61,4 +112,4 @@ From `docs/coordination/words.md`: a purpose phrase per policy series as catalog
 
 ## Paste prompt for the session that takes this line
 
-> Read `.agents/skills/words-engine/SKILL.md` and `docs/work-orders/words-and-director-2026-10-15.md` in lamontaes/Political-Game-Git, then `docs/coordination/words.md`. Take the orders in order, starting with Order 1 (the catalog and the coverage table) and Order 2 (batch 12 built from batch 11 and the coverage gaps). Follow `AGENTS.md`: no hand-written player text, every sentence from a public-domain record with its source, no dice, American English. One draft PR per order on a `words/*` branch off main, checks in your session on changed files only, a release declaration in `docs/release/changes/`, the batch page as the played-world proof with record ids, and the first lines of the PR body say what the owner can play now. Keep `docs/coordination/words.md` as your status file. Never merge your own PR.
+> Read `.agents/skills/words-engine/SKILL.md` and `docs/work-orders/words-and-director-2026-10-15.md` in lamontaes/Political-Game-Git, then `docs/coordination/words.md`. Take the orders in order, starting with Order 1 (the catalog and the coverage table) and Order 2 (the grading bench; batch 12 is its first run). Follow `AGENTS.md`: no hand-written player text, every sentence from a public-domain record with its source, no dice, American English. One draft PR per order on a `words/*` branch off main, checks in your session on changed files only, a release declaration in `docs/release/changes/`, the batch page as the played-world proof with record ids, and the first lines of the PR body say what the owner can play now. Keep `docs/coordination/words.md` as your status file. Never merge your own PR.
