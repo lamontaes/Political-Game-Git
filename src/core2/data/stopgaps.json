@@ -1424,11 +1424,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 173,
-    "whatItFakes": "Right-to-work records the right on workers and the rule on the union, but no union dues or agency fees exist to stop.",
-    "why": "Workers' union membership and dues aren't modeled.",
+    "whatItFakes": "A right-to-work law lowers the local union's dues as membership falls (about four points over five years), but no worker's membership or fee is recorded: the dues are one pooled flow from the wider population, and a named worker keeps paying or not paying exactly as before.",
+    "why": "Union membership and dues are not on workers' records; the local's dues are one standing flow set from the state's membership rate (src/core2/membership-dues.ts). The law's effect is read by the group A union mechanic (src/core2/law-reach/group-a-union.ts), which scales that flow.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD or CORE: union membership on jobs and dues as a payroll deduction through the journal (e.g. a standing dues contract per member), which right-to-work then ends for nonmembers.",
+    "replacement": "WORLD or CORE: union membership on named jobs and counted groups, dues as a payroll deduction through the journal, which right-to-work then ends for nonmembers.",
     "status": "open"
   },
   {

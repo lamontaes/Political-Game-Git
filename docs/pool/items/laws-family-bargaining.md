@@ -22,3 +22,5 @@ source: "split from laws-remaining-families, Oct 15"
 **Files.** src/core2/law-reach/*, src/core2/modules/ (the owning engine), src/core2/data/stopgaps.json
 
 **Notes.** SG-GOV-REACH-A-bargaining, SG-GOV-REACH-A-union-dues.
+
+**Progress (Oct 15).** Built: right-to-work lowers the local union's dues as membership falls (`group-a-union.ts`). Not built, split out: public-sector bargaining (`gov-public-sector-bargaining`). `SG-GOV-REACH-A-union-dues` is narrowed and stays open; `SG-GOV-REACH-A-bargaining` stays open.
