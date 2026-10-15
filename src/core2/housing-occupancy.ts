@@ -1,5 +1,7 @@
 /** Completed rentals are occupied by households choosing a cheaper home. */
 import { regionalLevel, regionalRegistered } from "./modules/regional";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
+import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ProjectRow, StockRow } from "./housing-construction";
 import {
@@ -360,10 +362,32 @@ export function renewRentalLeases(api: CoreAPI): void {
         ? 1
         : ((vacancy + unitShare) / (last.vacancy + unitShare)) **
           -api.parameter("housingRentVacancyElasticity");
-    const rent = Math.round(
+    const marketRentMinor = Math.round(
       ((tenant.rentMinor * level.hourlyEarnings) / last.regionPay) *
         vacancyFactor,
     );
+    // Rent stabilization in force where the household lives caps the rise.
+    const law =
+      c.modules.has(LAWS_MODULE_ID) &&
+      tenant.placeId === lawChain(api).townPlaceId
+        ? lawInForce(
+            api,
+            "us-policy-positions:housing-land-use.rent-stabilization",
+          )
+        : undefined;
+    // stopgapId: SG-GOV-REACH-A-rent-contracts — the catalog's estimated
+    // annual cap still stands in for the statute's building exemptions.
+    if (law?.value === 1) api.stopgap("SG-GOV-REACH-A-rent-contracts");
+    const rent =
+      law?.value === 1
+        ? Math.min(
+            marketRentMinor,
+            Math.round(
+              tenant.rentMinor *
+                (1 + lawParameters.parameters.rentIncreaseCap.value),
+            ),
+          )
+        : marketRentMinor;
     if (tenant.tier === "full")
       api.setStandingContractAmount(tenant.leaseId, rent);
     else if (!setResidentFlowAmount(c, tenant.leaseId, rent)) continue;
@@ -377,6 +401,9 @@ export function renewRentalLeases(api: CoreAPI): void {
       renewedAt: c.date,
       rentMinor: rent,
       previousRentMinor: tenant.rentMinor,
+      marketRentMinor,
+      lawId: law?.value === 1 ? (law.governing?.id ?? null) : null,
+      savedMinor: marketRentMinor - rent,
       vacancyFactor,
       stockId: `stock:${tenant.placeId}`,
       ...(vacancy === undefined ? {} : { vacancy }),

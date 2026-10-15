@@ -23,6 +23,13 @@ const records: PolicyHandler = (api, change) =>
 /** Each mechanic's handler, by the mechanic name a policy's data row gives. */
 const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   none: [records],
+  // Credit reads the law at quotation; no blanket personal knowledge write.
+  "consumer-loan-quote": [],
+  // Housing reads the law when renewing full leases and counted rent flows.
+  // Eligibility alone must not tell every adult that their rent changed.
+  "rent-renewal": [],
+  "housing-construction": [],
+  "eviction-counsel": [],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],

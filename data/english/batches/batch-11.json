@@ -1,9 +1,9 @@
 {
   "id": "batch-11",
-  "title": "Scene batch batch-11 (30 scenes)",
-  "at": "2026-10-15T03:47:26.710Z",
-  "head": "bf8c4e53d3e404d41a1e3536cc098aba9f9fc9bb",
-  "shortHead": "bf8c4e53d3",
+  "title": "Scene batch batch-11 (29 scenes)",
+  "at": "2026-10-15T14:44:29.718Z",
+  "head": "dd915669c69379577611b7a497c9c9fd0c2caeb6",
+  "shortHead": "dd915669c6",
   "seed": "batch-11-oct15",
   "days": 365,
   "status": "open",
@@ -31,21 +31,20 @@
   },
   "kinds": {
     "family": 2,
-    "journal": 5,
+    "journal": 6,
     "conversation": 5,
     "meeting": 3,
     "minutes": 3,
     "legislation": 3,
     "notices": 2,
     "campaign": 2,
-    "emotion": 2,
     "interview": 3
   },
   "screened": {
     "rejected": 12,
     "byGrades": {
       "lines": 12,
-      "alternatives": 1,
+      "alternatives": 2,
       "ungrammatical": 0
     },
     "rejections": [
@@ -112,15 +111,18 @@
     ]
   },
   "stoodIn": [
-    "Pine Ridge: 1 decided races, office levels federal/state/county;  bills and roll calls are the legislature module's own rows (23 local bills, 11778 recorded votes); interviews are the press module's"
+    "Pine Ridge: 0 decided races, office levels federal/state/county;  bills and roll calls are the legislature module's own rows (23 local bills, 11778 recorded votes); interviews are the press module's"
   ],
   "gaps": [
     "no state or federal house (a chamber with a Speaker) with two members on record in this world, so no floor honor is said; a senate's and a town body's own way of honoring a member are not mined yet",
+    "defect for OPUS-GOV: 1 race result(s) record the winner as an official's term, not a person (official:term:seat:US-SC:attorney-general:2027-05-12), so no one could give the election-night speech; those races are left out",
+    "no race was decided by the end of the run, so victory and concession lines (which need a recorded winner and loser) cannot be produced",
     "defect for OPUS-GOV: 1 local bill(s) passed with no title on record (2027-2, no provisions); a bill needs a title the words can name",
     "A town body member's words to the chair: the meeting bank holds Congress's floor procedure, which a town council never hears, so no member speaks to the chair until a local body's own words are mined.",
     "Hearings: the hearing bank holds a witness's thanks, answers and agreement but no chair's or member's question, so no answer could follow a question it was asked; hearings return when a question move is mined.",
     "Scenes the world does not yet produce: a wedding, pork barreling (a member asking for a project in the district), a legislator arguing on the floor against another member by name.",
-    "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet."
+    "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet.",
+    "Only 29 different scenes passed: the world held no more scenes whose phrases were not already shown."
   ],
   "items": [
     {
@@ -140,7 +142,7 @@
       "lines": [
         {
           "speaker": "Narrator",
-          "text": "Your son, your daughter, your son, your father, your mother, your brother, your sister, your sister, your brother, your brother and your sister are here.",
+          "text": "Your son is with you.",
           "parts": []
         },
         {
@@ -150,13 +152,8 @@
         },
         {
           "speaker": "Timothy Vasquez",
-          "text": "Have a seat.",
-          "parts": ["conversation.family-open-open.have-a-seat"]
-        },
-        {
-          "speaker": "Timothy Vasquez",
-          "text": "What are you doing now?",
-          "parts": ["conversation.own-work-answer-turn.what-are-you-doing-now"]
+          "text": "What do you do?",
+          "parts": ["conversation.own-work-answer-turn.what-do-you-do"]
         }
       ],
       "test": "the choice set: mark each reply good or bad here, in this scene",
@@ -164,14 +161,14 @@
       "choices": [
         {
           "n": 1,
-          "text": "I'm working for Stout's Market.",
-          "parts": ["conversation.own-work-raise-tell.im-working-for-employer"],
+          "text": "I work at Stout's Market.",
+          "parts": ["conversation.own-work-raise-tell.i-work-at-employer"],
           "lie": false
         },
         {
           "n": 2,
-          "text": "At Stout's Market.",
-          "parts": ["conversation.own-work-new-answer-plain.at-employer"],
+          "text": "With Stout's Market.",
+          "parts": ["conversation.own-work-new-answer-brief.with-employer"],
           "lie": false
         },
         {
@@ -182,36 +179,36 @@
         },
         {
           "n": 4,
-          "text": "I'm working for Stout's Market. Where do you work?",
+          "text": "I work at Stout's Market. What about you?",
           "parts": [
-            "conversation.own-work-raise-tell.im-working-for-employer",
-            "conversation.own-work-answer-turn.where-do-you-work"
+            "conversation.own-work-raise-tell.i-work-at-employer",
+            "conversation.greet-answer-fine.what-about-you"
           ],
           "lie": false
         },
         {
           "n": 5,
-          "text": "Not right now.",
-          "parts": ["conversation.other-work-reply-none.not-right-now"],
+          "text": "Not at the moment.",
+          "parts": ["conversation.other-work-reply-none.not-at-the-moment"],
           "lie": true
         },
         {
           "n": 6,
-          "text": "I'm at Pine Ridge Area Workers Union Local.",
-          "parts": ["conversation.own-work-new-lie-elsewhere.im-at-claimed"],
+          "text": "I'm with Pine Ridge Area Workers Union Local.",
+          "parts": ["conversation.own-work-new-lie-elsewhere.im-with-claimed"],
           "lie": true
         },
         {
           "n": 7,
-          "text": "I'm at Pine Ridge Area Workers Union Local. Where do you work?",
+          "text": "I'm with Pine Ridge Area Workers Union Local. What about you?",
           "parts": [
-            "conversation.own-work-new-lie-elsewhere.im-at-claimed",
-            "conversation.own-work-answer-turn.where-do-you-work"
+            "conversation.own-work-new-lie-elsewhere.im-with-claimed",
+            "conversation.greet-answer-fine.what-about-you"
           ],
           "lie": true
         }
       ],
-      "parts": ["conversation.own-work-answer-turn.what-are-you-doing-now"]
+      "parts": ["conversation.own-work-answer-turn.what-do-you-do"]
     },
     {
       "i": 1,
@@ -311,7 +308,7 @@
     {
       "i": 3,
       "kind": "meeting",
-      "scene": "The County of Darlington commissioner takes up 2026-1 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
+      "scene": "The County of Darlington Board of Commissioners takes up 2026-1 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
       "trace": [
         "the chair's run-meeting sentences in data/english/parts/address.json, picked by the bill's recorded step"
       ],
@@ -357,19 +354,19 @@
     {
       "i": 4,
       "kind": "minutes",
-      "scene": "The roll call on 2026-1 (\"Partner with federal immigration enforcement\") before the County of Darlington commissioner: 6 for, 1 against; the bill enacted. Each name is read from a member's recorded vote.",
+      "scene": "The roll call on 2026-1 (\"Partner with federal immigration enforcement\") before the County of Darlington Board of Commissioners: 6 for, 1 against; the bill enacted. Each name is read from a member's recorded vote.",
       "trace": ["composeFromBank over data/english/parts/minutes.json"],
       "sourceRecordIds": [
         "bill:office:gus2025:134411:board:2026-10-27:person_b1e17fc19eea0192:16"
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (minutes)",
+          "speaker": "County of Darlington Board of Commissioners (minutes)",
           "text": "Voting for this action: Jasper Newton, Arthur Kent, Martin Nelson, John Rollins, Diana Newton and Amy Frazier.",
           "parts": ["minutes.vote.voting-for-this-action-members"]
         },
         {
-          "speaker": "County of Darlington commissioner (minutes)",
+          "speaker": "County of Darlington Board of Commissioners (minutes)",
           "text": "Voting against this action: Donna Newton.",
           "parts": ["minutes.vote.voting-against-this-action-members"]
         }
@@ -381,7 +378,7 @@
     {
       "i": 5,
       "kind": "legislation",
-      "scene": "Its short title. 2026-1 (enacted), introduced October 27, 2026 before the County of Darlington commissioner: it adopts \"Partner with federal immigration enforcement\" on the bill's own provision record.",
+      "scene": "Its short title. 2026-1 (enacted), introduced October 27, 2026 before the County of Darlington Board of Commissioners: it adopts \"Partner with federal immigration enforcement\" on the bill's own provision record.",
       "trace": [
         "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
       ],
@@ -390,7 +387,7 @@
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (bill text)",
+          "speaker": "County of Darlington Board of Commissioners (bill text)",
           "text": "This title may be cited as the \"Partner with federal immigration enforcement\".",
           "parts": ["legislation.short-title.this-title-may-be-cited-as-the"]
         }
@@ -402,14 +399,14 @@
     {
       "i": 6,
       "kind": "notices",
-      "scene": "A hearing notice for 2026-1, posted by the County of Darlington commissioner.",
+      "scene": "A hearing notice for 2026-1, posted by the County of Darlington Board of Commissioners.",
       "trace": ["composeFromBank over data/english/parts/notices.json"],
       "sourceRecordIds": [
         "bill:office:gus2025:134411:board:2026-10-27:person_b1e17fc19eea0192:16"
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner clerk",
+          "speaker": "County of Darlington Board of Commissioners clerk",
           "text": "NOTICE OF PUBLIC HEARING\nPROJECT NAME: \"Partner with federal immigration enforcement\"\nDATE OF MEETING: October 27, 2026",
           "parts": ["notice.hearing.public-hearing"]
         }
@@ -466,27 +463,6 @@
     },
     {
       "i": 8,
-      "kind": "emotion",
-      "scene": "official:term:seat:US-SC:attorney-general:2027-05-12 won the race for Attorney General against Adam Akhtar (the voting module's recorded result) and speaks on election night.",
-      "trace": [
-        "composeAddress (src/english/english-composition.ts), register victory, words from data/english/parts/address.json"
-      ],
-      "sourceRecordIds": [
-        "official:term:seat:US-SC:attorney-general:2027-05-12"
-      ],
-      "lines": [
-        {
-          "speaker": "official:term:seat:US-SC:attorney-general:2027-05-12",
-          "text": "I am humbled.",
-          "parts": ["address.victory-claim.i-am-humbled"]
-        }
-      ],
-      "test": "the scene as it stands",
-      "variants": [],
-      "parts": ["address.victory-claim.i-am-humbled"]
-    },
-    {
-      "i": 9,
       "kind": "interview",
       "scene": "A local reporter's interview of Rachel Evans (a candidate in Pine Ridge, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
       "trace": [
@@ -508,7 +484,7 @@
       "parts": ["interview.official-commit.thats-a-promise"]
     },
     {
-      "i": 10,
+      "i": 9,
       "kind": "family",
       "scene": "A family scene at home in Pine Ridge, September 6, 2027: Katherine Anderson, 41, with Maya Anderson; turn 1.",
       "trace": [
@@ -524,18 +500,13 @@
       "lines": [
         {
           "speaker": "Narrator",
-          "text": "Your brother, your daughter, your daughter, your daughter, your daughter, your father and your mother are here.",
+          "text": "Your daughter is here too.",
           "parts": []
         },
         {
           "speaker": "Narrator",
           "text": "You got a job.",
           "parts": []
-        },
-        {
-          "speaker": "Maya Anderson",
-          "text": "Can we talk?",
-          "parts": ["conversation.family-open-open.can-we-talk"]
         },
         {
           "speaker": "Maya Anderson",
@@ -550,14 +521,14 @@
       "choices": [
         {
           "n": 1,
-          "text": "At Stout's Market.",
-          "parts": ["conversation.own-work-new-answer-plain.at-employer"],
+          "text": "I'm at Stout's Market.",
+          "parts": ["conversation.own-work-new-answer-plain.im-at-employer"],
           "lie": false
         },
         {
           "n": 2,
-          "text": "I'm at Stout's Market.",
-          "parts": ["conversation.own-work-new-answer-plain.im-at-employer"],
+          "text": "I'm with Stout's Market.",
+          "parts": ["conversation.own-work-raise-tell.im-with-employer"],
           "lie": false
         },
         {
@@ -568,33 +539,33 @@
         },
         {
           "n": 4,
-          "text": "At Stout's Market. How about you?",
+          "text": "I'm at Stout's Market. What do you do?",
           "parts": [
-            "conversation.own-work-new-answer-plain.at-employer",
-            "conversation.greet-answer-fine.how-about-you"
+            "conversation.own-work-new-answer-plain.im-at-employer",
+            "conversation.own-work-answer-turn.what-do-you-do"
           ],
           "lie": false
         },
         {
           "n": 5,
-          "text": "Not at the moment.",
-          "parts": ["conversation.other-work-reply-none.not-at-the-moment"],
+          "text": "Not right now.",
+          "parts": ["conversation.other-work-reply-none.not-right-now"],
           "lie": true
         },
         {
           "n": 6,
-          "text": "I work for Darlington County Cleaning Services.",
+          "text": "I work at Darlington County Cleaning Services.",
           "parts": [
-            "conversation.own-work-new-lie-elsewhere.i-work-for-claimed"
+            "conversation.own-work-new-lie-elsewhere.i-work-at-claimed"
           ],
           "lie": true
         },
         {
           "n": 7,
-          "text": "I work for Darlington County Cleaning Services. How about you?",
+          "text": "I work at Darlington County Cleaning Services. What do you do?",
           "parts": [
-            "conversation.own-work-new-lie-elsewhere.i-work-for-claimed",
-            "conversation.greet-answer-fine.how-about-you"
+            "conversation.own-work-new-lie-elsewhere.i-work-at-claimed",
+            "conversation.own-work-answer-turn.what-do-you-do"
           ],
           "lie": true
         }
@@ -602,25 +573,18 @@
       "parts": ["conversation.own-work-new-ask-where.where-are-you-working-now"]
     },
     {
-      "i": 11,
+      "i": 10,
       "kind": "journal",
       "scene": "The \"My life\" journal of Teresa Stark, chapter \"My daughter\".",
       "trace": [
         "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
-        "entry dated October 1, 1965",
-        "entry dated December 10, 1968"
+        "entry dated October 1, 1965"
       ],
       "sourceRecordIds": [
         "person_1872e208ed3c1751",
-        "person_1872e208ed3c1751:family:person_bfe7cafaaf0ff831",
-        "person_1872e208ed3c1751:family:person_bfe7c7faaf0ff318"
+        "person_1872e208ed3c1751:family:person_bfe7cafaaf0ff831"
       ],
       "lines": [
-        {
-          "speaker": "Teresa Stark",
-          "text": "My daughter was born.",
-          "parts": ["journal.family-line-born.relation-was-born"]
-        },
         {
           "speaker": "Teresa Stark",
           "text": "My daughter was born.",
@@ -632,30 +596,29 @@
       "parts": ["journal.family-line-born.relation-was-born"]
     },
     {
-      "i": 12,
+      "i": 11,
       "kind": "conversation",
-      "scene": "Madeline Meyer talks with Donna Meyer, October 25, 2026, turn 1; the talk's topic: home:person_90463a68c1eefcea.",
+      "scene": "Madeline Meyer talks with Donna Newton, November 6, 2026, turn 1; the talk's topic: family:person_90463868c1eef984.",
       "trace": [
         "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
-        "The lies are what the scales offer: the same moves made false about the player's own record.",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
         "Say nothing is the smaller control beside the replies."
       ],
       "sourceRecordIds": [
         "person_90463a68c1eefcea",
-        "person_c0fb2f8016c550d8",
-        "home:person_90463a68c1eefcea",
-        "school:person_90463a68c1eefcea"
+        "person_9c8a4344eb126604",
+        "family:person_90463868c1eef984"
       ],
       "lines": [
         {
-          "speaker": "Donna Meyer",
-          "text": "Hi, Madeline.",
-          "parts": ["conversation.greet-open-hello.hi-name"]
+          "speaker": "Donna Newton",
+          "text": "Good to see you.",
+          "parts": ["conversation.greet-open-hello.good-to-see-you"]
         },
         {
-          "speaker": "Donna Meyer",
-          "text": "Where do you come from?",
-          "parts": ["conversation.home-new-ask-where.where-do-you-come-from"]
+          "speaker": "Donna Newton",
+          "text": "How's Keanu?",
+          "parts": ["conversation.mutual-raise-seen.hows-name"]
         }
       ],
       "test": "the choice set: mark each reply and each lie good or bad here",
@@ -663,51 +626,33 @@
       "choices": [
         {
           "n": 1,
-          "text": "I'm from Pine Ridge. And you?",
-          "parts": [
-            "conversation.home-new-answer-plain.im-from-place",
-            "conversation.greet-answer-fine.and-you"
-          ],
+          "text": "He's doing fine.",
+          "parts": ["conversation.family-answer-well.hes-doing-fine"],
           "lie": false
         },
         {
           "n": 2,
-          "text": "I grew up in Pine Ridge.",
-          "parts": ["conversation.home-new-answer-always.i-grew-up-in-place"],
+          "text": "Thank you for asking.",
+          "parts": ["conversation.family-answer-thanks.thank-you-for-asking"],
           "lie": false
         },
         {
           "n": 3,
-          "text": "I'm from Pine Ridge.",
-          "parts": ["conversation.home-new-answer-plain.im-from-place"],
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
           "lie": false
         },
         {
           "n": 4,
-          "text": "Right here in Pine Ridge.",
-          "parts": ["conversation.home-new-answer-brief.right-here-in-place"],
+          "text": "Okay.",
+          "parts": ["conversation.greet-answer-fine.okay"],
           "lie": false
-        },
-        {
-          "n": 5,
-          "text": "Not here. And you?",
-          "parts": [
-            "conversation.home-new-lie-none.not-here",
-            "conversation.greet-answer-fine.and-you"
-          ],
-          "lie": true
-        },
-        {
-          "n": 6,
-          "text": "Not here.",
-          "parts": ["conversation.home-new-lie-none.not-here"],
-          "lie": true
         }
       ],
-      "parts": ["conversation.home-new-ask-where.where-do-you-come-from"]
+      "parts": ["conversation.mutual-raise-seen.hows-name"]
     },
     {
-      "i": 13,
+      "i": 12,
       "kind": "meeting",
       "scene": "Teresa Stark speaks in the public comment period of a Pine Ridge council meeting.",
       "trace": [
@@ -750,7 +695,7 @@
       "parts": ["address.public-comment-greet.good-morning-commissioners"]
     },
     {
-      "i": 14,
+      "i": 13,
       "kind": "minutes",
       "scene": "The discussion of \"Partner with federal immigration enforcement\" at the October 27, 2026 meeting (2026-1).",
       "trace": ["composeFromBank over data/english/parts/minutes.json"],
@@ -759,7 +704,7 @@
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (minutes)",
+          "speaker": "County of Darlington Board of Commissioners (minutes)",
           "text": "Participants discussed \"Partner with federal immigration enforcement\".",
           "parts": ["minutes.discussion.participants-discussed-topic"]
         }
@@ -769,9 +714,9 @@
       "parts": ["minutes.discussion.participants-discussed-topic"]
     },
     {
-      "i": 15,
+      "i": 14,
       "kind": "legislation",
-      "scene": "Its short title. 2026-3 (enacted), introduced October 27, 2026 before the County of Darlington commissioner: it adopts \"Allow multifamily in single family zones\" on the bill's own provision record.",
+      "scene": "Its short title. 2026-3 (enacted), introduced October 27, 2026 before the County of Darlington Board of Commissioners: it adopts \"Allow multifamily in single family zones\" on the bill's own provision record.",
       "trace": [
         "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
       ],
@@ -780,7 +725,7 @@
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (bill text)",
+          "speaker": "County of Darlington Board of Commissioners (bill text)",
           "text": "This Act may be cited as the \"Allow multifamily in single family zones\".",
           "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
         }
@@ -790,7 +735,7 @@
       "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
     },
     {
-      "i": 16,
+      "i": 15,
       "kind": "notices",
       "scene": "The notice of the November 7, 2028 election in Pine Ridge, from the contests the elections module holds.",
       "trace": ["composeFromBank over data/english/parts/notices.json"],
@@ -825,7 +770,7 @@
       "parts": ["notice.election.notice-of-election"]
     },
     {
-      "i": 17,
+      "i": 16,
       "kind": "campaign",
       "scene": "Rachel Evans speaks at a rally in Pine Ridge as a candidate for Governor.",
       "trace": [
@@ -873,38 +818,7 @@
       "parts": ["address.campaign-close.god-bless-you-and-god-bless-america"]
     },
     {
-      "i": 18,
-      "kind": "emotion",
-      "scene": "Adam Akhtar lost the race for Attorney General to official:term:seat:US-SC:attorney-general:2027-05-12 (the voting module's recorded result) and concedes.",
-      "trace": [
-        "composeAddress (src/english/english-composition.ts), register concession, words from data/english/parts/address.json"
-      ],
-      "sourceRecordIds": ["official:term:seat:US-SC:upper:045:0:2026-10-12"],
-      "lines": [
-        {
-          "speaker": "Adam Akhtar",
-          "text": "This is not the end.",
-          "parts": ["address.concession-concede.this-is-not-the-end"]
-        }
-      ],
-      "test": "the wording of line 1 on one axis (formality)",
-      "tested": {
-        "line": 0,
-        "axis": "formality",
-        "parts": ["address.concession-concede.this-is-not-the-end"]
-      },
-      "variants": [
-        {
-          "n": 1,
-          "axis": "formality",
-          "parts": ["address.concession-concede.thank-you-for-everything"],
-          "text": "Thank you for everything."
-        }
-      ],
-      "parts": ["address.concession-concede.this-is-not-the-end"]
-    },
-    {
-      "i": 19,
+      "i": 17,
       "kind": "interview",
       "scene": "A local reporter's interview of Renee Guerrero (a candidate in Pine Ridge, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
       "trace": [
@@ -926,256 +840,31 @@
       "parts": ["interview.official-commit.you-have-my-word"]
     },
     {
-      "i": 20,
+      "i": 18,
       "kind": "journal",
-      "scene": "The \"My life\" journal of Teresa Stark, chapter \"My child\".",
+      "scene": "The \"My life\" journal of Teresa Stark, chapter \"Brenda\".",
       "trace": [
         "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
-        "entry dated June 28, 1974"
+        "entry dated December 10, 1968"
       ],
       "sourceRecordIds": [
         "person_1872e208ed3c1751",
-        "person_1872e208ed3c1751:family:person_90463968c1eefb37"
+        "person_1872e208ed3c1751:family:person_bfe7c7faaf0ff318",
+        "person_bfe7c7faaf0ff318"
       ],
       "lines": [
         {
           "speaker": "Teresa Stark",
-          "text": "My child was born. That was a turning point.",
-          "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+          "text": "Brenda was born.",
+          "parts": ["journal.family-line-born.other-was-born"]
         }
       ],
       "test": "the opening and closing pair: does the closing line follow from the opening, here?",
       "variants": [],
-      "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+      "parts": ["journal.family-line-born.other-was-born"]
     },
     {
-      "i": 21,
-      "kind": "conversation",
-      "scene": "Madeline Meyer talks with Donna Meyer, October 25, 2026, turn 2; the talk's topic: home:person_90463a68c1eefcea.",
-      "trace": [
-        "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
-        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
-        "Say nothing is the smaller control beside the replies."
-      ],
-      "sourceRecordIds": [
-        "person_90463a68c1eefcea",
-        "person_c0fb2f8016c550d8",
-        "home:person_90463a68c1eefcea",
-        "school:person_90463a68c1eefcea"
-      ],
-      "lines": [
-        {
-          "speaker": "Madeline Meyer",
-          "text": "I'm from Pine Ridge.",
-          "parts": ["conversation.home-new-answer-plain.im-from-place"]
-        },
-        {
-          "speaker": "Donna Meyer",
-          "text": "I see.",
-          "parts": ["conversation.other-work-answer-ack.i-see"]
-        },
-        {
-          "speaker": "Donna Meyer",
-          "text": "Where did you go to school?",
-          "parts": ["conversation.school-ask-how.where-did-you-go-to-school"]
-        }
-      ],
-      "test": "the choice set: mark each reply and each lie good or bad here",
-      "variants": [],
-      "choices": [
-        {
-          "n": 1,
-          "text": "I graduated from Spaulding Middle.",
-          "parts": ["conversation.school-answer-at.i-graduated-from-school"],
-          "lie": false
-        },
-        {
-          "n": 2,
-          "text": "I graduated.",
-          "parts": ["conversation.school-answer-done.i-graduated"],
-          "lie": false
-        },
-        {
-          "n": 3,
-          "text": "All right.",
-          "parts": ["conversation.greet-answer-fine.all-right"],
-          "lie": false
-        },
-        {
-          "n": 4,
-          "text": "Okay.",
-          "parts": ["conversation.greet-answer-fine.okay"],
-          "lie": false
-        }
-      ],
-      "parts": ["conversation.school-ask-how.where-did-you-go-to-school"]
-    },
-    {
-      "i": 22,
-      "kind": "meeting",
-      "scene": "Keanu Meyer speaks in the public comment period of a Pine Ridge council meeting.",
-      "trace": [
-        "composeAddress (src/english/english-composition.ts), register public-comment, words from data/english/parts/address.json"
-      ],
-      "sourceRecordIds": ["person_90463868c1eef984"],
-      "lines": [
-        {
-          "speaker": "Keanu Meyer",
-          "text": "Thank you for the opportunity to speak.",
-          "parts": [
-            "address.public-comment-greet.thank-you-for-the-opportunity-to-speak"
-          ]
-        },
-        {
-          "speaker": "Keanu Meyer",
-          "text": "My name is Keanu Meyer, and I live in Pine Ridge.",
-          "parts": [
-            "address.public-comment-name.my-name-is-name-and-i-live-in-place"
-          ]
-        },
-        {
-          "speaker": "Keanu Meyer",
-          "text": "Thank you.",
-          "parts": ["address.state-floor-close.thank-you"]
-        }
-      ],
-      "test": "the wording of line 1 on one axis (word choice)",
-      "tested": {
-        "line": 0,
-        "axis": "word choice",
-        "parts": [
-          "address.public-comment-greet.thank-you-for-the-opportunity-to-speak"
-        ]
-      },
-      "variants": [
-        {
-          "n": 1,
-          "axis": "word choice",
-          "parts": [
-            "address.public-comment-greet.thank-you-for-letting-me-speak"
-          ],
-          "text": "Thank you for letting me speak."
-        }
-      ],
-      "parts": [
-        "address.public-comment-greet.thank-you-for-the-opportunity-to-speak"
-      ]
-    },
-    {
-      "i": 23,
-      "kind": "minutes",
-      "scene": "The discussion of \"Allow multifamily in single family zones\" at the October 27, 2026 meeting (2026-3).",
-      "trace": ["composeFromBank over data/english/parts/minutes.json"],
-      "sourceRecordIds": [
-        "bill:office:gus2025:134411:board:2026-10-27:person_bf3d445fa74be161:18"
-      ],
-      "lines": [
-        {
-          "speaker": "County of Darlington commissioner (minutes)",
-          "text": "The staff provided an update on \"Allow multifamily in single family zones\".",
-          "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
-        }
-      ],
-      "test": "the scene as it stands",
-      "variants": [],
-      "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
-    },
-    {
-      "i": 24,
-      "kind": "legislation",
-      "scene": "Its long title. 2026-4 (enacted), introduced October 27, 2026 before the County of Darlington commissioner: it adopts \"Universal preschool\" on the bill's own provision record.",
-      "trace": [
-        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
-      ],
-      "sourceRecordIds": [
-        "bill:office:gus2025:134411:board:2026-10-27:person_bf3d445fa74be161:19"
-      ],
-      "lines": [
-        {
-          "speaker": "County of Darlington commissioner (bill text)",
-          "text": "To provide for universal preschool, and for other purposes.",
-          "parts": [
-            "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
-          ]
-        }
-      ],
-      "test": "the scene as it stands",
-      "variants": [],
-      "parts": [
-        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
-      ]
-    },
-    {
-      "i": 25,
-      "kind": "interview",
-      "scene": "A local reporter's interview of Rachel Evans (a candidate in Pine Ridge, 2026-10-19); asked about \"Restrict abortion\"; the candidate's recorded answer is support.",
-      "trace": [
-        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
-      ],
-      "sourceRecordIds": [
-        "interview:outlet:online:0:national:filing:contest:seat:US-SC:governor:2026-11-03:official:term:seat:US-SC:governor:2026-10-12:2026-10-19:0",
-        "official:term:seat:US-SC:governor:2026-10-12"
-      ],
-      "lines": [
-        {
-          "speaker": "Rachel Evans",
-          "text": "I will.",
-          "parts": ["interview.official-commit.i-will"]
-        }
-      ],
-      "test": "the wording of line 1 on one axis (formality)",
-      "tested": {
-        "line": 0,
-        "axis": "formality",
-        "parts": ["interview.official-commit.i-will"]
-      },
-      "variants": [
-        {
-          "n": 1,
-          "axis": "formality",
-          "parts": ["interview.official-commit.ill-do-it"],
-          "text": "I'll do it."
-        }
-      ],
-      "parts": ["interview.official-commit.i-will"]
-    },
-    {
-      "i": 26,
-      "kind": "journal",
-      "scene": "The \"My life\" journal of Keanu Meyer, chapter \"My daughter\".",
-      "trace": [
-        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
-        "entry dated October 15, 2008"
-      ],
-      "sourceRecordIds": [
-        "person_90463868c1eef984",
-        "kinship_dfc4c002e367dc6c:past:person_90463868c1eef984"
-      ],
-      "lines": [
-        {
-          "speaker": "Keanu Meyer",
-          "text": "My daughter was born. I'll never forget that.",
-          "parts": ["journal.memoir-hook.ill-never-forget-that"]
-        }
-      ],
-      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
-      "tested": {
-        "line": 0,
-        "axis": "formality",
-        "parts": ["journal.memoir-hook.ill-never-forget-that"]
-      },
-      "variants": [
-        {
-          "n": 1,
-          "axis": "formality",
-          "parts": ["journal.memoir-hook.i-never-knew"],
-          "text": "My daughter was born. I never knew."
-        }
-      ],
-      "parts": ["journal.memoir-hook.ill-never-forget-that"]
-    },
-    {
-      "i": 27,
+      "i": 19,
       "kind": "conversation",
       "scene": "Madeline Meyer talks with Donna Newton, November 18, 2026, turn 1; the talk's topic: person_9c8a4644eb126b1d>mutual:person_ddec7a3b56294740.",
       "trace": [
@@ -1234,42 +923,269 @@
       "parts": ["conversation.mutual-raise-seen.have-you-talked-to-name"]
     },
     {
-      "i": 28,
-      "kind": "journal",
-      "scene": "The \"My life\" journal of Elise Vasquez, chapter \"Darlington County, South Carolina\".",
+      "i": 20,
+      "kind": "meeting",
+      "scene": "Keanu Meyer speaks in the public comment period of a Pine Ridge council meeting.",
       "trace": [
-        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
-        "entry dated November 3, 2026"
+        "composeAddress (src/english/english-composition.ts), register public-comment, words from data/english/parts/address.json"
       ],
-      "sourceRecordIds": [
-        "election-result:contest:seat:gus2025:134411:clerk:0:2026-11-03",
-        "kinship_a03bc7a714ce87e5:past:person_7d07a9aeb2721953"
-      ],
+      "sourceRecordIds": ["person_90463868c1eef984"],
       "lines": [
         {
-          "speaker": "Elise Vasquez",
-          "text": "My father was elected.",
-          "parts": ["journal.election-other-result.other-was-elected"]
+          "speaker": "Keanu Meyer",
+          "text": "Thank you for the opportunity to speak.",
+          "parts": [
+            "address.public-comment-greet.thank-you-for-the-opportunity-to-speak"
+          ]
+        },
+        {
+          "speaker": "Keanu Meyer",
+          "text": "My name is Keanu Meyer, and I live in Pine Ridge.",
+          "parts": [
+            "address.public-comment-name.my-name-is-name-and-i-live-in-place"
+          ]
+        },
+        {
+          "speaker": "Keanu Meyer",
+          "text": "Thank you.",
+          "parts": ["address.state-floor-close.thank-you"]
         }
       ],
-      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "test": "the wording of line 1 on one axis (word choice)",
       "tested": {
         "line": 0,
         "axis": "word choice",
-        "parts": ["journal.election-other-result.other-was-elected"]
+        "parts": [
+          "address.public-comment-greet.thank-you-for-the-opportunity-to-speak"
+        ]
       },
       "variants": [
         {
           "n": 1,
           "axis": "word choice",
-          "parts": ["journal.election-other-result.other-got-elected"],
-          "text": "My father got elected."
+          "parts": [
+            "address.public-comment-greet.thank-you-for-letting-me-speak"
+          ],
+          "text": "Thank you for letting me speak."
         }
       ],
-      "parts": ["journal.election-other-result.other-was-elected"]
+      "parts": [
+        "address.public-comment-greet.thank-you-for-the-opportunity-to-speak"
+      ]
     },
     {
-      "i": 29,
+      "i": 21,
+      "kind": "minutes",
+      "scene": "The discussion of \"Allow multifamily in single family zones\" at the October 27, 2026 meeting (2026-3).",
+      "trace": ["composeFromBank over data/english/parts/minutes.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:134411:board:2026-10-27:person_bf3d445fa74be161:18"
+      ],
+      "lines": [
+        {
+          "speaker": "County of Darlington Board of Commissioners (minutes)",
+          "text": "The staff provided an update on \"Allow multifamily in single family zones\".",
+          "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
+    },
+    {
+      "i": 22,
+      "kind": "legislation",
+      "scene": "Its long title. 2026-4 (enacted), introduced October 27, 2026 before the County of Darlington Board of Commissioners: it adopts \"Universal preschool\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:134411:board:2026-10-27:person_bf3d445fa74be161:19"
+      ],
+      "lines": [
+        {
+          "speaker": "County of Darlington Board of Commissioners (bill text)",
+          "text": "To provide for universal preschool, and for other purposes.",
+          "parts": [
+            "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+          ]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": [
+        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+      ]
+    },
+    {
+      "i": 23,
+      "kind": "interview",
+      "scene": "A local reporter's interview of Rachel Evans (a candidate in Pine Ridge, 2026-10-19); asked about \"Restrict abortion\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:online:0:national:filing:contest:seat:US-SC:governor:2026-11-03:official:term:seat:US-SC:governor:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-SC:governor:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Rachel Evans",
+          "text": "I will.",
+          "parts": ["interview.official-commit.i-will"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["interview.official-commit.i-will"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "text": "I'll do it."
+        }
+      ],
+      "parts": ["interview.official-commit.i-will"]
+    },
+    {
+      "i": 24,
+      "kind": "journal",
+      "scene": "The \"My life\" journal of Teresa Stark, chapter \"My child\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated June 28, 1974"
+      ],
+      "sourceRecordIds": [
+        "person_1872e208ed3c1751",
+        "person_1872e208ed3c1751:family:person_90463968c1eefb37"
+      ],
+      "lines": [
+        {
+          "speaker": "Teresa Stark",
+          "text": "My child was born. That was a turning point.",
+          "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "variants": [],
+      "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+    },
+    {
+      "i": 25,
+      "kind": "conversation",
+      "scene": "Madeline Meyer talks with Aiden Schmidt, March 18, 2027, turn 1; the talk's topic: home:person_90463a68c1eefcea.",
+      "trace": [
+        "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
+        "The lies are what the scales offer: the same moves made false about the player's own record.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": [
+        "person_90463a68c1eefcea",
+        "person_abcf1bb6bea9cf39",
+        "home:person_90463a68c1eefcea",
+        "school:person_90463a68c1eefcea"
+      ],
+      "lines": [
+        {
+          "speaker": "Aiden Schmidt",
+          "text": "Hello there.",
+          "parts": ["conversation.greet-open-hello.hello-there"]
+        },
+        {
+          "speaker": "Aiden Schmidt",
+          "text": "Where are you from?",
+          "parts": ["conversation.home-new-ask-where.where-are-you-from"]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "I'm from Pine Ridge. How about you?",
+          "parts": [
+            "conversation.home-new-answer-plain.im-from-place",
+            "conversation.greet-answer-fine.how-about-you"
+          ],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "I was born in Pine Ridge.",
+          "parts": ["conversation.home-new-answer-always.i-was-born-in-place"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "I'm from Pine Ridge.",
+          "parts": ["conversation.home-new-answer-plain.im-from-place"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "Right here in Pine Ridge.",
+          "parts": ["conversation.home-new-answer-brief.right-here-in-place"],
+          "lie": false
+        },
+        {
+          "n": 5,
+          "text": "Not here. How about you?",
+          "parts": [
+            "conversation.home-new-lie-none.not-here",
+            "conversation.greet-answer-fine.how-about-you"
+          ],
+          "lie": true
+        },
+        {
+          "n": 6,
+          "text": "Not here.",
+          "parts": ["conversation.home-new-lie-none.not-here"],
+          "lie": true
+        }
+      ],
+      "parts": ["conversation.home-new-ask-where.where-are-you-from"]
+    },
+    {
+      "i": 26,
+      "kind": "journal",
+      "scene": "The \"My life\" journal of Keanu Meyer, chapter \"My daughter\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated October 15, 2008"
+      ],
+      "sourceRecordIds": [
+        "person_90463868c1eef984",
+        "kinship_dfc4c002e367dc6c:past:person_90463868c1eef984"
+      ],
+      "lines": [
+        {
+          "speaker": "Keanu Meyer",
+          "text": "My daughter was born. I'll never forget that.",
+          "parts": ["journal.memoir-hook.ill-never-forget-that"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["journal.memoir-hook.ill-never-forget-that"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "text": "My daughter was born. I never knew."
+        }
+      ],
+      "parts": ["journal.memoir-hook.ill-never-forget-that"]
+    },
+    {
+      "i": 27,
       "kind": "conversation",
       "scene": "Madeline Meyer talks with Aiden Schmidt, March 18, 2027, turn 2; the talk's topic: home:person_90463a68c1eefcea.",
       "trace": [
@@ -1327,6 +1243,41 @@
         }
       ],
       "parts": ["conversation.home-reply-reply-still.i-live-in-place"]
+    },
+    {
+      "i": 28,
+      "kind": "journal",
+      "scene": "The \"My life\" journal of Elise Vasquez, chapter \"Darlington County, South Carolina\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated November 3, 2026"
+      ],
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:134411:clerk:0:2026-11-03",
+        "kinship_a03bc7a714ce87e5:past:person_7d07a9aeb2721953"
+      ],
+      "lines": [
+        {
+          "speaker": "Elise Vasquez",
+          "text": "My father was elected.",
+          "parts": ["journal.election-other-result.other-was-elected"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["journal.election-other-result.other-was-elected"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-got-elected"],
+          "text": "My father got elected."
+        }
+      ],
+      "parts": ["journal.election-other-result.other-was-elected"]
     }
   ]
 }

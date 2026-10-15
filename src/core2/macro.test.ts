@@ -85,6 +85,35 @@ describe("national economy", () => {
       expect(own.filter((row) => !row.inside)).toEqual([]);
     }
   });
+  it("omits unobserved local growth while observed growth changes national output", () => {
+    const previous = historyMonths("2026-10-01", p).at(-1)!;
+    const absent = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      undefined,
+      100_000,
+      p,
+    );
+    const noTown = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      undefined,
+      0,
+      p,
+    );
+    const growing = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      10,
+      100_000,
+      p,
+    );
+    expect(absent).not.toHaveProperty("townIncomeGrowthPct");
+    expect(absent).toEqual(noTown);
+    expect(growing.townIncomeGrowthPct).toBe(10);
+    expect(growing.outputGapPct).toBeGreaterThan(absent.outputGapPct);
+    expect(growing.unemploymentPct).toBeLessThan(absent.unemploymentPct);
+  });
   it("a higher rate lowers output and raises unemployment, with no draws", () => {
     const start = historyMonths("2026-10-01", p).at(-1)!;
     const run = (rate: number) => {
@@ -131,6 +160,13 @@ describe("the board", () => {
       core.finance.facilities.get("facility:shop-line")!.annualInterestRate!;
     advanceCore(core, "2026-12-31");
     const store = api.moduleState("macro");
+    const simulated = store
+      .table("months")
+      .rows()
+      .filter((row) => row.kind === "simulated");
+    expect(simulated.length).toBeGreaterThan(0);
+    for (const row of simulated)
+      expect(row).not.toHaveProperty("townIncomeGrowthPct");
     const conditions = core.finance.conditionsByPlace.get(place)!;
     expect(conditions.map((row) => row.at)).toEqual([
       "2026-10-01",

@@ -5,6 +5,7 @@
  * job's. The schedule and pay calendar follow a full-time job already in the
  * town (a public employer's where there is one), as the jobs engine hires.
  */
+import { inCustody } from "./modules/justice";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -22,7 +23,12 @@ export function startPublicJob(
 ): string | null {
   const c = api.state as CoreState;
   const person = c.people.get(input.personId);
-  if (!person?.alive || !c.organizations.has(input.employerId)) return null;
+  if (
+    !person?.alive ||
+    inCustody(api, input.personId) ||
+    !c.organizations.has(input.employerId)
+  )
+    return null;
   // A person who holds a post again after leaving it starts a new job under a
   // new id; a job still open for the post is theirs as it stands.
   const base = `job:public:${input.post}:${input.personId}`;
