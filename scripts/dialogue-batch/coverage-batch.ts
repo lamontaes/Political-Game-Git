@@ -39,6 +39,11 @@ import { boardGoverningBodyRules } from "../../src/core2/gov-rules/township-gove
 import { governmentUnit } from "../../src/core2/reference/government-units";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
+import {
+  endpointOf,
+  ENDPOINT_CLASSES,
+  type EndpointClass,
+} from "./scene-endpoint";
 import type { EnglishBank } from "./bank-compose";
 import { composeAddress } from "../../src/english/english-composition";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
@@ -1190,10 +1195,41 @@ function playYear(
     // The player's own talks, opened from the director's ledger.
     if (day % TALK_EVERY !== 0) continue;
     const me = core.people.get(playerId)!;
-    const known = [...new Set([...me.knownIds, ...me.familyIds])]
-      .filter((id) => id !== playerId && core.people.get(id)?.alive)
+    // Family talks are personal and rarely have a topic (owner, Oct 15,
+    // evening), so the player's talks are with people met in town: those
+    // already known, else a townsperson met in a group, as the golden path
+    // does ("turn 18 -> meet people").
+    const family = new Set(me.familyIds);
+    const known = [...me.knownIds]
+      .filter(
+        (id) =>
+          id !== playerId && !family.has(id) && core.people.get(id)?.alive,
+      )
       .sort();
-    if (!known.length) continue;
+    if (!known.length) {
+      const townsfolk = [...(core.peopleByPlace.get(me.placeId) ?? [])]
+        .filter((id) => {
+          const row = core.people.get(id);
+          return (
+            !!row?.alive &&
+            row.tier !== "husk" &&
+            id !== playerId &&
+            row.householdId !== me.householdId &&
+            !family.has(id) &&
+            ageOf(id) >= 18
+          );
+        })
+        .sort();
+      if (!townsfolk.length) continue;
+      const met = townsfolk[hashOf(seed, day, "met") % townsfolk.length]!;
+      api.meet(playerId, met, {
+        placeId: me.placeId,
+        sourceId: "batch-meeting",
+        cause: "met-in-group",
+        hours: 1,
+      });
+      known.push(met);
+    }
     const otherId = known[hashOf(seed, day, "known") % known.length]!;
     const talk = openConversation(core, playerId, otherId, { director });
     const turns = turnsOf(talk, day, false);
@@ -1313,46 +1349,6 @@ interface SceneLine {
   speaker: string;
   text: string;
   parts: string[];
-}
-
-type EndpointClass = keyof typeof endpointRules.classes;
-
-/**
- * What a scene is for (owner, Oct 15, evening): money, a bill or the
- * player's political life; a talk between relatives is personal, unless the
- * household's own money is the occasion. Null when nothing it is about gives
- * it an endpoint, and the scene is left out.
- */
-function endpointOf(scene: {
-  kind: string;
-  context?: string;
-  topic?: string;
-  occasion?: string;
-  kin?: boolean;
-}): EndpointClass | null {
-  const rules = endpointRules as unknown as {
-    byKind: Record<string, EndpointClass>;
-    byTopic: Record<string, EndpointClass>;
-    byOccasionPrefix: Record<string, EndpointClass>;
-    notices: { contextMatches: string; class: EndpointClass }[];
-  };
-  if (scene.kind === "notices")
-    return (
-      rules.notices.find((row) =>
-        new RegExp(row.contextMatches, "i").test(scene.context ?? ""),
-      )?.class ?? null
-    );
-  if (scene.kind !== "family" && scene.kind !== "conversation")
-    return rules.byKind[scene.kind] ?? null;
-  const money = Object.entries(rules.byOccasionPrefix).find(([prefix]) =>
-    scene.occasion?.startsWith(prefix),
-  )?.[1];
-  const topic = scene.topic
-    ? rules.byTopic[scene.topic.replace(/^[^>]*>/, "").split(":")[0]!]
-    : undefined;
-  // Between relatives the household's money is money; everything else is personal.
-  if (scene.kin) return money ?? (topic === "money" ? "money" : "personal");
-  return money ?? topic ?? null;
 }
 
 interface SceneItem {
@@ -1735,7 +1731,7 @@ function scenePage(batch: {
       "",
       `The scene: ${cell(item.scene)}`,
       "",
-      `What it is for: ${endpointRules.classes[item.endpoint as EndpointClass]}`,
+      `What it is for: ${ENDPOINT_CLASSES[item.endpoint as EndpointClass]}`,
       "",
       `How it was made: ${item.trace.map(cell).join(" ")}`,
       "",

@@ -1,0 +1,824 @@
+{
+  "id": "batch-endpoints",
+  "title": "Scene batch batch-endpoints (22 scenes)",
+  "at": "2026-10-15T22:07:52.948Z",
+  "head": "276f5622a08184d74b959e154fa059fbbe74b6eb",
+  "shortHead": "276f5622",
+  "seed": "endpoints-1",
+  "days": 365,
+  "status": "open",
+  "place": {
+    "name": "Reserve, Kansas",
+    "key": "2059050",
+    "seed": "afc3297a2e3b9ae890eee9e6820e769ef3d01f4c27160bde458b2391f167c186",
+    "passed": [
+      "2026-1 (\"Partner with federal immigration enforcement\")",
+      "2026-2 (\"Allow multifamily in single family zones\")",
+      "2026-3 (\"Right to counsel in eviction\")",
+      "2026-4 (\"Civilian oversight of police\")"
+    ],
+    "tried": [
+      "Tonganoxie, Kansas: the played world stopped before its year ended (Public pay does not match its actual owned work obligation.)"
+    ]
+  },
+  "kinds": {
+    "family": 2,
+    "journal": 5,
+    "meeting": 2,
+    "minutes": 3,
+    "legislation": 3,
+    "notices": 2,
+    "campaign": 2,
+    "interview": 3
+  },
+  "screened": {
+    "rejected": 7,
+    "byGrades": {
+      "lines": 7,
+      "alternatives": 1,
+      "ungrammatical": 0
+    },
+    "rejections": [
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      }
+    ]
+  },
+  "stoodIn": [
+    "Reserve: 0 decided races, office levels federal/state/city/county;  bills and roll calls are the legislature module's own rows (9 local bills, 5239 recorded votes); interviews are the press module's"
+  ],
+  "gaps": [
+    "no state or federal house (a chamber with a Speaker) with two members on record in this world, so no floor honor is said; a senate's and a town body's own way of honoring a member are not mined yet",
+    "no race was decided by the end of the run, so victory and concession lines (which need a recorded winner and loser) cannot be produced",
+    "defect for OPUS-GOV: 2 local bill(s) passed with no title on record (2027-1, budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line; 2027-1, budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line); a bill needs a title the words can name",
+    "A town body member's words to the chair: the meeting bank holds Congress's floor procedure, which a town council never hears, so no member speaks to the chair until a local body's own words are mined.",
+    "Hearings: the hearing bank holds a witness's thanks, answers and agreement but no chair's or member's question, so no answer could follow a question it was asked; hearings return when a question move is mined.",
+    "Scenes the world does not yet produce: a wedding, pork barreling (a member asking for a project in the district), a legislator arguing on the floor against another member by name.",
+    "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet.",
+    "Only 22 different scenes passed: the world held no more scenes whose phrases were not already shown."
+  ],
+  "items": [
+    {
+      "i": 0,
+      "kind": "family",
+      "endpoint": "money",
+      "scene": "A family scene at home in Reserve, March 20, 2027: Matthew O'Neal, 14, with Sage O'Neal; turn 1.",
+      "trace": [
+        "Fired by the director from the record employer-closed:2027-03-20:organization_7cc723c46bbf7182 (money:job-ended), staged at home because it is the household's own news (situation \"news-arrives\").",
+        "The talk opens on that record (the occasion), and asking for more is answered from the records (the jobs engine's search, the housing engine's case).",
+        "The replies are the four the engine offers this turn; say nothing is the smaller control beside them."
+      ],
+      "sourceRecordIds": [
+        "employer-closed:2027-03-20:organization_7cc723c46bbf7182",
+        "person_dc6c8d60f1d89e31",
+        "person_dc6c8b60f1d89acb"
+      ],
+      "lines": [
+        {
+          "speaker": "Narrator",
+          "text": "Your father is there.",
+          "parts": []
+        },
+        {
+          "speaker": "Sage O'Neal",
+          "text": "Let's talk.",
+          "parts": ["conversation.family-open-open.lets-talk"]
+        },
+        {
+          "speaker": "Sage O'Neal",
+          "text": "I lost my job.",
+          "parts": ["conversation.job-lost-raise.i-lost-my-job"]
+        }
+      ],
+      "test": "the choice set: mark each reply good or bad here, in this scene",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "What happened?",
+          "parts": ["conversation.news-answer-no.what-happened"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "Okay.",
+          "parts": ["conversation.greet-answer-fine.okay"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "I'm sorry to hear that.",
+          "parts": [
+            "conversation.other-work-answer-ack-none.im-sorry-to-hear-that"
+          ],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.job-lost-raise.i-lost-my-job"]
+    },
+    {
+      "i": 1,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Megan Wise, chapter \"Reserve, Kansas\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated November 3, 2026"
+      ],
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:208082:prosecutor:0:2026-11-03",
+        "kinship_757a17a21b7aba93:past:person_5183679940ddfc0f"
+      ],
+      "lines": [
+        {
+          "speaker": "Megan Wise",
+          "text": "My mother won. I didn't realize it at the time.",
+          "parts": ["journal.memoir-hook.i-didnt-realize-it-at-the-time"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["journal.memoir-hook.i-didnt-realize-it-at-the-time"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.memoir-hook.i-didnt-know-at-the-time"],
+          "text": "My mother won. I didn't know at the time."
+        }
+      ],
+      "parts": ["journal.memoir-hook.i-didnt-realize-it-at-the-time"]
+    },
+    {
+      "i": 2,
+      "kind": "meeting",
+      "endpoint": "bill",
+      "scene": "The City of Reserve council takes up 2026-1 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
+      "trace": [
+        "the chair's run-meeting sentences in data/english/parts/address.json, picked by the bill's recorded step"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:201800:council:2026-10-27:person_bbeee13e53bd2d50:1",
+        "person_3fb5d49985adc38c"
+      ],
+      "lines": [
+        {
+          "speaker": "Eden Neal (chair)",
+          "text": "The meeting will come to order.",
+          "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+        },
+        {
+          "speaker": "Eden Neal (chair)",
+          "text": "All in favor?",
+          "parts": ["address.chair-run-meeting.all-in-favor"]
+        },
+        {
+          "speaker": "Eden Neal (chair)",
+          "text": "The motion carries.",
+          "parts": ["address.chair-run-meeting.the-motion-carries"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "address.chair-run-meeting.the-committee-will-come-to-order"
+          ],
+          "text": "The committee will come to order."
+        }
+      ],
+      "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+    },
+    {
+      "i": 3,
+      "kind": "minutes",
+      "endpoint": "bill",
+      "scene": "The roll call on 2026-1 (\"Partner with federal immigration enforcement\") before the City of Reserve council: 5 for, 0 against; the bill enacted. Each name is read from a member's recorded vote.",
+      "trace": ["composeFromBank over data/english/parts/minutes.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:201800:council:2026-10-27:person_bbeee13e53bd2d50:1"
+      ],
+      "lines": [
+        {
+          "speaker": "City of Reserve council (minutes)",
+          "text": "Voting for this action: Eden Neal, Sandra Sanford, Parker Rivas, Peter Patrick and Michael Vazquez.",
+          "parts": ["minutes.vote.voting-for-this-action-members"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["minutes.vote.voting-for-this-action-members"]
+    },
+    {
+      "i": 4,
+      "kind": "legislation",
+      "endpoint": "bill",
+      "scene": "Its short title. 2026-1 (enacted), introduced October 27, 2026 before the City of Reserve council: it adopts \"Partner with federal immigration enforcement\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:201800:council:2026-10-27:person_bbeee13e53bd2d50:1"
+      ],
+      "lines": [
+        {
+          "speaker": "City of Reserve council (bill text)",
+          "text": "This Act may be cited as the \"Partner with federal immigration enforcement\".",
+          "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
+    },
+    {
+      "i": 5,
+      "kind": "notices",
+      "endpoint": "bill",
+      "scene": "A hearing notice for 2026-1, posted by the City of Reserve council.",
+      "trace": ["composeFromBank over data/english/parts/notices.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:201800:council:2026-10-27:person_bbeee13e53bd2d50:1"
+      ],
+      "lines": [
+        {
+          "speaker": "City of Reserve council clerk",
+          "text": "NOTICE OF PUBLIC HEARING\nPROJECT NAME: \"Partner with federal immigration enforcement\"\nDATE OF MEETING: October 27, 2026",
+          "parts": ["notice.hearing.public-hearing"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["notice.hearing.public-hearing"]
+    },
+    {
+      "i": 6,
+      "kind": "campaign",
+      "endpoint": "political-life",
+      "scene": "David Wynn speaks at a rally in Reserve as a candidate for U.S. Senator.",
+      "trace": [
+        "composeAddress (src/english/english-composition.ts), register campaign, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["official:term:seat:US-KS:us-senate:0:2026-10-12"],
+      "lines": [
+        {
+          "speaker": "David Wynn",
+          "text": "Thank you very much.",
+          "parts": ["address.state-floor-close.thank-you-very-much"]
+        },
+        {
+          "speaker": "David Wynn",
+          "text": "I grew up in Reserve.",
+          "parts": ["address.campaign-self.i-grew-up-in-place"]
+        },
+        {
+          "speaker": "David Wynn",
+          "text": "I need your vote.",
+          "parts": ["address.campaign-ask.i-need-your-vote"]
+        },
+        {
+          "speaker": "David Wynn",
+          "text": "Thank you, and God bless.",
+          "parts": ["address.campaign-close.thank-you-and-god-bless"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 3,
+        "axis": "formality",
+        "parts": ["address.campaign-close.thank-you-and-god-bless"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "address.campaign-close.god-bless-you-and-god-bless-america"
+          ],
+          "text": "God bless you, and God bless America."
+        }
+      ],
+      "parts": ["address.campaign-close.thank-you-and-god-bless"]
+    },
+    {
+      "i": 7,
+      "kind": "interview",
+      "endpoint": "political-life",
+      "scene": "A local reporter's interview of Laurie Cruz (a candidate in Reserve, 2026-10-19); asked about \"Shift highway funds to transit\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:cable:0:national:filing:contest:seat:US-KS:governor:2026-11-03:official:term:seat:US-KS:governor:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-KS:governor:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Laurie Cruz",
+          "text": "You have my word.",
+          "parts": ["interview.official-commit.you-have-my-word"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["interview.official-commit.you-have-my-word"]
+    },
+    {
+      "i": 8,
+      "kind": "family",
+      "endpoint": "money",
+      "scene": "A family scene at home in Reserve, April 10, 2027: Sage O'Neal, 35, with Samuel O'Neal; turn 1.",
+      "trace": [
+        "Fired by the director from the record job:public:staff:person_79cd0acca0f837c4:person_dc6c8b60f1d89acb (money:job-started), staged at home because it is the household's own news (situation \"celebration\").",
+        "The talk opens on that record (the occasion), and asking for more is answered from the records (the jobs engine's search, the housing engine's case).",
+        "The replies are the four the engine offers this turn; say nothing is the smaller control beside them."
+      ],
+      "sourceRecordIds": [
+        "job:public:staff:person_79cd0acca0f837c4:person_dc6c8b60f1d89acb",
+        "person_dc6c8b60f1d89acb",
+        "person_dc6c8a60f1d89918"
+      ],
+      "lines": [
+        {
+          "speaker": "Narrator",
+          "text": "Your son is here too.",
+          "parts": []
+        },
+        {
+          "speaker": "Narrator",
+          "text": "You got a job.",
+          "parts": []
+        },
+        {
+          "speaker": "Samuel O'Neal",
+          "text": "What do you think?",
+          "parts": ["conversation.news-ask-think.what-do-you-think"]
+        }
+      ],
+      "test": "the choice set: mark each reply good or bad here, in this scene",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "No kidding.",
+          "parts": ["conversation.news-answer-react.no-kidding"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "I heard about that.",
+          "parts": ["conversation.news-answer-yes.i-heard-about-that"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "I think it's great.",
+          "parts": ["conversation.news-answer-opinion.i-think-its-great"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.news-ask-think.what-do-you-think"]
+    },
+    {
+      "i": 9,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Lucia Wise, chapter \"My son\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated January 18, 1997"
+      ],
+      "sourceRecordIds": [
+        "person_5183669940ddfa5c",
+        "person_5183669940ddfa5c:family:person_6257fa5cd664ee61"
+      ],
+      "lines": [
+        {
+          "speaker": "Lucia Wise",
+          "text": "My son was born.",
+          "parts": ["journal.family-line-born.relation-was-born"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "variants": [],
+      "parts": ["journal.family-line-born.relation-was-born"]
+    },
+    {
+      "i": 10,
+      "kind": "meeting",
+      "endpoint": "bill",
+      "scene": "Lucia Wise speaks in the public comment period of a Reserve council meeting.",
+      "trace": [
+        "composeAddress (src/english/english-composition.ts), register public-comment, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["person_5183669940ddfa5c"],
+      "lines": [
+        {
+          "speaker": "Lucia Wise",
+          "text": "Good evening.",
+          "parts": ["address.public-comment-greet.good-evening"]
+        },
+        {
+          "speaker": "Lucia Wise",
+          "text": "I live in Reserve.",
+          "parts": ["address.public-comment-name.i-live-in-place"]
+        },
+        {
+          "speaker": "Lucia Wise",
+          "text": "That's all I have.",
+          "parts": ["address.public-comment-close.thats-all-i-have"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["address.public-comment-greet.good-evening"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["address.public-comment-greet.good-evening-everyone"],
+          "text": "Good evening, everyone."
+        }
+      ],
+      "parts": ["address.public-comment-greet.good-evening"]
+    },
+    {
+      "i": 11,
+      "kind": "minutes",
+      "endpoint": "bill",
+      "scene": "The discussion of \"Partner with federal immigration enforcement\" at the October 27, 2026 meeting (2026-1).",
+      "trace": ["composeFromBank over data/english/parts/minutes.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:201800:council:2026-10-27:person_bbeee13e53bd2d50:1"
+      ],
+      "lines": [
+        {
+          "speaker": "City of Reserve council (minutes)",
+          "text": "The staff provided an update on \"Partner with federal immigration enforcement\".",
+          "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
+    },
+    {
+      "i": 12,
+      "kind": "legislation",
+      "endpoint": "bill",
+      "scene": "Its short title. 2026-2 (enacted), introduced October 27, 2026 before the City of Reserve council: it adopts \"Allow multifamily in single family zones\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:201800:council:2026-10-27:person_f8c9328457ac4952:2"
+      ],
+      "lines": [
+        {
+          "speaker": "City of Reserve council (bill text)",
+          "text": "This title may be cited as the \"Allow multifamily in single family zones\".",
+          "parts": ["legislation.short-title.this-title-may-be-cited-as-the"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["legislation.short-title.this-title-may-be-cited-as-the"]
+    },
+    {
+      "i": 13,
+      "kind": "notices",
+      "endpoint": "political-life",
+      "scene": "The notice of the November 7, 2028 election in Reserve, from the contests the elections module holds.",
+      "trace": ["composeFromBank over data/english/parts/notices.json"],
+      "sourceRecordIds": [
+        "contest:seat:US:president:2028-11-07",
+        "contest:seat:US-KS:us-senate:1:2028-11-07",
+        "contest:seat:gus2025:208082:board:1:2028-11-07",
+        "contest:seat:gus2025:208082:board:3:2028-11-07",
+        "contest:seat:gus2025:208082:board:5:2028-11-07",
+        "contest:seat:US-KS:lower:062:0:2028-11-07",
+        "contest:seat:US-KS:us-house:02:2028-11-07"
+      ],
+      "lines": [
+        {
+          "speaker": "Reserve election office",
+          "text": "NOTICE OF ELECTION\nNOTICE IS HEREBY GIVEN that an election will be held in Reserve on November 7, 2028 for the following Officers: President, U.S. Senator, Commissioner, State Representative and U.S. Representative.",
+          "parts": ["notice.election.notice-of-election"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["notice.election.notice-of-election"]
+    },
+    {
+      "i": 14,
+      "kind": "campaign",
+      "endpoint": "political-life",
+      "scene": "Sharon Salazar speaks at a rally in Reserve as a candidate for U.S. Representative.",
+      "trace": [
+        "composeAddress (src/english/english-composition.ts), register campaign, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["official:term:seat:US-KS:us-house:02:2026-10-12"],
+      "lines": [
+        {
+          "speaker": "Sharon Salazar",
+          "text": "Thank you all for being here.",
+          "parts": ["address.hearing-open.thank-you-all-for-being-here"]
+        },
+        {
+          "speaker": "Sharon Salazar",
+          "text": "My name is Sharon Salazar.",
+          "parts": ["address.public-comment-name.my-name-is-name"]
+        },
+        {
+          "speaker": "Sharon Salazar",
+          "text": "God bless America.",
+          "parts": ["address.campaign-ask.god-bless-america"]
+        },
+        {
+          "speaker": "Sharon Salazar",
+          "text": "Thank you.",
+          "parts": ["address.state-floor-close.thank-you"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 3,
+        "axis": "word choice",
+        "parts": ["address.state-floor-close.thank-you"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["address.campaign-close.thank-you-all"],
+          "text": "Thank you all."
+        }
+      ],
+      "parts": ["address.state-floor-close.thank-you"]
+    },
+    {
+      "i": 15,
+      "kind": "interview",
+      "endpoint": "political-life",
+      "scene": "A local reporter's interview of Laurie Cruz (a candidate in Reserve, 2026-10-19); asked about \"Automatic voter registration\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:cable:0:national:filing:contest:seat:US-KS:governor:2026-11-03:official:term:seat:US-KS:governor:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-KS:governor:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Laurie Cruz",
+          "text": "That's a promise.",
+          "parts": ["interview.official-commit.thats-a-promise"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["interview.official-commit.thats-a-promise"]
+    },
+    {
+      "i": 16,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Lucia Wise, chapter \"Eric\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated May 6, 2000"
+      ],
+      "sourceRecordIds": [
+        "person_5183669940ddfa5c",
+        "person_5183669940ddfa5c:family:person_6257fb5cd664f014",
+        "person_6257fb5cd664f014"
+      ],
+      "lines": [
+        {
+          "speaker": "Lucia Wise",
+          "text": "Eric was born.",
+          "parts": ["journal.family-line-born.other-was-born"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "variants": [],
+      "parts": ["journal.family-line-born.other-was-born"]
+    },
+    {
+      "i": 17,
+      "kind": "minutes",
+      "endpoint": "bill",
+      "scene": "The discussion of \"Allow multifamily in single family zones\" at the October 27, 2026 meeting (2026-2).",
+      "trace": ["composeFromBank over data/english/parts/minutes.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:201800:council:2026-10-27:person_f8c9328457ac4952:2"
+      ],
+      "lines": [
+        {
+          "speaker": "City of Reserve council (minutes)",
+          "text": "Participants discussed \"Allow multifamily in single family zones\".",
+          "parts": ["minutes.discussion.participants-discussed-topic"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["minutes.discussion.participants-discussed-topic"]
+    },
+    {
+      "i": 18,
+      "kind": "legislation",
+      "endpoint": "bill",
+      "scene": "Its long title. 2026-3 (enacted), introduced October 27, 2026 before the City of Reserve council: it adopts \"Right to counsel in eviction\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:201800:council:2026-10-27:person_f8c9328457ac4952:3"
+      ],
+      "lines": [
+        {
+          "speaker": "City of Reserve council (bill text)",
+          "text": "To provide for right to counsel in eviction, and for other purposes.",
+          "parts": [
+            "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+          ]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": [
+        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+      ]
+    },
+    {
+      "i": 19,
+      "kind": "interview",
+      "endpoint": "political-life",
+      "scene": "A local reporter's interview of Laurie Cruz (a candidate in Reserve, 2026-10-19); asked about \"Clean electricity standard\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:cable:1:national:filing:contest:seat:US-KS:governor:2026-11-03:official:term:seat:US-KS:governor:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-KS:governor:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Laurie Cruz",
+          "text": "I'll do it.",
+          "parts": ["interview.official-commit.ill-do-it"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["interview.official-commit.ill-do-it"]
+    },
+    {
+      "i": 20,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Lucia Wise, chapter \"Megan\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated May 8, 2009"
+      ],
+      "sourceRecordIds": [
+        "person_5183669940ddfa5c",
+        "kinship_757a17a21b7aba93:past:person_5183669940ddfa5c",
+        "person_5183679940ddfc0f"
+      ],
+      "lines": [
+        {
+          "speaker": "Lucia Wise",
+          "text": "Megan was born. I'll never forget that.",
+          "parts": ["journal.memoir-hook.ill-never-forget-that"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["journal.memoir-hook.ill-never-forget-that"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "text": "Megan was born. I never knew."
+        }
+      ],
+      "parts": ["journal.memoir-hook.ill-never-forget-that"]
+    },
+    {
+      "i": 21,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Lucia Wise, chapter \"Alex\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated January 10, 2018",
+        "entry dated November 3, 2026",
+        "entry dated November 3, 2026"
+      ],
+      "sourceRecordIds": [
+        "person_5183669940ddfa5c",
+        "kinship_5a6da6a20bdb8b62:past:person_5183669940ddfa5c",
+        "person_5183689940ddfdc2",
+        "election-result:contest:seat:gus2025:208082:prosecutor:0:2026-11-03",
+        "person_5183669940ddfa5c:p8-opening-school-peers-v1:5a2cda299fcfbca7",
+        "term:seat:gus2025:208082:board:5:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Lucia Wise",
+          "text": "Alex was born. That was a turning point.",
+          "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+        },
+        {
+          "speaker": "Lucia Wise",
+          "text": "We won.",
+          "parts": ["journal.election-other-result.other-won"]
+        },
+        {
+          "speaker": "Lucia Wise",
+          "text": "Kristina Wheeler was a good friend. Kristina Wheeler became a commissioner.",
+          "parts": ["journal.memoir-remember.name-was-a-good-friend"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 2,
+        "axis": "word choice",
+        "parts": ["journal.memoir-remember.name-was-a-good-friend"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.memoir-remember.name-was-a-friend-of-mine"],
+          "text": "Kristina Wheeler was a friend of mine. Kristina Wheeler became a commissioner."
+        }
+      ],
+      "parts": ["journal.memoir-remember.name-was-a-good-friend"]
+    }
+  ]
+}
