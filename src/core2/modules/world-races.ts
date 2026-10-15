@@ -32,6 +32,7 @@ import {
   cycleTurnout,
   electionCycle,
   electorateSample,
+  officialCandidateIdentity,
   openNextCycle,
   resultOf,
   VOTING_MODULE_ID,
@@ -567,28 +568,49 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         "serving",
       ]) as unknown as TermRow[]
     )[0];
-    const drawn = drawOfficialIdentity({
-      worldSeed: loaded.worldSeed,
-      seatKey: key,
-      stateUsps: lawChain(api).stateKey.slice(3),
-      role: "state-executive-challenger",
-      referenceDate: api.state.date,
-      ...(seatId === "seat:US:vice-president" && president
-        ? { avoidFamilyNames: [president.identity.familyName] }
-        : {}),
-    });
+    // The person who won is the one sworn in: a resident by their record, a
+    // named candidate by the identity the ballot showed, and the running mate
+    // by the identity drawn for the ticket on election day.
+    const electionDay = novemberGeneralElectionDay(row.year);
+    const winner =
+      seatId === "seat:US:president"
+        ? api.state.people.get(row.winnerId)
+        : undefined;
+    const identity = winner
+      ? {
+          givenName: winner.givenName,
+          familyName: winner.familyName,
+          gender: winner.looks?.gender ?? "recorded",
+          birthDate: winner.birthDate,
+          homeState: lawChain(api).stateKey,
+        }
+      : seatId === "seat:US:president"
+        ? officialCandidateIdentity(api, key, electionDay)
+        : (() => {
+            const drawn = drawOfficialIdentity({
+              worldSeed: loaded.worldSeed,
+              seatKey: key,
+              stateUsps: lawChain(api).stateKey.slice(3),
+              role: "state-executive-challenger",
+              referenceDate: electionDay,
+              ...(president
+                ? { avoidFamilyNames: [president.identity.familyName] }
+                : {}),
+            });
+            return {
+              givenName: drawn.givenName,
+              familyName: drawn.familyName,
+              gender: drawn.gender,
+              birthDate: drawn.birthDate,
+              homeState: lawChain(api).stateKey,
+            };
+          })();
     terms.put({
       id: `term:${seatId}:${api.state.date}:elected`,
       seatId,
       officeId,
-      personId: null,
-      identity: {
-        givenName: drawn.givenName,
-        familyName: drawn.familyName,
-        gender: drawn.gender,
-        birthDate: drawn.birthDate,
-        homeState: lawChain(api).stateKey,
-      },
+      personId: winner ? winner.id : null,
+      identity,
       party,
       startDate: api.state.date,
       endDate: `${Number(api.state.date.slice(0, 4)) + 4}-01-20`,

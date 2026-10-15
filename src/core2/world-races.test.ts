@@ -29,6 +29,7 @@ import {
   racesOf,
 } from "./modules/world-races";
 import { contingentElection } from "./contingent-election";
+import { officialCandidateIdentity } from "./modules/voting";
 import { partySide } from "./appointments";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -208,6 +209,33 @@ describe("M2-10 state and federal races in the world", () => {
       expect(serving[0]!.party).toBe(pres!.winnerParty);
       expect(serving[0]!.startDate).toBe("2029-01-20");
     }
+    // The person sworn in is the person who won: a named candidate has the
+    // identity the ballot showed (the same on election day and today), and a
+    // resident keeps their record.
+    const seated = (
+      terms.query("bySeatStatus", [
+        "seat:US:president",
+        "serving",
+      ]) as unknown as {
+        personId: string | null;
+        identity: { givenName: string; familyName: string; birthDate: string };
+        reached: string;
+      }[]
+    )[0]!;
+    if (core.people.has(pres!.winnerId)) {
+      expect(seated.personId, `${state} ${key}`).toBe(pres!.winnerId);
+    } else {
+      const shown = officialCandidateIdentity(
+        api,
+        pres!.winnerId,
+        "2028-11-07",
+      );
+      expect(
+        `${seated.identity.givenName} ${seated.identity.familyName} ${seated.identity.birthDate}`,
+        `${state} ${key}`,
+      ).toBe(`${shown.givenName} ${shown.familyName} ${shown.birthDate}`);
+    }
+    expect(seated.reached).toBe("elected 2028");
     const own = pres!.states.find((s) => s.stateKey === state);
     govReport(
       "world-races-president",

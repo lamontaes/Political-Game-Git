@@ -2936,7 +2936,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger).",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Oct 15, 2026 (gov-inauguration-seats-winner): the voting module exports officialCandidateIdentity, which the results screen, the term at taking office and the inauguration all read."
   },
   {
     "id": "SG-WORLD-business-no-successor",
