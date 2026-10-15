@@ -424,7 +424,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       return [...core.jobs.values(), ...(rt?.jobs.values() ?? [])].filter(
         (j) =>
           j.occupationClassification === "profession:teacher" &&
-          ["service:school", "service:private-school"].includes(
+          ["service:school"].includes(
             core.organizations.get(j.organizationId)?.classification ?? "",
           ) &&
           core.organizations.get(j.organizationId)?.placeId === town,
@@ -636,7 +636,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       const rt = residentsRuntime(core);
       return [...core.jobs.values(), ...(rt?.jobs.values() ?? [])].filter(
         (j) =>
-          ["service:school", "service:private-school"].includes(
+          ["service:school"].includes(
             core.organizations.get(j.organizationId)?.classification ?? "",
           ) &&
           core.organizations.get(j.organizationId)?.placeId === town &&
@@ -688,7 +688,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       (j) =>
         j.endsAt === undefined &&
         core.organizations.get(j.organizationId)?.placeId === town &&
-        ["service:school", "service:private-school"].includes(
+        ["service:school"].includes(
           core.organizations.get(j.organizationId)?.classification ?? "",
         ),
     );
