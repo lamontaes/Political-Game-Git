@@ -162,7 +162,12 @@ describe("owners draw from profit", () => {
   });
 });
 
-async function foundingCore(owner: boolean, cook = false, big = false) {
+async function foundingCore(
+  owner: boolean,
+  cook = false,
+  big = false,
+  unfunded = false,
+) {
   const { CREDIT_MODULE } = await import("./modules/credit");
   const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
   const place2 = "place:founding-fixture",
@@ -193,6 +198,15 @@ async function foundingCore(owner: boolean, cook = false, big = false) {
     "people-mind-v1:risk": 3,
   };
   const people = [
+    ...(unfunded
+      ? [
+          {
+            ...person("a-unfunded", bold),
+            liquidMinor: 2_000_000,
+            livingCostDailyMinor: 100_000,
+          },
+        ]
+      : []),
     // $20,000 of savings: not enough to open without a loan.
     { ...person("founder", bold), liquidMinor: 2_000_000 },
     ...(owner ? [person("owner", bold, "job:owner")] : []),
@@ -384,6 +398,17 @@ describe("founding a business where a market has room", () => {
         .rows()
         .find((row) => row.kind === "startup"),
     ).toMatchObject({ borrowerId: "founder", approved: true });
+    expect(money(core)).toBe(total);
+  });
+
+  it("an unfunded applicant does not prevent a later founder from opening", async () => {
+    const core = await foundingCore(false, false, false, true);
+    const total = money(core);
+    advanceCore(core, "2026-12-15");
+    const foundings = api(core).moduleState("business").snapshot().tables
+      .foundings as unknown as Founding[];
+    expect(foundings.some((row) => row.founderId === "founder")).toBe(true);
+    expect(foundings.some((row) => row.founderId === "a-unfunded")).toBe(false);
     expect(money(core)).toBe(total);
   });
 

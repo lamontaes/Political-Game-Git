@@ -1461,13 +1461,13 @@ function foundings(api: CoreAPI): void {
       }),
     ]);
     if (selected.definition.id !== businessData.actions.expand.id) continue;
-    found(api, ownerId, market, {
+    const opened = found(api, ownerId, market, {
       parentId: grower.row.id,
       // The parent funds the location from cash above its own cushion.
       fundsMinor: Math.max(0, grower.cash - grower.cushion),
       strength: grower.strength,
     });
-    return;
+    if (opened) return;
   }
   const owners = new Set(ownerRows.map((row) => row.ownerId));
   const seekers = c.modules.has("jobs")
@@ -1508,9 +1508,8 @@ function foundings(api: CoreAPI): void {
     ]);
     if (result.selected!.definition.id !== businessData.actions.found.id)
       continue;
-    found(api, person.id, market);
-    // One opening a month; the next month's room is measured afresh.
-    return;
+    // A failed capital check must not block another willing founder.
+    if (found(api, person.id, market)) return;
   }
   // The wider population weighs it by the same reasons, as summed pulls (stopgap), until filled in.
   if (!c.modules.has("jobs")) return;
@@ -1549,8 +1548,9 @@ function foundings(api: CoreAPI): void {
       });
     }
   }
-  const founder = strongestPulls(api, "found", rows)[0];
-  if (founder) found(api, founder.id, market);
+  for (const founder of strongestPulls(api, "found", rows)) {
+    if (found(api, founder.id, market)) return;
+  }
 }
 
 function expandOption(
