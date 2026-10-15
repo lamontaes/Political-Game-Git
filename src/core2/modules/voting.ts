@@ -2156,6 +2156,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
           tag: rule.tag as "SOURCED" | "ESTIMATED",
           citation: rule.source,
           asOf: date,
+          ...(rule.tag === "ESTIMATED"
+            ? { estimatedFrom: "SG-GOV-empty-race-law" }
+            : {}),
         },
         sourceRecordIds: [contest.id],
       });

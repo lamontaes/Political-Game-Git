@@ -21,11 +21,32 @@ import {
   VOTING_MODULE_ID,
 } from "./modules/voting";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const place = drawPlace(seed, "office-federal");
-const world = buildBenchWorld(seed, "2026-01-20", {
-  twoLevel: true,
-  placeKey: place.key,
-});
+// A place is drawn from all 56; one with no Senate race in the 2026 cycle
+// (a third of them) has nothing for the senator fixture, so the draw goes on
+// to the next until a House and a Senate contest are both up.
+function drawWithBothChambers(): {
+  place: ReturnType<typeof drawPlace>;
+  world: ReturnType<typeof buildBenchWorld>;
+} {
+  for (let i = 0; i < 12; i += 1) {
+    const place = drawPlace(i ? `${seed}:${i}` : seed, "office-federal");
+    const world = buildBenchWorld(seed, "2026-01-20", {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const rows = coreAPI(world.core)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[];
+    if (
+      rows.some((c) => c.family === "usHouse") &&
+      rows.some((c) => c.officeId.includes("us-senate"))
+    )
+      return { place, world };
+  }
+  throw new Error(`No place with a House and a Senate race from seed ${seed}.`);
+}
+const { place, world } = drawWithBothChambers();
 const api = coreAPI(world.core);
 const elections = api.moduleState(ELECTIONS_MODULE_ID);
 const contests = elections.table("contests").rows() as unknown as ContestRow[];
@@ -110,5 +131,21 @@ describe("wide candidates and unfilled terms", () => {
       api.moduleState(VOTING_MODULE_ID).table("emptyRaces").get(row.id)
         ?.vacancyId,
     ).toBeTruthy();
+  });
+  it("edge fixture: an empty state or local race schedules its estimated holdover with a source the calendar accepts", () => {
+    const contest = contests.find((c) => c.family === "usHouse")!;
+    // The same contest as a state race: the rule it reads is the default one.
+    const empty = {
+      ...contest,
+      id: `fixture:empty-state:${contest.id}`,
+      level: "state",
+    };
+    elections.table("contests").put(empty);
+    expect(() => holdElection(api, empty.id)).not.toThrow();
+    const row = api
+      .moduleState(VOTING_MODULE_ID)
+      .table("emptyRaces")
+      .get(`empty:${empty.id}`)!;
+    expect(row.method).toBe("holdover");
   });
 });
