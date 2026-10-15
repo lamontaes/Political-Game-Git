@@ -4421,6 +4421,30 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-policy-power-unresolved",
+    "kind": "missing-record",
+    "file": "src/core2/policy-authority.ts",
+    "line": 40,
+    "whatItFakes": "Unmapped questions and unresolved powers-catalog cells cannot be introduced; the authority result records a disputed missing grant rather than silently permitting the action.",
+    "why": "The existing powers catalog leaves some per-place enabling powers and conditions unresolved. The engine cannot infer a grant from absent research.",
+    "replacement": "Sourced question mappings and specific per-place grants or restrictions in the powers catalog, read before introduction and executive orders.",
+    "addedBy": "Session D (second pool worker)",
+    "addedAt": "2026-10-15",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-policy-power-conditions",
+    "kind": "missing-mechanic",
+    "file": "src/core2/policy-authority.ts",
+    "line": 150,
+    "whatItFakes": "Inherited game-profile powers cells are provisional estimates; a cell explicitly marked limited retains a disputed grant while its qualitative conditions are not yet all executable predicates.",
+    "why": "The shared research catalog includes unsourced game-profile cells and records some conditional powers in prose rather than structured constraints.",
+    "replacement": "Sourced per-place cells and structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive order.",
+    "addedBy": "Session D (second pool worker)",
+    "addedAt": "2026-10-15",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-federal-proposal-coverage",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/world-legislating.ts",

@@ -21,6 +21,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  *   executive can revoke; it reaches people through the same law effects as a
  *   statute. Only orders an engine can carry are offered.
  */
+import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -602,7 +603,12 @@ export function orderableBy(api: CoreAPI): readonly string[] {
   const state = lawChain(api).stateKey;
   const raw = RESEARCH.places[state]?.canOrder ?? [];
   const keys = Array.isArray(raw) ? raw.map((r) => r.key) : Object.keys(raw);
-  return keys.filter((k) => k in ORDERABLE).sort();
+  return keys
+    .filter(
+      (k) =>
+        k in ORDERABLE && policyAuthority(api, ORDERABLE[k]!, "state").allowed,
+    )
+    .sort();
 }
 
 /**
@@ -621,6 +627,7 @@ export function issueOrder(
   if (!orderableBy(api).includes(input.order))
     throw new Error(`This office can't order ${input.order} here.`);
   const state = lawChain(api).stateKey;
+  const authority = policyAuthority(api, ORDERABLE[input.order]!, "state");
   const tomorrow = new Date(
     Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
   )
@@ -637,7 +644,7 @@ export function issueOrder(
     effectiveDate: tomorrow,
     measureId,
     citation: `Executive order ${measureId} by ${input.executiveId}`,
-    terms: { executiveOrder: true, issuedBy: input.executiveId },
+    terms: { executiveOrder: true, issuedBy: input.executiveId, authority },
   });
   table(api, "orders").put({
     id: measureId,
@@ -645,6 +652,7 @@ export function issueOrder(
     order: input.order,
     revoke: input.revoke ?? false,
     lawId: row.id,
+    authority,
     date: api.state.date,
   } as unknown as ModuleRow);
   return { lawId: row.id };
