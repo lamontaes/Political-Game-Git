@@ -1,6 +1,6 @@
 {
   "schema": "director-purpose-arcs/1",
-  "note": "How a scene with a purpose plays (owner, Oct 15, evening: a setup, a person with a purpose, stakes, and an exchange that plays to resolved or refused). Moves only: no sentence is here; the English engine words each move from data/english/parts/scene-talk.json. A purpose names what the asker states and the player's four reply moves; `follow` is how the asker answers each reply move, chosen by the asker's traits (each candidate's pulls, summed over the asker's trait levels; the highest wins, so no roll decides it); `again` is the player's four replies to that answer; `close` ends the exchange by its outcome. A yes or a no never ends a talk: the asker answers it, and the exchange closes only when the purpose is resolved or refused.",
+  "note": "How a scene with a purpose plays (owner, Oct 15, evening: a setup, a person with a purpose, stakes, and an exchange that plays to resolved or refused). Moves only: no sentence is here; the English engine words each move from data/english/parts/scene-talk.json. A purpose names what the asker states and the player's four reply moves; `follow` is how the asker answers each reply move, chosen by the asker's traits (each candidate's pulls, summed over the asker's trait levels; the highest wins, so no roll decides it); `again` is the player's four replies to that answer; `close` ends the exchange by its outcome. A yes or a no never ends a talk: the asker answers it, and the exchange closes only when the purpose is resolved or refused. A purpose may carry its own `follow` and `again`; the engine reads them before the shared ones, so a family talk never borrows a vote's answers.",
   "parameters": {
     "rounds": {
       "value": 2,
@@ -38,43 +38,572 @@
     },
     "press-comment": {
       "state": "ask",
-      "replies": ["answer", "deflect", "refuse", "confront"]
+      "replies": ["answer", "deflect", "refuse", "confront"],
+      "follow": {
+        "answer": [
+          {
+            "move": "ask",
+            "pulls": {
+              "personality-v1:facet-skeptical": 0.5,
+              "personality-v1:facet-persistent": 0.3
+            }
+          },
+          {
+            "move": "thank",
+            "pulls": {
+              "personality-v1:facet-polite": 0.4
+            }
+          }
+        ],
+        "deflect": [
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-persistent": 0.5
+            }
+          },
+          {
+            "move": "accept",
+            "pulls": {
+              "personality-v1:facet-polite": 0.3
+            }
+          }
+        ],
+        "refuse": [
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-persistent": 0.5,
+              "personality-v1:facet-argumentative": 0.3
+            }
+          },
+          {
+            "move": "accept",
+            "pulls": {
+              "personality-v1:facet-polite": 0.4
+            }
+          }
+        ],
+        "confront": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "ask": ["answer", "deflect", "refuse"],
+        "press": ["answer", "refuse", "deflect"],
+        "answer": ["answer", "refuse", "confront"]
+      }
     },
     "constituent-help": {
       "state": "request",
-      "replies": ["promise", "ask", "decline", "offer"]
+      "replies": ["promise", "ask", "decline", "offer"],
+      "follow": {
+        "promise": [
+          {
+            "move": "thank",
+            "pulls": {}
+          },
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-skeptical": 0.5,
+              "personality-v1:initial-trust": -0.4
+            }
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "decline": [
+          {
+            "move": "plea",
+            "pulls": {
+              "personality-v1:facet-sensitive": 0.4,
+              "personality-v1:facet-persistent": 0.3
+            }
+          },
+          {
+            "move": "accept",
+            "pulls": {
+              "personality-v1:facet-polite": 0.4
+            }
+          }
+        ],
+        "offer": [
+          {
+            "move": "thank",
+            "pulls": {}
+          },
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-skeptical": 0.5
+            }
+          }
+        ]
+      },
+      "again": {
+        "answer": ["promise", "offer", "decline"],
+        "plea": ["promise", "offer", "decline"],
+        "press": ["promise", "offer"]
+      }
     },
     "family-filing": {
       "state": "ask",
-      "replies": ["tell", "request", "deflect", "comfort"]
+      "replies": ["tell", "request", "deflect", "comfort"],
+      "follow": {
+        "tell": [
+          {
+            "move": "comfort",
+            "pulls": {
+              "personality-v1:facet-supportive": 0.5,
+              "personality-v1:facet-affectionate": 0.4
+            }
+          },
+          {
+            "move": "ask",
+            "pulls": {
+              "personality-v1:facet-curious": 0.4,
+              "personality-v1:facet-sensitive": 0.3
+            }
+          },
+          {
+            "move": "disagree",
+            "pulls": {
+              "personality-v1:facet-argumentative": 0.4,
+              "personality-v1:facet-defensive": 0.3
+            }
+          }
+        ],
+        "request": [
+          {
+            "move": "promise",
+            "pulls": {
+              "personality-v1:facet-supportive": 0.5,
+              "personality-v1:facet-generous": 0.3
+            }
+          },
+          {
+            "move": "decline",
+            "pulls": {
+              "personality-v1:facet-guarded": 0.5
+            }
+          }
+        ],
+        "deflect": [
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-persistent": 0.5
+            }
+          },
+          {
+            "move": "plea",
+            "pulls": {
+              "personality-v1:facet-sensitive": 0.4
+            }
+          }
+        ],
+        "comfort": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "apologize": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "promise": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "thank": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "accept": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "ask": ["tell", "apologize", "request"],
+        "comfort": ["thank", "promise", "request"],
+        "disagree": ["tell", "apologize", "request"],
+        "press": ["tell", "apologize", "promise"],
+        "plea": ["tell", "apologize", "promise"],
+        "promise": ["thank", "promise"],
+        "decline": ["request", "accept"]
+      }
     },
     "family-win": {
       "state": "congratulate",
-      "replies": ["thank", "promise", "boast", "tell"]
+      "replies": ["thank", "promise", "boast", "tell"],
+      "follow": {
+        "thank": [
+          {
+            "move": "promise",
+            "pulls": {}
+          }
+        ],
+        "promise": [
+          {
+            "move": "thank",
+            "pulls": {}
+          },
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-sensitive": 0.4
+            }
+          }
+        ],
+        "boast": [
+          {
+            "move": "confront",
+            "pulls": {}
+          }
+        ],
+        "tell": [
+          {
+            "move": "ask",
+            "pulls": {
+              "personality-v1:facet-curious": 0.5
+            }
+          },
+          {
+            "move": "promise",
+            "pulls": {
+              "personality-v1:facet-affectionate": 0.4
+            }
+          }
+        ],
+        "apologize": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "promise": ["thank", "promise"],
+        "press": ["promise", "thank"],
+        "confront": ["apologize", "boast", "thank"],
+        "ask": ["tell", "promise"]
+      }
     },
     "family-loss": {
       "state": "comfort",
-      "replies": ["thank", "blame", "deflect", "promise"]
+      "replies": ["thank", "blame", "deflect", "promise"],
+      "follow": {
+        "thank": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "blame": [
+          {
+            "move": "comfort",
+            "pulls": {
+              "personality-v1:facet-comforting": 0.6,
+              "personality-v1:facet-gentle": 0.4
+            }
+          },
+          {
+            "move": "disagree",
+            "pulls": {
+              "personality-v1:facet-argumentative": 0.3
+            }
+          }
+        ],
+        "deflect": [
+          {
+            "move": "plea",
+            "pulls": {}
+          }
+        ],
+        "promise": [
+          {
+            "move": "ask",
+            "pulls": {
+              "personality-v1:facet-sensitive": 0.4
+            }
+          },
+          {
+            "move": "thank",
+            "pulls": {
+              "personality-v1:facet-supportive": 0.4
+            }
+          }
+        ],
+        "tell": [
+          {
+            "move": "comfort",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "comfort": ["thank", "tell", "promise"],
+        "disagree": ["thank", "tell"],
+        "plea": ["tell", "thank", "deflect"],
+        "ask": ["tell", "promise"]
+      }
     },
     "family-absence": {
       "state": "confront",
-      "replies": ["apologize", "promise", "deflect", "blame"]
+      "replies": ["apologize", "promise", "deflect", "blame"],
+      "follow": {
+        "apologize": [
+          {
+            "move": "accept",
+            "pulls": {
+              "personality-v1:facet-forgiving": 0.6
+            }
+          },
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-persistent": 0.4,
+              "personality-v1:facet-vindictive": 0.4
+            }
+          }
+        ],
+        "promise": [
+          {
+            "move": "accept",
+            "pulls": {
+              "personality-v1:facet-forgiving": 0.5,
+              "personality-v1:initial-trust": 0.4
+            }
+          },
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-skeptical": 0.5
+            }
+          }
+        ],
+        "deflect": [
+          {
+            "move": "press",
+            "pulls": {
+              "personality-v1:facet-persistent": 0.5
+            }
+          },
+          {
+            "move": "plea",
+            "pulls": {
+              "personality-v1:facet-sensitive": 0.4
+            }
+          }
+        ],
+        "blame": [
+          {
+            "move": "disagree",
+            "pulls": {
+              "personality-v1:facet-argumentative": 0.5
+            }
+          },
+          {
+            "move": "plea",
+            "pulls": {
+              "personality-v1:facet-sensitive": 0.4
+            }
+          }
+        ]
+      },
+      "again": {
+        "press": ["promise", "apologize", "blame"],
+        "plea": ["promise", "apologize", "deflect"],
+        "disagree": ["apologize", "blame", "promise"]
+      }
     },
     "rally-volunteer": {
       "state": "request",
-      "replies": ["promise", "request", "thank", "deflect"]
+      "replies": ["promise", "request", "thank", "deflect"],
+      "follow": {
+        "promise": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "request": [
+          {
+            "move": "promise",
+            "pulls": {}
+          }
+        ],
+        "thank": [
+          {
+            "move": "ask",
+            "pulls": {}
+          }
+        ],
+        "deflect": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "ask": ["request", "promise"],
+        "press": ["request", "promise"],
+        "promise": ["thank"]
+      }
     },
     "rally-opponent": {
       "state": "confront",
-      "replies": ["disagree", "deflect", "confront", "boast"]
+      "replies": ["disagree", "deflect", "confront", "boast"],
+      "follow": {
+        "disagree": [
+          {
+            "move": "confront",
+            "pulls": {}
+          }
+        ],
+        "deflect": [
+          {
+            "move": "confront",
+            "pulls": {}
+          },
+          {
+            "move": "boast",
+            "pulls": {
+              "personality-v1:facet-cocky": 0.5,
+              "personality-v1:facet-smug": 0.4
+            }
+          }
+        ],
+        "confront": [
+          {
+            "move": "confront",
+            "pulls": {}
+          },
+          {
+            "move": "boast",
+            "pulls": {
+              "personality-v1:facet-cocky": 0.5
+            }
+          }
+        ],
+        "boast": [
+          {
+            "move": "confront",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "confront": ["disagree", "boast", "deflect"],
+        "boast": ["disagree", "confront", "deflect"]
+      }
     },
     "desk-bill": {
       "state": "deliver-news",
-      "replies": ["agree", "refuse", "ask", "stall"]
+      "replies": ["agree", "refuse", "ask", "stall"],
+      "follow": {
+        "agree": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "refuse": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "stall": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["agree", "refuse", "ask", "stall"],
+        "press": ["agree", "refuse"]
+      }
     },
     "staff-news": {
       "state": "deliver-news",
-      "replies": ["ask", "blame", "accept", "deflect"]
+      "replies": ["ask", "blame", "accept", "deflect"],
+      "follow": {
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "blame": [
+          {
+            "move": "promise",
+            "pulls": {}
+          }
+        ],
+        "accept": [
+          {
+            "move": "offer",
+            "pulls": {}
+          }
+        ],
+        "deflect": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ],
+        "agree": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "refuse": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ],
+        "thank": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["ask", "blame", "accept"],
+        "promise": ["thank", "accept"],
+        "offer": ["agree", "refuse"],
+        "press": ["accept", "ask"]
+      }
     },
     "section-bargain": {
       "state": "bargain",
@@ -84,15 +613,15 @@
   "outcomes": {
     "note": "What each reply move does to the purpose: resolved closes it, refused closes it the other way, open keeps the exchange going.",
     "resolved": [
+      "accept",
       "agree",
+      "answer",
+      "apologize",
+      "comfort",
       "promise",
       "relent",
-      "thank",
-      "answer",
       "tell",
-      "comfort",
-      "accept",
-      "apologize"
+      "thank"
     ],
     "refused": ["refuse", "decline", "withdraw"],
     "open": [
