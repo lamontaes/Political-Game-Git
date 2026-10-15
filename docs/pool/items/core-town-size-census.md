@@ -4,8 +4,8 @@ title: "A town opens at its real Census size (population.ts still caps above 10,
 area: core
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-town-size-census
 pr:
 blocked-on:
 milestone:
