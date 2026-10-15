@@ -56,13 +56,19 @@
     }
   ],
   "maxPerType": 3,
-  "stagedScenes": 25,
+  "stagedScenes": 27,
+  "stagedByType": {
+    "celebration": 4,
+    "funeral": 2,
+    "news-arrives": 11,
+    "reunion": 10
+  },
   "dropped": {
-    "identical-profile": 0,
+    "identical-profile": 9,
     "duplicate-item": 0,
-    "same-choice-set": 0,
-    "type-cap": 80,
-    "repeated-phrase": 41
+    "same-choice-set": 5,
+    "type-cap": 74,
+    "repeated-phrase": 38
   },
   "skipped": [
     {
@@ -104,10 +110,6 @@
     {
       "what": "gathering-missing",
       "reason": "awaitingProducer: "
-    },
-    {
-      "what": "funeral",
-      "reason": "no cause record in this world's year (it fires from feeling:event:life.death)"
     },
     {
       "what": "first-meeting",
@@ -248,6 +250,10 @@
     {
       "what": "eviction-notice",
       "reason": "awaitingProducer: eviction-served"
+    },
+    {
+      "what": "funeral speech house-floor",
+      "reason": "composeAddress stopped: No mined register house-floor"
     }
   ],
   "stoodIn": [],
@@ -266,10 +272,14 @@
         "person_6863eb73f501765e"
       ],
       "parts": [
-        "scene-words.setting-public-out.welcome-to-place",
-        "scene-words.present-one-one.who-is-with-you",
         "conversation.greet-open-hello.hello-name",
-        "conversation.greet-open-hello.nice-to-see-you"
+        "conversation.shared-school-ask-remember.you-remember-school",
+        "conversation.shared-school-answer-plain.of-course",
+        "conversation.shared-school-reply-years.that-was-a-while-ago",
+        "conversation.shared-school-answer-plain.oh-yes",
+        "conversation.shared-school-answer-turn.i-do",
+        "conversation.home-reply-answer-brief.oh",
+        "conversation.farewell-leave-bye.bye-now"
       ],
       "lines": [
         {
@@ -288,13 +298,13 @@
           "move": "narrate",
           "register": "scene-words",
           "bearing": "glad",
-          "words": 3,
+          "words": 2,
           "sentences": 1,
           "role": "narrator",
           "speaker": "Narrator",
-          "text": "Welcome to Brookside.",
+          "text": "You're outside.",
           "parts": [
-            "scene-words.setting-public-out.welcome-to-place"
+            "scene-words.setting-public-out.youre-outside"
           ],
           "slotRecordIds": [
             "jurisdiction_59500182da2857ae"
@@ -330,7 +340,7 @@
         },
         {
           "n": 3,
-          "turn": 98,
+          "turn": 0,
           "key": "arrival",
           "endpoint": "personal",
           "speakerTraits": {
@@ -358,6 +368,221 @@
         },
         {
           "n": 4,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "shared-school",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "greet",
+          "words": 5,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "You remember Newark Charter School?",
+          "parts": [
+            "conversation.shared-school-ask-remember.you-remember-school"
+          ],
+          "slotRecordIds": [
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "brief",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "shared-school",
+          "words": 2,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "Of course.",
+          "parts": [
+            "conversation.shared-school-answer-plain.of-course"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "years",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "brief",
+          "words": 5,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "That was a while ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-while-ago"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "plain",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "years",
+          "words": 2,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "Oh, yes.",
+          "parts": [
+            "conversation.shared-school-answer-plain.oh-yes"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "turn",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "plain",
+          "words": 2,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Jocelyn Fisher",
+          "text": "I do.",
+          "parts": [
+            "conversation.shared-school-answer-turn.i-do"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "shared-school",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "turn",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Jocelyn Fisher",
+          "text": "Of course.",
+          "parts": [
+            "conversation.shared-school-answer-plain.of-course"
+          ],
+          "slotRecordIds": [
+            "household_840258c1f3457672",
+            "person_15ba64778a4af32c:p8-opening-school-peers-v1:738c3df66f98b69f",
+            "person_15ba64778a4af32c:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 10,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "shared-school",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Oh.",
+          "parts": [
+            "conversation.home-reply-answer-brief.oh"
+          ],
+          "slotRecordIds": [
+            "conversation:person_15ba64778a4af32c:person_6863eb73f501765e:2026-10-19:2:2:brief",
+            "person_6863eb73f501765e"
+          ]
+        },
+        {
+          "n": 11,
           "turn": 98,
           "key": "arrival",
           "endpoint": "personal",
@@ -372,14 +597,14 @@
           "move": "farewell",
           "register": "conversation",
           "bearing": "glad",
-          "previousMove": "greet",
-          "words": 4,
+          "previousMove": "ack",
+          "words": 2,
           "sentences": 1,
           "role": "speaker",
           "speaker": "Liam Melendez",
-          "text": "Nice to see you.",
+          "text": "Bye now.",
           "parts": [
-            "conversation.greet-open-hello.nice-to-see-you"
+            "conversation.farewell-leave-bye.bye-now"
           ],
           "slotRecordIds": [
             "person_6863eb73f501765e"
@@ -389,44 +614,23 @@
     },
     {
       "i": 1,
-      "sceneId": "person_ad6661730b7a44c8:person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-      "situationType": "celebration",
-      "key": "honor",
+      "sceneId": "person:press:outlet:online:0:national:head:0:person:press:outlet:online:0:national:head:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
+      "situationType": "funeral",
+      "key": "loss",
       "endpoint": "personal",
       "profile": "warm",
-      "causeRecordId": "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-      "momentId": "person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+      "causeRecordId": "life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
+      "momentId": "person:press:outlet:online:0:national:head:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
       "castRecordIds": [
-        "person_ad6661730b7a44c8",
-        "person_ad6664730b7a49e1",
-        "person_5df2709ae25876f0",
-        "person_5df2739ae2587c09",
-        "person_919d8da083c1fee4",
-        "person_ad6662730b7a467b",
-        "person_ad6663730b7a482e",
-        "person_ad6666730b7a4d47",
-        "person_b0d74fe60ccc4259",
-        "person_cd8082badcb46c9c",
-        "person_cd8083badcb46e4f"
+        "person:press:outlet:online:0:national:head:0",
+        "person:press:outlet:online:0:national:owner:0"
       ],
-      "parts": [
-        "scene-words.setting-home-home.you-re-at-home-in-place",
-        "scene-words.present-one-one.who-is-here-too",
-        "scene-words.cause-money:job-started-started.you-got-a-job",
-        "conversation.own-work-answer-turn.where-do-you-work",
-        "conversation.own-work-new-answer-plain.im-at-employer",
-        "conversation.own-work-new-answer-brief.with-employer",
-        "conversation.greet-answer-fine.what-about-you",
-        "conversation.other-work-reply-none.not-at-the-moment",
-        "conversation.own-work-new-lie-elsewhere.i-work-for-claimed",
-        "conversation.home-reply-answer-brief.oh",
-        "conversation.farewell-leave-bye.see-you-later"
-      ],
+      "parts": [],
       "lines": [
         {
           "n": 1,
           "turn": 0,
-          "key": "honor",
+          "key": "loss",
           "endpoint": "personal",
           "speakerTraits": {
             "personality-v1:facet-friendly": 2,
@@ -438,23 +642,23 @@
           "lie": false,
           "move": "narrate",
           "register": "scene-words",
-          "bearing": "proud",
-          "words": 5,
+          "bearing": "grieving",
+          "words": 4,
           "sentences": 1,
           "role": "narrator",
           "speaker": "Narrator",
-          "text": "You're at home in Brookside.",
+          "text": "Nancy Schneider has died.",
           "parts": [
-            "scene-words.setting-home-home.you-re-at-home-in-place"
+            "scene-words.cause-feeling:event:life.death-other.other-has-died"
           ],
           "slotRecordIds": [
-            "jurisdiction_59500182da2857ae"
+            "person:press:outlet:online:0:national:owner:0"
           ]
         },
         {
           "n": 2,
-          "turn": 0,
-          "key": "honor",
+          "turn": 99,
+          "key": "loss",
           "endpoint": "personal",
           "speakerTraits": {
             "personality-v1:facet-friendly": 2,
@@ -464,355 +668,20 @@
             "personality-v1:facet-guarded": -2
           },
           "lie": false,
-          "move": "narrate",
-          "register": "scene-words",
-          "bearing": "proud",
-          "words": 5,
-          "sentences": 1,
-          "role": "narrator",
-          "speaker": "Narrator",
-          "text": "Your daughter is here too.",
-          "parts": [
-            "scene-words.present-one-one.who-is-here-too"
-          ],
-          "slotRecordIds": [
-            "kinship_1fbc680765a22c48:past:person_ad6661730b7a44c8"
-          ]
-        },
-        {
-          "n": 3,
-          "turn": 0,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": false,
-          "move": "narrate",
-          "register": "scene-words",
-          "bearing": "proud",
-          "words": 4,
-          "sentences": 1,
-          "role": "narrator",
-          "speaker": "Narrator",
-          "text": "You got a job.",
-          "parts": [
-            "scene-words.cause-money:job-started-started.you-got-a-job"
-          ],
-          "slotRecordIds": [
-            "organization_38be5e02cb70502c",
-            "jurisdiction_59500182da2857ae"
-          ]
-        },
-        {
-          "n": 4,
-          "turn": 0,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": false,
-          "move": "own-work-new",
-          "register": "conversation",
-          "bearing": "glad",
-          "words": 4,
-          "sentences": 1,
-          "role": "speaker",
-          "speaker": "Cora Robbins",
-          "text": "Where do you work?",
-          "parts": [
-            "conversation.own-work-answer-turn.where-do-you-work"
-          ],
-          "slotRecordIds": [
-            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-            "organization_38be5e02cb70502c"
-          ]
-        },
-        {
-          "n": 5,
-          "turn": 0,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": false,
-          "move": "plain",
-          "register": "conversation",
-          "bearing": "proud",
-          "previousMove": "own-work-new",
-          "words": 7,
-          "sentences": 1,
-          "role": "reply",
-          "speaker": "Leslie Robbins",
-          "text": "I'm at New Castle County Cleaning Services.",
-          "parts": [
-            "conversation.own-work-new-answer-plain.im-at-employer"
-          ],
-          "slotRecordIds": [
-            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-            "organization_38be5e02cb70502c",
-            "household_3333e1b01b2d79bc"
-          ]
-        },
-        {
-          "n": 6,
-          "turn": 0,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": false,
-          "move": "brief",
-          "register": "conversation",
-          "bearing": "proud",
-          "previousMove": "plain",
-          "words": 6,
-          "sentences": 1,
-          "role": "reply",
-          "speaker": "Leslie Robbins",
-          "text": "With New Castle County Cleaning Services.",
-          "parts": [
-            "conversation.own-work-new-answer-brief.with-employer"
-          ],
-          "slotRecordIds": [
-            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-            "organization_38be5e02cb70502c",
-            "household_3333e1b01b2d79bc"
-          ]
-        },
-        {
-          "n": 7,
-          "turn": 0,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": false,
-          "move": "turn",
-          "register": "conversation",
-          "bearing": "proud",
-          "previousMove": "brief",
-          "words": 10,
-          "sentences": 2,
-          "role": "reply",
-          "speaker": "Leslie Robbins",
-          "text": "I'm at New Castle County Cleaning Services. What about you?",
-          "parts": [
-            "conversation.own-work-new-answer-plain.im-at-employer",
-            "conversation.greet-answer-fine.what-about-you",
-            "conversation.greet-answer-fine.what-about-you"
-          ],
-          "slotRecordIds": [
-            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-            "organization_38be5e02cb70502c",
-            "household_3333e1b01b2d79bc"
-          ]
-        },
-        {
-          "n": 8,
-          "turn": 0,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": true,
-          "move": "lie-none",
-          "register": "conversation",
-          "bearing": "proud",
-          "previousMove": "turn",
-          "words": 4,
-          "sentences": 1,
-          "role": "lie",
-          "speaker": "Leslie Robbins",
-          "text": "Not at the moment.",
-          "parts": [
-            "conversation.other-work-reply-none.not-at-the-moment"
-          ],
-          "slotRecordIds": [
-            "person_ad6661730b7a44c8"
-          ]
-        },
-        {
-          "n": 9,
-          "turn": 0,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": true,
-          "move": "lie-elsewhere",
-          "register": "conversation",
-          "bearing": "proud",
-          "previousMove": "lie-none",
-          "words": 5,
-          "sentences": 1,
-          "role": "lie",
-          "speaker": "Leslie Robbins",
-          "text": "I work for Brookside Messenger.",
-          "parts": [
-            "conversation.own-work-new-lie-elsewhere.i-work-for-claimed"
-          ],
-          "slotRecordIds": [
-            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-            "organization_38be5e02cb70502c",
-            "organization:press:newspaper:3:jurisdiction_59500182da2857ae"
-          ]
-        },
-        {
-          "n": 10,
-          "turn": 0,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": true,
-          "move": "lie-elsewhere+turn",
-          "register": "conversation",
-          "bearing": "proud",
-          "previousMove": "lie-elsewhere",
-          "words": 8,
-          "sentences": 2,
-          "role": "lie",
-          "speaker": "Leslie Robbins",
-          "text": "I work for Brookside Messenger. What about you?",
-          "parts": [
-            "conversation.own-work-new-lie-elsewhere.i-work-for-claimed",
-            "conversation.greet-answer-fine.what-about-you"
-          ],
-          "slotRecordIds": [
-            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-            "organization_38be5e02cb70502c",
-            "organization:press:newspaper:3:jurisdiction_59500182da2857ae",
-            "household_3333e1b01b2d79bc"
-          ]
-        },
-        {
-          "n": 11,
-          "turn": 98,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": false,
-          "move": "own-work-new",
-          "register": "conversation",
-          "bearing": "proud",
-          "previousMove": "lie-elsewhere+turn",
-          "words": 7,
-          "sentences": 1,
-          "role": "speaker",
-          "speaker": "Leslie Robbins",
-          "text": "I'm at New Castle County Cleaning Services.",
-          "parts": [
-            "conversation.own-work-new-answer-plain.im-at-employer"
-          ],
-          "slotRecordIds": [
-            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
-            "organization_38be5e02cb70502c",
-            "household_3333e1b01b2d79bc"
-          ]
-        },
-        {
-          "n": 12,
-          "turn": 98,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": false,
-          "move": "ack",
-          "register": "conversation",
-          "bearing": "glad",
-          "previousMove": "own-work-new",
-          "words": 1,
-          "sentences": 1,
-          "role": "speaker",
-          "speaker": "Cora Robbins",
-          "text": "Oh.",
-          "parts": [
-            "conversation.home-reply-answer-brief.oh"
-          ],
-          "slotRecordIds": [
-            "conversation:person_ad6661730b7a44c8:person_ad6664730b7a49e1:2027-10-12:1:1:plain",
-            "person_ad6664730b7a49e1"
-          ]
-        },
-        {
-          "n": 13,
-          "turn": 98,
-          "key": "honor",
-          "endpoint": "personal",
-          "speakerTraits": {
-            "personality-v1:facet-friendly": 2,
-            "personality-v1:facet-affectionate": 2,
-            "personality-v1:facet-comforting": 2,
-            "personality-v1:facet-generous": 1,
-            "personality-v1:facet-guarded": -2
-          },
-          "lie": false,
-          "move": "farewell",
-          "register": "conversation",
-          "bearing": "glad",
-          "previousMove": "ack",
+          "move": "tell",
+          "register": "journal",
+          "bearing": "grieving",
           "words": 3,
           "sentences": 1,
-          "role": "speaker",
-          "speaker": "Cora Robbins",
-          "text": "See you later.",
+          "role": "journal",
+          "speaker": "George Moses",
+          "text": "Nancy Schneider died.",
           "parts": [
-            "conversation.farewell-leave-bye.see-you-later"
+            "journal.death-line-died.other-died"
           ],
           "slotRecordIds": [
-            "person_ad6664730b7a49e1"
+            "life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
+            "person:press:outlet:online:0:national:owner:0"
           ]
         }
       ]
@@ -831,10 +700,12 @@
         "person_6863e973f50172f8"
       ],
       "parts": [
-        "scene-words.present-one-one.who-is-here-too",
-        "scene-words.opening-tell-tell.who-has-something-to-tell-you",
         "conversation.family-open-open.sit-down",
-        "conversation.farewell-leave-bye.talk-to-you-soon"
+        "conversation.job-lost-raise.i-lost-my-job",
+        "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right",
+        "conversation.other-work-answer-ack-none.im-sorry",
+        "conversation.other-work-answer-ack.i-see",
+        "conversation.greet-open-hello.good-to-see-you"
       ],
       "lines": [
         {
@@ -895,7 +766,7 @@
         },
         {
           "n": 3,
-          "turn": 98,
+          "turn": 0,
           "key": "news-received",
           "endpoint": "personal",
           "speakerTraits": {
@@ -924,6 +795,158 @@
         },
         {
           "n": 4,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "job-lost-reply",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "family-open",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "I lost my job.",
+          "parts": [
+            "conversation.job-lost-raise.i-lost-my-job"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "brief",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "job-lost-reply",
+          "words": 6,
+          "sentences": 2,
+          "role": "reply",
+          "speaker": "Quinn Melendez",
+          "text": "Oh, no. Are you all right?",
+          "parts": [
+            "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "comfort",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "brief",
+          "words": 2,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Quinn Melendez",
+          "text": "I'm sorry.",
+          "parts": [
+            "conversation.other-work-answer-ack-none.im-sorry"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "job-lost-reply",
+          "register": "conversation",
+          "bearing": "braced",
+          "previousMove": "comfort",
+          "words": 6,
+          "sentences": 2,
+          "role": "speaker",
+          "speaker": "Quinn Melendez",
+          "text": "Oh, no. Are you all right?",
+          "parts": [
+            "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab",
+            "organization_9bd3c01bc76bc742",
+            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 98,
+          "key": "news-received",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "solemn",
+          "previousMove": "job-lost-reply",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Nicholas Melendez",
+          "text": "I see.",
+          "parts": [
+            "conversation.other-work-answer-ack.i-see"
+          ],
+          "slotRecordIds": [
+            "conversation:person_6863ea73f50174ab:person_6863e973f50172f8:2027-03-25:2:2:brief",
+            "person_6863e973f50172f8"
+          ]
+        },
+        {
+          "n": 9,
           "turn": 98,
           "key": "news-received",
           "endpoint": "personal",
@@ -938,73 +961,717 @@
           "move": "farewell",
           "register": "conversation",
           "bearing": "solemn",
-          "previousMove": "family-open",
+          "previousMove": "ack",
           "words": 4,
           "sentences": 1,
           "role": "speaker",
           "speaker": "Nicholas Melendez",
-          "text": "Talk to you soon.",
+          "text": "Good to see you.",
           "parts": [
-            "conversation.farewell-leave-bye.talk-to-you-soon"
+            "conversation.greet-open-hello.good-to-see-you"
           ],
           "slotRecordIds": [
-            "person_6863e973f50172f8"
+            "kinship_dda259f5d3fee886:past:person_6863ea73f50174ab"
           ]
         }
       ]
     },
     {
       "i": 3,
-      "sceneId": "person_6863ec73f5017811:person_6863ec73f5017811:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
-      "situationType": "news-arrives",
-      "key": "news-received",
+      "sceneId": "person:press:outlet:online:0:national:reporter:0:person:press:outlet:online:0:national:reporter:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
+      "situationType": "funeral",
+      "key": "loss",
       "endpoint": "personal",
-      "profile": "cold",
-      "causeRecordId": "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
-      "momentId": "person_6863ec73f5017811:2027-03-25:job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
+      "profile": "warm",
+      "causeRecordId": "life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
+      "momentId": "person:press:outlet:online:0:national:reporter:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
       "castRecordIds": [
-        "person_6863ec73f5017811",
-        "person_6863e973f50172f8"
+        "person:press:outlet:online:0:national:reporter:0",
+        "person:press:outlet:online:0:national:owner:0"
+      ],
+      "parts": [],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "loss",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "grieving",
+          "words": 3,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Nancy Schneider died.",
+          "parts": [
+            "scene-words.cause-feeling:event:life.death-other.other-died"
+          ],
+          "slotRecordIds": [
+            "person:press:outlet:online:0:national:owner:0"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 99,
+          "key": "loss",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "tell",
+          "register": "journal",
+          "bearing": "grieving",
+          "words": 3,
+          "sentences": 1,
+          "role": "journal",
+          "speaker": "Patricia Hutchinson",
+          "text": "Nancy Schneider died.",
+          "parts": [
+            "journal.death-line-died.other-died"
+          ],
+          "slotRecordIds": [
+            "life.death:person:press:outlet:online:0:national:owner:0:2027-08-28",
+            "person:press:outlet:online:0:national:owner:0"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 4,
+      "sceneId": "person_7436c439f5f42fc2:person_7436c439f5f42fc2:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2",
+      "situationType": "celebration",
+      "key": "honor",
+      "endpoint": "personal",
+      "profile": "warm",
+      "causeRecordId": "job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2",
+      "momentId": "person_7436c439f5f42fc2:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2",
+      "castRecordIds": [
+        "person_7436c439f5f42fc2",
+        "person_7436c539f5f43175"
       ],
       "parts": [
-        "scene-words.present-one-one.who-is-there",
-        "scene-words.opening-tell-tell.who-wants-to-talk-to-you",
-        "conversation.family-open-open.we-need-to-talk",
-        "conversation.farewell-leave-bye.i-need-to-go"
+        "conversation.farewell-leave-bye.have-a-good-day"
       ],
       "lines": [
         {
           "n": 1,
           "turn": 0,
-          "key": "news-received",
+          "key": "honor",
           "endpoint": "personal",
           "speakerTraits": {
-            "personality-v1:facet-friendly": -2,
-            "personality-v1:facet-affectionate": -2,
-            "personality-v1:facet-comforting": -2,
-            "personality-v1:facet-guarded": 2,
-            "personality-v1:facet-hostile": 1
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
           },
           "lie": false,
           "move": "narrate",
           "register": "scene-words",
-          "bearing": "braced",
-          "words": 4,
+          "bearing": "proud",
+          "words": 5,
           "sentences": 1,
           "role": "narrator",
           "speaker": "Narrator",
-          "text": "Your father is there.",
+          "text": "You're at home in Brookside.",
           "parts": [
-            "scene-words.present-one-one.who-is-there"
+            "scene-words.setting-home-home.you-re-at-home-in-place"
           ],
           "slotRecordIds": [
-            "kinship_e6ab1bf5d937f45a:past:person_6863ec73f5017811"
+            "jurisdiction_59500182da2857ae"
           ]
         },
         {
           "n": 2,
           "turn": 0,
-          "key": "news-received",
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your son is here too.",
+          "parts": [
+            "scene-words.present-one-one.who-is-here-too"
+          ],
+          "slotRecordIds": [
+            "kinship_050b4586c511b0d1:past:person_7436c439f5f42fc2"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 7,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You start at New Castle County Diner.",
+          "parts": [
+            "scene-words.cause-money:job-started-self.you-start-at-employer"
+          ],
+          "slotRecordIds": [
+            "organization_9bd3c01bc76bc742",
+            "jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": 2,
+            "personality-v1:facet-affectionate": 2,
+            "personality-v1:facet-comforting": 2,
+            "personality-v1:facet-generous": 1,
+            "personality-v1:facet-guarded": -2
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "glad",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "John Fletcher",
+          "text": "Have a good day.",
+          "parts": [
+            "conversation.farewell-leave-bye.have-a-good-day"
+          ],
+          "slotRecordIds": [
+            "kinship_0c6e6086c8e449bc:past:person_7436c439f5f42fc2"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 5,
+      "sceneId": "person_7436c439f5f42fc2:person_7436c439f5f42fc2:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2",
+      "situationType": "celebration",
+      "key": "honor",
+      "endpoint": "personal",
+      "profile": "boastful",
+      "causeRecordId": "job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2",
+      "momentId": "person_7436c439f5f42fc2:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2",
+      "castRecordIds": [
+        "person_7436c439f5f42fc2",
+        "person_7436c539f5f43175"
+      ],
+      "parts": [
+        "conversation.farewell-leave-bye.talk-to-you-soon"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You're at home in Brookside.",
+          "parts": [
+            "scene-words.setting-home-home.you-re-at-home-in-place"
+          ],
+          "slotRecordIds": [
+            "jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your son is here too.",
+          "parts": [
+            "scene-words.present-one-one.who-is-here-too"
+          ],
+          "slotRecordIds": [
+            "kinship_050b4586c511b0d1:past:person_7436c439f5f42fc2"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 7,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You start at New Castle County Diner.",
+          "parts": [
+            "scene-words.cause-money:job-started-self.you-start-at-employer"
+          ],
+          "slotRecordIds": [
+            "organization_9bd3c01bc76bc742",
+            "jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-cocky": 2,
+            "personality-v1:facet-smug": 2,
+            "personality-v1:facet-proud": 2,
+            "personality-v1:facet-humble": -2,
+            "personality-v1:facet-approval-seeking": 1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "glad",
+          "words": 4,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "John Fletcher",
+          "text": "Talk to you soon.",
+          "parts": [
+            "conversation.farewell-leave-bye.talk-to-you-soon"
+          ],
+          "slotRecordIds": [
+            "kinship_0c6e6086c8e449bc:past:person_7436c439f5f42fc2"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 6,
+      "sceneId": "person_565361c9720b3966:person_565361c9720b3966:2026-10-21:cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "situationType": "reunion",
+      "key": "arrival",
+      "endpoint": "personal",
+      "profile": "stubborn",
+      "causeRecordId": "cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "momentId": "person_565361c9720b3966:2026-10-21:cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "castRecordIds": [
+        "person_565361c9720b3966",
+        "person_6863eb73f501765e"
+      ],
+      "parts": [
+        "conversation.greet-open-hello.hi-there",
+        "conversation.shared-school-ask-remember.do-you-remember-school",
+        "conversation.shared-school-reply-years.that-was-years-years-ago",
+        "conversation.shared-school-answer-plain.oh-sure",
+        "conversation.shared-school-answer-turn.i-do-remember",
+        "conversation.home-reply-answer-brief.right",
+        "conversation.farewell-leave-bye.well-talk"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "glad",
+          "words": 4,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You are in Brookside.",
+          "parts": [
+            "scene-words.setting-public-out.you-are-in-place"
+          ],
+          "slotRecordIds": [
+            "jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "glad",
+          "words": 5,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Liam Melendez is with you.",
+          "parts": [
+            "scene-words.present-one-one.who-is-with-you"
+          ],
+          "slotRecordIds": [
+            "person_565361c9720b3966:p8-opening-school-peers-v1:0b8e55029efb8b95"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "greet",
+          "register": "conversation",
+          "bearing": "glad",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Hi there.",
+          "parts": [
+            "conversation.greet-open-hello.hi-there"
+          ],
+          "slotRecordIds": [
+            "person_6863eb73f501765e:p8-opening-school-peers-v1:0b8e55029efb8b95"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "shared-school",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "greet",
+          "words": 6,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Do you remember Newark Charter School?",
+          "parts": [
+            "conversation.shared-school-ask-remember.do-you-remember-school"
+          ],
+          "slotRecordIds": [
+            "person_565361c9720b3966:p8-opening-school-peers-v1:0b8e55029efb8b95",
+            "person_565361c9720b3966:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "years",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "shared-school",
+          "words": 5,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Lauren Villanueva",
+          "text": "That was 6 years ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-years-years-ago"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-09-01:1:person_565361c9720b3966",
+            "organization_9bd3c01bc76bc742",
+            "household_904acfa7329238b7",
+            "person_565361c9720b3966:p8-opening-school-peers-v1:0b8e55029efb8b95",
+            "person_565361c9720b3966:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "plain",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "years",
+          "words": 2,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Lauren Villanueva",
+          "text": "Oh, sure.",
+          "parts": [
+            "conversation.shared-school-answer-plain.oh-sure"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-09-01:1:person_565361c9720b3966",
+            "organization_9bd3c01bc76bc742",
+            "household_904acfa7329238b7",
+            "person_565361c9720b3966:p8-opening-school-peers-v1:0b8e55029efb8b95",
+            "person_565361c9720b3966:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 0,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "turn",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "plain",
+          "words": 3,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Lauren Villanueva",
+          "text": "I do remember.",
+          "parts": [
+            "conversation.shared-school-answer-turn.i-do-remember"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-09-01:1:person_565361c9720b3966",
+            "organization_9bd3c01bc76bc742",
+            "household_904acfa7329238b7",
+            "person_565361c9720b3966:p8-opening-school-peers-v1:0b8e55029efb8b95",
+            "person_565361c9720b3966:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "shared-school",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "turn",
+          "words": 5,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Lauren Villanueva",
+          "text": "That was 6 years ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-years-years-ago"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_9bd3c01bc76bc742:2027-09-01:1:person_565361c9720b3966",
+            "organization_9bd3c01bc76bc742",
+            "household_904acfa7329238b7",
+            "person_565361c9720b3966:p8-opening-school-peers-v1:0b8e55029efb8b95",
+            "person_565361c9720b3966:p8-deep-past-v1:school:middle"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "shared-school",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "Right.",
+          "parts": [
+            "conversation.home-reply-answer-brief.right"
+          ],
+          "slotRecordIds": [
+            "conversation:person_565361c9720b3966:person_6863eb73f501765e:2026-10-21:2:2:years",
+            "person_6863eb73f501765e"
+          ]
+        },
+        {
+          "n": 10,
+          "turn": 98,
+          "key": "arrival",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "ack",
+          "words": 2,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Liam Melendez",
+          "text": "We'll talk.",
+          "parts": [
+            "conversation.farewell-leave-bye.well-talk"
+          ],
+          "slotRecordIds": [
+            "person_6863eb73f501765e"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 7,
+      "sceneId": "person_ad6661730b7a44c8:person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+      "situationType": "celebration",
+      "key": "honor",
+      "endpoint": "personal",
+      "profile": "cold",
+      "causeRecordId": "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+      "momentId": "person_ad6661730b7a44c8:2027-02-01:job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+      "castRecordIds": [
+        "person_ad6661730b7a44c8",
+        "person_ad6664730b7a49e1"
+      ],
+      "parts": [
+        "conversation.own-work-new-ask-where.where-are-you-working-now",
+        "conversation.own-work-raise-tell.i-work-at-employer",
+        "conversation.own-work-new-answer-plain.at-employer",
+        "conversation.own-work-answer-turn.where-do-you-work",
+        "conversation.other-work-reply-none.not-right-now",
+        "conversation.own-work-new-lie-elsewhere.i-work-at-claimed",
+        "conversation.shared-school-answer-brief.yeah",
+        "conversation.farewell-leave-bye.goodbye"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "honor",
           "endpoint": "personal",
           "speakerTraits": {
             "personality-v1:facet-friendly": -2,
@@ -1016,23 +1683,23 @@
           "lie": false,
           "move": "narrate",
           "register": "scene-words",
-          "bearing": "braced",
-          "words": 7,
+          "bearing": "proud",
+          "words": 5,
           "sentences": 1,
           "role": "narrator",
           "speaker": "Narrator",
-          "text": "Your father wants to talk to you.",
+          "text": "You're at home in Brookside.",
           "parts": [
-            "scene-words.opening-tell-tell.who-wants-to-talk-to-you"
+            "scene-words.setting-home-home.you-re-at-home-in-place"
           ],
           "slotRecordIds": [
-            "kinship_e6ab1bf5d937f45a:past:person_6863ec73f5017811"
+            "jurisdiction_59500182da2857ae"
           ]
         },
         {
-          "n": 3,
-          "turn": 98,
-          "key": "news-received",
+          "n": 2,
+          "turn": 0,
+          "key": "honor",
           "endpoint": "personal",
           "speakerTraits": {
             "personality-v1:facet-friendly": -2,
@@ -1042,26 +1709,332 @@
             "personality-v1:facet-hostile": 1
           },
           "lie": false,
-          "move": "family-open",
-          "register": "conversation",
-          "bearing": "solemn",
-          "words": 4,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 5,
           "sentences": 1,
-          "role": "speaker",
-          "speaker": "Nicholas Melendez",
-          "text": "We need to talk.",
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your daughter is here too.",
           "parts": [
-            "conversation.family-open-open.we-need-to-talk"
+            "scene-words.present-one-one.who-is-here-too"
           ],
           "slotRecordIds": [
-            "job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8",
-            "person_6863e973f50172f8"
+            "kinship_1fbc680765a22c48:past:person_ad6661730b7a44c8"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 4,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You got a job.",
+          "parts": [
+            "scene-words.cause-money:job-started-started.you-got-a-job"
+          ],
+          "slotRecordIds": [
+            "organization_38be5e02cb70502c",
+            "jurisdiction_59500182da2857ae"
           ]
         },
         {
           "n": 4,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "own-work-new",
+          "register": "conversation",
+          "bearing": "glad",
+          "words": 5,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Cora Robbins",
+          "text": "Where are you working now?",
+          "parts": [
+            "conversation.own-work-new-ask-where.where-are-you-working-now"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c"
+          ]
+        },
+        {
+          "n": 5,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "plain",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "own-work-new",
+          "words": 8,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "I work at New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-raise-tell.i-work-at-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 6,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "brief",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "plain",
+          "words": 6,
+          "sentences": 1,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "At New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-new-answer-plain.at-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 7,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "turn",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "brief",
+          "words": 12,
+          "sentences": 2,
+          "role": "reply",
+          "speaker": "Leslie Robbins",
+          "text": "I work at New Castle County Cleaning Services. Where do you work?",
+          "parts": [
+            "conversation.own-work-raise-tell.i-work-at-employer",
+            "conversation.own-work-answer-turn.where-do-you-work",
+            "conversation.own-work-answer-turn.where-do-you-work"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 8,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": true,
+          "move": "lie-none",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "turn",
+          "words": 3,
+          "sentences": 1,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "Not right now.",
+          "parts": [
+            "conversation.other-work-reply-none.not-right-now"
+          ],
+          "slotRecordIds": [
+            "person_ad6661730b7a44c8"
+          ]
+        },
+        {
+          "n": 9,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": true,
+          "move": "lie-elsewhere",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-none",
+          "words": 5,
+          "sentences": 1,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "I work at Brookside Messenger.",
+          "parts": [
+            "conversation.own-work-new-lie-elsewhere.i-work-at-claimed"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "organization:press:newspaper:3:jurisdiction_59500182da2857ae"
+          ]
+        },
+        {
+          "n": 10,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": true,
+          "move": "lie-elsewhere+turn",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-elsewhere",
+          "words": 9,
+          "sentences": 2,
+          "role": "lie",
+          "speaker": "Leslie Robbins",
+          "text": "I work at Brookside Messenger. Where do you work?",
+          "parts": [
+            "conversation.own-work-new-lie-elsewhere.i-work-at-claimed",
+            "conversation.own-work-answer-turn.where-do-you-work"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "organization:press:newspaper:3:jurisdiction_59500182da2857ae",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 11,
           "turn": 98,
-          "key": "news-received",
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "own-work-new",
+          "register": "conversation",
+          "bearing": "proud",
+          "previousMove": "lie-elsewhere+turn",
+          "words": 8,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Leslie Robbins",
+          "text": "I work at New Castle County Cleaning Services.",
+          "parts": [
+            "conversation.own-work-raise-tell.i-work-at-employer"
+          ],
+          "slotRecordIds": [
+            "job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8",
+            "organization_38be5e02cb70502c",
+            "household_3333e1b01b2d79bc"
+          ]
+        },
+        {
+          "n": 12,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-friendly": -2,
+            "personality-v1:facet-affectionate": -2,
+            "personality-v1:facet-comforting": -2,
+            "personality-v1:facet-guarded": 2,
+            "personality-v1:facet-hostile": 1
+          },
+          "lie": false,
+          "move": "ack",
+          "register": "conversation",
+          "bearing": "glad",
+          "previousMove": "own-work-new",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Cora Robbins",
+          "text": "Yeah.",
+          "parts": [
+            "conversation.shared-school-answer-brief.yeah"
+          ],
+          "slotRecordIds": [
+            "conversation:person_ad6661730b7a44c8:person_ad6664730b7a49e1:2027-02-01:1:1:plain",
+            "person_ad6664730b7a49e1"
+          ]
+        },
+        {
+          "n": 13,
+          "turn": 98,
+          "key": "honor",
           "endpoint": "personal",
           "speakerTraits": {
             "personality-v1:facet-friendly": -2,
@@ -1073,18 +2046,150 @@
           "lie": false,
           "move": "farewell",
           "register": "conversation",
-          "bearing": "solemn",
-          "previousMove": "family-open",
+          "bearing": "glad",
+          "previousMove": "ack",
+          "words": 1,
+          "sentences": 1,
+          "role": "speaker",
+          "speaker": "Cora Robbins",
+          "text": "Goodbye.",
+          "parts": [
+            "conversation.farewell-leave-bye.goodbye"
+          ],
+          "slotRecordIds": [
+            "kinship_422c140779142ac4:past:person_ad6661730b7a44c8"
+          ]
+        }
+      ]
+    },
+    {
+      "i": 8,
+      "sceneId": "person_15ba67778a4af845:person_15ba67778a4af845:2027-09-06:job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_15ba67778a4af845",
+      "situationType": "celebration",
+      "key": "honor",
+      "endpoint": "personal",
+      "profile": "stubborn",
+      "causeRecordId": "job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_15ba67778a4af845",
+      "momentId": "person_15ba67778a4af845:2027-09-06:job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_15ba67778a4af845",
+      "castRecordIds": [
+        "person_15ba67778a4af845",
+        "person_15ba65778a4af4df"
+      ],
+      "parts": [
+        "conversation.farewell-leave-bye.ive-got-to-go"
+      ],
+      "lines": [
+        {
+          "n": 1,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 6,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You're home in New Castle County.",
+          "parts": [
+            "scene-words.setting-home-home.you-re-home-in-place"
+          ],
+          "slotRecordIds": [
+            "jurisdiction_307a965f4b66c09a"
+          ]
+        },
+        {
+          "n": 2,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 4,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "Your son is here.",
+          "parts": [
+            "scene-words.present-one-one.who-is-here"
+          ],
+          "slotRecordIds": [
+            "kinship_fe675620f9a015d1:past:person_15ba67778a4af845"
+          ]
+        },
+        {
+          "n": 3,
+          "turn": 0,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "narrate",
+          "register": "scene-words",
+          "bearing": "proud",
+          "words": 4,
+          "sentences": 1,
+          "role": "narrator",
+          "speaker": "Narrator",
+          "text": "You got a job.",
+          "parts": [
+            "scene-words.cause-money:job-started-started.you-got-a-job"
+          ],
+          "slotRecordIds": [
+            "organization_9bd3c01bc76bc742",
+            "jurisdiction_307a965f4b66c09a"
+          ]
+        },
+        {
+          "n": 4,
+          "turn": 98,
+          "key": "honor",
+          "endpoint": "personal",
+          "speakerTraits": {
+            "personality-v1:facet-persistent": 2,
+            "personality-v1:method-revision": -2,
+            "personality-v1:facet-argumentative": 2,
+            "personality-v1:facet-defensive": 1,
+            "personality-v1:facet-forgiving": -1
+          },
+          "lie": false,
+          "move": "farewell",
+          "register": "conversation",
+          "bearing": "glad",
           "words": 4,
           "sentences": 1,
           "role": "speaker",
-          "speaker": "Nicholas Melendez",
-          "text": "I need to go.",
+          "speaker": "River Fisher",
+          "text": "I've got to go.",
           "parts": [
-            "conversation.farewell-leave-bye.i-need-to-go"
+            "conversation.farewell-leave-bye.ive-got-to-go"
           ],
           "slotRecordIds": [
-            "person_6863e973f50172f8"
+            "kinship_05ca7120fd72aebc:past:person_15ba67778a4af845"
           ]
         }
       ]

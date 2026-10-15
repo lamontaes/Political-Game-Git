@@ -46,6 +46,12 @@ import {
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
 import { sentenceCount, wordCount } from "../../src/english/calibration";
 import { minedParts, slotValues } from "./mined-variants";
+import { composeAddress } from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
+import { REGISTER_CARDS } from "../../src/english/speech-registers";
+import { addressMoves } from "../english-corpus/address-bank";
+import { corePlaceByJurisdictionId } from "../../src/core2/place-lookup";
+import { spoken } from "../../src/director/words";
 
 /* ------------------------------------------------------------- world cache */
 
@@ -136,6 +142,11 @@ export function loadWorld(path: string): SavedWorld & { director: Director } {
       },
     } as CoreModule);
   }
+  // The year's own talks left "last talk" memories behind; a scene is composed
+  // as if nobody had talked yet, so they are cleared.
+  for (const known of core.knowledgeByPerson.values())
+    for (const key of [...known.keys()])
+      if (key.startsWith("talk:")) known.delete(key);
   // Rows go in once every module is registered.
   const api = coreAPI(core);
   for (const row of saved.modules)
@@ -435,14 +446,22 @@ export function runBench(args: string[]): number {
   // The staged entries come from the first load; each profile gets a fresh
   // load, because talking records events on the core.
   const first = loadWorld(worldCachePath(cache));
-  const staged: { personId: string; entry: ScheduleEntry }[] = [];
+  // One staged scene for each situation type the moment's records bound.
+  const staged: {
+    personId: string;
+    entry: ScheduleEntry;
+    binding: SceneBinding;
+  }[] = [];
   const typesSeen = new Map<string, number>();
   for (const [personId, book] of first.director.ledger.people)
     for (const entry of book.schedule) {
-      const binding = entry.bindings[0];
-      if (!binding) continue;
-      typesSeen.set(binding.typeKey, (typesSeen.get(binding.typeKey) ?? 0) + 1);
-      staged.push({ personId, entry });
+      for (const binding of entry.bindings) {
+        typesSeen.set(
+          binding.typeKey,
+          (typesSeen.get(binding.typeKey) ?? 0) + 1,
+        );
+        staged.push({ personId, entry, binding });
+      }
     }
   staged.sort(
     (a, b) =>
@@ -474,14 +493,15 @@ export function runBench(args: string[]): number {
       return row ? `${row.givenName} ${row.familyName}` : personId;
     };
     const journals = new Map<string, ReturnType<typeof composeJournal>>();
-    for (const { personId, entry } of staged) {
-      const binding = entry.bindings[0] as SceneBinding;
+    for (const { personId, entry: whole, binding } of staged) {
+      // The director's composeScene reads the first binding: hand it this one.
+      const entry = { ...whole, bindings: [binding] };
       const type = typeOf.get(binding.typeKey)!;
       const moment = director.ledger.people
         .get(personId)
         ?.momentsById.get(entry.momentId);
       if (!moment) continue;
-      const sceneId = `${personId}:${entry.momentId}`;
+      const sceneId = `${personId}:${entry.momentId}:${binding.typeKey}`;
       const hold =
         HELD_SETTINGS.has(binding.setting.kind) || HELD_TYPES.has(type.key)
           ? `held until something new is said in it (${binding.setting.kind} scene, owner Oct 15)`
@@ -506,6 +526,7 @@ export function runBench(args: string[]): number {
             nameOf,
             journals,
             standIn,
+            skipped,
           }),
         );
         all.push(...items);
@@ -520,11 +541,25 @@ export function runBench(args: string[]): number {
   });
 
   const deduped = dedupe(all, maxPerType, phraseOnce);
-  const kept = orderForPage(deduped.kept).map((item, at) => ({
-    ...item,
-    i: at,
-  }));
+  // A scene is shown once, with its narration; each profile's talk follows
+  // as that scene's items. Scenes are ordered so neighbors differ.
+  const byScene = new Map<string, (BenchItem & DedupeItem)[]>();
+  for (const item of deduped.kept)
+    byScene.set(item.sceneId, [...(byScene.get(item.sceneId) ?? []), item]);
+  const kept = orderForPage(
+    [...byScene.values()].map((list) => ({
+      typeKey: list[0]!.typeKey,
+      register: list[0]!.register,
+      list,
+    })),
+  )
+    .flatMap((scene) => scene.list)
+    .map((item, at) => ({ ...item, i: at }));
+  const stagedByType = Object.fromEntries(
+    [...typesSeen.entries()].sort(([a], [b]) => a.localeCompare(b)),
+  );
   writeOutputs({
+    stagedByType,
     id,
     cache,
     profiles,
@@ -565,9 +600,29 @@ interface SceneContext {
   nameOf: (id: string) => string;
   journals: Map<string, ReturnType<typeof composeJournal>>;
   standIn: string[];
+  skipped: Skipped[];
 }
 
+/**
+ * A scene is composed on its own day, as play does: the cached world is the
+ * year's end, and the talk reads "lately" from the core's date, so the date is
+ * set to the moment's for the call and put back.
+ */
 function composeSceneItems(ctx: SceneContext): (BenchItem & DedupeItem)[] {
+  const core = ctx.core as { date: string };
+  const year = core.date;
+  core.date = ctx.moment.date;
+  try {
+    return composeSceneItemsAt(ctx);
+  } finally {
+    core.date = year;
+  }
+}
+
+const profileDependent = (line: LineRow) =>
+  line.role !== "narrator" && line.role !== "journal";
+
+function composeSceneItemsAt(ctx: SceneContext): (BenchItem & DedupeItem)[] {
   const { core, director, personId, entry, binding, type, moment, profile } =
     ctx;
   const scene = composeScene(core, director, personId, entry);
@@ -700,6 +755,79 @@ function composeSceneItems(ctx: SceneContext): (BenchItem & DedupeItem)[] {
       );
     }
   }
+  // A speech, where the situation has one: the same composeAddress play calls,
+  // over the speaker's own record facts. A register the facts cannot word is
+  // listed, never invented.
+  for (const reg of type.tag.registers.filter((r) =>
+    r.startsWith("address/"),
+  )) {
+    const register = reg.slice("address/".length);
+    const note = (why: string) => {
+      const what = `${type.key} speech ${register}`;
+      if (!ctx.skipped.some((row) => row.what === what))
+        ctx.skipped.push({ what, reason: why });
+    };
+    try {
+      const card = addressMoves(register);
+      if (REGISTER_CARDS[card.register].setting !== "public-address") continue;
+      const who = core.people.get(personId)!;
+      const town = corePlaceByJurisdictionId(who.placeId as never);
+      const facts: Record<string, { text: string; sourceRecordIds: string[] }> =
+        {
+          name: { text: ctx.nameOf(personId), sourceRecordIds: [personId] },
+          ...(town
+            ? {
+                place: {
+                  text: spoken(town),
+                  sourceRecordIds: [who.householdId],
+                },
+              }
+            : {}),
+        };
+      const packet = {
+        surface: "dialogue",
+        momentKey: `${ctx.sceneId}:${register}`,
+        worldSeed: core.seed,
+        bankVersion: "words-address-v1",
+        stage: "default",
+        sourceRecordIds: [moment.causeId],
+        facts,
+        speaker: { personId, traits: {} },
+        knowledge: Object.entries(facts).map(([factKey, fact]) => ({
+          personId,
+          factKey,
+          sourceRecordIds: fact.sourceRecordIds,
+        })),
+      } as unknown as GroundedEnglishPacket;
+      const composed = composeAddress(packet, card.register, card.moves, {
+        speakerTraits: profile.traits,
+      });
+      if (composed.kind !== "rendered") {
+        note(
+          `composeAddress could not word it from the records: ${composed.reasons.slice(0, 2).join("; ")}`,
+        );
+        continue;
+      }
+      for (const move of composed.moves)
+        row(
+          {
+            role: "speech",
+            speaker: ctx.nameOf(personId),
+            text: move.text,
+            move: move.move.replace(/^\d+-/, ""),
+            parts: move.parts.map((part) => part.variantKey),
+            slotRecordIds: [...composed.sourceRecordIds],
+            register: "address",
+          },
+          personId,
+          97,
+        );
+    } catch (error) {
+      note(
+        `composeAddress stopped: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
   // What the other person said last, when the talk ended with no reply to offer.
   if (talkTo && talkLines)
     for (const line of talkLines().slice(talkSaid()))
@@ -760,15 +888,19 @@ function composeSceneItems(ctx: SceneContext): (BenchItem & DedupeItem)[] {
       momentId: moment.id,
       date: moment.date,
       setting: binding.setting,
+      // The people the scene names: whose scene it is, who opens it and the
+      // moment's counterparts, never everyone the records bound to it.
       castIds: [
         personId,
         ...(talkTo ? [talkTo] : []),
-        ...scene.presentIds,
+        ...moment.counterpartIds,
       ].filter((id, at, all) => all.indexOf(id) === at),
       lines,
-      pieces: lines.flatMap((line) => line.parts),
+      // The narration and the journal line belong to the scene and read the
+      // same for every profile; the rules count the profile's own lines.
+      pieces: lines.filter(profileDependent).flatMap((line) => line.parts),
       choiceSets,
-      phrases: lines.filter((l) => l.role !== "journal").map((l) => l.text),
+      phrases: lines.filter(profileDependent).map((l) => l.text),
       register:
         lines.find((l) => l.role !== "narrator")?.register ?? "scene-words",
     },
@@ -778,6 +910,7 @@ function composeSceneItems(ctx: SceneContext): (BenchItem & DedupeItem)[] {
 /* ------------------------------------------------------------------ outputs */
 
 function writeOutputs(input: {
+  stagedByType: Record<string, number>;
   id: string;
   cache: string;
   profiles: GradingProfile[];
@@ -798,6 +931,7 @@ function writeOutputs(input: {
     profiles: profiles.map((p) => ({ id: p.id, traits: p.traits })),
     maxPerType: input.maxPerType,
     stagedScenes: input.staged,
+    stagedByType: input.stagedByType,
     dropped: input.dropped,
     skipped: input.skipped,
     stoodIn: input.standIn,
@@ -830,6 +964,14 @@ function writeOutputs(input: {
     "",
   );
   for (const rule of DROP_RULES) out.push(`- ${rule}: ${input.dropped[rule]}`);
+  out.push(
+    "",
+    `Scenes the director staged from records, by situation type: ${
+      Object.entries(input.stagedByType)
+        .map(([type, count]) => `${type} ${count}`)
+        .join(", ") || "none"
+    }.`,
+  );
   out.push("", "## Situations skipped, with why", "");
   for (const row of input.skipped) out.push(`- ${row.what}: ${row.reason}`);
   out.push("", "## Facts that were stood in", "");
@@ -845,8 +987,12 @@ function writeOutputs(input: {
       `*Fired by ${item.causeRecordId}. Cast: ${item.castIds.join(", ")}.*`,
       "",
     );
-    if (narrator.length)
+    const firstOfScene =
+      kept.find((row) => row.sceneId === item.sceneId) === item;
+    if (firstOfScene && narrator.length)
       out.push(`> ${narrator.map((l) => l.text).join(" ")}`, "");
+    else if (!firstOfScene)
+      out.push("*The same scene as above, with this profile's talk.*", "");
     const turns = [...new Set(item.lines.map((l) => l.turn))]
       .filter((t) => t < 99)
       .sort((a, b) => a - b);

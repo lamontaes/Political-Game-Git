@@ -459,9 +459,7 @@
           "subject": "cause",
           "role": "home:moved",
           "choice": "moved",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "transcriptsUsing": 2,
@@ -556,9 +554,7 @@
           "subject": "cause",
           "role": "money:job-started",
           "choice": "started",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "transcriptsUsing": 2,
@@ -736,9 +732,7 @@
           "subject": "cause",
           "role": "money:job-ended",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -760,9 +754,7 @@
           "subject": "cause",
           "role": "money:job-ended",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -784,9 +776,7 @@
           "subject": "cause",
           "role": "money:job-ended",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -808,9 +798,7 @@
           "subject": "cause",
           "role": "money:job-ended",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -832,9 +820,7 @@
           "subject": "cause",
           "role": "money:job-left",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -856,9 +842,7 @@
           "subject": "cause",
           "role": "money:job-left",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -880,9 +864,7 @@
           "subject": "cause",
           "role": "money:job-started",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -904,9 +886,7 @@
           "subject": "cause",
           "role": "money:job-started",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -928,9 +908,7 @@
           "subject": "cause",
           "role": "money:job-started",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -952,9 +930,7 @@
           "subject": "cause",
           "role": "money:job-started",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -976,9 +952,7 @@
           "subject": "cause",
           "role": "feeling:event:life.death",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -1000,9 +974,7 @@
           "subject": "cause",
           "role": "feeling:event:life.death",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -1024,9 +996,7 @@
           "subject": "cause",
           "role": "feeling:event:housing.eviction",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -1048,9 +1018,7 @@
           "subject": "cause",
           "role": "feeling:event:housing.eviction",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -1072,9 +1040,7 @@
           "subject": "cause",
           "role": "feeling:event:health.serious-illness",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -1096,9 +1062,7 @@
           "subject": "cause",
           "role": "feeling:event:health.serious-illness",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -1120,9 +1084,7 @@
           "subject": "cause",
           "role": "feeling:event:health.serious-illness",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -1144,9 +1106,7 @@
           "subject": "cause",
           "role": "feeling:event:justice.imprisoned",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -1168,9 +1128,7 @@
           "subject": "cause",
           "role": "feeling:event:justice.imprisoned",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -1192,9 +1150,7 @@
           "subject": "cause",
           "role": "feeling:event:justice.charged",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -1216,9 +1172,7 @@
           "subject": "cause",
           "role": "feeling:event:justice.charged",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -1240,9 +1194,7 @@
           "subject": "cause",
           "role": "feeling:event:justice.convicted",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -1264,9 +1216,7 @@
           "subject": "cause",
           "role": "feeling:event:justice.convicted",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,
@@ -1288,9 +1238,7 @@
           "subject": "cause",
           "role": "feeling:event:justice.acquitted",
           "choice": "other",
-          "stages": [
-            "other"
-          ]
+          "stages": ["other"]
         }
       ],
       "shippable": true,
@@ -1312,9 +1260,7 @@
           "subject": "cause",
           "role": "feeling:event:justice.acquitted",
           "choice": "self",
-          "stages": [
-            "self"
-          ]
+          "stages": ["self"]
         }
       ],
       "shippable": true,

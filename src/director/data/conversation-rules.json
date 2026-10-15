@@ -55,6 +55,18 @@
     "job-new": {
       "kind": "job-new-reply",
       "stage": "default"
+    },
+    "death-news": {
+      "kind": "death-news-reply",
+      "stage": "default"
+    },
+    "illness-news": {
+      "kind": "illness-news-reply",
+      "stage": "default"
+    },
+    "prison-news": {
+      "kind": "prison-news-reply",
+      "stage": "default"
     }
   },
   "follows": {

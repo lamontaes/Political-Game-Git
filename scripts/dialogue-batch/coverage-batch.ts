@@ -242,7 +242,12 @@ function readWorld(place: Place): {
   const circle = [
     ...new Set([world.playerId!, ...me.familyIds, ...me.knownIds]),
   ].slice(0, 24);
-  for (const person of circle) world.director.watch(core, person);
+  // The director watches every full person (`--watch all`, the default) so
+  // the year's records fire as many situations as the world holds; `--watch
+  // circle` watches only the player's circle, as the batches before 12 did.
+  const watched =
+    option("watch", "all") === "all" ? [...core.people.keys()] : circle;
+  for (const person of watched) world.director.watch(core, person);
   const town = place.name.split(",")[0]!;
   const talks = playYear(core, world.director, world.playerId!, town);
   lastWorld = { core, director: world.director, playerId: world.playerId! };

@@ -409,6 +409,13 @@ function lastEndedJob(core: Readonly<CoreState>, personId: PersonId) {
   return best ? core.jobs.get(best.jobId) : undefined;
 }
 
+/** The news a household member tells of a relative, by the label of the listener's moment. */
+const NEWS_KINDS: Readonly<Record<string, string>> = {
+  "feeling:event:life.death": "death-news",
+  "feeling:event:health.serious-illness": "illness-news",
+  "feeling:event:justice.imprisoned": "prison-news",
+};
+
 const EVICTION_LABEL = "feeling:event:housing.eviction";
 const EVICTION_EVENT = "event:housing.eviction:";
 
@@ -580,6 +587,61 @@ export function subjectsBetween(
         facts: { seeking: { text: "", sourceRecordIds: [seeking.id] } },
       });
     }
+  }
+  // A new job of the speaker's own, from the money moment of its start: the
+  // job record names the employer, so the talk opens on it ("I got a job at
+  // ..."), and the listener answers (congratulate, ask, brief).
+  const started = recentMoments(core, director, speakerId).find(
+    (moment) =>
+      moment.label === "money:job-started" && !moment.counterpartIds.length,
+  );
+  const startedJob = started ? core.jobs.get(started.causeId) : undefined;
+  const startedOrg = startedJob
+    ? core.organizations.get(startedJob.organizationId)
+    : undefined;
+  if (started && startedJob && startedOrg)
+    out.push({
+      id: `job-new:${started.causeId}`,
+      kind: "job-new",
+      aboutId: started.causeId,
+      facts: {
+        employer: {
+          text: properName(startedOrg.name),
+          sourceRecordIds: [startedJob.id, startedOrg.id],
+        },
+      },
+    });
+  // Hard news about a relative, told by the household member who has it: a
+  // death, a serious illness, a prison sentence. The listener's own moment
+  // names the person it is about; the listener's family record names how
+  // they are related ("Your grandmother passed away.").
+  for (const moment of recentMoments(core, director, listenerId)) {
+    const kind = NEWS_KINDS[moment.label];
+    const aboutId = moment.counterpartIds[zero];
+    if (!kind || !aboutId || aboutId === speakerId) continue;
+    const about = core.people.get(aboutId);
+    const row = (listener.pastFacts ?? []).find(
+      (fact) =>
+        fact.kind.startsWith("family:") &&
+        fact.facts?.otherPersonId === aboutId,
+    );
+    const forms = row
+      ? JOURNAL_DATA.relationWords[row.kind.slice("family:".length)]
+      : undefined;
+    const word = forms?.[about?.looks?.gender ?? "other"] ?? forms?.other;
+    if (!about || !row || !word) continue;
+    out.push({
+      id: `${kind}:${moment.causeId}`,
+      kind,
+      aboutId,
+      facts: {
+        relation: {
+          text: `${JOURNAL_DATA.possessive.scene} ${word}`,
+          sourceRecordIds: [row.id, moment.causeId],
+        },
+        name: { text: about.givenName, sourceRecordIds: [row.id] },
+      },
+    });
   }
   out.push(...evictionSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
@@ -1336,7 +1398,11 @@ function mainTopic(
     const weight = !occasion
       ? topicWeight(core, director, holderId, subject, data)
       : isAbout(subject, occasion, data)
-        ? Number.POSITIVE_INFINITY
+        ? // What the other person has to tell comes before the player's
+          // question about the same thing.
+          asks
+          ? Number.MAX_VALUE
+          : Number.POSITIVE_INFINITY
         : occasion.counterpartIds.includes(otherId) &&
             SHARED_KINDS.includes(subject.kind)
           ? Number.MAX_VALUE
