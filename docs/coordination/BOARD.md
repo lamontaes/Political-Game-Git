@@ -93,3 +93,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 10. OPUS-GOV Needs from other sessions list — second Session D, `pool/department-budget-requests` first bounded wiring item: a budget with no executive proposal reads the existing department requests; other listed law, election, office and Words work retains its active owner.
 
 - 10. Core handoff, health runtime snapshot — `pool/health-snapshot` (first Session D, follows renewal #4364; health runtime only, no director/English changes).
+
+- 10. OPUS-GOV Needs, candidate platform reader — `pool/candidate-platform-reader` (second Session D; platformFromViews and its two filing arguments only, reusing candidatePlatform; checked #4343/#4350 and neither changes that function. Session C retains race eligibility, candidate pools and filing decisions).
