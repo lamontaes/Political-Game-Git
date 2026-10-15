@@ -1,5 +1,10 @@
 # Second Session D pool worker
 
+The second pool worker has delivered fixes for lawmaking, campaigns, budgets and custody. Prison hiring is fixed in the played world; verification against newly merged work is underway. Lobbying the correct chambers is next. The pool remains open.
+
+## Work record
+
+
 The owner can follow real bank-issued loans and their rate changes in the macro proof. Draft #4334 is ready for CTO review: 17 tests, changed-file gate, and a drawn played year with record IDs in the body. No self-merge.
 
 - Credit stand-in: completed in `pool/credit-line-retirement`, #4334; duplicate #4336 was closed by the first worker.
