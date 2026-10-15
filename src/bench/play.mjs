@@ -484,7 +484,6 @@ function renderPacket(value) {
   packet = value ?? packet;
   const open = packet?.kind === "stop";
   $("day").disabled = busy || open;
-  $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
   $("card-why").textContent = endedBy(packet);
@@ -801,15 +800,13 @@ function atThePolls(scene) {
     show("ballot", true);
   });
 }
-// Day lives one day and Week seven; a skip-forward on the calendar runs to a
-// chosen day (owner, Oct 15, 2026). Anything that needs the player stops any of them.
-for (const mode of ["day", "week"])
-  $(mode).addEventListener("click", () => {
-    // Living on puts the evening's paper away and ends the first-choice glow.
-    show("news-surface", false);
-    coachUsed(...COACH_ORDER);
-    return act(`/api/advance?mode=${mode}`);
-  });
+// The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
+$("day").addEventListener("click", () => {
+  // Living on puts the evening's paper away and ends the first-choice glow.
+  show("news-surface", false);
+  coachUsed(...COACH_ORDER);
+  return act("/api/advance?mode=day");
+});
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -1758,28 +1755,6 @@ const sheets = {
       b.addEventListener("click", fn);
       return b;
     };
-    // A skip-forward icon with no label text; its name is for screen readers.
-    const skipForward = (iso) => {
-      const ns = "http://www.w3.org/2000/svg";
-      const svg = document.createElementNS(ns, "svg");
-      svg.setAttribute("viewBox", "0 0 24 24");
-      svg.setAttribute("aria-hidden", "true");
-      const shape = document.createElementNS(ns, "path");
-      shape.setAttribute("d", "M5 5l9 7-9 7zM16 5h3v14h-3z");
-      svg.append(shape);
-      const b = el("button", {
-        type: "button",
-        className: "calendar-skip",
-        title: labels.advance,
-      });
-      b.setAttribute("aria-label", labels.advance);
-      b.append(svg);
-      b.addEventListener("click", () => {
-        closeSheet();
-        act(`/api/advance?mode=to&date=${iso}`);
-      });
-      return b;
-    };
     const paging = (index, count, change) => {
       const back = button(labels.back, () => change(index - 1));
       const next = button(labels.next, () => change(index + 1));
@@ -1801,7 +1776,12 @@ const sheets = {
           }),
         );
       if (selected > (packet?.at.date ?? date))
-        details.append(skipForward(selected));
+        details.append(
+          button(labels.advance, () => {
+            closeSheet();
+            act(`/api/advance?mode=calendar&date=${selected}`);
+          }),
+        );
     };
     const select = (iso) => {
       selected = iso;

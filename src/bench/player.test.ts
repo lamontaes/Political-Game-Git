@@ -7,7 +7,6 @@ import {
 } from "../core2/player-stops-v1";
 import { advancePlayerV1 } from "../core2/player-v1";
 import { BenchPlayer } from "./player";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { CoreInput } from "../core2/types";
 
 // Controlled edge fixtures only; screen-receipt.json proves ordinary generated worlds.
@@ -16,15 +15,6 @@ const source = {
   asOf: "2020-01-01",
   citation: "Explicit bench adapter edge fixture",
 };
-/** A skip a year ahead of where the clock stands. */
-const skipYear = (player: BenchPlayer, date: string) =>
-  player.advance(
-    "to",
-    addDays(
-      makeIsoDate(player.packet?.at.date ?? addDays(makeIsoDate(date), 1)),
-      365,
-    ),
-  );
 function fixture() {
   const input: CoreInput = {
     seed: "bench-adapter-edge-fixture",
@@ -94,7 +84,7 @@ describe("bench public player adapter", () => {
       source,
       hold: true,
     });
-    const result = skipYear(player, core.date);
+    const result = player.advance("skip");
     expect(result.packet.kind).toBe("stop");
     expect(result.packet.at).toEqual(at);
     expect(result.earliest?.at).toEqual(at);
@@ -123,9 +113,9 @@ describe("bench public player adapter", () => {
     expect(day.packet.kind).toBe("complete");
     expect(day.selfChosen.length).toBeGreaterThan(0);
     expect(day.selfChosen[0]).toMatchObject({ why: "advancing" });
-    const result = skipYear(player, core.date);
+    const result = player.advance("skip");
     expect(result.selfChosen.length).toBeGreaterThan(1);
-    // Nothing needs the player in a year here: the skip runs to its day.
+    // Nothing needs the player in a year here: the skip runs to its lookahead.
     expect(result.packet.kind).toBe("complete");
     expect(result.packet.at.date).toBe(result.through.date);
     expect(core.date >= "2021-12-31").toBe(true);
@@ -143,20 +133,10 @@ describe("bench public player adapter", () => {
       source,
       hold: false,
     });
-    const result = skipYear(player, core.date);
+    const result = player.advance("skip");
     expect(result.packet.kind).toBe("stop");
     expect(result.packet.at).toEqual(at);
     expect(result.selfChosen.length).toBeGreaterThan(0);
-  });
-  it("lives a week for Week and runs to a chosen day for a skip", () => {
-    const { player } = fixture();
-    const day = player.advance("day").packet.at.date;
-    const week = player.advance("week").packet.at.date;
-    expect(week).toBe(addDays(makeIsoDate(day), 7));
-    const target = addDays(makeIsoDate(week), 20);
-    const skip = player.advance("to", target);
-    expect(skip.packet.at.date).toBe(target);
-    expect(() => player.advance("skip")).toThrow(/Unknown time control/);
   });
   it("switches residents mid-day: the first finishes its day on its own", () => {
     const { player, core } = fixture();
@@ -194,7 +174,9 @@ describe("bench public player adapter", () => {
   });
   it("rejects backward calendar movement and foreign answers before mutation", () => {
     const { player, core } = fixture();
-    expect(() => player.advance("to", "2020-01-01")).toThrow(/after today/);
+    expect(() => player.advance("calendar", "2020-01-01")).toThrow(
+      /after today/,
+    );
     const before = core.sequence;
     expect(() =>
       player.resume({

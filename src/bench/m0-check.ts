@@ -173,7 +173,7 @@ const specs: Record<string, () => string> = {
     const offset = 1 + (hash(`${seed}:m0-03:date`) % 14),
       // A fresh clock starts the day after the opening.
       from = addDays(makeIsoDate(OPENING_DATE), 1 + offset);
-    let result = player.advance("to", from);
+    let result = player.advance("calendar", from);
     while (result.packet.kind !== "complete")
       result = {
         ...result,
@@ -196,7 +196,7 @@ const specs: Record<string, () => string> = {
       },
     });
     const knownModuleStop = known?.modules.length ? known : null;
-    const skip = player.advance("to", addDays(makeIsoDate(at.date), lookahead)),
+    const skip = player.advance("skip", undefined, lookahead),
       packet = skip.packet;
     let why: string[] = [];
     if (packet.kind === "stop") {
