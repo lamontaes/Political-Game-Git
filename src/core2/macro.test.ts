@@ -1,3 +1,4 @@
+import { registerBoardAppointer } from "./central-bank-appointments";
 /** M1-02 module checks on a small recorded fixture; the generated-world proof is tooling/macro-proof.ts. */
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
@@ -187,45 +188,86 @@ describe("history before the start (M1-14, the economy's part)", () => {
         expect(row.payrollJobsThousands).toBe(source.payrollJobsThousands);
     }
   });
-  it("fills a governor's seat when the term ends and reappoints reserve bank presidents under the retirement age", () => {
+  it("holds governors over without changing their term and leaves unappointed Reserve Bank seats out of rate votes", () => {
     const core = createLifeCore(opening("2021-01-01"), {
-        data,
-        modules: [MACRO_MODULE],
-      }),
-      api = coreAPI(core);
-    advanceCore(core, "2021-01-02");
-    const members = () =>
-      api.moduleState("macro").table("members").query("all", [true]);
-    const before = new Map(members().map((row) => [row.seatId, row]));
-    advanceCore(core, "2022-03-01");
-    const after = members();
-    expect(after).toHaveLength(19);
-    for (const row of after)
-      expect(String(row.termEndsAt) >= core.date).toBe(true);
-    // Governor seat 1's term ended January 31, 2022: a new member for 14 years.
-    const seat = after.find((row) => row.seatId === "governor:1")!;
-    expect(seat.personId).not.toBe(before.get("governor:1")!.personId);
-    expect(seat).toMatchObject({
-      appointedAt: "2022-02-01",
-      termEndsAt: "2036-01-31",
+      data,
+      modules: [MACRO_MODULE],
     });
-    expect(core.people.get(String(seat.personId))).toBeTruthy();
+    const api = coreAPI(core);
+    advanceCore(core, "2021-01-02");
+    const members = api.moduleState("macro").table("members");
+    const before = new Map(members.rows().map((row) => [row.seatId, row]));
+    advanceCore(core, "2022-03-01");
+    const serving = members.query("all", [true]);
+    expect(serving).toHaveLength(7);
+    const seat = serving.find((row) => row.seatId === "governor:1")!;
+    expect(seat.personId).toBe(before.get("governor:1")!.personId);
+    expect(seat.termEndsAt).toBe("2022-01-31");
+    expect(seat.holdoverSince).toBe("2022-02-01");
+    const retired = members
+      .rows()
+      .filter((row) => row.seatKind === "president");
+    expect(retired).toHaveLength(12);
     expect(
-      core.eventIds.has(
-        `event:economy.board-appointment:2022-02-01:governor:1`,
-      ),
+      retired.every((row) => row.isMember === false && row.vacant === true),
     ).toBe(true);
-    // Presidents' five-year terms ran to February 28, 2021: each is reappointed or replaced at 65.
-    for (const row of after.filter((r) => r.seatKind === "president")) {
-      expect(row.termEndsAt).toBe("2026-02-28");
-      const old = before.get(String(row.seatId))!;
-      const person = core.people.get(String(old.personId))!;
-      const age = 2021 - Number(person.birthDate.slice(0, 4));
-      if (row.personId === old.personId) expect(age).toBeLessThanOrEqual(65);
+    const former = new Set(retired.map((row) => row.personId));
+    const votes = api
+      .moduleState("macro")
+      .table("votes")
+      .rows()
+      .filter((row) => String(row.meetingId) > "meeting:2021-03");
+    expect(votes.length).toBeGreaterThan(0);
+    for (const vote of votes) expect(former.has(vote.personId)).toBe(false);
+    expect(
+      [...core.eventIds].filter((id) =>
+        id.startsWith("event:economy.board-holdover:"),
+      ),
+    ).toHaveLength(1);
+    expect(
+      [...core.eventIds].filter((id) =>
+        id.startsWith("event:economy.board-vacancy:"),
+      ),
+    ).toHaveLength(12);
+    expect(
+      [...core.eventIds].filter((id) =>
+        id.startsWith("event:economy.board-appointment:"),
+      ),
+    ).toHaveLength(0);
+    // A later confirmed nomination fills the same statutory term, not a new
+    // fourteen-year term starting whenever the appointer finally responds.
+    registerBoardAppointer((_api, vacancy) =>
+      vacancy.seatKind === "governor"
+        ? { index: 0, reasons: { confirmedFixture: 1 } }
+        : undefined,
+    );
+    try {
+      advanceCore(core, "2022-04-01");
+      const filled = members
+        .query("all", [true])
+        .find((row) => row.seatId === "governor:1")!;
+      expect(filled.personId).not.toBe(seat.personId);
+      expect(filled.appointedAt).toBe("2022-04-01");
+      expect(filled.termEndsAt).toBe("2036-01-31");
+      expect(filled.holdoverSince).toBeUndefined();
+      registerBoardAppointer(() => ({
+        index: 0,
+        reasons: { confirmedFixture: 1 },
+      }));
+      advanceCore(core, "2022-05-01");
+      const refilled = members
+        .query("all", [true])
+        .filter((row) => row.seatKind === "president");
+      expect(refilled).toHaveLength(12);
+      expect(
+        refilled.every(
+          (row) =>
+            row.appointedAt === "2022-05-01" && row.termEndsAt === "2026-02-28",
+        ),
+      ).toBe(true);
+    } finally {
+      registerBoardAppointer(undefined);
     }
-    const leans = after.map((row) => Number(row.inflationLean));
-    expect(Math.min(...leans)).toBeLessThan(0);
-    expect(Math.max(...leans)).toBeGreaterThan(0);
   });
 });
 

@@ -2422,10 +2422,22 @@
     "file": "src/core2/central-bank-appointments.ts",
     "line": 39,
     "whatItFakes": "A seat's new member is the seeded candidate whose lived inflation sits closest to the board's middle, chosen without the president or the Senate.",
-    "why": "OPUS-GOV's nominateAndConfirm (the president's side picks, the real Senate confirms) is on its branch, not yet on this one.",
+    "why": "OPUS-GOV's nominateAndConfirm (the president's side picks, the real Senate confirms) is on its branch, not yet on this one. Removed by Session D on 2026-10-15: the board-middle selection and automatic five-year renewal were deleted. No appointment is invented; the remaining unimplemented route is SG-WORLD-board-appointment-records.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-WORLD-board-appointment-records",
+    "kind": "missing-record",
+    "file": "src/core2/central-bank-appointments.ts",
+    "line": 46,
+    "whatItFakes": "No automatic successor is appointed without the registered appointer. Living governors hold over under 12 USC 242; expired Reserve Bank presidencies leave the rate-voting roster under 12 USC 341.",
+    "why": "The played world has no registered presidential nomination/Senate confirmation route for these seats and no Class B/C Reserve Bank director appointment records. The former invented appointment feature was removed, not relabeled as implemented.",
+    "addedBy": "Session D",
+    "addedAt": "2026-10-15",
+    "replacement": "Connect actual governor nominations and Senate confirmations, and Class B/C director appointments with Board approval, through registerBoardAppointer; fill recorded vacancies when a qualified successor is confirmed.",
     "status": "open"
   },
   {

@@ -1,11 +1,11 @@
 /**
  * The central bank's seats turn over on their real dates. A governor's
- * 14-year term ends every second January and the seat goes to a new
- * appointee (a full term can't be renewed, 12 U.S.C. 242); a reserve bank
- * president is reappointed every five years until the System's retirement
- * age. The appointer chooses among seeded candidates: the president with the
- * Senate's consent (OPUS-GOV's `nominateAndConfirm`, registered with
- * `registerBoardAppointer`), or a stand-in until that's on this branch.
+ * 14-year term ends every second January (a full term cannot be renewed,
+ * 12 U.S.C. 242); Reserve Bank presidents have five-year terms.
+ * The appointer chooses among seeded candidates: the president with the
+ * Senate's consent for governors, or Class B/C directors with Board approval
+ * for Reserve Bank presidents. Without an appointment, governors hold over
+ * and expired Reserve Bank presidencies are vacant (12 U.S.C. 242, 341).
  */
 import {
   boardCandidates,
@@ -18,7 +18,6 @@ import {
 import type { MacroParameter } from "./macro-model";
 import type { ModuleTable } from "./module-state";
 import { fillInIdentity } from "./state";
-import { stopgap } from "./stopgaps";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Picks one of the candidates and gives its reasons; nothing when no one is confirmed. */
@@ -30,44 +29,11 @@ export type BoardAppointer = (
 ) => { index: number; reasons: Readonly<Record<string, number>> } | undefined;
 let appointer: BoardAppointer | undefined;
 
-export function registerBoardAppointer(next: BoardAppointer): void {
+export function registerBoardAppointer(next: BoardAppointer | undefined): void {
   appointer = next;
 }
 
-/** Until the president and Senate appoint: the candidate whose lived inflation sits closest to the board's middle. */
-const standIn: BoardAppointer = (_api, _vacancy, candidates, sitting) => {
-  stopgap("SG-WORLD-board-appointments");
-  const sorted = sitting
-    .map((row) => row.experiencedInflationPct)
-    .sort((a, b) => a - b);
-  const middle = sorted[Math.floor(sorted.length / 2)] ?? 0;
-  let index = 0;
-  candidates.forEach((row, i) => {
-    if (
-      Math.abs(row.experiencedInflationPct - middle) <
-      Math.abs(candidates[index]!.experiencedInflationPct - middle)
-    )
-      index = i;
-  });
-  return {
-    index,
-    reasons: {
-      distanceFromBoardMiddle: Math.abs(
-        candidates[index]!.experiencedInflationPct - middle,
-      ),
-    },
-  };
-};
-
-function ageOn(birthDate: string, date: string): number {
-  return (
-    Number(date.slice(0, 4)) -
-    Number(birthDate.slice(0, 4)) -
-    (date.slice(5) < birthDate.slice(5) ? 1 : 0)
-  );
-}
-
-/** Every seat whose term ended by today gets its next term: a reappointment or a new member. */
+/** Expired seats await an actual appointment; only living governors may hold over. */
 export function reviewBoardTerms(
   api: CoreAPI,
   members: ModuleTable,
@@ -75,76 +41,104 @@ export function reviewBoardTerms(
   source: Source,
 ): void {
   const core = api.state as CoreState;
-  for (;;) {
+  // Each expired seat is considered once this month. A rejected nomination
+  // must not extend its statutory term or prevent other seats being heard.
+  const expired = (
+    members.rows() as unknown as (BoardMember & {
+      isMember: boolean;
+      vacant?: boolean;
+      holdoverSince?: string;
+    })[]
+  )
+    .filter((row) => (row.isMember || row.vacant) && row.termEndsAt < core.date)
+    .sort(
+      (a, b) =>
+        a.termEndsAt.localeCompare(b.termEndsAt) || a.id.localeCompare(b.id),
+    );
+  for (const ended of expired) {
     const sitting = members.query("all", [true]) as unknown as BoardMember[];
-    const ended = sitting
-      .filter((row) => row.termEndsAt < core.date)
-      .sort((a, b) => a.termEndsAt.localeCompare(b.termEndsAt))[0];
-    if (!ended) return;
-    const vacancy = nextTerm(ended, p);
-    const incumbent = core.people.get(ended.personId);
-    const stays =
-      ended.seatKind === "president" &&
-      incumbent?.alive === true &&
-      ageOn(incumbent.birthDate, vacancy.termStartsAt) <
-        p("macroPresidentRetirementAge");
-    let next: BoardMember;
-    let reasons: Readonly<Record<string, number>> = {};
-    if (stays) {
-      next = {
+    let vacancy = nextTerm(ended, p);
+    while (vacancy.termEndsAt < core.date)
+      vacancy = nextTerm({ ...ended, termEndsAt: vacancy.termEndsAt }, p);
+    const candidates = appointer ? boardCandidates(core.seed, vacancy, p) : [];
+    const others = sitting.filter((row) => row.id !== ended.id);
+    const pick = appointer?.(api, vacancy, candidates, others);
+    if (!pick) {
+      // stopgapId: SG-WORLD-board-appointment-records
+      api.stopgap("SG-WORLD-board-appointment-records");
+      const holds =
+        ended.seatKind === "governor" &&
+        core.people.get(ended.personId)?.alive === true;
+      const alreadyRecorded = holds
+        ? ended.holdoverSince !== undefined
+        : ended.vacant === true;
+      members.put({
         ...ended,
-        appointedAt: vacancy.termStartsAt,
-        termEndsAt: vacancy.termEndsAt,
-      };
-    } else {
-      const candidates = boardCandidates(core.seed, vacancy, p);
-      const others = sitting.filter((row) => row.id !== ended.id);
-      const pick = (appointer ?? standIn)(api, vacancy, candidates, others);
-      // No one confirmed: the member stays on until a successor is (the Federal Reserve Act's holdover).
-      if (!pick) {
-        members.put({
-          ...ended,
-          termEndsAt: vacancy.termStartsAt,
-          isMember: true,
-        } as unknown as { id: string });
-        return;
+        isMember: holds,
+        vacant: !holds,
+        ...(holds ? { holdoverSince: ended.holdoverSince ?? core.date } : {}),
+      } as unknown as { id: string });
+      if (!alreadyRecorded) {
+        for (const row of holds ? [] : withLeans(others, p))
+          members.put({ ...row, isMember: true } as unknown as { id: string });
+        api.emit({
+          id: `event:economy.board-${holds ? "holdover" : "vacancy"}:${core.date}:${ended.seatId}`,
+          date: core.date,
+          kind: holds ? "economy.board-holdover" : "economy.board-vacancy",
+          personIds: [ended.personId],
+          placeId: core.people.get(ended.personId)!.placeId,
+          source,
+          publicRecord: true,
+          topic: ended.seatId,
+          facts: {
+            seatId: ended.seatId,
+            termEndsAt: ended.termEndsAt,
+            reason: "no-confirmed-appointment",
+          },
+        });
       }
-      reasons = pick.reasons;
+      continue;
+    }
+    {
+      const reasons = pick.reasons;
       const chosen = candidates[pick.index]!;
       const person = fillInIdentity(core, chosen.identity);
-      next = {
+      const next: BoardMember & { holdoverSince?: string } = {
         ...ended,
         personId: person.id,
-        appointedAt: vacancy.termStartsAt,
+        appointedAt: core.date,
         termEndsAt: vacancy.termEndsAt,
         career: chosen.career,
         experiencedInflationPct: chosen.experiencedInflationPct,
         source: chosen.identity.source,
       };
+      delete next.holdoverSince;
+      const board = withLeans(
+        [...sitting.filter((row) => row.id !== ended.id), next],
+        p,
+      );
+      for (const row of board)
+        members.put({ ...row, isMember: true, vacant: false } as unknown as {
+          id: string;
+        });
+      api.emit({
+        id: `event:economy.board-appointment:${core.date}:${ended.seatId}`,
+        date: core.date,
+        kind: "economy.board-appointment",
+        personIds: [next.personId],
+        placeId: core.people.get(next.personId)!.placeId,
+        source,
+        publicRecord: true,
+        topic: ended.seatId,
+        facts: {
+          seatId: ended.seatId,
+          reappointed: next.personId === ended.personId ? "yes" : "no",
+          termEndsAt: next.termEndsAt,
+          ...Object.fromEntries(
+            Object.entries(reasons).map(([key, value]) => [key, String(value)]),
+          ),
+        },
+      });
     }
-    const board = withLeans(
-      [...sitting.filter((row) => row.id !== ended.id), next],
-      p,
-    );
-    for (const row of board)
-      members.put({ ...row, isMember: true } as unknown as { id: string });
-    api.emit({
-      id: `event:economy.board-appointment:${core.date}:${ended.seatId}`,
-      date: core.date,
-      kind: "economy.board-appointment",
-      personIds: [next.personId],
-      placeId: core.people.get(next.personId)!.placeId,
-      source,
-      publicRecord: true,
-      topic: ended.seatId,
-      facts: {
-        seatId: ended.seatId,
-        reappointed: stays ? "yes" : "no",
-        termEndsAt: next.termEndsAt,
-        ...Object.fromEntries(
-          Object.entries(reasons).map(([key, value]) => [key, String(value)]),
-        ),
-      },
-    });
   }
 }
