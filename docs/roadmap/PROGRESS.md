@@ -1,10 +1,12 @@
 # Progress
 
-Session C: wider candidates now reach filing, campaign spending, and named ballots in a played year. The drawn Homer year took 109.424 seconds; 14 focused tests passed. Draft #4350 retains the empty-race and wider-resident record gaps.
-
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
+
+## Session C: wider candidates
+
+Session C: wider candidates now reach filing, campaign spending, and named ballots in a played year. The drawn Homer year took 109.424 seconds; 14 focused tests passed. Draft #4350 retains the empty-race and wider-resident record gaps.
 
 ## 2026-10-14 — Election day at the polls (`director/scenes-and-filters`)
 
