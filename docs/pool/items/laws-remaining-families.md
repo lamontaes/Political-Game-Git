@@ -7,7 +7,7 @@ priority: 1
 size: L
 status: blocked
 claimed-by: claude/laws-remaining-families
-pr:
+pr: "#4404"
 blocked-on: "laws-family-health-programs, laws-family-school-vouchers, laws-family-cannabis, laws-family-clean-air, laws-family-bargaining, laws-family-justice, laws-family-government-operations"
 milestone:
 source: "reissue-2026-10-15 item 1 (Session A)"
