@@ -214,9 +214,12 @@ registerSnapshotPart("core2-residents", {
       store,
       api: _a,
       moneyCache,
+      // Hooks other engines set (functions, set again after a restore).
+      releaseSavings: _r,
+      moveSavings: _m,
       ...rest
     } = rt;
-    void [_h, _p, _a];
+    void [_h, _p, _a, _r, _m];
     return {
       ...rest,
       input: undefined,
