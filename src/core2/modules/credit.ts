@@ -504,7 +504,7 @@ function lineTerms(
 function holdSavings(api: CoreAPI): void {
   const rt = residentsRuntime(core(api)),
     bank = bankOf(api);
-  if (!rt || !bank || rt.releaseSavings) return;
+  if (!rt || !bank || typeof rt.releaseSavings === "function") return;
   rt.moveSavings = (from, to, people, before) =>
     moveGroupSavings(api, depositTables(api), from, to, people, before);
   rt.releaseSavings = (group, people) =>
