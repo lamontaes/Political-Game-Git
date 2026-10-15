@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-family-cannabis
 pr:
 blocked-on:
 milestone:
