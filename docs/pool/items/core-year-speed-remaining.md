@@ -6,7 +6,7 @@ kind: bug
 priority: 1
 status: in-pr
 claimed-by: claude/core-year-speed-remaining
-pr: "#PENDING"
+pr: "#4447"
 blocked-on:
 milestone:
 source: "found by the session that took core-year-over-120s"
