@@ -124,7 +124,15 @@
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
   },
-  "news": {
-    "masthead": "The Public Record"
+  "levels": {
+    "local": "Local",
+    "state": "State",
+    "federal": "Federal",
+    "county": "County",
+    "city": "City",
+    "township": "Township"
+  },
+  "travel": {
+    "staff": "staff"
   }
 }

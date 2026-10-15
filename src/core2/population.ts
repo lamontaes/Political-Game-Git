@@ -30,7 +30,7 @@ import {
   householdMixForJurisdiction,
   type HouseholdMix,
   type HouseholdShape,
-} from "../simulation/household-mix";
+} from "./household-mix";
 import { createStableId, stableHash } from "./kernel/ids";
 import {
   corePlaceByKey,
@@ -55,12 +55,12 @@ import {
 import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";
+import { townHouseholdPeople } from "../simulation/living-world/town-residents";
 import {
   TOWN_RESIDENTS_VERSION,
-  townHouseholdPeople,
   townHouseholdSkeleton,
   type TownHouseholdSkeleton,
-} from "../simulation/living-world/town-residents";
+} from "./town-households";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { placeReferencePopulation } from "./gov-rules/place-population";
 import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
@@ -74,7 +74,7 @@ import {
   registeredTraitLean,
   upbringingQualities,
 } from "../simulation/people-traits";
-import { medianTransactionBalance } from "../simulation/starting-money";
+import { medianTransactionBalance } from "./starting-cash";
 import { traitRegistryFor } from "../simulation/trait-registry";
 import { isOneSided, type RegisteredTrait } from "../simulation/trait-packs";
 import type {
@@ -578,7 +578,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     partnerAgedHousehold({
       seed: options.seed,
       geo: partnershipGeo(corePlaceByJurisdictionId(town)?.sourceGeoid),
-      skeleton: townHouseholdSkeleton(seedWorld, town, index, shape),
+      skeleton: townHouseholdSkeleton(seedWorld.seed, town, index, shape),
       people: townHouseholdPeople(seedWorld, town, index, shape),
       rebirth: (person, age, sex) => {
         const birthDate = inventedPersonBirthDate(
@@ -1308,7 +1308,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         : "not-held",
       livingCostSource: `${LIVING_COSTS_SOURCE}; ${TOWN_RENT_META.fairMarketRents}`,
       cashSource:
-        "Federal Reserve SCF 2022 tables 1/6, families holding transaction accounts; src/simulation/starting-money.ts. No-job household reserve is an explicit expense-buffer estimate.",
+        "Federal Reserve SCF 2022 tables 1/6, families holding transaction accounts; src/core2/starting-cash.ts. No-job household reserve is an explicit expense-buffer estimate.",
       temporaryWorld:
         "Valid createWorld plus one person batch, one family-table batch and one canonical town employment batch; never advanced or returned.",
     },
