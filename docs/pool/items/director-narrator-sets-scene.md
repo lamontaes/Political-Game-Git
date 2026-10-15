@@ -19,3 +19,5 @@ source: "owner, Oct 15 evening, batch 11 grading"
 **Done when.** The next batch shows narrator paragraphs opening scenes in a drawn place.
 
 **Files.** src/director/_, data/english/parts/_
+
+Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.

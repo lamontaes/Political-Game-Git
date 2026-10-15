@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4444
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
@@ -22,3 +22,5 @@ source: "split of laws-remaining-families (Oct 15)"
 **Files.** src/core2/modules/place-prices.ts, src/core2/data/prices/_.json, src/core2/law-reach/group-a_.ts, src/core2/data/stopgaps.json.
 
 **Notes.** Needs a sourced per-adult spending figure by legal state.
+
+Session handed off Oct 15, 2026: PR #4444 (claude/laws-family-cannabis-v2) holds the spending-in-town-stores half; remainder: anything the PR body lists as not done.
