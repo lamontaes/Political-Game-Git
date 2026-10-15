@@ -6,7 +6,7 @@ kind: bug
 priority: 1
 status: in-pr
 claimed-by: claude/release-agents-align-declaration
-pr:
+pr: "#4409"
 blocked-on:
 milestone:
 source: "found while running release:check --mode pr on claude/laws-reach-group-b-failures"
