@@ -7,7 +7,7 @@ priority: 2
 status: open
 claimed-by:
 pr:
-blocked-on: "words-catalog-coverage"
+blocked-on:
 milestone:
 source: "words-and-director order 3"
 ---
