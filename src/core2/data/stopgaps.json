@@ -2445,11 +2445,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
     "line": 459,
-    "whatItFakes": "The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the modeled labor market.",
-    "why": "The generated opening employs only part of the town (unsupported workplaces are omitted), so most jobless adults are not really unemployed; the two-level population (OPUS-CORE) will hold the rest as counts.",
+    "whatItFakes": "The opening's job seekers in each place are its jobless working-age adults, as many as its region's unemployment rate implies against the place's own employed residents (full people: those whose money covers the fewest days; counted: in the households with the fewest earners); after the opening, people start and stop looking from causes.",
+    "why": "The opening records who works but not who is looking, so the unemployed at the start are set from the region's rate rather than read from each person's record.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
+    "replacement": "The opening's labor-force status by person (LAUS and CPS by place, age and household), so who is looking at the start comes from the records.",
     "status": "open"
   },
   {
