@@ -4,9 +4,9 @@ title: "A town year is still over 120 seconds after the monthly price fix (about
 area: core
 kind: bug
 priority: 1
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-year-speed-remaining
+pr: "#PENDING"
 blocked-on:
 milestone:
 source: "found by the session that took core-year-over-120s"
