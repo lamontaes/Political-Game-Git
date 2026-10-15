@@ -325,7 +325,7 @@
       "stopgapId": "SG-GOV-REACH-B-energy-price"
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
-      "mechanic": "records",
+      "mechanic": "farm-output",
       "effect": "groundwater-allocation",
       "kind": "compliance",
       "organizations": [

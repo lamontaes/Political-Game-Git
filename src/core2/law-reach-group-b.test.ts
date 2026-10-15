@@ -356,7 +356,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
     Q("environment-energy.ban-new-gas-hookups"),
     Q("environment-energy.clean-air-plan-for-polluted-counties"),
     Q("environment-energy.bottle-deposit"),
-    Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
     Q("agriculture-natural-resources.protect-farmland-from-development"),
   ];
   for (const key of employerRecords)

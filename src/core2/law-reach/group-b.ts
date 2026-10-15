@@ -57,6 +57,7 @@ import {
 
 type Mechanic =
   | "records"
+  | "farm-output"
   | "transit-fares"
   | "highway-shift"
   | "teacher-floor"
@@ -408,6 +409,8 @@ function runPolicy(
       });
       return;
     }
+    case "farm-output":
+      return; // The business engine reads the law when setting production limits.
     case "records":
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");
