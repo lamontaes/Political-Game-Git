@@ -1,6 +1,8 @@
 ---
 id: session-a-consumer-credit
-impact: none
+impact: patch
+section: Improved
+title: Consumer rate caps constrain personal loan offers
 ---
 
-Session A contract: read the consumer-rate law when quoting a personal loan, record the market and legal rates, and retain missing counted-borrower and statutory-product records as explicit gaps. Verify the decision read in a native played year and binding and repeal in controlled cases.
+New personal-loan offers read the consumer rate cap before the borrower and bank decide. Applications and loans retain the market rate and governing law. Product-specific rules and counted borrowers remain registered gaps.

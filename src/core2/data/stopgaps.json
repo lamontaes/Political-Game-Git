@@ -1448,11 +1448,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 231,
-    "whatItFakes": "The consumer loan rate cap records the right on adults, but no person holds a loan to reprice.",
-    "why": "Credit facilities exist only for organizations; people have no consumer loans.",
+    "whatItFakes": "The credit engine now reads the catalog cap when quoting new full-household personal loans. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted households still have no application path. Existing fixed-rate contracts are not retroactively repriced.",
+    "why": "Personal loans exist, but counted borrower decisions and repayments, lender exemptions, fee-inclusive APR and statutory product scope are missing. A binding native rate change, received explanation and director chain still need evidence.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "CORE: consumer credit for people (credit facilities with a person borrower); then GOV reprices loans above the cap with CORE's repriceCreditFacility(facilityId, cap, source).",
+    "replacement": "Shared full/count household borrowing and repayment, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
     "status": "open"
   },
   {
