@@ -101,10 +101,6 @@ console.log(`Launcher PID: ${process.pid}\n`);
 const origin = `http://${host === "::1" ? "[::1]" : host}:${port}`;
 console.log(`Play: ${origin}/src/bench/play.html`);
 console.log(`Seed: ${seed}`);
-console.log(
-  `Candidate-art Play (separate saves): ${origin}/?art-preview=candidate`,
-);
-console.log(`Private Art Desk: ${origin}/art-desk.html`);
 console.log(`Identity: ${origin}/__dev/identity`);
 
 const viteArgs = [

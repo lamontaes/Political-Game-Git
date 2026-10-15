@@ -38743,7 +38743,8 @@
     "removal": "judgment-for-possession",
     "settled": "counsel-negotiated-payment-plan",
     "planPaid": "payment-plan-completed",
-    "planMissed": "payment-plan-missed"
+    "planMissed": "payment-plan-missed",
+    "vacated": "tenancy-ended-before-removal"
   },
   "actions": {
     "buy": {
