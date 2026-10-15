@@ -4845,5 +4845,28 @@
       "unit": "days",
       "citation": "Six months to eighteen months."
     }
+  },
+  "trustWealthMidpointMinor": {
+    "value": 500000000,
+    "tag": "ESTIMATED",
+    "citation": "The estate, in cents, at which a person with no lean either way is as likely to have set up a living trust as not, and at which half of it sits in the trust. Few families hold trusts and holding rises steeply with wealth (Federal Reserve, Survey of Consumer Finances 2022, trust and managed-assets questions); the midpoint is placed near the wealth of the top few percent, an estimate and not a reading of any table.",
+    "estimatedFrom": "The Survey of Consumer Finances' pattern of trust holding by wealth, placed at about five million dollars",
+    "spread": {
+      "low": 100000000,
+      "high": 1000000000,
+      "unit": "cents of estate",
+      "citation": "From one million to ten million dollars."
+    }
+  },
+  "trustWealthWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "How much each e-fold of an estate past trustWealthMidpointMinor adds to a person's lean toward having set up a living trust. Trust holding climbs from rare among ordinary families to common among the very wealthy (Federal Reserve, Survey of Consumer Finances 2022).",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "lean per e-fold of estate",
+      "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
+    }
   }
 }

@@ -3276,18 +3276,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-CORE-owner-decision-trusts",
-    "kind": "owner-decision",
-    "file": "src/core2/estates.ts",
-    "line": 1,
-    "whatItFakes": "Nobody holds anything in a trust: every estate passes through probate.",
-    "why": "Owner, Oct 14: trusts are the simplest real version (assets that pass outside probate), behind an owner decision on how far trusts go in 1.0.",
-    "addedBy": "OPUS-CORE",
-    "addedAt": "2026-10-14",
-    "replacement": "The owner's ruling on trusts: at least a revocable living trust a person can make, whose assets pass to its named beneficiaries at death without probate.",
-    "status": "open"
-  },
-  {
     "id": "SG-CORE-counted-giving-stand-in",
     "kind": "counted-giving",
     "file": "src/core2/modules/drives.ts",

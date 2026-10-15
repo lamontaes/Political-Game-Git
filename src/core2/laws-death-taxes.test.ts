@@ -140,21 +140,37 @@ describe("estate and inheritance taxes", () => {
       addDays(makeIsoDate(core.date), api.parameter("probateDays") + 1),
     );
     const log = heard;
-    const settled = log.find(
+    // A wealthy estate may pass in two settlements: the living trust's at
+    // death and probate's after; the taxes are figured on the whole.
+    const settlements = log.filter(
       (e) =>
         e.kind === "estate.settled" && e.facts?.decedentId === decedent!.id,
     );
-    expect(settled, `${where}: no settlement`).toBeDefined();
-    const estate = Number(settled!.facts!.estateMinor);
-    const paid = String(settled!.facts!.heirs)
-      .split(" ")
-      .map((row) => {
-        const at = row.lastIndexOf("=");
-        return {
-          toId: row.slice(0, at),
-          amountMinor: Number(row.slice(at + 1)),
-        };
-      });
+    expect(settlements.length, `${where}: no settlement`).toBeGreaterThan(0);
+    const estate = settlements.reduce(
+      (n, e) => n + Number(e.facts!.estateMinor),
+      0,
+    );
+    const paidRows = settlements.flatMap((e) =>
+      String(e.facts!.heirs)
+        .split(" ")
+        .map((row) => {
+          const at = row.lastIndexOf("=");
+          return {
+            toId: row.slice(0, at),
+            amountMinor: Number(row.slice(at + 1)),
+          };
+        }),
+    );
+    // One row per payee: the sum of what each received across settlements.
+    const paid = [
+      ...paidRows
+        .reduce(
+          (m, row) => m.set(row.toId, (m.get(row.toId) ?? 0) + row.amountMinor),
+          new Map<string, number>(),
+        )
+        .entries(),
+    ].map(([toId, amountMinor]) => ({ toId, amountMinor }));
     // Every cent went somewhere: the treasuries and the heirs.
     expect(
       paid.reduce((n, p) => n + p.amountMinor, 0),
@@ -164,7 +180,12 @@ describe("estate and inheritance taxes", () => {
     const toTreasuries = paid
       .filter((p) => p.toId.startsWith("organization:"))
       .reduce((n, p) => n + p.amountMinor, 0);
-    const estateTax = estateTaxes(api, state, estate);
+    // The estate tax is figured on the whole estate as it stood at death.
+    const estateTax = estateTaxes(
+      api,
+      state,
+      Number(settlements[0]!.facts!.baseMinor),
+    );
     expect(estateTax.map((t) => t.jurisdiction)).toContain("US");
     const learned = log.filter(
       (e) =>
@@ -179,9 +200,14 @@ describe("estate and inheritance taxes", () => {
         )
         ?.kind.slice("family:".length) ?? "";
     let inheritance = 0;
-    for (const e of learned.filter((e) => e.topic === "inheritance-tax")) {
-      const heirId = e.personIds[0]!;
-      const took = Number(e.facts!.amountMinor);
+    // What each heir was taxed, across the trust's and probate's settlements.
+    const tookBy = new Map<string, number>();
+    for (const e of learned.filter((e) => e.topic === "inheritance-tax"))
+      tookBy.set(
+        e.personIds[0]!,
+        (tookBy.get(e.personIds[0]!) ?? 0) + Number(e.facts!.amountMinor),
+      );
+    for (const [heirId, took] of tookBy) {
       const received = paid.find((p) => p.toId === heirId)?.amountMinor ?? 0;
       expect(
         inheritanceTax(api, state, relation(heirId), received + took)
