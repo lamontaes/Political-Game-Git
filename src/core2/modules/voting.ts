@@ -240,7 +240,6 @@ export interface TurnoutReasonsRecord {
   readonly stakes?: number;
   readonly reach?: number;
   readonly habit?: number;
-  readonly weather?: number;
   readonly propensity?: number;
 }
 
@@ -910,17 +909,6 @@ export interface TurnoutDecision extends TurnoutParts {
   readonly votes: boolean;
 }
 
-/**
- * Election-day weather. The played world keeps no weather record yet, so it
- * adds nothing (rain lowers turnout about 0.8 points an inch: Gomez, Hansford
- * and Krause 2007); it reads the storm record once one exists.
- */
-function weatherCost(api: CoreAPI): number {
-  // stopgapId: SG-GOV-turnout-weather
-  api.stopgap("SG-GOV-turnout-weather");
-  return 0;
-}
-
 /** A named voter's record of election days: what their habit reads, and their carry. */
 interface TurnoutRecordRow {
   readonly id: string;
@@ -976,7 +964,6 @@ function decideTurnout(
     reach: reachOf(input.contacts),
     habit: record ? habitOf(record.voted, record.elections) : 0,
     cost,
-    weather: weatherCost(api),
   };
   const propensity = propensityOf(parts);
   let votes = false;
@@ -1480,7 +1467,6 @@ function turnoutRecord(t: TurnoutDecision): TurnoutReasonsRecord {
     stakes: t.stakes,
     reach: t.reach,
     habit: t.habit,
-    weather: t.weather,
     propensity: t.propensity,
   };
 }
@@ -2487,7 +2473,6 @@ export function electorateSample(
         (p) => p.alive && p.placeId === townPlaceId && ageOn(p, today) >= 18,
       );
   const lean0 = townLean(api);
-  const weather = weatherCost(api);
   const rows = voters
     .map((voter) => {
       const t = turnoutReasons(api, voter, voter.weeklyMinutes, extraCost);
@@ -2501,7 +2486,6 @@ export function electorateSample(
           reach: 0,
           habit: 0,
           cost: t.cost,
-          weather,
         }),
         incumbentLean: incumbentLeanOf(api, voter),
       };

@@ -1,23 +1,19 @@
 /**
  * Prison removes a person from play for the term: they make no choices of
- * their own until release. The core has no call for a module to set that
- * yet, so this writes the person's discretionary-choice flag directly and
- * remembers what it was, to give it back on release (needs OPUS-CORE: an
- * `updatePerson` change for `discretionaryEligibleV1`).
+ * their own until release. The supported person update holds their choices
+ * and restores the prior flag on release, including an originally absent flag.
  */
-import type { CoreAPI, PersonId, PersonState } from "./types";
+import type { CoreAPI, PersonId } from "./types";
 
 /** Takes away the person's own choices; returns what the flag was. */
 export function holdInCustody(
   api: CoreAPI,
   personId: PersonId,
 ): boolean | undefined {
-  // stopgapId: SG-GOV-justice-custody-core-call
-  api.stopgap("SG-GOV-justice-custody-core-call");
-  const person = api.state.people.get(personId) as PersonState | undefined;
+  const person = api.state.people.get(personId);
   if (!person) return undefined;
   const prior = person.discretionaryEligibleV1;
-  person.discretionaryEligibleV1 = false;
+  api.updatePerson(personId, { discretionaryEligibleV1: false });
   return prior;
 }
 
@@ -27,10 +23,6 @@ export function releaseFromCustody(
   personId: PersonId,
   prior: boolean | undefined,
 ): void {
-  // stopgapId: SG-GOV-justice-custody-core-call
-  api.stopgap("SG-GOV-justice-custody-core-call");
-  const person = api.state.people.get(personId) as PersonState | undefined;
-  if (!person) return;
-  if (prior === undefined) delete person.discretionaryEligibleV1;
-  else person.discretionaryEligibleV1 = prior;
+  if (!api.state.people.has(personId)) return;
+  api.updatePerson(personId, { discretionaryEligibleV1: prior });
 }

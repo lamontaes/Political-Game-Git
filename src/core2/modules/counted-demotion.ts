@@ -18,11 +18,12 @@ import {
 } from "../counted-groups";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
+import { stableHash } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   countedFundOf,
-  countedParameter,
+  countedSpread,
   keepCalendar,
   residentsRuntime,
   returnToCounts,
@@ -158,7 +159,8 @@ export function demoteHousehold(
     tag: "ESTIMATED",
     asOf: date,
     citation: `Out of the player's life since ${lastContact}: returned to the counts (one model, two tiers).`,
-    estimatedFrom: "SG-CORE-owner-decision-demotion-days",
+    estimatedFrom:
+      "Owner ruling, Oct 15, 2026: 180 to 240 days, drawn per world",
   };
   // Its jobs stay on the employers' books as counted jobs at the same pay.
   const jobs: JobInput[] = [];
@@ -317,12 +319,27 @@ export function demoteHousehold(
   return row;
 }
 
+/**
+ * How many days without contact before a met person drifts back: drawn once
+ * per world from the world's seed within the parameter's spread (owner, Oct
+ * 15, 2026: 180 to 240 days, never one fixed number). Seeded generation of
+ * who the world is; nothing rolled in play.
+ */
+export function demotionDays(seed: string): number {
+  const { low, high } = countedSpread("countedDemotionDays");
+  const draw = Number.parseInt(
+    stableHash(`${seed}:countedDemotionDays`).slice(0, 8),
+    16,
+  );
+  return low + (draw % (high - low + 1));
+}
+
 /** The monthly review: every filled-in household long out of the player's life goes back. */
 function review(api: CoreAPI): void {
   const core = api.state as CoreState;
   const rt = residentsRuntime(core);
   if (!rt) return;
-  const days = countedParameter("countedDemotionDays");
+  const days = demotionDays(core.seed);
   sweepLatePay(api);
   const keep = protectedPeople(api);
   for (const [householdId, filledAt] of [...rt.filledAt].sort((a, b) =>
@@ -401,7 +418,8 @@ function scheduleReview(api: CoreAPI): void {
       asOf: api.state.date,
       citation:
         "The monthly review of who has been out of the player's life long enough to return to the counts.",
-      estimatedFrom: "SG-CORE-owner-decision-demotion-days",
+      estimatedFrom:
+        "Owner ruling, Oct 15, 2026: 180 to 240 days, drawn per world",
     },
     sourceRecordIds: ["counted-demotion:state"],
   });

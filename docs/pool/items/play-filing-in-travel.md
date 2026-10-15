@@ -1,0 +1,24 @@
+---
+id: play-filing-in-travel
+title: "The filing office is a place you travel to (#4298)"
+area: play
+kind: feature
+priority: 2
+status: open
+claimed-by:
+pr: #4298
+blocked-on:
+milestone:
+source: "astra order 1; PR #4298 branch play/filing-in-travel"
+---
+
+**What.** Merge main into the PR, finish the screen to the owner's mockup in docs/ui/mocks/screens-2026-10-14/, retake its full-window screenshot (1672x941).
+
+**Rules.** Mockup caveats: ignore odd borders; no immersion-breaking labels on a person card; Issues shows the law in words with history on click; each newspaper its own layout; your office absent from Politics until you hold one; Day never opens a choice list. No hand-written player text; replace, never layer.
+
+**Done when.** The screen shows the world's real records in words, no raw ids, no "undefined"; screenshot attached. The owner plays it: opens the menu and sees the mockup's look.
+
+**Files.** src/bench/*, src/bench/controls.json
+
+**Notes.** One PR per screen; gate: browser spec for the screen.
+Sent back 2026-10-15 from PR #4298 (branch play/filing-in-travel): code conflict with main in src/bench/play.mjs, src/bench/data/controls.json; finish on that branch, merge main into it first.

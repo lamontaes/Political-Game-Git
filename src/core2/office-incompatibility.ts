@@ -14,6 +14,12 @@ export function incompatibleOffices(
   const executive = (o: OfficeInput) => f.executiveKinds.includes(o.kind);
   if ((legislative(a) && executive(b)) || (legislative(b) && executive(a)))
     return { citation: f.citation, tag: "SOURCED" };
+  // A seat in Congress is barred from an office under the United States
+  // (above), not from a local one: the state's bar covers its own state and
+  // local offices among themselves (owner defect, Orem, Utah, seed
+  // fed-filing-1: the House seat was lost on winning a council seat).
+  const local = (o: OfficeInput) => !["federal", "state"].includes(o.level);
+  if ((legislative(a) && local(b)) || (legislative(b) && local(a))) return null;
   // stopgapId: SG-GOV-dual-office-law — exceptions await per-place research.
   const row = (
     laws.places as Record<

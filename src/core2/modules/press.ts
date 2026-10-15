@@ -18,7 +18,7 @@ import news from "../../../data/research/press/local-news-2026.json" with { type
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
@@ -56,7 +56,8 @@ import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { JOBS_MODULE_ID } from "./jobs";
+import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
+import { BUSINESS_MODULE_ID, ownerOf } from "./business";
 import {
   PLATFORM_QUESTIONS,
   publicOffset,
@@ -73,6 +74,7 @@ import {
 import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts } from "./residents";
 import { startOutletRevenue } from "../press-money";
+import { countedJobsOf } from "../residents-economy";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import {
   closeness,
@@ -232,6 +234,7 @@ export const PRESS_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       outlets: {},
+      employerEnrollment: {},
       staff: { indexes: { byOutlet: { fields: ["outletId"] } } },
       wire: { indexes: { byDate: { fields: ["date"] } } },
       digs: {},
@@ -251,6 +254,7 @@ export const PRESS_MODULE: CoreModule = {
       },
     },
   },
+  onDay: enrollPressEmployers,
   onCalendarWork: (api, work) => {
     if (work.kind === "press-dig") checkClaim(api, work);
     else pressWeek(api, work);
@@ -559,6 +563,87 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   }
   scheduleWeek(api, api.state.date);
   return outletsHere(api);
+}
+
+/** Enroll after the business engine opens, preserving the already recorded publisher. */
+function enrollPressEmployers(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  if (
+    !core.modules.has(BUSINESS_MODULE_ID) ||
+    !core.modules.has(JOBS_MODULE_ID)
+  )
+    return;
+  const business = api.moduleState(BUSINESS_MODULE_ID);
+  if (
+    !business.table("state").get("business:state") ||
+    !api.moduleState(JOBS_MODULE_ID).table("state").get("jobs:state")
+  )
+    return;
+  const enrolled = table(api, "employerEnrollment");
+  for (const outlet of outletsHere(api)) {
+    if (outlet.tier === "national" || enrolled.get(outlet.id)) continue;
+    // SG-PEOPLE-press-employer-enrollment: use the existing records while the
+    // shared business API has no entry point for an already named owner.
+    api.stopgap("SG-PEOPLE-press-employer-enrollment");
+    const anchor = [
+      ...(core.finance.businessesByPlace.get(outlet.placeId) ?? []),
+    ]
+      .map((id) => core.finance.businesses.get(id)!)
+      .find((book) => book.openingTownIncomeMinor > 0);
+    const owner = outlet.ownerId ? core.people.get(outlet.ownerId) : undefined;
+    if (!anchor || !owner?.alive) continue;
+    const jobs = [
+      ...(core.finance.jobsByOrganization.get(outlet.organizationId) ?? []),
+    ]
+      .map((id) => core.jobs.get(id)!)
+      .filter((job) => job.endsAt === undefined);
+    if (!jobs.length || core.finance.businesses.has(outlet.organizationId))
+      continue;
+    const payroll = Math.round(
+      jobs.reduce(
+        (sum, job) =>
+          sum + (job.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear"),
+        0,
+      ),
+    );
+    // SG-PEOPLE-press-outlet-revenue still covers demand and absent supplier
+    // contracts. An actual income anchor prevents manufactured zero demand.
+    api.addBusinessBooks({
+      organizationId: outlet.organizationId,
+      kindId: "information",
+      annualPayrollMinor: payroll,
+      annualDemandMinor: outlet.audienceRevenueMinor,
+      annualOtherCostsMinor: 0,
+      openingTownIncomeMinor: anchor.openingTownIncomeMinor,
+      capacityMinor: outlet.audienceRevenueMinor,
+      price: api.parameter("one"),
+      costContractIds: [],
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: `Press payroll and registered revenue estimate; town income anchor from ${anchor.organizationId}.`,
+        estimatedFrom: "SG-PEOPLE-press-outlet-revenue",
+      },
+    });
+    business.table("owners").put({
+      id: outlet.organizationId,
+      isOwner: true,
+      ownerId: owner.id,
+      since: core.date,
+      basis: "press-recorded-owner",
+      salesThrough: 0,
+      wagesThrough: 0,
+      operatingThrough: 0,
+      retainedMinor: 0,
+    });
+    registerEmployer(api, outlet.organizationId, jobs.length);
+    enrolled.put({
+      id: outlet.id,
+      ownerId: owner.id,
+      incomeAnchorRecordId: anchor.organizationId,
+      date: core.date,
+    });
+  }
 }
 
 /**
@@ -2153,80 +2238,73 @@ function whyLeft(api: CoreAPI, row: StaffRow): string {
 }
 
 /**
- * A town outlet's people who left its payroll (a better job, a move) or
- * died are replaced: the outlet hires the next person for the role, the same
- * way it hired at the opening, and the staff row keeps when the old one left.
- * The departed stop filing and asking. An owner is not replaced here.
+ * Refresh the masthead from employment records. The jobs engine alone fills
+ * vacancies; a reporter hired from the counts becomes a named person when
+ * they join the desk. Off-town staff have no modeled payroll yet, so a death
+ * leaves that role vacant rather than manufacturing another person.
  */
-function replaceDeparted(api: CoreAPI): void {
-  const town = lawChain(api).townPlaceId;
+export function refreshPressStaff(api: CoreAPI): void {
+  // SG-PEOPLE-press-staff-turnover: the duplicate hiring path is removed;
+  // enrollment uses a registered adapter and the replacement-year proof is open.
+  api.stopgap("SG-PEOPLE-press-staff-turnover");
+  const core = api.state as CoreState;
   for (const outlet of outletsHere(api)) {
     const rows = [...staffOf(api, outlet.id)];
-    const gone = rows.filter((row) => {
-      if (row.role === "owner" || row.leftOn) return false;
-      const person = api.state.people.get(row.id);
-      return (
-        !person?.alive || (row.jobId !== null && person.jobId !== row.jobId)
-      );
-    });
-    if (!gone.length) continue;
-    let { headId, reporterIds } = outlet;
-    for (const row of gone) {
+    for (const row of rows) {
+      if (row.role === "owner" || row.leftOn) continue;
+      const person = core.people.get(row.id);
+      const job = row.jobId ? core.jobs.get(row.jobId) : undefined;
+      if (
+        person?.alive &&
+        (row.jobId === null ||
+          (person.jobId === row.jobId && job && job.endsAt === undefined))
+      )
+        continue;
       table(api, "staff").put({
         ...row,
-        leftOn: api.state.date,
+        leftOn: core.date,
         leftBecause: whyLeft(api, row),
       } as unknown as ModuleRow);
-      // The jobs engine reopens a position a worker quits, but fills it from
-      // its own seekers, who are not the outlet's named people; the outlet
-      // hires its own replacement beside it.
-      // stopgapId: SG-PEOPLE-press-staff-turnover
-      api.stopgap("SG-PEOPLE-press-staff-turnover");
-      const role = STAFF_ROLES.find((r) => r.id === row.role)!;
-      const next = hireStaffMember(api, {
-        outletId: outlet.id,
-        organizationId: outlet.organizationId,
-        role,
-        index: rows.filter((r) => r.role === row.role).length,
-        townPlaceId: town,
-        stateKey:
-          outlet.tier === "local" ? lawChain(api).stateKey : outlet.placeId,
-        // Where the role lives, as at the opening: town payroll staff in
-        // town; a station's director in the state; national staff at base.
-        ...(row.jobId !== null
-          ? {}
-          : {
-              livesAt:
-                outlet.tier === "local"
-                  ? lawChain(api).stateKey
-                  : outlet.placeId,
-            }),
-        parameter: pressParameter,
-        source: {
-          tag: "ESTIMATED",
-          citation:
-            "src/core2/data/press/staff.json: an outlet hires the next person for a role someone left",
-          asOf: api.state.date,
-          estimatedFrom: "press-staff",
-        },
-      });
-      table(api, "staff").put(next as unknown as ModuleRow);
-      rows.push(next);
-      if (row.role === "head") headId = next.id;
-      else
-        reporterIds = reporterIds.map((id) => (id === row.id ? next.id : id));
-      // The newcomer meets the people they now work with.
-      for (const other of [outlet.ownerId, headId, ...reporterIds])
-        if (other && other !== next.id && api.state.people.get(other)?.alive)
-          api.meet(next.id, other, {
-            placeId: outlet.placeId,
-            sourceId: outlet.organizationId,
-            cause: "coworker",
-            hours: pressParameter("coworkerHoursAtOpening"),
-          });
     }
+    // Indexed employer jobs, plus the very same jobs held by counted people.
+    const jobs = [
+      ...[...(core.finance.jobsByOrganization.get(outlet.organizationId) ?? [])]
+        .map((id) => core.jobs.get(id)!)
+        .filter((job) => job && job.endsAt === undefined),
+      ...countedJobsOf(core, outlet.organizationId),
+    ].sort((a, b) => a.id.localeCompare(b.id));
+    for (const job of jobs) {
+      const role = STAFF_ROLES.find(
+        (row) => row.payParameter !== null && row.title === job.title,
+      );
+      if (!role) continue;
+      const previous = table(api, "staff").get(job.personId) as
+        StaffRow | undefined;
+      if (previous?.jobId === job.id && !previous.leftOn) continue;
+      const person = fillInPerson(core, job.personId);
+      if (!person.alive || person.jobId !== job.id) continue;
+      table(api, "staff").put({
+        id: person.id,
+        outletId: outlet.id,
+        role: role.id,
+        jobId: job.id,
+        hiredOn: core.work.commitmentsByPerson.get(person.id)
+          ? ([...core.work.commitmentsByPerson.get(person.id)!]
+              .map((id) => core.work.commitments.get(id)!)
+              .find((row) => row.jobId === job.id)?.startsAt ?? core.date)
+          : core.date,
+      } as unknown as ModuleRow);
+    }
+    const active = staffOf(api, outlet.id).filter((row) => !row.leftOn);
+    const heads = active.filter((row) => row.role === "head");
+    const headId =
+      heads.find((row) => row.id === outlet.headId)?.id ?? heads[0]?.id ?? null;
+    const reporterIds = active
+      .filter((row) => row.role === "reporter")
+      .map((row) => row.id);
     table(api, "outlets").put({
       ...outlet,
+      ownerId: ownerOf(api, outlet.organizationId) ?? outlet.ownerId,
       headId,
       reporterIds,
     } as unknown as ModuleRow);
@@ -2236,7 +2314,7 @@ function replaceDeparted(api: CoreAPI): void {
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
-  replaceDeparted(api);
+  refreshPressStaff(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.

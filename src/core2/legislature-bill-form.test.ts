@@ -18,6 +18,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import {
   billTitle,
+  FEDERAL_HOUSE,
   bodyOf,
   reviseBill,
   draftBill,
@@ -172,5 +173,46 @@ describe("a bill's form in its body", () => {
       else expect(first.form.kind).toBe("act");
     }
     expect(chamber ?? council, `${where}: no body to draft to`).toBeTruthy();
+  }, 600_000);
+
+  it("the House is the House in the District and the territories, where the first office row is the delegate's", () => {
+    const delegates = ["US-DC", "US-PR", "US-GU", "US-VI", "US-AS", "US-MP"];
+    const state = pick(delegates, "delegate-state");
+    const places = [
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "delegate-place").key;
+    const full = buildPopulation({
+      seed,
+      placeKey: key,
+      startedAt: "2026-01-05",
+      minimumPeople: 250,
+    });
+    const player = [...full.people].sort((a, b) =>
+      a.id.localeCompare(b.id),
+    )[0]!;
+    const core = createLifeCore(
+      collapseToTwoLevels({ ...full, playerId: player.id }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openRecord(core);
+    openLegislature(core);
+    const api = coreAPI(core);
+    const where = `seed ${seed}, ${state} place ${key}`;
+    const offices = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .rows() as unknown as { kind: string }[];
+    expect(
+      offices.some((o) => o.kind === "us-house-delegate"),
+      where,
+    ).toBe(true);
+    expect(bodyOf(api, FEDERAL_HOUSE)?.kind, where).toBe("us-house");
   }, 600_000);
 });

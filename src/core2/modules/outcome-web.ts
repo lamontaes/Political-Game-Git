@@ -54,6 +54,8 @@ export interface WebMonth {
   readonly bases: Readonly<Record<string, number>>;
   /** Each running link's effect: a proportional change, or for a level outcome, units added. */
   readonly effects: Readonly<Record<string, number>>;
+  /** Dated producer rows; null means the opening was read directly from live engine records. */
+  readonly engineSources: Readonly<Record<string, string | null>>;
 }
 
 interface WebState {
@@ -171,7 +173,7 @@ function readEngine(
   api: CoreAPI,
   placeId: string,
   measure: string,
-): number | null {
+): { value: number; recordId: string | null } | null {
   const definition = engineMeasure(measure);
   if (!definition) return null;
   // Engine measures are read from the economy's monthly rows (world-metrics).
@@ -182,6 +184,7 @@ function readEngine(
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly ({
     date: string;
+    id: string;
   } & Record<string, unknown>)[];
   const latest = recorded
     .filter((row) => row.date <= api.state.date)
@@ -190,7 +193,9 @@ function readEngine(
     townMetrics(api).find((metrics) => metrics.placeId === placeId)) as
     Record<string, unknown> | undefined;
   const value = row?.[definition.field];
-  return typeof value === "number" ? value * definition.unitScale : null;
+  return typeof value === "number"
+    ? { value: value * definition.unitScale, recordId: latest?.id ?? null }
+    : null;
 }
 
 const ENGINE_CAUSES = [
@@ -272,6 +277,10 @@ function baselineOf(r: Reading, measure: string): number | undefined {
     );
   return (
     fixedBaseline(measure, r.stateKey) ??
+    (
+      store(r.api).table("baselines").get(r.placeId) as unknown as
+        { values: Record<string, number> } | undefined
+    )?.values[measure] ??
     rowAt(r, r.openingIndex)?.values[measure] ??
     r.values[measure]
   );
@@ -317,13 +326,32 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     openingIndex: monthIndex(state.openingMonth),
     values: {},
   };
+  const baselines = store(api).table("baselines");
+  const opening = baselines.get(placeId) as unknown as
+    { id: string; date: string; values: Record<string, number> } | undefined;
+  const bases: Record<string, number> = { ...opening?.values };
+  const engineSources: Record<string, string | null> = {};
+  let newBaseline = false;
   for (const measure of ENGINE_CAUSES) {
-    const value = readEngine(api, placeId, measure);
-    if (value !== null) r.values[measure] = value;
+    const reading = readEngine(api, placeId, measure);
+    if (reading === null) continue;
+    r.values[measure] = reading.value;
+    engineSources[measure] = reading.recordId;
+    // A later law event can rewrite the opening month's web row. Keep the
+    // first engine reading separately so that it cannot erase the change.
+    if (bases[measure] === undefined) {
+      bases[measure] = reading.value;
+      newBaseline = true;
+    }
   }
+  if (newBaseline)
+    baselines.put({
+      id: placeId,
+      date: opening?.date ?? date,
+      values: { ...bases },
+    });
   for (const measure of LAW_CAUSES)
     r.values[measure] = lawValue(api, measure.slice(LAW_PREFIX.length), date);
-  const bases: Record<string, number> = {};
   const effects: Record<string, number> = {};
   for (const outcome of KEPT_OUTCOMES) {
     const base = baseOf(outcome, state.stateKey).value;
@@ -348,6 +376,7 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     values: r.values,
     bases,
     effects,
+    engineSources,
   };
   store(api)
     .table("months")
@@ -405,6 +434,7 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       state: {},
+      baselines: {},
       months: { indexes: { byPlace: { fields: ["placeId"] } } },
       laws: { indexes: { bySeries: { fields: ["series"] } } },
     },
@@ -441,14 +471,28 @@ export function placeOutcome(
   api: CoreAPI,
   placeId: string,
   measure: string,
-): { value: number; base?: number; month: string } | undefined {
+):
+  | {
+      value: number;
+      base?: number;
+      month: string;
+      recordId: string;
+      engineRecordId: string | null;
+    }
+  | undefined {
   const rows = store(api)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[];
   const latest = [...rows].sort((a, b) => b.month.localeCompare(a.month))[0];
   const value = latest?.values[measure];
   return latest && value !== undefined
-    ? { value, base: latest.bases[measure], month: latest.month }
+    ? {
+        value,
+        base: latest.bases[measure],
+        month: latest.month,
+        recordId: latest.id,
+        engineRecordId: latest.engineSources?.[measure] ?? null,
+      }
     : undefined;
 }
 
