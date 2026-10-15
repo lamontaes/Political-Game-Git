@@ -72,3 +72,4 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 3. Custom world settings duplication — `pool/shared-world-settings` (second Session D; SG-PLAY-world-settings-copy; share opening settings helpers, no screen design changes. Opening-economy fallback depends on the core opening repair and remains separate).
 
 - 3. Unobserved town-growth macro input — `pool/macro-observed-growth` (second Session D; SG-WORLD-macro-town-growth-neutral; remove invented first-year feedback and retain the missing income-history requirement. Earlier treasury law effects overlap Session A, jobs/prison hiring Session B, press acts Session C).
+- 3. Press revenue and staff turnover — `pool/press-records` (first Session D; SG-PEOPLE-press-outlet-revenue and SG-PEOPLE-press-staff-turnover; earlier opening/core and housing/jobs are Session B, settings second D, budget/tax reads Session A; changes to press engine only, no English or director changes).
