@@ -1,9 +1,9 @@
 ---
 id: core-player-household-no-income
-title: "A player household with no earner spends its cash in one month and then nothing moves (Colebrook, New Hampshire)"
+title: "A seeker with no work for a full year gets no job offer; check the jobs match for a long-term unemployed household head (Colebrook, New Hampshire)"
 area: core
 kind: bug
-priority: 1
+priority: 2
 size: M
 status: open
 claimed-by:
@@ -13,12 +13,12 @@ source: found by a Claude session verifying core-player-money-spending in a play
 claimed-at:
 ---
 
-**What.** In Colebrook, New Hampshire (place 3313700, seed cfa61ad11b9653ed75640a7ae2762a424b830ac48efd67c06f0e19580d907725, from January 20, 2025) the player's household has no earner and no benefit. It starts with $1,820, pays rent (journal record `finance:2025-02-01:lease:household_8751b07b98417c96`), living costs (`living:household_8751b07b98417c96:2025-02-01:organization_06f5db326dc368db:0`), outside living (`residents:outside-living:household_8751b07b98417c96@2025-02-01`) and a small electricity price share, and its cash is $0 from the first month. No journal entry touches its accounts for the rest of the year: no pay, no benefit, no loan, no arrears record I could see. Decide what the world should do for a household with no earner (jobs offers, a benefit the law in force pays, family help, a loan from a bank that reads their record) and make the chain run, or show why none applies.
+**What.** In Colebrook, New Hampshire (place 3313700, seed cfa61ad11b9653ed75640a7ae2762a424b830ac48efd67c06f0e19580d907725, from January 20, 2025) the player's household (the player, 18, a 12-year-old, and the head, 41) has no earner. Its consequences do run: the head is registered as a job seeker from the opening (reason `opening-unemployed`), the $1,820 of cash is gone after the first month's bills, rent goes unpaid from March 1, 2025 (arrears of $564.49 a month on the lease), the lease ends on April 27, 2025 and the household moves away. What did not happen in a year: the seeker received no job offer (offers 0 at three, six and twelve months), no benefit paid them (no work history to claim on), and no entry in the journal records help of any kind. Check whether a year with no offer in a small town is the jobs match working (no open positions that fit, which should be a recorded reason) or a defect, and whether a player in such a household can see why.
 
-**Rules.** No dice; an effect is a read; the chain is the acceptance; one rule, all 56 places; this game has no spreadsheet steps, so the answer comes from people, money and places reacting, not a new form. Check docs/coordination/OWNER-DECISIONS.md ("Why money exists for the player: not settled yet") before adding any sink or scoreboard.
+**Rules.** No dice; an effect is a read; one rule, all 56 places; ask why: each month without an offer needs its recorded reason (no openings, skills, distance). Do not add a new form or sink; check OWNER-DECISIONS.md ("Why money exists for the player").
 
-**Done when.** In a played year of that place and seed, the household's money has a recorded cause for each month after the cash runs out (income, a benefit, a loan, or unpaid bills with their consequence), by journal record id.
+**Done when.** For the seeker in that place and seed, each month after the opening has a recorded reason for no offer, by record id, or an offer is made and answered from the person's own records.
 
-**Files.** src/core2 money and household files (jobs offers, benefits, finance contracts).
+**Files.** src/core2/modules/jobs.ts (matching), src/core2/modules/housing (eviction already ends the lease).
 
-**Notes.** Found while verifying core-player-money-spending; a household with an earner behaves (see player-money-year.test.ts). I did not check arrears, eviction or the Jobs offers for this household.
+**Notes.** First thought a no-earner household did nothing; a deeper probe found the arrears, the lease ending and the move. The household with an earner is covered by player-money-year.test.ts. Probe notes: counted seekers table, finance contracts of the household, one year.
