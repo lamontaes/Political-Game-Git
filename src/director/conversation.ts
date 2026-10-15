@@ -31,12 +31,16 @@
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  coreSeatOfGovernmentPlace,
+} from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
+import { lengthPull } from "../english/calibration";
 import type {
   CoreAPI,
   CoreModule,
@@ -1538,23 +1542,42 @@ function lieClaims(
         },
       });
   }
+  // A lie about where the player lives names another place, never a bare
+  // denial (owner, Oct 15, evening): a place a relative lives, else where
+  // someone the player knows lives, else the state's seat of government.
   if (subject.kind === "home") {
-    claims.push({ stage: "none", value: "moved-away", facts: {} });
-    const away = [...player.familyIds]
-      .sort()
-      .map((id) => core.people.get(id))
-      .find((row) => row?.alive && row.placeId !== player.placeId);
+    const elsewhere = (row: PersonState | undefined) =>
+      row?.alive === true && row.placeId !== player.placeId;
+    const away =
+      [...player.familyIds]
+        .sort()
+        .map((id) => core.people.get(id))
+        .find(elsewhere) ??
+      [...player.knownIds]
+        .sort((a, b) =>
+          stableHash(`${key}:${a}`).localeCompare(stableHash(`${key}:${b}`)),
+        )
+        .map((id) => core.people.get(id))
+        .find(elsewhere);
+    const home = corePlaceByJurisdictionId(player.placeId as never);
+    const seat = home?.stateJurisdictionKey
+      ? coreSeatOfGovernmentPlace(home.stateJurisdictionKey)
+      : null;
     const place = away
       ? corePlaceByJurisdictionId(away.placeId as never)
-      : null;
-    if (away && place)
+      : seat && seat.place.key !== home?.key
+        ? seat.place
+        : null;
+    if (place)
       claims.push({
         stage: "elsewhere",
-        value: away.placeId,
+        value: away?.placeId ?? place.key,
         facts: {
           claimed: {
             text: spoken(place),
-            sourceRecordIds: [away.householdId],
+            sourceRecordIds: [
+              away ? away.householdId : (seat?.jurisdictionKey ?? place.key),
+            ],
           },
         },
       });
@@ -1757,6 +1780,9 @@ function rankChoices(
   pool: readonly ConversationChoice[],
 ): ConversationChoice[] {
   const player = core.people.get(playerId);
+  // The calibration table's length pull (weights from the owner's grades, no
+  // text) leans the replies longer or shorter beside the trait decision;
+  // an empty table adds nothing.
   const reach = player
     ? decisionLean(
         core,
@@ -1764,7 +1790,7 @@ function rankChoices(
         "conversation.reply-reach",
         "carry-on",
         "keep-short",
-      )
+      ) + lengthPull(player.traits)
     : zero;
   const carries = (row: ConversationChoice) =>
     !!row.raises || !!row.tail || /\?$/.test(row.text);

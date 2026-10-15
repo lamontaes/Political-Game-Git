@@ -16,7 +16,8 @@
     "name": "A person, by name, from the records.",
     "whose": "A person's name with 's, from the records.",
     "votes": "A vote margin, from the results record.",
-    "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections)."
+    "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections).",
+    "named": "A relative by relation and given name (\"my daughter Jane\"), or a person by name, from the family record."
   },
   "maxWords": 10,
   "mining": {

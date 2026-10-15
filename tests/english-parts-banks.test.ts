@@ -5,8 +5,10 @@ import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
 
 /**
  * Sourced part banks mined from public records (EM-1) and their era and
- * register check (EM-3). Every part carries a source a reader can open, stays
- * within its register's length, and is current American English with no
+ * register check (EM-3). A part is either mined (its source note is a record a
+ * reader can open) or authored (`origin: "authored"` with an author, a date
+ * and its move tag, no source document; owner text rule, Oct 15). It stays
+ * within its register's length and is current American English with no
  * developer wording.
  */
 
@@ -33,7 +35,11 @@ type Part = {
   kind: "spoken" | "written";
   text: string;
   shippable: boolean;
-  source: { document: string; date: string; granule?: string; url: string };
+  origin?: string;
+  author?: string;
+  date?: string;
+  tag?: { move: string; key?: string };
+  source?: { document: string; date?: string; granule?: string; url: string };
 };
 
 type Bank = {
@@ -69,17 +75,30 @@ describe("English part banks", () => {
         expect(new Set(texts).size).toBe(texts.length);
       });
 
-      it("gives every part a move type, a kind and an openable source", () => {
+      it("gives every part a move type, a kind and an origin", () => {
         for (const part of bank.parts) {
           expect(["spoken", "written"]).toContain(part.kind);
           expect(part.key.startsWith(`${bank.register}.${part.move}.`)).toBe(
             true,
           );
-          expect(part.source.document.trim()).not.toBe("");
-          expect(part.source.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-          expect(part.source.url).toMatch(/^https:\/\//);
-          if (part.shippable)
-            expect(part.source.url).toMatch(PUBLIC_DOMAIN_SOURCES);
+          if (part.origin === "authored") {
+            // Authored pieces need no source document or URL.
+            expect(part.author?.trim(), part.key).toBeTruthy();
+            expect(part.date, part.key).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+            expect(part.tag?.move?.trim(), part.key).toBeTruthy();
+          } else {
+            expect(part.source, part.key).toBeTruthy();
+          }
+          // A source, where a part has one, is an optional note that must
+          // still be well formed (and public domain when it is shippable).
+          if (part.source) {
+            expect(part.source.document.trim()).not.toBe("");
+            if (part.source.date !== undefined)
+              expect(part.source.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+            expect(part.source.url).toMatch(/^https:\/\//);
+            if (part.shippable && part.origin !== "authored")
+              expect(part.source.url).toMatch(PUBLIC_DOMAIN_SOURCES);
+          }
         }
       });
 

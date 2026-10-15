@@ -1,0 +1,47 @@
+{
+  "schema": "english-calibration/1",
+  "note": "Weights only. No scenario text, no scene script, no if-this-town-then-that. The engine reads these when it chooses and arranges pieces (src/english/calibration.ts); scripts/dialogue-batch/apply-grades.ts folds the owner's grades in. An empty table changes nothing.",
+  "parameters": {
+    "step": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "spread": [0.02, 0.25],
+      "checkedAgainst": "How far one grade of 1 to 5 moves a weight; small so no single grade decides a piece."
+    },
+    "pieceFloor": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 0.75],
+      "checkedAgainst": "The lowest share of its weight a piece with a running grade of 1 keeps (it is chosen less, never banned; a ban is a failed grade in part-grades.json)."
+    },
+    "pieceCeiling": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "spread": [1.25, 2],
+      "checkedAgainst": "The highest multiple a piece with a running grade of 5 can reach."
+    },
+    "pieceFullAt": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "spread": [3, 10],
+      "checkedAgainst": "Grades at which a piece's running mean counts in full; fewer count in proportion."
+    },
+    "lengthSlope": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 1],
+      "checkedAgainst": "How fast a piece loses weight as it departs from the register's target length, per fraction of the target."
+    },
+    "pullScale": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": [0.1, 0.5],
+      "checkedAgainst": "How many words of target length one unit of a trait's length pull moves, as a share of the target."
+    }
+  },
+  "folded": [],
+  "traits": {},
+  "registers": {},
+  "pieces": {},
+  "movePairs": {}
+}

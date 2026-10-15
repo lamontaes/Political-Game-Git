@@ -7121,7 +7121,7 @@
     },
     {
       "key": "conversation.mutual-raise-seen.hows-name",
-      "move": "family-ask-how",
+      "move": "mutual-raise-seen",
       "kind": "spoken",
       "text": "How's {name}?",
       "uses": [
@@ -7151,7 +7151,7 @@
     },
     {
       "key": "conversation.mutual-raise-seen.hows-name-doing",
-      "move": "family-ask-how",
+      "move": "mutual-raise-seen",
       "kind": "spoken",
       "text": "How's {name} doing?",
       "uses": [
@@ -8108,7 +8108,7 @@
     },
     {
       "key": "conversation.family-answer-well.fine",
-      "move": "school-answer-fine",
+      "move": "family-answer-well",
       "kind": "spoken",
       "text": "Fine.",
       "uses": [
@@ -8155,7 +8155,7 @@
     },
     {
       "key": "conversation.family-answer-well.good",
-      "move": "school-answer-fine",
+      "move": "family-answer-well",
       "kind": "spoken",
       "text": "Good.",
       "uses": [
@@ -15666,10 +15666,10 @@
       }
     },
     {
-      "key": "conversation.family-answer-ill.not-too-well-it-would-mean-a-lot-if-you-called-name",
+      "key": "conversation.family-answer-ill.not-too-well-you-should-call-name",
       "move": "family-answer-ill",
       "kind": "spoken",
-      "text": "Not too well. It would mean a lot if you called {name}.",
+      "text": "Not too well. You should call {name}.",
       "uses": [
         {
           "move": "family-answer-ill",

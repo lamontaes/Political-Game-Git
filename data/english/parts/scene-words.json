@@ -763,27 +763,6 @@
       }
     },
     {
-      "key": "scene-words.setting-venue-venue.you-re-in-place",
-      "move": "setting-venue-venue",
-      "kind": "spoken",
-      "text": "You're in {place}.",
-      "uses": [
-        {
-          "move": "setting-venue-venue",
-          "subject": "setting",
-          "role": "venue",
-          "choice": "venue"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.cause-money:job-ended-other.other-lost-the-job-at-employer",
       "move": "cause-money:job-ended-other",
       "kind": "spoken",
