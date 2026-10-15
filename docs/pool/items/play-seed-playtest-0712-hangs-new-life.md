@@ -21,3 +21,5 @@ source: "docs/coordination/play.md line 87 (unchecked checklist line)"
 **Files.** see the status file
 
 **Notes.** Checklist line from play.md; verify against main before starting.
+
+Verified Oct 15 by a Claude session on main at 054c429ecd: the seed `playtest-0712` builds through every New life stage (people, past, economy, core, government, opening) in 6.9 seconds, in Cold Bay, Alaska, with 1,573 people and no error. Neither the hang nor the two-level collapse error reproduces, so the line is done. The check built the world only; it did not play a year.

@@ -4,9 +4,9 @@ title: "A bill has a real name, with its text beside it"
 area: words
 kind: feature
 priority: 1
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4464
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
@@ -19,3 +19,5 @@ source: "owner, Oct 15 evening, batch 11 grading"
 **Done when.** The next batch shows real bill names with text beside them, in a drawn place.
 
 **Files.** src/director/_, scripts/dialogue-batch/_
+
+Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.
