@@ -2509,8 +2509,8 @@
     "why": "Deposits need the core's named accounts (OPUS-CORE's accounts item) so cash can sit in bank accounts without a second book.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Opening deposits moved into bank accounts through postJournal, the bank lending against them, with household loans (M1-06).",
-    "status": "open"
+    "replacement": "Session B: real household and business savings move to the bank through accounts/postJournal; lending reads cash and liabilities. Limited payment-path withdrawal coverage is tracked separately as SG-WORLD-deposit-wallet-buffer.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-housing-landlord",
@@ -4415,6 +4415,30 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-deposit-wallet-buffer",
+    "kind": "faked-mechanic",
+    "file": "src/core2/credit-deposits.ts",
+    "line": 24,
+    "whatItFakes": "Savings and withdrawals are reviewed monthly with a three-month wallet reserve; extraordinary payments and estate settlement do not yet request bank withdrawals directly. Dormant claims remain owed, not deleted.",
+    "why": "The existing payment paths consume cash directly. A bounded monthly policy allows deposits to fund lending without duplicating cash or claiming all payments are deposit-aware.",
+    "addedBy": "SESSION-B",
+    "addedAt": "2026-10-15",
+    "replacement": "Have payment and estate writers withdraw from the same named deposit claim before declaring a cash shortfall; preserve household claims across family changes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-opening-mortgage-funding",
+    "kind": "missing-record",
+    "file": "src/core2/modules/credit.ts",
+    "line": 214,
+    "whatItFakes": "The bank holds opening mortgages whose original funding is an unmatched opening liability, not named customer deposits. New savings deposits are actual journal transfers and are accounted for separately.",
+    "why": "The pre-existing mortgage opening subtracts its initial principal from capital without recording who funded it. Retaining that offset avoids creating capital or cash while adding new deposits.",
+    "addedBy": "SESSION-B",
+    "addedAt": "2026-10-15",
+    "replacement": "Generate the mortgage opening with named depositor or warehouse-funding liabilities and retain those funding records in the bank books.",
     "status": "open"
   }
 ]

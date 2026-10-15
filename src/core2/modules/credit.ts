@@ -29,6 +29,8 @@ import { chooseAct } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
+import { bankDepositLiability } from "../accounts";
+import { reviewBankDeposits } from "../credit-deposits";
 
 const CREDIT_PULL = "credit:pull";
 
@@ -144,7 +146,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   };
 }
 
-/** Adds the town bank to the opening input. It holds only its own equity as cash until accounts hold deposits. */
+/** Adds the bank's opening equity; customer deposits subsequently move real cash through the journal. */
 export function withTownBank(input: CoreInput): CoreInput {
   const bank = townBankFor(input);
   if (!bank) return input;
@@ -184,7 +186,7 @@ function bankOf(api: CoreAPI) {
   return row?.organizationId ? row : undefined;
 }
 
-/** A bank's capital in a one-ledger world: its cash plus what open borrowers still owe it. */
+/** Capital is assets less deposit liabilities; a deposit never creates bank equity. */
 function equity(api: CoreAPI, bankId: string) {
   const c = core(api);
   let principal = 0,
@@ -205,18 +207,36 @@ function equity(api: CoreAPI, bankId: string) {
     .table("loans")
     .query("open", [true]) as unknown as LoanRow[])
     if (row.lenderId === bankId) loans += row.balanceMinor;
-  // The opening's mortgages it holds were funded by deposits the core doesn't model yet: only the
-  // change in what they owe since the opening counts, so a repayment moves cash, not capital.
+  // The opening mortgages predate the new deposit cash transfers. Keep their
+  // unmatched opening funding explicit, rather than inventing customer cash.
   const held = heldMortgages(api, bankId);
+  // stopgapId: SG-WORLD-opening-mortgage-funding
+  if (held.opening > 0) api.stopgap("SG-WORLD-opening-mortgage-funding");
   const cash = c.organizations.get(bankId)!.liquidMinor;
+  const deposits = bankDepositLiability(c, bankId);
   return {
     cash,
     principal,
     loans,
     limits,
     lost,
-    equity: cash + principal + loans + held.now - held.opening,
+    deposits,
+    mortgagesMinor: held.now,
+    openingMortgageFundingMinor: held.opening,
+    equity: cash + principal + loans + held.now - held.opening - deposits,
   };
+}
+
+function lendingRoom(api: CoreAPI, book: ReturnType<typeof equity>): number {
+  const capitalRoom =
+    book.equity * api.parameter("creditMaxLimitsPerEquity") -
+    book.limits -
+    book.loans;
+  const liquidityRoom =
+    book.cash -
+    book.deposits * api.parameter("creditDepositLiquidityShare") -
+    Math.max(0, book.limits - book.principal);
+  return Math.max(0, Math.min(capitalRoom, liquidityRoom));
 }
 
 const openingHeld = new WeakMap<CoreState, number>();
@@ -380,6 +400,7 @@ function review(api: CoreAPI): void {
     p = (key: string) => api.parameter(key);
   const bank = bankOf(api);
   if (!bank) return;
+  reviewBankDeposits(api, bank.organizationId);
   const book = equity(api, bank.organizationId);
   const capitalRoom = book.equity / bank.openingEquityMinor;
   store(api)
@@ -389,6 +410,7 @@ function review(api: CoreAPI): void {
       date: api.state.date,
       ...book,
       capitalRoom,
+      lendingRoomMinor: lendingRoom(api, book),
     });
   // Appetite falls smoothly as capital falls below where the bank opened.
   const appetite =
@@ -398,10 +420,7 @@ function review(api: CoreAPI): void {
         -p("creditCapitalAppetiteSlope") * (capitalRoom - p("macroHalf")),
       ));
   serviceLoans(api, bank.organizationId);
-  let room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
+  let room = lendingRoom(api, book);
   // The owner decides whether to borrow; a business with no recorded owner applies when its cash runs short.
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
@@ -470,6 +489,7 @@ function review(api: CoreAPI): void {
       .table("applications")
       .put({
         id: `application:${api.state.date}:${id}`,
+        bankBookId: `book:${api.state.date}`,
         organizationId: id,
         date: api.state.date,
         reasonKey: creditData.reasons.applied,
@@ -637,6 +657,7 @@ export const CREDIT_MODULE: CoreModule = {
       },
       payments: { indexes: { byLoan: { fields: ["loanId"] } } },
       households: { indexes: { byHousehold: { fields: ["householdId"] } } },
+      depositMoves: { indexes: { byHolder: { fields: ["holderId"] } } },
     },
   },
   reasonProviders: {
@@ -676,8 +697,7 @@ export const CREDIT_MODULE: CoreModule = {
     const bank = [...core(api).organizations.values()].find(
       (row) => row.kind === creditData.bankKind,
     );
-    // Deposits move into bank accounts when the core's accounts land; until then the bank lends its equity.
-    stopgap("SG-WORLD-credit-bank-equity-only");
+    // The first review transfers customer savings through the accounts writer.
     store(api)
       .table("banks")
       .put({
@@ -1077,10 +1097,7 @@ export function foundingLoanLimit(
   if (!bank || rate === undefined) return 0;
   const p = (key: string) => api.parameter(key);
   const book = equity(api, bank.organizationId);
-  const room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
+  const room = lendingRoom(api, book);
   const share = p("creditStartupEquityShare");
   const byEquity = (Math.max(0, plan.equityMinor) * (1 - share)) / share;
   const payment =
