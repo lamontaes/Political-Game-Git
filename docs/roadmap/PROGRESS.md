@@ -4,6 +4,10 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
+## 2026-10-15 — Session B, hiring after refusals and closure job loss
+
+Employers now consider the next applicant after a declined offer, and an existing job search no longer hides a closure job loss. Counted tenure and applicant experience read recorded work dates. The 19 focused jobs tests pass. The final drawn Anon Raices year has 19 hires, 13 quits and 12 layoffs or closure losses, all with reasons, and zero cash error. Build plus year took 28.334 seconds against the rounded 28-second base. The three turnover bands still fail; a calibration trial worsened results and was discarded. Detailed news-cost text remains Words issue #4337. Money-screen bank books are now verified in draft #4340; new housing and core cleanup remain drafts #4347 and #4352. No pool item is claimed while acceptance gaps remain.
+
 ## 2026-10-15 — Session B, staffing recovery (draft #4329)
 
 A live firm can hire again after its last worker leaves, using its recorded roles and schedules. Previously its staffing review stopped. The calendar-driven test verifies a replacement is filled, and all 16 focused jobs tests pass. The same drawn year still has 13 hires, 10 quits and 12 layoffs or closure job losses; all three calibration bands remain below range. Build plus year took 28.034 seconds against a rounded 28-second base. No different place was selected for a better result. The recovery route is proved by the focused test, not claimed as observed in this first-year world. Next: continue the remaining economy gaps before pool work.

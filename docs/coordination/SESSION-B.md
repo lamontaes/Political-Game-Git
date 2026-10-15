@@ -4,23 +4,23 @@ Only Session B writes this file.
 
 ## What the owner can play now
 
-On `world/session-b-layoffs`, firms read their paid sales and operating losses before hiring or laying off. Workers lose the actual job, can claim unemployment insurance, and the press can print the employer's announcement.
+On `world/session-b-layoffs`, firms read their paid sales and operating losses before hiring or laying off. Workers lose the actual job, can claim unemployment insurance, and the press can print the employer's announcement. On the deposits branch, Money and property displays household savings and bank books. On the housing branch, qualifying unassigned households take completed rentals.
 
 ## Orders
 
-- Layoffs: draft #4329. Implementation and focused checks pass; acceptance remains incomplete. The drawn year has hires 1.197%, quits 0.921%, layoffs including closures 1.105% per month, below the historical national bands. Never force those rates onto individual outcomes.
-- Deposits: draft #4340, `world/session-b-deposits`, built fresh from main. Household and business savings move through the cash journal. The bank owes separate depositor claims and lending reads both liabilities and available cash. Full and counted households use the same cost buffer. All 33 focused tests pass. The played-world proof names deposits, withdrawals and a paid personal loan.
+- Layoffs: draft #4329. Implementation and focused checks pass; acceptance remains incomplete. The final drawn year has hires 1.745%, quits 1.194%, layoffs including closures 1.102% per month, below the historical national bands. Never force those rates onto individual outcomes.
+- Deposits: draft #4340, `world/session-b-deposits`, built fresh from main. Household and business savings move through the cash journal. The bank owes separate depositor claims and lending reads both liabilities and available cash. Full and counted households use the same cost buffer. All 33 focused tests pass. The played-world proof names deposits, withdrawals and a paid personal loan. Money and property displays the balanced bank books; Chromium verified the rendered screen.
 - New homes: draft #4347, `world/session-b-new-homes`, fresh main `90d287aa46`. Local full and counted tenants can take completed rentals when rent savings outweigh moving hassle. Both tiers now renew rent from the same vacancy calculation. Broader arrival, job-location and family-space coverage remains registered. Five ordinary years produced 30 counted-household moves into 25 completed units, including turnover. No full-household move occurred in that world.
 - Core cleanup: draft #4352, `core/session-b-cleanup`. The four shims are already gone. All named core feature branches are already on main; the remaining merge-only tip has no resolution diff. The stale closure proof imports are repaired. One obsolete day-order test was reproduced and removed; #4201 contains one test, despite the order saying two. Draft #4352 is pushed; #4148 and #4201 are closed as superseded. The ordinary year balances; the outside-flow provenance gate fails identically against main with import-only repairs.
 - Pool: not claimed; the assigned orders are not complete.
 
-## Deposits proof and limitations
+## Earlier deposits proof and retained limitations
 
-The drawn place and seed below also apply to deposits. The year has zero cash or deposit-liability error at all twelve monthly observations. All thirteen bank balance sheets balance. Households and businesses both deposit and withdraw. The final observation took 24.698 seconds for the year, 28.176 including construction. It adds loan IDs omitted by the first proof script. Loan `loan:household_9fbf426814c0f317:2025-11-01` paid 276,700 minor units to `person_49361fbb9f62719d`. The year ends with 131,949,107 minor units in deposits across 54 holders. The six focused test files pass all 33 cases.
+The drawn place and seed below also apply to deposits. The year has zero cash or deposit-liability error at all twelve monthly observations. All thirteen bank balance sheets balance. Households and businesses both deposit and withdraw. The earlier observation took 24.698 seconds for the year, 28.176 including construction. It adds loan IDs omitted by the first proof script. Loan `loan:household_9fbf426814c0f317:2025-11-01` paid 276,700 minor units to `person_49361fbb9f62719d`. The year ends with 131,949,107 minor units in deposits across 54 holders. The six focused test files pass all 33 cases.
 
 The monthly cash buffer is registered as `SG-WORLD-deposit-wallet-buffer`: extraordinary payments and estates do not yet all draw savings on demand. Unpaid claims persist. Opening mortgage funding remains an explicit anonymous liability offset, registered as `SG-WORLD-opening-mortgage-funding`; it is not fabricated customer cash.
 
-## Layoffs proof and checks
+## Initial layoffs proof and checks
 
 Source `5d18f477b5`, base `1977d40995d7bf88a69f24d2e5a100210eafec54`. Seed `1977d40995`, place drawn by `drawPlace(seed, "world-business")`: Anon Raices, Puerto Rico (`7203174`). The ordinary bench world runs January 20, 2025 through January 20, 2026 with all its modules. Build 4.113 seconds, year 24.632 seconds; baseline build plus year rounded to 28 seconds. No claim of a median or precise percentage from rounded timing.
 
@@ -36,7 +36,7 @@ Runtime access needs `network.enabled` on remote commands. Dependencies are inst
 
 Builder: Codex; one read-only report reviewer used the inherited session model and effort. No coding helpers. Exact deployment effort, usage and total session cost are unavailable. No PR was merged.
 
-## New homes observation
+## Initial new homes observation
 
 Base SHA seed `90d287aa46` draws Vaitogi, American Samoa, through the same all-56 place draw. Base construction plus first year rounded to 66 seconds. No completed apartment exists in the first year. An initial three-year observation found the first apartment project starts in January 2027 and completes in September 2028. The final observation follows ordinary production through January 2030; no projects or movers are injected. Cash balances at all five annual checkpoints. Build 31.516 seconds plus first year 41.761 equals 73.277 seconds, within 20% of the rounded 66-second base. The busiest observed year took 48.576 seconds. The focused housing tests pass six existing cases and three construction/occupancy cases. The occupancy fixture first used an invalid retirement award; it now uses recorded jobs and still tests the real lease writer. No test was skipped.
 
@@ -89,3 +89,17 @@ The vacancy stopgap now covers opening-stock unit assignment. The new-rental cov
 Source `94417fb548` fixes job loss during an employed search and continues an employer's shortlist after a declined offer. The closure handler reads the closure's actual ended-job IDs, so an earlier quit is not a closure layoff. Counted tenure uses recorded commitments. The player regression fails on the previous loop and passes on the replacement; all 18 jobs/affordability tests pass.
 
 The same Anon Raices year now records 19 hires, 13 quits and 12 layoffs including closures over 1,089 employed person-months. Monthly rates are 1.745%, 1.194% and 1.102%; all three JOLTS comparisons still fail. Cash error is zero and every change names its reason and decider. Build took 3.582 seconds and the year 24.686 seconds. Full worker `person_f8ba73a7d4dea8d8` now receives 216,000 minor units under `claim:person_f8ba73a7d4dea8d8:2025-10-01`; earlier runs' 336,000 is superseded. Detailed news-cost text remains Words issue #4337. Money-screen bank books are the next remaining deposit task.
+
+## Bank books on Money
+
+Source `2c9b951bc4` connects Money and property to the bank's books through a read-only endpoint. Household savings show their own date; the balance sheet shows its published date. The same drawn Anon Raices year has zero error in all twelve monthly cash and deposit-index checks and all thirteen books. `book:2026-01-01` shows assets and liabilities plus equity both 608,616,255 minor units. The screen reader for `person_1dea57ecd03ed7e6` returns household `household_53ca0e7d97512f53` and its deposit claim. Its savings are zero by January 20, 2026, after earlier withdrawals; no savings are invented. Reading the view leaves date, journal sequence, cash and population unchanged. Build took 3.646 seconds, year 25.648 seconds, total 29.295 against the rounded 28-second base. Scoped types pass with nine unchanged dependency diagnostics excluded; eslint and JavaScript syntax pass.
+
+Browser check: Chromium opened the actual bench world, continued as `person_a0663e9b114243a4`, and displayed Money and property at 1920 × 1080 with no page errors. `book:2025-01-21` rendered total assets and liabilities plus equity both $4,760,026.34. Savings displayed $0.00 for this player's household. The screenshot is `/tmp/session-b-bank-money.png`; browser evidence is `/tmp/session-b-bank-browser.json` in the session. The first center click at 1280 × 900 was intercepted by the existing player card. Clicking the exposed shortcut edge at the larger size succeeded without forced clicks; the card overlap remains a screen-layout limitation.
+
+## Final layoffs evidence and rejected calibration
+
+Source `c4dfb918ce` also reads counted applicants' recorded work experience during matching, including dates on jobs gained during play. The new hiring test chooses an experienced counted applicant over a full applicant without filling in the counted person. All 19 jobs/affordability tests pass. The initial fixture passed the collapse keep-set in the wrong shape; it was corrected, and a counted coworker supplies the real wage flow. Scoped types report zero errors, four unchanged dependency diagnostics excluded; eslint, prettier, zero-dice and release checks pass.
+
+The final same-seed Anon Raices year took 3.623 seconds to build and 24.711 seconds to run. It has 19 hires, 13 quits and 12 layoffs including closures over 1,089 employed person-months. Rates remain 1.745%, 1.194% and 1.102%, all below the acceptance bands. All change records have reasons and cash error is zero. No changed hire score or winner is observed from the experience fix in this year; that case is proven by the focused test only.
+
+One discarded calibration trial used staffing adjustment 0.30, quit baseline -4.20 and search baseline -1.80, within their existing parameter ranges. It produced only 15 hires, 12 quits and 12 layoffs/closures; all bands still failed. The original defaults were restored, and no calibration change was committed. The hypothesis that these settings would increase turnover was not supported. Do not claim Session B fully accepted or claim a pool item: turnover, Words issue #4337 and the reproduced core outside-flow provenance failure remain open. All four draft PRs are open and mergeable; none was merged.
