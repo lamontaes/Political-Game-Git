@@ -21,7 +21,10 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 it("a played year moves the player's household money through pay, living costs, contracts and taxes", () => {
   setBookkeeping(false);
   try {
-    const draw = drawPlace(seed, "player-money-year");
+    // The golden-path runner names the place and seed; otherwise one is drawn.
+    const draw = process.env.GOLDEN_PATH_PLACE_KEY
+      ? { key: process.env.GOLDEN_PATH_PLACE_KEY, seed }
+      : drawPlace(seed, "player-money-year");
     const { core, playerId } = buildBenchWorld(draw.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: draw.key,
@@ -63,6 +66,16 @@ it("a played year moves the player's household money through pay, living costs, 
       advanceCore(core, addDays(makeIsoDate(core.date), 30));
       months.push(liquid());
     }
+    if (process.env.PLAYER_MONEY_PROOF)
+      writeFileSync(
+        process.env.PLAYER_MONEY_PROOF,
+        JSON.stringify({
+          where,
+          household: members,
+          liquidByMonthMinor: months,
+          flows: Object.fromEntries(flows),
+        }),
+      );
     const total = (kind: string, side: "inMinor" | "outMinor") =>
       flows.get(kind)?.[side] ?? 0;
     // Pay comes in; living costs, contracts (rent and bills) and withholding go out.
@@ -96,16 +109,6 @@ it("a played year moves the player's household money through pay, living costs, 
     expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
       core.cashJournal.totals.grossCreditMinor,
     );
-    if (process.env.PLAYER_MONEY_PROOF)
-      writeFileSync(
-        process.env.PLAYER_MONEY_PROOF,
-        JSON.stringify({
-          where,
-          household: members,
-          liquidByMonthMinor: months,
-          flows: Object.fromEntries(flows),
-        }),
-      );
   } finally {
     setBookkeeping(true);
   }
