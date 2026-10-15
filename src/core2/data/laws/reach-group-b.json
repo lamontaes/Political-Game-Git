@@ -283,8 +283,7 @@
         "enterprise:utility"
       ],
       "enforcer": "state environmental agency",
-      "source": "Clean Air Act sec. 110 and 172 (42 U.S.C. 7410, 7502): state plans for nonattainment areas",
-      "stopgapId": "SG-GOV-REACH-B-nonattainment-data"
+      "source": "Clean Air Act sec. 110 and 172 (42 U.S.C. 7410, 7502): state plans for nonattainment areas"
     },
     "us-policy-positions:environment-energy.bottle-deposit": {
       "mechanic": "price-payment",

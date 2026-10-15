@@ -888,14 +888,21 @@ function bookedMonth(
 }
 
 /**
- * A place out of attainment of an air quality standard (EPA Green Book) puts a
- * clean air plan's compliance duty on its stationary emitters; the duty slides
- * with how many standards the county misses and whether the designation covers
- * the whole county or part. A county that attains them all lifts it.
+ * A state's clean air plan law for polluted counties puts a compliance duty
+ * on stationary emitters in a county out of attainment of an air quality
+ * standard (EPA Green Book); the duty slides with how many standards the
+ * county misses and whether the designation covers the whole county or part.
+ * Without the law, or in a county that attains them all, there is no duty.
  */
+const CLEAN_AIR_QUESTION =
+  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties";
+
 function routeCompliance(api: CoreAPI): void {
   const c = core(api),
     table = store(api).table("operating");
+  const plan = c.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, CLEAN_AIR_QUESTION)
+    : null;
   const county = c.placeMetadata?.housingCounty ?? "";
   const year = Number(c.date.slice(0, 4));
   const standards = county
@@ -909,7 +916,13 @@ function routeCompliance(api: CoreAPI): void {
         : api.parameter("businessComplianceInPartShare")),
     0,
   );
-  const share = api.parameter("businessComplianceShareOfCosts") * weight;
+  // stopgapId: SG-WORLD-owner-decision-clean-air-no-plan
+  if (weight > 0 && plan?.value !== 1)
+    stopgap("SG-WORLD-owner-decision-clean-air-no-plan");
+  const share =
+    plan?.value === 1
+      ? api.parameter("businessComplianceShareOfCosts") * weight
+      : 0;
   for (const [id, book] of c.finance.businesses) {
     if (book.closedAt || !businessData.compliance.kinds.includes(book.kindId))
       continue;
@@ -929,7 +942,7 @@ function routeCompliance(api: CoreAPI): void {
         tag: "ESTIMATED",
         asOf: c.date,
         citation: businessData.compliance.citation,
-        estimatedFrom: `${county} misses ${standards.length} air quality standard(s) in ${year} (EPA Green Book); a clean air plan costs ${share} of other operating costs.`,
+        estimatedFrom: `${plan?.governing?.id}: ${county} misses ${standards.length} air quality standard(s) in ${year} (EPA Green Book); a clean air plan costs ${share} of other operating costs.`,
       },
     });
   }

@@ -14,6 +14,7 @@ import { corePlaceByKey } from "./place-lookup";
 import { countyNonattainment } from "./business-operating-rules";
 import { advanceCore, createLifeCore } from "./life";
 import { BUSINESS_MODULE, countedClosurePulls } from "./modules/business";
+import { enactLaw, lawChain, openLaws } from "./modules/laws";
 import { worldCoreData } from "./modules/world";
 import { realLocalities, type CorePlace } from "./places";
 import { coreAPI } from "./state";
@@ -83,6 +84,26 @@ interface Options {
   diner?: boolean;
   mfg?: boolean;
   seller?: boolean;
+  /** Open the laws and set the state's clean air plan law to this answer. */
+  cleanAirPlan?: boolean;
+}
+
+const CLEAN_AIR =
+  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties";
+
+/** The clean air plan law at every level of the town's chain, in force today. */
+function setCleanAirPlan(core: CoreState, inForce: boolean): void {
+  const api = coreAPI(core);
+  for (const level of lawChain(api).levels)
+    enactLaw(api, {
+      jurisdiction: level.jurisdiction,
+      level: level.level,
+      series: CLEAN_AIR,
+      value: inForce ? 1 : 0,
+      effectiveDate: core.date,
+      measureId: `test:clean-air:${inForce ? 1 : 0}:${core.date}`,
+      citation: "Controlled law case in a business check.",
+    });
 }
 
 /** A small town: owners with one job each, a residents account buying at the diner, an outside account. */
@@ -235,7 +256,10 @@ function world(place: CorePlace, opts: Options): CoreState {
         : [],
       source: src,
     },
-    placeMetadata: opts.county ? { housingCounty: opts.county } : {},
+    placeMetadata: {
+      ...(opts.county ? { housingCounty: opts.county } : {}),
+      ...(opts.cleanAirPlan !== undefined ? { placeKey: place.key } : {}),
+    },
     focusPersonIds: [],
     focusPlaceIds: [],
     calendarDates: [],
@@ -246,6 +270,10 @@ function world(place: CorePlace, opts: Options): CoreState {
     modules: [BUSINESS_MODULE],
     scheduledWork: false,
   });
+  if (opts.cleanAirPlan !== undefined) {
+    openLaws(core);
+    setCleanAirPlan(core, opts.cleanAirPlan);
+  }
   const book = (
     id: string,
     kindId: string,
@@ -422,7 +450,11 @@ describe(`compliance costs (seed ${seed})`, () => {
     `${draw.place.displayName} [${draw.place.key}] county ${draw.county}, seed ${seed}`;
 
   it(`a manufacturer in a county out of attainment pays on the journal each month, the payments are recorded, and its losses read them (${tag(dirty)})`, () => {
-    const core = world(dirty.place, { county: dirty.county, mfg: true });
+    const core = world(dirty.place, {
+      county: dirty.county,
+      mfg: true,
+      cleanAirPlan: true,
+    });
     const api = coreAPI(core);
     const total = money(core);
     const mfgBefore = core.organizations.get(ids.mfg)!.liquidMinor;
@@ -495,7 +527,11 @@ describe(`compliance costs (seed ${seed})`, () => {
   });
 
   it(`a county that attains every standard has no clean-air duty and records none (${tag(clean)})`, () => {
-    const core = world(clean.place, { county: clean.county, mfg: true });
+    const core = world(clean.place, {
+      county: clean.county,
+      mfg: true,
+      cleanAirPlan: true,
+    });
     const api = coreAPI(core);
     advanceCore(core, "2026-12-20");
     expect(
@@ -512,6 +548,51 @@ describe(`compliance costs (seed ${seed})`, () => {
     ).toHaveLength(0);
     const owner = ownerRows(core).find((row) => row.id === ids.mfg)!;
     expect(owner.lossMonths ?? 0, tag(clean)).toBe(0);
+  });
+});
+
+describe(`the clean air plan law decides the duty (seed ${seed})`, () => {
+  const dirty = placeWhereCounty("compliance-law", true);
+  const tag = `${dirty.place.displayName} [${dirty.place.key}] county ${dirty.county}, seed ${seed}`;
+  const rule = (core: CoreState) =>
+    coreAPI(core)
+      .moduleState("business")
+      .table("operating")
+      .rows()
+      .find((row) => row.id === `cost:${ids.mfg}:clean-air`);
+
+  it(`a county out of attainment owes nothing while the state has no plan law (${tag})`, () => {
+    const core = world(dirty.place, {
+      county: dirty.county,
+      mfg: true,
+      cleanAirPlan: false,
+    });
+    advanceCore(core, "2026-12-20");
+    expect(rule(core), tag).toBeUndefined();
+    expect(
+      coreAPI(core).moduleState("business").table("compliance").rows(),
+      tag,
+    ).toHaveLength(0);
+  });
+
+  it(`the duty starts with the plan law and ends the month it is repealed (${tag})`, () => {
+    const core = world(dirty.place, {
+      county: dirty.county,
+      mfg: true,
+      cleanAirPlan: true,
+    });
+    const payments = () =>
+      coreAPI(core).moduleState("business").table("compliance").rows();
+    advanceCore(core, "2026-11-20");
+    expect(rule(core), `plan law in force, ${tag}`).toBeDefined();
+    expect(String(rule(core)!.source.estimatedFrom), tag).toContain("law:");
+    const before = payments().length;
+    expect(before, tag).toBeGreaterThan(0);
+    setCleanAirPlan(core, false);
+    advanceCore(core, "2026-12-20");
+    expect(rule(core), `plan law repealed, ${tag}`).toBeUndefined();
+    // A review that finds the plan repealed ends the rule before it pays.
+    expect(payments().length, tag).toBe(before);
   });
 });
 

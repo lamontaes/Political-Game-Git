@@ -1754,7 +1754,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "Load EPA Green Book nonattainment counties as data; the plan then binds emitters only in listed counties, and OPUS-WORLD business costs read the compliance record.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Claude (laws-family-clean-air), Oct 15: the EPA Green Book county list is loaded (countyNonattainment) and the business engine's monthly review (routeCompliance in src/core2/modules/business.ts) now charges emitters in a county that misses a standard only while the state's clean air plan law is in force; a repeal ends the cost. Proven in a generated town by src/core2/clean-air-law.test.ts and in src/core2/business-audit.test.ts."
   },
   {
     "id": "SG-GOV-REACH-B-business-cost",
@@ -4583,6 +4584,18 @@
     "addedBy": "Session D (second pool worker)",
     "addedAt": "2026-10-15",
     "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-owner-decision-clean-air-no-plan",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/business.ts",
+    "line": 919,
+    "whatItFakes": "A county that misses an air quality standard charges its factories nothing in a state with no clean air plan law, though the Clean Air Act requires a plan (a federal one if the state writes none).",
+    "why": "Whether the state's law is the only cause of the cost, or a smaller federal-plan cost applies where the state has no law, is the owner's call. The simplest version that follows the pool item makes the state's law the cause.",
+    "addedBy": "Claude (laws-family-clean-air)",
+    "addedAt": "2026-10-15",
+    "replacement": "The owner's ruling: keep the state's law as the only cause, or add a federal-plan cost (a second rate) where the state has none.",
     "status": "open"
   }
 ]

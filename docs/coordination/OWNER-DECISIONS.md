@@ -4,6 +4,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
+- **Clean air with no state plan law (Oct 15, laws-family-clean-air).** A factory in a county that misses an air standard now pays the compliance cost only while the state's clean air plan law is in force. The Clean Air Act requires a plan either way (federal if the state writes none). Keep the state's law as the only cause, or charge a smaller federal-plan cost where the state has none? Built as the former; stopgap `SG-WORLD-owner-decision-clean-air-no-plan`.
+
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
