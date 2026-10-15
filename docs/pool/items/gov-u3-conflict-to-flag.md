@@ -4,12 +4,13 @@ title: "U3 (conflict to flag):"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-u3-scandal-knowledge
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 202 (unchecked checklist line)"
+claimed-at: 2026-10-15T22:47:58.068Z
 ---
 
 **What.** A conviction now feeds the candidacy inputs' on/off scandal flag, but the owner's October 5 ruling deleted the flat scandal penalty and wants each voter's own knowledge of it. Replace the flag: a voter's view of a convicted official changes only if that voter learned of the conviction (news received, a conversation, a notice), and the stance cites that source. The player would notice that a scandal hurts a candidate with the people who heard of it and not with those who did not.
