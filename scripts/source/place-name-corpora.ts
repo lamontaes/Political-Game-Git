@@ -318,7 +318,7 @@ export function measurePlaceNameCorpora(root = ".") {
 }
 
 if (process.argv[1]?.endsWith("place-name-corpora.ts")) {
-  const out = "src/simulation/place-name-corpora.json";
+  const out = "src/core2/data/names/place-name-corpora.json";
   const { writeFileSync } = await import("node:fs");
   writeFileSync(out, `${JSON.stringify(measurePlaceNameCorpora())}\n`);
   console.log(`Wrote ${out}; run prettier --write on it before committing.`);

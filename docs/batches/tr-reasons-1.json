@@ -1,0 +1,77 @@
+{
+  "id": "tr-reasons-1",
+  "items": [
+    {
+      "n": 1,
+      "situation": "Someone asks them for a favor or a meeting and they decide how to answer.",
+      "prior": "Sociability, high pole (Outgoing)",
+      "reply": "Outgoing, so they accept the request."
+    },
+    {
+      "n": 2,
+      "situation": "Someone asks them for a favor or a meeting and they decide how to answer.",
+      "prior": "Deliberation, low pole (Thinks it through)",
+      "reply": "Thinks it through, so they answer with terms of their own."
+    },
+    {
+      "n": 3,
+      "situation": "Someone asks them for a favor or a meeting and they decide how to answer.",
+      "prior": "Keeping commitments, high pole (Follows through)",
+      "reply": "Follows through, so they accept the request."
+    },
+    {
+      "n": 4,
+      "situation": "They decide whether to press a clemency petition for someone.",
+      "prior": "Risk, high pole (Takes chances)",
+      "reply": "Takes chances, so they press the petition."
+    },
+    {
+      "n": 5,
+      "situation": "They decide whether to press a clemency petition for someone.",
+      "prior": "Callous or Compassionate, high pole (Compassionate)",
+      "reply": "Compassionate: Gives weight to understood suffering and personal circumstances. So they press the petition."
+    },
+    {
+      "n": 6,
+      "situation": "They decide whether to press a clemency petition for someone.",
+      "prior": "Philanthropic, high pole (Philanthropic)",
+      "reply": "Philanthropic: Frequently turns concern into voluntary material or service support. So they press the petition."
+    },
+    {
+      "n": 7,
+      "situation": "A juror decides how to vote on the verdict.",
+      "prior": "Cruel, high pole (Cruel)",
+      "reply": "Cruel: Sometimes uses humiliation or suffering as a means or end. So they vote to convict."
+    },
+    {
+      "n": 8,
+      "situation": "A juror decides how to vote on the verdict.",
+      "prior": "Open-minded, high pole (Open-minded)",
+      "reply": "Open-minded: Gives unfamiliar explanations a hearing. So they vote to acquit."
+    },
+    {
+      "n": 9,
+      "situation": "A juror decides how to vote on the verdict.",
+      "prior": "Skeptical, high pole (Skeptical)",
+      "reply": "Skeptical: Asks what supports a claim before relying on it. So they vote to acquit."
+    },
+    {
+      "n": 10,
+      "situation": "An officeholder decides whether to run for another term.",
+      "prior": "Ambitious, high pole (Ambitious)",
+      "reply": "Ambitious: Seeks advancement, responsibility or meaningful achievement. So they run for another term."
+    },
+    {
+      "n": 11,
+      "situation": "An officeholder decides whether to run for another term.",
+      "prior": "Duty-bound, high pole (Duty-bound)",
+      "reply": "Duty-bound: Prioritizes a recognized role obligation even when inconvenient. So they run for another term."
+    },
+    {
+      "n": 12,
+      "situation": "An officeholder decides whether to run for another term.",
+      "prior": "Work-centered, high pole (Work-centered)",
+      "reply": "Work-centered: Lets work occupy attention and time beyond necessity. So they run for another term."
+    }
+  ]
+}

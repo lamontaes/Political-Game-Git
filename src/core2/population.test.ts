@@ -1,0 +1,440 @@
+import { beforeAll, describe, expect, it } from "vitest";
+import { characterHistoryContextPersonId } from "../simulation/character-history";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import {
+  corePlaceByKey,
+  corePlaceStateIdentities,
+  coreStateJurisdiction,
+} from "./place-lookup";
+import { WORKING_AGE_MIN } from "../simulation/living-world/town-employment";
+import {
+  materializeTownHousehold,
+  townHouseholdPeople,
+} from "../simulation/living-world/town-residents";
+import { townHouseholdSkeleton } from "./town-households";
+import { PEOPLE_MIND_VERSION } from "./people-mind";
+import { PERSONALITY_TRAIT_REGISTRY } from "../simulation/personality-trait-registry";
+import { createWorld } from "../simulation/world";
+import { parameter as p } from "./parameters";
+import { OPENING_KIN } from "./opening-kin";
+import { buildPopulation, POPULATION_VERSION } from "./population";
+import { realLocalities } from "./places";
+import { placeReferencePopulation } from "./gov-rules/place-population";
+import { stableHash } from "./kernel/ids";
+import { recordedTraitSource } from "./trait-source";
+import type { CoreInput } from "./types";
+
+const seed = "p8-household-source-parity";
+const startedAt = "2021-01-01";
+let opening: CoreInput;
+const residentsOf = (input: CoreInput) =>
+  input.people.filter((person) => person.tier !== OPENING_KIN.kinTier);
+const residentHouseholds = (input: CoreInput) => {
+  const ids = new Set(residentsOf(input).map((person) => person.householdId));
+  return input.households.filter((household) => ids.has(household.id));
+};
+
+beforeAll(() => {
+  opening = buildPopulation({
+    seed,
+    startedAt,
+    minimumPeople: p("populationTestMinimum"),
+  });
+});
+
+describe("real-place one-time population import", () => {
+  it("retains complete households and both child and adult people", () => {
+    expect(opening.people.length).toBeGreaterThanOrEqual(
+      p("populationTestMinimum"),
+    );
+    expect(new Set(opening.people.map((person) => person.id)).size).toBe(
+      opening.people.length,
+    );
+    const byId = new Map(opening.people.map((person) => [person.id, person]));
+    const assigned = new Set<string>();
+    for (const household of opening.households) {
+      expect(household.memberIds.length).toBeGreaterThan(p("zero"));
+      for (const id of household.memberIds) {
+        expect(assigned.has(id)).toBe(false);
+        assigned.add(id);
+        expect(byId.get(id)?.householdId).toBe(household.id);
+        expect(byId.get(id)?.placeId).toBe(household.placeId);
+      }
+    }
+    expect(assigned.size).toBe(opening.people.length);
+    // Parent-child links inside a resident household join a minor to a parent,
+    // or (P15) a grown child to the parents whose home they share.
+    const children = (opening.familyLinks ?? [])
+      .filter(
+        (link) =>
+          link.kind === "parent-child" &&
+          byId.get(link.personIds[p("zero")]!)!.householdId ===
+            byId.get(link.personIds[p("one")]!)!.householdId &&
+          byId.get(link.personIds[p("one")]!)!.tier !== OPENING_KIN.kinTier,
+      )
+      .map((link) => byId.get(link.personIds[p("one")]!)!);
+    expect(children.length).toBeGreaterThan(p("zero"));
+    const ageNow = (person: { birthDate: string }) =>
+      ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(startedAt));
+    expect(children.some((child) => ageNow(child) < WORKING_AGE_MIN)).toBe(
+      true,
+    );
+    // Some grown children live with both parents, in homes of three or more.
+    expect(
+      children.some(
+        (child) =>
+          ageNow(child) >= WORKING_AGE_MIN &&
+          opening.households.find((row) => row.id === child.householdId)!
+            .memberIds.length > p("two"),
+      ),
+    ).toBe(true);
+    expect(
+      opening.people.some((person) => person.familyIds.length > p("zero")),
+    ).toBe(true);
+    expect(
+      residentsOf(opening).every((person) => person.tier === "weekly"),
+    ).toBe(true);
+    // Relatives outside the household are husk-tier people tied both ways.
+    const kin = opening.people.filter(
+      (person) => person.tier === OPENING_KIN.kinTier,
+    );
+    expect(kin.length).toBeGreaterThan(p("zero"));
+    for (const relative of kin)
+      for (const other of relative.familyIds)
+        expect(byId.get(other)!.familyIds).toContain(relative.id);
+  });
+
+  it("keeps canonical identity and kin IDs without treating roommates as family", () => {
+    const place = corePlaceByKey(opening.placeMetadata!.placeKey!)!;
+    const state = coreStateJurisdiction(place.stateJurisdictionKey!)!;
+    const context = createWorld({
+      seed: `${POPULATION_VERSION}:${seed}:${place.key}`,
+      currentDate: makeIsoDate(startedAt),
+      people: [],
+      jurisdictions: [place.context.jurisdiction, state],
+    });
+    const byId = new Map(opening.people.map((person) => [person.id, person]));
+    const checkedShapes = new Set<string>();
+    for (const [index, household] of residentHouseholds(opening).entries()) {
+      const skeleton = townHouseholdSkeleton(
+        context.seed,
+        place.context.jurisdiction.id,
+        index,
+      );
+      const inputs = townHouseholdPeople(
+        context,
+        place.context.jurisdiction.id,
+        index,
+      );
+      // P15 may add members (grown children, more housemates) after them.
+      expect(household.memberIds.slice(0, inputs.length)).toEqual(
+        inputs.map((input) =>
+          characterHistoryContextPersonId(context, input.stableKey),
+        ),
+      );
+      // P15: every member is aged from the place's records by household type
+      // (opening-partnership.ts); a grown child at home takes the parent's surname.
+      const [first, second] = household.memberIds.map((id) => byId.get(id)!);
+      const grownChild =
+        skeleton.shape === "housemates" &&
+        (opening.familyLinks ?? []).some(
+          (link) =>
+            link.kind === "parent-child" &&
+            link.personIds[p("zero")] === first!.id &&
+            link.personIds[p("one")] === second!.id,
+        );
+      inputs.forEach((input, member) => {
+        const person = byId.get(
+          characterHistoryContextPersonId(context, input.stableKey),
+        )!;
+        expect(person.familyName).toBe(
+          grownChild && member === p("one")
+            ? inputs[p("zero")]!.familyName
+            : input.familyName,
+        );
+        const age = ageOnDate(
+          makeIsoDate(person.birthDate),
+          makeIsoDate(startedAt),
+        );
+        if (skeleton.members[member]!.role === "adult")
+          expect(age).toBeGreaterThanOrEqual(WORKING_AGE_MIN);
+        else expect(age).toBeLessThan(WORKING_AGE_MIN);
+      });
+      const kind = grownChild ? "parent-and-grown-child" : skeleton.shape;
+      if (checkedShapes.has(kind)) continue;
+      checkedShapes.add(kind);
+      const canonical = materializeTownHousehold(
+        context,
+        place.context.jurisdiction.id,
+        index,
+      );
+      expect(canonical.history.households[p("zero")]!.id).toBe(household.id);
+      const links = (opening.familyLinks ?? []).filter(
+        (link) =>
+          household.memberIds.includes(link.personIds[p("zero")]!) &&
+          household.memberIds.includes(link.personIds[p("one")]!),
+      );
+      const canonicalIds = [
+        ...canonical.history.kinshipRelationships.map((link) => link.id),
+        ...canonical.history.partnerships.map((link) => link.id),
+      ];
+      // Links P15 adds join a grown child to a parent at home.
+      for (const link of links.filter(
+        (row) => !canonicalIds.includes(row.id),
+      )) {
+        expect(link.kind).toBe("parent-child");
+        const child = byId.get(link.personIds[p("one")]!)!;
+        expect(
+          ageOnDate(makeIsoDate(child.birthDate), makeIsoDate(startedAt)),
+        ).toBeGreaterThanOrEqual(WORKING_AGE_MIN);
+      }
+      for (const id of canonicalIds)
+        expect(links.map((link) => link.id)).toContain(id);
+      if (grownChild) expect(links.length).toBeGreaterThan(canonicalIds.length);
+      for (const personId of household.memberIds.slice(0, inputs.length)) {
+        const person = byId.get(personId)!;
+        expect(person.looks?.appearanceSeed).toBe(
+          canonical.people[personId]!.appearance?.seed,
+        );
+        if (skeleton.shape === "housemates" && !grownChild) {
+          const housemates = household.memberIds.filter(
+            (other) => other !== personId,
+          );
+          // Housemates know each other's names but are never each other's family.
+          for (const other of housemates) {
+            expect(person.familyIds).not.toContain(other);
+            expect(person.knownIds).toContain(other);
+          }
+          for (const other of person.familyIds)
+            expect(byId.get(other)!.tier).toBe(OPENING_KIN.kinTier);
+        }
+        for (const other of person.familyIds)
+          expect(byId.get(other)!.familyIds).toContain(personId);
+      }
+    }
+    expect(checkedShapes).toContain("housemates");
+    expect(checkedShapes).toContain("parent-and-grown-child");
+    expect(checkedShapes).toContain("parent-with-children");
+    expect(checkedShapes).toContain("couple-with-children");
+  });
+
+  it("retains real recorded job identity, employer, title, hours and sourced pay estimates", () => {
+    expect(opening.jobs.length).toBeGreaterThan(p("zero"));
+    const people = new Map(opening.people.map((person) => [person.id, person]));
+    const employers = new Map(
+      opening.organizations.map((organization) => [
+        organization.id,
+        organization,
+      ]),
+    );
+    for (const job of opening.jobs) {
+      const person = people.get(job.personId)!;
+      expect(person.jobId).toBe(job.id);
+      expect(employers.get(job.organizationId)?.name).toBeTruthy();
+      expect(job.title).toBeTruthy();
+      expect(job.hoursDaily).toBeGreaterThan(p("zero"));
+      expect(job.wageDailyMinor).toBeGreaterThan(p("zero"));
+      expect(Number.isSafeInteger(job.wageDailyMinor)).toBe(true);
+      expect(
+        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(startedAt)),
+      ).toBeGreaterThanOrEqual(WORKING_AGE_MIN);
+      expect(job.source.tag).toBe("ESTIMATED");
+      expect(job.source.citation).toContain("BLS");
+      expect(
+        person.pastFacts?.some(
+          (fact) =>
+            fact.id === `${job.id}:past:opening` && fact.date <= startedAt,
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it("preserves only generated opening facts and exposes its future-vintage estimates", () => {
+    for (const person of residentsOf(opening)) {
+      expect(person.source.tag).toBe("ESTIMATED");
+      expect(person.source.asOf).toBe(startedAt);
+      expect(person.source.estimatedFrom).toContain(
+        "not an observed census roster",
+      );
+      expect(
+        person.pastFacts?.some(
+          (fact) =>
+            fact.kind === "birth-date" && fact.date === person.birthDate,
+        ),
+      ).toBe(true);
+      expect(person.pastFacts?.every((fact) => fact.date <= startedAt)).toBe(
+        true,
+      );
+      expect(Object.keys(person.traits).length).toBeLessThan(
+        PERSONALITY_TRAIT_REGISTRY.length,
+      );
+      for (const [key, value] of Object.entries(person.traits)) {
+        expect(Number.isFinite(value)).toBe(true);
+        // The five dimensions come from the temperament model; a notable
+        // facet from the temperament model or the upbringing projection.
+        const from = recordedTraitSource(person, key)?.estimatedFrom ?? "";
+        expect(
+          key.startsWith(`${PEOPLE_MIND_VERSION}:`)
+            ? from.includes("Generated opening temperament")
+            : from.includes("Generated opening temperament") ||
+                from.includes("Canonical sparse upbringing trait projection"),
+          `${key}: ${from}`,
+        ).toBe(true);
+      }
+      expect(Number.isSafeInteger(person.liquidMinor)).toBe(true);
+      expect(Number.isSafeInteger(person.livingCostDailyMinor)).toBe(true);
+    }
+    expect(opening.gaps.some((gap) => gap.startsWith("Opening vintage:"))).toBe(
+      true,
+    );
+    expect(opening.gaps.some((gap) => gap.startsWith("Deep past:"))).toBe(true);
+    expect(opening.placeMetadata?.cashSource).toContain(
+      "families holding transaction accounts",
+    );
+    expect(opening.placeMetadata?.countyNames).toBeTruthy();
+    expect(
+      residentsOf(opening).every((person) => person.countyId !== undefined),
+    ).toBe(true);
+    for (const relative of opening.people.filter(
+      (person) => person.tier === OPENING_KIN.kinTier,
+    )) {
+      expect(relative.source.estimatedFrom).toContain("Generated opening kin");
+      expect(relative.pastFacts?.every((fact) => fact.date <= startedAt)).toBe(
+        true,
+      );
+    }
+  });
+
+  it("is seed-stable and extends identities without splitting a household", () => {
+    const placeKey = opening.placeMetadata!.placeKey!;
+    const repeated = buildPopulation({
+      seed,
+      placeKey,
+      startedAt,
+      minimumPeople: p("populationTestMinimum"),
+    });
+    expect(repeated).toEqual(opening);
+    const extended = buildPopulation({
+      seed,
+      placeKey,
+      startedAt,
+      minimumPeople: residentsOf(opening).length + p("populationTestIncrement"),
+    });
+    expect(
+      residentHouseholds(extended).slice(
+        p("zero"),
+        residentHouseholds(opening).length,
+      ),
+    ).toEqual(residentHouseholds(opening));
+    expect(
+      residentsOf(extended)
+        .slice(p("zero"), residentsOf(opening).length)
+        .map((person) => [
+          person.id,
+          person.givenName,
+          person.familyName,
+          person.birthDate,
+          person.householdId,
+          person.countyId,
+        ]),
+    ).toEqual(
+      residentsOf(opening).map((person) => [
+        person.id,
+        person.givenName,
+        person.familyName,
+        person.birthDate,
+        person.householdId,
+        person.countyId,
+      ]),
+    );
+  });
+
+  it("shares one data route across every listed state and territory without inventing a missing county", () => {
+    const statesWithLocalities = new Set(
+      realLocalities()
+        .filter((place) => place.scope === "locality")
+        .map((place) => place.stateJurisdictionKey),
+    );
+    for (const state of corePlaceStateIdentities())
+      expect(statesWithLocalities).toContain(state.jurisdictionKey);
+    const missingGeography = realLocalities().find(
+      (place) =>
+        place.scope === "locality" &&
+        place.context.jurisdiction.kind === "territory-place",
+    )!;
+    const territory = buildPopulation({
+      seed,
+      placeKey: missingGeography.key,
+      startedAt,
+      minimumPeople: p("populationTestIncrement"),
+    });
+    expect(territory.people.length).toBeGreaterThanOrEqual(
+      p("populationTestIncrement"),
+    );
+    expect(
+      residentsOf(territory).every(
+        (person) => person.placeId === missingGeography.context.jurisdiction.id,
+      ),
+    ).toBe(true);
+    expect(
+      territory.people.every((person) => person.countyId === undefined),
+    ).toBe(true);
+    expect(
+      territory.gaps.some((gap) => gap.startsWith("County context absent")),
+    ).toBe(true);
+  });
+
+  it("builds the requested production-sized cohort with whole households", () => {
+    const cohort = buildPopulation({ seed: `${seed}:target`, startedAt });
+    expect(residentsOf(cohort).length).toBeGreaterThanOrEqual(
+      p("targetPopulation"),
+    );
+    expect(
+      cohort.households.reduce(
+        (count, household) => count + household.memberIds.length,
+        p("zero"),
+      ),
+    ).toBe(cohort.people.length);
+  }, 120_000);
+
+  it("opens a town smaller than the target at its real size", () => {
+    // A town of a few hundred to a few thousand people, drawn from all 56.
+    const small = realLocalities()
+      .filter((place) => {
+        const real = place.sourceGeoid
+          ? placeReferencePopulation(place.sourceGeoid)?.value
+          : undefined;
+        return real !== undefined && real >= 300 && real < 3000;
+      })
+      .sort((a, b) =>
+        stableHash(`${seed}:small:${a.key}`).localeCompare(
+          stableHash(`${seed}:small:${b.key}`),
+        ),
+      )[0]!;
+    const real = placeReferencePopulation(small.sourceGeoid!)!.value;
+    const cohort = buildPopulation({
+      seed: `${seed}:small`,
+      startedAt,
+      placeKey: small.key,
+    });
+    const people = residentsOf(cohort).length;
+    // Whole households: the last one drawn may carry it a few past.
+    expect(people, small.key).toBeGreaterThanOrEqual(real);
+    expect(people - real, small.key).toBeLessThan(10);
+  });
+
+  it("rejects invalid cohort sizes and nonlocality inputs before generation", () => {
+    expect(() =>
+      buildPopulation({ seed, startedAt, minimumPeople: p("zero") }),
+    ).toThrow("positive whole count");
+    const statePlace = corePlaceByKey("kentucky")!;
+    expect(() =>
+      buildPopulation({
+        seed,
+        startedAt,
+        placeKey: statePlace.key,
+        minimumPeople: p("one"),
+      }),
+    ).toThrow("recorded locality");
+  });
+});

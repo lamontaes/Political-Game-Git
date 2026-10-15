@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.node.json",
-  "compilerOptions": {
-    "composite": false,
-    "incremental": false
-  },
-  "include": ["./*.ts"],
-  "exclude": []
-}

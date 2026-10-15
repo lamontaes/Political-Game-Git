@@ -1,5 +1,9 @@
 import { nextSessionCalendarDate } from "./legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
+import {
+  applyItemVetoes,
+  type ExecutiveItemVetoSelection,
+} from "./governing/item-veto";
 /**
  * A municipal ordinance from introduction to a recorded effective outcome.
  *
@@ -28,10 +32,11 @@ import { applyInstitutionStep } from "./governing/legislative-clock";
 import { councilSitsOnAuthoredCalendar } from "./municipal-seat-identity";
 import { recordWorldEvent } from "./world";
 
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
+import { taxPolicyEffectiveDate } from "./tax-policy";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import {
@@ -88,7 +93,6 @@ import {
 } from "./municipal-government";
 import {
   municipalActionAuthority,
-  municipalMeasureKey,
   municipalMeasures,
   municipalSeats,
 } from "./municipal-public-work";
@@ -694,7 +698,7 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * Sundays, holidays and days neither House sits) expires, unless a joint
  * resolution disapproving it is enacted first.
  *
- * PLACEHOLDER, pending `dc-congressional-review-day-count`: the days counted
+ * RECORDED GAME PROFILE: the days counted
  * here skip Saturdays and Sundays only. Holidays are not excluded, because no
  * holiday calendar is read, and both Houses are taken to be sitting, because
  * no congressional sitting calendar is read. No joint resolution of
@@ -705,7 +709,7 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * offenses), 23 (criminal procedure) or 24 (prisoners and their treatment),
  * which § 1-206.02(c)(2) gives a 60-day review instead of 30.
  *
- * PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play
+ * RECORDED GAME PROFILE: an act in play
  * records the policy question it answers, not the Code title it amends, so
  * this mapping from question to title is the game's own inference. A
  * councilmember's own act names no question and takes the ordinary period.
@@ -838,9 +842,12 @@ export function completeCouncilPassage(
       // Compiled publication rules retain their existing adapter until typed.
       ...(governmentKey
         ? {
-            effectiveAt: effectiveFromPassage
-              ? next.currentDate
-              : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+            // A filed typed levy states its own delay; the later date rules.
+            effectiveAt:
+              filedTaxEffectiveDate(next, measure.id) ??
+              (effectiveFromPassage
+                ? next.currentDate
+                : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS)),
           }
         : {}),
     });
@@ -905,15 +912,17 @@ function enactCouncilMeasure(
     ? criminalReview
     : review;
   const effectiveAt =
-    review !== null
-      ? reviewDays !== null
-        ? congressionalReviewEffectiveOn(world.currentDate, reviewDays)
-        : null
-      : reading.procedure.effectivePublication?.includes(
-            "from the date of its passage",
-          )
-        ? world.currentDate
-        : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
+    review === null && filedTaxEffectiveDate(world, measure.id)
+      ? filedTaxEffectiveDate(world, measure.id)
+      : review !== null
+        ? reviewDays !== null
+          ? congressionalReviewEffectiveOn(world.currentDate, reviewDays)
+          : null
+        : reading.procedure.effectivePublication?.includes(
+              "from the date of its passage",
+            )
+          ? world.currentDate
+          : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
   const next = recordEnactment(world, {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,
@@ -938,6 +947,7 @@ export function recordCouncilExecutiveDecision(
   action: "signed" | "vetoed",
   rationale: string,
   actorPersonId: EntityId,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): World {
   if (
     !measureOfThisCouncil(world, governmentKey, measure.id) ||
@@ -954,8 +964,10 @@ export function recordCouncilExecutiveDecision(
     rationale,
     actorPersonId,
   });
-  if (action === "signed")
+  if (action === "signed") {
+    next = applyItemVetoes(next, measure.id, actorPersonId, itemSelection);
     return enactCouncilMeasure(next, governmentKey, measure);
+  }
   const days = councilActionDays(world, measure, "overrideWindowDays");
   if (days)
     next = scheduleFutureDueItem(next, {
@@ -1175,6 +1187,24 @@ function councilOfMeasure(measure: LegislativeMeasureRecord): string | null {
   }
 }
 
+/** A filed typed levy takes effect on its own delay from passage, not from the
+ * ordinance's default publication date; the same date function the tax policy
+ * uses decides it, and a measure with no filed levy has none. */
+function filedTaxEffectiveDate(
+  world: World,
+  measureId: EntityId,
+): IsoDate | null {
+  const proposal = world.history.taxProposals?.find(
+    (row) => row.measureId === measureId,
+  );
+  return proposal
+    ? taxPolicyEffectiveDate(
+        { resolvedAt: world.currentDate, effectiveAt: null },
+        proposal.terms,
+      )
+    : null;
+}
+
 /** A scheduled ordinary council reading uses the seated roll and saved ballot. */
 export function councilReadingDueHandler(
   world: World,
@@ -1201,7 +1231,7 @@ export function councilReadingDueHandler(
     return {
       world,
       status: "blocked",
-      reasonKey: null,
+      reasonKey: "council:no-seated-councilors",
       context: "No seated councilors can decide the scheduled reading.",
       outcomeEventId: null,
     };
@@ -1242,7 +1272,7 @@ export function councilReadingDueHandler(
     return {
       world,
       status: "blocked",
-      reasonKey: null,
+      reasonKey: "council:reading-refused",
       context: taken.reason,
       outcomeEventId: null,
     };
@@ -1492,17 +1522,4 @@ export function admitCouncilAction(
           `${localRule.source.citation} before its ${local.operativeOn} amendment was not retrieved; only ${generalRule.source.citation} is applied on this date.`,
         ],
   };
-}
-
-/** The measure stable key an ordinance of this designation is filed under. */
-export function municipalOrdinanceMeasureKey(
-  governmentKey: string,
-  designation: string,
-): string {
-  return municipalMeasureKey(governmentKey, designation);
-}
-
-/** Convenience for callers holding only a measure id. */
-export function municipalOrdinanceMeasure(world: World, measureId: EntityId) {
-  return requireMeasure(world, measureId);
 }

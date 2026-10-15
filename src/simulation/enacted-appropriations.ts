@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { clauseOrigins } from "./enacted-duties";
 import { addYears } from "./legislation-drafting";
 import { recordAdoptedAppropriation } from "./governing/program-governing";

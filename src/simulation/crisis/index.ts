@@ -60,8 +60,8 @@ import {
 
 export * from "./types";
 export * from "./records";
-export * from "./mortality-table";
-export * from "./hazard";
+export * from "../../core2/health-mortality-table";
+export * from "../../core2/health-hazard";
 export * from "./mortality";
 export * from "./death-causes";
 export * from "./fatal-illness";
@@ -77,6 +77,7 @@ export * from "./disaster-warrants";
 export * from "./hazard-producer";
 export * from "./international";
 export * from "./outside-shock";
+export * from "./political-attack-intent";
 export * from "./epidemic";
 export * from "./official-funeral";
 export * from "./health-coverage";

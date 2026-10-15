@@ -112,6 +112,13 @@
       "citation": "Second Class Township Code § 402 (53 P.S. § 65402): the board of supervisors consists of three members, or five if the township's voters approve.",
       "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1933/0/0069..htm"
     },
+    "RI": {
+      "seats": 5,
+      "bodyName": "Town Council",
+      "memberTitle": "Town council member",
+      "citation": "Rhode Island towns govern by a town council under each town's charter; the state's town directory lists Hopkinton's as five members, and Barrington's and Smithfield's charters also seat five. Elections fall on the November general election day of even years under the charters read (Coventry, Lincoln). The game seats five until a town's own charter is read.",
+      "url": "https://www.ri.gov/towns/view/hopkinton/"
+    },
     "VT": {
       "seats": 3,
       "bodyName": "Selectboard",
@@ -131,7 +138,7 @@
     "seats": 3,
     "bodyName": "Township Board",
     "memberTitle": "Township board member",
-    "citation": "ESTIMATED FROM AVERAGE: the state has not been read, so the town takes the most common size: 12 of the 15 township states read here set a board of three.",
+    "citation": "ESTIMATED FROM AVERAGE: the state has not been read, so the town takes the most common size: 12 of the 16 township states read here set a board of three.",
     "url": "https://www.census.gov/programs-surveys/cog.html"
   }
 }

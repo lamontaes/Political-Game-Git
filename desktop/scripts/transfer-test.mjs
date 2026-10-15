@@ -91,6 +91,7 @@ const page = await app.firstWindow();
 await page.waitForLoadState("domcontentloaded");
 
 await page.getByTestId("new-game").click();
+await page.getByTestId("new-world").click();
 await page.getByTestId("setup-screen").waitFor();
 await page.getByTestId("start-normal").click();
 await page.getByTestId("creator-stage-character").waitFor();
@@ -106,8 +107,6 @@ await page
   .first()
   .click();
 await page.getByTestId("creator-continue-place").click();
-await page.getByTestId("creator-stage-whoareyou").waitFor();
-await page.getByTestId("whoareyou-play").click();
 await page.getByTestId("begin").click();
 try {
   const gate = page.getByTestId("introduction-continue");
@@ -173,6 +172,8 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
       proposalLayout: "auto",
       newsMode: "front",
       newsOutletKey: null,
+      journalView: "chapters",
+      journalYear: null,
       politicsPlace: "here",
       governmentScope: "local",
       learnedGuideTermKeys: [],

@@ -1,14 +1,16 @@
 import { determineWorkPayCoverage } from "./pay-coverage";
+import { applyLawConsequences } from "./enacted-law-effects";
+import { GOVERNMENT_OPERATIONS_QUESTION_KEYS } from "./law-consequences/government-operations-rows";
 import { eventById } from "./event-index";
 import { assertPublicGovernmentIdentity } from "./public-government-identity";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   appendedList,
   hasStableKey,
   recordById,
   stableKeysOf,
 } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assessLifeLoadAt,
   careResponsibilityStateHistory,
@@ -115,6 +117,7 @@ export interface CreateOrganizationInput {
     readonly classification: OrganizationClassification;
     readonly locationJurisdictionId: EntityId | null;
     readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+    readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
   };
 }
 
@@ -126,6 +129,7 @@ export interface RecordOrganizationProfileInput {
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId;
   /** Present when this profile closes the organization. */
@@ -410,6 +414,9 @@ export function createOrganization(
             ...input.initialProfile.publicGovernmentIdentity,
           },
         }),
+    ...(input.initialProfile.collegePlace === undefined
+      ? {}
+      : { collegePlace: { ...input.initialProfile.collegePlace } }),
     provenance: cloneLifeProvenance(input.provenance),
     supersedesProfileId: null,
   };
@@ -500,6 +507,13 @@ export function recordOrganizationProfile(
     ...(input.publicGovernmentIdentity === undefined
       ? {}
       : { publicGovernmentIdentity: { ...input.publicGovernmentIdentity } }),
+    ...(input.collegePlace === undefined && previous.collegePlace === undefined
+      ? {}
+      : {
+          collegePlace: {
+            ...(input.collegePlace ?? previous.collegePlace!),
+          },
+        }),
     provenance: cloneLifeProvenance(input.provenance),
   };
   return appendOne(world, "organizationProfiles", record);
@@ -1288,13 +1302,26 @@ export function recordWorkStatus(
     provenance: cloneLifeProvenance(input.provenance),
   };
   const next = appendOne(world, "workStatuses", record);
-  return determineWorkPayCoverage(
+  const covered = determineWorkPayCoverage(
     next,
     record.status === "active" && record.effectiveAt === next.currentDate
       ? [relationship.id]
       : [],
     "hire",
   );
+  if (
+    record.status !== "ended" ||
+    (relationship.kind !== "employment:legislative-member" &&
+      relationship.kind !== "employment:executive-office")
+  )
+    return covered;
+  return applyLawConsequences(covered, {
+    onDate: record.effectiveAt,
+    activity: "effective",
+    activityId: record.id,
+    subjectIds: [relationship.personId],
+    questionKey: GOVERNMENT_OPERATIONS_QUESTION_KEYS.lobbying,
+  });
 }
 
 export function recordWorkRole(

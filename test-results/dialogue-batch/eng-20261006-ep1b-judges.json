@@ -1,0 +1,497 @@
+{
+  "id": "eng-20261006-ep1b-judges",
+  "title": "Dialogue batch eng-20261006-ep1b-judges (19 exchanges)",
+  "at": "2026-10-07T00:10:57.246Z",
+  "head": "9aea511121215d1cd614a6270355188c8a4cb053",
+  "status": "open",
+  "items": [
+    {
+      "i": 0,
+      "situation": "Your mom, Anita Colon (63), in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "You: Say hello",
+      "reply": "Your mom: Hi, Reese. How are you?",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core",
+        "life-reply.first-greeting:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 1,
+      "situation": "Your grandmother, Kiara Collins (112), in Coldstream, Ohio, on January 5, 2026. You are 52.",
+      "prior": "You: Say hello",
+      "reply": "Your grandmother: Hi, Jeremiah.",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 2,
+      "situation": "Your grandmother, Deborah Banks (97), in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your grandmother: Yeah, let's play.",
+      "part": "invitation.company-agree:core:yeah-play",
+      "parts": [
+        "invitation.company-agree:core:yeah-play"
+      ],
+      "composer": "invitationAgreeLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "invite-game-accept",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 3,
+      "situation": "Your mom, Mary Collins (82), in Coldstream, Ohio, on January 5, 2026. You are 52.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your mom: I mean, not right now. I'm in the mood for something different. Maybe another time.",
+      "part": "english.slow-opener:opener:i-mean",
+      "parts": [
+        "english.slow-opener:opener:i-mean",
+        "invitation.company-decline:core:not-right-now",
+        "invitation.company-decline:reason:something-different",
+        "invitation.company-decline:closer:another-time"
+      ],
+      "composer": "invitationDeclineLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 4,
+      "situation": "Your mom, Mary Collins (82), in Coldstream, Ohio, on January 5, 2026. You are 52.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your mom: Me too. I've been meaning to make time to learn something.",
+      "part": "life-reply.tell-shared-plan:core:core",
+      "parts": [
+        "life-reply.tell-shared-plan:core:core",
+        "life-reply.tell-shared-plan:reason:continuation"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 5,
+      "situation": "Your mom, Anita Colon (63), in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your mom: If you want to, go ahead.",
+      "part": "life-reply.running-open-agree-even:core:core",
+      "parts": [
+        "life-reply.running-open-agree-even:core:core"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-open",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 6,
+      "situation": "Your mom, Mary Collins (82), in Coldstream, Ohio, on January 5, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your mom: Nothing yet. Just go in with your eyes open.",
+      "part": "life-reply.running-worry-none:core:core",
+      "parts": [
+        "life-reply.running-worry-none:core:core",
+        "life-reply.running-worry-none:reason:continuation"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-worry",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 7,
+      "situation": "Your former classmate, Victor Tillman (34), in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your former classmate: Can we look at the unfinished part together? What still needs doing?",
+      "part": "subject-reply.school_raise:core:warm-0-core-0",
+      "parts": [
+        "subject-reply.school_raise:core:warm-0-core-0",
+        "subject-reply.school_raise:reason:warm-0-reason-2"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-raise",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 8,
+      "situation": "Your former classmate, Elizabeth Jones (52), in Coldstream, Ohio, on January 5, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your former classmate: We can talk about the meeting.",
+      "part": "subject-reply.neighborhood_mention:core:warm-0-core-2",
+      "parts": [
+        "subject-reply.neighborhood_mention:core:warm-0-core-2"
+      ],
+      "composer": "composeSubjectReply (neighborhood) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "neighborhood-mention",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 9,
+      "situation": "Your mom, Anita Colon (63), in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your mom: I can’t make it.",
+      "part": "everyday.social-decline-reply:core:core",
+      "parts": [
+        "everyday.social-decline-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 10,
+      "situation": "Your mom, Anita Colon (63), in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "You: Mention something in the news",
+      "reply": "Your mom: I haven't seen anything about it. When was this?",
+      "part": "small-talk.matter-uninformed:core:havent-seen",
+      "parts": [
+        "small-talk.matter-uninformed:core:havent-seen",
+        "small-talk.matter-uninformed:closer:when-was-this"
+      ],
+      "composer": "matterUninformedLine in small-talk-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "share-news",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "matter-uninformed",
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 11,
+      "situation": "You, in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "Reporter: What happened?",
+      "reply": "You: I can't answer that yet.",
+      "part": "press.answer-unknown:core:not-yet",
+      "parts": [
+        "press.answer-unknown:core:not-yet"
+      ],
+      "composer": "composePressLine (answer-unknown) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 12,
+      "situation": "Judge Miranda Terry sentences Rachel Chandler (42) for vandalism after a guilty plea. The judge chose probation. In Coldstream, Ohio, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: They accepted responsibility by pleading guilty. It is their first offense. The law asks for a sentence no greater than necessary.",
+      "part": "justice.sentence:core:accepted-responsibility",
+      "parts": [
+        "justice.sentence:core:accepted-responsibility",
+        "justice.sentence:core:first-offense",
+        "justice.sentence:core:parsimony"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 13,
+      "situation": "Judge Cynthia Mathews sentences Naomi Morris (29) for assault after a trial. The judge chose jail. In Nu'uuli, American Samoa, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: The offense was violent.",
+      "part": "justice.sentence:core:violent",
+      "parts": [
+        "justice.sentence:core:violent"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 14,
+      "situation": "Judge Miranda Terry sentences Rachel Chandler (42) for burglary after a trial. The judge chose jail. In Coldstream, Ohio, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: They had been found at fault for the same thing before.",
+      "part": "justice.sentence:core:findings",
+      "parts": [
+        "justice.sentence:core:findings"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 15,
+      "situation": "Your grandmother, Kiara Collins (112), in Coldstream, Ohio, on January 5, 2026. You are 52.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your grandmother: Good luck with it.",
+      "part": "life-reply.tell-plain-plan:core:core",
+      "parts": [
+        "life-reply.tell-plain-plan:core:core"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 16,
+      "situation": "Your former classmate, Victor Tillman (34), in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your former classmate: Thanks for offering to do it. Let me know if you need to change that.",
+      "part": "subject-reply.school_offer:core:warm-0-core-2",
+      "parts": [
+        "subject-reply.school_offer:core:warm-0-core-2",
+        "subject-reply.school_offer:reason:warm-0-reason-1"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-offer",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:0"
+    },
+    {
+      "i": 17,
+      "situation": "Your former classmate, Elizabeth Jones (52), in Coldstream, Ohio, on January 5, 2026. You are 52.",
+      "prior": "You: Ask if they would like this to be a date",
+      "reply": "Your former classmate: I mean, no, thank you. I like how things are between us now.",
+      "part": "english.slow-opener:opener:i-mean",
+      "parts": [
+        "english.slow-opener:opener:i-mean",
+        "invitation.date-decline:core:no-thank-you",
+        "invitation.date-decline:reason:like-things-now"
+      ],
+      "composer": "invitationDeclineLine (date) in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "decline",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Coldstream, Ohio",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:1"
+    },
+    {
+      "i": 18,
+      "situation": "Your mom, Anita Colon (63), in Nu'uuli, American Samoa, on January 5, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your mom: Yes, I’ll come.",
+      "part": "everyday.social-accept-reply:core:core",
+      "parts": [
+        "everyday.social-accept-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "everyday-accept",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Nu'uuli, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1b-judges:0"
+    }
+  ]
+}

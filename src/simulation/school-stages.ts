@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   futureDueItemStateAt,
   scheduleFutureDueItem,
@@ -25,8 +25,12 @@ import {
   educationEnrollmentStateAt,
   organizationProfileAt,
 } from "./life-queries";
-import { SeededRng } from "./rng";
-import { generateSchoolNames, SCHOOL_NAMES_V2_VERSION } from "./school-names";
+import { SeededRng } from "../core2/kernel/rng";
+import { generateSchoolNames, SCHOOL_NAMES_V3_VERSION } from "./school-names";
+import {
+  localInstitutionProvenance,
+  localSchoolInstitutionFor,
+} from "./local-institutions";
 import { STATES } from "./state-reference";
 import type {
   EducationEnrollment,
@@ -762,7 +766,7 @@ function catchUpSchool(
     : undefined;
   if (!jurisdiction) return world;
   const ahead = STAGES.slice(STAGES.indexOf(due));
-  const names = stageSchoolNames(world, jurisdiction);
+  const names = stageSchoolNames(world, jurisdiction, today);
   let next = world;
   for (const stage of ahead) {
     if (stage === due && due === started) continue;
@@ -772,9 +776,9 @@ function catchUpSchool(
     next = createOrganization(next, {
       stableKey,
       formedAt: today,
-      provenance: PROVENANCE,
+      provenance: names[stage].provenance,
       initialProfile: {
-        name: names[stage],
+        name: names[stage].name,
         classification: "sector:education",
         locationJurisdictionId: jurisdictionId,
       },
@@ -824,16 +828,33 @@ function catchUpSchool(
 function stageSchoolNames(
   world: World,
   jurisdiction: Jurisdiction,
-): Readonly<Record<SchoolStageKey, string>> {
+  effectiveAt: IsoDate,
+): Readonly<
+  Record<SchoolStageKey, { name: string; provenance: LifeRecordProvenance }>
+> {
   const state = jurisdiction.parentName
     ? (Object.entries(STATES).find(
         ([, reference]) => reference.name === jurisdiction.parentName,
       )?.[0] ?? null)
     : null;
-  return generateSchoolNames(
+  const generated = generateSchoolNames(
     new SeededRng(world.seed).fork("production-world-v1:child-school"),
     residentNameForJurisdiction(jurisdiction.name, jurisdiction.parentName),
-    SCHOOL_NAMES_V2_VERSION,
+    SCHOOL_NAMES_V3_VERSION,
     { state },
   );
+  const result = {} as Record<
+    SchoolStageKey,
+    { name: string; provenance: LifeRecordProvenance }
+  >;
+  for (const stage of STAGES) {
+    const row = localSchoolInstitutionFor(world, jurisdiction.id, stage);
+    result[stage] = row
+      ? {
+          name: row.name,
+          provenance: localInstitutionProvenance(row, effectiveAt),
+        }
+      : { name: generated[stage], provenance: PROVENANCE };
+  }
+  return result;
 }

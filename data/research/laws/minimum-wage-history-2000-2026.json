@@ -1,0 +1,3426 @@
+{
+  "about": "General (standard/largest-employer) minimum wage changes, 2000-01-01 through 2026-01-01, federal and 56 places. rateMinor is cents. DOL history table is Jan 1 year-values, so rows with a year-only date carry `estimated`. Where a state's rate is below federal, the state's own rate is recorded and the federal floor governs. Tiered states: upper/largest-employer tier recorded; see notes. Values first recalled from memory were all verified against cited sources on 2026-10-13.",
+  "sources": [
+    {
+      "id": "DOL-HIST",
+      "title": "DOL WHD, Changes in Basic Minimum Wages in Non-Farm Employment Under State Law: Selected Years 1968 to 2024 (values as of Jan 1 of each year; fetched through a page summarizer, upper tier used where ranges are shown)",
+      "url": "https://www.dol.gov/agencies/whd/state/minimum-wage/history",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "DOL-STATE",
+      "title": "DOL WHD, State Minimum Wage Laws (current rates; page dated July 2026)",
+      "url": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "FLSA",
+      "title": "Fair Labor Standards Amendments of 1996 (Small Business Job Protection Act, P.L. 104-188) and Fair Minimum Wage Act of 2007 (P.L. 110-28)",
+      "url": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "PAYROLL-2026",
+      "title": "HR Morning / Inova Payroll lists of January 1, 2026 and 2026 mid-year state minimum wage changes",
+      "url": "https://www.hrmorning.com/news/minimum-wage-updates",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "CRS-RL30235",
+      "title": "CRS RL30235, Minimum Wage in the Territories and Possessions of the United States (2007 law raising American Samoa and CNMI by $0.50 steps)",
+      "url": "https://www.everycrsreport.com/files/20080312_RL30235_7cd7d51f919cb80f4befdde528807c5f51e8e5ab.html",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "AD-2025",
+      "title": "Smith Amundsen, State Minimum Wage Rate Increases Effective January 1, 2025 (law-firm summary of state announcements)",
+      "url": "https://www.amundsendavislaw.com/labor-employment-law-update/state-minimum-wage-rate-increases-effective-january-1-2025",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "BOLI-OR",
+      "title": "Oregon Bureau of Labor and Industries, Minimum wage schedule",
+      "url": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "JL-FL",
+      "title": "Jackson Lewis, Florida Voters Approve $15 Minimum Wage (Amendment 2 schedule)",
+      "url": "https://www.jacksonlewis.com/insights/florida-voters-approve-15-minimum-wage",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "NE-DOL",
+      "title": "Nebraska Department of Labor, Nebraska Minimum Wage Increases to $13.50 Effective January 1, 2025",
+      "url": "https://dol.nebraska.gov/PressRelease/Details/322",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "ML-NY",
+      "title": "Morgan Lewis, New York Enacts Increases to State Minimum Wage (schedule table)",
+      "url": "https://www.morganlewis.com/pubs/2023/05/new-york-enacts-increases-to-state-minimum-wage",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "DOI-CNMI",
+      "title": "U.S. Department of the Interior, Minimum Wage in U.S. Territories (CNMI rate $3.05 set by P.L. 9-73 in 1996)",
+      "url": "https://www.doi.gov/ocl/hearings/110/IncreasedMinimumWage_022808",
+      "retrieved": "2026-10-13"
+    }
+  ],
+  "federal": [
+    {
+      "effectiveDate": "2000-01-01",
+      "rateMinor": 515,
+      "sourceId": "FLSA",
+      "note": "5.15 in force since 1997-09-01"
+    },
+    {
+      "effectiveDate": "2007-07-24",
+      "rateMinor": 585,
+      "sourceId": "FLSA"
+    },
+    {
+      "effectiveDate": "2008-07-24",
+      "rateMinor": 655,
+      "sourceId": "FLSA"
+    },
+    {
+      "effectiveDate": "2009-07-24",
+      "rateMinor": 725,
+      "sourceId": "FLSA"
+    }
+  ],
+  "places": {
+    "US-AK": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 565,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2003-01-01",
+        "rateMinor": 715,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 775,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 875,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 975,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 980,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 984,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1019,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1034,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1085,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1173,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-07-01",
+        "rateMinor": 1300,
+        "sourceId": "PAYROLL-2026",
+        "estimated": "Ballot Measure 1 (2024): $13.00 on 2025-07-01 per search summary; Jan 1 2025 indexed value 11.91 not fetched"
+      }
+    ],
+    "US-AL": {
+      "noStateMinimum": true,
+      "note": "No state minimum wage law; federal applies"
+    },
+    "US-AR": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Applies to employers with 4+ employees"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 625,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 750,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 850,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 925,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2020-01-01",
+        "rateMinor": 1000,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-AS": {
+      "industrySpecific": true,
+      "note": "American Samoa sets minimum wages by industry via DOL wage orders; 2007 law raised them by $0.50 steps (delayed 2010-2011) toward 7.25 (scheduled 2018, later paused). DOL-STATE gives no general rate. No broad rate row recorded; model as federal 7.25 floor or add rates when industry data is fetched.",
+      "sourceId": "CRS-RL30235"
+    },
+    "US-AZ": [
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 675,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 690,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2011-01-01",
+        "rateMinor": 735,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2012-01-01",
+        "rateMinor": 765,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 780,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 790,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 805,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 1000,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1215,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1280,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1385,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1435,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1470,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1515,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-CA": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 575,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2001-01-01",
+        "rateMinor": 625,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2002-01-01",
+        "rateMinor": 675,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 750,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 1000,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1300,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1400,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1550,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1600,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1650,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1690,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-CO": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 685,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 702,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 728,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 724,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2011-01-01",
+        "rateMinor": 736,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2012-01-01",
+        "rateMinor": 764,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 778,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 823,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 831,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 930,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1020,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2020-01-01",
+        "rateMinor": 1202,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1232,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1256,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1365,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1442,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1481,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1516,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-CT": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2001-01-01",
+        "rateMinor": 640,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2002-01-01",
+        "rateMinor": 670,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2003-01-01",
+        "rateMinor": 690,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2004-01-01",
+        "rateMinor": 710,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 740,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 765,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 870,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 915,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 960,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 1010,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2020-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1300,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1400,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1500,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1569,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1635,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1694,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-DC": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2005-01-01",
+        "rateMinor": 660,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 700,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 755,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-07-01",
+        "rateMinor": 950,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2015-07-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2016-07-01",
+        "rateMinor": 1150,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2018-07-01",
+        "rateMinor": 1325,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2019-07-01",
+        "rateMinor": 1400,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2020-07-01",
+        "rateMinor": 1500,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2021-07-01",
+        "rateMinor": 1520,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2022-07-01",
+        "rateMinor": 1610,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2023-07-01",
+        "rateMinor": 1700,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2024-07-01",
+        "rateMinor": 1750,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2025-07-01",
+        "rateMinor": 1795,
+        "sourceId": "PAYROLL-2026",
+        "estimated": "DC adjusts each July 1; 2026-07-01 value (18.40) is outside range"
+      }
+    ],
+    "US-DE": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 565,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2001-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 665,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 715,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 775,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 925,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1175,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1325,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1500,
+        "sourceId": "AD-2025"
+      }
+    ],
+    "US-FL": [
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 640,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed",
+        "note": "No state minimum before 2005-05-02 (Amendment 5 set $6.15); first DOL table value is 2006"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 667,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 679,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 721,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2012-01-01",
+        "rateMinor": 767,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 779,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 793,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 805,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 810,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 856,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 865,
+        "sourceId": "JL-FL",
+        "note": "Annual CPI step before Amendment 2 schedule began"
+      },
+      {
+        "effectiveDate": "2021-09-30",
+        "rateMinor": 1000,
+        "sourceId": "JL-FL"
+      },
+      {
+        "effectiveDate": "2022-09-30",
+        "rateMinor": 1100,
+        "sourceId": "JL-FL"
+      },
+      {
+        "effectiveDate": "2023-09-30",
+        "rateMinor": 1200,
+        "sourceId": "JL-FL"
+      },
+      {
+        "effectiveDate": "2024-09-30",
+        "rateMinor": 1300,
+        "sourceId": "JL-FL"
+      },
+      {
+        "effectiveDate": "2025-09-30",
+        "rateMinor": 1400,
+        "sourceId": "JL-FL",
+        "note": "15.00 follows 2026-09-30, outside range"
+      }
+    ],
+    "US-GA": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 325,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2002-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed",
+        "note": "Applies to employers with 6+ employees; federal floor governs FLSA-covered employers"
+      }
+    ],
+    "US-GU": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range"
+      },
+      {
+        "effectiveDate": "2007-07-24",
+        "rateMinor": 585,
+        "sourceId": "FLSA",
+        "estimated": "Guam follows federal; DOL table shows 5.85 for 2008-2009"
+      },
+      {
+        "effectiveDate": "2008-07-24",
+        "rateMinor": 655,
+        "sourceId": "FLSA",
+        "estimated": "assumed federal step; DOL table shows 5.85 for Jan 2009 so this row is uncertain"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "Federal 7.25 from 2009-07-24; DOL table shows it from 2010"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed (Guam Public Law raised to 8.25)"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 875,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 925,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed; 9.25 still current per DOL-STATE"
+      }
+    ],
+    "US-HI": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 525,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2002-01-01",
+        "rateMinor": 575,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2003-01-01",
+        "rateMinor": 625,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 675,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 775,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 850,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 925,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1010,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1400,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1600,
+        "sourceId": "DOL-STATE",
+        "estimated": "Act 2022 schedule ($14 in 2024, $16 on 2026-01-01); DOL table has the 2024 value"
+      }
+    ],
+    "US-IA": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-ID": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-IL": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Applies to employers with 4+ employees"
+      },
+      {
+        "effectiveDate": "2004-01-01",
+        "rateMinor": 550,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2005-01-01",
+        "rateMinor": 650,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 750,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 775,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 925,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2020-01-01",
+        "rateMinor": 1000,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1300,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1400,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1500,
+        "sourceId": "DOL-STATE"
+      }
+    ],
+    "US-IN": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Applies to employers with 2+ employees"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-KS": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 265,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-KY": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-LA": {
+      "noStateMinimum": true,
+      "note": "No state minimum wage law; federal applies"
+    },
+    "US-MA": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 600,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2001-01-01",
+        "rateMinor": 675,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 750,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 1000,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2020-01-01",
+        "rateMinor": 1275,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1350,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1425,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1500,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-MD": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-07-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2016-07-01",
+        "rateMinor": 875,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2018-07-01",
+        "rateMinor": 1010,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2019-07-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives Jan 1 value; July 1 date from the jurisdiction's annual-adjustment law, not independently fetched"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1175,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1250,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1325,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1500,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed",
+        "note": "Maryland Fair Wage Act of 2023 reached 15.00 on 2024-01-01 (DOL table)"
+      }
+    ],
+    "US-ME": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2002-01-01",
+        "rateMinor": 575,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2003-01-01",
+        "rateMinor": 625,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2005-01-01",
+        "rateMinor": 635,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 650,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 675,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 700,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 750,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1000,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1215,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1275,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1380,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1415,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1465,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1510,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-MI": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Applies to employers with 2+ employees"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 695,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 715,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 740,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 815,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 850,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 890,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 925,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 965,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 987,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1010,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1033,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-02-21",
+        "rateMinor": 1248,
+        "sourceId": "AD-2025",
+        "note": "Jan 1 2025 value was 10.56; 12.48 took effect Feb 21, 2025 after Mich. Supreme Court ruling"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1373,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-MN": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Large-employer rate recorded; small-employer rate lower"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 950,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 986,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1000,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1008,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1033,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1059,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1085,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1113,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1141,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-MO": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 650,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 665,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 705,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 735,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 750,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 765,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 770,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 785,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 945,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1030,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1115,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1230,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1375,
+        "sourceId": "AD-2025",
+        "note": "Proposition A; a lawsuit sought to enjoin it"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1500,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-MP": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 305,
+        "sourceId": "DOI-CNMI",
+        "estimated": "Rate confirmed ($3.05 set by P.L. 9-73 in 1996, unchanged until 2007); 2000-01-01 is the start of the range, not the effective date"
+      },
+      {
+        "effectiveDate": "2007-07-24",
+        "rateMinor": 355,
+        "sourceId": "CRS-RL30235",
+        "estimated": "2007 law; step dates after 2007 not verified (est. 4.05 2008-07-24, 4.55 2009-07-24, 5.05 2010-09-30, 5.55 2012-09-30, 6.05 2014-09-30, 6.55 2015-09-30, 7.05 2016-09-30)"
+      },
+      {
+        "effectiveDate": "2018-09-30",
+        "rateMinor": 725,
+        "sourceId": "DOL-STATE",
+        "estimated": "CNMI reached federal 7.25 by 2018 per GAO/CRS schedule; DOL-STATE lists 7.25"
+      }
+    ],
+    "US-MS": {
+      "noStateMinimum": true,
+      "note": "No state minimum wage law; federal applies"
+    },
+    "US-MT": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Businesses over the sales threshold; lower rate for small non-FLSA businesses"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 625,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 690,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2011-01-01",
+        "rateMinor": 735,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2012-01-01",
+        "rateMinor": 765,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 780,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 790,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 805,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 815,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 830,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 865,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 875,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 920,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 995,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1030,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1055,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1085,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-NC": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-ND": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-NE": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Applies to employers with 4+ employees"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1350,
+        "sourceId": "NE-DOL"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1500,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-NH": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 650,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-NJ": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 715,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 838,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 844,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 860,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1300,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1413,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1513,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1549,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1592,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-NM": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 425,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2004-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 650,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 750,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1150,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-NV": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Two tiers 2010-2023 (health benefits offered / not offered); higher tier recorded; single rate from 2024-07-01"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 633,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 685,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 755,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2011-01-01",
+        "rateMinor": 825,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2020-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 975,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1125,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-07-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "Single $12.00 rate effective 2024-07-01 per Nevada AB456 (2019); DOL table shows year only"
+      }
+    ],
+    "US-NY": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 425,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Upstate vs NYC/downstate tiers from 2017; table values and 2024+ values are the NYC/downstate level"
+      },
+      {
+        "effectiveDate": "2001-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2005-01-01",
+        "rateMinor": 600,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 675,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 715,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 875,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 970,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1040,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1180,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1250,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1320,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1500,
+        "sourceId": "ML-NY",
+        "note": "Corrected to NYC tier (was 14.20 rest of state); rows before 2023 are mixed-tier DOL values"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1600,
+        "sourceId": "ML-NY",
+        "note": "Corrected to NYC tier (DOL table showed 15.00, the rest-of-state rate)"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1650,
+        "sourceId": "ML-NY",
+        "note": "NYC, Long Island and Westchester tier ($15.50 rest of state)"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1700,
+        "sourceId": "PAYROLL-2026",
+        "estimated": "NYC/Long Island/Westchester tier; rest of state $16.00"
+      }
+    ],
+    "US-OH": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 425,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "2000-2006 rate 4.25 is for large employers (federal governs FLSA-covered); small employers lower"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 685,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 700,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 730,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2011-01-01",
+        "rateMinor": 740,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2012-01-01",
+        "rateMinor": 770,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 785,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 795,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 810,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 815,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 830,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 870,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 880,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 930,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1010,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1045,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1070,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1100,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-OK": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed",
+        "note": "State rate for large employers tracks federal; small employers (<10 FT or <$100k sales) $2.00"
+      }
+    ],
+    "US-OR": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 650,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2003-01-01",
+        "rateMinor": 690,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2004-01-01",
+        "rateMinor": 705,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2005-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 750,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 780,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 795,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 840,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2011-01-01",
+        "rateMinor": 850,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2012-01-01",
+        "rateMinor": 880,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 895,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 910,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 925,
+        "sourceId": "DOL-HIST",
+        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+      },
+      {
+        "effectiveDate": "2016-07-01",
+        "rateMinor": 975,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2017-07-01",
+        "rateMinor": 1025,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2018-07-01",
+        "rateMinor": 1075,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2019-07-01",
+        "rateMinor": 1125,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2020-07-01",
+        "rateMinor": 1200,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2021-07-01",
+        "rateMinor": 1275,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2022-07-01",
+        "rateMinor": 1350,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2023-07-01",
+        "rateMinor": 1420,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2024-07-01",
+        "rateMinor": 1470,
+        "sourceId": "BOLI-OR"
+      },
+      {
+        "effectiveDate": "2025-07-01",
+        "rateMinor": 1505,
+        "sourceId": "BOLI-OR",
+        "note": "standard tier; Portland metro 16.30, nonurban 14.05"
+      }
+    ],
+    "US-PA": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 625,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 715,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-PR": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Upper bound of occupation-specific range 3.61-5.15; PR wage orders by industry"
+      },
+      {
+        "effectiveDate": "2007-07-24",
+        "rateMinor": 585,
+        "sourceId": "FLSA",
+        "estimated": "PR FLSA-covered employees follow federal"
+      },
+      {
+        "effectiveDate": "2008-07-24",
+        "rateMinor": 655,
+        "sourceId": "FLSA",
+        "estimated": "same"
+      },
+      {
+        "effectiveDate": "2009-07-24",
+        "rateMinor": 725,
+        "sourceId": "FLSA",
+        "estimated": "same; DOL table shows 4.10 for Jan 2009 (a lower-industry order), not used"
+      },
+      {
+        "effectiveDate": "2022-07-01",
+        "rateMinor": 850,
+        "sourceId": "DOL-STATE",
+        "estimated": "Act 47-2021 schedule per request; not independently fetched"
+      },
+      {
+        "effectiveDate": "2023-07-01",
+        "rateMinor": 950,
+        "sourceId": "DOL-STATE",
+        "estimated": "Act 47-2021 schedule"
+      },
+      {
+        "effectiveDate": "2024-07-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-STATE",
+        "estimated": "Act 47-2021 schedule; 10.50 still current per DOL-STATE"
+      }
+    ],
+    "US-RI": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 565,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2001-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2004-01-01",
+        "rateMinor": 675,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 740,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 900,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 960,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1010,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2020-01-01",
+        "rateMinor": 1150,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1225,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1300,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1400,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1500,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1600,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-SC": {
+      "noStateMinimum": true,
+      "note": "No state minimum wage law; federal applies"
+    },
+    "US-SD": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 850,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 855,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 865,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 885,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 930,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 945,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 995,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1080,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1120,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1150,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1185,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-TN": {
+      "noStateMinimum": true,
+      "note": "No state minimum wage law; federal applies"
+    },
+    "US-TX": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 335,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2002-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-UT": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-VA": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "State minimum applies to employers with 4+ employees until 2021 coverage expansion"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 950,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1200,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1241,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1277,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-VI": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 465,
+        "sourceId": "DOL-HIST",
+        "estimated": "Upper bound of 4.30-4.65 range (small-enterprise rate lower)"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 615,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed (federal-linked)"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed; 10.50 still current per DOL-STATE"
+      }
+    ],
+    "US-VT": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 575,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Applies to employers with 2+ employees"
+      },
+      {
+        "effectiveDate": "2001-01-01",
+        "rateMinor": 625,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2004-01-01",
+        "rateMinor": 675,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2005-01-01",
+        "rateMinor": 700,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 753,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 768,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 806,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2011-01-01",
+        "rateMinor": 815,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2012-01-01",
+        "rateMinor": 846,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 860,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 873,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 915,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 960,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 1000,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1050,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1096,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1175,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1255,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1318,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1367,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1401,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1442,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-WA": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 650,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2001-01-01",
+        "rateMinor": 672,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2002-01-01",
+        "rateMinor": 690,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2003-01-01",
+        "rateMinor": 701,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2004-01-01",
+        "rateMinor": 716,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2005-01-01",
+        "rateMinor": 735,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 763,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 793,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 807,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 855,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2011-01-01",
+        "rateMinor": 867,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2012-01-01",
+        "rateMinor": 904,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2013-01-01",
+        "rateMinor": 919,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2014-01-01",
+        "rateMinor": 932,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 947,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2017-01-01",
+        "rateMinor": 1100,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2018-01-01",
+        "rateMinor": 1150,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2019-01-01",
+        "rateMinor": 1350,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 1369,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2022-01-01",
+        "rateMinor": 1449,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2023-01-01",
+        "rateMinor": 1574,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2024-01-01",
+        "rateMinor": 1628,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2025-01-01",
+        "rateMinor": 1666,
+        "sourceId": "AD-2025"
+      },
+      {
+        "effectiveDate": "2026-01-01",
+        "rateMinor": 1713,
+        "sourceId": "PAYROLL-2026"
+      }
+    ],
+    "US-WI": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2006-01-01",
+        "rateMinor": 570,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 650,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2010-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-WV": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier",
+        "note": "Applies to employers with 6+ employees at one location"
+      },
+      {
+        "effectiveDate": "2007-01-01",
+        "rateMinor": 585,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2008-01-01",
+        "rateMinor": 655,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2009-01-01",
+        "rateMinor": 725,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2015-01-01",
+        "rateMinor": 800,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      },
+      {
+        "effectiveDate": "2016-01-01",
+        "rateMinor": 875,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+      }
+    ],
+    "US-WY": [
+      {
+        "effectiveDate": "2000-01-01",
+        "rateMinor": 160,
+        "sourceId": "DOL-HIST",
+        "estimated": "Value in force at start of range per DOL table; true effective date earlier"
+      },
+      {
+        "effectiveDate": "2002-01-01",
+        "rateMinor": 515,
+        "sourceId": "DOL-HIST",
+        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed",
+        "note": "State rate 5.15 stays on the books; federal floor governs"
+      }
+    ]
+  }
+}

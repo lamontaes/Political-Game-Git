@@ -150,13 +150,6 @@ export function partyUnit(
   );
 }
 
-export function isPartyOrganization(
-  world: World,
-  organizationId: EntityId,
-): boolean {
-  return partyUnit(world, organizationId) !== null;
-}
-
 function evolutionFor(
   world: World,
   organizationId: EntityId,
@@ -210,21 +203,6 @@ export function activePartyUnitsAt(
       (filter.level === undefined || unit.level === filter.level) &&
       (filter.jurisdictionId === undefined ||
         unit.jurisdictionId === filter.jurisdictionId),
-  );
-}
-
-/** The national unit a setting party key names, if the save has it. */
-export function settingNationalPartyId(
-  world: World,
-  partyKey: string,
-): EntityId | null {
-  return (
-    partyUnits(world).find(
-      (unit) =>
-        unit.level === "national" &&
-        unit.origin === "setting" &&
-        unit.partyKey === partyKey,
-    )?.organizationId ?? null
   );
 }
 

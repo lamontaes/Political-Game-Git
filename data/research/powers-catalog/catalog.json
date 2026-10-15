@@ -332,10 +332,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -389,10 +391,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -736,10 +740,12 @@
           "question": "inhabited-territories-government-and-statehood"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "no",
@@ -793,10 +799,12 @@
           "question": "inhabited-territories-government-and-statehood"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "no",
@@ -906,10 +914,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -964,10 +974,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1022,10 +1034,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1080,10 +1094,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1138,10 +1154,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1196,8 +1214,10 @@
         },
         "county": {
           "may": "varies by state",
-          "status": "UNKNOWN",
-          "question": "minimum-wages-by-place"
+          "status": "game-profile",
+          "question": "minimum-wages-by-place",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "varies by state",
@@ -1255,10 +1275,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "state-labor-rules-overtime-leave-bargaining"
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1316,10 +1338,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "state-labor-rules-overtime-leave-bargaining"
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1377,10 +1401,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "state-labor-rules-overtime-leave-bargaining"
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1438,10 +1464,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "state-labor-rules-overtime-leave-bargaining"
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1499,10 +1527,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "state-labor-rules-overtime-leave-bargaining"
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1560,10 +1590,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "state-labor-rules-overtime-leave-bargaining"
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1621,10 +1653,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "state-labor-rules-overtime-leave-bargaining"
+          "question": "state-labor-rules-overtime-leave-bargaining",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1679,10 +1713,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1737,10 +1773,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1795,10 +1833,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1853,10 +1893,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "limited",
@@ -1911,10 +1953,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -1967,10 +2011,12 @@
           "source": "docs/research/requests/executive-powers-in-every-jurisdiction.json"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2025,10 +2071,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "limited",
@@ -2083,10 +2131,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2141,10 +2191,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2264,9 +2316,11 @@
         },
         "county": {
           "may": "varies by state",
-          "status": "UNKNOWN",
+          "status": "game-profile",
           "limits": "Most states preempt local gun rules",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "varies by state",
@@ -2324,10 +2378,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2382,10 +2438,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2441,9 +2499,11 @@
         },
         "county": {
           "may": "limited",
-          "status": "UNKNOWN",
+          "status": "game-profile",
           "limits": "Administers state law",
-          "question": "what-each-level-of-government-may-legislate"
+          "question": "what-each-level-of-government-may-legislate",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "limited",
@@ -2497,10 +2557,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2555,10 +2617,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "yes",
@@ -2674,10 +2738,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2793,10 +2859,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2854,10 +2922,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2915,10 +2985,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "varies by state",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -2976,10 +3048,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3034,10 +3108,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3092,10 +3168,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3150,10 +3228,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3208,10 +3288,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3266,10 +3348,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3324,10 +3408,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3382,10 +3468,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3440,10 +3528,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3498,10 +3588,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3556,10 +3648,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3614,10 +3708,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3672,10 +3768,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "limited",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: A county holds this power inside what its state's enabling statutes allow, as NACo describes county authority. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3792,10 +3890,11 @@
         },
         "county": {
           "may": "varies by state",
-          "status": "UNKNOWN",
+          "status": "game-profile",
           "limits": "Texas requires sheriffs running jails to work with federal agents",
-          "source": "data/research/bill-samples/state",
-          "question": "subject-preemption-inventory-56-places"
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "question": "subject-preemption-inventory-56-places",
+          "note": "ESTIMATED FROM AVERAGE: Whether a county may act depends on its state's home rule or Dillon's rule and on subject preemption; the state's own law in force on broaden-local-authority decides each place. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3850,10 +3949,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",
@@ -3961,10 +4062,12 @@
           "note": "Each territory's organic act or constitution decides; never inferred from D.C. or a state"
         },
         "county": {
-          "may": "UNKNOWN",
-          "status": "UNKNOWN",
+          "may": "no",
+          "status": "game-profile",
           "limits": "State law: home rule or Dillon's rule, and subject preemption",
-          "question": "subject-preemption-inventory-56-places"
+          "question": "subject-preemption-inventory-56-places",
+          "source": "https://www.naco.org/page/county-structure-authority-and-finances",
+          "note": "ESTIMATED FROM AVERAGE: State or federal law sets this and a county only administers it or has no say; counties do not hold the dial. The state-by-state subject-preemption inventory (research question below) replaces this row's estimate."
         },
         "city": {
           "may": "UNKNOWN",

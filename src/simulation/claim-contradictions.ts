@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import {
   CLAIM_CONTRADICTION_EVENT,
   CLAIM_EVIDENCE_TAG_PREFIX,
@@ -10,7 +10,7 @@ import {
   type ClaimStance,
 } from "./claim-stances";
 import { CONTRADICTION_ROUTES } from "./claim-contradiction-routes";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { personName } from "./people";
@@ -365,32 +365,7 @@ function promiseCheck(
         },
       ],
       constraints: [],
-      considerations: traitConsiderations(
-        next,
-        sourceId,
-        `claim-check:${stanceEvent.id}:${reporterId}`,
-        [
-          {
-            optionKey: "confirm",
-            trait: "conflict",
-            pole: "high",
-            explanation: "They don’t mind contradicting someone on the record.",
-          },
-          {
-            optionKey: "decline",
-            trait: "conflict",
-            pole: "low",
-            explanation:
-              "They would rather not get between a reporter and someone they know.",
-          },
-          {
-            optionKey: "decline",
-            trait: "risk",
-            pole: "low",
-            explanation: "Talking to a reporter feels risky to them.",
-          },
-        ],
-      ),
+      considerations: [],
       perceptionIds: [],
       randomness: "close-choices",
       retention: "ephemeral",

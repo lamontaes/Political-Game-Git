@@ -5,9 +5,8 @@ import {
 } from "./decisions";
 import { favorRecords, recordFavor } from "./favors";
 import { recordWorldEvent } from "./world";
-import { appointmentCircle } from "./patronage/appointments";
-import { projectEligiblePressReporters } from "./press-interview-producers";
-import { projectCampaignLifeActivities } from "./campaign-life-activities";
+import type { projectEligiblePressReporters } from "./press-interview-producers";
+import type { projectCampaignLifeActivities } from "./campaign-life-activities";
 import { personName } from "./people";
 import type {
   DecisionConsideration,
@@ -73,50 +72,6 @@ export interface AfterOfficeOpportunitySources {
   readonly eligibleAppointmentAppointerIds: readonly EntityId[];
   readonly eligibleReporters: ReturnType<typeof projectEligiblePressReporters>;
   readonly campaignActivities: ReturnType<typeof projectCampaignLifeActivities>;
-}
-
-/** Routes the former official through the existing opportunity producers. */
-export function afterOfficeOpportunitySources(
-  world: World,
-  formerOfficialPersonId: EntityId,
-  vacancyAppointerPersonIds: readonly EntityId[] = [],
-): AfterOfficeOpportunitySources {
-  const longViewEvents = world.history.events
-    .filter(
-      (event) =>
-        event.occurredAt <= world.currentDate &&
-        event.visibility === "public" &&
-        event.involvedEntityIds.includes(formerOfficialPersonId),
-    )
-    .map((event) => event.id);
-  const reporterByRole = new Map<
-    string,
-    ReturnType<typeof projectEligiblePressReporters>[number]
-  >();
-  for (const eventId of longViewEvents) {
-    for (const reporter of projectEligiblePressReporters(world, {
-      sourcePersonId: formerOfficialPersonId,
-      questionBasisEventIds: [eventId],
-    })) {
-      reporterByRole.set(
-        `${reporter.personId}:${reporter.workRoleId}`,
-        reporter,
-      );
-    }
-  }
-  return {
-    eligibleAppointmentAppointerIds: vacancyAppointerPersonIds.filter(
-      (appointerPersonId) =>
-        appointmentCircle(world, appointerPersonId, []).includes(
-          formerOfficialPersonId,
-        ),
-    ),
-    eligibleReporters: [...reporterByRole.values()],
-    campaignActivities: projectCampaignLifeActivities(
-      world,
-      formerOfficialPersonId,
-    ),
-  };
 }
 
 export function recordAfterOfficeEndorsementRequest(

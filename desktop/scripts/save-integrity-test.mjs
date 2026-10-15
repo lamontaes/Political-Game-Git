@@ -116,6 +116,7 @@ async function putRecord(page, value) {
 
 async function newLifeAndKeep(page) {
   await page.getByTestId("new-game").click();
+  await page.getByTestId("new-world").click();
   await page.getByTestId("setup-screen").waitFor();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-stage-character").waitFor();
@@ -129,8 +130,6 @@ async function newLifeAndKeep(page) {
     .first()
     .click();
   await page.getByTestId("creator-continue-place").click();
-  await page.getByTestId("creator-stage-whoareyou").waitFor();
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   const gate = page.getByTestId("introduction-continue");
   try {

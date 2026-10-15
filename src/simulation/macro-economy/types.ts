@@ -1,7 +1,7 @@
 import type { MacroEra } from "./kernel";
 import type { CentralBankState } from "./central-bank";
 import type { MacroCreditState, MacroGrowthDrivers } from "./credit";
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 import type { MacroLatents, MacroStartValues } from "./kernel";
 import type {
   CHANGE_AUTHORED_IMPULSES_VERSION,

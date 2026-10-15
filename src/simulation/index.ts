@@ -1,9 +1,42 @@
-export * from "./dates";
+export * from "./citizenship";
+export type * from "./citizenship-types";
+export * from "../core2/kernel/dates";
 export * from "./after-office-endorsements";
 export * from "./canonical-json";
 export * from "./character-history";
 export * from "./faith-record";
-export * from "./causal-effects";
+export {
+  createCausalMechanismDefinition,
+  createCausalMechanismCatalog,
+  createSyntheticCausalMechanismCatalog,
+  cloneCausalMechanismCatalog,
+  assertCausalMechanismCatalogIntegrity,
+  recordCausalProcess,
+  activateEffect,
+  causalProcessAt,
+  effectActivationsAt,
+  distinctRootCausalIds,
+  causalEffectEntityExists,
+  causalEffectEntityAvailableAt,
+  causalEffectHistoryRecords,
+  assertCausalEffectIntegrity,
+} from "./effect-records";
+export type {
+  CausalMechanismDefinitionInput,
+  CausalMechanismCatalogInput,
+  RecordCausalProcessInput,
+  ActivateEffectInput,
+} from "./effect-records";
+export {
+  evaluateEffectContribution,
+  evaluateAggregateMetric,
+  recordEvaluatedMetricState,
+} from "./outcome-web/legacy-effect-evaluator";
+export type {
+  EvaluateEffectContributionInput,
+  EvaluateAggregateMetricInput,
+  RecordEvaluatedMetricStateInput,
+} from "./outcome-web/legacy-effect-evaluator";
 export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./district-residence";
@@ -16,6 +49,7 @@ export * from "./campaign-compliance-rules";
 export * from "./candidate-qualification";
 export * from "./office-qualification-rules";
 export * from "./office-workflow";
+export * from "./constituent-casework-routing";
 export * from "./world-setup";
 /**
  * Campaign operations are named one by one on purpose.
@@ -56,6 +90,7 @@ export {
   askToHelp,
   campaignHasHelper,
   campaignHelperCandidates,
+  helperAskConsiderations,
 } from "./campaign-helpers";
 export type {
   AddCampaignHelperInput,
@@ -208,7 +243,7 @@ export type {
   CancelFutureDueItemInput,
   ScheduleFutureDueItemInput,
 } from "./future-transitions";
-export * from "./ids";
+export * from "../core2/kernel/ids";
 export * from "./incident-catalog";
 export * from "./incidents";
 export * from "./life";
@@ -270,11 +305,11 @@ export * from "./relationship-integration";
 export * from "./resource-queries";
 export * from "./resource-pressure";
 export * from "./resources";
-export * from "./rng";
+export * from "../core2/kernel/rng";
 export * from "./serialization";
 export * from "./setup-generation-inputs";
 export * from "./setup-priors";
-export * from "./sha256";
+export * from "../core2/kernel/sha256";
 export * from "./scheduled-activity-answer";
 export * from "./player-model";
 export * from "./setup-opening-bank";

@@ -1,14 +1,27 @@
-import corpusText from "../../data/research/places/local-institutions.json?raw";
-import { countyGeoidsForPlace } from "./government-units";
+import { groupedJsonTable } from "../core2/reference/lazy-data";
+import { countyGeoidsForPlace } from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   EMPTY_LOCAL_INSTITUTIONS,
   type LocalInstitutionSet,
   type LocalInstitutionsCorpus,
 } from "./local-institutions-data";
-import type { EntityId, World } from "./types";
+import type { EntityId, IsoDate, LifeRecordProvenance, World } from "./types";
+import type { SchoolStageKey } from "./school-calendar";
+import type { LocalInstitutionRow } from "./local-institutions-data";
 
-const corpus = JSON.parse(corpusText) as LocalInstitutionsCorpus;
+// Read on first use, only for the states a world asks about.
+const table = groupedJsonTable(
+  new URL(
+    "../../data/research/places/local-institutions.json",
+    import.meta.url,
+  ),
+  ["places", "counties"],
+);
+type PlaceRows = LocalInstitutionsCorpus["places"][string];
+type CountyRows = LocalInstitutionsCorpus["counties"][string];
+const corpusPlace = table.section<PlaceRows>("places");
+const corpusCounty = table.section<CountyRows>("counties");
 
 /**
  * The official institutions named for a playable place, with county rows
@@ -24,9 +37,9 @@ export function localInstitutionsFor(
   const geoid = lifePlaceByJurisdictionId(jurisdictionId)?.sourceGeoid;
   if (!geoid) return EMPTY_LOCAL_INSTITUTIONS;
 
-  const placeRows = corpus.places[geoid] ?? EMPTY_LOCAL_INSTITUTIONS;
-  const countyRows = countyGeoidsForPlace(geoid).map(
-    (county) => corpus.counties[county],
+  const placeRows = corpusPlace(geoid) ?? EMPTY_LOCAL_INSTITUTIONS;
+  const countyRows = countyGeoidsForPlace(geoid).map((county) =>
+    corpusCounty(county),
   );
   const keys: (keyof LocalInstitutionSet)[] = [
     "highSchools",
@@ -49,4 +62,28 @@ export function localInstitutionsFor(
       return [key, [...direct, ...fallback]];
     }),
   ) as unknown as LocalInstitutionSet;
+}
+
+/** A sourced school name for the stage, when this place has one. */
+export function localSchoolInstitutionFor(
+  world: World,
+  jurisdictionId: EntityId,
+  stage: SchoolStageKey,
+): LocalInstitutionRow | null {
+  const institutions = localInstitutionsFor(world, jurisdictionId);
+  return stage === "high"
+    ? (institutions.highSchools[0] ?? institutions.districts[0] ?? null)
+    : (institutions.districts[0] ?? null);
+}
+
+/** Keep source identity on the organization and make back-carried names explicit. */
+export function localInstitutionProvenance(
+  row: LocalInstitutionRow,
+  effectiveAt: IsoDate,
+): LifeRecordProvenance {
+  return {
+    kind: "source-record",
+    reference: `${row.sourceKey}:${row.sourceId} (directory as of ${row.asOf})${row.historicalNameEstimated ? "; historical name estimated before directory vintage" : ""}`,
+    asOf: effectiveAt,
+  };
 }

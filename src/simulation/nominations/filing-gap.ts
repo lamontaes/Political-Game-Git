@@ -31,3 +31,23 @@ export const MEDIAN_FILING_GAP_SOURCE =
   "ESTIMATED FROM AVERAGE: median candidate filing lead before the primary, " +
   "FEC 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access " +
   "(data/research/elections/party-nomination-rules-2026.json). Not a claim about this place's law.";
+
+/**
+ * How long before its primary a place closed candidate filing in 2026, from
+ * the same table, or {@link MEDIAN_FILING_GAP_DAYS} where the table has no
+ * usable row for it.
+ */
+export function filingLeadDays(stateUsps: string): {
+  readonly days: number;
+  readonly read: boolean;
+} {
+  const places = nominationRules.places as Record<
+    string,
+    { readonly filing?: { readonly daysBeforePrimary?: number | null } }
+  >;
+  const days =
+    places[`US-${stateUsps.toUpperCase()}`]?.filing?.daysBeforePrimary;
+  return typeof days === "number"
+    ? { days, read: true }
+    : { days: MEDIAN_FILING_GAP_DAYS, read: false };
+}

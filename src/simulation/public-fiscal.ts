@@ -1,5 +1,5 @@
 import { canonicalJson } from "./canonical-json";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { operativeDateInWorld } from "./governing/law-in-force";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { publicTaxAccountForJurisdiction } from "./tax-policy";

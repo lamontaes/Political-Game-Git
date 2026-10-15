@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import {
   applyItemVetoes,
   executiveItemVetoSelectionProblem,
@@ -6,9 +6,13 @@ import {
 } from "./item-veto";
 import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
-import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
+import {
+  addDays,
+  compareSimulationMoments,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { createWorkRelationship, recordWorkStatus } from "../life";
 import {
   currentLifeCutoff,
@@ -39,7 +43,7 @@ import { publicGovernmentIdentityForRecord } from "../public-government-identity
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
@@ -614,6 +618,8 @@ function isSittingChief(
 
 /** Qualitative assessment read from the person's saved record. */
 import { staffAssessment } from "./staff-evidence";
+import { resourcePositionAt } from "../resource-queries";
+import { isCountyServiceProgram } from "../law-consequences/service-delivered-data";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
 import {
@@ -1231,7 +1237,7 @@ export function governingMatterById(
 /**
  * The office's assigned decision work is completed only by its own recorded
  * action. This receipt says nothing about money spent or service delivered.
- * A lapse remains a cancelled work item, not fulfillment of the assignment.
+ * A lapse remains a canceled work item, not fulfillment of the assignment.
  */
 export function completedGoverningMatterWork(
   world: World,
@@ -2592,6 +2598,7 @@ function applyConsequence(
                     ? "The executive signed the council act."
                     : "The executive returned the council act with reasons for disapproval."),
                 office.holderPersonId,
+                itemSelection,
               )
             : world;
         }
@@ -3430,7 +3437,45 @@ export function governingNpcDecisionHandler(
       next,
       "No recorded advice or candidate assessment selects a choice; the matter remains open.",
     );
-  const option = recommended ?? steadiest;
+  // A county's own service line was voted by its board for that service, so
+  // the executive without a chief of staff commits it as voted once the
+  // county's account holds the cash for it; an appropriation is not cash.
+  // Short of cash, the executive commits nothing and the money comes back to
+  // the office a month later. Nothing here is drawn.
+  const countyLine =
+    !recommended && matter.family === "program"
+      ? (world.history.publicProgramRecords ?? []).find(
+          (record): record is PublicProgramAppropriationRecord =>
+            record.id === matter.appropriationId &&
+            record.kind === "appropriation" &&
+            record.sourceMeasureId != null &&
+            isCountyServiceProgram(record.programKey),
+        )
+      : undefined;
+  const countyChoice = (() => {
+    if (!countyLine) return undefined;
+    const spread = matter.options.find(
+      (o) => o.key === "program:operate-three-months",
+    );
+    const plan = programAlternativesFor(world, countyLine).find(
+      (alternative) => `program:${alternative.key}` === spread?.key,
+    );
+    const due =
+      plan?.installments.reduce((sum, row) => sum + row.amount.minorUnits, 0) ??
+      0;
+    const cash = resourcePositionAt(
+      world,
+      {
+        kind: "organization",
+        organizationId: countyLine.accountOrganizationId,
+      },
+      countyLine.amount.currency,
+    );
+    return spread && cash && cash.liquidBalance.minorUnits >= due
+      ? spread
+      : matter.options.find((o) => o.key === "program:no-action");
+  })();
+  const option = recommended ?? steadiest ?? countyChoice;
   if (!option)
     return resolved(
       next,

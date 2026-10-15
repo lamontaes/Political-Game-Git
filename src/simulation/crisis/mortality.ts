@@ -1,5 +1,9 @@
 import conditionPack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
-import { addDays, isoDateFromParts, makeIsoDate } from "../dates";
+import {
+  addDays,
+  isoDateFromParts,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import {
   scheduleFutureDueItem,
   scheduledFutureDueItemsThrough,
@@ -14,18 +18,18 @@ import type {
 } from "../types";
 import { isPersonAliveAt, recordPersonDeath } from "../vitality";
 import { assertWorldIntegrity } from "../world";
-import { FIXED_LN2 } from "./fixed-point";
+import { FIXED_LN2 } from "../../core2/kernel/fixed-point";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
   type HazardMultiplierChange,
   type HazardProfile,
-} from "./hazard";
+} from "../../core2/health-hazard";
 import {
   SSA_2023_TABLE_ID,
   type MortalityCalibrationCategory,
-} from "./mortality-table";
+} from "../../core2/health-mortality-table";
 import {
   CONDITION_ONSET_KEY,
   recordStartingConditions,
@@ -99,9 +103,9 @@ export const STRAIN_THRESHOLD =
 const STRAIN_THRESHOLD_UNITS = thresholdUnits(STRAIN_THRESHOLD);
 
 /**
- * Windows open on the first day of each calendar quarter. Deaths inside a
- * window are still scheduled on their exact day; the quarter only bounds how
- * far ahead a pending death item can exist.
+ * Windows after the opening open on the first day of each calendar quarter.
+ * The opening window starts on the world's current day, so a watched world
+ * immediately has a partial-quarter mortality window.
  */
 function firstOfNextQuarter(date: IsoDate): IsoDate {
   const year = Number(date.slice(0, 4));
@@ -401,9 +405,9 @@ function windowStableKey(start: IsoDate): string {
 }
 
 /**
- * Starts the model for this World if it is not already running. Existing
- * saves begin exposure at their next quarter boundary; earlier history is not
- * reinterpreted.
+ * Starts the model for this World if it is not already running. Exposure
+ * begins at opening, using each person's age-specific hazard from that day;
+ * earlier history is not reinterpreted.
  */
 export function ensureCrisisMortality(world: World): World {
   if (
@@ -412,7 +416,7 @@ export function ensureCrisisMortality(world: World): World {
     )
   )
     return world;
-  const start = firstOfNextQuarter(world.currentDate);
+  const start = world.currentDate;
   const next = scheduleFutureDueItem(world, {
     stableKey: `${windowStableKey(start)}:due`,
     dueAt: start,

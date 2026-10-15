@@ -1,0 +1,151 @@
+{
+  "version": "outside-flows-v1",
+  "about": "Every way money may cross between the town and the outside world in a played year, and the record that matches it (money stress audit defect 3). A journal entry touching an outside account must match one row by its source kind and, for accounts transfers, the transfer id's leading segment. A row marked plug is a stand-in the dollar test rejects; any flow matching no row is rejected too.",
+  "flows": [
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "residents",
+      "matchedBy": "goods-and-services",
+      "what": "Counted households' purchases from outside sellers and pay from outside employers, through the residents engine's pooled account."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "salary",
+      "matchedBy": "service",
+      "what": "An official's salary for days in office, from the government that seats them (official-pay)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "unemployment-benefit",
+      "matchedBy": "transfer-under-law",
+      "what": "Unemployment benefits paid under the state's law to a claimant."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "counted-departure",
+      "matchedBy": "own-money",
+      "what": "A counted household moving away takes its share of the pool with it."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "construction",
+      "matchedBy": "goods-and-services",
+      "what": "Building work bought from outside contractors."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "mortgage",
+      "matchedBy": "loan-repayment",
+      "what": "Mortgage payments to an outside lender."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "landlord-payout",
+      "matchedBy": "goods-and-services",
+      "what": "Rent passed to landlords who live outside the town."
+    },
+    {
+      "kind": "finance.contract-settlement",
+      "matchedBy": "goods-and-services",
+      "what": "A recorded finance contract (supplies, services) settled with an outside party."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "outside-sales",
+      "matchedBy": "goods-and-services",
+      "what": "Buyers outside the town paying a town business for its goods and services (the outside market)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "outside-costs",
+      "matchedBy": "goods-and-services",
+      "what": "A town business paying outside suppliers for what it uses."
+    },
+    {
+      "kind": "work-payroll",
+      "matchedBy": "service",
+      "what": "Wages from an employer outside the town for recorded work."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "retirement-claim",
+      "matchedBy": "transfer-under-law",
+      "what": "Social Security retirement awards paid under federal law to a claimant."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "per-capita",
+      "matchedBy": "owner-distribution",
+      "what": "A business's cash above its cushion paid to its outside owner."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "parent-sweep",
+      "matchedBy": "owner-distribution",
+      "what": "A branch's retained earnings swept to its parent company."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "owner-closed",
+      "matchedBy": "owner-distribution",
+      "what": "What is left of a business closed by choice, paid to its owner."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "estate",
+      "matchedBy": "transfer-under-law",
+      "what": "An heirless estate escheating to the decedent's state, or an inheritance to an heir outside the town (estates.ts)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "counted-arrival",
+      "matchedBy": "own-money",
+      "what": "A counted household moving in brings its cash from the outside market into its group (the mirror of counted-departure)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "mover-departure",
+      "matchedBy": "own-money",
+      "what": "A full household moving away takes its cash out of town (moves)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "entrant",
+      "matchedBy": "goods-and-services",
+      "what": "A counted entrant's pay from outside employers and purchases from outside sellers, kept as the same recorded flows the household it takes the shape of already had (residents-economy)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "price",
+      "matchedBy": "goods-and-services",
+      "what": "A price-rule change in what households and businesses pay outside sellers for a good (energy, fuel), settled in place-prices."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "property-tax",
+      "matchedBy": "transfer-under-law",
+      "what": "Property tax a household owes under the law in force, paid to a government whose books are outside the town (housing-property-tax)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "federal-borrowing",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-outside-revenue-monthly",
+      "what": "The federal treasury's monthly borrowing from outside to cover its gap, part of the same stand-in as outside-revenue."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-outside-revenue-monthly",
+      "what": "A treasury's even twelfth of each spending line paid to outside payees (and in-town businesses), part of the same stand-in as outside-revenue."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "outside-revenue",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-outside-revenue-monthly",
+      "what": "A twelfth of a government's yearly Census revenue paid in each month with no taxpayer, sale or grant behind it."
+    }
+  ]
+}

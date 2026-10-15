@@ -1,8 +1,12 @@
+import exciseEstimates from "../../data/research/money/selective-excise-authority-estimates.json" with { type: "json" };
 import wageAuthority from "../../data/research/money/wage-income-authority.json" with { type: "json" };
+import { businessTaxOwnersAt } from "./business-tax-payers";
 import {
   queryFiscalAuthority,
   type PortableFiscalAuthorityRecord,
 } from "../fiscal-authority/query";
+import { isTaxQuantity } from "./tax-types";
+import { MILEAGE_FEE_QUESTION } from "./public-budgets/road-usage-charge-constants";
 import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import { eventById } from "./event-index";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
@@ -10,9 +14,21 @@ import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
 import { recordById, recordsByStringField } from "./history-index";
 import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
+import {
+  localTaxAuthority,
+  localTaxGovernment,
+  localTaxPowerEvidenceFor,
+  localTaxTermsQuestionKey,
+} from "./local-tax-authority";
+import { isTypedPropertyTax } from "./property-tax-schedule";
+import {
+  isStateTaxInstrument,
+  STATE_TAX_INSTRUMENT_BY_FAMILY,
+  stateTaxPowerEvidenceFor,
+} from "./state-tax-authority";
 import { canonicalJson } from "./canonical-json";
-import { addDays, makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   currentMeasureProvisions,
   recordFiledProvision,
@@ -53,6 +69,7 @@ import {
 } from "./future-transitions";
 import { publishPublicEvent } from "./public-information";
 import { recordLawExposure } from "./law-exposure";
+import { schedulePropertyAssessmentDay } from "./property-tax-schedule";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
@@ -207,10 +224,20 @@ export function taxPowerEvidenceFor(
       constraints: [...result.record.constraints],
     };
   }
+  if (selection && isStateTaxInstrument(selection.instrument))
+    return stateTaxPowerEvidenceFor(
+      jurisdictionKey,
+      selection.instrument,
+      selection.asOf,
+    );
   if (selection && selection.instrument !== "selective-excise") return null;
-  const source = powerProjection.powers.find(
-    (row) => row.jurisdictionKey === jurisdictionKey,
-  );
+  const source =
+    powerProjection.powers.find(
+      (row) => row.jurisdictionKey === jurisdictionKey,
+    ) ??
+    Object.entries(exciseEstimates.rows).find(
+      ([key]) => key === jurisdictionKey,
+    )?.[1];
   return source
     ? {
         ...structuredClone(source),
@@ -390,12 +417,66 @@ export function attachTaxProposal(
     throw new Error(
       "Tax authority is unsupported by the available research for this government and instrument.",
     );
-  const expected = taxPowerEvidenceFor(input.power.jurisdictionKey, {
-    instrument: input.power.instrument,
-    asOf: world.currentDate,
-  });
-  if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
-    throw new Error("The tax power is not a supported sourced contract.");
+  const stateInstrument =
+    input.power.level === "STATE" &&
+    isStateTaxInstrument(input.terms.instrument)
+      ? input.terms.instrument
+      : null;
+  if (input.terms.baseUnit && input.power.level !== "STATE")
+    throw new Error(
+      canonicalJson({
+        status: "authority-level-mismatch",
+        baseUnit: input.terms.baseUnit,
+        power: input.power,
+      }),
+    );
+  const localInstrument = stateInstrument ? undefined : input.terms.instrument;
+  const localGovernment =
+    input.publicGovernmentIdentity?.kind === "local-government"
+      ? localTaxGovernment(input.publicGovernmentIdentity.governmentKey)
+      : null;
+  if (
+    localInstrument ||
+    input.publicGovernmentIdentity?.kind === "local-government"
+  ) {
+    // One rule for every place: a county or municipality levies a property,
+    // sales, payroll or corporate tax only as far as the state's own rule
+    // lets it, read by the same lookup everywhere.
+    if (!localInstrument || !localGovernment)
+      throw new Error(
+        "A local tax proposal needs a compiled local government and a named local tax.",
+      );
+    const authority = localTaxAuthority({
+      ...localGovernment,
+      instrument: localInstrument,
+    });
+    if (!authority.permits)
+      throw new Error(
+        `The state does not let this level of local government levy this tax (${authority.status}).`,
+      );
+    const expectedLocal = localTaxPowerEvidenceFor({
+      asOf: input.power?.asOf ?? world.currentDate,
+      ...localGovernment,
+      governmentKey: (
+        input.publicGovernmentIdentity as Extract<
+          PublicGovernmentIdentity,
+          { kind: "local-government" }
+        >
+      ).governmentKey,
+      instrument: localInstrument,
+    });
+    if (canonicalJson(expectedLocal) !== canonicalJson(input.power))
+      throw new Error(
+        "The tax power is not a supported local government contract.",
+      );
+  } else {
+    const expected = taxPowerEvidenceFor(input.power.jurisdictionKey, {
+      instrument: input.power.instrument,
+      asOf: world.currentDate,
+    });
+    if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
+      throw new Error("The tax power is not a supported sourced contract.");
+  }
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction)
     throw new Error("The tax proposal belongs to an unknown jurisdiction.");
@@ -414,9 +495,12 @@ export function attachTaxProposal(
   if (
     input.power &&
     jurisdiction.id !==
-      (input.power.level === "FEDERAL" && input.power.jurisdictionKey === "US"
-        ? NATIONAL_ELECTION_JURISDICTION.id
-        : stateJurisdictionForKey(input.power.jurisdictionKey)?.id)
+      (localGovernment
+        ? publicGovernmentIdentity.jurisdictionId
+        : input.power.level === "FEDERAL" &&
+            input.power.jurisdictionKey === "US"
+          ? NATIONAL_ELECTION_JURISDICTION.id
+          : stateJurisdictionForKey(input.power.jurisdictionKey)?.id)
   )
     throw new Error("The tax power belongs to another jurisdiction.");
   if (input.power && world.currentDate < input.power.asOf)
@@ -442,9 +526,17 @@ export function attachTaxProposal(
     )
   )
     throw new Error("Tax terms must be filed before legislative deliberation.");
+  const termsQuestionKey =
+    input.terms.baseUnit === "vehicle-mile"
+      ? MILEAGE_FEE_QUESTION
+      : localGovernment && localInstrument
+        ? localTaxTermsQuestionKey(localGovernment.level, localInstrument)
+        : stateInstrument
+          ? `us-tax-terms:state.${Object.entries(STATE_TAX_INSTRUMENT_BY_FAMILY).find(([, instrument]) => instrument === stateInstrument)![0]}-tax-terms`
+          : "us-tax-terms:state.excise-tax-terms";
   const exciseQuestion = (measure.propositionIds ?? [])
     .map((id) => world.policyCatalog.propositions[id])
-    .find((row) => row?.stableKey === "us-tax-terms:state.excise-tax-terms");
+    .find((row) => row?.stableKey === termsQuestionKey);
   let next = ensurePublicGovernmentAccount(world, publicGovernmentIdentity);
   next = recordFiledProvision(next, {
     stableKey: `${input.stableKey}:levy`,
@@ -509,6 +601,12 @@ export function attachTaxProposal(
 }
 
 export function taxLevyText(terms: TaxTerms): string {
+  if (
+    terms.baseUnit ||
+    terms.instrument === "corporate-income" ||
+    terms.instrument === "wage-income"
+  )
+    return canonicalJson(terms);
   const effectiveDelayDays = terms.effectiveDelayDays ?? 90;
   const effectiveDelay =
     effectiveDelayDays === 90 ? "ninety days" : `${effectiveDelayDays} days`;
@@ -520,7 +618,17 @@ export function taxLevyText(terms: TaxTerms): string {
     terms.legalBaselineAssumption === "authored-state-game-profile"
       ? `This tax takes effect no earlier than ${effectiveDelay} after enactment or the law's own effective date, whichever is later.`
       : `This tax takes effect ${effectiveDelay} after enactment.`;
-  return `An authored selective excise at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. ${effectiveRule} Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} ${legalAssumption} ${terms.assumptionNote}`;
+  const kind =
+    terms.instrument === "property"
+      ? "property tax"
+      : terms.instrument === "sales"
+        ? "sales tax"
+        : terms.instrument === "payroll"
+          ? "payroll tax"
+          : terms.instrument === "corporate-income"
+            ? "corporate income tax"
+            : "selective excise";
+  return `An authored ${kind} at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. ${effectiveRule} Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} ${legalAssumption} ${terms.assumptionNote}`;
 }
 
 /** A profile delay cannot make the modeled tax effective before the enacted
@@ -622,6 +730,13 @@ export function adoptEnactedTaxPolicy(
     outcomeEventId: event.id,
   };
   next = append(next, "taxPolicies", policy);
+  if (isTypedPropertyTax(proposal))
+    next = schedulePropertyAssessmentDay(
+      next,
+      proposal.id,
+      effectiveAt,
+      proposal.jurisdictionId,
+    );
   return publishPublicEvent(next, {
     stableKey: `${key}:publication`,
     sourceEventId: event.id,
@@ -677,14 +792,31 @@ export function previewTax(
       status: "unavailable" as const,
       reason: "The taxable base is absent.",
     };
-  assertAmount(amount.minorUnits, "Tax base");
-  if (amount.currency !== terms.currency)
+  const quantity = isTaxQuantity(amount);
+  if (
+    quantity !== !!terms.baseUnit ||
+    (quantity && amount.unit !== terms.baseUnit)
+  )
+    throw new Error(
+      canonicalJson({
+        status: "base-unit-mismatch",
+        expectedUnit: terms.baseUnit ?? terms.currency,
+        amount,
+      }),
+    );
+  const baseUnits = quantity ? amount.units : amount.minorUnits;
+  assertAmount(baseUnits, "Tax base");
+  if (!quantity && amount.currency !== terms.currency)
     throw new Error("The tax base uses another currency.");
   const excluded =
     baseKey !== terms.baseKey || terms.exemptBaseKeys.includes(baseKey);
   const taxable = excluded
     ? 0
-    : Math.max(0, amount.minorUnits - terms.allowanceMinorUnits);
+    : Math.max(
+        0,
+        baseUnits -
+          (quantity ? terms.allowanceUnits! : terms.allowanceMinorUnits),
+      );
   const numerator = BigInt(taxable) * BigInt(terms.rateNumerator);
   const denominator = BigInt(terms.rateDenominator);
   const rounded = (numerator * 2n + denominator) / (denominator * 2n);
@@ -693,11 +825,13 @@ export function previewTax(
     throw new Error("The assessed tax exceeds exact minor-unit arithmetic.");
   return {
     status: "available" as const,
-    taxableAmount: money(taxable, terms.currency),
+    taxableAmount: quantity
+      ? { unit: amount.unit, units: taxable }
+      : money(taxable, terms.currency),
     taxAmount: money(tax, terms.currency),
     exemptionReason: excluded
       ? ("excluded-base" as const)
-      : taxable === 0 && amount.minorUnits > 0
+      : taxable === 0 && baseUnits > 0
         ? ("allowance" as const)
         : null,
   };
@@ -880,6 +1014,7 @@ function taxBaseMatchesOccurrenceSource(
     | "jurisdictionId"
     | "payer"
     | "amount"
+    | "baseKey"
   >,
   source: NonNullable<ReturnType<typeof taxBaseOccurrenceSource>>,
 ): boolean {
@@ -890,7 +1025,22 @@ function taxBaseMatchesOccurrenceSource(
     source.sequence < base.sequence &&
     source.jurisdictionId === base.jurisdictionId &&
     (source.kind === "event"
-      ? base.recordedAt === base.occurredAt
+      ? base.recordedAt === base.occurredAt &&
+        (source.eventRecord.type === "tax.declared-occurrence" ||
+        source.eventRecord.type === "tax.corporate-income-assessed"
+          ? source.eventRecord.context.choice ===
+            canonicalJson({
+              amount: base.amount,
+              baseKey: base.baseKey,
+              payer: base.payer,
+            })
+          : !isTaxQuantity(base.amount) ||
+            (base.payer.kind === "person" &&
+              source.eventRecord.involvedEntityIds.includes(
+                base.payer.personId,
+              ) &&
+              source.eventRecord.context.choice ===
+                canonicalJson({ amount: base.amount, baseKey: base.baseKey })))
       : canonicalJson(base.payer) === canonicalJson(source.payer) &&
         canonicalJson(base.amount) === canonicalJson(source.amount))
   );
@@ -906,7 +1056,7 @@ export function recordTaxBase(
 ): World {
   if (!world.jurisdictions[input.jurisdictionId])
     throw new Error("The tax base requires an existing jurisdiction.");
-  assertAmount(input.amount.minorUnits, "Tax base");
+  assertTaxBaseAmount(input.amount);
   assertText(input.assumptionNote, "Tax base assumption");
   assertSemantic(input.baseKey, "Tax base key");
   makeIsoDate(input.occurredAt);
@@ -1095,7 +1245,7 @@ export function assessTaxBase(
     );
   const stamp = lawApplication
     ? lawEffectStamp(governingLaw, {
-        effectKind: "tax-assessment",
+        effectKind: "tax",
         questionKey: lawApplication.questionKey,
         jurisdictionId: base.jurisdictionId,
         appliedAt: world.currentDate,
@@ -1271,7 +1421,7 @@ export function taxCollectionTransition(
           lawEffectStamps: assessment.lawEffectStamps
             .map((stamp) => ({
               ...stamp,
-              effectKind: "tax-collection",
+              effectKind: "tax" as const,
               appliedAt: world.currentDate,
               sourceRecordIds: [
                 ...(stamp.sourceRecordIds ?? []),
@@ -1373,7 +1523,11 @@ function exposePayer(
                     active.membership.householdId === payer.householdId,
                 ),
             )
-        : [];
+        : payer.kind === "organization"
+          ? businessTaxOwnersAt(world, payer.organizationId).map(
+              (owner) => owner.personId,
+            )
+          : [];
   let next = world;
   for (const personId of personIds)
     next = recordLawExposure(next, {
@@ -1559,6 +1713,19 @@ function validatePayer(world: World, payer: TaxBaseRecord["payer"]) {
       "This personal/public tax route does not authorize using campaign funds.",
     );
 }
+function assertTaxBaseAmount(amount: TaxBaseRecord["amount"]): void {
+  if (isTaxQuantity(amount)) {
+    if (amount.unit !== "vehicle-mile")
+      throw new Error(
+        canonicalJson({ status: "unsupported-base-unit", amount }),
+      );
+    assertAmount(amount.units, "Tax quantity");
+  } else {
+    assertAmount(amount.minorUnits, "Tax base");
+    money(0, amount.currency);
+  }
+}
+
 export function assertTaxTerms(terms: TaxTerms) {
   if (terms.currency !== "USD")
     throw new Error(
@@ -1571,11 +1738,26 @@ export function assertTaxTerms(terms: TaxTerms) {
   if (
     !Number.isSafeInteger(terms.rateDenominator) ||
     terms.rateDenominator <= 0 ||
-    terms.rateNumerator > terms.rateDenominator
+    (!terms.baseUnit && terms.rateNumerator > terms.rateDenominator)
   )
     throw new Error(
       "The modeled tax share requires a positive exact denominator and a share from zero through one. This is a model bound, not a statutory rate cap.",
     );
+  if (terms.baseUnit !== undefined) {
+    if (
+      terms.baseUnit !== "vehicle-mile" ||
+      terms.allowanceMinorUnits !== 0 ||
+      terms.instrument
+    )
+      throw new Error(
+        canonicalJson({ status: "quantity-terms-mismatch", terms }),
+      );
+    assertAmount(terms.allowanceUnits!, "Quantity allowance");
+  } else if (terms.allowanceUnits !== undefined) {
+    throw new Error(
+      canonicalJson({ status: "allowance-unit-mismatch", terms }),
+    );
+  }
   assertAmount(terms.allowanceMinorUnits, "Tax allowance");
   if (
     terms.effectiveDelayDays !== undefined &&
@@ -1693,11 +1875,24 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
         row.effectiveAt <= proposal.recordedAt,
     );
     const sourcePower = proposal.power;
+    const localGovernment =
+      publicGovernmentIdentity.kind === "local-government"
+        ? localTaxGovernment(publicGovernmentIdentity.governmentKey)
+        : null;
     const expected = sourcePower
-      ? taxPowerEvidenceFor(sourcePower.jurisdictionKey, {
-          instrument: sourcePower.instrument,
-          asOf: proposal.recordedAt,
-        })
+      ? publicGovernmentIdentity.kind === "local-government"
+        ? localGovernment && proposal.terms.instrument
+          ? localTaxPowerEvidenceFor({
+              asOf: sourcePower.asOf,
+              ...localGovernment,
+              governmentKey: publicGovernmentIdentity.governmentKey,
+              instrument: proposal.terms.instrument,
+            })
+          : null
+        : taxPowerEvidenceFor(sourcePower.jurisdictionKey, {
+            instrument: sourcePower.instrument,
+            asOf: proposal.recordedAt,
+          })
       : null;
     const measureJurisdictionKey = measure
       ? rulePackById(measure.rulePackId).jurisdictionKey
@@ -1719,12 +1914,16 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       expected &&
       measure &&
       canonicalJson(expected) === canonicalJson(sourcePower) &&
-      rulePackById(measure.rulePackId).jurisdictionKey ===
-        sourcePower.jurisdictionKey &&
+      (localGovernment ||
+        rulePackById(measure.rulePackId).jurisdictionKey ===
+          sourcePower.jurisdictionKey) &&
       proposal.jurisdictionId ===
-        (sourcePower.level === "FEDERAL" && sourcePower.jurisdictionKey === "US"
-          ? NATIONAL_ELECTION_JURISDICTION.id
-          : stateJurisdictionForKey(sourcePower.jurisdictionKey)?.id) &&
+        (localGovernment
+          ? publicGovernmentIdentity.jurisdictionId
+          : sourcePower.level === "FEDERAL" &&
+              sourcePower.jurisdictionKey === "US"
+            ? NATIONAL_ELECTION_JURISDICTION.id
+            : stateJurisdictionForKey(sourcePower.jurisdictionKey)?.id) &&
       proposal.recordedAt >= sourcePower.asOf &&
       proposal.terms.legalBaselineAssumption ===
         "carry-forward-acquired-baseline-in-game" &&
@@ -1829,8 +2028,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
   }
   for (const base of world.history.taxBases ?? []) {
     assertSemantic(base.baseKey, "Tax base key");
-    assertAmount(base.amount.minorUnits, "Tax base");
-    money(0, base.amount.currency);
+    assertTaxBaseAmount(base.amount);
     assertText(base.assumptionNote, "Tax base assumption");
     validatePayer(world, base.payer);
     const source = taxBaseOccurrenceSource(world, base.sourceEventId, {

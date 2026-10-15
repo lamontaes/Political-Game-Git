@@ -15,7 +15,6 @@ export const facetCockyEffects: readonly TraitEffectDeclaration[] = [
         option: "trial",
         trait: "personality-v1:facet-cocky",
         pole: "high",
-        explanation: "They expect to do better at trial than the odds suggest.",
       },
     ],
   },

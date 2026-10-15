@@ -22,9 +22,95 @@
     {
       "source": "The world as built",
       "whatItDidNotSettle": "Background people carry one of six text-only occupations at an employer that is only a phrase, such as 'a synthetic construction firm'. No private business has an owner, a balance or revenue, and nobody has a wealth level. Newspaper owners exist but earn nothing."
+    },
+    {
+      "source": "IRS paying yourself",
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/paying-yourself",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "What a town's businesses are, who owns them, and how wealth is spread",
   "usableAnswer": "Tables with a named public source and year for each (for example Census County Business Patterns and Nonemployer Statistics, the Survey of Consumer Finances, and a billionaire list): establishments per 1,000 residents by kind and town size, the size split by employee count, revenue and owner income bands by kind and size, the employment share by kind, the wealth percentiles for adults, billionaire counts by state and the common origins of large fortunes.",
-  "whyItMatters": "The owner wants a world with stores, small businesses and rich people in it, where money has somewhere to come from. Every business the game seats will otherwise use one invented count, revenue and owner income for every town in the country."
+  "whyItMatters": "The owner wants a world with stores, small businesses and rich people in it, where money has somewhere to come from. Every business the game seats will otherwise use one invented count, revenue and owner income for every town in the country.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/business/roadmap-r8-state.json",
+        "data/research/business/roadmap-r8-PR.json",
+        "data/research/business/roadmap-r8-state-sector.json",
+        "data/research/business/roadmap-r8-state-age.json",
+        "data/research/business/roadmap-r8-firm-age.json",
+        "data/research/business/roadmap-r8-firm-size.json",
+        "data/research/business/roadmap-r8-sector.json",
+        "data/research/business/roadmap-r8-owners-and-gaps.json"
+      ],
+      "finding": "Annual BDS employer dynamics supplied for51states/DC plus separatePR. State-sector, state-age and national age/size marginals are not a joint local model. Owner compensation follows legal entity; draws and multi-unit shares remain gaps. SBCS excluded for noncommercial terms."
+    }
+  }
 }

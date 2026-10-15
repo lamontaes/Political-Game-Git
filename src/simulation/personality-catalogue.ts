@@ -244,28 +244,3 @@ export function personalityCataloguePack(): TraitPack {
     effects: CATALOGUE_EFFECTS,
   };
 }
-
-/**
- * The families, in catalog order, each with its scales.
- *
- * Seeding picks a family before a scale inside it, as the research asks, so a
- * family the catalog happens to hold many synonyms for is no more common
- * for that.
- */
-export function catalogueFamilies(): readonly {
-  readonly family: string;
-  readonly scales: readonly CatalogueScale[];
-}[] {
-  const families = new Map<string, CatalogueScale[]>();
-  for (const row of CATALOGUE_SCALES) {
-    const list = families.get(row.family) ?? [];
-    list.push(row);
-    families.set(row.family, list);
-  }
-  return [...families].map(([family, scales]) => ({ family, scales }));
-}
-
-/** The qualified keys of this pack's traits, for a caller that needs them. */
-export function personalityCatalogueKeys(): readonly string[] {
-  return CATALOGUE_SCALES.map((row) => `${PERSONALITY_PACK}:${row.key}`);
-}

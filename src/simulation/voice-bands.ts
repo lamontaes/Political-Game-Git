@@ -78,11 +78,6 @@ export function lifeVoiceBandForAge(age: number): LifeVoiceBand {
   return "middle-childhood";
 }
 
-/** True when a piece of content written for `band` may be shown at `age`. */
-export function bandAdmitsAge(band: LifeVoiceBand, age: number): boolean {
-  return lifeVoiceBandForAge(age) === band;
-}
-
 export const LIFE_VOICE_BAND_LABELS: Readonly<Record<LifeVoiceBand, string>> = {
   "middle-childhood": "a child of about eight to twelve",
   adolescence: "somebody between thirteen and seventeen",

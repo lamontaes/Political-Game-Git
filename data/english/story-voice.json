@@ -1,0 +1,9 @@
+{
+  "schema": "story-voice/1",
+  "description": "Which English part banks word the lines of the story director's situations (docs/design/story-director.md, part 3). A situation hands the engine a speech act and the facts its records give, filled into the slots below; fits says which bank moves may word that act. A key may name one situation type after an at sign, such as tell@news-arrives, which is tried before the act alone. A line is chosen only when the records fill all its slots, and a part the owner graded down is not chosen. A situation whose lines cannot all be worded is not offered. The banks and these fits are the English engine's lane (P3); the story director only hands over the facts.",
+  "slots": {
+    "name": "The given name of the person spoken to, when the records say how the speaker knows them.",
+    "about": "The given name of the person the situation is about when they are not in the room, such as the one who died."
+  },
+  "fits": {}
+}

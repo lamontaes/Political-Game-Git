@@ -1,0 +1,23 @@
+{
+  "tag": "TUNABLE",
+  "citation": "CTO approval https://github.com/lamontaes/Political-Game-Git/pull/3941#issuecomment-6102566030",
+  "checkedAgainst": "Regression, deadline and paired month fixtures; engineering policy, not population parameters. Heap cap reuses the core profiling command; job deadlines include five minutes for dependency setup. Profile parsing is bounded separately from retained summaries. Measured span: a whole year of the two-level world with the economy (audit 4, Oct 12), not a month of the full population.",
+  "prMilliseconds": 300000,
+  "nightlyMilliseconds": 1800000,
+  "performanceMilliseconds": 2700000,
+  "maximumRatio": 1.2,
+  "warmupRuns": 1,
+  "measuredRuns": 3,
+  "monthDays": 31,
+  "profileTop": 10,
+  "logBytes": 65536,
+  "nodeHeapMiB": 8192,
+  "profileParseBytes": 33554432,
+  "goldenJobMinutes": 35,
+  "performanceJobMinutes": 50,
+  "measuredDays": 365,
+  "heapAfterImportMiB": 150,
+  "heapAfterOpeningMiB": 250,
+  "heapGrowthMiBPerMonth": 5,
+  "memoryCeilingsReason": "MEMORY-FLAT (docs/packages/MEMORY-FLAT.md): a two-level played world should cost tens of megabytes, as The Political Process keeps statistics per place and compact records per official. Heap after a forced collection, bookkeeping off: after importing the engine (before any town), after the opening, and growth a month from the end of the first month (whose one-time tables are excluded) to the end of the run. Starting numbers set by the package; TUNABLE against the played-world test's measured towns."
+}

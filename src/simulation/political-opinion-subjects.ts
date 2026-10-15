@@ -25,7 +25,7 @@ export function officialOpinionSubject(
 
 export function requirePartyQuestion(key: string) {
   const question = PARTY_QUESTIONS.find((item) => item.key === key);
-  if (!question) throw new Error(`Unknown party question: ${key}`);
+  if (!question) throw new Error(`Unrecognized party question: ${key}`);
   return question;
 }
 

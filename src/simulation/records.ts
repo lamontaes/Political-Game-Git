@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   appendClaimRecord,
   appendEventKnowledgeRecord,
@@ -12,7 +12,7 @@ import type {
   MemoryRecordInput,
   RelationshipInteractionInput,
 } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assertOpenTaxonomyKey,
   RELATIONSHIP_INTERACTION_NAMESPACES,
@@ -149,6 +149,37 @@ export function recordMemory(world: World, input: MemoryRecordInput): World {
     ...world,
     history: appendMemoryRecord(world.history, world.id, input),
   };
+}
+
+/** Record what each directly involved person can remember about an event. */
+export function recordDirectEventMemories(
+  world: World,
+  eventId: EntityId,
+): World {
+  const event = eventById(world, eventId);
+  if (!event) throw new Error(`No event ${eventId} to remember.`);
+  let next = world;
+  for (const personId of event.involvedEntityIds) {
+    if (!next.people[personId]) continue;
+    if (
+      next.history.memories.some(
+        (memory) => memory.eventId === eventId && memory.personId === personId,
+      )
+    )
+      continue;
+    next = recordMemory(next, {
+      stableKey: `${event.stableKey}:memory:${personId}`,
+      personId,
+      eventId,
+      formedAt: event.occurredAt,
+      rememberedSummary: event.summary,
+      interpretation: event.summary,
+      strength: "moderate",
+      relevanceTags: event.tags,
+      supersedesMemoryId: null,
+    });
+  }
+  return next;
 }
 
 export function recordEventKnowledge(

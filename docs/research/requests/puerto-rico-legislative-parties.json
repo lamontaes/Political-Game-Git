@@ -15,6 +15,22 @@
     {
       "source": "src/simulation/political-conditions and the us-pr legislature profile on main at 616dcdb5",
       "whatItDidNotSettle": "Puerto Rico's rows carry no two-party share, so no party lean can be drawn for its members."
+    },
+    {
+      "source": "https://www.archives.gov/electoral-college/allocation",
+      "whatItDidNotSettle": "Exact per-party Senate/House seats, formal English names, status platforms and documented national alignment remain open; no inferred two-party replacement."
+    },
+    {
+      "source": "https://tcss.legis.texas.gov/resources/EL/htm/EL.171.htm",
+      "whatItDidNotSettle": "Exact per-party Senate/House seats, formal English names, status platforms and documented national alignment remain open; no inferred two-party replacement."
+    },
+    {
+      "source": "https://www.cga.ct.gov/current/pub/chap_153.htm",
+      "whatItDidNotSettle": "Exact per-party Senate/House seats, formal English names, status platforms and documented national alignment remain open; no inferred two-party replacement."
+    },
+    {
+      "source": "https://www.senado.pr.gov/senadores",
+      "whatItDidNotSettle": "Exact per-party Senate/House seats, formal English names, status platforms and documented national alignment remain open; no inferred two-party replacement."
     }
   ],
   "requestedBy": "modular legislation thread (technical team lead)",
@@ -24,5 +40,17 @@
     "Only party names, seat shares and relationships are wanted; the game generates its own people.",
     "Chamber sizes are already asked in state-legislature-chamber-sizes-and-quorum."
   ],
-  "relatedQuestionIds": ["state-legislature-chamber-sizes-and-quorum"]
+  "relatedQuestionIds": ["state-legislature-chamber-sizes-and-quorum"],
+  "answer": {
+    "summary": "Official Senate roster uses Partido Nuevo Progresista, Partido Popular Democrático and Partido Independentista Puertorriqueño. These are island parties and must remain distinct data labels; a national caucus or candidate affiliation does not merge them with U.S. national parties. Raw roster occurrences were not used as seat counts because the returned page was not a reconciled complete membership table.",
+    "sources": [
+      "https://www.archives.gov/electoral-college/allocation",
+      "https://tcss.legis.texas.gov/resources/EL/htm/EL.171.htm",
+      "https://www.cga.ct.gov/current/pub/chap_153.htm",
+      "https://www.senado.pr.gov/senadores"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:02:50.063124+00:00",
+    "stillOpen": "Exact per-party Senate/House seats, formal English names, status platforms and documented national alignment remain open; no inferred two-party replacement."
+  }
 }

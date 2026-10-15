@@ -1,15 +1,25 @@
-import { governmentUnitDisplayName } from "./government-unit-names";
-import { governmentUnit } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { governmentUnitDisplayName } from "../../core2/gov-rules/government-unit-names";
+import {
+  governmentUnit,
+  municipioUnit,
+} from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { knownRule, unknownRule } from "../legislature-rules";
 import {
+  governingBodySeatAgeEstimate,
   municipalMinimumAgeEstimate,
   municipalMinimumAgeSource,
 } from "../municipal-qualification-estimate";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { localChiefExecutiveRules } from "./local-chief-executive-rules";
 import { countyGoverningBodyRules } from "./county-governing-body-rules";
+import { townshipGoverningBodyRules } from "./township-governing-body-rules";
 import { localGoverningBodyName } from "./local-governing-body-names";
+import {
+  COUNTY_ROW_OFFICE_KEYS,
+  countyElectedRowOffices,
+  type CountyRowOfficeKey,
+} from "./county-row-offices";
 
 /**
  * A town's own governing body as a candidacy pack, for every municipal
@@ -37,8 +47,7 @@ import { localGoverningBodyName } from "./local-governing-body-names";
 export const LOCAL_GOVERNING_BODY_PROFILE_NOTE =
   "The game holds that every town with a government of its own elects its governing body. The town's seat count, districts, residence requirements and term are unconfirmed. An estimated minimum age does not settle those requirements.";
 
-const QUALIFICATION_AT_FILING =
-  "The age and residence requirements for this municipal office are unconfirmed.";
+const QUALIFICATION_AT_FILING = "Qualifications: not on record";
 const NO_FILING_PROCEDURE =
   "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town.";
 const NO_FORM =
@@ -52,9 +61,14 @@ const NO_MAYOR_FILING =
 const OFFICE_PREFIX = "local-government-";
 const OFFICE_SUFFIX = "-governing-body";
 const CHIEF_SUFFIX = "-chief-executive";
+const ROW_INFIX = "-row-";
 
-/** Which of a town's elected offices: a seat on its body, or its mayor. */
-export type LocalElectedSeat = "governing-body" | "chief-executive";
+/**
+ * Which of a government's elected offices: a seat on its body, its mayor, or
+ * one of a county's row offices (`county-row-offices.ts`).
+ */
+export type LocalElectedSeat =
+  "governing-body" | "chief-executive" | "row-office";
 
 export interface LocalGoverningBodyIdentity {
   readonly unit: GovernmentUnitIdentity;
@@ -70,6 +84,8 @@ export interface LocalGoverningBodyIdentity {
   readonly bodyName: string;
   /** "Council member", "Trustee", or the mayor's title, such as "Mayor". */
   readonly officeTitle: string;
+  /** Which row office this is, where the seat is a county row office. */
+  readonly rowOffice?: CountyRowOfficeKey;
 }
 
 const displayName = governmentUnitDisplayName;
@@ -83,15 +99,23 @@ export function localGoverningBodyIdentity(
   unit: GovernmentUnitIdentity,
 ): LocalGoverningBodyIdentity | null {
   if (!unit.functionalActive) return null;
-  if (unit.unitType !== "municipality" && unit.unitType !== "county")
+  if (
+    unit.unitType !== "municipality" &&
+    unit.unitType !== "county" &&
+    unit.unitType !== "township"
+  )
     return null;
   const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${OFFICE_SUFFIX}`;
   const governmentName = displayName(unit);
-  // Display only: the office key above never depends on the body's name.
+  // Display only: the office key above never depends on the body's name. A
+  // town or township board is seated and meets in play
+  // (`ensureLocalGovernmentSeats`), so its seats can be stood for too.
   const body =
     unit.unitType === "county"
       ? countyGoverningBodyRules(unit)
-      : localGoverningBodyName(unit);
+      : unit.unitType === "township"
+        ? townshipGoverningBodyRules(unit)
+        : localGoverningBodyName(unit);
   if (!body) return null;
   return {
     unit,
@@ -111,8 +135,23 @@ export function localGoverningBodyIdentity(
 export function localChiefExecutiveIdentity(
   unit: GovernmentUnitIdentity,
 ): LocalGoverningBodyIdentity | null {
-  const rules = localChiefExecutiveRules(unit);
-  if (!rules?.directlyElected.value) return null;
+  // A county's executive comes from its structure record
+  // (`county-governing-body-rules.ts`): its own reading where it has one,
+  // else its state's. A state where only some counties elect one gives none
+  // until the record says which.
+  const county =
+    unit.unitType === "county" ? countyGoverningBodyRules(unit) : null;
+  const rules =
+    unit.unitType === "county" ? null : localChiefExecutiveRules(unit);
+  const title =
+    unit.unitType === "county"
+      ? county?.executive.kind === "elected"
+        ? county.executive.title
+        : null
+      : rules?.directlyElected.value
+        ? rules.title.value
+        : null;
+  if (!title) return null;
   const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${CHIEF_SUFFIX}`;
   const governmentName = displayName(unit);
   return {
@@ -122,17 +161,49 @@ export function localChiefExecutiveIdentity(
     candidacyPackId: `${officeKey}:candidacy`,
     governmentName,
     bodyName: governmentName,
-    officeTitle: rules.title.value,
+    officeTitle: title,
   };
 }
 
-/** A town's elected offices: its governing body, then its mayor if elected. */
+/**
+ * A county row office the county elects (sheriff, prosecutor, clerk,
+ * treasurer, assessor or coroner), or null where its state does not elect it.
+ */
+export function localRowOfficeIdentity(
+  unit: GovernmentUnitIdentity,
+  office: CountyRowOfficeKey,
+): LocalGoverningBodyIdentity | null {
+  const rule = countyElectedRowOffices(unit).find(
+    (row) => row.office === office,
+  );
+  if (!rule) return null;
+  const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${ROW_INFIX}${office}`;
+  const governmentName = displayName(unit);
+  return {
+    unit,
+    seat: "row-office",
+    officeKey,
+    candidacyPackId: `${officeKey}:candidacy`,
+    governmentName,
+    bodyName: governmentName,
+    officeTitle: rule.title,
+    rowOffice: office,
+  };
+}
+
+/**
+ * A government's elected offices: its governing body, then its mayor if
+ * elected, then (for a county) each row office its state elects.
+ */
 export function localElectedOffices(
   unit: GovernmentUnitIdentity,
 ): readonly LocalGoverningBodyIdentity[] {
   return [
     localGoverningBodyIdentity(unit),
     localChiefExecutiveIdentity(unit),
+    ...COUNTY_ROW_OFFICE_KEYS.map((office) =>
+      localRowOfficeIdentity(unit, office),
+    ),
   ].filter((identity) => identity !== null);
 }
 
@@ -141,17 +212,28 @@ export function localGoverningBodyIdentityForOfficeKey(
   officeKey: string,
 ): LocalGoverningBodyIdentity | null {
   if (!officeKey.startsWith(OFFICE_PREFIX)) return null;
-  const suffix = officeKey.endsWith(OFFICE_SUFFIX)
-    ? OFFICE_SUFFIX
-    : officeKey.endsWith(CHIEF_SUFFIX)
-      ? CHIEF_SUFFIX
-      : null;
+  const rowAt = officeKey.lastIndexOf(ROW_INFIX);
+  const rowOffice =
+    rowAt < 0 ? null : officeKey.slice(rowAt + ROW_INFIX.length);
+  const rowKey = COUNTY_ROW_OFFICE_KEYS.find((key) => key === rowOffice);
+  const suffix = rowKey
+    ? `${ROW_INFIX}${rowKey}`
+    : officeKey.endsWith(OFFICE_SUFFIX)
+      ? OFFICE_SUFFIX
+      : officeKey.endsWith(CHIEF_SUFFIX)
+        ? CHIEF_SUFFIX
+        : null;
   if (!suffix) return null;
   const publisherId = officeKey.slice(OFFICE_PREFIX.length, -suffix.length);
-  const unit = governmentUnit(`gus2025:${publisherId}`);
+  // A Puerto Rico municipio is not in the Census listing; its key carries
+  // the municipio's own county-equivalent code instead.
+  const unit = publisherId.startsWith("municipio:")
+    ? municipioUnit(publisherId.slice("municipio:".length))
+    : governmentUnit(`gus2025:${publisherId}`);
   if (!unit) return null;
-  const identity =
-    suffix === OFFICE_SUFFIX
+  const identity = rowKey
+    ? localRowOfficeIdentity(unit, rowKey)
+    : suffix === OFFICE_SUFFIX
       ? localGoverningBodyIdentity(unit)
       : localChiefExecutiveIdentity(unit);
   return identity?.officeKey === officeKey ? identity : null;
@@ -170,15 +252,23 @@ export function localGoverningBodyCandidacyPack(
   identity: LocalGoverningBodyIdentity,
   similarOffices: CandidacyPack | null = null,
 ): CandidacyPack {
-  const mayor = identity.seat === "chief-executive";
+  const mayor = identity.seat !== "governing-body";
   const county = identity.unit.unitType === "county";
-  const estimate = county
-    ? null
-    : municipalMinimumAgeEstimate(
-        `US-${identity.unit.stateUsps}`,
-        identity.officeKey,
-        similarOffices,
-      );
+  // A seat on a town's or county's governing body takes the qualified-elector
+  // age its state's code most commonly asks; a mayor, a county executive and
+  // the county row offices take the disclosed estimate from the state's other
+  // elected offices. Either way a resident can stand, on a labeled estimate.
+  const estimate =
+    identity.seat === "governing-body"
+      ? governingBodySeatAgeEstimate(
+          `US-${identity.unit.stateUsps}`,
+          identity.officeKey,
+        )
+      : municipalMinimumAgeEstimate(
+          `US-${identity.unit.stateUsps}`,
+          identity.officeKey,
+          similarOffices,
+        );
   const form = county
     ? "This county's district boundaries, seat phases and selection procedure have not been recorded in this candidacy pack."
     : mayor

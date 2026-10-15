@@ -1,0 +1,22 @@
+{
+  "testedHead": "feb7698d687c1856e0d988ce77a5f09ff096a5ca",
+  "seed": "a28-top-rate-saved-pay-all56",
+  "place": {
+    "key": "4707840",
+    "name": "Braden, Tennessee"
+  },
+  "controls": "Authored 45% adopted rate, favorable votes, high-pay contract and employer cash; not natural economic behavior.",
+  "grossMinor": 1500000,
+  "beforeWithholdingMinor": 535769,
+  "afterWithholdingMinor": 635563,
+  "paidWithholdingMinor": 635563,
+  "measureId": "legislative-measure_c675a69a8172c4cd",
+  "effectKind": "tax",
+  "governingLawKey": "legislative-measure_c675a69a8172c4cd",
+  "sourceRecordIds": [
+    "resource-transfer-outcome_1bf7e0db0695de6c",
+    "resource-flow_acd0cbd277542f17"
+  ],
+  "savedCanonicalStamp": true,
+  "savedLegacyLabels": ["federal-income-tax-withholding", "tax-policy"]
+}

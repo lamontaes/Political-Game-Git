@@ -1,0 +1,13 @@
+{
+  "source": {
+    "title": "America's Families and Living Arrangements: 2023, Table C2",
+    "publisher": "U.S. Census Bureau",
+    "url": "https://www.census.gov/data/tables/2023/demo/families/cps-2023.html",
+    "survey": "Current Population Survey Annual Social and Economic Supplement, 2023",
+    "units": "share of children under 18 living with two parents",
+    "retrieved": "2026-10-07",
+    "note": "National estimate used to calibrate the pool of recorded family patterns; it does not create relatives or decide an actor's behavior."
+  },
+  "twoParentShare": 0.71,
+  "priorFamilyCount": 20
+}

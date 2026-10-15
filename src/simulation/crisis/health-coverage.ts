@@ -34,8 +34,12 @@
  *   its own (Georgia Pathways).
  */
 import programs from "../../../data/research/money/public-programs-2026.json" with { type: "json" };
-import { ageOnDate, isoDateFromParts, yearOf } from "../dates";
-import { scheduleFutureDueItem } from "../future-transitions";
+import { ageOnDate, isoDateFromParts, yearOf } from "../../core2/kernel/dates";
+import {
+  cancelFutureDueItem,
+  scheduleFutureDueItem,
+  scheduledFutureDueItemsThrough,
+} from "../future-transitions";
 import type { LawInForce } from "../governing/law-in-force";
 import {
   readFinalEnactedLawTerm,
@@ -61,7 +65,7 @@ import type { EntityId, HistoricalCutoff, IsoDate, World } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import { activeHealthEpisodes } from "./health-queries";
 import { appendCrisisRecord, crisisRecords } from "./records";
-import { MULTIPLIER_ONE } from "./hazard";
+import { MULTIPLIER_ONE } from "../../core2/health-hazard";
 import type { HealthCoverageRecord } from "./types";
 
 export const HEALTH_COVERAGE_VERSION = "health-coverage/v1" as const;
@@ -100,16 +104,25 @@ export function ensureHealthCoveragePass(
   world: World,
   sourceEntityId: EntityId,
 ): World {
-  const key = `${HEALTH_COVERAGE_VERSION}:pass:${nextHealthCoveragePassAt(world.currentDate)}`;
-  if (
-    world.history.futureDueItems.some(
-      (item) =>
-        item.transitionKey === HEALTH_COVERAGE_KEY &&
-        (item.dueAt >= world.currentDate || item.stableKey === key),
-    )
-  )
-    return world;
-  return scheduleHealthCoveragePass(world, world.currentDate, sourceEntityId);
+  const dueAt = nextHealthCoveragePassAt(world.currentDate);
+  const pending = scheduledFutureDueItemsThrough(
+    world,
+    world.currentDate,
+    isoDateFromParts(9999, 12, 31),
+  ).filter((item) => item.transitionKey === HEALTH_COVERAGE_KEY);
+  if (pending.some((item) => item.dueAt <= dueAt)) return world;
+
+  let next = world;
+  for (const item of pending) {
+    next = cancelFutureDueItem(next, {
+      stableKey: `${item.stableKey}:earlier-opening-pass:${next.history.nextSequence}`,
+      dueItemId: item.id,
+      effectiveAt: next.currentDate,
+      reasonKey: "crisis:coverage-pass-moved-earlier",
+      context: null,
+    });
+  }
+  return scheduleHealthCoveragePass(next, next.currentDate, sourceEntityId);
 }
 
 const MEDICAID = programs.federal.medicaid;

@@ -2,7 +2,7 @@ import {
   CRISIS_FUNDING_ROWS,
   CRISIS_FUNDING_STATE_SOURCE,
 } from "./crisis-response-funding-rows";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   programAppropriations,
   recordProgramAppropriation,

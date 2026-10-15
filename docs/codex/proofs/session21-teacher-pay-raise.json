@@ -1,0 +1,22 @@
+{
+  "testedHead": "57800ad64a7da7546ab8b90b4492918533aae8d4",
+  "receipt": "Session21 controlled teacher raise",
+  "seed": "session21-controlled-teacher-raise",
+  "place": "Acorn, Arkansas",
+  "initialMinor": 187512,
+  "raisedMinor": 375024,
+  "governingLawKey": "starting-law:US-AR:us-policy-positions:education.raise-teacher-minimum-salary",
+  "termsId": "resource-flow-terms_5a20f58aa8bc35d0",
+  "paymentId": "resource-transfer-outcome_cc84650cdc8c28a1",
+  "effectKind": "pay",
+  "lawTermFloorAnnual": 50000,
+  "sourceRecordIds": [
+    "resource-flow_aa7d168ebbdff3fc",
+    "work-relationship_665a1dd6750bdb28",
+    "resource-flow-terms_5a20f58aa8bc35d0"
+  ],
+  "raisedAt": "2026-02-01",
+  "paidAt": "2026-02-28",
+  "transferredMinor": 375024,
+  "reload": true
+}
