@@ -54,3 +54,56 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 ## Open stand-ins
 
 `src/core2/data/stopgaps.json` is the list; the release build refuses while any is open. Owner-decision stopgaps are listed under **OWNER DECISIONS NEEDED** at the top of the PR that holds them and in `OWNER-DECISIONS.md`.
+
+## Pool claims
+
+- 1. Committee markup trades — `pool/committee-markup` (Session D, draft #4328; 19 tests and played-year proof pass).
+- 2. Unwired record-only law families — `pool/law-read-dependency` (Session D; blocked by Session A #4331, return last).
+- 3. First faked-mechanic engine, central bank appointments — `pool/central-bank-appointments` (Session D, draft #4333; 8 tests and played-year proof pass).
+
+- 3. Next faked-mechanic engine, credit-line stand-in — `pool/credit-line-retirement` (second Session D, claimed October 15, 2026; SG-WORLD-credit-line-stand-in only).
+
+- 3. Business engine faked mechanics — `pool/business-owner-decisions` (second Session D; SG-WORLD-business-counted-owner-choice and SG-WORLD-business-no-successor; earlier jobs, credit deposits and housing engines belong to active Session B work, return to remaining gaps after its unmerged work).
+
+- 3. Outcome web drift — `pool/outcome-causes` (first Session D; SG-WEB-outcome-drift; earlier jobs, credit and housing engines are Session B’s, business is claimed by second Session D, and place-prices is active Session A #4335).
+
+- 3. Campaign door fill-in — `pool/campaign-met-households` (second Session D; SG-PLAY-doors-fill-in; action backend only, no screens. Earlier housing/property-tax/moves overlap Session B, place-prices Session A, and outcome drift first Session D).
+
+- 3. Custom world settings duplication — `pool/shared-world-settings` (second Session D; SG-PLAY-world-settings-copy; share opening settings helpers, no screen design changes. Opening-economy fallback depends on the core opening repair and remains separate).
+
+- 3. Unobserved town-growth macro input — `pool/macro-observed-growth` (second Session D; SG-WORLD-macro-town-growth-neutral; remove invented first-year feedback and retain the missing income-history requirement. Earlier treasury law effects overlap Session A, jobs/prison hiring Session B, press acts Session C).
+- 3. Press revenue and staff turnover — `pool/press-records` (first Session D; SG-PEOPLE-press-outlet-revenue and SG-PEOPLE-press-staff-turnover; earlier opening/core and housing/jobs are Session B, settings second D, budget/tax reads Session A; changes to press engine only, no English or director changes).
+
+- 4. Officeholder journal — `pool/journal-record-dependency` (first Session D; blocked by Session C's unmerged office-day act records and Words' journal wording; return last).
+- 5. Unit suite record/retirement contracts — `pool/unit-suite` (first Session D; #4309 finance, news, outcome coverage and retired-test contracts only; second Session D owns views ordering, and law/housing defects stay with active owners).
+- 5. Green-suite independent views-ordering failure — `pool/green-suite-views` (second Session D; root cause from #4309, src/core2/views-lean.test.ts and its electorate reader. Earlier remaining stopgaps overlap active law/election, jobs/housing/core and press work; office journal depends on Session C office records and Words director work; return to those last).
+
+- 6. Oct 10–11 stale pool PR disposition — `pool/stale-pr-disposition` (second Session D; review pool/*, english/*, codex/session35-* and cto/title-people-national-scenes, record superseding or carried-forward locations, then close covered PRs without deleting branches).
+
+- After the blocked/claimed pool: cause-group founding — `pool/cause-group-founding` (first Session D; SG-P10-cause-group-founding, check the existing organizing/membership rule against the owner's no-paperwork order; earlier law-reach missing mechanics are Session A, other drives civic acts depend on active GOV work).
+
+- 8. Powers by level — `pool/powers-by-level` (second Session D; read the existing powers catalog before bill introduction and executive orders, distinguishing county/city/state/federal jurisdictions; item 7 remains Session A’s active law-reach work).
+
+- 9. Health death records reaching news — `pool/death-news-records` (first Session D; trace audit README-TRACE-2 defect 6, health event publication and existing news readers only; no director or English edits).
+
+- 9. Background proposal scope — `pool/proposal-scope` (second Session D; the played year in #4360 found Congress proposing state-specific questions because world-legislating reads a sparse permission table instead of the question-scope catalog; producer filtering only, no director/English edits).
+
+- 10. Core Needs from other sessions list — first Session D, `pool/renewal-snapshot` first bounded engine: renewal initialization survives snapshot restore; active source owners retained for their existing repairs, remaining list items stay tracked.
+
+- 10. OPUS-GOV Needs from other sessions list — second Session D, `pool/department-budget-requests` first bounded wiring item: a budget with no executive proposal reads the existing department requests; other listed law, election, office and Words work retains its active owner.
+
+- 10. Core handoff, health runtime snapshot — `pool/health-snapshot` (first Session D, follows renewal #4364; health runtime only, no director/English changes).
+
+- 10. OPUS-GOV Needs, candidate platform reader — `pool/candidate-platform-reader` (second Session D; platformFromViews and its two filing arguments only, reusing candidatePlatform; checked #4343/#4350 and neither changes that function. Session C retains race eligibility, candidate pools and filing decisions).
+
+- 9. Counted deaths reaching known relatives — `pool/counted-death-notices` (first Session D; monthly renewal death rows already change population and income, but no life.death notification reaches the full people who know those residents; notification reader only, existing mortality and migration selection unchanged).
+
+- 10. Core handoff, played opening records — `pool/bench-opening-records` (first Session D; reuse core public schools, private tuition and representative sampling in the existing bench stages, retaining its 17-year-old player and all installed modules; second D retains shared settings work).
+
+- 10. OPUS-GOV Needs, custody core API — `pool/custody-person-update` (second Session D; allow discretionaryEligibleV1 through updatePerson and replace justice-custody's direct person writes; no custody/sentencing rules or director/English changes. Core review requested in the draft; no wait on review).
+
+- 10. Core handoff / counted death prerequisite — `pool/counted-family-ties` (first Session D; opening family initialization, relationship endpoints and existing closeness helper only. Second D retains updatePerson/custody. No new identity or mortality selector).
+
+- 10. OPUS-GOV Needs, prison hiring — `pool/jobs-custody-eligibility` (second Session D; jobs reads existing custody before seeking, applications and offer acceptance; replace justice's daily hire-then-dismiss fallback while retaining termination of jobs held at imprisonment. Checked #4329: no custody implementation; its demand/layoff work remains Session B's).
+
+- 10. Core Needs / played-year speed — `pool/core-year-speed` (first Session D; profile Garden City on current main and repair one measured core hot path; no overlapping jobs/custody or law edits).

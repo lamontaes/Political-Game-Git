@@ -5,6 +5,7 @@ import { BUSINESS_MODULE, estateHeir, ownerOf } from "./modules/business";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
+import { depositsHeld } from "./accounts";
 import { residentsRuntime } from "./modules/residents";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
@@ -371,7 +372,9 @@ describe("founding a business where a market has room", () => {
       .rows()
       .filter((row) => row.ownerId === "founder")
       .reduce((n, row) => n + Number(row.drawnMinor), 0);
-    expect(core.people.get("founder")!.liquidMinor).toBe(
+    const savings = depositsHeld(core, core.people.get("founder")!.householdId);
+    expect(savings).toBeGreaterThan(0);
+    expect(core.people.get("founder")!.liquidMinor + savings).toBe(
       2_000_000 - equity + drawn,
     );
     expect(
@@ -507,7 +510,9 @@ describe("closing by choice", () => {
     const choice = api
       .moduleState("business")
       .table("choices")
-      .get(`choice:${shop}:2021-02-01`) as { values: Record<string, number> };
+      .get(`choice:${shop}:2021-02-01`) as unknown as {
+      values: Record<string, number>;
+    };
     expect(choice.values.age).toBe(0);
   });
 
