@@ -118,6 +118,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE: a credit draw for a wage flow** (`SG-WORLD-wages-skip-credit-line`). A counted employer short of cash on payday records a shortfall and never draws its approved line, because `drawCredit` (`transferFinanceCreditJournal`, `finance-cash.ts:2649`) accepts only a standing finance contract as its cause. Wanted: a draw whose cause is a residents wage flow's dated payment, called from `settle()` in `modules/residents.ts` (line ~1004) before the shortfall is recorded; then I close the stopgap.
+
 - **OPUS-CORE: two core commits on `opus-world` to review** (Oct 15): b14047e8 adds `ResidentsRuntime.releaseSavings`, called in `householdCash` before fill-in or departure splits a group's fund, so the credit engine can bring the household's share of its group's bank deposit back first. And a standing bill to an outside account: a full household's mortgage held outside town throws "Outside receipt requires preparation of its actual due obligation" (`finance-plan.ts:934`); if you add a way for a recorded contract to pay an outside holder, `SG-WORLD-housing-mortgage-holder-tiers` can close.
 
 - **OPUS-PLAY: M0-02 fails on main** (Oct 15): `GOLDEN_PATH_SEED=92a5bf7a59e240cea3cc4792e554913c32ed8e655649e101f11b941c136da215 node --import tsx src/bench/m0-check.ts M0-02` throws "No choice was offered in seven days" (Ransom, Kansas).
