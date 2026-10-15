@@ -532,39 +532,52 @@ function openSeekers(api: CoreAPI, unemploymentPct: number): void {
   stopgap("SG-WORLD-jobs-opening-seekers");
   const c = core(api),
     [young, old] = jobsData.workingAge as [number, number];
-  const employed = [...c.jobs.values()].filter(
-    (job) => job.endsAt === undefined,
-  ).length;
-  const count = Math.round(
-    (employed * unemploymentPct) /
-      (api.parameter("macroHundred") - unemploymentPct),
-  );
+  // Each place's own unemployed, against the full people who live there and work.
+  const employedAt = new Map<string, number>();
+  for (const job of c.jobs.values()) {
+    if (job.endsAt !== undefined) continue;
+    const placeId = c.people.get(job.personId)?.placeId;
+    if (placeId) employedAt.set(placeId, (employedAt.get(placeId) ?? 0) + 1);
+  }
   const inReach = workInReach(api);
-  const jobless = [...c.people.values()].filter((person) => {
+  const joblessAt = new Map<string, PersonState[]>();
+  for (const person of c.people.values()) {
     const age =
       daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
       api.parameter("jobsDaysPerYear");
-    return (
-      person.alive &&
-      !person.jobId &&
-      !controlled(c, person.id) &&
-      age >= young &&
-      age < old &&
-      c.households.has(person.householdId) &&
-      inReach(person.placeId)
-    );
-  });
+    if (
+      !person.alive ||
+      person.jobId ||
+      controlled(c, person.id) ||
+      age < young ||
+      age >= old ||
+      !c.households.has(person.householdId) ||
+      !inReach(person.placeId)
+    )
+      continue;
+    const list = joblessAt.get(person.placeId);
+    if (list) list.push(person);
+    else joblessAt.set(person.placeId, [person]);
+  }
   // Need to work: the fewest days the person's money covers.
   const days = (person: PersonState) =>
     person.livingCostDailyMinor > 0
       ? person.liquidMinor / person.livingCostDailyMinor
       : Number.POSITIVE_INFINITY;
-  jobless
-    .sort((a, b) => days(a) - days(b) || a.id.localeCompare(b.id))
-    .slice(0, count)
-    .forEach((person) =>
-      startSeeking(api, person.id, false, "opening-unemployed", 0),
+  for (const [placeId, jobless] of [...joblessAt].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    const count = Math.round(
+      ((employedAt.get(placeId) ?? 0) * unemploymentPct) /
+        (api.parameter("macroHundred") - unemploymentPct),
     );
+    jobless
+      .sort((a, b) => days(a) - days(b) || a.id.localeCompare(b.id))
+      .slice(0, count)
+      .forEach((person) =>
+        startSeeking(api, person.id, false, "opening-unemployed", 0),
+      );
+  }
 }
 
 /** The wider population's seekers at the opening: jobless working-age adults in the households with the fewest earners, as many as the rate implies. */
@@ -1151,7 +1164,8 @@ function wageFloor(api: CoreAPI): number {
   return lawInForce(api, "minimum-wage").value ?? api.parameter("zero");
 }
 
-function tenureYears(api: CoreAPI, job: JobInput): number {
+/** Years a worker has held this job: since their start in play, or the usual tenure for their age and industry for a job held at the opening. */
+export function tenureYears(api: CoreAPI, job: JobInput): number {
   const commitment = [
     ...(core(api).work.commitmentsByPerson.get(job.personId) ?? []),
   ]

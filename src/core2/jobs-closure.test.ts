@@ -5,7 +5,7 @@ import { openLaws } from "./modules/laws";
 import { unemploymentTerms } from "./jobs-benefits";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { advanceCore, createLifeCore } from "./life";
-import { JOBS_MODULE } from "./modules/jobs";
+import { JOBS_MODULE, tenureYears } from "./modules/jobs";
 import { macroCoreData } from "./modules/macro";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
@@ -144,7 +144,7 @@ function input(placeKey: string): CoreInput {
   };
 }
 
-describe("a closed employer's counted workers", () => {
+describe(`a closed employer's counted workers (GOLDEN_PATH_SEED=${seed})`, () => {
   it("end their jobs, file claims and join the job seekers the day it closes", () => {
     const drawn = drawPlace();
     const core = createLifeCore(input(drawn.key), {
@@ -187,9 +187,11 @@ describe("a closed employer's counted workers", () => {
     // The state's law decides who qualifies: none where it records no
     // program, and every claim cites the law row it was fixed under.
     const terms = unemploymentTerms(api);
-    // A worker qualifies when their pay since they were hired (the opening,
-    // for a counted worker) meets the state's base-period minimum.
-    const weeks = (Date.parse("2021-02-10") - Date.parse(start)) / 6.048e8;
+    // A worker qualifies when their pay over the last year they worked meets
+    // the state's base-period minimum: a job held at the opening carries the
+    // usual tenure for the worker's age and industry.
+    const yearWeeks = api.parameter("jobsDaysPerYear") / 7;
+    const weeks = Math.min(yearWeeks, tenureYears(api, jobs[0]!) * yearWeeks);
     const qualifies =
       jobs[0]!.wageDailyMinor * 7 * weeks >= terms.minimumBasePeriodMinor;
     if (!terms.hasProgram || !qualifies) expect(claims).toEqual([]);
