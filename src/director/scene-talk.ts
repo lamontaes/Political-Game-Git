@@ -62,7 +62,17 @@ interface Arcs {
     rounds: { value: number };
     baseWeight: { value: number };
   };
-  purposes: Record<string, { state: string; replies: string[] }>;
+  purposes: Record<
+    string,
+    {
+      state: string;
+      replies: string[];
+      /** This purpose's own answers (reply move to candidates), before the shared ones. */
+      follow?: Record<string, string | Pull[]>;
+      /** This purpose's own next replies (answer move to reply moves). */
+      again?: Record<string, string[]>;
+    }
+  >;
   outcomes: Record<"resolved" | "refused" | "open", string[]> &
     Record<string, unknown>;
   follow: Record<string, string | Pull[]>;
@@ -124,6 +134,8 @@ export interface SceneTalk {
   rounds: SceneTalkRound[];
   close?: SceneTalkLine;
   outcome: Outcome;
+  /** The same scene through a refusing or open reply, when the first path resolved at once. */
+  pushBack?: SceneTalk;
   /** Every line in the order shown. */
   lines: SceneTalkLine[];
 }
@@ -177,21 +189,27 @@ function fitting(
   facts: Readonly<Record<string, Fact>>,
 ): BankPart[] {
   const fits = PARTS.flatMap((part) => {
-    const [u] = part.uses;
-    if (!u || u.subject !== "scene") return [];
-    if (u.step !== use.step || u.move !== use.move) return [];
-    if (u.role !== use.role) return [];
-    if (u.purpose && u.purpose !== use.purpose) return [];
-    if (u.key && u.key !== use.key) return [];
-    if (u.after && u.after !== use.after && u.after !== use.afterPiece)
-      return [];
-    if (u.outcome && u.outcome !== use.outcome) return [];
-    if (u.requiresFacts?.some((name) => !facts[name])) return [];
-    const specific =
-      (u.purpose ? four : zero) +
-      (u.key ? two : zero) +
-      (u.after ? (u.after === use.afterPiece ? four + four : one) : zero);
-    return [{ part, specific }];
+    // A piece may carry one use for each purpose it serves: take the best fit.
+    let specific = -one;
+    for (const u of part.uses) {
+      if (u.subject !== "scene") continue;
+      if (u.step !== use.step || u.move !== use.move) continue;
+      if (u.role !== use.role) continue;
+      if (u.purpose && u.purpose !== use.purpose) continue;
+      if (u.key && u.key !== use.key) continue;
+      if (u.after && u.after !== use.after && u.after !== use.afterPiece)
+        continue;
+      if (u.outcome && u.outcome !== use.outcome) continue;
+      if (u.requiresFacts?.some((name) => !facts[name])) continue;
+      const score =
+        (u.purpose ? four : zero) +
+        (u.key ? two : zero) +
+        (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
+        // A piece that needs a fact the record holds says more than one that does not.
+        (u.requiresFacts?.length ?? zero);
+      specific = Math.max(specific, score);
+    }
+    return specific < zero ? [] : [{ part, specific }];
   });
   const best = Math.max(zero, ...fits.map((row) => row.specific));
   return fits.filter((row) => row.specific === best).map((row) => row.part);
@@ -209,10 +227,12 @@ function pullOf(
 }
 
 /** The candidate answer moves for a reply move; a string value means "same as that move". */
-function candidatesFor(move: string): Pull[] {
-  let at: string | Pull[] | undefined = ARCS.follow[move];
+function candidatesFor(purpose: string, move: string): Pull[] {
+  const own = ARCS.purposes[purpose]?.follow;
+  const table = (name: string) => own?.[name] ?? ARCS.follow[name];
+  let at: string | Pull[] | undefined = table(move);
   for (let hops = zero; typeof at === "string" && hops < four; hops += one)
-    at = ARCS.follow[at];
+    at = table(at);
   return Array.isArray(at) ? at : [];
 }
 
@@ -227,8 +247,48 @@ export function composeSceneTalk(
   type: PurposeType,
   facts: Readonly<Record<string, Fact>>,
   voice: SceneTalkVoice = {},
+  options: SceneTalkOptions = {},
 ): SceneTalkResult {
-  void director;
+  const main = playScene(core, cast, type, facts, voice, options);
+  if (main.kind !== "composed" || !options.pushBack) return main;
+  // When the player's own lean resolves the purpose at once, the exchange the
+  // owner wants to see is the one where they push back: the same scene through
+  // the highest-ranked reply whose outcome is refused or open.
+  const first = main.talk.rounds.at(-main.talk.rounds.length)?.chosen;
+  if (
+    !first ||
+    outcomeOf(first.move) !== "resolved" ||
+    main.talk.rounds.length > one
+  )
+    return main;
+  const pushed = playScene(core, cast, type, facts, voice, {
+    ...options,
+    restrictFirst: (line) => outcomeOf(line.move) !== "resolved",
+  });
+  return pushed.kind === "composed" &&
+    pushed.talk.rounds[zero]?.chosen.text !== first.text
+    ? { kind: "composed", talk: { ...main.talk, pushBack: pushed.talk } }
+    : main;
+}
+
+/** What a caller may ask of a composed scene. */
+export interface SceneTalkOptions {
+  /** Also compose the path through a refusing or open reply when the first path resolves at once. */
+  pushBack?: boolean;
+  /** Pieces other scenes on the page already said for the setup and the open; avoided while another fits. */
+  avoid?: ReadonlySet<string>;
+  /** Internal: the first round's chosen reply must satisfy this. */
+  restrictFirst?: (line: SceneTalkLine) => boolean;
+}
+
+function playScene(
+  core: Readonly<CoreState>,
+  cast: SceneTalkCast,
+  type: PurposeType,
+  facts: Readonly<Record<string, Fact>>,
+  voice: SceneTalkVoice,
+  options: SceneTalkOptions,
+): SceneTalkResult {
   const purpose = type.purpose;
   const arc = purpose ? ARCS.purposes[purpose] : undefined;
   if (!purpose || !arc)
@@ -259,7 +319,10 @@ export function composeSceneTalk(
   ): SceneTalkLine | null => {
     const every = fitting(use, facts);
     // A piece already said in this scene is not said again while another fits.
-    const fresh = every.filter((part) => !said.has(part.key));
+    const setup = use.step === "narrate" || use.step === "open";
+    const fresh = every.filter(
+      (part) => !said.has(part.key) && !(setup && options.avoid?.has(part.key)),
+    );
     const parts = fresh.length ? fresh : every;
     if (!parts.length) return null;
     const line = renderLine({
@@ -388,7 +451,11 @@ export function composeSceneTalk(
           stableHash(`${scene}:${round}:${b.move}`),
         ),
     );
-    const [chosen] = ranked as [SceneTalkLine];
+    const allowed =
+      round === one && options.restrictFirst
+        ? ranked.filter(options.restrictFirst)
+        : ranked;
+    const [chosen] = (allowed.length ? allowed : ranked) as [SceneTalkLine];
     chosen.chosen = true;
     for (const reply of offered) push(reply, round);
     outcome = outcomeOf(chosen.move);
@@ -397,7 +464,7 @@ export function composeSceneTalk(
     // asker does not leave a question hanging: a thanks or an acceptance, or
     // a statement, is preferred to a question nobody can answer.
     const last = round === maxRounds;
-    const worded = candidatesFor(chosen.move).flatMap((candidate) => {
+    const worded = candidatesFor(purpose, chosen.move).flatMap((candidate) => {
       const line = render(
         {
           step: "follow",
@@ -444,11 +511,20 @@ export function composeSceneTalk(
     // The exchange goes on while the asker pushes or asks; a thanks or an
     // acceptance ends it.
     const terminal = answer ? RULES.terminalFollow.includes(answer.move) : true;
-    const next = answer ? ARCS.again[answer.move] : undefined;
+    const next = answer
+      ? (arc.again?.[answer.move] ?? ARCS.again[answer.move])
+      : undefined;
     if (!next || last || terminal) break;
     replyMoves = next;
   }
 
+  // A thanks or an acceptance is itself the close; any other ending closes
+  // with the purpose's close pieces, never a bare goodbye after a question.
+  const finalAnswer = rounds.at(-one)?.answer;
+  const answeredClose =
+    finalAnswer && RULES.terminalFollow.includes(finalAnswer.move)
+      ? finalAnswer
+      : undefined;
   // The close, by outcome: never a bare goodbye after a question.
   const closeMoves = ARCS.close[outcome].filter((move) => move !== lastAsker);
   const closeCandidates = closeMoves.filter(
@@ -463,15 +539,16 @@ export function composeSceneTalk(
       ),
     )
     .at(zero);
-  const close = closeMove
-    ? render(
-        { step: "close", move: closeMove, role: "asker", ...base, outcome },
-        cast.askerId,
-        askerTraits,
-        "close",
-      )
-    : null;
-  if (close) push(close, rounds.length);
+  const close =
+    closeMove && !answeredClose
+      ? render(
+          { step: "close", move: closeMove, role: "asker", ...base, outcome },
+          cast.askerId,
+          askerTraits,
+          "close",
+        )
+      : null;
+  if (close && !answeredClose) push(close, rounds.length);
 
   return {
     kind: "composed",
@@ -484,7 +561,7 @@ export function composeSceneTalk(
       ...(open ? { open } : {}),
       state: statement,
       rounds,
-      ...(close ? { close } : {}),
+      ...(answeredClose ? { close: answeredClose } : close ? { close } : {}),
       outcome,
       lines,
     },

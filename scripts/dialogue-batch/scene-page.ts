@@ -605,6 +605,7 @@ interface ComposedScene {
     lines: LineRow[];
     outcome: string;
     talk: any;
+    pushBack?: { lines: LineRow[]; outcome: string };
   }[];
 }
 
@@ -650,6 +651,7 @@ const toRow = (
 const scenes: ComposedScene[] = [];
 const skippedTypes: { typeKey: string; reason: string }[] = [];
 const seenCast = new Set<string>();
+const pageSaid = new Set<string>();
 const seenReplySets = new Set<string>();
 const dropped = {
   sameCast: 0,
@@ -676,8 +678,14 @@ for (const typeKey of purposeTypes) {
   let lastReason = "";
   for (const spec of candidates) {
     if (kept >= perType) break;
-    const castKey = `${typeKey}|${spec.askerId}|${spec.askedId}`;
-    if (seenCast.has(castKey)) {
+    // No two scenes of a type share a cast: the same pair, or the same
+    // asker or the same asked seat, is one scene.
+    const castKey = `${typeKey}|${[spec.askerId, spec.askedId].sort().join("|")}`;
+    if (
+      seenCast.has(castKey) ||
+      seenCast.has(`${typeKey}|asker|${spec.askerId}`) ||
+      seenCast.has(`${typeKey}|asked|${spec.askedId}`)
+    ) {
       dropped.sameCast += 1;
       continue;
     }
@@ -692,6 +700,8 @@ for (const typeKey of purposeTypes) {
         type as PurposeType,
         spec.facts,
         { askerTraits: profile.traits, askedTraits: profile.traits },
+        // Only the first profile shown also plays out the push-back path.
+        { avoid: pageSaid, pushBack: variants.length === 0 },
       );
       if (result.kind === "skipped") {
         lastReason = result.reason;
@@ -713,11 +723,23 @@ for (const typeKey of purposeTypes) {
           previous = line.move;
         return row;
       });
+      const push = result.talk.pushBack;
+      let pushPrevious: string | undefined;
+      const pushLines = push?.lines.map((line) => {
+        const row = toRow(line, profile, pushPrevious);
+        row.endpoint = type.tag.endpoint;
+        if (line.role !== "narrator" && (line.role === "asker" || line.chosen))
+          pushPrevious = line.move;
+        return row;
+      });
       variants.push({
         profile,
         lines,
         outcome: result.talk.outcome,
         talk: result.talk,
+        ...(push && pushLines
+          ? { pushBack: { lines: pushLines, outcome: push.outcome } }
+          : {}),
       });
     }
     if (!variants.length) continue;
@@ -731,6 +753,12 @@ for (const typeKey of purposeTypes) {
     }
     seenReplySets.add(replySet);
     seenCast.add(castKey);
+    seenCast.add(`${typeKey}|asker|${spec.askerId}`);
+    seenCast.add(`${typeKey}|asked|${spec.askedId}`);
+    // The setup and the open this scene said are not said again by another scene on the page.
+    for (const line of variants[0]!.talk.lines as SceneTalkLine[])
+      if (line.step === "narrate" || line.step === "open")
+        for (const piece of line.parts) pageSaid.add(piece);
     kept += 1;
     scenes.push({
       i: scenes.length + 1,
@@ -768,21 +796,30 @@ const json = {
   dropped,
   stoodIn,
   items: scenes.flatMap((scene) =>
-    scene.variants.map((variant, at) => ({
-      i: Number(`${scene.i}${at}`),
-      scene: scene.i,
-      situationType: scene.typeKey,
-      key: scene.key,
-      endpoint: scene.endpoint,
-      purpose: scene.purpose,
-      proof: true,
-      profile: variant.profile.id,
-      outcome: variant.outcome,
-      castRecordIds: [scene.askerId, scene.askedId],
-      records: scene.records,
-      parts: [...new Set(variant.lines.flatMap((l) => l.parts))],
-      lines: variant.lines,
-    })),
+    scene.variants.flatMap((variant, at) => {
+      const item = (lines: LineRow[], outcome: string, contested: boolean) => ({
+        i: Number(`${scene.i}${at}${contested ? 1 : 0}`),
+        scene: scene.i,
+        situationType: scene.typeKey,
+        key: scene.key,
+        endpoint: scene.endpoint,
+        purpose: scene.purpose,
+        proof: true,
+        contested,
+        profile: variant.profile.id,
+        outcome,
+        castRecordIds: [scene.askerId, scene.askedId],
+        records: scene.records,
+        parts: [...new Set(lines.flatMap((l) => l.parts))],
+        lines,
+      });
+      return [
+        item(variant.lines, variant.outcome, false),
+        ...(variant.pushBack
+          ? [item(variant.pushBack.lines, variant.pushBack.outcome, true)]
+          : []),
+      ];
+    }),
   ),
 };
 mkdirSync("data/english/batches", { recursive: true });
@@ -829,28 +866,42 @@ for (const scene of scenes) {
       `**Profile ${variant.profile.id}** (outcome ${variant.outcome})`,
       "",
     );
-    const rest = variant.lines.filter((l) => l.role !== "narrator");
-    let run: LineRow[] = [];
-    const flush = () => {
-      if (!run.length) return;
-      out.push("You could say:", "");
-      run.forEach((l, k) =>
-        out.push(
-          `${k + 1}. ${l.text}${(l as any).chosen ? "  *(the page follows this one)*" : ""}`,
-        ),
-      );
-      out.push("");
-      run = [];
-    };
-    for (const l of rest) {
-      if (l.role === "reply") {
-        run.push(l);
-        continue;
+    const show = (lines: LineRow[]) => {
+      let run: LineRow[] = [];
+      const flush = () => {
+        if (!run.length) return;
+        out.push("You could say:", "");
+        run.forEach((l, k) =>
+          out.push(
+            `${k + 1}. ${l.text}${(l as any).chosen ? "  *(the page follows this one)*" : ""}`,
+          ),
+        );
+        out.push("");
+        run = [];
+      };
+      for (const l of lines) {
+        if (l.role === "reply") {
+          run.push(l);
+          continue;
+        }
+        flush();
+        out.push(`**${l.speaker}:** ${l.text}`, "");
       }
       flush();
-      out.push(`**${l.speaker}:** ${l.text}`, "");
+    };
+    show(variant.lines.filter((l) => l.role !== "narrator"));
+    // The same scene through a refusing or open reply, once, for the first profile.
+    if (variant.pushBack) {
+      out.push(
+        `**If you push back:** (outcome ${variant.pushBack.outcome})`,
+        "",
+      );
+      show(
+        variant.pushBack.lines.filter(
+          (l) => l.role !== "narrator" && ((l as any).round as number) >= 1,
+        ),
+      );
     }
-    flush();
     out.push(
       `<sub>${variant.lines
         .map(
