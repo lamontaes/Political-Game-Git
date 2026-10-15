@@ -561,8 +561,7 @@ export function withHousing(input: CoreInput): CoreInput {
         source,
       });
     else if (account) {
-      // The wider population's cash is pooled by place: its rent is paid from the pool, with no per-household arrears (stopgap).
-      stopgap("SG-WORLD-housing-counted-rent");
+      // The wider population's rent is paid from each group's fund; those behind are noticed and evicted by the same steps (countedLate).
       flows.push({
         id: `rent:${row.id}`,
         kind: "purchase",

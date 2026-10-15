@@ -2578,11 +2578,11 @@
     "file": "src/core2/modules/housing.ts",
     "line": 561,
     "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, with no household arrears or eviction cases of their own. Right to counsel and eviction payment plans therefore reach only full households.",
-    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so a single counted household cannot fall behind on its own.",
+    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so a single counted household cannot fall behind on its own. Resolved Oct 15 (OPUS-WORLD): since the two-tier rework, counted renters pay from their own group's fund, their group's housing arrears are read, and counted households behind on rent get notice and eviction cases through the same steps as full ones (countedLate in modules/housing.ts).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-jobs-agreement-pinned",
