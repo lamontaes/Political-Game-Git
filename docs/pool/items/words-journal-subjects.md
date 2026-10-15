@@ -4,12 +4,13 @@ title: "Journal lines carry their subject"
 area: words
 kind: feature
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-journal-subjects
 pr:
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
+claimed-at: 2026-10-15T21:41:23.920Z
 ---
 
 **What.** Journal lines name the office, the child, or what "little did I know" refers to.
