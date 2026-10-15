@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-holdover-rule-data
-pr:
+pr: #4458
 blocked-on:
 milestone:
 source: "split from gov-empty-race-holdover"
