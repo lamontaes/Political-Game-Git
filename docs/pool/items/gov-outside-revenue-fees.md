@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/gov-outside-revenue-fees
 pr:
-blocked-on:
+blocked-on: gov-outside-revenue-fees-wiring
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T22:20:44.802Z
 ---
 
 **What.** TODO
