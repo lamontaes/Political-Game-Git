@@ -5,12 +5,11 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/world-counted-tuition-drops
-pr:
+status: in-pr
+claimed-by:
+pr: #4463
 blocked-on:
 source: found by a Claude session building laws-family-school-vouchers (control run without the law)
-claimed-at: 2026-10-15T21:40:09.870Z
 ---
 
 **What.** TODO
@@ -22,3 +21,5 @@ claimed-at: 2026-10-15T21:40:09.870Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.
