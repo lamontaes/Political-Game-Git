@@ -395,6 +395,31 @@
         "key": "honor"
       },
       {
+        "move": "^(death|illness|prison)-news-raise",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": "^death-news-reply-answer-condole$",
+        "tag": "condole",
+        "key": "loss"
+      },
+      {
+        "move": "^(death|illness|prison)-news-reply-answer-(help|comfort|brief)$",
+        "tag": "comfort",
+        "key": "loss"
+      },
+      {
+        "move": "^prison-news-reply-answer-promise$",
+        "tag": "promise",
+        "key": "loss"
+      },
+      {
+        "move": "^(death|illness|prison)-news-reply-answer-ask$",
+        "tag": "ask",
+        "key": "loss"
+      },
+      {
         "move": "^family-answer-gone$",
         "tag": "deliver-news",
         "key": "loss"

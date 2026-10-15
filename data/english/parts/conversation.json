@@ -9413,6 +9413,12 @@
           "subject": "eviction-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "prison-news-reply-answer-ask",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 243,
@@ -12418,6 +12424,12 @@
           "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "prison-news-reply-answer-comfort",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 622,
@@ -14768,6 +14780,12 @@
           "subject": "eviction-where-reply",
           "role": "answer",
           "choice": "help"
+        },
+        {
+          "move": "death-news-reply-answer-help",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "help"
         }
       ],
       "transcriptsUsing": 15,
@@ -16225,6 +16243,495 @@
       "tag": {
         "move": "react",
         "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.death-news-raise-raise.relation-passed-away",
+      "move": "death-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} passed away.",
+      "uses": [
+        {
+          "move": "death-news-raise-raise",
+          "subject": "death-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-raise-raise.relation-died",
+      "move": "death-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} died.",
+      "uses": [
+        {
+          "move": "death-news-raise-raise",
+          "subject": "death-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-raise-raise.i-have-some-bad-news-relation-died",
+      "move": "death-news-raise-raise",
+      "kind": "spoken",
+      "text": "I have some bad news. {relation} died.",
+      "uses": [
+        {
+          "move": "death-news-raise-raise",
+          "subject": "death-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-reply-answer-condole.i-m-so-sorry",
+      "move": "death-news-reply-answer-condole",
+      "kind": "spoken",
+      "text": "I'm so sorry.",
+      "uses": [
+        {
+          "move": "death-news-reply-answer-condole",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "condole"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "condole",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-reply-answer-condole.i-m-sorry-for-your-loss",
+      "move": "death-news-reply-answer-condole",
+      "kind": "spoken",
+      "text": "I'm sorry for your loss.",
+      "uses": [
+        {
+          "move": "death-news-reply-answer-condole",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "condole"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "condole",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-reply-answer-help.is-there-anything-i-can-do",
+      "move": "death-news-reply-answer-help",
+      "kind": "spoken",
+      "text": "Is there anything I can do?",
+      "uses": [
+        {
+          "move": "death-news-reply-answer-help",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "illness-news-reply-answer-help",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-reply-answer-brief.oh-no-how-are-you-holding-up",
+      "move": "death-news-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh, no. How are you holding up?",
+      "uses": [
+        {
+          "move": "death-news-reply-answer-brief",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.death-news-reply-answer-brief.oh-no-when-did-you-find-out",
+      "move": "death-news-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh, no. When did you find out?",
+      "uses": [
+        {
+          "move": "death-news-reply-answer-brief",
+          "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-raise-raise.relation-is-very-sick",
+      "move": "illness-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} is very sick.",
+      "uses": [
+        {
+          "move": "illness-news-raise-raise",
+          "subject": "illness-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-raise-raise.relation-is-seriously-ill",
+      "move": "illness-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} is seriously ill.",
+      "uses": [
+        {
+          "move": "illness-news-raise-raise",
+          "subject": "illness-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-comfort.i-m-sorry-how-bad-is-it",
+      "move": "illness-news-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm sorry. How bad is it?",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-comfort",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-comfort.oh-no-give-name-my-best",
+      "move": "illness-news-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "Oh, no. Give {name} my best.",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-comfort",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-help.can-i-help-with-anything",
+      "move": "illness-news-reply-answer-help",
+      "kind": "spoken",
+      "text": "Can I help with anything?",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-help",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-ask.what-did-the-doctors-say",
+      "move": "illness-news-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What did the doctors say?",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-ask",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-news-reply-answer-ask.how-long-has-name-been-sick",
+      "move": "illness-news-reply-answer-ask",
+      "kind": "spoken",
+      "text": "How long has {name} been sick?",
+      "uses": [
+        {
+          "move": "illness-news-reply-answer-ask",
+          "subject": "illness-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-raise-raise.relation-was-sent-to-prison",
+      "move": "prison-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} was sent to prison.",
+      "uses": [
+        {
+          "move": "prison-news-raise-raise",
+          "subject": "prison-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-raise-raise.relation-is-going-to-prison",
+      "move": "prison-news-raise-raise",
+      "kind": "spoken",
+      "text": "{relation} is going to prison.",
+      "uses": [
+        {
+          "move": "prison-news-raise-raise",
+          "subject": "prison-news",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-reply-answer-ask.for-how-long",
+      "move": "prison-news-reply-answer-ask",
+      "kind": "spoken",
+      "text": "For how long?",
+      "uses": [
+        {
+          "move": "prison-news-reply-answer-ask",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "braced",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-reply-answer-comfort.that-s-hard-i-m-sorry",
+      "move": "prison-news-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's hard. I'm sorry.",
+      "uses": [
+        {
+          "move": "prison-news-reply-answer-comfort",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-reply-answer-promise.can-we-visit",
+      "move": "prison-news-reply-answer-promise",
+      "kind": "spoken",
+      "text": "Can we visit?",
+      "uses": [
+        {
+          "move": "prison-news-reply-answer-promise",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-news-reply-answer-promise.we-ll-get-through-this",
+      "move": "prison-news-reply-answer-promise",
+      "kind": "spoken",
+      "text": "We'll get through this.",
+      "uses": [
+        {
+          "move": "prison-news-reply-answer-promise",
+          "subject": "prison-news-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
       }
     }
   ]
