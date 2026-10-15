@@ -3,7 +3,12 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { coreAPI } from "./state";
 import { gameStartDate } from "./game-start";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  enforceIncompatibility,
+  type TermRow,
+} from "./modules/offices";
 import { candidacyReasons } from "./modules/candidacy";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { incompatibleOffices } from "./office-incompatibility";
@@ -110,5 +115,20 @@ it("resolves term aliases without rewriting real official person ids", () => {
       expect(winningPersonId(api, resolved)).toBe(resolved);
       if (term.personId) expect(resolved).toBe(term.personId);
     }
+  }
+  // Edge fixture: accepting a Senate mandate while president exercises the sourced prohibition.
+  const senate = townSeats(api).find((row) => row.office.kind === "us-senate");
+  if (senate) {
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+    const term = terms.query("bySeatStatus", [senate.seat.id, "serving"])[0]!;
+    terms.put({ ...term, personId: president });
+    enforceIncompatibility(api, president, senate.seat.id);
+    expect(
+      (terms.get("term:seat:US:president:2025-01-20") as unknown as TermRow)
+        .status,
+    ).toBe("ended");
+    expect(
+      api.moduleState(OFFICES_MODULE_ID).table("incompatibilities").size,
+    ).toBeGreaterThan(0);
   }
 }, 120_000);

@@ -187,8 +187,11 @@ export function enforceIncompatibility(
     if (law.tag === "ESTIMATED") api.stopgap("SG-GOV-dual-office-law");
     table(api, "incompatibilities").put({
       id: `incompatible:${term.id}:${acquired.id}`,
-      personId, previousTermId: term.id, acceptedTermId: acquired.id,
-      date: api.state.date, law,
+      personId,
+      previousTermId: term.id,
+      acceptedTermId: acquired.id,
+      date: api.state.date,
+      law,
     } as unknown as ModuleRow);
     vacateSeat(api, term.seatId, "accepted incompatible office");
   }

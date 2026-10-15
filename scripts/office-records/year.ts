@@ -149,14 +149,12 @@ console.log(
         status: b.status,
         provisions: b.provisions,
       })),
-    results: results
-      .slice(0, 5)
-      .map((r) => ({
-        id: r.id,
-        winnerId: r.winnerId,
-        winnerCandidateId: r.winnerCandidateId,
-        personExists: r.winnerId ? core.people.has(r.winnerId) : false,
-      })),
+    results: results.slice(0, 5).map((r) => ({
+      id: r.id,
+      winnerId: r.winnerId,
+      winnerCandidateId: r.winnerCandidateId,
+      personExists: r.winnerId ? core.people.has(r.winnerId) : false,
+    })),
     candidacy: api
       .moduleState(CANDIDACY_MODULE_ID)
       .table("decisions")
