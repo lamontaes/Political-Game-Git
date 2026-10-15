@@ -353,12 +353,13 @@ describe("law reach, group B: every policy reaches people through its engine", (
     });
 
   const employerRecords = [
-    Q("environment-energy.ban-new-gas-hookups"),
     Q("environment-energy.clean-air-plan-for-polluted-counties"),
     Q("environment-energy.bottle-deposit"),
     Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
-    Q("agriculture-natural-resources.protect-farmland-from-development"),
   ];
+  // Gas hookups and farmland protection are read by construction now.
+  // housing-laws.test.ts checks their actual zoning inputs in a played year;
+  // employer eligibility rows are no longer evidence for either law.
   for (const key of employerRecords)
     it(`${key}: binds every employer it covers in town; repeal ends it`, () => {
       enact(key, 1, "state");
