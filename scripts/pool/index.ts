@@ -108,6 +108,86 @@ export function validate(
   return errs;
 }
 
+export const STANDING_RULES = [
+  "No dice",
+  "Sliding scales and causes",
+  "One rule, all 56 places",
+  "Estimate, never UNKNOWN",
+  "Wire to the world",
+  "This is a game, not a spreadsheet",
+  "An effect is a read, not a record",
+  "Replace, never layer",
+  "One model, two tiers",
+  "The chain is the acceptance",
+  "Look before you ask",
+  "Ask why",
+  "No hand-written player text",
+  "Research before building",
+  "Speed",
+  "American English",
+];
+const DONE_WORDS = [
+  "drawn place",
+  "played world",
+  "record id",
+  "buildBenchWorld",
+  "test",
+  "screenshot",
+];
+
+const words = (s: string): number => s.split(/\s+/).filter(Boolean).length;
+
+/** Pulls one bolded section ("**What.**") out of an item body. */
+export function section(text: string, name: string): string {
+  const body = text.replace(/^---\r?\n[\s\S]*?\r?\n---/, "");
+  const re = new RegExp(
+    `\\*\\*${name}\\.?\\*\\*\\.?([\\s\\S]*?)(?=\\n\\*\\*[A-Z][a-z ]+\\.?\\*\\*|$)`,
+  );
+  return (re.exec(body)?.[1] ?? "").trim();
+}
+
+/** Quality gate for open or claimed priority 1 and 2 items. Returns "<id>: <field> ..." problems. */
+export function quality(
+  file: string,
+  fm: Record<string, string>,
+  text: string,
+): string[] {
+  if (
+    !["open", "claimed"].includes(fm.status) ||
+    !["1", "2"].includes(fm.priority)
+  )
+    return [];
+  const id = file.replace(/\.md$/, "");
+  const errs: string[] = [];
+  const what = section(text, "What");
+  const sentences = what.split(/[.!?](?:\s|$)/).filter((x) => x.trim()).length;
+  if (sentences < 3 || words(what) < 40)
+    errs.push(
+      `${id}: What needs at least 3 sentences and 40 words (has ${sentences} and ${words(what)})`,
+    );
+  const rules = section(text, "Rules");
+  const ok = STANDING_RULES.some((r) => {
+    const at = rules.toLowerCase().indexOf(r.toLowerCase());
+    return at >= 0 && words(rules.slice(at + r.length)) >= 6;
+  });
+  if (!ok)
+    errs.push(
+      `${id}: Rules must name a standing rule with at least 6 words after it saying how it applies`,
+    );
+  const done = section(text, "Done when");
+  if (words(done) < 25 || !DONE_WORDS.some((w) => done.includes(w)))
+    errs.push(
+      `${id}: Done when needs 25 words and one of ${DONE_WORDS.join(", ")}`,
+    );
+  if (/#\d+/.test(done) && !fm.after && !fm["blocked-on"])
+    errs.push(
+      `${id}: Done when names a PR number; use after: or blocked-on: instead`,
+    );
+  if (!/[\w.-]+\/[\w./-]+/.test(section(text, "Files")))
+    errs.push(`${id}: Files must name at least one path`);
+  return errs;
+}
+
 const ids = (v?: string): string[] =>
   (v || "")
     .split(",")
@@ -202,7 +282,7 @@ export function buildIndex(items: Item[]): string {
 export function run(
   poolDir: string,
   check: boolean,
-): { index: string; errors: string[] } {
+): { index: string; errors: string[]; warnings: string[] } {
   const dir = join(poolDir, "items");
   const files = existsSync(dir)
     ? readdirSync(dir)
@@ -210,11 +290,14 @@ export function run(
         .sort()
     : [];
   const errors: string[] = [];
+  const warnings: string[] = [];
   const items: Item[] = [];
   for (const f of files) {
-    const fm = parseFrontMatter(readFileSync(join(dir, f), "utf8"));
+    const text = readFileSync(join(dir, f), "utf8");
+    const fm = parseFrontMatter(text);
     const errs = validate(f, fm);
     errors.push(...errs);
+    if (!errs.length && fm) warnings.push(...quality(f, fm, text));
     if (!errs.length && fm)
       items.push({ "claimed-by": "", pr: "", "blocked-on": "", ...fm } as Item);
   }
@@ -228,7 +311,7 @@ export function run(
     if (!existsSync(path) || readFileSync(path, "utf8") !== index)
       errors.push("docs/pool/INDEX.md is stale: run `npm run pool`");
   } else if (!errors.length) writeFileSync(path, index);
-  return { index, errors };
+  return { index, errors: check ? [...errors, ...warnings] : errors, warnings };
 }
 
 const POOL = (): string => join(process.cwd(), "docs", "pool");
@@ -414,7 +497,8 @@ if (
     process.exit(0);
   }
   const check = process.argv.includes("--check");
-  const { errors } = run(join(process.cwd(), "docs", "pool"), check);
+  const { errors, warnings } = run(join(process.cwd(), "docs", "pool"), check);
+  if (!check && warnings.length) console.warn(warnings.join("\n"));
   if (errors.length) {
     console.error(errors.join("\n"));
     process.exit(1);
