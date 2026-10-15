@@ -16,6 +16,11 @@ import { localGoverningBodyRules } from "./gov-rules/local-governing-body-rules"
 import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
+import { governmentUnitDisplayName } from "./gov-rules/government-unit-names";
+import {
+  municipalGovernmentForUnit,
+  primaryReading,
+} from "./gov-rules/municipal-government";
 import type { GovernmentUnitIdentity } from "./reference/government-units";
 
 export type OfficeLevel = "federal" | "state" | "county" | "city" | "township";
@@ -27,6 +32,12 @@ export interface OfficeInput {
   /** The government: "US", "US-XX", or a government-units id. */
   readonly jurisdiction: string;
   readonly governmentName: string;
+  /**
+   * What the body is called, from its own record ("Darlington County Board of
+   * Commissioners", "City Council of Palacios"): never a member's title and
+   * never another body's name. Set on every office that sits as a body.
+   */
+  readonly bodyName?: string;
   readonly kind: string;
   readonly title: string;
   readonly seats: number;
@@ -69,6 +80,31 @@ const STATE_LEVEL_GOVERNMENTS = new Set(
   ),
 );
 
+/**
+ * A municipal body's name. The designation comes from the unit's own listed
+ * name (city, town, village, borough) and the noun from the compiled reading's
+ * form of government, so a commission-run city has a commission and a town
+ * meeting town has a town meeting.
+ */
+// stopgapId: SG-GOV-municipal-body-name (the noun is "Council" wherever no reading names the form)
+export function municipalBodyName(unit: GovernmentUnitIdentity): string {
+  const government = municipalGovernmentForUnit(unit);
+  const form = government ? primaryReading(government).form : null;
+  const designation = /^(city|town|village|borough) of /i
+    .exec(unit.name)?.[1]
+    ?.toLowerCase();
+  const place = governmentUnitDisplayName(unit).replace(
+    /^(city|town|village|borough) of /i,
+    "",
+  );
+  const kind = designation
+    ? designation[0]!.toUpperCase() + designation.slice(1)
+    : null;
+  if (form === "TOWN_MEETING") return `${kind ?? "Town"} Meeting of ${place}`;
+  const noun = form && /^COMMISSION/.test(form) ? "Commission" : "Council";
+  return `${kind ? `${kind} ` : ""}${noun} of ${place}`;
+}
+
 function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
   const offices: OfficeInput[] = [];
   const body = localGoverningBodyRules(unit);
@@ -83,6 +119,7 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       level: "city",
       jurisdiction: unit.id,
       governmentName: unit.name,
+      bodyName: municipalBodyName(unit),
       kind: "council",
       title: "Council member",
       seats: body.seats.value,
@@ -132,6 +169,7 @@ function boardOffices(
       level,
       jurisdiction: unit.id,
       governmentName: unit.name,
+      bodyName: `${governmentUnitDisplayName(unit)} ${board.bodyName}`,
       kind: level === "county" ? "county-board" : "township-board",
       title: board.memberTitle,
       seats: board.seats,

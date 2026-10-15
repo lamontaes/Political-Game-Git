@@ -894,7 +894,7 @@ function numberAndForm(
       kind: numbering.kind,
       enactingClause: numbering.enactingClause.replace(
         "{body}",
-        body.governmentName,
+        bodyNameOf(body),
       ),
       enactingSource: numbering.enactingSource,
     },
@@ -1417,6 +1417,18 @@ export const FEDERAL_HOUSE = "federal:us-house";
 export const FEDERAL_SENATE = "federal:us-senate";
 
 /**
+ * What a body is called: its own recorded name where it has one (a county's
+ * board of commissioners, a town's council), else its government's name (a
+ * state chamber's name, Congress). Never a member's title.
+ */
+export function bodyNameOf(body: {
+  readonly governmentName: string;
+  readonly bodyName?: string;
+}): string {
+  return body.bodyName ?? body.governmentName;
+}
+
+/**
  * A bill's body: its office row, or for Congress, the one national chamber
  * (the House or the Senate, the same in every world), not any state's seat.
  */
@@ -1429,6 +1441,7 @@ export function bodyOf(
       readonly kind: string;
       readonly jurisdiction: string;
       readonly governmentName: string;
+      readonly bodyName?: string;
     }
   | undefined {
   if (officeId === FEDERAL_HOUSE)
@@ -1454,6 +1467,7 @@ export function bodyOf(
         kind: string;
         jurisdiction: string;
         governmentName: string;
+        bodyName?: string;
       }
     | undefined;
 }

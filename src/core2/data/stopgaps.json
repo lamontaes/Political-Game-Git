@@ -4597,5 +4597,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
     "line": 82
+  },
+  {
+    "id": "SG-GOV-municipal-body-name",
+    "kind": "missing-data",
+    "file": "src/core2/offices-local.ts",
+    "line": 89,
+    "whatItFakes": "A city's or town's governing body is named \"City Council of <place>\" (a commission or a town meeting where the compiled reading names that form); the body's own legal name (\"Board of Aldermen\", \"Select Board\") is not in the data, and a county's name is its state's one reading, not each county's own.",
+    "why": "Bodies were named by a member's title (\"County of Darlington commissioner\"); each body now carries a name of its own on its office row, but the researched body names (research request municipal-governing-body-names-and-member-titles) are not in the data yet.",
+    "addedBy": "pool/gov-body-named-by-member-title",
+    "addedAt": "2026-10-15",
+    "replacement": "Each municipal government's body name read from its charter into the municipal reading, the way its form and size are; the county reading's body name per county where it differs from the state's.",
+    "status": "open"
   }
 ]

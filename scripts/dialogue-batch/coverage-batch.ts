@@ -35,8 +35,7 @@ import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
-import { boardGoverningBodyRules } from "../../src/core2/gov-rules/township-governing-body-rules";
-import { governmentUnit } from "../../src/core2/reference/government-units";
+import { bodyNameOf } from "../../src/core2/modules/legislature";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
 import type { EnglishBank } from "./bank-compose";
@@ -302,32 +301,12 @@ function readWorld(place: Place): {
       (row) => [row.id as string, row],
     ),
   );
+  // A body is named by its own record on the office row (offices-local.ts),
+  // never by a member's title or another body's name.
   const bodyName = (officeId: string) => {
     const office = offices.get(officeId);
     if (!office) return officeId;
-    const gov = properName(office.governmentName as string).replace(
-      /\bOf\b/g,
-      "of",
-    );
-    // A county or township board is named by its own record (batch 11: the
-    // "County of Darlington commissioner" was a member's title, not the body).
-    const unit = governmentUnit(String(office.jurisdiction));
-    const board =
-      unit && /board$/.test(String(office.kind))
-        ? boardGoverningBodyRules(unit)
-        : null;
-    if (board?.bodyName) return `${gov} ${board.bodyName}`;
-    const title = String(office.title).replace(/\s+members?$/i, "");
-    const noun =
-      /council|board|commission|committee|trustees|selectm|supervisors/i.test(
-        title,
-      )
-        ? lowerFirst(title.replace(/s$/, "")).replace(
-            new RegExp(`^${gov.split(" ")[0]} `, "i"),
-            "",
-          )
-        : "governing body";
-    return `${gov} ${noun}`;
+    return bodyNameOf(office as { governmentName: string; bodyName?: string });
   };
   const terms = api
     .moduleState("core2-offices-v1")
