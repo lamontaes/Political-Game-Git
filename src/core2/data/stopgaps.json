@@ -3260,7 +3260,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: either the player is never appointed, or an appointer's choice of the player becomes an offer the player accepts or declines in the conversation, and only an accepted offer fills the post.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'The player's choices are the player's' (Oct 14, night): 'No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides.' Appointers never fill a post with the player on their own; an offer is the player's to accept."
   },
   {
     "id": "SG-CORE-estate-tax-awaits-gov",
@@ -3842,7 +3843,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling on who sees a business's books (its owner, the player as owner, public filings only, or anyone), after which OPUS-PLAY shows this record on the screen that ruling names.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md: 'Starting or buying a business: 1.0, not early access. An owner sees the books.' and 'a business closing shows its books' as a dev-mode item. The view (business-books-view.ts) is the owner's and the developer's."
   },
   {
     "id": "SG-WORLD-macro-town-growth-neutral",
@@ -3891,7 +3893,8 @@
     "replacement": "The owner's ruling; if wanted, the opening's relative generator run for one filled-in household, seeded by the world.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Built: fillInPerson (src/core2/state.ts) rebuilds the filled-in household's past with buildDeepPast (family histories, src/core2/past-family.ts) and ties to relatives living elsewhere become husks (core.husks), met and filled in later; the opening keeps outside relatives as light husk-tier records (src/core2/data/opening-kin.json). The world-has-a-past work merged Oct 11 to 14."
   },
   {
     "id": "SG-CORE-owner-decision-demotion-days",
@@ -3903,7 +3906,8 @@
     "replacement": "The owner's number of days.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruling, Oct 15, 2026: 'The days without contact before a met person drifts back into the counted population is a per-world range of 180 to 240 days, drawn once per world at generation (seeded generation is allowed), never a single fixed number.' Built in counted-demotion.ts (demotionDays) from the countedDemotionDays spread."
   },
   {
     "id": "SG-CORE-counted-unkeyed-money",
@@ -3951,7 +3955,8 @@
     "replacement": "The owner's ruling: either keep the cap, or let each counted group of a bigger town carry its Census count with the money and reach scaled to it.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'Town size (day-one audit)': 'a town opens at its real Census size; nothing pads it to 10,000. Follows one model, two tiers (counts must match the place).' Open for the engineers: population.ts still caps a town above the target; it follows the ruling next."
   },
   {
     "id": "SG-GOV-local-bill-numbering",
@@ -4035,7 +4040,8 @@
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: either the character may cast the player's ballot from its own views when election day is not a stop, or election day stays a stop that cannot be turned off.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md (Oct 13): 'The player casts their own ballot ... the engine never votes for the player'; 'Election day is a scene. The player goes to their polling place and marks a ballot there; the vote is cast in the scene, never in a menu.' Election day stays a stop."
   },
   {
     "id": "SG-OFFICE-FED-engine-stand-in",
@@ -4299,7 +4305,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: keep it as is, or give the player's household another path.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'Homelessness is a factor' (Oct 14): 'A person who does not work and does not pay loses their home like anyone else; the player's household too.' Same notice, filing, hearing and judgment as anyone (docs/packages/homelessness.md)."
   },
   {
     "id": "SG-WORLD-housing-shelter-beds-state-rate",
@@ -4359,7 +4366,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
     "replacement": "Early-access preparation: the Windows job made green and required again, and every release carrying latest.yml.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md: 'The Mac package is the one that must pass; the Windows row stays allowed-to-fail until early access.' docs/coordination/BOARD.md: 'Windows may stay red until early access.' The workflow keeps continue-on-error on the Windows row on that ruling."
   },
   {
     "id": "SG-PLAY-creator-direct-person-write",

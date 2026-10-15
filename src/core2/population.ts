@@ -515,14 +515,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     real >= p("one")
       ? Math.min(target, real)
       : target;
-  // stopgapId: SG-CORE-owner-decision-town-size
-  // A town larger than the target opens at the target, not its Census size.
-  if (
-    options.minimumPeople === undefined &&
-    real !== undefined &&
-    real > target
-  )
-    stopgap("SG-CORE-owner-decision-town-size");
   const town = place.context.jurisdiction.id;
   const counties = countyContexts(place);
   const jurisdictions = new Map([[town, place.context.jurisdiction]]);

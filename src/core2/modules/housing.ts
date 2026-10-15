@@ -1144,11 +1144,7 @@ function review(api: CoreAPI): void {
     const late = counted.get(id);
     const householdId = lease?.householdId ?? late?.householdId;
     if (!householdId) continue;
-    // The player's household is evicted like any other until the owner rules (default yes).
-    if (c.playerId && c.people.get(c.playerId)?.householdId === householdId) {
-      // stopgapId: SG-WORLD-owner-decision-player-eviction
-      stopgap("SG-WORLD-owner-decision-player-eviction");
-    }
+    // The player's household is evicted like any other (owner, Oct 14).
     const caseId = `eviction:${id}:${c.date}`;
     const cureBy = addDays(makeIsoDate(c.date), Math.max(1, law.noticeDays));
     store(api)

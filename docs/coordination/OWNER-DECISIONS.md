@@ -4,16 +4,9 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- **Towns larger than 10,000 (two-tier package, #4172).** A town under 10,000 now opens at its real Census size. A larger town still opens with 10,000, the October 9 target. Should a bigger town count its full population, each counted household standing for several? (SG-CORE-owner-decision-town-size)
 - **What a town's districts are.** The game has no city wards; a town's districts are the state House districts its people split into, else the whole town. Should council wards come later as their own districts? (SG-CORE-owner-decision-town-districts)
-- **Relatives of a person met for the first time.** They come with household, job, coworkers and employer, but no relatives living elsewhere. Acceptable for early access? (SG-CORE-owner-decision-fill-in-outside-kin)
-- **Demotion wait.** A filled-in household returns to the counts after 180 days without contact (never the player's household, circle, officials, public workers, business owners). Is 180 days right? (SG-CORE-owner-decision-demotion-days)
-
-- **Kit 12 versus Kit 13 (found by the Drive digests, Oct 14).** The play page was restyled tonight on Kit 12 (the Oct 2 packet). Kit 13's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md, owner Oct 4 and 5) is newer: brass corner ornaments ON the panel, no scrolling inside a menu, the chevron rule (only on a static button while activated, never in radial menus), People / Calendar / Money tabs with the selected tab a raised glass box, the approved icons, search, dropdown, slider and progress bar. Same fonts. Newest wins: PLAY reconciles the page to Kit 13's controls. Owner to confirm that logo and Steam art stay navy (the UI ban on navy does not name them).
 
 - **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
-
-- **A player who loses an election (player-path audit, Oct 14), confirmed by the owner:** a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
 
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
@@ -190,3 +183,23 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind.
 - The CTO session answers the owner and prepares orders, rulings, skills and reports. It never merges, reads diffs, logs or test output, runs tests, creates PRs or holds PR subscriptions; a Sonnet helper does those and returns a table.
 - Recorded in `.agents/skills/cto/SKILL.md` under "Usage rules for the CTO session".
+
+## Oct 15, afternoon: stale questions closed
+
+Fifteen questions were shown to the owner as open; most were already ruled or built. Each is closed below with where the answer lives. Stopgap rows are resolved and their pool items are done.
+
+- Demotion days (core-od-demotion-days): NEW RULING, owner, Oct 15: "The days without contact before a met person drifts back into the counted population is a per-world range of 180 to 240 days, drawn once per world at generation (seeded generation is allowed), never a single fixed number." Built in `demotionDays`.
+- Relatives of a met person (core-od-fill-in-outside-kin): BUILT. `fillInPerson` rebuilds the past with `buildDeepPast`; relatives elsewhere are husks filled in when met.
+- Towns above 10,000 (core-od-town-size): DECIDED. "a town opens at its real Census size; nothing pads it to 10,000." The code's cap still needs to follow.
+- Trusts (core-od-trusts): GENUINELY OPEN. No ruling found; estates go through probate.
+- Windows package (core-od-windows-package-allowed-to-fail): DECIDED. "the Windows row stays allowed-to-fail until early access."
+- Player offered a post (gov-od-player-offered-post): DECIDED. "No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides."
+- Party loyalty data (laws-party-loyalty): GENUINELY OPEN. Parked on the data's non-commercial license.
+- Ballot stop (office-od-ballot-stop): DECIDED. "the engine never votes for the player"; election day is a scene at the polls.
+- Kit 12 or Kit 13 (owner-kit12-vs-kit13): BUILT. The play page is on Kit 13 (`src/bench/play.css`).
+- Opening key people (owner-opening-key-people): GENUINELY OPEN. The owner said he would clarify; ranked from the offices data until then.
+- Why money exists (owner-why-money-exists): GENUINELY OPEN. The owner has not settled the reason.
+- Town districts and wards (people-od-town-districts): GENUINELY OPEN in writing. No ruling found in the register, these rulings or the prior-rulings digests, though the owner recalls deciding it; he is asked to repeat it once and it is recorded.
+- Who sees a business's books (world-od-business-books): DECIDED. "An owner sees the books."
+- Player eviction (world-od-player-eviction): DECIDED. "loses their home like anyone else; the player's household too."
+- A loser's podium and bill carrier (not in the pool): DECIDED. Confirmed by the owner in the Oct 14 entry above; both work through the existing conversation.

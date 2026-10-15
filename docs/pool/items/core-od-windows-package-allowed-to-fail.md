@@ -4,10 +4,10 @@ title: "Owner decision: The Windows package job (and the Windows build in each r
 area: core
 kind: owner-decision
 priority: 2
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: "owner decision"
+blocked-on:
 milestone:
 source: "stopgap SG-PLAY-windows-package-allowed-to-fail"
 ---
@@ -20,4 +20,4 @@ source: "stopgap SG-PLAY-windows-package-allowed-to-fail"
 
 **Files.** .github/workflows/desktop-package.yml
 
-**Notes.** Row SG-PLAY-windows-package-allowed-to-fail in src/core2/data/stopgaps.json.
+**Notes.** DECIDED. OWNER-DECISIONS.md: 'The Mac package is the one that must pass; the Windows row stays allowed-to-fail until early access.' BOARD.md: 'Windows may stay red until early access.'
