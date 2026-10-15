@@ -107,5 +107,17 @@
   },
   "travel": {
     "staff": "staff"
+  },
+  "who": {
+    "age": "Age",
+    "born": "Born",
+    "home": "Home",
+    "householdHome": "Your household's home",
+    "work": "Work",
+    "school": "School",
+    "money": "Money",
+    "family": "Family",
+    "views": "Politics",
+    "traits": "Traits"
   }
 }

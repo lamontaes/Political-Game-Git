@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, getComputedStyle, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -68,6 +68,9 @@ function pageWhenChanged(box, pager) {
   new MutationObserver(() =>
     requestAnimationFrame(() => pageIn(box, pager)),
   ).observe(box, { childList: true, subtree: true });
+  new ResizeObserver(() =>
+    requestAnimationFrame(() => pageIn(box, pager)),
+  ).observe(box);
 }
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -99,7 +102,35 @@ function el(tag, props = {}, ...children) {
   return node;
 }
 function row(label, value) {
-  return el("div", { className: "row" }, termLabel(label), String(value ?? ""));
+  return el(
+    "div",
+    { className: "row" },
+    termLabel(label),
+    el("span", { className: "record-value", textContent: String(value ?? "") }),
+  );
+}
+/** Layout only: labels and content are supplied by the screen's record adapter. */
+function recordSection(title, ...content) {
+  return el(
+    "section",
+    { className: "record-section" },
+    el("h3", { className: "label", textContent: title }),
+    ...content,
+  );
+}
+/** Optional artwork slots. No sample person, room, or fallback artwork. */
+function screenArtwork({ portraitUrl, backgroundUrl, name }) {
+  const media = $("sheet-media");
+  media.replaceChildren();
+  for (const [src, className, alt] of [
+    [backgroundUrl, "screen-backdrop", ""],
+    [portraitUrl, "screen-portrait", name],
+  ]) {
+    if (!src) continue;
+    const img = el("img", { src, className, alt });
+    img.addEventListener("error", () => img.remove(), { once: true });
+    media.append(img);
+  }
 }
 function show(id, on) {
   $(id).hidden = !on;
@@ -1369,6 +1400,13 @@ async function seatRows() {
 const kindName = (kind) =>
   `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
 
+/** The player's own picture: the look chosen in the creator, else their figure in the room. */
+function portraitUrl() {
+  return me.portrait
+    ? `/api/portrait?id=${encodeURIComponent(me.id)}`
+    : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
+}
+
 // ---- Menus ----
 const sheets = {
   async people() {
@@ -1399,36 +1437,125 @@ const sheets = {
   },
   async who() {
     const c = me.card;
-    const progress = await api(`/api/progress?id=${encodeURIComponent(me.id)}`);
-    const step = progress.steps.find(
-      (row) => row.step === progress.furthestReachedStep,
+    const labels = controls.who ?? {};
+    const born = new Date(`${c.birthDate}T12:00:00Z`).toLocaleDateString(
+      "en-US",
+      { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
-    // The engine's raw measures, for the bench only.
-    const dev = (line) => {
-      line.classList.add("dev-only");
-      return line;
+    const personLink = (member) => {
+      const button = el("button", {
+        type: "button",
+        className: "character-person",
+        textContent: member.name,
+      });
+      button.addEventListener("click", () => {
+        closeSheet();
+        showPerson(member);
+      });
+      return el(
+        "li",
+        {},
+        button,
+        el("span", {
+          className: "character-relation",
+          textContent: member.relation ?? "",
+        }),
+      );
     };
-    return [
-      dev(row("Golden path", step ? `${step.step}. ${step.label}` : "—")),
-      row("Born", c.birthDate),
-      row(
-        "Home",
-        c.home?.members
-          .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
-          .join(", "),
+    const rows = [
+      el(
+        "header",
+        { className: "character-heading" },
+        el("h2", { className: "name", textContent: c.name }),
+        el("p", {
+          className: "character-meta",
+          textContent: `${labels.age} ${c.age} · ${labels.born} ${born}`,
+        }),
       ),
-      dev(row("Mood", c.affect?.mood?.toFixed(2))),
-      dev(row("Stress", c.affect?.stress?.toFixed(2))),
-      ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
-      ...c.lawEffects
-        .filter((e) => !e.endedOn)
-        .map((e) =>
-          row(
-            policyLabel(e.question),
-            `${e.what} · ${e.enforcer} · ${e.since}`,
+    ];
+    if (c.traits?.length)
+      rows.push(
+        recordSection(
+          labels.traits,
+          el(
+            "ul",
+            { className: "character-traits" },
+            ...c.traits.map((trait) =>
+              el(
+                "li",
+                {},
+                el("span", {
+                  className: "character-trait-label",
+                  textContent: trait.label,
+                }),
+                el("strong", { textContent: trait.word }),
+              ),
+            ),
           ),
         ),
-    ];
+      );
+    rows.push(
+      recordSection(
+        c.age < 18 ? labels.householdHome : labels.home,
+        el("p", { textContent: c.home?.placeName ?? me.placeName }),
+        el(
+          "ul",
+          { className: "character-household" },
+          ...(c.home?.members ?? []).map(personLink),
+        ),
+      ),
+    );
+    if (c.job)
+      rows.push(
+        recordSection(
+          labels.work,
+          el("p", { className: "character-feature", textContent: c.job.title }),
+          el("p", { textContent: c.job.employer ?? "" }),
+        ),
+      );
+    if (c.schools?.length)
+      rows.push(
+        recordSection(
+          labels.school,
+          ...[...c.schools]
+            .reverse()
+            .map((school) => el("p", { textContent: school.name })),
+        ),
+      );
+    const views =
+      c.views ??
+      (c.view && controls.leanWords?.[c.view]
+        ? [{ label: labels.views, text: controls.leanWords[c.view] }]
+        : []);
+    if (views.length)
+      rows.push(
+        recordSection(
+          labels.views,
+          el(
+            "div",
+            { className: "character-views" },
+            ...views.map((view) =>
+              el(
+                "article",
+                {},
+                view.label !== labels.views
+                  ? el("h4", { textContent: view.label })
+                  : "",
+                el("p", { className: "narrative", textContent: view.text }),
+              ),
+            ),
+          ),
+        ),
+      );
+    rows.push(
+      el(
+        "div",
+        { className: "character-money" },
+        el("span", { className: "label", textContent: labels.money }),
+        el("strong", { textContent: dollars(c.liquidMinor) }),
+      ),
+    );
+    return rows;
   },
   async money() {
     const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -1804,30 +1931,37 @@ const sheets = {
   },
   async law() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    return v.law.map((law) =>
-      el(
-        "div",
-        { className: "row narrative" },
-        termLabel(policyLabel(law.series)),
-        ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
+    // What the law in force puts on your own record.
+    const yours = me.card.lawEffects
+      .filter((e) => !e.endedOn)
+      .map((e) => row(policyLabel(e.question), `${e.what} · ${e.since}`));
+    return [
+      ...yours,
+      ...v.law.map((law) =>
         el(
           "div",
-          {},
-          ...law.levels
-            .filter((level) => level.row)
-            .map((level) =>
+          { className: "row narrative" },
+          termLabel(policyLabel(law.series)),
+          ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
+          el(
+            "div",
+            {},
+            ...law.levels
+              .filter((level) => level.row)
+              .map((level) =>
+                el("div", {
+                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                }),
+              ),
+            ...law.pending.map((row) =>
               el("div", {
-                textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
               }),
             ),
-          ...law.pending.map((row) =>
-            el("div", {
-              textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
-            }),
           ),
         ),
       ),
-    );
+    ];
   },
   async changes() {
     const { ahead, took } = await api(
@@ -2088,10 +2222,25 @@ async function openSheet(tab) {
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
   $("sheet").classList.toggle("options-sheet", tab === "options");
+  const character = tab === "who";
+  $("sheet").classList.toggle("character-sheet", character);
+  $("sheet-media").hidden = !character;
+  screenArtwork(
+    character
+      ? {
+          portraitUrl:
+            me.card.presentation?.portraitUrl !== undefined
+              ? me.card.presentation.portraitUrl
+              : portraitUrl(),
+          backgroundUrl: me.card.presentation?.backgroundUrl,
+          name: me.card.name,
+        }
+      : {},
+  );
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.toggle(
     "cols",
-    tab === "calendar" || body.length > 12,
+    tab !== "who" && (tab === "calendar" || body.length > 12),
   );
   show("sheet", true);
   show("menu", Boolean(me));
