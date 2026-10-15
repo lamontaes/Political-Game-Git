@@ -4,10 +4,10 @@ title: "Outside-flow provenance gate fails on main"
 area: core
 kind: bug
 priority: 1
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: gov-outside-revenue-real-payers
 milestone:
 source: "known bugs; noted in #4352"
 ---
@@ -20,4 +20,4 @@ source: "known bugs; noted in #4352"
 
 **Files.** see #4352
 
-**Notes.** Verify the failing test name from #4352.
+**Notes.** Verified the failing check: closures.mjs check 6. `core-outside-flow-rows` classifies the five real exchanges; what is left is the registered plug, `gov-outside-revenue-real-payers`. Closes when that item merges.
