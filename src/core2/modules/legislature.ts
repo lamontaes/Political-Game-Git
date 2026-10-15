@@ -59,6 +59,7 @@ import {
   budgetPriorities,
   carriedBudget,
   clearBudgetPriorities,
+  departmentRequests,
   enactBudget,
   registerBudgetVote,
   type BudgetRow,
@@ -344,16 +345,24 @@ function councilBudget(
   const priorities =
     budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
   const carried = budgetCarry(api, gov, fy);
-  const provisions: Provision[] = Object.entries(priorities?.changes ?? {}).map(
-    ([line, delta]) => ({
-      kind: "budget-line",
-      line,
-      value: delta,
-      ...(carried?.spendingMinor[line]
-        ? { of: carried.spendingMinor[line] }
-        : {}),
-    }),
-  );
+  const provisions: Provision[] = priorities
+    ? Object.entries(priorities.changes).map(([line, delta]) => ({
+        kind: "budget-line",
+        line,
+        value: delta,
+        ...(carried?.spendingMinor[line]
+          ? { of: carried.spendingMinor[line] }
+          : {}),
+      }))
+    : Object.entries(departmentRequests(api, gov, fy)).map(
+        ([line, amount]) => ({
+          kind: "budget-line",
+          line,
+          // Requests carry the enacted funding, not an addition to that funding.
+          value: 0,
+          of: amount,
+        }),
+      );
   const sponsor =
     priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!);
   const bill = draftBill(api, {
