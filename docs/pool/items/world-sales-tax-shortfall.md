@@ -4,8 +4,8 @@ title: "Sales tax collected but the treasury is short (budgets.test.ts:237)"
 area: world
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-sales-tax-shortfall
 pr:
 blocked-on:
 milestone:
