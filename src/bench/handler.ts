@@ -1,5 +1,4 @@
 import { personOrFillIn } from "../core2/state";
-import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
@@ -25,6 +24,7 @@ import {
   officeStops,
   officeView,
 } from "./office";
+import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
 import { governmentMap } from "./map";
@@ -454,6 +454,10 @@ export async function benchRequest(
                 portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
                 placeName,
                 date: core!.date,
+                minuteOfDay:
+                  player!.packet?.at.minuteOfDay ??
+                  opening?.home?.minuteOfDay ??
+                  0,
                 packet: player!.packet,
               }
             : null,
@@ -477,6 +481,10 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/family") {
         send(200, familyView(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/bank") {
+        send(200, bankView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/budget") {
@@ -551,29 +559,6 @@ export async function benchRequest(
         url.pathname === "/api/newlife/progress"
       ) {
         send(200, buildProgress);
-        return;
-      }
-      // The player's interrupt setting (owner, Oct 14, 2026): which kinds of
-      // scene may stop the day. A director record its scheduling reads.
-      if (url.pathname === "/api/scene-filter") {
-        if (!director || !player?.personId)
-          throw new Error("Start a life first.");
-        if (request.method === "POST") {
-          const kinds = url.searchParams.get("kinds");
-          director.setSceneFilter(
-            player.personId,
-            kinds === null || kinds === "all"
-              ? null
-              : kinds.split(",").filter(Boolean),
-            requireCore().date,
-          );
-        }
-        const filter = director.ledger.sceneFilters.get(player.personId);
-        send(200, {
-          kinds: SITUATION_LIBRARY.types.map((row) => row.key),
-          allowed: filter?.allowedKinds ?? null,
-          ...(filter ? { recordId: filter.id } : {}),
-        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/controls") {

@@ -7,6 +7,7 @@ import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
 import { collapseToTwoLevels } from "./residents";
+import { depositsHeld } from "./accounts";
 import { countedFundOf, residentsRuntime } from "./modules/residents";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
@@ -373,7 +374,9 @@ describe("founding a business where a market has room", () => {
       .rows()
       .filter((row) => row.ownerId === "founder")
       .reduce((n, row) => n + Number(row.drawnMinor), 0);
-    expect(core.people.get("founder")!.liquidMinor).toBe(
+    const savings = depositsHeld(core, core.people.get("founder")!.householdId);
+    expect(savings).toBeGreaterThan(0);
+    expect(core.people.get("founder")!.liquidMinor + savings).toBe(
       2_000_000 - equity + drawn,
     );
     expect(

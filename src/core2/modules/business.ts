@@ -7,8 +7,11 @@
  * adults choose whether to found one. Chains are repeated growth, never
  * scripted. Every payment moves through the ledger.
  */
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
 import { countedPayment } from "../counted-money";
+import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -86,6 +89,34 @@ interface OwnerRow {
   lossMonths?: number;
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
+  tradingId?: string;
+}
+
+/** A completed month's actual trading, read by the staffing decision. */
+export interface BusinessTradingMonth {
+  id: string;
+  organizationId: string;
+  date: string;
+  from: string;
+  days: number;
+  salesMinor: number;
+  payrollMinor: number;
+  costsMinor: number;
+  complianceMinor: number;
+  lossMonths: number;
+}
+
+export function businessTradingMonth(
+  api: CoreAPI,
+  organizationId: string,
+): BusinessTradingMonth | undefined {
+  if (!core(api).modules.has(BUSINESS_MODULE_ID)) return undefined;
+  const owner = store(api).table("owners").get(organizationId) as
+    OwnerRow | undefined;
+  return owner?.tradingId
+    ? (store(api).table("trading").get(owner.tradingId) as unknown as
+        BusinessTradingMonth | undefined)
+    : undefined;
 }
 
 interface Market {
@@ -261,7 +292,9 @@ function netCash(c: CoreState, organizationId: string): number {
   for (const id of c.finance.facilitiesByBorrower.get(organizationId) ?? [])
     owed += c.finance.facilities.get(id)?.principalMinor ?? 0;
   return Math.round(
-    (c.organizations.get(organizationId)?.liquidMinor ?? 0) - owed,
+    (c.organizations.get(organizationId)?.liquidMinor ?? 0) +
+      depositsHeld(c, organizationId) -
+      owed,
   );
 }
 
@@ -277,6 +310,24 @@ function ownerPerson(c: CoreState, personId: string) {
         alive: true,
       }
     : undefined;
+}
+
+/** A household's common savings are available to a founder on the same per-person basis in either tier. */
+function founderSavings(
+  c: CoreState,
+  personId: string,
+): { holderId: string; minor: number } {
+  const person = c.people.get(personId) ?? residentPerson(c, personId);
+  const holderId = person?.householdId ?? "";
+  const full = c.households.get(holderId);
+  const counted = residentsRuntime(c)?.households.get(holderId);
+  const people = full
+    ? full.memberIds.filter((id) => c.people.get(id)?.alive).length
+    : (counted?.people.length ?? 0);
+  return {
+    holderId,
+    minor: people ? Math.floor(depositsHeld(c, holderId) / people) : 0,
+  };
 }
 
 /** Where an owner's money goes: their own cash, or their place's pooled residents account while counted. */
@@ -505,6 +556,19 @@ function closeByChoice(
   const account = ownerAccount(c, ownerId),
     book = c.finance.businesses.get(organizationId);
   if (!account || !book || book.closedAt) return false;
+  const closureSource = {
+    tag: "ESTIMATED" as const,
+    asOf: c.date,
+    citation: businessData.source.citation,
+    estimatedFrom: `${ownerId} closed ${organizationId}: ${reasonKey}.`,
+  };
+  withdrawSavings(c, api, {
+    id: `closure-savings:${organizationId}:${c.date}`,
+    holderId: organizationId,
+    customerAccountId: api.accounts().main(organizationId),
+    amountMinor: depositsHeld(c, organizationId),
+    source: closureSource,
+  });
   store(api)
     .table("choices")
     .put({
@@ -523,12 +587,7 @@ function closeByChoice(
         ? countedFundOf(c, residentPerson(c, ownerId)!.householdId)!
         : api.accounts().main(account),
     reasonKey,
-    source: {
-      tag: "ESTIMATED",
-      asOf: c.date,
-      citation: businessData.source.citation,
-      estimatedFrom: `${ownerId} closed ${organizationId}: ${reasonKey}.`,
-    },
+    source: closureSource,
   });
   return true;
 }
@@ -773,32 +832,59 @@ function bookedMonth(
   | "operatingThrough"
   | "outsideThrough"
   | "lossMonths"
+  | "tradingId"
 > {
   const outsidePaid =
     residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
       ?.outsidePaidMinor ?? 0;
   const sales = book.salesReceivedMinor - row.salesThrough;
+  const payrollMinor = book.wagesPaidMinor - row.wagesThrough;
+  const complianceMinor = complianceThisMonth(api, row.id);
   const costs =
     book.wagesPaidMinor -
     row.wagesThrough +
     (book.operatingPaidMinor - row.operatingThrough) +
     (outsidePaid - (row.outsideThrough ?? 0)) +
-    complianceThisMonth(api, row.id);
+    complianceMinor;
   const base = Math.max(sales, costs);
   const lost = base > 0 ? Math.max(-1, Math.min(1, (costs - sales) / base)) : 0;
+  const lossMonths = Math.max(
+    0,
+    (row.lossMonths ?? 0) *
+      (1 - 1 / api.parameter("businessLossMemoryMonths")) +
+      lost,
+  );
+  const tradingId = `business-trading:${row.id}:${api.state.date}`;
+  const previous = row.tradingId
+    ? (store(api).table("trading").get(row.tradingId) as unknown as
+        BusinessTradingMonth | undefined)
+    : undefined;
+  const from = previous?.date ?? row.since;
+  const days = daysBetween(makeIsoDate(from), makeIsoDate(api.state.date));
+  store(api).table("trading").put({
+    id: tradingId,
+    organizationId: row.id,
+    date: api.state.date,
+    from,
+    days,
+    salesMinor: sales,
+    payrollMinor,
+    costsMinor: costs,
+    complianceMinor,
+    lossMonths,
+  });
   return {
     salesThrough: book.salesReceivedMinor,
     wagesThrough: book.wagesPaidMinor,
     operatingThrough: book.operatingPaidMinor,
     outsideThrough: outsidePaid,
-    lossMonths: Math.max(
-      0,
-      (row.lossMonths ?? 0) *
-        (1 - 1 / api.parameter("businessLossMemoryMonths")) +
-        lost,
-    ),
+    lossMonths,
+    tradingId,
   };
 }
+
+const CLEAN_AIR_QUESTION =
+  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties";
 
 /**
  * A place out of attainment of an air quality standard (EPA Green Book) puts a
@@ -810,6 +896,12 @@ function routeCompliance(api: CoreAPI): void {
   const c = core(api),
     table = store(api).table("operating");
   const county = c.placeMetadata?.housingCounty ?? "";
+  // The duty is federal (Clean Air Act, nonattainment areas) whatever a state
+  // says; where a state's clean air plan is law, the cost cites that row.
+  const plan = c.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, CLEAN_AIR_QUESTION)
+    : undefined;
+  const governing = plan?.value === 1 ? plan.governing : null;
   const year = Number(c.date.slice(0, 4));
   const standards = county
     ? countyNonattainment(county, year).filter((row) => !row.revoked)
@@ -827,12 +919,22 @@ function routeCompliance(api: CoreAPI): void {
     if (book.closedAt || !businessData.compliance.kinds.includes(book.kindId))
       continue;
     const ruleId = `cost:${id}:${businessData.compliance.cause}`;
-    const existing = table.get(ruleId) as { share: number } | undefined;
+    const existing = table.get(ruleId) as
+      { share: number; source?: { citation?: string } } | undefined;
     if (share <= 0) {
       if (existing) endOperatingRule(api, table, ruleId);
       continue;
     }
-    if (existing && existing.share === share) continue;
+    // The cost stands while the same share and the same law row govern.
+    const cited = governing
+      ? `${governing.id}: ${String(governing.source)}; ${businessData.compliance.citation}`
+      : businessData.compliance.citation;
+    if (
+      existing &&
+      existing.share === share &&
+      existing.source?.citation === cited
+    )
+      continue;
     stopgap("SG-WORLD-business-compliance-cost");
     addRegulatoryCost(api, table, {
       organizationId: id,
@@ -841,7 +943,7 @@ function routeCompliance(api: CoreAPI): void {
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: businessData.compliance.citation,
+        citation: cited,
         estimatedFrom: `${county} misses ${standards.length} air quality standard(s) in ${year} (EPA Green Book); a clean air plan costs ${share} of other operating costs.`,
       },
     });
@@ -1009,12 +1111,115 @@ function routeOutsideCosts(api: CoreAPI): void {
   }
 }
 
+/** Read the withdrawal statute where farm production limits are set. */
+function readGroundwaterLaw(api: CoreAPI): void {
+  const c = core(api);
+  if (!c.modules.has(LAWS_MODULE_ID)) return;
+  const question =
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal";
+  const law = lawInForce(api, question);
+  const town = lawChain(api).townPlaceId;
+  const table = store(api).table("operating");
+  const prefix = `law:${question}:`;
+  for (const [id, book] of c.finance.businesses) {
+    if (c.organizations.get(id)?.placeId !== town) continue;
+    const ruleId = `limit:${id}:groundwater`;
+    const existing = table.get(ruleId);
+    const owned = String(existing?.cause ?? "").startsWith(prefix);
+    if (
+      book.closedAt ||
+      classificationOf(c, id) !== "enterprise:agriculture" ||
+      law.value !== 1 ||
+      !law.governing
+    ) {
+      if (owned) endOperatingRule(api, table, ruleId);
+      continue;
+    }
+    // This input slot may already be owned by another recorded restriction.
+    if (existing && !owned) continue;
+    const cause = `${prefix}${law.governing.id}`;
+    if (existing?.cause === cause) continue;
+    // stopgapId: SG-GOV-REACH-B-business-cost — farm irrigation exposure,
+    // pumping records and crop-specific responses are not present yet.
+    api.stopgap("SG-GOV-REACH-B-business-cost");
+    setOperatingLimit(api, table, {
+      organizationId: id,
+      input: "groundwater",
+      share: 1 - resourceParameters.parameters.groundwaterWithdrawalShare.value,
+      cause,
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${resourceParameters.parameters.groundwaterWithdrawalShare.source}`,
+        estimatedFrom:
+          "Agricultural operating limit using the existing withdrawal estimate and irrigation-output elasticity; individual irrigation exposure is not recorded.",
+      },
+    });
+  }
+}
+
+/**
+ * A consumer data privacy law binds the town's employing businesses to honor
+ * customers' requests to see and delete their data. The duty costs a share of
+ * the business's other operating costs (paid monthly like any compliance
+ * cost, so the books and a closure review read it); a repeal ends it.
+ */
+const DATA_PRIVACY_QUESTION =
+  "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+
+function readDataPrivacyLaw(api: CoreAPI): void {
+  const c = core(api);
+  if (!c.modules.has(LAWS_MODULE_ID)) return;
+  const law = lawInForce(api, DATA_PRIVACY_QUESTION);
+  const town = lawChain(api).townPlaceId;
+  const table = store(api).table("operating");
+  const cause = `law:${DATA_PRIVACY_QUESTION}`;
+  for (const [id, book] of c.finance.businesses) {
+    const org = c.organizations.get(id);
+    if (org?.placeId !== town) continue;
+    const ruleId = `cost:${id}:${cause}`;
+    const existing = table.get(ruleId);
+    const employing = (c.finance.jobsByOrganization.get(id)?.size ?? 0) > 0;
+    if (
+      book.closedAt ||
+      !classificationOf(c, id).startsWith("enterprise:") ||
+      !employing ||
+      law.value !== 1 ||
+      !law.governing
+    ) {
+      if (existing) endOperatingRule(api, table, ruleId);
+      continue;
+    }
+    // The cost stands while the same statute governs; a new one rewrites it.
+    if (
+      String(
+        (existing?.source as { citation?: string } | undefined)?.citation,
+      ).startsWith(`${law.governing.id}:`)
+    )
+      continue;
+    addRegulatoryCost(api, table, {
+      organizationId: id,
+      shareOfCosts: api.parameter("businessDataPrivacyShareOfCosts"),
+      cause,
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${businessParameters.businessDataPrivacyShareOfCosts.citation}`,
+        estimatedFrom:
+          businessParameters.businessDataPrivacyShareOfCosts.estimatedFrom,
+      },
+    });
+  }
+}
+
 function month(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   succeed(api);
   reviewClosures(api);
   membershipPayouts(api);
+  readGroundwaterLaw(api);
+  readDataPrivacyLaw(api);
   routeCompliance(api);
   payCompliance(api);
   recordOutsideCosts(api);
@@ -1302,7 +1507,8 @@ function foundings(api: CoreAPI): void {
       const owner = ownerPerson(c, row.ownerId);
       if (!book || book.closedAt || book.kindId !== market.kindId) return;
       if (!owner?.alive) return;
-      const cash = c.organizations.get(row.id)!.liquidMinor;
+      const cash =
+        c.organizations.get(row.id)!.liquidMinor + depositsHeld(c, row.id);
       const cushion =
         (book.annualPayrollMinor / p("macroMonthsPerYear")) *
         p("businessCushionMonths");
@@ -1369,7 +1575,11 @@ function foundings(api: CoreAPI): void {
           prospect(market, incomeOf(person.id)),
         capital:
           -p("businessFoundCapitalWeight") *
-          capital(market, incomeOf(person.id), person.liquidMinor),
+          capital(
+            market,
+            incomeOf(person.id),
+            person.liquidMinor + founderSavings(c, person.id).minor,
+          ),
       }),
     ]);
     if (result.selected!.definition.id !== businessData.actions.found.id)
@@ -1407,7 +1617,11 @@ function foundings(api: CoreAPI): void {
           p("businessFoundProspectWeight") *
             prospect(market, incomeOf(person.id)) -
           p("businessFoundCapitalWeight") *
-            capital(market, incomeOf(person.id), person.liquidMinor),
+            capital(
+              market,
+              incomeOf(person.id),
+              person.liquidMinor + founderSavings(c, person.id).minor,
+            ),
       });
     }
   }
@@ -1481,13 +1695,25 @@ function found(
     fullStaff = market.staff * equal;
   const ownerFrom = location ? location.parentId : ownerAccount(c, founderId);
   if (!ownerFrom) return false;
+  const savings = location
+    ? { holderId: location.parentId, minor: depositsHeld(c, location.parentId) }
+    : founderSavings(c, founderId);
+  const beforeSavings = founder.liquidMinor;
+  const withdrawn = withdrawSavings(c, api, {
+    id: `startup-savings:${id}`,
+    holderId: savings.holderId,
+    customerAccountId: api.accounts().main(ownerFrom),
+    amountMinor: Math.min(savings.minor, Math.ceil(fullCost)),
+    source,
+  });
   const equityMinor = Math.min(
     Math.max(0, c.organizations.get(ownerFrom)?.liquidMinor ?? Infinity),
     location
       ? Math.max(0, location.fundsMinor)
       : Math.max(
           0,
-          founder.liquidMinor -
+          beforeSavings +
+            withdrawn -
             founder.livingCostDailyMinor *
               p("businessDaysPerMonth") *
               p("businessFounderReserveMonths"),
@@ -1843,6 +2069,7 @@ export const BUSINESS_MODULE: PreStartModule = {
       state: {},
       owners: { indexes: { all: { fields: ["isOwner"] } } },
       draws: { indexes: { byOrganization: { fields: ["organizationId"] } } },
+      trading: {},
       foundings: {},
       successions: {},
       closures: {},

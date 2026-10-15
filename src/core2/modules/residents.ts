@@ -3,6 +3,7 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
+import { registerCountedPersonSource } from "../counted-actor";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
@@ -230,6 +231,18 @@ export function countedParameter(key: string): number {
   const row = COUNTED[key];
   if (!row) throw new Error(`Untagged counted parameter: ${key}`);
   return row.value;
+}
+
+/** A counted-group parameter's spread, as its table gives it. */
+export function countedSpread(key: string): { low: number; high: number } {
+  const row = (
+    COUNTED_ROWS as unknown as Record<
+      string,
+      { spread?: { low: number; high: number } }
+    >
+  )[key];
+  if (!row?.spread) throw new Error(`Counted parameter has no spread: ${key}`);
+  return { low: row.spread.low, high: row.spread.high };
 }
 
 export function residentsRuntime(
@@ -512,6 +525,7 @@ function packOpening(
             ? "mortgage"
             : "other",
         unplacedWorkers: 0,
+        ...weightOf(input.weights, placeId),
       }),
     );
     const h = households[households.length - 1]!;
@@ -545,6 +559,15 @@ function packOpening(
   return owners;
 }
 
+/** The weight a place's counted households carry, as facts for `addHousehold`. */
+function weightOf(
+  weights: ResidentsInput["weights"],
+  placeId: PlaceId,
+): { weight?: number } {
+  const weight = weights?.[placeId];
+  return weight !== undefined && weight !== 1 ? { weight } : {};
+}
+
 export function admitResidents(core: CoreState, input: ResidentsInput): void {
   if (runtimes.has(core)) throw new Error("Residents already admitted.");
   if (input.version !== "core2-residents-v1")
@@ -561,6 +584,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
       accounts: input.accounts,
       ...(input.cohortSizes ? { cohortSizes: input.cohortSizes } : {}),
       ...(input.calendars ? { calendars: input.calendars } : {}),
+      ...(input.weights ? { weights: input.weights } : {}),
       // Counted people carry no past: fill-in builds each one's from the seed.
       ...(input.pastBuild
         ? {
@@ -1254,6 +1278,8 @@ export function residentPerson(
     .find((row) => row.id === id);
 }
 
+registerCountedPersonSource(residentPerson);
+
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
 export function countedSinceOpening(
   core: CoreState,
@@ -1615,6 +1641,8 @@ export function takeResidentHousehold(
     amount: householdCash(rt, h),
     unplaced: unplacedShare(rt, h),
   });
+  // One real household is filled in; the rest it stood for stay counted.
+  store.releaseWeight(h);
   store.retire(h, MemberState.Filled);
   rt.filledIn.add(h.id);
   rt.filledAt.set(h.id, makeIsoDate(core.date));
@@ -2154,6 +2182,7 @@ export function admitCountedHousehold(
   const h = rt.store.addHousehold(record, {
     tenure: "other",
     unplacedWorkers: 0,
+    ...weightOf(rt.input.weights, record.household.placeId),
   });
   regroupHousehold(rt, h, core.date);
   // Newcomers bring their money from outside the town into their group.

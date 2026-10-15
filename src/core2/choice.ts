@@ -1,5 +1,5 @@
 import { initialPersonState } from "./person-state";
-import { residentPerson } from "./modules/residents";
+import { countedPersonOf } from "./counted-actor";
 import { parameter } from "./parameters";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 import { coreAPI } from "./state";
@@ -18,7 +18,7 @@ import type {
 function decisionActor(core: CoreState, personId: string): PersonState {
   const full = core.people.get(personId);
   if (full) return full;
-  const counted = residentPerson(core, personId);
+  const counted = countedPersonOf(core, personId);
   if (!counted) throw new Error("Decision actor is absent.");
   return initialPersonState(core, counted, false);
 }
