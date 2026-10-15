@@ -1005,6 +1005,7 @@ function wageFloor(api: CoreAPI): number {
 }
 
 function tenureYears(api: CoreAPI, job: JobInput): number {
+  if (isCounted(api, job.personId)) return countedTenureYears(api, job);
   const commitment = [
     ...(core(api).work.commitmentsByPerson.get(job.personId) ?? []),
   ]
@@ -2472,10 +2473,12 @@ export const JOBS_MODULE: CoreModule = {
     const organizationId = event.id.split(":").slice(2).join(":");
     // The closed business's counted workers look for work too, with their claims.
     const rt = residentsRuntime(core(api));
-    for (const job of rt?.jobs.values() ?? []) {
-      if (job.organizationId !== organizationId) continue;
-      if (job.endsAt && job.endsAt !== api.state.date) continue;
-      if (store(api).table("countedSeekers").get(job.personId)) continue;
+    const closure = core(api).finance.closures.get(organizationId);
+    for (const id of closure?.endedCountedJobIds ?? []) {
+      const job = rt?.jobs.get(id);
+      if (!job) continue;
+      // Only jobs named by this closure ended because of it. A same-day quit did not.
+      // Looking for another job does not keep this job alive after closure.
       // The job ends with the employer today; its wage flow stops paying at its next date.
       if (!job.endsAt && !endCountedJob(core(api), job.id))
         rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
@@ -2496,6 +2499,7 @@ export const JOBS_MODULE: CoreModule = {
           isSeeker: true,
           personId: job.personId,
           placeId: person.placeId,
+          employed: false,
           since: api.state.date,
           reasonKey: jobsData.reasons.closure,
           referenceHourlyMinor: job.hourlyMinor ?? 0,
@@ -2512,31 +2516,35 @@ export const JOBS_MODULE: CoreModule = {
     }
     for (const personId of event.personIds) {
       const person = core(api).people.get(personId);
-      if (!person || store(api).table("seekers").get(personId)) continue;
+      if (!person) continue;
+      const lost = (closure?.endedJobIds ?? [])
+        .map((id) => core(api).jobs.get(id))
+        .find((job) => job?.personId === personId);
+      if (!lost) continue;
       record(api, {
         personId,
         organizationId,
-        jobId: event.id,
+        jobId: lost.id,
         kind: "closure",
         reasonKey: jobsData.reasons.closure,
         // The owner answers for the closure; a business without one answers as itself.
         decidedBy: ownerOf(api, organizationId) ?? organizationId,
       });
-      startSeeking(api, personId, false, jobsData.reasons.closure, 0);
-      const lost = [
-        ...(core(api).finance.jobsByOrganization.get(organizationId) ?? []),
-      ]
-        .map((id) => core(api).jobs.get(id))
-        .find((job) => job?.personId === personId);
-      if (lost)
-        fileClaim(
-          api,
-          store(api).table("claims"),
-          lost,
-          jobsData.reasons.closure,
-          (tenureYears(api, lost) * api.parameter("jobsDaysPerYear")) /
-            DAYS_PER_WEEK,
-        );
+      startSeeking(
+        api,
+        personId,
+        false,
+        jobsData.reasons.closure,
+        lost.hourlyMinor ?? 0,
+      );
+      fileClaim(
+        api,
+        store(api).table("claims"),
+        lost,
+        jobsData.reasons.closure,
+        (tenureYears(api, lost) * api.parameter("jobsDaysPerYear")) /
+          DAYS_PER_WEEK,
+      );
     }
   },
   onCalendarWork(api, work) {

@@ -18,6 +18,9 @@ import { macroCoreData } from "./modules/macro";
 import { parameter } from "./parameters";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
 import { coreAPI } from "./state";
+import { collapseToTwoLevels } from "./residents";
+import { residentsRuntime } from "./modules/residents";
+import { endCountedJob } from "./residents-economy";
 import type { BusinessBooksState } from "./finance-types";
 import type {
   CoreInput,
@@ -750,5 +753,99 @@ describe("staffing recovery", () => {
       ),
     ).toBe(true);
     expect(core.finance.businesses.get(employer)!.closedAt).toBeUndefined();
+  });
+});
+
+describe("closure during an employed job search", () => {
+  it("ends both tiers' jobs and records their actual job IDs even when they were already looking", () => {
+    const drawn = drawPlace();
+    const base = input();
+    const closing: CoreModule = {
+      id: "test:closure-during-search",
+      onDay(api) {
+        if (api.state.date !== "2021-01-02") return;
+        for (const [personId, table] of [
+          ["w1", "seekers"],
+          ["w2", "countedSeekers"],
+        ]) {
+          api.moduleState("jobs").table(table!).put({
+            id: personId!,
+            personId: personId!,
+            placeId: place,
+            isSeeker: true,
+            employed: true,
+            since: api.state.date,
+            reasonKey: "looking-around",
+            referenceHourlyMinor: 1500,
+          });
+        }
+        api.moduleCalendar("test:closure-during-search").schedule({
+          key: "close",
+          date: "2021-01-03",
+          kind: "close",
+          source: src(),
+          sourceRecordIds: [employer],
+        });
+      },
+      onCalendarWork(api) {
+        endCountedJob(api.state as CoreState, "job:w3");
+        api.closeBusinessByChoice({
+          organizationId: employer,
+          ownerAccountId: api.accounts().main("w4"),
+          reasonKey: "fixture:owner-retired",
+          source: src(),
+        });
+      },
+    };
+    const core = createLifeCore(
+      collapseToTwoLevels(
+        {
+          ...base,
+          workCommitments: base.workCommitments!.map((row) => ({
+            ...row,
+            startsAt: "2019-01-01",
+          })),
+          placeMetadata: { placeKey: drawn.key },
+        },
+        { keep: new Set(["w1", "w4", "s1", "s2"]) },
+      ),
+      { data, modules: [JOBS_MODULE, closing] },
+    );
+    openLaws(core);
+    withBooks(core, 1);
+    advanceCore(core, "2021-01-04");
+    const api = coreAPI(core);
+    const state = api.moduleState("jobs");
+    expect(core.jobs.get("job:w1")?.endsAt).toBe("2021-01-03");
+    expect(residentsRuntime(core)!.jobs.get("job:w2")?.endsAt).toBe(
+      "2021-01-03",
+    );
+    expect(
+      state.table("changes").get("job-change:2021-01-03:job:w3:closure"),
+    ).toBeUndefined();
+    for (const [personId, table] of [
+      ["w1", "seekers"],
+      ["w2", "countedSeekers"],
+    ]) {
+      expect(
+        state
+          .table("changes")
+          .get(`job-change:2021-01-03:job:${personId}:closure`),
+      ).toMatchObject({
+        personId,
+        jobId: `job:${personId}`,
+        kind: "closure",
+        reasonKey: jobsData.reasons.closure,
+      });
+      expect(state.table(table!).get(personId!)).toMatchObject({
+        employed: false,
+        since: "2021-01-03",
+        reasonKey: jobsData.reasons.closure,
+      });
+      if (unemploymentTerms(api).hasProgram)
+        expect(
+          state.table("claims").get(`claim:${personId}:2021-01-03`),
+        ).toBeDefined();
+    }
   });
 });

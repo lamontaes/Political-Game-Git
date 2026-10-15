@@ -21,6 +21,16 @@ const world = buildBenchWorld(seed, start, {
 const core = world.core;
 const api = coreAPI(core);
 const built = performance.now();
+const cashTotal = () =>
+  [...core.people.values(), ...core.organizations.values()].reduce(
+    (sum, row) => sum + row.liquidMinor,
+    0,
+  ) +
+  [...core.cashJournal.externalFlowsByOwner.values()].reduce(
+    (sum, row) => sum + row.netMinor,
+    0,
+  );
+const openingCash = cashTotal();
 const employed = () =>
   [
     ...core.jobs.values(),
@@ -92,6 +102,15 @@ console.log(
       modules: [...core.modules.keys()],
       rates,
       months,
+      changes,
+      closures: [...core.finance.closures.values()],
+      openPositions: rows("jobs", "positions").filter(
+        (row) => row.status === "open",
+      ),
+      seekers: [...rows("jobs", "seekers"), ...rows("jobs", "countedSeekers")],
+      claims,
+      regionalMonths: rows("regional", "months"),
+      cashError: cashTotal() - openingCash,
       everyChangeHasReason: changes.every(
         (row) => row.reasonKey && row.decidedBy,
       ),
@@ -131,3 +150,5 @@ console.log(
     2,
   ),
 );
+
+if (cashTotal() !== openingCash) process.exitCode = 1;
