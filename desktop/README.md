@@ -32,32 +32,6 @@ cross-builds Intel Mac output (untested until launched on an Intel Mac).
 Rebuilding after newer accepted UI/game changes is exactly the same
 commands — the wrapper does not change.
 
-The private Apple Silicon delivery is **Our Civic Duty Private**, the owner's
-development hub (`private-controller/`): one window with Play, Art Desk,
-Agents and Settings tabs and a Follow main / branch source selector. It is not
-part of the public game.
-
-```bash
-cd desktop && npm ci && npm ci --prefix private-controller
-OCD_PRIVATE_PACK=<pack dir> node scripts/package-private-controller.mjs --no-bootstrap --dmg
-```
-
-`--no-bootstrap` is the owner delivery: no game payload, so no private art in
-the archive. On first start the installed hub resolves `origin/main` to an
-exact SHA, builds it in a managed worktree with the private pack staged by the
-pack's own installer, runs the hub's own health check and then plays it over
-`app://game`. Follow main shares the internal art-review save profile (backed
-up once before first use); each branch preview has its own profile. A newer
-build waits until Play for that source is closed; Settings keeps the previous
-build for rollback. Without `--no-bootstrap` the packaged art-review game in
-`release-artifacts/mac-arm64` is bundled (CI launch smoke).
-
-Proofs: `scripts/controller-smoke-test.mjs`, `scripts/hub-continuity-test.mjs`,
-`scripts/hub-artdesk-test.mjs`, `scripts/hub-agents-test.mjs`,
-`scripts/hub-exchange-proof.mjs` with `scripts/hub-peer.mjs`. See
-`docs/plans/active/private-desktop-hub.md` for what each proved and what is
-still owner-dependent.
-
 Packaging consumes `dist/client` only when that tree's compile-time
 provenance matches this checkout (source revision, dirty flag, and
 content hash). Stale `dist/client` cannot be relabelled with a newer
@@ -65,20 +39,6 @@ HEAD. Pass `--rebuild` to `stage.mjs` to run `npm run build` and restage.
 `composition: accepted-main` is refused unless HEAD is `origin/main`.
 Nothing outside `dist/client` is packaged: no `art/references`, no
 research archives, no repository metadata, no secrets.
-
-## Candidate art in an installed build
-
-A normal production package sets `import.meta.env.DEV` false. Appending
-`?art-preview=candidate` to `app://game` will **not** show candidate
-people. That is a production-safety fact, not a packaging bug.
-
-A separately compiled internal art-review package is built with
-`VITE_OCD_BUILD_PROFILE=internal-art-review` (still `DEV=false`). That
-package turns the existing candidate compositor on, labels the play
-screen, and keeps saves in `political-life-worlds-art-preview` plus a
-distinct Electron userData directory. Steam and ordinary production
-builds still refuse the URL flag. Do not treat a blank production
-figure as the modular result.
 
 ## Identity, storage, saves
 
@@ -173,25 +133,6 @@ the canonical version and exist only for throwaway artifacts.
 ### Tracked secret scan
 
 Run `npm run secrets:scan` before publishing. The scanner inspects tracked paths and file contents for credentials and signing material; findings report paths and categories without printing values. Build feeds and signing credentials are supplied through environment variables or GitHub Actions secrets, never committed files.
-
-### Private controller versus public auto-update
-
-The private controller is a developer-only local delivery for the owner's
-existing repository and toolchain. Its command execution lives in the
-controller process, behind six fixed IPC actions; the gameplay renderer and
-ordinary packaged client still have no preload, IPC, filesystem, repository,
-credential, or process surface. No repository token is stored or packaged.
-Public signed in-place updating remains a separate external service boundary.
-
-For the selected private branch, the controller checks GitHub on foreground
-and every minute while it remains open. A linear successor is compiled from an
-exact detached revision and, for receiver-prepared previews, reuses the exact
-verified runtime-content snapshot. It becomes pending first and activates only
-at an idle title screen; active play and unfinished Art Desk notes block the
-swap. A local received code delivery publishes its exact source revision to
-the matching branch before the received channel advances. Publication is
-fast-forward only: a newer or divergent cloud ref stops the handoff without a
-merge, rebase, force-push, save write or content replacement.
 
 ## Security posture
 
