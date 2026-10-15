@@ -4,8 +4,8 @@ title: "Outside-flow catalog has no row for property tax paid to an outside gove
 area: core
 kind: bug
 priority: 1
-status: claimed
-claimed-by: pool/core-outside-flow-property-tax-row
+status: blocked
+claimed-by:
 pr:
 blocked-on: core-outside-flow-catalog-rows
 milestone:
