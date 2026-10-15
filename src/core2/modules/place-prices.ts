@@ -301,10 +301,9 @@ function settle(
   rule: Rule,
   accountOwnerId: string,
   change: { payMinor: number; refundMinor: number },
+  outside: string | undefined,
   countedHouseholdId?: string,
 ): void {
-  const c = core(api),
-    outside = outsideOf(c, rule.placeId);
   if (!outside) return;
   const to =
     (rule.kind === "offer" ? rule.providerId : rule.payeeId) ?? outside;
@@ -482,7 +481,15 @@ function month(api: CoreAPI): void {
     .query("all", [true]) as unknown as Rule[];
   if (!rules.length) return;
   const rt = residentsRuntime(c);
+  // One scan of the organizations per place and month, not one per payment.
+  const outsideByPlace = new Map<string, string | undefined>();
+  const outsideFor = (placeId: string) => {
+    if (!outsideByPlace.has(placeId))
+      outsideByPlace.set(placeId, outsideOf(c, placeId));
+    return outsideByPlace.get(placeId);
+  };
   for (const rule of rules) {
+    const outside = outsideFor(rule.placeId);
     for (const household of c.households.values()) {
       if (household.placeId !== rule.placeId) continue;
       const members = household.memberIds.filter((id) => c.people.has(id));
@@ -508,10 +515,17 @@ function month(api: CoreAPI): void {
         rule,
         payer,
         change,
+        outside,
       );
     }
     // Apply the same nonlinear consumption rule to each counted household.
     // Averaging incomes before applying the elasticity changes the total.
+    // Each household's change is worked out alone; a group's households pay
+    // from the one pooled fund, so their changes post as one entry per group.
+    const groups = new Map<
+      number,
+      { household: string; payMinor: number; refundMinor: number }
+    >();
     for (const household of rt?.store.liveHouseholds() ?? []) {
       if (household.gone || household.placeId !== rule.placeId) continue;
       const persons = rt!.store.countedCount(household);
@@ -528,15 +542,25 @@ function month(api: CoreAPI): void {
         scaleFor(api, pay, rule.good),
         persons,
       );
+      const group = groups.get(household.group) ?? {
+        household: household.id,
+        payMinor: 0,
+        refundMinor: 0,
+      };
+      group.payMinor += Math.round(change.payMinor);
+      group.refundMinor += Math.round(change.refundMinor);
+      groups.set(household.group, group);
+    }
+    for (const [group, total] of groups)
       settle(
         api,
-        `price:${rule.id}:${c.date}:${household.id}`,
+        `price:${rule.id}:${c.date}:group${group}`,
         rule,
         "",
-        change,
-        household.id,
+        total,
+        outside,
+        total.household,
       );
-    }
     // Businesses pay a dearer energy price on their own energy costs.
     if (rule.kind === "share")
       for (const [organizationId, book] of c.finance.businesses) {
@@ -558,6 +582,7 @@ function month(api: CoreAPI): void {
           change >= 0
             ? { payMinor: change, refundMinor: 0 }
             : { payMinor: 0, refundMinor: -change },
+          outside,
         );
       }
   }

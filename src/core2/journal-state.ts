@@ -1143,8 +1143,10 @@ export function postCashJournal(
     throw new Error("Reentrant cash journal writer.");
   activeWriters.add(runtime);
   try {
+    // Checks are a debug switch (bookkeeping.ts): play skips the re-validation, never the commit.
+    const check = bookkeeping();
     const state = host.state,
-      controlSnapshot = snapshotExplicitControlV1(state);
+      controlSnapshot = check ? snapshotExplicitControlV1(state) : undefined;
     const request: CashJournalInput = {
       id: input.id,
       date: input.date,
@@ -1157,8 +1159,10 @@ export function postCashJournal(
       { zero, one } = numbers;
     const date = makeIsoDate(state.date),
       sequence = runtime.nextSequence;
-    directField(runtime, "nextSequence");
-    directField(runtime, "totals");
+    if (check) {
+      directField(runtime, "nextSequence");
+      directField(runtime, "totals");
+    }
     const runtimeFields = [
       "accounts",
       "accountsByOwner",
@@ -1361,53 +1365,55 @@ export function postCashJournal(
         }
       }
     }
-    const reservedObjects = new Set<object>([
-      runtime,
-      host,
-      state,
-      parameters,
-      people,
-      organizations,
-      focus,
-      beforeTotals,
-      ...originalMaps.map(([, map]) => map),
-      ...portfolio.portfolios.flatMap((row) => [
-        row.index,
-        ...row.rows.map((account) => account.live),
-      ]),
-      ...indexedOwners.flatMap((id) => {
-        const ids = runtime.detailedByOwner.get(id);
-        return ids ? [ids] : [];
-      }),
-      ...priorCounters.map((row) => row.live),
-    ]);
-    const requiredIndex = runtime.requiredBySource.get(resolved.kind);
-    if (requiredIndex) reservedObjects.add(requiredIndex);
-    for (const row of portfolio.portfolios) {
-      if (row.outsideTotals) reservedObjects.add(row.outsideTotals);
-      if (row.outsideSource) reservedObjects.add(row.outsideSource);
+    let reservedObjects: Set<object> | undefined;
+    let cashRows: Set<object> | undefined;
+    if (check) {
+      reservedObjects = new Set<object>([
+        runtime,
+        host,
+        state,
+        parameters,
+        people,
+        organizations,
+        focus,
+        beforeTotals,
+        ...originalMaps.map(([, map]) => map),
+        ...portfolio.portfolios.flatMap((row) => [
+          row.index,
+          ...row.rows.map((account) => account.live),
+        ]),
+        ...indexedOwners.flatMap((id) => {
+          const ids = runtime.detailedByOwner.get(id);
+          return ids ? [ids] : [];
+        }),
+        ...priorCounters.map((row) => row.live),
+      ]);
+      const requiredIndex = runtime.requiredBySource.get(resolved.kind);
+      if (requiredIndex) reservedObjects.add(requiredIndex);
+      for (const row of portfolio.portfolios) {
+        if (row.outsideTotals) reservedObjects.add(row.outsideTotals);
+        if (row.outsideSource) reservedObjects.add(row.outsideSource);
+      }
+      cashRows = new Set<object>(portfolio.portfolios.map((row) => row.cash));
+      checkMetadata(
+        moduleWrites,
+        reservedObjects,
+        cashRows,
+        host,
+        marker,
+        false,
+        secondaryObjects,
+      );
+      // Journal writes are validated against their exact original entries as well.
+      checkMetadata(
+        journalWrites,
+        new Set(),
+        new Set(),
+        undefined,
+        undefined,
+        true,
+      );
     }
-    const cashRows = new Set<object>(
-      portfolio.portfolios.map((row) => row.cash),
-    );
-    checkMetadata(
-      moduleWrites,
-      reservedObjects,
-      cashRows,
-      host,
-      marker,
-      false,
-      secondaryObjects,
-    );
-    // Journal writes are validated against their exact original entries as well.
-    checkMetadata(
-      journalWrites,
-      new Set(),
-      new Set(),
-      undefined,
-      undefined,
-      true,
-    );
     const cashByOwner = new Map(
       portfolio.portfolios.map((row) => [row.ownerId, row.cash]),
     );
@@ -1426,138 +1432,142 @@ export function postCashJournal(
       }),
     );
     const combinedWrites = [...moduleWrites, ...journalWrites];
-    // This is the last external/module call. It must precede every stale-row check.
-    // Bookkeeping re-resolves the source to prove nothing moved; play reuses it.
-    const recheck = bookkeeping(),
-      currentSlot = recheck ? provider(request.sourceRef) : sourceSlot;
-    if (
-      recheck &&
-      (!currentSlot ||
-        currentSlot.marker !== marker ||
-        !sameSecondaryMarkers(secondary, currentSlot) ||
-        (currentSlot.retainFull === true) !== required ||
-        !sameResolved(resolved, slotSource(currentSlot)) ||
-        (currentSlot.metadata ?? []).length !== moduleWrites.length ||
-        !moduleWrites.every((write, i) => {
-          const other = currentSlot.metadata?.[i];
-          return other !== undefined && sameMetadata(write, other);
-        }))
-    )
-      throw new Error(
-        "Canonical journal source or its staged metadata changed before commit.",
-      );
-    if (
-      host.state !== state ||
-      host.parameters !== parameters ||
-      state.date !== date ||
-      runtime.nextSequence !== sequence ||
-      state.people !== people ||
-      state.organizations !== organizations ||
-      state.focusPersonIds !== focus ||
-      state.playerId !== playerId ||
-      state.observer !== observer ||
-      parameters.zero !== zero ||
-      parameters.one !== one ||
-      runtime.sourceProviders.get(request.sourceRef.kind) !== provider ||
-      marker.postedJournalSequence !== markerBefore ||
-      originalMaps.some(([key, map]) => runtime[key] !== map)
-    )
-      throw new Error("Stale journal host/date/sequence/source registry.");
-    for (const row of portfolio.portfolios) {
+    if (check) {
+      // This is the last external/module call. It must precede every stale-row check.
+      // Bookkeeping re-resolves the source to prove nothing moved; play reuses it.
+      const recheck = bookkeeping(),
+        currentSlot = recheck ? provider(request.sourceRef) : sourceSlot;
       if (
-        owner(host, row.ownerId) !== row.cash ||
-        row.cash.liquidMinor !== row.beforeCash ||
-        row.cash.outsideFlow !== row.outsideSource ||
-        (row.outsideSource &&
-          !sameSource(row.outsideSource, row.outsideSourceSnapshot!)) ||
-        runtime.externalFlowsByOwner.get(row.ownerId) !== row.outsideTotals ||
-        (row.outsideTotals &&
-          (row.outsideTotals.netMinor !== row.outsideTotalsSnapshot!.netMinor ||
-            row.outsideTotals.incomingMinor !==
-              row.outsideTotalsSnapshot!.incomingMinor ||
-            row.outsideTotals.outgoingMinor !==
-              row.outsideTotalsSnapshot!.outgoingMinor)) ||
-        runtime.accountsByOwner.get(row.ownerId) !== row.index ||
-        row.index.size !== row.ids.length ||
-        row.ids.some((id) => !row.index.has(id)) ||
-        runtime.accountCountByOwner.get(row.ownerId) !== row.count ||
-        runtime.residualAccountByOwner.get(row.ownerId) !== row.residualId
+        recheck &&
+        (!currentSlot ||
+          currentSlot.marker !== marker ||
+          !sameSecondaryMarkers(secondary, currentSlot) ||
+          (currentSlot.retainFull === true) !== required ||
+          !sameResolved(resolved, slotSource(currentSlot)) ||
+          (currentSlot.metadata ?? []).length !== moduleWrites.length ||
+          !moduleWrites.every((write, i) => {
+            const other = currentSlot.metadata?.[i];
+            return other !== undefined && sameMetadata(write, other);
+          }))
       )
         throw new Error(
-          "Stale journal cash owner or complete portfolio index.",
+          "Canonical journal source or its staged metadata changed before commit.",
         );
-      for (const account of row.rows) {
-        const live = account.live,
-          before = account.snapshot;
-        if (
-          runtime.accounts.get(before.id) !== live ||
-          live.id !== before.id ||
-          live.ownerId !== before.ownerId ||
-          live.name !== before.name ||
-          live.source !== account.source ||
-          !sameSource(live.source, before.source) ||
-          live.outsideFlow !== before.outsideFlow ||
-          live.allocatedMinor !== before.allocatedMinor
-        )
-          throw new Error("Stale journal fund/account metadata.");
-        if (live.allocatedMinor !== undefined)
-          directField(live, "allocatedMinor");
-      }
-    }
-    const sameTotals = (live: CashJournalTotals, before: CashJournalTotals) =>
-      live.count === before.count &&
-      live.grossDebitMinor === before.grossDebitMinor &&
-      live.grossCreditMinor === before.grossCreditMinor;
-    if (
-      runtime.totals !== beforeTotals ||
-      !sameTotals(runtime.totals, totalsSnapshot) ||
-      priorCounters.some((row) => !sameTotals(row.live, row.before)) ||
-      retainedOwnerIndexes.some(
-        (row) =>
-          runtime.detailedByOwner.get(row.id) !== row.index ||
-          row.index.size !== row.size,
-      )
-    )
-      throw new Error("Stale journal retained counters.");
-    for (const id of projection.owners.keys())
       if (
-        (people.has(id) && (id === playerId || focus.has(id))) !==
-        focusedOwners.has(id)
+        host.state !== state ||
+        host.parameters !== parameters ||
+        state.date !== date ||
+        runtime.nextSequence !== sequence ||
+        state.people !== people ||
+        state.organizations !== organizations ||
+        state.focusPersonIds !== focus ||
+        state.playerId !== playerId ||
+        state.observer !== observer ||
+        parameters.zero !== zero ||
+        parameters.one !== one ||
+        runtime.sourceProviders.get(request.sourceRef.kind) !== provider ||
+        marker.postedJournalSequence !== markerBefore ||
+        originalMaps.some(([key, map]) => runtime[key] !== map)
       )
-        throw new Error("Journal focus changed before commit.");
-    directField(runtime, "nextSequence");
-    directField(runtime, "totals");
-    directField(marker, "postedJournalSequence");
-    if (
-      !matchesFieldPreimage(
-        completionBefore,
-        readableField(marker, "completedAt"),
+        throw new Error("Stale journal host/date/sequence/source registry.");
+      for (const row of portfolio.portfolios) {
+        if (
+          owner(host, row.ownerId) !== row.cash ||
+          row.cash.liquidMinor !== row.beforeCash ||
+          row.cash.outsideFlow !== row.outsideSource ||
+          (row.outsideSource &&
+            !sameSource(row.outsideSource, row.outsideSourceSnapshot!)) ||
+          runtime.externalFlowsByOwner.get(row.ownerId) !== row.outsideTotals ||
+          (row.outsideTotals &&
+            (row.outsideTotals.netMinor !==
+              row.outsideTotalsSnapshot!.netMinor ||
+              row.outsideTotals.incomingMinor !==
+                row.outsideTotalsSnapshot!.incomingMinor ||
+              row.outsideTotals.outgoingMinor !==
+                row.outsideTotalsSnapshot!.outgoingMinor)) ||
+          runtime.accountsByOwner.get(row.ownerId) !== row.index ||
+          row.index.size !== row.ids.length ||
+          row.ids.some((id) => !row.index.has(id)) ||
+          runtime.accountCountByOwner.get(row.ownerId) !== row.count ||
+          runtime.residualAccountByOwner.get(row.ownerId) !== row.residualId
+        )
+          throw new Error(
+            "Stale journal cash owner or complete portfolio index.",
+          );
+        for (const account of row.rows) {
+          const live = account.live,
+            before = account.snapshot;
+          if (
+            runtime.accounts.get(before.id) !== live ||
+            live.id !== before.id ||
+            live.ownerId !== before.ownerId ||
+            live.name !== before.name ||
+            live.source !== account.source ||
+            !sameSource(live.source, before.source) ||
+            live.outsideFlow !== before.outsideFlow ||
+            live.allocatedMinor !== before.allocatedMinor
+          )
+            throw new Error("Stale journal fund/account metadata.");
+          if (live.allocatedMinor !== undefined)
+            directField(live, "allocatedMinor");
+        }
+      }
+      const sameTotals = (live: CashJournalTotals, before: CashJournalTotals) =>
+        live.count === before.count &&
+        live.grossDebitMinor === before.grossDebitMinor &&
+        live.grossCreditMinor === before.grossCreditMinor;
+      if (
+        runtime.totals !== beforeTotals ||
+        !sameTotals(runtime.totals, totalsSnapshot) ||
+        priorCounters.some((row) => !sameTotals(row.live, row.before)) ||
+        retainedOwnerIndexes.some(
+          (row) =>
+            runtime.detailedByOwner.get(row.id) !== row.index ||
+            row.index.size !== row.size,
+        )
       )
-    )
-      throw new Error(
-        "Stale canonical noncash completion marker before cash commit.",
+        throw new Error("Stale journal retained counters.");
+      for (const id of projection.owners.keys())
+        if (
+          (people.has(id) && (id === playerId || focus.has(id))) !==
+          focusedOwners.has(id)
+        )
+          throw new Error("Journal focus changed before commit.");
+      directField(runtime, "nextSequence");
+      directField(runtime, "totals");
+      directField(marker, "postedJournalSequence");
+      if (
+        !matchesFieldPreimage(
+          completionBefore,
+          readableField(marker, "completedAt"),
+        )
+      )
+        throw new Error(
+          "Stale canonical noncash completion marker before cash commit.",
+        );
+      verifySecondaryMarkers(secondary);
+      checkMetadata(
+        moduleWrites,
+        reservedObjects!,
+        cashRows!,
+        host,
+        marker,
+        false,
+        secondaryObjects,
       );
-    verifySecondaryMarkers(secondary);
-    checkMetadata(
-      moduleWrites,
-      reservedObjects,
-      cashRows,
-      host,
-      marker,
-      false,
-      secondaryObjects,
-    );
-    checkMetadata(
-      journalWrites,
-      new Set(),
-      new Set(),
-      undefined,
-      undefined,
-      true,
-    );
-    // The known factory closure checks only captured private WeakMap identity.
-    // No host/module/client callback is admitted; all original reflective checks ran above.
-    controlSnapshot.verify();
+      checkMetadata(
+        journalWrites,
+        new Set(),
+        new Set(),
+        undefined,
+        undefined,
+        true,
+      );
+      // The known factory closure checks only captured private WeakMap identity.
+      // No host/module/client callback is admitted; all original reflective checks ran above.
+      controlSnapshot!.verify();
+    }
+
     // COMMIT: only captured direct fields and native map/set mutations follow.
     // No lookup, parameter read, serialization, validation, callback or event runs here.
     for (const write of cashWrites) write.row.liquidMinor = write.next;
