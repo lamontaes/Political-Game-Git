@@ -13,12 +13,10 @@ import {
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "housing-refinance",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "housing-refinance");
 
-describe(`refinancing (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`refinancing (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("a level payment repays the balance", () => {
     expect(levelPayment(120_000, 0, 120, 12)).toBe(1_000);
     expect(levelPayment(20_000_000, 0.06, 360, 12)).toBeCloseTo(119_910.1, 0);
@@ -84,8 +82,20 @@ describe(`refinancing (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () =
       const loan = housing.table("mortgages").get(id) as unknown as {
         paymentMinor: number;
         rate: number;
+        monthsLeft: number;
+        foreclosedAt?: string;
       };
       expect(loan.rate).toBe(row.toRate);
+      // A household that has since left, lost its home or paid the loan off pays nothing more.
+      const rt = residentsRuntime(core)!;
+      const ix = rt.store.householdOf.get(row.householdId);
+      const counted = ix === undefined ? undefined : rt.store.households[ix];
+      if (
+        loan.monthsLeft <= 0 ||
+        loan.foreclosedAt ||
+        (!core.households.has(row.householdId) && (!counted || counted.gone))
+      )
+        continue;
       // The payment that's charged: a full household's standing bill, or a counted one's part of a merged flow.
       const bill = core.finance.contracts.get(id);
       if (bill) expect(bill.amountMinor).toBe(row.paymentAfterMinor);
