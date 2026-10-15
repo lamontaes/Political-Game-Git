@@ -6,36 +6,36 @@ Built by `npm run words:coverage` (`scripts/dialogue-batch/coverage-table.ts`) f
 
 | Measure                                     | Count |
 | ------------------------------------------- | ----- |
-| Situation types                             | 49    |
-| Cells                                       | 774   |
-| Cells with at least one part                | 456   |
-| Empty cells (the mining and authoring list) | 318   |
-| Cells with parts but none graded pass       | 332   |
-| Cells with a part graded pass               | 124   |
-| Part fits counted over all cells            | 10662 |
+| Situation types                             | 63    |
+| Cells                                       | 946   |
+| Cells with at least one part                | 629   |
+| Empty cells (the mining and authoring list) | 317   |
+| Cells with parts but none graded pass       | 508   |
+| Cells with a part graded pass               | 121   |
+| Part fits counted over all cells            | 12157 |
 
 ## By endpoint
 
 | Endpoint  | Situation types | Cells | Empty cells | Cells with a pass |
 | --------- | --------------- | ----- | ----------- | ----------------- |
-| money     | 4               | 61    | 21          | 12                |
-| bill      | 4               | 95    | 58          | 14                |
-| political | 9               | 213   | 106         | 24                |
+| money     | 6               | 85    | 21          | 12                |
+| bill      | 9               | 156   | 58          | 14                |
+| political | 16              | 300   | 105         | 21                |
 | personal  | 32              | 405   | 133         | 74                |
 
 ## By situation key
 
 | Key           | Situation types | Cells | Empty cells | Cells with a pass |
 | ------------- | --------------- | ----- | ----------- | ----------------- |
-| loss          | 7               | 110   | 40          | 25                |
-| threat        | 8               | 153   | 93          | 17                |
-| honor         | 4               | 70    | 28          | 10                |
-| news-received | 5               | 67    | 29          | 12                |
-| favor-asked   | 5               | 58    | 14          | 10                |
-| vote-wanted   | 2               | 57    | 39          | 5                 |
+| loss          | 8               | 120   | 41          | 25                |
+| threat        | 10              | 175   | 93          | 17                |
+| honor         | 5               | 80    | 29          | 10                |
+| news-received | 7               | 89    | 29          | 12                |
+| favor-asked   | 9               | 108   | 14          | 10                |
+| vote-wanted   | 6               | 113   | 40          | 2                 |
 | arrival       | 5               | 59    | 14          | 10                |
 | departure     | 2               | 25    | 6           | 9                 |
-| routine       | 11              | 175   | 55          | 26                |
+| routine       | 11              | 177   | 51          | 26                |
 
 ## Emptiest situations
 
@@ -53,19 +53,18 @@ Situation types by their share of empty cells, emptiest first.
 | accusation        | threat        | personal  | 14    | 7     | 189           | 3      |
 | apology           | routine       | personal  | 12    | 6     | 166           | 3      |
 | betrayal          | threat        | personal  | 12    | 6     | 193           | 3      |
-| press-interview   | routine       | political | 20    | 10    | 123           | 0      |
 | race-lost         | loss          | political | 23    | 11    | 200           | 8      |
 | eviction-notice   | loss          | money     | 20    | 9     | 368           | 5      |
 | hearing           | threat        | personal  | 14    | 6     | 189           | 3      |
 | reconciliation    | routine       | personal  | 14    | 6     | 194           | 3      |
 | confession        | news-received | personal  | 12    | 5     | 192           | 3      |
-| campaign-stop     | vote-wanted   | political | 22    | 9     | 257           | 4      |
 | bill-signed       | honor         | bill      | 15    | 6     | 224           | 4      |
 | public-hearing    | routine       | bill      | 25    | 10    | 129           | 8      |
 | verdict           | news-received | personal  | 15    | 6     | 226           | 4      |
 | law-takes-effect  | news-received | money     | 16    | 6     | 201           | 4      |
 | warning           | threat        | personal  | 11    | 4     | 183           | 3      |
 | departure         | departure     | personal  | 14    | 5     | 335           | 6      |
+| campaign-stop     | vote-wanted   | political | 30    | 10    | 210           | 0      |
 | care              | routine       | personal  | 12    | 4     | 192           | 3      |
 | favor-asked       | favor-asked   | personal  | 12    | 4     | 190           | 3      |
 | becoming-friends  | routine       | personal  | 14    | 4     | 202           | 3      |
@@ -74,6 +73,7 @@ Situation types by their share of empty cells, emptiest first.
 | layoff            | loss          | money     | 14    | 4     | 303           | 4      |
 | reunion           | arrival       | personal  | 14    | 4     | 217           | 3      |
 | asking-permission | favor-asked   | personal  | 11    | 3     | 196           | 3      |
+| press-interview   | routine       | political | 22    | 6     | 167           | 0      |
 | advice            | routine       | personal  | 12    | 3     | 196           | 3      |
 | appointment       | honor         | political | 12    | 3     | 185           | 3      |
 | filing            | routine       | political | 20    | 5     | 248           | 3      |
@@ -87,11 +87,25 @@ Situation types by their share of empty cells, emptiest first.
 | reach-out         | favor-asked   | personal  | 12    | 2     | 208           | 3      |
 | celebration       | honor         | personal  | 13    | 2     | 215           | 3      |
 | arrival           | arrival       | personal  | 9     | 1     | 189           | 3      |
+| family-loss       | loss          | political | 10    | 1     | 92            | 0      |
+| family-win        | honor         | political | 10    | 1     | 90            | 0      |
 | last-day          | departure     | personal  | 11    | 1     | 301           | 5      |
+| bill-carry        | favor-asked   | bill      | 13    | 0     | 118           | 0      |
+| desk-bill         | vote-wanted   | bill      | 10    | 0     | 103           | 0      |
+| donor-ask         | favor-asked   | money     | 13    | 0     | 119           | 0      |
+| family-absence    | threat        | political | 11    | 0     | 96            | 0      |
+| family-filing     | news-received | political | 11    | 0     | 96            | 0      |
 | funeral           | loss          | personal  | 12    | 0     | 363           | 5      |
 | gathering-missing | loss          | personal  | 7     | 0     | 219           | 3      |
 | letter            | news-received | personal  | 4     | 0     | 162           | 3      |
+| office-hours      | favor-asked   | money     | 11    | 0     | 107           | 0      |
+| party-ask         | favor-asked   | political | 13    | 0     | 118           | 0      |
 | polling-place     | routine       | political | 20    | 0     | 395           | 5      |
+| rally-opponent    | threat        | political | 11    | 0     | 100           | 0      |
+| section-bargain   | vote-wanted   | bill      | 12    | 0     | 124           | 0      |
+| staff-news        | news-received | political | 11    | 0     | 89            | 0      |
+| vote-asked        | vote-wanted   | bill      | 13    | 0     | 128           | 0      |
+| vote-confirmed    | vote-wanted   | bill      | 13    | 0     | 118           | 0      |
 
 ## Every cell
 
@@ -822,18 +836,20 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 
 ### press-interview (routine, political)
 
-| Role     | Move     | interview | newscast |
-| -------- | -------- | --------- | -------- |
-| reporter | greet    | -         | 26/0     |
-| reporter | ask      | 23/0      | -        |
-| reporter | confront | 3/0       | -        |
-| reporter | close    | 7/0       | 10/0     |
-| official | answer   | -         | -        |
-| official | deflect  | 18/0      | -        |
-| official | tell     | 11/0      | -        |
-| official | promise  | 8/0       | -        |
-| official | disagree | -         | -        |
-| official | close    | 7/0       | 10/0     |
+| Role       | Move         | scene-talk | scene-words | interview |
+| ---------- | ------------ | ---------- | ----------- | --------- |
+| reporter   | greet        | 9/0        |             | -         |
+| reporter   | ask          | 6/0        |             | 23/0      |
+| reporter   | confront     | 4/0        |             | 3/0       |
+| reporter   | close        | -          |             | 7/0       |
+| official   | answer       | 3/0        |             | -         |
+| official   | deflect      | 4/0        |             | 18/0      |
+| official   | tell         | -          |             | 11/0      |
+| official   | promise      | 4/0        |             | 8/0       |
+| official   | disagree     | 3/0        |             | -         |
+| official   | close        | -          |             | 7/0       |
+| (narrator) | narrate      |            | 30/0        |           |
+| (narrator) | deliver-news |            | 27/0        |           |
 
 ### scandal (threat, political)
 
@@ -867,20 +883,24 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 
 ### campaign-stop (vote-wanted, political)
 
-| Role       | Move      | address/campaign | conversation | journal |
-| ---------- | --------- | ---------------- | ------------ | ------- |
-| candidate  | greet     | -                | 25/0         |         |
-| candidate  | introduce | -                | -            |         |
-| candidate  | tell      | 34/0             | 4/0          |         |
-| candidate  | request   | 9/0              | 12/0         |         |
-| candidate  | promise   | -                | -            |         |
-| candidate  | close     | 4/0              | -            |         |
-| voters     | ask       | -                | 45/1         |         |
-| voters     | agree     | -                | 2/0          |         |
-| voters     | disagree  | 8/0              | -            |         |
-| voters     | thank     | 7/0              | 2/0          |         |
-| (narrator) | tell      |                  |              | 72/1    |
-| (narrator) | recall    |                  |              | 33/2    |
+| Role       | Move         | scene-talk | scene-words | address/campaign |
+| ---------- | ------------ | ---------- | ----------- | ---------------- |
+| volunteer  | request      | 9/0        |             | 9/0              |
+| volunteer  | ask          | 5/0        |             | -                |
+| volunteer  | thank        | 8/0        |             | 7/0              |
+| volunteer  | promise      | 5/0        |             | -                |
+| candidate  | greet        | 10/0       |             | -                |
+| candidate  | introduce    | -          |             | -                |
+| candidate  | tell         | -          |             | 34/0             |
+| candidate  | request      | 9/0        |             | 9/0              |
+| candidate  | promise      | 5/0        |             | -                |
+| candidate  | close        | -          |             | 4/0              |
+| voters     | ask          | 5/0        |             | -                |
+| voters     | agree        | 8/0        |             | -                |
+| voters     | disagree     | 3/0        |             | 8/0              |
+| voters     | thank        | 8/0        |             | 7/0              |
+| (narrator) | narrate      |            | 30/0        |                  |
+| (narrator) | deliver-news |            | 27/0        |                  |
 
 ### filing (routine, political)
 
@@ -933,3 +953,235 @@ One row per situation, role and move; each register shows parts/passed. A dash i
 | (narrator) | deliver-news |              | 27/0        |         |             |
 | (narrator) | tell         |              |             | 83/1    |             |
 | (narrator) | recall       |              |             | 33/2    |             |
+
+### vote-asked (vote-wanted, bill)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| colleague  | request      | 9/0        |             |
+| colleague  | plea         | 4/0        |             |
+| colleague  | press        | 7/0        |             |
+| colleague  | threaten     | 4/0        |             |
+| colleague  | thank        | 8/0        |             |
+| colleague  | accept       | 5/0        |             |
+| you        | agree        | 8/0        |             |
+| you        | refuse       | 10/0       |             |
+| you        | bargain      | 9/0        |             |
+| you        | stall        | 4/0        |             |
+| you        | relent       | 3/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### vote-confirmed (vote-wanted, bill)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| colleague  | ask          | 5/0        |             |
+| colleague  | plea         | 4/0        |             |
+| colleague  | press        | 7/0        |             |
+| colleague  | threaten     | 4/0        |             |
+| colleague  | thank        | 8/0        |             |
+| colleague  | accept       | 5/0        |             |
+| you        | agree        | 8/0        |             |
+| you        | withdraw     | 4/0        |             |
+| you        | bargain      | 9/0        |             |
+| you        | stall        | 4/0        |             |
+| you        | relent       | 3/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### bill-carry (favor-asked, bill)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| member     | request      | 13/0       |             |
+| member     | plea         | 4/0        |             |
+| member     | press        | 7/0        |             |
+| member     | bargain      | 5/0        |             |
+| member     | thank        | 7/0        |             |
+| member     | accept       | 4/0        |             |
+| you        | agree        | 4/0        |             |
+| you        | decline      | 5/0        |             |
+| you        | bargain      | 5/0        |             |
+| you        | stall        | 4/0        |             |
+| you        | relent       | 3/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### donor-ask (favor-asked, money)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| donor      | request      | 13/0       |             |
+| donor      | press        | 7/0        |             |
+| donor      | threaten     | 3/0        |             |
+| donor      | bargain      | 5/0        |             |
+| donor      | thank        | 7/0        |             |
+| donor      | accept       | 4/0        |             |
+| you        | agree        | 4/0        |             |
+| you        | refuse       | 7/0        |             |
+| you        | bargain      | 5/0        |             |
+| you        | deflect      | 4/0        |             |
+| you        | relent       | 3/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### party-ask (favor-asked, political)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| chair      | request      | 13/0       |             |
+| chair      | press        | 7/0        |             |
+| chair      | threaten     | 3/0        |             |
+| chair      | plea         | 4/0        |             |
+| chair      | thank        | 7/0        |             |
+| chair      | accept       | 4/0        |             |
+| you        | agree        | 4/0        |             |
+| you        | refuse       | 7/0        |             |
+| you        | bargain      | 5/0        |             |
+| you        | stall        | 4/0        |             |
+| you        | relent       | 3/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### office-hours (favor-asked, money)
+
+| Role        | Move         | scene-talk | scene-words |
+| ----------- | ------------ | ---------- | ----------- |
+| constituent | request      | 13/0       |             |
+| constituent | plea         | 4/0        |             |
+| constituent | press        | 7/0        |             |
+| constituent | thank        | 7/0        |             |
+| constituent | accept       | 4/0        |             |
+| you         | promise      | 6/0        |             |
+| you         | ask          | 2/0        |             |
+| you         | decline      | 5/0        |             |
+| you         | offer        | 2/0        |             |
+| (narrator)  | narrate      |            | 30/0        |
+| (narrator)  | deliver-news |            | 27/0        |
+
+### family-filing (news-received, political)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| relative   | ask          | 6/0        |             |
+| relative   | plea         | 4/0        |             |
+| relative   | comfort      | 3/0        |             |
+| relative   | press        | 7/0        |             |
+| relative   | thank        | 7/0        |             |
+| you        | tell         | 3/0        |             |
+| you        | request      | 2/0        |             |
+| you        | deflect      | 4/0        |             |
+| you        | comfort      | 3/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### family-win (honor, political)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| relative   | congratulate | 3/0        |             |
+| relative   | ask          | -          |             |
+| relative   | promise      | 5/0        |             |
+| relative   | thank        | 8/0        |             |
+| you        | thank        | 8/0        |             |
+| you        | promise      | 5/0        |             |
+| you        | boast        | 3/0        |             |
+| you        | tell         | 1/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### family-loss (loss, political)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| relative   | comfort      | 5/0        |             |
+| relative   | ask          | -          |             |
+| relative   | plea         | 4/0        |             |
+| relative   | thank        | 7/0        |             |
+| you        | thank        | 7/0        |             |
+| you        | blame        | 2/0        |             |
+| you        | deflect      | 4/0        |             |
+| you        | promise      | 6/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### family-absence (threat, political)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| relative   | confront     | 9/0        |             |
+| relative   | plea         | 4/0        |             |
+| relative   | press        | 7/0        |             |
+| relative   | accept       | 4/0        |             |
+| relative   | warn         | 3/0        |             |
+| you        | apologize    | 2/0        |             |
+| you        | promise      | 5/0        |             |
+| you        | deflect      | 4/0        |             |
+| you        | blame        | 1/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### rally-opponent (threat, political)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| opponent   | confront     | 9/0        |             |
+| opponent   | boast        | 3/0        |             |
+| opponent   | press        | 7/0        |             |
+| opponent   | threaten     | 1/0        |             |
+| opponent   | accept       | 4/0        |             |
+| you        | disagree     | 3/0        |             |
+| you        | deflect      | 4/0        |             |
+| you        | confront     | 9/0        |             |
+| you        | boast        | 3/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### desk-bill (vote-wanted, bill)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| aide       | deliver-news | 3/0        |             |
+| aide       | answer       | 1/0        |             |
+| aide       | press        | 7/0        |             |
+| aide       | thank        | 8/0        |             |
+| you        | agree        | 8/0        |             |
+| you        | refuse       | 10/0       |             |
+| you        | ask          | 5/0        |             |
+| you        | stall        | 4/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### staff-news (news-received, political)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| aide       | deliver-news | 3/0        |             |
+| aide       | answer       | 2/0        |             |
+| aide       | disagree     | 3/0        |             |
+| aide       | comfort      | 3/0        |             |
+| aide       | promise      | 4/0        |             |
+| you        | ask          | 6/0        |             |
+| you        | blame        | 1/0        |             |
+| you        | accept       | 6/0        |             |
+| you        | deflect      | 4/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |
+
+### section-bargain (vote-wanted, bill)
+
+| Role       | Move         | scene-talk | scene-words |
+| ---------- | ------------ | ---------- | ----------- |
+| member     | bargain      | 9/0        |             |
+| member     | press        | 7/0        |             |
+| member     | threaten     | 4/0        |             |
+| member     | accept       | 5/0        |             |
+| member     | thank        | 8/0        |             |
+| you        | agree        | 8/0        |             |
+| you        | refuse       | 10/0       |             |
+| you        | bargain      | 9/0        |             |
+| you        | stall        | 4/0        |             |
+| you        | relent       | 3/0        |             |
+| (narrator) | narrate      |            | 30/0        |
+| (narrator) | deliver-news |            | 27/0        |

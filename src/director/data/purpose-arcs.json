@@ -1,0 +1,378 @@
+{
+  "schema": "director-purpose-arcs/1",
+  "note": "How a scene with a purpose plays (owner, Oct 15, evening: a setup, a person with a purpose, stakes, and an exchange that plays to resolved or refused). Moves only: no sentence is here; the English engine words each move from data/english/parts/scene-talk.json. A purpose names what the asker states and the player's four reply moves; `follow` is how the asker answers each reply move, chosen by the asker's traits (each candidate's pulls, summed over the asker's trait levels; the highest wins, so no roll decides it); `again` is the player's four replies to that answer; `close` ends the exchange by its outcome. A yes or a no never ends a talk: the asker answers it, and the exchange closes only when the purpose is resolved or refused.",
+  "parameters": {
+    "rounds": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": [1, 3],
+      "checkedAgainst": "Player replies before the exchange must close; two rounds read as a full exchange on the bench without the asker repeating the ask."
+    },
+    "baseWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": [0.5, 2],
+      "checkedAgainst": "A follow-up move's weight before trait pulls, so a move with no pulling traits can still be chosen."
+    }
+  },
+  "purposes": {
+    "ask-vote": {
+      "state": "request",
+      "replies": ["agree", "refuse", "bargain", "stall"]
+    },
+    "confirm-vote": {
+      "state": "ask",
+      "replies": ["agree", "withdraw", "bargain", "stall"]
+    },
+    "carry-bill": {
+      "state": "request",
+      "replies": ["agree", "decline", "bargain", "stall"]
+    },
+    "donor-ask": {
+      "state": "request",
+      "replies": ["agree", "refuse", "bargain", "deflect"]
+    },
+    "party-ask": {
+      "state": "request",
+      "replies": ["agree", "refuse", "bargain", "stall"]
+    },
+    "press-comment": {
+      "state": "ask",
+      "replies": ["answer", "deflect", "refuse", "confront"]
+    },
+    "constituent-help": {
+      "state": "request",
+      "replies": ["promise", "ask", "decline", "offer"]
+    },
+    "family-filing": {
+      "state": "ask",
+      "replies": ["tell", "request", "deflect", "comfort"]
+    },
+    "family-win": {
+      "state": "congratulate",
+      "replies": ["thank", "promise", "boast", "tell"]
+    },
+    "family-loss": {
+      "state": "comfort",
+      "replies": ["thank", "blame", "deflect", "promise"]
+    },
+    "family-absence": {
+      "state": "confront",
+      "replies": ["apologize", "promise", "deflect", "blame"]
+    },
+    "rally-volunteer": {
+      "state": "request",
+      "replies": ["promise", "request", "thank", "deflect"]
+    },
+    "rally-opponent": {
+      "state": "confront",
+      "replies": ["disagree", "deflect", "confront", "boast"]
+    },
+    "desk-bill": {
+      "state": "deliver-news",
+      "replies": ["agree", "refuse", "ask", "stall"]
+    },
+    "staff-news": {
+      "state": "deliver-news",
+      "replies": ["ask", "blame", "accept", "deflect"]
+    },
+    "section-bargain": {
+      "state": "bargain",
+      "replies": ["agree", "refuse", "bargain", "stall"]
+    }
+  },
+  "outcomes": {
+    "note": "What each reply move does to the purpose: resolved closes it, refused closes it the other way, open keeps the exchange going.",
+    "resolved": [
+      "agree",
+      "promise",
+      "relent",
+      "thank",
+      "answer",
+      "tell",
+      "comfort",
+      "accept",
+      "apologize"
+    ],
+    "refused": ["refuse", "decline", "withdraw"],
+    "open": [
+      "bargain",
+      "stall",
+      "deflect",
+      "ask",
+      "request",
+      "blame",
+      "confront",
+      "disagree",
+      "boast",
+      "offer"
+    ]
+  },
+  "follow": {
+    "agree": [
+      {
+        "move": "thank",
+        "pulls": {}
+      }
+    ],
+    "promise": [
+      {
+        "move": "thank",
+        "pulls": {}
+      },
+      {
+        "move": "press",
+        "pulls": {
+          "personality-v1:facet-skeptical": 0.6,
+          "personality-v1:initial-trust": -0.5
+        }
+      }
+    ],
+    "relent": [
+      {
+        "move": "thank",
+        "pulls": {}
+      }
+    ],
+    "refuse": [
+      {
+        "move": "plea",
+        "pulls": {
+          "personality-v1:facet-affectionate": 0.5,
+          "personality-v1:facet-sincere": 0.4,
+          "personality-v1:facet-sensitive": 0.3
+        }
+      },
+      {
+        "move": "press",
+        "pulls": {
+          "personality-v1:facet-persistent": 0.6,
+          "personality-v1:facet-argumentative": 0.5,
+          "personality-v1:facet-assertive": 0.4
+        }
+      },
+      {
+        "move": "threaten",
+        "pulls": {
+          "personality-v1:facet-hostile": 0.6,
+          "personality-v1:facet-vindictive": 0.6,
+          "personality-v1:facet-manipulative": 0.4
+        }
+      },
+      {
+        "move": "accept",
+        "pulls": {
+          "personality-v1:facet-forgiving": 0.5,
+          "personality-v1:facet-polite": 0.4,
+          "personality-v1:facet-calm": 0.3
+        }
+      }
+    ],
+    "decline": "refuse",
+    "withdraw": "refuse",
+    "bargain": [
+      {
+        "move": "accept",
+        "pulls": {
+          "personality-v1:facet-mediating": 0.5,
+          "personality-v1:facet-generous": 0.4
+        }
+      },
+      {
+        "move": "bargain",
+        "pulls": {
+          "personality-v1:facet-competitive": 0.5,
+          "personality-v1:facet-opportunistic": 0.5
+        }
+      },
+      {
+        "move": "refuse",
+        "pulls": {
+          "personality-v1:facet-persistent": 0.3,
+          "personality-v1:facet-defensive": 0.4
+        }
+      }
+    ],
+    "stall": [
+      {
+        "move": "press",
+        "pulls": {
+          "personality-v1:facet-persistent": 0.5,
+          "personality-v1:facet-restless": 0.4
+        }
+      },
+      {
+        "move": "plea",
+        "pulls": {
+          "personality-v1:facet-affectionate": 0.4,
+          "personality-v1:facet-sensitive": 0.3
+        }
+      }
+    ],
+    "deflect": "stall",
+    "ask": [
+      {
+        "move": "answer",
+        "pulls": {}
+      }
+    ],
+    "request": [
+      {
+        "move": "promise",
+        "pulls": {
+          "personality-v1:facet-generous": 0.4,
+          "personality-v1:facet-supportive": 0.4
+        }
+      },
+      {
+        "move": "decline",
+        "pulls": {
+          "personality-v1:facet-guarded": 0.5
+        }
+      }
+    ],
+    "blame": [
+      {
+        "move": "disagree",
+        "pulls": {
+          "personality-v1:facet-argumentative": 0.5,
+          "personality-v1:facet-defensive": 0.4
+        }
+      },
+      {
+        "move": "comfort",
+        "pulls": {
+          "personality-v1:facet-comforting": 0.6,
+          "personality-v1:facet-gentle": 0.4
+        }
+      }
+    ],
+    "confront": [
+      {
+        "move": "confront",
+        "pulls": {
+          "personality-v1:facet-hot-headed": 0.6,
+          "personality-v1:facet-argumentative": 0.4
+        }
+      },
+      {
+        "move": "deflect",
+        "pulls": {
+          "personality-v1:facet-tactful": 0.5,
+          "personality-v1:facet-guarded": 0.3
+        }
+      }
+    ],
+    "disagree": "confront",
+    "boast": [
+      {
+        "move": "confront",
+        "pulls": {
+          "personality-v1:facet-competitive": 0.5,
+          "personality-v1:facet-sassy": 0.4
+        }
+      },
+      {
+        "move": "accept",
+        "pulls": {
+          "personality-v1:facet-humble": 0.4
+        }
+      }
+    ],
+    "tell": [
+      {
+        "move": "ask",
+        "pulls": {
+          "personality-v1:facet-curious": 0.5
+        }
+      },
+      {
+        "move": "comfort",
+        "pulls": {
+          "personality-v1:facet-supportive": 0.5
+        }
+      }
+    ],
+    "thank": [
+      {
+        "move": "promise",
+        "pulls": {}
+      }
+    ],
+    "comfort": [
+      {
+        "move": "thank",
+        "pulls": {}
+      }
+    ],
+    "apologize": [
+      {
+        "move": "accept",
+        "pulls": {
+          "personality-v1:facet-forgiving": 0.6
+        }
+      },
+      {
+        "move": "press",
+        "pulls": {
+          "personality-v1:facet-vindictive": 0.4,
+          "personality-v1:facet-persistent": 0.3
+        }
+      }
+    ],
+    "offer": [
+      {
+        "move": "thank",
+        "pulls": {}
+      },
+      {
+        "move": "press",
+        "pulls": {
+          "personality-v1:facet-persistent": 0.4
+        }
+      }
+    ],
+    "answer": [
+      {
+        "move": "ask",
+        "pulls": {
+          "personality-v1:facet-skeptical": 0.5,
+          "personality-v1:facet-persistent": 0.3
+        }
+      },
+      {
+        "move": "thank",
+        "pulls": {
+          "personality-v1:facet-polite": 0.4
+        }
+      }
+    ],
+    "accept": [
+      {
+        "move": "promise",
+        "pulls": {}
+      }
+    ]
+  },
+  "again": {
+    "note": "The player's four replies to the asker's answer, by that answer's move.",
+    "plea": ["relent", "refuse", "bargain", "stall"],
+    "press": ["relent", "refuse", "bargain", "deflect"],
+    "threaten": ["relent", "refuse", "confront", "bargain"],
+    "bargain": ["agree", "refuse", "bargain", "stall"],
+    "answer": ["thank", "ask", "disagree", "promise"],
+    "ask": ["tell", "deflect", "answer", "refuse"],
+    "disagree": ["confront", "accept", "deflect", "bargain"],
+    "confront": ["disagree", "deflect", "apologize", "boast"],
+    "deflect": ["press", "accept", "confront", "stall"],
+    "decline": ["request", "accept", "press", "thank"],
+    "comfort": ["thank", "tell", "promise", "deflect"],
+    "promise": ["thank", "press", "request", "accept"]
+  },
+  "close": {
+    "note": "How the asker ends the exchange, by outcome: never a bare goodbye after a question was answered.",
+    "resolved": ["thank", "promise"],
+    "refused": ["accept", "warn"],
+    "open": ["press", "warn"]
+  }
+}

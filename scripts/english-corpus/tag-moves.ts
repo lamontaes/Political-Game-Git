@@ -54,14 +54,17 @@ function pattern(source: string): RegExp {
 /** The shared move and key one part takes under its bank's rules. */
 export function tagFor(
   register: string,
-  part: { move: string; text: string },
+  part: { move: string; text: string; uses?: { key?: string }[] },
   table: MovesTable = MOVES,
 ): PartTag | undefined {
   for (const rule of table.rules[register] ?? []) {
     if (!pattern(rule.move).test(part.move)) continue;
     if (rule.text !== undefined && !pattern(rule.text).test(part.text))
       continue;
-    return rule.key ? { move: rule.tag, key: rule.key } : { move: rule.tag };
+    // A part that names its situation key in its use (a scene-talk piece
+    // that fits one kind of moment) keeps that key.
+    const key = rule.key ?? part.uses?.find((use) => use.key)?.key;
+    return key ? { move: rule.tag, key } : { move: rule.tag };
   }
   return undefined;
 }
@@ -74,7 +77,7 @@ export interface BankFile {
     move: string;
     text: string;
     tag?: PartTag;
-    uses?: { subject?: string }[];
+    uses?: { subject?: string; key?: string }[];
   }[];
 }
 

@@ -41,7 +41,16 @@
     "provision": "A law's operative text.",
     "record": "A body's minutes recording what happened.",
     "notice": "A public notice's heading and text.",
-    "control-name": "The name of a choice the player can take."
+    "control-name": "The name of a choice the player can take.",
+    "plea": "Ask again, from the heart: what it means to the asker.",
+    "press": "Ask again, harder: hold the other to the point.",
+    "threaten": "Say what it will cost the other to refuse.",
+    "boast": "Claim credit or strength for oneself.",
+    "bargain": "Offer a condition or a trade.",
+    "relent": "Give way after holding out.",
+    "withdraw": "Go back on something one said before.",
+    "accept": "Take the other's answer as final.",
+    "stall": "Put off an answer."
   },
   "keys": {
     "loss": "Someone or something is lost: a death, a lost job, a lost race, an eviction.",
@@ -923,6 +932,128 @@
       {
         "move": ".",
         "tag": "announce-result"
+      }
+    ],
+    "scene-talk": [
+      {
+        "move": "^[a-z]+-congratulate$",
+        "tag": "congratulate"
+      },
+      {
+        "move": "^[a-z]+-deliver-news$",
+        "tag": "deliver-news"
+      },
+      {
+        "move": "^[a-z]+-apologize$",
+        "tag": "apologize"
+      },
+      {
+        "move": "^[a-z]+-threaten$",
+        "tag": "threaten"
+      },
+      {
+        "move": "^[a-z]+-confront$",
+        "tag": "confront"
+      },
+      {
+        "move": "^[a-z]+-disagree$",
+        "tag": "disagree"
+      },
+      {
+        "move": "^[a-z]+-withdraw$",
+        "tag": "withdraw"
+      },
+      {
+        "move": "^[a-z]+-bargain$",
+        "tag": "bargain"
+      },
+      {
+        "move": "^[a-z]+-promise$",
+        "tag": "promise"
+      },
+      {
+        "move": "^[a-z]+-request$",
+        "tag": "request"
+      },
+      {
+        "move": "^[a-z]+-deflect$",
+        "tag": "deflect"
+      },
+      {
+        "move": "^[a-z]+-narrate$",
+        "tag": "narrate"
+      },
+      {
+        "move": "^[a-z]+-decline$",
+        "tag": "decline"
+      },
+      {
+        "move": "^[a-z]+-comfort$",
+        "tag": "comfort"
+      },
+      {
+        "move": "^[a-z]+-answer$",
+        "tag": "answer"
+      },
+      {
+        "move": "^[a-z]+-relent$",
+        "tag": "relent"
+      },
+      {
+        "move": "^[a-z]+-refuse$",
+        "tag": "refuse"
+      },
+      {
+        "move": "^[a-z]+-accept$",
+        "tag": "accept"
+      },
+      {
+        "move": "^[a-z]+-offer$",
+        "tag": "offer"
+      },
+      {
+        "move": "^[a-z]+-thank$",
+        "tag": "thank"
+      },
+      {
+        "move": "^[a-z]+-press$",
+        "tag": "press"
+      },
+      {
+        "move": "^[a-z]+-blame$",
+        "tag": "blame"
+      },
+      {
+        "move": "^[a-z]+-boast$",
+        "tag": "boast"
+      },
+      {
+        "move": "^[a-z]+-greet$",
+        "tag": "greet"
+      },
+      {
+        "move": "^[a-z]+-agree$",
+        "tag": "agree"
+      },
+      {
+        "move": "^[a-z]+-stall$",
+        "tag": "stall"
+      },
+      {
+        "move": "^[a-z]+-warn$",
+        "tag": "warn"
+      },
+      {
+        "move": "^[a-z]+-tell$",
+        "tag": "tell"
+      },
+      {
+        "move": "^[a-z]+-plea$",
+        "tag": "plea"
+      },
+      {
+        "move": "^[a-z]+-ask$",
+        "tag": "ask"
       }
     ]
   }

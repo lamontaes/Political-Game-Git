@@ -345,20 +345,14 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(closed).toBeGreaterThan(0);
   });
-  it("opens a reunion scene's talk on what the two share, ahead of any other event", () => {
+  it("never opens a reunion scene's talk on a school or workplace the two once shared (owner, Oct 15, evening)", () => {
     const book = director.ledger.people.get(player.id)!;
     const template = book.moments[0]!;
     let checked = 0;
     for (const otherId of others) {
-      // Not one whose last talk with the player was already about it.
-      const remembered = core.knowledgeByPerson
-        .get(otherId)
-        ?.get(`talk:${player.id}:topic`)?.value;
       if (
         !subjectsBetween(core, player.id, otherId, director).some(
-          (row) =>
-            (row.kind === "shared-school" || row.kind === "shared-work") &&
-            row.id !== remembered,
+          (row) => row.kind === "shared-school" || row.kind === "shared-work",
         )
       )
         continue;
@@ -375,7 +369,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         occasionId: occasion.id,
       });
       book.momentsById.delete(occasion.id);
-      expect(talk.topics[0], otherId).toMatch(/(?:^|>)shared-(?:school|work):/);
+      // "Do you remember <school>?" opens nothing unless a record says
+      // something happened to it or decades have passed.
+      for (const line of talk.lines)
+        expect(line.text, otherId).not.toMatch(/\bremember\b/i);
       checked += 1;
       if (checked >= 3) break;
     }
@@ -394,14 +391,23 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(kin.length).toBeGreaterThan(0);
   });
   it("remembers the last talk's topic and opens the next one with something else", () => {
+    // A shared school no longer opens a talk (owner, Oct 15, evening): the
+    // first talk opens on a recorded moment the two share, from the ledger.
+    const book = director.ledger.people.get(player.id)!;
     let checked = 0;
-    for (const otherId of others.slice(0, 15)) {
-      const first = openConversation(core, player.id, otherId, { director });
+    for (const moment of book.moments) {
+      const otherId = moment.counterpartIds.find((id) => me.knownIds.has(id));
+      if (!otherId) continue;
+      const first = openConversation(core, player.id, otherId, {
+        director,
+        occasionId: moment.id,
+      });
       if (!first.choices.length || !first.topics[0]) continue;
       say(core, first, first.choices[0]!.key);
       const next = openConversation(core, player.id, otherId, { director });
       if (next.topics[0]) expect(next.topics[0]).not.toBe(first.topics[0]);
       checked += 1;
+      if (checked >= 5) break;
     }
     expect(checked).toBeGreaterThan(0);
   });

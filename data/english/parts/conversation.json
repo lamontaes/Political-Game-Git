@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "conversation",
-  "description": "Everyday conversation for golden-path steps 1 and 2 (meeting people at 18): greetings, asking after work, home, school, family and the news, the answers, raising a real subject, leaving, and the lie. Every part is a whole sentence American speakers said in federal transcripts (public domain: congressional hearings, the Congressional Record, NASA and U.S. House oral histories), counted also against the Library of Congress WPA life histories, 1936 to 1940. Record words are slots the game fills from the speaker's own records. Parts are grouped by the director's subject, role (ask, raise, reply, answer, lie) and choice; a group's parts are variants of one choice, never separate choices. A part's bearing (tender, guarded, glad, nervous, braced, curious, calm, from the director's bearings) is the manner its wording carries; a speaker's traits pull the engine toward the bearings they favor (data/english/calibration.json). A part with no bearing is neutral.",
+  "description": "Everyday conversation for golden-path steps 1 and 2 (meeting people at 18): greetings, asking after work, home, school, family and the news, the answers, raising a real subject, leaving, and the lie. Every part is a whole sentence American speakers said in federal transcripts (public domain: congressional hearings, the Congressional Record, NASA and U.S. House oral histories), counted also against the Library of Congress WPA life histories, 1936 to 1940. Record words are slots the game fills from the speaker's own records. Parts are grouped by the director's subject, role (ask, raise, reply, answer, lie) and choice; a group's parts are variants of one choice, never separate choices. A part's bearing (tender, guarded, glad, nervous, braced, curious, calm, from the director's bearings) is the manner its wording carries; a speaker's traits pull the engine toward the bearings they favor (data/english/calibration.json). A part with no bearing is neutral. A shared school or workplace is never an opener (owner, Oct 15, evening: batch 12 rejected): its ask and raise parts need the fact long-ago, which a record supplies only when something happened to the place or decades have passed.",
   "slots": {
     "name": "A person's name from the records: someone both people know, or the listener's given name.",
     "employer": "The speaker's employer, from their job record.",
@@ -2084,7 +2084,8 @@
           "move": "shared-work-raise-still",
           "subject": "shared-work",
           "role": "raise",
-          "choice": "still"
+          "choice": "still",
+          "requiresFacts": ["long-ago"]
         },
         {
           "move": "home-raise-still-in",
@@ -5765,13 +5766,15 @@
           "move": "shared-school-ask-remember",
           "subject": "shared-school",
           "role": "ask",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         }
       ],
       "transcriptsUsing": 33,
@@ -5811,13 +5814,15 @@
           "move": "shared-school-ask-remember",
           "subject": "shared-school",
           "role": "ask",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         }
       ],
       "transcriptsUsing": 23,
@@ -5854,13 +5859,15 @@
           "move": "shared-school-ask-remember",
           "subject": "shared-school",
           "role": "ask",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         }
       ],
       "transcriptsUsing": 10,
@@ -6844,7 +6851,8 @@
           "move": "shared-work-ask-remember",
           "subject": "shared-work",
           "role": "ask",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         }
       ],
       "transcriptsUsing": 53,
@@ -6884,7 +6892,8 @@
           "move": "shared-work-ask-remember",
           "subject": "shared-work",
           "role": "ask",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         }
       ],
       "transcriptsUsing": 53,
@@ -17669,13 +17678,15 @@
           "move": "shared-school-ask-remember",
           "subject": "shared-school",
           "role": "ask",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         }
       ],
       "shippable": true,
@@ -17697,13 +17708,15 @@
           "move": "shared-school-ask-remember",
           "subject": "shared-school",
           "role": "ask",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         },
         {
           "move": "shared-school-raise-remember",
           "subject": "shared-school",
           "role": "raise",
-          "choice": "remember"
+          "choice": "remember",
+          "requiresFacts": ["long-ago"]
         }
       ],
       "shippable": true,
