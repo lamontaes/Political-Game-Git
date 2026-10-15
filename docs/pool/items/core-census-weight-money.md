@@ -22,3 +22,5 @@ source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWN
 **Files.** src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/residents.ts
 
 **Notes.** Found by the session that claimed core-town-size-census: the cap is `Math.min(target, real)` in `buildPopulation` (`src/core2/population.ts`, about line 507) with `targetPopulation` = 10,000 in `src/core2/data/parameters.json`. A town is generated one household and one person record at a time (about 12 s and 1.4 GB for 10,000), and counted groups keep one index per household (`src/core2/counted-groups.ts`), so a city of millions cannot open by raising the target. The design the ruling points at: each counted household record carries a weight (how many real households it stands for) and every reader multiplies by it.
+
+Also from core-census-weight-readers: `credit-deposits.ts` (a household's share of its group's cash), `housing-foreclosure.ts` arrears, the rent list in `housing-homeless.ts`, and `departCountedHousehold` / `admitCountedHousehold` cash shares must multiply by the household weight.

@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-census-weight-readers
-pr:
+pr: "#PENDING"
 blocked-on:
 milestone:
 source: "split of core-town-size-census (L); left over from core-census-weight-model"
@@ -22,3 +22,5 @@ source: "split of core-town-size-census (L); left over from core-census-weight-m
 **Files.** src/core2/modules/counted-moves.ts, src/core2/housing-foreclosure.ts, src/core2/housing-homeless.ts, src/core2/credit-deposits.ts, src/core2/law-reach/group-b-people.ts, src/core2/modules/residents.ts, src/core2/modules/meetings.ts
 
 **Notes.** Found by the session that built core-census-weight-model (PR for that item). The electorate rows (`src/core2/electorate.ts`) belong to elections-census-weight-electorate.
+
+Done in this item's PR: counted-moves (pull and mover totals in real people, a move carries its weight to the destination's coarse age bands, newcomers arrive at the weight of the household they resemble), the homeless count, the law-reach residents (`scale` on a row and on a household; `modeled`, the counted reach and the benefit heads count real residents), the concern share in meetings, and the district split. Left to `core-census-weight-money` because they spread money, not people: `credit-deposits.ts` (a household's share of its group's cash), `housing-foreclosure.ts` arrears and `housing-homeless.ts` rent lists, and the `counted-money.ts` group splits.
