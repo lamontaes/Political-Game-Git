@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OPUS-CORE.md (line 23): 4 lines"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-past-pointers
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-CORE.md "Needs from other sessions" (line 23)'
+claimed-at: 2026-10-15T22:40:00.688Z
 ---
 
 **What.** Four requests from the core to other sessions remain on the core's list. The news-archive story kind (stopgap SG-CORE-past-archive-kind) is not yet written by the press engine, laws carry no pointer to their law-history rows so the opening-day effective date stays, words has no renderings for household, public and archive past facts, and the dossier does not read publicKnowledgeOf for a public figure the viewer has not met. A player sees none of this: an old law or a public figure shows no history when clicked.
