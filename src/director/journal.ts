@@ -32,7 +32,11 @@ interface LineRow {
   /** Facts read from the causing event's own record. */
   eventFacts?: Readonly<Record<string, { fact: string; format: string }>>;
   line: readonly { key: string; text: string }[];
-  otherLine?: readonly { key: string; text: string }[];
+  otherLine?: readonly {
+    key: string;
+    text: string;
+    stages?: readonly string[];
+  }[];
   repeatLine?: readonly { key: string; text: string }[];
   title?: readonly { key: string; text: string }[];
   /** The person's own moment when the causing event names them among its people. */
@@ -48,6 +52,8 @@ interface LineRow {
   oncePer?: string;
   /** What happens around a young person (a death, a move): their age frames it. */
   framesAge?: boolean;
+  /** The kind of look-back the moment takes: only a memorable one for a birth. */
+  lookBack?: "memorable";
 }
 
 /** A journal row's structure before the mined bank words it. */
@@ -63,6 +69,7 @@ export interface RowShape {
   sameDay?: string;
   oncePer?: string;
   framesAge?: boolean;
+  lookBack?: "memorable";
   /** The mined target whose sentences word this row, when it is not the row's own kind. */
   wordsFrom?: string;
   /** The row also has a line for someone else's moment. */
@@ -83,6 +90,7 @@ export interface JournalRows {
   manyTimes: string;
   lines: readonly RowShape[];
   firstTitle: JournalData["firstTitle"];
+  lookBacks?: JournalData["lookBacks"];
   backdropLines?: readonly {
     kind: string;
     stageFact: string;
@@ -101,6 +109,16 @@ export interface JournalData {
   manyTimes: string;
   lines: readonly LineRow[];
   firstTitle: readonly { key: string; text: string }[];
+  /**
+   * Which look-backs fit which moment, by part key: `memorable` ones ("I'll
+   * never forget that") are the only ones a birth takes (owner, batch 9: "My
+   * daughter was born. I didn't know that at the time." makes no sense), and
+   * `youngOnly` ones ("I never knew") fit only a moment from childhood.
+   */
+  lookBacks?: Readonly<{
+    memorable?: readonly string[];
+    youngOnly?: readonly string[];
+  }>;
   /** The memoir's framing and look-back sentences, by field (whenAge, hook, remember, ...). */
   memoir?: Readonly<Record<string, readonly { key: string; text: string }[]>>;
   /** Broad events that reached the person, written as lines in their story. */
@@ -376,6 +394,10 @@ export function composeJournal(
   // How each closing line (a hard time, a look-back) ends, its last two
   // words, so none is said twice in one journal.
   const closedWith = new Set<string>();
+  const fits = {
+    memorable: new Set(data.lookBacks?.memorable ?? []),
+    youngOnly: new Set(data.lookBacks?.youngOnly ?? []),
+  };
   const closing = (text: string) =>
     text
       .toLowerCase()
@@ -563,6 +585,12 @@ export function composeJournal(
         facts,
         moment.id,
         sourceIds,
+        // Someone else's race is told by the record's result for them.
+        !own && row.ownLine
+          ? facts.winner?.text === moment.counterpartIds[zero]
+            ? "won"
+            : "lost"
+          : undefined,
       );
     if (!event) continue;
     const parts = [event];
@@ -621,7 +649,12 @@ export function composeJournal(
       // A look-back is said once: no two end the same way ("at the time").
       const hook = render(
         "journal-memoir:hook",
-        memoir.hook?.filter((row) => !closedWith.has(closing(row.text))),
+        memoir.hook?.filter(
+          (entry) =>
+            !closedWith.has(closing(entry.text)) &&
+            (row.lookBack !== "memorable" || fits.memorable.has(entry.key)) &&
+            (young || !fits.youngOnly.has(entry.key)),
+        ),
         facts,
         `${moment.id}:hook`,
         sourceIds,

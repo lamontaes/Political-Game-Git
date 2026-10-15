@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.7.0",
+      "releasedOn": "2026-10-15",
+      "revision": "794647787733728c29f7d024521f56263a8acfc1",
+      "changeIds": ["words-director-scenes", "words-opening-context"]
+    },
+    {
+      "version": "0.6.1",
+      "releasedOn": "2026-10-14",
+      "revision": "c7692f69d6f5c44d4d87b382112642e6bf22af3f",
+      "changeIds": ["words-batch-10"]
+    },
+    {
       "version": "0.6.0",
       "releasedOn": "2026-10-14",
       "revision": "74d988930a4f7cd38b544b49c340e4b1c93a2b6f",

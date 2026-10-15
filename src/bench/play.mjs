@@ -187,6 +187,7 @@ function pointOut(figures) {
     if (!figure) return;
     $("opening-point-name").textContent = figure.name;
     $("opening-point-role").textContent = [
+      figure.relation,
       figure.post,
       figure.office,
       figure.state,
@@ -217,13 +218,18 @@ async function playOpening() {
   openingReady = undefined;
   if (!opening?.frames?.length) return opening;
   const { speaker } = opening;
-  $("opening-bust").style.backgroundImage = speaker.figureUrl
-    ? `url("${speaker.figureUrl}")`
-    : "";
-  $("opening-name").textContent = speaker.name;
-  $("opening-role").textContent = [speaker.title, ...speaker.detail]
-    .filter(Boolean)
-    .join(" · ");
+  // Who is speaking: the anchor's lead-in on the news, then the President.
+  const speakerCard = (anchor) => {
+    $("opening-bust").style.backgroundImage =
+      !anchor && speaker.figureUrl ? `url("${speaker.figureUrl}")` : "";
+    $("opening-name").textContent = anchor
+      ? (controls.opening?.news ?? "")
+      : speaker.name;
+    $("opening-role").textContent = anchor
+      ? ""
+      : [speaker.title, ...speaker.detail].filter(Boolean).join(" · ");
+  };
+  speakerCard(false);
   show("opening-box", true);
   $("game").classList.add("letterbox", "cinema");
   frames: for (const frame of opening.frames) {
@@ -232,14 +238,24 @@ async function playOpening() {
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    const camera = pointOut(frame.pointOut ?? []);
+    speakerCard(frame.speaker === "anchor");
+    // Who the camera points out: a household as the frame opens, anyone the
+    // address names on the line that names them.
+    const figures = frame.pointOut ?? [];
+    let camera = pointOut(figures.filter((row) => row.line === undefined));
     // A stage the President says nothing over shows without the speech box.
     show("opening-box", frame.lines.length > 0);
     // A click moves on to the next sentence; Skip ends the address. The
     // picture holds until the camera has passed everyone on it.
-    for (const line of frame.lines) {
+    for (const [at, line] of frame.lines.entries()) {
       $("opening-speech").textContent = line.text;
-      if (await holdOpening(lineMs(line.text))) {
+      const named = figures.filter((row) => row.line === at);
+      if (named.length) {
+        camera.stop();
+        camera = pointOut(named);
+      }
+      const hold = Math.max(lineMs(line.text), camera.left());
+      if (await holdOpening(hold)) {
         camera.stop();
         break frames;
       }
@@ -902,13 +918,17 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId) {
+async function talkTo(otherId, momentId) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
   $("talk-name").textContent = "";
+  // From a scene, the talk is about the scene's moment.
+  const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
   renderTalk(
-    await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
+    await post(
+      `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
+    ),
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
@@ -1151,7 +1171,7 @@ async function showStory(momentId) {
   $("talk-choices").replaceChildren(
     ...(story.talkToId
       ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId),
+          talkTo(story.talkToId, momentId),
         )
       : []),
   );

@@ -296,6 +296,38 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.7.0
+
+_Released October 15, 2026._
+
+### Changed
+
+- **Talks keep to what happened, and family news is a scene** A conversation now
+  opens on what happened lately to either person, keeps to that topic, and the
+  other person closes it when it's done; nobody asks after someone absent unless
+  something happened to them. When a parent loses their job, the family scene
+  plays at home: they ask you to talk, tell you, and if you ask what happened,
+  tell you why from the record (the place closed). A parent who quit for another
+  job is not a lost job. When your household is evicted, the parent at home
+  tells you. A member of a town body can try to win one colleague's vote before
+  it is cast, and the vote reads the case they made.
+
+- **The opening says what you are watching** The opening now starts at home on
+  the evening news, with your household named by relation, before the
+  President's address. People are pointed out only when the address names them,
+  the economy is told with its figures, and only a visit to your own state is
+  mentioned.
+
+## PRE-ALPHA 0.6.1
+
+_Released October 14, 2026._
+
+### Fixed
+
+- **Employer names read as names in conversation** A place of work named in
+  capitals inside a longer name now reads normally in conversation and the
+  journal.
+
 ## PRE-ALPHA 0.6.0
 
 _Released October 14, 2026._

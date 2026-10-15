@@ -34,20 +34,41 @@
         "stage": "president",
         "levels": ["occasion", "country"],
         "people": [
-          { "office": "vice-president" },
-          { "chamber": "federal-house", "post": "speaker" },
-          { "chamber": "federal-senate", "post": "majority-leader" }
+          {
+            "office": "vice-president"
+          },
+          {
+            "chamber": "federal-house",
+            "post": "speaker"
+          },
+          {
+            "chamber": "federal-senate",
+            "post": "majority-leader"
+          }
         ]
       },
       {
         "stage": "congress",
         "levels": ["congress"],
         "people": [
-          { "chamber": "federal-house", "post": "majority-leader" },
-          { "chamber": "federal-house", "post": "minority-leader" },
-          { "chamber": "federal-senate", "post": "minority-leader" },
-          { "office": "us-senate" },
-          { "office": "us-house" }
+          {
+            "chamber": "federal-house",
+            "post": "majority-leader"
+          },
+          {
+            "chamber": "federal-house",
+            "post": "minority-leader"
+          },
+          {
+            "chamber": "federal-senate",
+            "post": "minority-leader"
+          },
+          {
+            "office": "us-senate"
+          },
+          {
+            "office": "us-house"
+          }
         ]
       },
       {
@@ -55,20 +76,44 @@
         "levels": ["governors", "towns"],
         "most": 4,
         "people": [
-          { "office": "governor" },
-          { "chamber": "legislature-lower", "post": "speaker" },
-          { "chamber": "legislature-unicameral", "post": "speaker" },
-          { "chamber": "legislature-upper", "post": "majority-leader" },
-          { "chamber": "legislature-upper", "post": "president-pro-tempore" },
-          { "chamber": "legislature-lower", "post": "minority-leader" },
-          { "chamber": "legislature-upper", "post": "minority-leader" }
+          {
+            "office": "governor"
+          },
+          {
+            "chamber": "legislature-lower",
+            "post": "speaker"
+          },
+          {
+            "chamber": "legislature-unicameral",
+            "post": "speaker"
+          },
+          {
+            "chamber": "legislature-upper",
+            "post": "majority-leader"
+          },
+          {
+            "chamber": "legislature-upper",
+            "post": "president-pro-tempore"
+          },
+          {
+            "chamber": "legislature-lower",
+            "post": "minority-leader"
+          },
+          {
+            "chamber": "legislature-upper",
+            "post": "minority-leader"
+          }
         ]
       },
       {
         "stage": "family",
         "levels": ["families", "close"],
         "else": "state",
-        "people": [{ "household": true }]
+        "people": [
+          {
+            "household": true
+          }
+        ]
       }
     ]
   },
@@ -77,5 +122,27 @@
     "decimals": 1,
     "jobsPerSeriesUnit": 1000,
     "jobsPerMillion": 1000000
+  },
+  "speechTitles": {
+    "about": "The address's own title, the topic the anchor's lead-in names (\"We begin with {topic}.\"): the names the U.S. Constitution (Art. II, sec. 3) and the inauguration record give these addresses. A title, like an office's, not composed prose.",
+    "state-of-the-union": "the State of the Union",
+    "inaugural": "the inaugural address"
+  },
+  "named": {
+    "about": "Who the address names, so the camera points them out on the sentence that does (owner, Oct 14, 2026: a person lit with no recorded reason is a defect). 'role' is the sequence rule that picked the figure; 'says' a word of the sentence's salutation; 'fact' a fact the sentence used, whose record is the figure's own. The player's household needs no sentence: the home is theirs.",
+    "rules": [
+      {
+        "role": "federal-house:speaker",
+        "says": "\\bSpeaker\\b"
+      },
+      {
+        "role": "office:vice-president",
+        "says": "\\bVice President\\b"
+      },
+      {
+        "role": "office:governor",
+        "fact": "name"
+      }
+    ]
   }
 }
