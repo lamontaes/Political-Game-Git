@@ -816,6 +816,58 @@ describe("staffing recovery", () => {
   });
 });
 
+describe("retirement during an employed search", () => {
+  it("lets both tiers reconsider work and clears a retired worker's search", () => {
+    const fixture = input();
+    fixture.people = fixture.people.map((person) =>
+      ["w1", "w2"].includes(person.id)
+        ? { ...person, birthDate: "1920-01-01" }
+        : person,
+    );
+    const core = createLifeCore(
+      collapseToTwoLevels(fixture, {
+        keep: new Set(["w1", "w3", "w4", "s1", "s2"]),
+      }),
+      { data, modules: [JOBS_MODULE] },
+    );
+    const api = coreAPI(core);
+    withBooks(core, 1);
+    for (const [personId, table] of [
+      ["w1", "seekers"],
+      ["w2", "countedSeekers"],
+    ])
+      api
+        .moduleState("jobs")
+        .table(table!)
+        .put({
+          id: personId!,
+          personId: personId!,
+          placeId: place,
+          isSeeker: true,
+          employed: true,
+          since: start,
+          reasonKey: "looking-around",
+          referenceHourlyMinor: 1500,
+        });
+    advanceCore(core, "2021-04-02");
+    for (const [personId, table] of [
+      ["w1", "seekers"],
+      ["w2", "countedSeekers"],
+    ]) {
+      expect(
+        api
+          .moduleState("jobs")
+          .table("changes")
+          .query("byPerson", [personId!])
+          .some((row) => row.reasonKey === jobsData.reasons.retired),
+      ).toBe(true);
+      expect(
+        api.moduleState("jobs").table(table!).get(personId!),
+      ).toBeUndefined();
+    }
+  });
+});
+
 describe("closure during an employed job search", () => {
   it("ends both tiers' jobs and records their actual job IDs even when they were already looking", () => {
     const drawn = drawPlace();
