@@ -98,5 +98,21 @@
     "eviction-cause-reply": {
       "where": "eviction-where"
     }
+  },
+  "happenings": {
+    "about": "Owner, Oct 14, 2026, night (Q7): someone not in the room is talked about only when something recorded happened to them. These are the ledger labels (by prefix) that are something happening to a person: their money and work, their home, their health, a birth or death, the law catching them, a move, an election they ran in. Reading the news, hearing a speech or being told of a cause happened in front of them, not to them.",
+    "prefixes": [
+      "money:",
+      "home:",
+      "health:",
+      "feeling:event:life.",
+      "feeling:event:health.",
+      "feeling:event:housing.",
+      "feeling:event:justice.",
+      "feeling:event:person-birth",
+      "feeling:event:person.moved-away",
+      "cause:event:election-result",
+      "cause:event:candidate-filed"
+    ]
   }
 }
