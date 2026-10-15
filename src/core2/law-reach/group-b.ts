@@ -57,6 +57,7 @@ import {
 
 type Mechanic =
   | "records"
+  | "price-payment"
   | "transit-fares"
   | "highway-shift"
   | "teacher-floor"
@@ -245,6 +246,10 @@ function runPolicy(
   let inForce = input.inForce;
   let personTerms: Map<string, Record<string, number>> | undefined;
   switch (def.mechanic) {
+    // The price engine reads these laws at monthly settlement. A blanket
+    // eligibility row is neither a payment nor a received notice.
+    case "price-payment":
+      return;
     case "transit-fares":
       moveBudget(api, {
         key,
@@ -259,7 +264,7 @@ function runPolicy(
           ),
         }),
       });
-      break;
+      return;
     case "highway-shift": {
       const moved = moveBudget(api, {
         key,
