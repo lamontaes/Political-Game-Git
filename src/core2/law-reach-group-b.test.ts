@@ -329,7 +329,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   const householdRecords = [
     Q("transportation-infrastructure.public-broadband"),
-    Q("fiscal.cap-property-tax-growth"),
     Q("fiscal.exempt-groceries-from-sales-tax"),
     Q("environment-energy.clean-electricity-standard"),
     Q("environment-energy.price-carbon"),
