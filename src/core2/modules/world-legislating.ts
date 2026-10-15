@@ -19,6 +19,8 @@
  * their reasons, and every vote is each member's. The session's filings,
  * hearings and votes are counted together on its floor day.
  */
+import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
+import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import { townConcernShare } from "./meetings";
@@ -61,6 +63,28 @@ import {
   type BillRow,
   type Sitting,
 } from "./legislature";
+
+const QUESTION_SCOPES = questionScopes.questions as Readonly<
+  Record<string, { levels: readonly string[] }>
+>;
+const JURISDICTIONS = geography.places as Readonly<
+  Record<string, { jurisdictionKind: string }>
+>;
+
+/** Scope is the question's own government, not every government that touches its subject. */
+function questionForLevel(
+  api: CoreAPI,
+  question: string,
+  level: "federal" | "state" | "county" | "city",
+): boolean {
+  const state = lawChain(api).stateKey;
+  const kind =
+    JURISDICTIONS[state.slice(state.lastIndexOf("-") + 1)]?.jurisdictionKind;
+  const levels = QUESTION_SCOPES[question]?.levels ?? [];
+  return kind === "federal-district" && level !== "federal"
+    ? levels.some((own) => ["state", "county", "city"].includes(own))
+    : levels.includes(level);
+}
 
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
 
@@ -796,6 +820,9 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     : ["legislature-lower", "legislature-upper", "legislature-unicameral"]
         .map((kind) => chamber(api, jurisdiction, kind))
         .flatMap((c) => c?.members ?? []);
+  // stopgapId: SG-GOV-federal-proposal-coverage
+  // Federal-only questions still need stances, opening answers and effect readers.
+  if (federal) api.stopgap("SG-GOV-federal-proposal-coverage");
   const filed = lower
     ? fileChanges(api, {
         key: work.key,
@@ -809,6 +836,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           needsChange(direction, answerIn(api, jurisdiction, question, true)),
         // A legislature answers only the questions its level may (data).
         allowed: (question, value) =>
+          questionForLevel(api, question, federal ? "federal" : "state") &&
           !beyondPower(
             { kind: "policy-question", question, value },
             federal ? "federal" : "state",
@@ -1073,6 +1101,11 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? !inForceForTown(api, question)
         : !!own && ownRow(api, own, question) === 1,
     allowed: (question, value) =>
+      questionForLevel(
+        api,
+        question,
+        office?.kind === "county-board" ? "county" : "city",
+      ) &&
       !beyondPower({ kind: "policy-question", question, value }, "local") &&
       authorityFor(api, { kind: "policy-question", question, value }).allowed,
     barred: (question, direction) =>

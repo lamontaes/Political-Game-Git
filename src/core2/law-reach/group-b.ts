@@ -57,6 +57,10 @@ import {
 
 type Mechanic =
   | "records"
+  | "farm-output"
+  | "property-assessment"
+  | "price-payment"
+  | "housing-construction"
   | "transit-fares"
   | "highway-shift"
   | "teacher-floor"
@@ -245,6 +249,13 @@ function runPolicy(
   let inForce = input.inForce;
   let personTerms: Map<string, Record<string, number>> | undefined;
   switch (def.mechanic) {
+    // The price engine reads these laws at monthly settlement. A blanket
+    // eligibility row is neither a payment nor a received notice.
+    case "price-payment":
+    // The housing engine reads these laws at its existing construction
+    // decision. A generic reach row must not substitute for that decision.
+    case "housing-construction":
+      return;
     case "transit-fares":
       moveBudget(api, {
         key,
@@ -259,7 +270,7 @@ function runPolicy(
           ),
         }),
       });
-      break;
+      return;
     case "highway-shift": {
       const moved = moveBudget(api, {
         key,
@@ -408,6 +419,10 @@ function runPolicy(
       });
       return;
     }
+    case "farm-output":
+      return; // The business engine reads the law when setting production limits.
+    case "property-assessment":
+      return; // The housing assessment reads the cap through budgets when billing.
     case "records":
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");

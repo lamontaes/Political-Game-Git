@@ -527,7 +527,7 @@ export function createNewsModule(
           ...(story.moodImpulse === undefined
             ? {}
             : { moodImpulse: story.moodImpulse }),
-          facts: story.facts,
+          facts: { ...story.facts, learnedFrom: newsKey(story.id) },
           source: {
             tag: "SOURCED",
             citation: `Story ${story.id}, read by its outlet's followers`,

@@ -2,6 +2,184 @@
 
 Source: Google Drive, "04_CURRENT_DECISION_CHANGE_AND_TRACEABILITY_REGISTER" (file 1bZWrzjUgDql2CIo_k1ElcQ2GrBZOzC_xJs8D-JswKpE). The Drive document stays the owner's master; this copy is here so every session reads it before asking the owner anything. The CTO refreshes it when the Drive copy changes. Newer rulings are in OWNER-DECISIONS.md in this folder.
 
+## How this file is kept (CTO, October 15, 2026)
+
+Only `OWNER-DECISIONS.md` (the running log) is written day to day: whoever hears a ruling (the CTO from chat, a session from a PR thread) records it there the same day, dated and attributed. This file is the index by subject. It was filled once by the October 15, 2026 audit and is then read, not written daily; the CTO regenerates it from the log at the weekly reschedule, keeping one entry per ruling under its subject and marking a replaced ruling "supersedes:". "Look before you ask" (AGENTS.md) and any session about to register an `owner-decision` stopgap read this file, then the log since the last regeneration. Rulings from the owner's Drive documents before October 10 that were never copied here are digested by area in `prior-rulings/` (economy, elections, justice-officials-population, laws-and-money, opening, people, press, screens, words).
+
+---
+
+# Decisions from October 10 to 15, 2026 (indexed by subject)
+
+Audited October 15, 2026 from `OWNER-DECISIONS.md`, `AGENTS.md`, `BOARD.md`, `docs/work-orders/`, the session status files and the commit log. Where an entry below changes an older entry in this register, it says so.
+
+## Direction and scope
+
+- **The new core is the engine (owner, Oct 10).** Build onto `src/core2` through modules and data rows; never a parallel engine; the old core runs only until ported and gets no features. Progress is reported as the furthest golden-path step a player reaches, never an audit percentage. Source: AGENTS.md, "Where the game is going".
+- **The Political Process is the baseline (owner, Oct 12).** The game does everything it does, then goes deeper. Source: AGENTS.md; `docs/roadmap/political-process-baseline.md`.
+- **Early access (owner, Oct 10).** Local and state offices playable, including the executive; federal built in parallel on the same engines; courts after early access. Source: AGENTS.md.
+- **Congress is in early access (owner, Oct 14),** on the same engines as every level. Source: OWNER-DECISIONS.md, overnight Oct 14 list.
+- **Keep it simple (owner, Oct 11).** Build only what the golden path needs; every day ends with something the owner can play; short work orders. Source: AGENTS.md, "Keep it simple".
+- **Take the old engine out (owner, Oct 12, 12:15 p.m.).** The old game beside the new one is bloat; delete what the new game cannot reach. Source: `docs/coordination/fixer.md`; commit 22f158ee40.
+- **Fix before building on (owner, Oct 12, 9:15 a.m.).** Each session fixes its audit findings first; an item is done only when it works in play. Source: BOARD.md history, commit 63388a89e3.
+- **Everything built runs in the played world (owner, Oct 12, 7:30 p.m.).** A module not installed in `buildBenchWorld` is not done. Source: BOARD.md history, commit a5be03e8bd, item 1.
+- **This is a game, not a spreadsheet (owner, Oct 14).** No mechanic because real life has it (fees, returns, petitions, forms); a real-world step the game lacks is a question, not a feature. Source: AGENTS.md.
+- **Standard for the morning build (owner, Oct 14).** Behind-the-scenes logic makes sense and every system works; what remains is graphics, English and feel. Source: OWNER-DECISIONS.md.
+- **The reward loop (owner, Oct 14)** is the effect of the player's actions on the simulation over time. Source: OWNER-DECISIONS.md.
+- **No game over (owner, Oct 14).** On death or stepping away, a Crusader Kings 3 style summary, then continue as anyone, keep watching, or start anew; dynasty play is in. Source: OWNER-DECISIONS.md.
+- **Famous careers are capability tests (owner, Oct 14),** produced from causes, never scripted; capability tests (a protest, a demagogue, a realignment, drift to war) live in dev mode. Source: OWNER-DECISIONS.md.
+- **Square pegs (owner, Oct 14).** When an engine the owner asks about does not exist, the CTO says so plainly. Source: OWNER-DECISIONS.md.
+- **The director and the English engine come first (owner, Oct 14, afternoon);** other work continues but yields. Source: OWNER-DECISIONS.md, "Rulings, October 14, afternoon".
+- **Unions and strikes; police, the National Guard and war: 1.0 (owner, Oct 14).** Source: OWNER-DECISIONS.md.
+- **Starting or buying a business: 1.0 (owner, Oct 14).** An owner sees the books. Source: OWNER-DECISIONS.md.
+- **Ballot measures in early access (owner, Oct 14):** the player votes on and campaigns for or against them; writing one is not for early access. Source: OWNER-DECISIONS.md.
+- **Recalls are in (owner, Oct 14),** rare and from causes; the player can be recalled. Source: OWNER-DECISIONS.md.
+- **Interest groups and corruption are in (owner, Oct 14),** never through hard-coded situations; real cases are stress tests. Source: OWNER-DECISIONS.md.
+- **Constituent cases (owner, Oct 14):** 95 to 99 in 100 run in the background; the few that reach the player are those their record makes theirs. Source: OWNER-DECISIONS.md.
+- **Faith (owner, Oct 14)** weighs per person from their record; a player may lie about it through the existing lie. Source: OWNER-DECISIONS.md.
+- **Indictment and prison (owner, Oct 14):** the trial plays in scenes, the player is gone for the sentence and may die in prison; temptation and scandal without graphic detail. Source: OWNER-DECISIONS.md.
+- **Homelessness is a factor (owner, Oct 14, morning).** Anyone who does not pay loses their home, the player's household too; it is a drive and exposes a person to health causes. Source: OWNER-DECISIONS.md; `docs/packages/homelessness.md`. Confirmed for the player's eviction Oct 15 (OWNER-DECISIONS.md, "stale questions closed").
+- **Slim the repository like a real game (owner, Oct 14)** before early access; the guards stay. Source: OWNER-DECISIONS.md.
+
+## Engine rules (standing)
+
+- **No dice; sliding scales and causes; one rule, all 56 places; estimate, never UNKNOWN; wire to the world** (owner, standing; restated in AGENTS.md, "Standing owner rules").
+- **An effect is a read, not a record (owner, Oct 13).** Source: AGENTS.md.
+- **Replace, never layer (owner, Oct 14).** Source: AGENTS.md. Tests of removed mechanics are retired with the mechanic (CTO ruling, Oct 14, from this rule; OWNER-DECISIONS.md).
+- **One model, two tiers (owner, Oct 14).** Counted groups are read by every engine with the same rule as a full person, times the count. Source: AGENTS.md. Supersedes: Oct 12, 7:30 p.m. item 4 ("full people are a representative sample, each standing for a weighted share"; BOARD.md history, commit a5be03e8bd).
+- **The chain is the acceptance (owner, Oct 14).** Source: AGENTS.md.
+- **Ask why (owner, Oct 14);** a report carries the cause of every number before the owner has to ask (owner, Oct 14, morning). Odd results (all board members recalled at once, a year's bills on one day, every winner seated January 1) are defects until the record answers why. Source: AGENTS.md; OWNER-DECISIONS.md, "Rulings, October 14, morning".
+- **Knowing is a read (owner, Oct 14).** Nobody attributes a change to a law unless they learned of it; a stance cites how. Source: OWNER-DECISIONS.md.
+- **Replacement means every role (owner, Oct 14, morning).** Any role whose holder dies, leaves or is removed is refilled the way life refills it. Source: OWNER-DECISIONS.md.
+- **An every-place runner (owner, Oct 14, morning)** runs all 56 places for years and reports every crash with place, seed and stack. Source: OWNER-DECISIONS.md.
+- **The world has a past (owner, Oct 14).** Laws carry enactment history, every seat has a prior election, officials have voting records, the prior year has news. Source: OWNER-DECISIONS.md. History runs from 2000 by default (owner ruling, M1-14, Oct 12; `docs/coordination/core.md`).
+- **The opening past may be seeded generation (CTO ruling, Oct 14, pending owner),** consistent with each record; nothing after day one is a draw. Source: OWNER-DECISIONS.md, "Ruled by the CTO overnight".
+- **Seeded starting politics (owner, Oct 14).** Who exists and a person's starting lean may be seeded; every vote and donation follows the person's reasons. Source: OWNER-DECISIONS.md.
+- **A child does not take up a cause (CTO ruling, Oct 14, pending owner);** drives read age and standing on a sliding scale. Source: OWNER-DECISIONS.md.
+- **Speed and memory.** A year runs in under two minutes (AGENTS.md). Running memory stays small: keep a condensed index, not every log record (owner, Oct 12, 7:30 p.m.; commit a5be03e8bd). Counted people keep about 30 bytes each in packed columns (CTO ruling, Oct 14, pending owner; supersedes: the MEMORY-FLAT package's regenerate-from-seed design). Source: OWNER-DECISIONS.md.
+- **Dev mode is the ultimate trace (owner, Oct 14).** From any record, click every decision behind it; anything the tracer cannot answer is a dev-mode item (owner, Oct 14, morning). Dev mode can do anything (pass any law, make any body decide, jump time, watch); "what if" is a player feature in early access. Source: OWNER-DECISIONS.md.
+
+## Population and people
+
+- **Two-level population (owner, Oct 11).** Full people only where they matter; everyone else counted and filled in when met, matching the records. Source: AGENTS.md, "Keep it simple".
+- **Generated versus simulated people (owner, Oct 14).** Every named official is a full person with a campaign past from day one; others are counted until met, then demoted when they leave the player's life. Source: OWNER-DECISIONS.md. Officials are people from the opening (owner, Oct 12, 7:30 p.m., item 2; commit a5be03e8bd).
+- **Demotion days (owner, Oct 15).** "A per-world range of 180 to 240 days, drawn once per world at generation, never a single fixed number." Source: OWNER-DECISIONS.md, "stale questions closed".
+- **Town size (CTO ruling, Oct 14, pending owner; confirmed as decided Oct 15).** A town opens at its real Census size; nothing pads it to 10,000. Source: OWNER-DECISIONS.md.
+- **Which place is the town (CTO ruling, Oct 14, pending owner):** the governing unit whose offices the player could run for. Source: OWNER-DECISIONS.md.
+- **What you know about a person (owner, Oct 14).** Faith and the rest come out through what they say and do; the dossier shows what anyone would know; the player's own traits emerge the same way. Source: OWNER-DECISIONS.md.
+- **Public figures are known (owner, Oct 14)** to everyone, as the public knows them, distinct from having met them. Source: OWNER-DECISIONS.md.
+- **The player's own context (owner, Oct 14):** parents, siblings, family origin and a few remembered moments are kept facts from day one. Source: OWNER-DECISIONS.md.
+- **Wealthy families on day one (owner, Oct 14):** generated, realistic, with real power, from the wealth tables. Source: OWNER-DECISIONS.md.
+- **Family hires (owner, Oct 14)** are not banned; the relationship is a recorded reason the press and views read. Source: OWNER-DECISIONS.md.
+- **Marriage and children (owner, Oct 14):** the player has a household; how marriage works is not decided. The world nudges the player toward politics (a high-standing player may be asked to run). Source: OWNER-DECISIONS.md.
+- **Movements (owner, Oct 14):** marches, petitions, primary challenges, speaking, joining and founding in early access; leans may move over years; a living retired leader leads until stepping down or death, then a similar successor inherits. Source: OWNER-DECISIONS.md.
+
+## The player's life, time and choices
+
+- **Starting age (owner, Oct 14):** 17 turning 18 by default; starting older is allowed. Source: OWNER-DECISIONS.md.
+- **The player's choices are the player's (owner, Oct 14, night).** No engine accepts a job, a home, a filing or any choice for the controlled person. Source: OWNER-DECISIONS.md. Applied to a post offered to the player (Oct 15, "stale questions closed").
+- **The player casts their own ballot (owner, Oct 13);** election day is a scene at the polling place (owner, Oct 14). Source: OWNER-DECISIONS.md.
+- **Money (owner, Oct 14):** basic rent or mortgage, maybe college debt, money into one's own campaign; never a scoreboard. Money's advantage is time. Why money exists is OPEN. Source: OWNER-DECISIONS.md.
+- **Time (owner, Oct 14, night).** Day advances time and never opens a list of mundane choices; scenes the director fires stop it; a player may advance a day or a week; a quiet day is quiet and days can be skipped at a time. Source: OWNER-DECISIONS.md, "Oct 14 night playthrough". Supersedes: the Oct 12 ruling that a skip passes routine shifts (commit 4ac96c7fe8) and the Oct 14 "no skip-ahead control" line, as far as they differ; the Sep 24 "Time controls" entry stands.
+- **Play how you want (owner, Oct 14, morning).** The player chooses what stops them; any act of office can be done or simulated, at no extra cost for simulating. Source: OWNER-DECISIONS.md; `docs/packages/office-play.md`.
+- **World setup (owner, Oct 14):** a custom start lives in dev mode; a normal game has little preparation. Source: OWNER-DECISIONS.md.
+- **Getting caught in a lie (owner, Oct 14)** depends on the person's trust and whether the press picks it up. Source: OWNER-DECISIONS.md.
+
+## Scenes, conversations, journal and words
+
+- **Scenes are the narrative (owner, Oct 14, night).** The director reads records and fires the scene that applies, told by the English engine; consequences play out through the engines. Source: OWNER-DECISIONS.md.
+- **Scenes carry consequential dialogue; the day screen carries dealing (owner, Oct 14, night, 9:25 p.m.).** Source: OWNER-DECISIONS.md.
+- **Conversations (owner, Oct 14, night).** A talk starts from place and occasion, then the biggest recorded event or the relationship; one topic with side remarks; a listener brings up news they received; no cold "How is X?"; a quiet day is quiet. Q2 and Q8 to Q12 are CTO rulings, pending owner. Source: OWNER-DECISIONS.md, "Conversations".
+- **Four dynamic choices, always (owner, Oct 14, afternoon),** with "say nothing" as a smaller control. Source: OWNER-DECISIONS.md.
+- **Speeches (owner, Oct 14)** are composed one of four parts at a time, as in Suzerain. **A campaign day** is a handful of choices; **debates are in early access.** Source: OWNER-DECISIONS.md.
+- **The journal is a dramatized story (owner, Oct 14, morning),** like a memoir, revised later; no lone-event entries. Source: OWNER-DECISIONS.md. Refines: "Journal voice" (Sep 22 and 24).
+- **No hand-written player text (owner, standing);** English calibration may read anything, but only public-domain or permissive text ships verbatim (owner, Oct 14). Source: AGENTS.md; OWNER-DECISIONS.md.
+- **Arrogance, anger and fear have words (owner, Oct 14, afternoon),** mined from public-domain speech. Source: OWNER-DECISIONS.md.
+- **Words grading (owner, Oct 14).** Lines sound like talk, replies follow their first move, many variants; batches cover legislation, journal, emotion, interviews, meetings and campaigns. Lies and made-up contexts may be graded if the simulation can produce them. A graded part withdraws the rest (Oct 14, morning). One axis per item, thirty different scenes, one place (Oct 14, evening). Source: OWNER-DECISIONS.md.
+- **Batches grade content, not only wording (owner, Oct 15, morning).** Varied situations; proof scenes composed from real records are allowed and labeled; the Words session feeds the engine new situations. Source: OWNER-DECISIONS.md, "Oct 15, morning".
+- **The English engine and director stay with the Claude Words session (owner, Oct 15, 1:05 a.m.).** Source: `docs/work-orders/astra-2026-10-15.md`, Order 4; `docs/coordination/words.md`.
+
+## Laws, bills and government
+
+- **Writing a bill** follows the Sep 25 and 26 bill-on-paper ruling (restated by the owner, Oct 14). Source: OWNER-DECISIONS.md; this register, AUDIT-RETURN-2 item 4.
+- **Bills follow the real form (owner, Oct 14, morning);** the player edits only the terms, each a clickable field. **Bill text is real (owner, Oct 14, afternoon):** sections composed from the record, with number, date and shape of a term editable. Source: OWNER-DECISIONS.md.
+- **A local measure has its own form (owner, Oct 14, afternoon)** from public-domain municipal forms. Source: OWNER-DECISIONS.md.
+- **A purpose phrase per policy (owner, Oct 14, afternoon),** authored once, graded; bills may span areas, with vote trades, poison pills and favors through the deals engine. Source: OWNER-DECISIONS.md.
+- **Bills get monikers (owner idea, Oct 14, evening; Next list, not yet ruled for build).** Source: OWNER-DECISIONS.md.
+- **The executive (owner, Oct 14)** gets appointments, the budget, vetoes and emergency decisions in early access; proposes where the charter or constitution allows; signs or vetoes everywhere. Source: OWNER-DECISIONS.md.
+- **Votes vary and come from many influences (owner, Oct 12, 7:30 p.m.);** no fixed tallies or party-line stand-ins. Source: BOARD.md history, commit a5be03e8bd, item 3.
+- **A yes-or-no vote resolves from a sliding score (CTO ruling, Oct 14, pending owner).** Source: OWNER-DECISIONS.md.
+- **Legislatures meet on their calendar (owner, Oct 14, morning);** bills are heard across session days, never all on one day. Source: OWNER-DECISIONS.md.
+- **Repealing a fresh law (owner, Oct 14):** the body's own rules from data, else a sliding reluctance; no fixed cooldown. Source: OWNER-DECISIONS.md.
+- **Treasuries (owner, Oct 14)** spend what was appropriated; taxes and benefits change by bills; the player touches money only by legislating. Source: OWNER-DECISIONS.md.
+- **A law with two effective dates (CTO ruling, Oct 14, pending owner)** carries both. Source: OWNER-DECISIONS.md. Refines: "Law money (LQ-03)" (Sep 26).
+- **Business taxes (owner, Oct 14)** (payroll share, unemployment insurance, profit, property) are money flows from the law in force, with no player step. Source: OWNER-DECISIONS.md.
+
+## Elections and campaigns
+
+- **Filing (owner, Oct 14):** no fee or petition mechanic; filing happens where the place's records say. Filing under a party requires membership, else independent where allowed (CTO ruling, Oct 14, pending owner). Source: OWNER-DECISIONS.md; AGENTS.md golden path.
+- **Primaries (CTO ruling, Oct 14, pending owner):** where data has a primary date, it is held; a primary with nothing separating candidates is still decided by what does. Source: OWNER-DECISIONS.md.
+- **Turnout (owner, Oct 14)** is a sliding propensity; a named voter's vote follows their own record (CTO ruling, pending owner). Source: OWNER-DECISIONS.md.
+- **Ties (owner, Oct 14)** follow the law of the place; lot is a recorded lot. The statute's race-size line where data names one, else an estimate (CTO ruling, pending owner). Source: OWNER-DECISIONS.md.
+- **Felony-barred share (CTO ruling, Oct 14, pending owner)** as published, an estimate with source. Source: OWNER-DECISIONS.md.
+- **A generated official's campaign past (CTO ruling, Oct 14, pending owner)** holds an opponent, totals, promises and result. Source: OWNER-DECISIONS.md.
+- **Statewide races draw statewide candidates (owner, Oct 14, morning);** state party leaders come from the whole state (CTO ruling, pending owner). Source: OWNER-DECISIONS.md.
+- **Taking office follows the law of the place (owner, Oct 14, morning),** from cited data. Source: OWNER-DECISIONS.md.
+- **One elected seat and one appointed post (owner, Oct 14):** the place's incompatible-offices law decides. Source: OWNER-DECISIONS.md.
+- **Reporters and outlet owners do not hold office (CTO ruling, Oct 14, pending owner).** Source: OWNER-DECISIONS.md.
+
+## Economy, jobs and housing
+
+- **The economy answers "what if" (owner, Oct 14),** e.g. a $70,000 public pay base, through causes. Source: OWNER-DECISIONS.md.
+- **Business and roles database (owner, Oct 14);** businesses get real-sounding generated names, never real brands or "general store" (owner, Oct 14, morning). Source: OWNER-DECISIONS.md.
+- **A new opening's pay (owner, Oct 14)** reads regional pay and the wage floor. **Costs that leave town** are recorded and paid to a seller in town where one exists. **Counted workers' quits** keep no reasons. Source: OWNER-DECISIONS.md.
+- **Evictions without courts (owner, Oct 14):** complete after the state's notice period. Source: OWNER-DECISIONS.md.
+- **Who sees a business's books (owner, Oct 14):** its owner. Source: OWNER-DECISIONS.md.
+
+## Press
+
+- **Press landscape (owner, Oct 14).** The player can influence a paper and people; reporters are people; outlets have biases and wealthy owners whose relationships read into coverage; generated names, never real brands; the world runs without the player. Source: OWNER-DECISIONS.md.
+- **Each outlet gets its own newspaper layout (owner caveat, Oct 15).** Source: BOARD.md, "Orders from the CTO (Oct 15, early)", item 5.
+
+## Screens and the opening
+
+- **The opening's sequence (owner, Oct 14):** the president's address with key people named, Congress, the governor with state legislators, the family, then home. Who the key people are is OPEN. Source: OWNER-DECISIONS.md.
+- **The title and New game (owner, Oct 14, evening):** New game, Continue, Options, Patch notes, Quit; New game opens Start a life, Custom world, New world; then name, age, birth; no seed, place search or customization on the title. Supersedes: the Oct 13 bench front with Seed, Place and Customize. Source: OWNER-DECISIONS.md.
+- **A screen's look ships only on the owner's screenshot (owner, Oct 14, afternoon).** Source: OWNER-DECISIONS.md.
+- **Who you are is a character screen (owner, Oct 14, night).** Law effects on the player sit under Politics as sentences. Source: OWNER-DECISIONS.md.
+- **Screens follow the Oct 14 mockups (owner, Oct 15) with caveats:** nothing that breaks immersion on a person card; Issues follows this register, not its mockup; Your office appears only once the player holds one; the calendar is an opaque panel; Day never opens a choice list. Source: BOARD.md, "Orders from the CTO (Oct 15, early)"; `docs/ui/mocks/screens-2026-10-14/README.md`.
+- **School names honoring presidents stay (owner, Oct 12).** Source: commit 51fd06255b.
+
+## Art
+
+- **Plain poses first (owner, Oct 13).** Figures in plain poses with empty hands; the simulation decides what they are doing. Source: `docs/coordination/people-art-requests.md`.
+- **Remove all old models, shadows and seated figures (owner, Oct 13, 4:20 p.m.);** figures are chosen by what the person is doing; leaders sit in their own buildings. Source: `docs/coordination/people.md`, `docs/coordination/locations.md`.
+- **People art (CTO order, Oct 15, pending owner).** One figure set, 8 poses by 6 bodies with age, skin, hair, outfit and hands as layers (`art/people-engine/v2/`); the cut-out people go. Supersedes: the Oct 12, 1:50 p.m. ruling that whole-figure people (`art/people-whole/`) are the only people (`docs/coordination/fixer.md`). Source: BOARD.md, "Codex"; `docs/work-orders/astra-2026-10-15.md`.
+- **Use the art already made (owner, Oct 12);** Firefly images may stand in for the polling place and ballot (owner, Oct 14). Source: `docs/coordination/play.md`; OWNER-DECISIONS.md.
+
+## Release and desktop
+
+- **Only the game client ships (owner, Oct 14, night);** the art bench and its hub are deleted. Source: OWNER-DECISIONS.md.
+- **The desktop package updates itself (owner, Oct 14, late morning)** from GitHub Releases. A signed mac build needs the owner's Developer ID (OPEN). The Windows row stays allowed to fail until early access (confirmed Oct 15). Source: OWNER-DECISIONS.md.
+- **The release gate is the client's (owner, Oct 15):** build, typecheck and release declarations only. Supersedes: Oct 14 night (build, typecheck, declarations and the golden-path suite). Source: commits acebace349, 525ebec95b; BOARD.md, "Cleanup".
+- **No attorney on the project (owner, Oct 12);** an outside legal review before launch is optional. Source: commit 51fd06255b.
+
+## How the team works
+
+- **The team and pillars (owner, Oct 11; current account only, Oct 14).** Source: AGENTS.md, "The team". Superseded in part by the Oct 15 usage ruling below.
+- **Usage (owner, Oct 15, afternoon).** Sonnet is the only Claude model that builds, reviews or merges; no Opus sessions or sub-agents. The CTO session answers the owner and writes orders and rulings; a Sonnet helper merges and runs tests. Source: OWNER-DECISIONS.md, "Oct 15, afternoon: usage"; `.agents/skills/cto/SKILL.md`. Supersedes: AGENTS.md's Opus pillars (Oct 11), Opus sub-agents (Oct 12, 10:30 a.m.) and the Opus option in the 3-2-1 rule (Oct 14).
+- **Checks (owner, Oct 14, evening).** A PR merges on its builder's gate run in its own session over changed files only (typecheck, eslint, prettier, those files' tests), one line at the top of the PR body; never the full suite; GitHub's runs are not waited on. Source: OWNER-DECISIONS.md. Supersedes: AGENTS.md "Checks stay light" (Oct 11) where it names the golden-path suite and speed guard as blocking automatic checks. Earlier: CI checks only changed files (owner, Oct 12; commit b2f23af7d4).
+- **Sessions never send messages (owner, Oct 14, morning);** everything goes in the PR body and status file. Source: OWNER-DECISIONS.md.
+- **The owner does not read PR bodies (owner, Oct 14, afternoon);** the CTO brings him questions and screenshots in chat. Source: OWNER-DECISIONS.md.
+- **The pool is the only backlog (owner, Oct 15).** Source: AGENTS.md; `docs/pool/README.md`.
+- **Look before you ask; owner decisions flagged, never waited on (owner, Oct 14).** Source: AGENTS.md.
+- **Don't tune to the report's towns (owner, Oct 12);** verify on fresh random seeds. Source: `docs/coordination/HANDOFF-2026-10-12.md`.
+
+## Open owner questions (October 15)
+
+Town districts or council wards; the opening's key people; why money exists; trusts; party loyalty data (license). Source: OWNER-DECISIONS.md, "Open" and "stale questions closed".
+
+---
+
 ---
 
 # Our Civic Duty — Decision Register
