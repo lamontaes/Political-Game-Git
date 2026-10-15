@@ -7,6 +7,7 @@ import { coreAPI } from "../core2/state";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { subjectsBetween } from "./conversation";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
 
@@ -62,16 +63,24 @@ describe("the opening story", () => {
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
         sentence.text,
       ).toBe(true);
+    // A figure with what it is, never a bare claim ("Prices are too high").
+    for (const sentence of story.address.sentences.filter(
+      (row) => row.level === "country",
+    ))
+      expect(sentence.text, sentence.text).toMatch(/\d/);
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });
 
-  it("names a place only from the President's campaign visits", () => {
+  it("names a place only from a campaign visit to the player's own state", () => {
     const president = core.people.get(story.president.id)!;
+    const ownState = corePlaceByJurisdictionId(
+      core.people.get(playerId)!.placeId as never,
+    )?.stateJurisdictionKey;
     const visits = new Map(
       (president.pastFacts ?? [])
         .filter((row) => row.kind === PRESIDENT_FACT.visit)
-        .map((row) => [row.id, row.facts!.stateName!]),
+        .map((row) => [row.id, row.facts!]),
     );
     expect(visits.size).toBeGreaterThan(0);
     for (const sentence of story.address.sentences.filter(
@@ -80,8 +89,14 @@ describe("the opening story", () => {
       const visit = sentence.sourceRecordIds.find((id) => visits.has(id));
       if (!/\{place\}/.test(sentence.text) && !visit) continue;
       expect(visit, sentence.text).toBeTruthy();
-      expect(sentence.text).toContain(visits.get(visit!));
+      expect(sentence.text).toContain(visits.get(visit!)!.stateName);
+      expect(visits.get(visit!)!.stateKey).toBe(ownState);
     }
+    // The name card: office and state, never a bare former office.
+    const card = openingFrames(core, playerId, story).speaker;
+    expect(card.detail).toEqual(
+      story.president.homeState ? [story.president.homeState] : [],
+    );
     const kinds = new Set((president.pastFacts ?? []).map((row) => row.kind));
     expect(kinds.has(PRESIDENT_FACT.homeState)).toBe(true);
     expect(kinds.has(PRESIDENT_FACT.elected)).toBe(true);
@@ -111,9 +126,11 @@ describe("the opening story", () => {
     // The bench's opening speaks every sentence, in order, over pictures
     // that cut when the subject changes; a place line shows that state.
     const opening = openingFrames(core, playerId, story);
-    expect(opening.frames.flatMap((frame) => frame.lines)).toEqual(
-      story.address.sentences,
-    );
+    expect(
+      opening.frames
+        .filter((frame) => !frame.speaker)
+        .flatMap((frame) => frame.lines),
+    ).toEqual(story.address.sentences);
     for (let i = 1; i < opening.frames.length; i += 1)
       expect(opening.frames[i]!.place).not.toBe(opening.frames[i - 1]!.place);
     for (const frame of opening.frames)
@@ -127,15 +144,55 @@ describe("the opening story", () => {
     expect(order).toEqual(["president", "congress", "state", "family"]);
     const opening = openingFrames(core, playerId, story);
     // The stages come in order; a cutaway never goes back to an earlier one.
-    const reached = opening.frames.map((frame) => order.indexOf(frame.stage));
+    // First, what the player is watching: their own household at home, the
+    // anchor leading into the address by its title.
+    const [lead, ...address] = opening.frames;
+    expect(lead!.speaker).toBe("anchor");
+    expect(lead!.stage).toBe("home");
+    expect(lead!.lines.map((row) => row.text).join(" ")).toMatch(
+      /We begin with the (?:State of the Union|inaugural address)\./,
+    );
+    const household = new Set(
+      core.households.get(core.people.get(playerId)!.householdId)?.memberIds,
+    );
+    for (const row of lead!.pointOut) expect(household.has(row.id)).toBe(true);
+    const reached = address.map((frame) => order.indexOf(frame.stage));
     expect(reached).toEqual([...reached].sort((a, b) => a - b));
     expect(reached[0]).toBe(0);
-    // The Vice President is pointed out on the President's stage, by name
-    // and office, and stands in its picture.
-    const vp = story.sequence[0]!.people[0]!;
-    expect(vp.office).toBeTruthy();
-    expect(opening.frames[0]!.pointOut.map((row) => row.id)).toContain(vp.id);
-    expect(opening.frames[0]!.cast.map((row) => row.id)).toContain(vp.id);
+    // Everyone pointed out is there for a recorded reason the scene names:
+    // the player's household, or the sentence that names them, which plays
+    // in the frame where they are pointed out.
+    for (const frame of opening.frames)
+      for (const row of frame.pointOut) {
+        if (row.role === "household") {
+          expect(household.has(row.id)).toBe(true);
+          continue;
+        }
+        expect(row.namedBy, row.name).toBeDefined();
+        const said = story.address.sentences[row.namedBy!]!;
+        expect(frame.lines[row.line!], row.name).toBe(said);
+        expect(frame.cast.map((member) => member.id)).toContain(row.id);
+        // A governor thanked by name is introduced by office and state.
+        if (row.role === "office:governor") {
+          expect(said.text).toContain(core.people.get(row.id)!.familyName);
+          expect(row.office).toBeTruthy();
+          expect(row.state).toBeTruthy();
+        }
+      }
+    // A name the address says belongs to someone pointed out in that scene.
+    for (const sentence of story.address.sentences.filter((row) =>
+      row.facts.includes("name"),
+    ))
+      expect(
+        opening.frames.some(
+          (frame) =>
+            frame.lines.includes(sentence) &&
+            frame.pointOut.some((row) =>
+              sentence.sourceRecordIds.includes(row.id),
+            ),
+        ),
+        sentence.text,
+      ).toBe(true);
     // Everyone a stage points out is named from a record, once.
     const pointed = opening.frames.flatMap((frame) => frame.pointOut);
     expect(new Set(pointed.map((row) => row.id)).size).toBe(pointed.length);
@@ -154,13 +211,19 @@ describe("the opening story", () => {
           (frame) =>
             `${frame.stage} ${frame.place}: ${frame.pointOut
               .map((row) =>
-                [row.name, row.post, row.office, row.state]
+                [row.name, row.relation, row.post, row.office, row.state]
                   .filter(Boolean)
                   .join(", "),
               )
               .join("; ")}`,
         )
         .join("\n"),
+    );
+    console.log(
+      [
+        ...story.lead.map((row) => `anchor: ${row.text}`),
+        ...story.address.sentences.map((row) => `${row.level}: ${row.text}`),
+      ].join("\n"),
     );
   });
 });
