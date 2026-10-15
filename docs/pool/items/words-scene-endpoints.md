@@ -4,12 +4,13 @@ title: "Every scene has an endpoint, stated on the batch page"
 area: words
 kind: feature
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-scene-endpoints
 pr:
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
+claimed-at: 2026-10-15T21:59:25.578Z
 ---
 
 **What.** A scene exists for money, a bill or the player's political life; family talks are personal scenes only.

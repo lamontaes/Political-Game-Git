@@ -4,7 +4,7 @@ title: "The filing office is a place you travel to (#4298)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4298
 blocked-on:
@@ -21,3 +21,4 @@ source: "astra order 1; PR #4298 branch play/filing-in-travel"
 **Files.** src/bench/*, src/bench/controls.json
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
+Sent back 2026-10-15 from PR #4298 (branch play/filing-in-travel): code conflict with main in src/bench/play.mjs, src/bench/data/controls.json; finish on that branch, merge main into it first.

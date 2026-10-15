@@ -4,9 +4,9 @@ title: "Journal lines carry their subject"
 area: words
 kind: feature
 priority: 1
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4465
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"

@@ -4,7 +4,7 @@ title: "Finish #4350: wide races merge with main"
 area: elections
 kind: wiring
 priority: 1
-status: in-pr
+status: open
 claimed-by:
 pr: #4350
 blocked-on:
@@ -21,3 +21,4 @@ source: "reissue item 10; PR #4350 branch gov/session-c-wide-races"
 **Files.** src/core2/modules/candidacy.ts, elections.ts
 
 **Notes.** Not a draft; ready once merged with main.
+Sent back 2026-10-15 from PR #4350 (branch gov/session-c-wide-races): code conflict with main in src/core2/modules/candidacy.ts, src/core2/modules/elections.ts, stopgaps.json; finish on that branch, merge main into it first.

@@ -4,7 +4,7 @@ title: "Person cards use a large side figure in the Kit 13 panel (#4320)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4320
 blocked-on:
@@ -21,3 +21,4 @@ source: "astra order 1; PR #4320 branch play/person-card-layout"
 **Files.** src/bench/*, src/bench/controls.json
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
+Sent back 2026-10-15 from PR #4320 (branch play/person-card-layout): code conflict with main in src/bench/data/controls.json; finish on that branch, merge main into it first.

@@ -4,7 +4,7 @@ title: "Nobody is drawn in your bedroom unless the records put them there (#4293
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4293
 blocked-on:
@@ -21,3 +21,4 @@ source: "astra order 1; PR #4293 branch play/scene-records-only"
 **Files.** src/bench/*, src/bench/controls.json
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
+Sent back 2026-10-15 from PR #4293 (branch play/scene-records-only): code conflict with main in src/bench/play.mjs, src/bench/data/controls.json; finish on that branch, merge main into it first.

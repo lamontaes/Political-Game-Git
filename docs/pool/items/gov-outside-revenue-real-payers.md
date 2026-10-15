@@ -6,11 +6,12 @@ kind: stopgap
 priority: 1
 size: L
 status: blocked
-claimed-by:
+claimed-by: claude/gov-outside-revenue-real-payers
 pr:
-blocked-on: gov-outside-plug-removed
+blocked-on: gov-outside-revenue-retire-plug
 milestone:
 source: "split from core-outside-flow-provenance-gate; stopgap SG-GOV-outside-revenue-monthly"
+claimed-at: 2026-10-15T22:06:14.562Z
 ---
 
 **What.** Each month `budgets.ts` (`closeMonth`, `budgets-treasury.ts`) credits every treasury an even twelfth of yearly Census revenue from the outside account (in the vaitogi seed about $5.2 trillion in a year, plus federal borrowing and treasury spending flows), with no taxpayer, sale or grant behind it. Replace it: each revenue line paid by its real payer on its real dates (taxpayers, fee payers, aid from the level above), each spending line paid to real payees (public workers, contractors). The federal gap is borrowed from named lenders. Size L: split into one sub-item per government level or revenue family before building.
@@ -23,4 +24,4 @@ source: "split from core-outside-flow-provenance-gate; stopgap SG-GOV-outside-re
 
 **Notes.** Blocks `core-outside-flow-provenance-gate`. See also the open item `gov-stopgap-budgets-faked-mechanic`.
 
-Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.
+Split into seven bounded items by `claude/gov-outside-revenue-real-payers` (#4462), Oct 15: the outside share of town-paid taxes, other taxes, fees, aid, borrowing, spending payees, then the plug's removal.

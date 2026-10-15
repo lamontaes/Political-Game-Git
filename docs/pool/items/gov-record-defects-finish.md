@@ -4,7 +4,7 @@ title: "Finish #4343: three officeholder record fixes"
 area: gov
 kind: bug
 priority: 1
-status: in-pr
+status: open
 claimed-by:
 pr: #4343
 blocked-on:
@@ -21,3 +21,4 @@ source: "reissue item 11; PR #4343 branch gov/session-c-record-defects"
 **Files.** src/core2/modules/incompatibility*, legislature.ts, data/incompatibility.json
 
 **Notes.** Defects 1, 2 and 5 are good as they stand. The "bill with no title" defect (batch 11, Pine Ridge 2027-2) is fixed when this merges.
+Sent back 2026-10-15 from PR #4343 (branch gov/session-c-record-defects): code conflict with main in src/core2/modules/legislature.ts, scripts/dialogue-batch/coverage-batch.ts, stopgaps.json; finish on that branch, merge main into it first.

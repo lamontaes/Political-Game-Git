@@ -4,7 +4,7 @@ title: "Fresh private hub build (docs note, #4268)"
 area: release
 kind: cleanup
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4268
 blocked-on:
@@ -21,3 +21,4 @@ source: "open PR #4268"
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+Sent back 2026-10-15 from PR #4268 (branch desktop/hub-rebuild): PR body has no gate line; finish on that branch, merge main into it first.

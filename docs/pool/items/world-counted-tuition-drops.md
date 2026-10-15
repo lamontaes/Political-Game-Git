@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4463
 blocked-on:
 source: found by a Claude session building laws-family-school-vouchers (control run without the law)
 ---
