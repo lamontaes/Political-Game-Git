@@ -14399,6 +14399,304 @@
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
         "license": "public domain (U.S. government work, 17 U.S.C. 105)"
       }
+    },
+    {
+      "key": "conversation.family-open-open.can-i-talk-to-you",
+      "move": "family-open-open",
+      "kind": "spoken",
+      "text": "Can I talk to you?",
+      "uses": [
+        {
+          "move": "family-open-open",
+          "subject": "family-open",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Tribal Nations Summit",
+        "date": "2024-12-09",
+        "granule": "DCPD-202401060",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202401060/html/DCPD-202401060.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-raise-closure.it-shut-down",
+      "move": "job-cause-raise-closure",
+      "kind": "spoken",
+      "text": "It shut down.",
+      "uses": [
+        {
+          "move": "job-cause-raise-closure",
+          "subject": "job-cause",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["closure"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Arcosa Wind Towers, Inc., Manufacturing Facility in Belen, New Mexico",
+        "date": "2023-08-09",
+        "granule": "DCPD-202300682",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300682/html/DCPD-202300682.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-raise-closure.they-went-out-of-business",
+      "move": "job-cause-raise-closure",
+      "kind": "spoken",
+      "text": "They went out of business.",
+      "uses": [
+        {
+          "move": "job-cause-raise-closure",
+          "subject": "job-cause",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["closure"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
+        "date": "2026-09-04",
+        "granule": "DCPD-202600575",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600575/html/DCPD-202600575.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-ask.what-are-you-going-to-do-now",
+      "move": "job-cause-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What are you going to do now?",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-ask",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "dcpd": 1,
+        "nasa-oral": 3,
+        "senate-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks During a Visit to National Mall Reflecting Pool and an Exchange With Reporters",
+        "date": "2026-05-07",
+        "granule": "DCPD-202600321",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600321/html/DCPD-202600321.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-ask.so-what-now",
+      "move": "job-cause-reply-answer-ask",
+      "kind": "spoken",
+      "text": "So what now?",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-ask",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg-people": 1,
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing an Executive Order on Childhood Vaccine Schedule Recommendations and an Exchange With Reporters",
+        "date": "2026-08-10",
+        "granule": "DCPD-202600528",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600528/html/DCPD-202600528.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-ask.what-happens-now",
+      "move": "job-cause-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What happens now?",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-ask",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
+        "date": "2026-08-02",
+        "granule": "DCPD-202600511",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600511/html/DCPD-202600511.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-hope.im-sure-you-will",
+      "move": "job-hope-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I'm sure you will.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-hope",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "nasa-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in a Roundtable Discussion on Flooding Damage and Recovery Efforts With First Responders and Local Officials and an Exchange With Reporters in Kerrville, Texas",
+        "date": "2025-07-11",
+        "granule": "DCPD-202500760",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500760/html/DCPD-202500760.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-raise.we-have-to-move",
+      "move": "eviction-raise",
+      "kind": "spoken",
+      "text": "We have to move.",
+      "uses": [
+        {
+          "move": "eviction-raise",
+          "subject": "eviction",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "chrg-people": 1,
+        "dcpd": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "PERSPECTIVES ON THE FERTILIZER INDUSTRY: ENSURING A STABLE AND AFFORDABLE SUPPLY FOR AMERICAN PRODUCERS",
+        "date": "2026-05-12",
+        "granule": "CHRG-119shrg63764",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg63764/html/CHRG-119shrg63764.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-where-reply-answer-comfort.its-going-to-be-okay",
+      "move": "eviction-where-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "It's going to be okay.",
+      "uses": [
+        {
+          "move": "eviction-where-reply-answer-comfort",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "dcpd": 7,
+        "nasa-oral": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Efforts To Protect the United States Steel and Shipbuilding Industries in Pittsburgh, Pennsylvania",
+        "date": "2024-04-17",
+        "granule": "DCPD-202400306",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400306/html/DCPD-202400306.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-where-reply-answer-comfort.well-be-fine",
+      "move": "eviction-where-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "We'll be fine.",
+      "uses": [
+        {
+          "move": "eviction-where-reply-answer-comfort",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 2,
+        "nasa-oral": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Presenting the Public Safety Officer Medal of Valor",
+        "date": "2022-05-16",
+        "granule": "DCPD-202200407",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200407/html/DCPD-202200407.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.eviction-where-reply-answer-comfort.well-figure-it-out",
+      "move": "eviction-where-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "We'll figure it out.",
+      "uses": [
+        {
+          "move": "eviction-where-reply-answer-comfort",
+          "subject": "eviction-where-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "dcpd": 1,
+        "nasa-oral": 1,
+        "senate-oral": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a White House Coronavirus Task Force Press Briefing",
+        "date": "2020-04-03",
+        "granule": "DCPD-202000235",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000235/html/DCPD-202000235.htm",
+        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
+      }
     }
   ]
 }
