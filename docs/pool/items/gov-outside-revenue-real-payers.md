@@ -5,10 +5,10 @@ area: gov
 kind: stopgap
 priority: 1
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/gov-outside-revenue-real-payers
 pr:
-blocked-on:
+blocked-on: gov-outside-revenue-retire-plug
 milestone:
 source: "split from core-outside-flow-provenance-gate; stopgap SG-GOV-outside-revenue-monthly"
 claimed-at: 2026-10-15T22:06:14.562Z
