@@ -3979,8 +3979,8 @@
     "why": "The world-legislating engine is OPUS-GOV's and is being rewritten on its sessions branch; office-day may not edit it.",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
-    "replacement": "world-legislating's scheduleMeeting reads nextMeeting from office-day-calendar.ts, so every meeting of a body is one meeting on one rule.",
-    "status": "open"
+    "replacement": "world-legislating's scheduleMeeting reads nextMeeting from office-day-calendar.ts, so every meeting of a body is one meeting on one rule. Done Oct 15 (claude/office-local-39): scheduleMeeting in world-legislating.ts reads nextMeeting from office-day-calendar.ts; the tunable localRegularMeetingsPerYear is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-member-filings-at-midnight",

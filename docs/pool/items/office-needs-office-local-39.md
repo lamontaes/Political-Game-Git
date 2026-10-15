@@ -22,3 +22,6 @@ claimed-at: 2026-10-15T23:24:41.985Z
 **Files.** src/core2/office-day-pay.ts, src/core2/office-day-calendar.ts, src/core2/modules/office-day.ts, docs/coordination/OFFICE-LOCAL.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Checked Oct 15 (claude/office-local-39).** Built on main: a part-time seat's stipend arrives on the 1st from the treasury that pays it, with a transfer id `stipend:<term>:<date>` (`office-day.ts` `payStipends`), and a local body's regular meetings are on the office-day calendar by its own rule. Fixed in the same PR: the meetings where members file their own ordinances used a tunable yearly count, so a body had two sets of meeting dates; they now read the same rule (stopgap SG-OFFICE-gov-meeting-dates resolved, parameter `localRegularMeetingsPerYear` deleted). The other lines are each tracked by a registered stopgap and its own pool item: member filings voted at midnight (SG-OFFICE-member-filings-at-midnight), the desk's sign-or-veto rule copy (SG-OFFICE-desk-rule-copy), the case decision rule copy (SG-OFFICE-case-rule-copy), the stipend as a transfer and not a payroll paycheck (SG-OFFICE-stipend-transfer), and emergencies (`office-declare-an-emergency-needs-opus-core-s`).
+
