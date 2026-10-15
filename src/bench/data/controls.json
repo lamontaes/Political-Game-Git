@@ -119,5 +119,13 @@
     "family": "Family",
     "views": "Politics",
     "traits": "Traits"
+  },
+  "person": {
+    "age": "Age",
+    "work": "Work",
+    "place": "Home",
+    "talk": "Talk",
+    "back": "Back",
+    "continue": "Continue"
   }
 }

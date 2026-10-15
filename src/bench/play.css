@@ -1342,39 +1342,91 @@ body.dev .dev-ring {
   fill: var(--gold);
 }
 
-/* ---- The dossier: the full figure on the left, the record on the right ---- */
+/* Person cards share the character screen's large side figure and Kit 13 panel. */
 .dossier {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: min(820px, calc(100vw - 2 * var(--gutter)));
-  display: flex;
-  gap: 40px;
-  align-items: flex-start;
-  padding: 24px 26px 22px 60px;
+  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+  height: min(780px, calc(100vh - 2 * var(--gutter)));
+  display: grid;
+  grid-template-columns: minmax(180px, 32%) minmax(0, 1fr);
+  column-gap: clamp(24px, 3vw, 48px);
+  padding: 30px 40px;
+}
+.dossier-media {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+#person-background,
+#person-figure {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+#person-background {
+  object-fit: cover;
 }
 #person-figure {
-  flex: none;
-  height: 340px;
-  width: auto;
-  max-width: 150px;
   object-fit: contain;
+  object-position: center bottom;
 }
 .dossier-main {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+  min-height: 0;
+  padding-top: 18px;
 }
 .dossier .heading {
-  font-size: 26px;
+  font-size: clamp(24px, 2.5vw, 40px);
+  padding-right: 32px;
 }
 #person-role {
-  margin: 4px 0 12px;
+  margin: 8px 0 32px;
+  color: var(--text-2);
 }
 #person-role:empty {
   display: none;
 }
+#person-facts {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+.dossier-detail {
+  margin: 0 0 24px;
+}
+.dossier-detail p {
+  margin: 6px 0;
+}
+.dossier-feature {
+  font: 500 21px var(--speech);
+}
 .dossier .acts {
   margin-top: 16px;
+}
+#person-close {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+}
+#person-pager:not([hidden]) {
+  display: flex;
+}
+#game.person-open #news-surface {
+  visibility: hidden;
+}
+@media (max-width: 700px) {
+  .dossier {
+    grid-template-columns: minmax(100px, 30%) minmax(0, 1fr);
+    gap: 18px;
+    padding: 24px;
+  }
 }
 
 /* ---- The filing office's rules, beside the clerk ---- */
