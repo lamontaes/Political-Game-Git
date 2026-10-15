@@ -87,3 +87,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 9. Health death records reaching news — `pool/death-news-records` (first Session D; trace audit README-TRACE-2 defect 6, health event publication and existing news readers only; no director or English edits).
 
 - 9. Background proposal scope — `pool/proposal-scope` (second Session D; the played year in #4360 found Congress proposing state-specific questions because world-legislating reads a sparse permission table instead of the question-scope catalog; producer filtering only, no director/English edits).
+
+- 10. Core Needs from other sessions list — first Session D, `pool/renewal-snapshot` first bounded engine: renewal initialization survives snapshot restore; active source owners retained for their existing repairs, remaining list items stay tracked.

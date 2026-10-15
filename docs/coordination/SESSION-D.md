@@ -12,3 +12,5 @@
 - The pool is not complete. All drafts include release declarations and state their proof limits. No helpers, self-merges, full suites or branch deletion. Claims were merged with the second worker's changes using ordinary pushes.
 
 - Item 9 claimed: `pool/death-news-records`, audit defect 6, health death publication into existing news readers. No English or director changes.
+
+- Item 10 claimed: core Needs from other sessions list; first branch `pool/renewal-snapshot`, renewal initialization restore. Other list entries remain unfinished and active owners retain their repairs.
