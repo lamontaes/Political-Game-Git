@@ -184,3 +184,9 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Proof scenes are allowed.** A scene or line may be sent for grading before the director fires that situation in play, as long as the English engine composed it from a real record and its context in a played world ("okay, it can generate this line along with context"). The batch says which scenes fired in play and which are composed proofs of a situation the director does not yet fire.
 - **Feed the engine.** The Words session's job is also to give the engine pieces to work with: new situation types, occasions and banks, mined and registered the usual way, so each batch widens what the game can say. The Words session reads what the director does (`src/director/`) and builds on it or extends it; it does not wait for the director to fire a situation before the words for it exist.
 - The CTO holds a batch whose scenes are mostly repeats of the same few situations, the same way it holds one with record defects.
+
+## Oct 15, afternoon: usage (owner, repeated; now written)
+
+- Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind.
+- The CTO session answers the owner and prepares orders, rulings, skills and reports. It never merges, reads diffs, logs or test output, runs tests, creates PRs or holds PR subscriptions; a Sonnet helper does those and returns a table.
+- Recorded in `.agents/skills/cto/SKILL.md` under "Usage rules for the CTO session".
