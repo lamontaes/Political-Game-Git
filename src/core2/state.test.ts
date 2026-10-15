@@ -947,3 +947,33 @@ describe("P8 retained husk identity and family continuity", () => {
     expect(mutableSnapshot(core)).toEqual(before);
   });
 });
+
+describe("retained counted family relationships", () => {
+  it("keeps closeness and indexes without filling the relative", () => {
+    const opening = input();
+    const actor = opening.people.find((row) => row.id === player)!;
+    actor.familyIds = [...actor.familyIds, huskId];
+    actor.pastFacts = [
+      {
+        id: `${player}:family:${huskId}`,
+        date: today,
+        kind: "family:sibling",
+        summary: "Recorded family tie",
+        source,
+      },
+    ];
+    const core = createCore(opening);
+    const id = [player, huskId].sort().join(":");
+    expect(core.relationships.get(id)?.level).toBeGreaterThan(0);
+    expect(core.relationshipsByPerson.get(huskId)?.has(id)).toBe(true);
+    expect(core.people.has(huskId)).toBe(false);
+    expect(core.husks.has(huskId)).toBe(true);
+    assertCoreIntegrity(core);
+    expect(() =>
+      coreAPI(core).relationship(player, "absent", "family", 1),
+    ).toThrow("Invalid relationship");
+    expect(() =>
+      coreAPI(core).relationship(outsider, huskId, "family", 1),
+    ).toThrow("Invalid relationship");
+  });
+});
