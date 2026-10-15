@@ -4,9 +4,9 @@ title: "Replies continue the conversation"
 area: words
 kind: feature
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/words-replies-continue
-pr:
+pr: #4469
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
