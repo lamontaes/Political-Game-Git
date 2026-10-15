@@ -4,12 +4,13 @@ title: "National outlets print none of a sitting president's acts"
 area: gov
 kind: bug
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-g2977r
 pr:
 blocked-on:
 milestone:
 source: "overnight Session C item 2; OFFICE-FEDERAL needs"
+claimed-at: 2026-10-15T20:31:29.831Z
 ---
 
 **What.** National outlets decline a sitting president as not newsworthy. Make the press engine read the president's acts as news.

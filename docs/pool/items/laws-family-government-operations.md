@@ -6,7 +6,7 @@ kind: wiring
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/laws-family-government-operations
+claimed-by:
 pr: #4439
 blocked-on:
 milestone:
