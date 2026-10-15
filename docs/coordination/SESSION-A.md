@@ -1,53 +1,41 @@
-# Session A
+# Session A: law-link
 
-Housing and price laws now reach payment engines in two drafts. A third draft fixes received knowledge. A fourth connects property-tax caps to assessments and household billing. The full 59-law assignment remains unfinished.
+On the draft branches, laws now reach housing construction and rent, household prices, property-tax assessments, farm sales, consumer loan offers, and income-tax schedules. The knowledge draft preserves how a person actually received news.
 
-## Assignment
+Session A is not finished. The full law-to-person-to-received-source-to-director acceptance remains open. No pool item is claimed, and the original law-link draft stays open until the replacements hold.
 
-Rebuild from main, one draft per family. No self-merge, no pool claim, and do not close #4116 yet.
+## Drafts and evidence
 
-## Drafts
+| Family             | Draft and branch                       | Played-world result                                                                                                                                               |
+| ------------------ | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Housing            | #4331, `law/session-a-law-link`        | A native zoning law changes construction capacity. Native rent-cap savings and eviction-counsel payment were absent.                                              |
+| Prices             | #4335, `law/session-a-prices`          | Nadia Dalton receives a 775-cent transit refund in `journal:2025-04-03:8842`. The bill was proposed through the legislature and passed an unforced vote.          |
+| Received knowledge | #4342, `law/session-a-law-knowledge`   | Rebecca Moseley receives a printed law story. Her stance retains the actual news source. This does not prove a paid effect on her.                                |
+| Property tax       | #4345, `law/session-a-property-tax`    | David McKnight pays 10,342 cents in `journal:2025-02-06:2224`. No native assessment-cap saving occurred.                                                          |
+| Groundwater        | #4359, `law/session-a-groundwater`     | A native county law limits farm sales. William Miles later receives 283,169 cents in `journal:2025-05-01:9077`. The full draw is not claimed as the law's effect. |
+| Consumer credit    | #4361, `law/session-a-consumer-credit` | Native applications, loans and payments were absent. Binding, repeal and jurisdiction cases are controlled tests only.                                            |
+| Income tax         | #4365, `law/session-a-income-tax`      | David's February 13 paycheck withholds 9,223 cents under the state law. The native year had no graduated-tax repeal; transition tests cover that case.            |
 
-Housing is #4331, branch `law/session-a-law-link`.
+The common unchosen draw is Bolton, North Carolina, seed `ec34d7766cd3277bdbd1510ae1a9277680fb03f7dd96b0649f7df4c6290591c5`. Each proof runs a played year with all modules. PR bodies carry the complete IDs, exact checks and limitations. Controlled cases are separate from native evidence.
 
-Price laws are #4335, branch `law/session-a-prices`.
-
-Knowledge is #4342, branch `law/session-a-law-knowledge`.
-
-Property tax is #4345, branch `law/session-a-property-tax`.
-
-Each starts from main `1977d40995`.
-
-Price play reached Nadia Dalton in the unchosen Bolton world. Fare savings paid her $7.75 after the council enacted an ordinance. Existing clean-electricity law added $5.34 to her monthly costs. The generated year balanced and took 20.76 seconds against the base's 22.46 seconds.
-
-The knowledge fix removes automatic observations from group A and group B reach tables. Real news still delivers information. View causes now retain the received news key, including when a reporter is the speaker.
-
-The knowledge year took 17.49 seconds and balanced every dollar. Rebecca Moseley heard a report on March 4; her stance names that received story and its reporter. No fabricated law-reach knowledge appeared. The new receipt test passes; an older news-retention test also fails on main.
-
-Property-tax and reach tests pass, including the same assessment cap for full and counted owners. Counted tax arrears now belong to the household. Exact statutory caps and exemptions remain estimated and registered. David McKnight paid $103.42 in the drawn year; no cap was in force there. The matched speed check was 18.01 seconds against main at 18.07 seconds.
-
-## Eleven record-only laws
-
-All eleven stopgaps remain open. Their reasons now name the missing records found on main.
-
-| Law                | Missing record or decision                                |
-| ------------------ | --------------------------------------------------------- |
-| Police oversight   | Police misconduct complaint, board finding and discipline |
-| Juvenile age       | Court routing and juvenile sentence                       |
-| Carry permit       | Weapon possession and permit application                  |
-| Handgun age        | Individual handgun sale                                   |
-| Stand your ground  | Self-defense incident and retreat facts                   |
-| Discrimination     | Discriminatory hiring or rental decision and complaint    |
-| Abortion           | Unplanned pregnancy or termination request                |
-| Age verification   | Minor account opening and parental consent                |
-| Facial recognition | Identification request and warrant                        |
-| Data privacy       | Customer-data holdings and access or deletion request     |
-| Local authority    | A disputed authority category changed by a broader grant  |
-
-The authority checker already allows policy questions without a recorded state limit. Adding a broad-authority read that returns the same answer would not prove an effect.
+Each family starts from main `1977d40995`. None was merged or closed by this session. No helper ran.
 
 ## Remaining work
 
-Finish other law families and prove each payment or decision through a named person's informed view and director line. The price and housing drafts do not yet prove that whole chain. Words owns the director and English engine tonight.
+- Complete the remaining law reads, including bargaining, agency fees, cannabis, health and assistance, school eligibility, clean-air policy, and the remaining justice and government policies.
+- Audit all 59 catalog questions against their decision or payment consumers. Existing handlers are not accepted merely because they write a row.
+- Prove each wired family's named-person, received-source, view or choice, and director chain. Most people remain untouched.
+- Keep the eleven permitted record-only laws registered with concrete missing-record reasons. Keep every other shortcut registered too.
+- Reconcile family changes after CTO integration. Close #4116 only when the replacements hold, then claim the first open pool item.
 
-No helpers ran. Tests and record IDs are in each PR body. Combine the families' status entries and shared law-reach edits when the CTO merges them.
+## Verification limits
+
+The income-tax transition test passes. Two group-B failures reproduce on exact main in Ten Mile Run, New Jersey, seed `91e8ccda3aae3da76ef3d6f5136a55458beea638c1d565e8b1dbc37f85971b1e`: assistance eligibility and highway-service cleanup. An existing news test also fails on main. No tests were skipped.
+
+Consumer credit's matched speed check was 28.39 seconds versus 26.20 on main. Groundwater's personal-receipt run included owner fill-in and concurrent checking, so its 30.11 seconds is not a comparable speed result. The earlier groundwater year was 21.71 seconds. Income tax's final year was 20.62 seconds.
+
+## Needs from other sessions
+
+The director and English engine are outside tonight's scope. Use existing consumers where possible and identify the missing Words-session consumer for each remaining payment explanation. No journal or conversation line is claimed from bookkeeping alone.
+
+Counted credit applications and repayment still need the same rule as full households. Farm irrigation exposure, bottle returns, statutory tax replacement terms, and the remaining gaps are registered in each draft's stopgap data.
