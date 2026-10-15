@@ -547,7 +547,28 @@ export function occupyRehousedRental(
 /** New households take a real vacant home once their own income and cash qualify. */
 export function houseUnassignedHouseholds(api: CoreAPI): void {
   const c = api.state as CoreState;
+  const availablePlaces = new Set<string>();
+  for (const project of table(
+    api,
+    "projects",
+  ).rows() as unknown as ProjectRow[]) {
+    if (
+      project.open ||
+      project.kind !== "multi" ||
+      project.askingRentMinor === undefined
+    )
+      continue;
+    const stock = table(api, "stock").get(`stock:${project.placeId}`);
+    if (
+      Number(stock?.vacantRental ?? 0) > 0 &&
+      table(api, "occupancy").query("byProject", [project.id]).length <
+        project.units
+    )
+      availablePlaces.add(project.placeId);
+  }
+  if (!availablePlaces.size) return;
   const rt = residentsRuntime(c);
+  const groupCashPerPerson = new Map<number, number>();
   const months = api.parameter("macroMonthsPerYear");
   const days = api.parameter("jobsDaysPerYear");
   const candidates: {
@@ -578,6 +599,7 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
   }
   for (const house of c.households.values()) {
     if (
+      !availablePlaces.has(house.placeId) ||
       contracted.has(house.id) ||
       table(api, "dwellings").get(`dwelling:${house.id}`) ||
       table(api, "statuses").get(house.id)
@@ -605,6 +627,7 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
   if (rt)
     for (const house of rt.store.liveHouseholds()) {
       if (
+        !availablePlaces.has(house.placeId) ||
         house.gone ||
         house.tenure !== "other" ||
         c.households.has(house.id) ||
@@ -612,19 +635,22 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
         table(api, "statuses").get(house.id)
       )
         continue;
-      const people = peopleInGroup(rt, house.group);
-      const cash =
-        rt.funded && people > 0
-          ? Math.floor(
-              (fundBalance(api, rt, house.group) *
-                rt.store.countedCount(house)) /
-                people,
-            )
-          : 0;
+      let cashPerPerson = groupCashPerPerson.get(house.group);
+      if (cashPerPerson === undefined) {
+        const people = peopleInGroup(rt, house.group);
+        cashPerPerson =
+          rt.funded && people > 0
+            ? fundBalance(api, rt, house.group) / people
+            : 0;
+        groupCashPerPerson.set(house.group, cashPerPerson);
+      }
+      const cash = Math.floor(cashPerPerson * rt.store.countedCount(house));
       candidates.push({
         id: house.id,
         placeId: house.placeId,
-        members: rt.households.get(house.id)?.household.memberIds ?? [],
+        members: rt.store
+          .countedMembers(house)
+          .map((index) => rt.store.ids[index]!),
         income: householdIncome(rt, house) / months,
         cash,
         counted: true,
