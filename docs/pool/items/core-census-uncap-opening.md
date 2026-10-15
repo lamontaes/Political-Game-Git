@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: pool/core-census-uncap-opening
 pr:
 blocked-on: core-census-weight-readers
