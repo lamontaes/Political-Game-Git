@@ -1,35 +1,41 @@
 # Session A: law-link
 
-An income-tax change now distinguishes a flat tax's deduction schedule from graduated rates. A repeal stays repealed across reviews, and restoration preserves later independent acts.
+On the draft branches, laws now reach housing construction and rent, household prices, property-tax assessments, farm sales, consumer loan offers, and income-tax schedules. The knowledge draft preserves how a person actually received news.
 
-## Drafts
+Session A is not finished. The full law-to-person-to-received-source-to-director acceptance remains open. No pool item is claimed, and the original law-link draft stays open until the replacements hold.
 
-- Housing: #4331, `law/session-a-law-link`.
-- Prices: #4335, `law/session-a-prices`.
-- Received knowledge: #4342, `law/session-a-law-knowledge`.
-- Property tax: #4345, `law/session-a-property-tax`.
-- Groundwater: #4359, `law/session-a-groundwater`.
-- Consumer credit: #4361, `law/session-a-consumer-credit`.
-- Income tax: #4365, `law/session-a-income-tax`.
+## Drafts and evidence
 
-Each family starts from main. None was merged by this session. The old #4116 stays open until its replacements hold.
+| Family             | Draft and branch                       | Played-world result                                                                                                                                               |
+| ------------------ | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Housing            | #4331, `law/session-a-law-link`        | A native zoning law changes construction capacity. Native rent-cap savings and eviction-counsel payment were absent.                                              |
+| Prices             | #4335, `law/session-a-prices`          | Nadia Dalton receives a 775-cent transit refund in `journal:2025-04-03:8842`. The bill was proposed through the legislature and passed an unforced vote.          |
+| Received knowledge | #4342, `law/session-a-law-knowledge`   | Rebecca Moseley receives a printed law story. Her stance retains the actual news source. This does not prove a paid effect on her.                                |
+| Property tax       | #4345, `law/session-a-property-tax`    | David McKnight pays 10,342 cents in `journal:2025-02-06:2224`. No native assessment-cap saving occurred.                                                          |
+| Groundwater        | #4359, `law/session-a-groundwater`     | A native county law limits farm sales. William Miles later receives 283,169 cents in `journal:2025-05-01:9077`. The full draw is not claimed as the law's effect. |
+| Consumer credit    | #4361, `law/session-a-consumer-credit` | Native applications, loans and payments were absent. Binding, repeal and jurisdiction cases are controlled tests only.                                            |
+| Income tax         | #4365, `law/session-a-income-tax`      | David's February 13 paycheck withholds 9,223 cents under the state law. The native year had no graduated-tax repeal; transition tests cover that case.            |
 
-## Current proof
+The common unchosen draw is Bolton, North Carolina, seed `ec34d7766cd3277bdbd1510ae1a9277680fb03f7dd96b0649f7df4c6290591c5`. Each proof runs a played year with all modules. PR bodies carry the complete IDs, exact checks and limitations. Controlled cases are separate from native evidence.
 
-The unchosen Bolton year reaches David McKnight, `person_9d0423d8e501ed26`. His February 13 paycheck carries the federal and state income-tax law IDs. The state line withholds 9,223 cents. This proves the existing payroll reader, not a native repeal of a graduated schedule.
+Each family starts from main `1977d40995`. None was merged or closed by this session. No helper ran.
 
-The native record also exposed the flat-tax classification bug. The starting state law has one bracket and a deduction. A schedule's presence alone does not make it graduated.
+## Remaining work
 
-The controlled transition test covers repeated repeal and restoration, flat deductions, and later independent tax acts. Replacement rates remain estimated under `SG-GOV-REACH-B-flat-tax-replacement`.
-
-## Remaining assignment
-
-Session A is not finished. Several law families still need decision or payment reads. Each family needs the complete named-person, received-source, view and director chain. Consumer credit's native year produced no borrower; its controlled test is not acceptance proof.
-
-The director is outside tonight's scope. Its journal backdrop handles minimum wage. General law-to-payment explanations need a supported consumer in the Words session; no story line is claimed from bookkeeping alone.
-
-No pool item is claimed. No helper ran. No PR was merged or closed.
+- Complete the remaining law reads, including bargaining, agency fees, cannabis, health and assistance, school eligibility, clean-air policy, and the remaining justice and government policies.
+- Audit all 59 catalog questions against their decision or payment consumers. Existing handlers are not accepted merely because they write a row.
+- Prove each wired family's named-person, received-source, view or choice, and director chain. Most people remain untouched.
+- Keep the eleven permitted record-only laws registered with concrete missing-record reasons. Keep every other shortcut registered too.
+- Reconcile family changes after CTO integration. Close #4116 only when the replacements hold, then claim the first open pool item.
 
 ## Verification limits
 
-The new transition test passes. The broader group-B test has two failures in Ten Mile Run, New Jersey, seed `91e8ccda3aae3da76ef3d6f5136a55458beea638c1d565e8b1dbc37f85971b1e`. The same assistance and highway-service failures reproduce with the production file restored to exact main. Neither test was skipped.
+The income-tax transition test passes. Two group-B failures reproduce on exact main in Ten Mile Run, New Jersey, seed `91e8ccda3aae3da76ef3d6f5136a55458beea638c1d565e8b1dbc37f85971b1e`: assistance eligibility and highway-service cleanup. An existing news test also fails on main. No tests were skipped.
+
+Consumer credit's matched speed check was 28.39 seconds versus 26.20 on main. Groundwater's personal-receipt run included owner fill-in and concurrent checking, so its 30.11 seconds is not a comparable speed result. The earlier groundwater year was 21.71 seconds. Income tax's final year was 20.62 seconds.
+
+## Needs from other sessions
+
+The director and English engine are outside tonight's scope. Use existing consumers where possible and identify the missing Words-session consumer for each remaining payment explanation. No journal or conversation line is claimed from bookkeeping alone.
+
+Counted credit applications and repayment still need the same rule as full households. Farm irrigation exposure, bottle returns, statutory tax replacement terms, and the remaining gaps are registered in each draft's stopgap data.
