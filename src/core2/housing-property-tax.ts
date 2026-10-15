@@ -13,8 +13,8 @@
  * `registerPropertyTax`. Without the laws, each state's average effective
  * rate stands in. It's paid to the county's treasury where the budgets
  * engine keeps the county's government, else outside the town, where the
- * core's living cost sent owners' taxes before. A law can cap how fast
- * assessments rise (`setPropertyTaxCap`).
+ * core's living cost sent owners' taxes before. A law that caps how fast
+ * assessments rise comes with the terms (the budgets engine reads it).
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import dueDates from "./data/housing/property-tax-due-dates.json" with { type: "json" };
@@ -32,6 +32,7 @@ export interface PropertyTaxTerms {
   readonly rate: number;
   /** The most assessed value may rise in a year, as a share; none when uncapped. */
   readonly assessmentCapShare?: number;
+  readonly assessmentLawRowId?: string;
   /** Who's paid; the place's outside account when not given. */
   readonly payeeId?: string;
   /** The law row the rate comes from; named on any arrears it leaves. */
@@ -98,16 +99,6 @@ function fromLaw(api: CoreAPI): PropertyTaxTerms | undefined {
   };
 }
 
-const CAP_ROW = "law:assessment-cap";
-
-/** A law caps how fast an assessment may rise a year (a share), or lifts the cap (null). */
-export function setPropertyTaxCap(api: CoreAPI, capShare: number | null): void {
-  api
-    .moduleState("housing")
-    .table("assessments")
-    .put({ id: CAP_ROW, capShare });
-}
-
 /** The county's treasury, where the budgets engine keeps the county's government. */
 function countyTreasury(api: CoreAPI): string | undefined {
   if (!(api.state as CoreState).modules.has(BUDGETS_MODULE_ID))
@@ -117,16 +108,9 @@ function countyTreasury(api: CoreAPI): string | undefined {
 
 function terms(api: CoreAPI, placeId: string): PropertyTaxTerms {
   const found = termsSource?.(api, placeId) ?? fromLaw(api);
-  const cap = (
-    api.moduleState("housing").table("assessments").get(CAP_ROW) as
-      { capShare: number | null } | undefined
-  )?.capShare;
   const payeeId = found?.payeeId ?? countyTreasury(api);
   const registered = found && {
     ...found,
-    ...(cap != null && found.assessmentCapShare === undefined
-      ? { assessmentCapShare: cap }
-      : {}),
     ...(payeeId ? { payeeId } : {}),
   };
   if (registered) return registered;
@@ -481,6 +465,10 @@ export function billPropertyTax(
         householdId: home.householdId,
         assessedMinor: assessed,
         year,
+        marketValueMinor: home.valueMinor,
+        previousAssessedMinor: last?.assessedMinor ?? null,
+        capLawId: t.assessmentLawRowId ?? null,
+        savedAssessmentMinor: Math.max(0, home.valueMinor - assessed),
       });
     const annual = assessed * t.rate;
     const installment = Math.round(annual * (due ?? 1 / months));

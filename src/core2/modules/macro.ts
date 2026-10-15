@@ -222,24 +222,20 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     p,
     shiftMonth(state.openingMonth, p("one"), p),
   );
-  // No recorded town months a year apart yet: the town grows with the nation and adds nothing.
-  const neutral = p("macroTrendGrowthPct") + p("macroInflationAnchorPct");
-  if (growth === null) api.stopgap("SG-WORLD-macro-town-growth-neutral");
+  // Without comparable paid-income records, omit local feedback and its observation.
+  if (growth === null) api.stopgap("SG-WORLD-macro-income-history");
   const row = stepMacroMonth(
     previous,
     state.policyRatePct,
-    growth ?? neutral,
+    growth ?? undefined,
     state.townResidents,
     p,
     // The federal budget in force: purchases and transfers to people above their base (macro-public.ts).
     federalPurchasesPct(api),
   );
   // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
-  const { townIncomeGrowthPct: _neutral, ...stepped } = row;
-  void _neutral;
   months.put({
-    ...(stepped as unknown as { id: string }),
-    ...(growth !== null ? { townIncomeGrowthPct: growth } : {}),
+    ...(row as unknown as { id: string }),
   });
   if (regionalRegistered(api)) stepRegional(api, previous, row);
   const next = { ...state, latestMonth: row.month };

@@ -11,7 +11,7 @@ import { ownedHomes } from "./housing";
 import { residentsRuntime } from "./residents";
 import { retirementClaims } from "./retirement-claims";
 import poverty from "../data/world-metrics-poverty.json" with { type: "json" };
-import { HOUSING_MODULE_ID, townFigures } from "./housing";
+import { HOUSING_MODULE_ID, townFiguresByPlace } from "./housing";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
 
@@ -329,14 +329,14 @@ export function townMetrics(api: CoreAPI) {
       people.has(id),
     );
   }
-  const housing = c.modules.has(HOUSING_MODULE_ID);
+  const housing = c.modules.has(HOUSING_MODULE_ID)
+    ? townFiguresByPlace(api, new Set(places.keys()))
+    : undefined;
   return [...places]
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([placeId, row]) => {
       const earnings = median([...row.earnings.values()]);
-      const rent = housing
-        ? townFigures(api, placeId).rentMinor
-        : median(row.rents);
+      const rent = housing?.get(placeId)?.rentMinor ?? median(row.rents);
       return {
         placeId,
         date: c.date,

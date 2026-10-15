@@ -141,22 +141,6 @@ export interface ResidentsRuntime {
   retirementLevel: Map<string, number>;
   /** Each counted group's account (a fund under its place's residents account). */
   funds: Map<number, string>;
-  /**
-   * Set by an engine that holds part of a group's money elsewhere (the town
-   * bank's deposits): brings the share of `people` of the group back into its
-   * fund, so a household that leaves or is filled in takes all its money.
-   */
-  releaseSavings?: (group: number, people: number) => number;
-  /**
-   * Set by the same engine: a household that moves to another group takes
-   * its share (`people` of `peopleBefore`) of what the old group holds there.
-   */
-  moveSavings?: (
-    fromGroup: number,
-    toGroup: number,
-    people: number,
-    peopleBefore: number,
-  ) => void;
   funded: boolean;
   /** Housing payments each group still owes. */
   arrears: Map<number, number>;
@@ -214,12 +198,9 @@ registerSnapshotPart("core2-residents", {
       store,
       api: _a,
       moneyCache,
-      // Hooks other engines set (functions, set again after a restore).
-      releaseSavings: _r,
-      moveSavings: _m,
       ...rest
     } = rt;
-    void [_h, _p, _a, _r, _m];
+    void [_h, _p, _a];
     return {
       ...rest,
       input: undefined,
@@ -372,11 +353,9 @@ export function regroupHousehold(
   const people = rt.store.countedCount(h);
   const groupBefore = before >= 0 ? peopleInGroup(rt, before) : 0;
   rt.store.regroup(h, groupKeyOf(rt, h, date));
-  // Its share of the old group's money goes with it, what the group holds elsewhere included.
-  if (rt.api && before !== h.group) {
+  // Its share of the old group's money goes with it.
+  if (rt.api && before !== h.group)
     moveShare(rt.api, rt, before, h.group, people, groupBefore);
-    if (before >= 0) rt.moveSavings?.(before, h.group, people, groupBefore);
-  }
 }
 
 /** A household's share of its place's unplaced workers (their pay follows them out of the counts). */
@@ -394,15 +373,11 @@ function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
  */
 function householdCash(rt: ResidentsRuntime, h: CountedHousehold): number {
   if (!rt.api || !rt.funded || h.group < 0) return 0;
-  // Its share of what the group holds elsewhere comes back to the fund first, all of it its own.
-  const released = rt.releaseSavings?.(h.group, rt.store.countedCount(h)) ?? 0;
   const people = peopleInGroup(rt, h.group);
   return people > 0
     ? Math.floor(
-        ((fundBalance(rt.api, rt, h.group) - released) *
-          rt.store.countedCount(h)) /
-          people,
-      ) + released
+        (fundBalance(rt.api, rt, h.group) * rt.store.countedCount(h)) / people,
+      )
     : 0;
 }
 

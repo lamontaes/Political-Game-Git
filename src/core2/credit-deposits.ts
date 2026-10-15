@@ -1,319 +1,219 @@
-/**
- * Deposits at the town bank. Each month each counted group keeps about a
- * month of its income as cash to spend; what it doesn't need moves into its
- * deposits at the town bank, and they draw on their deposits when their cash
- * runs short. The bank pays them interest at a share of the policy rate. It
- * keeps a reserve of cash against its deposits and its own lending, and puts
- * the rest into securities outside the town at the ten-year Treasury yield,
- * selling them when it needs cash. Every movement goes through the ledger.
- */
-import type { ModuleTable } from "./module-state";
-import { stopgap } from "./stopgaps";
-import { transferCash } from "./world-transfer";
+/** Savings decisions in the existing bank review; all cash uses accounts/postJournal. */
+import { bankDeposit, moveBankDeposit } from "./accounts";
+import { fundBalance, fundOf } from "./counted-money";
 import { residentsRuntime } from "./modules/residents";
-import { fundBalance, peopleInGroup } from "./counted-money";
 import type { CoreAPI, CoreState, Source } from "./types";
 
-export interface DepositRow {
-  id: string;
-  /** The counted group's fund whose deposit this is. */
-  accountId: string;
-  balanceMinor: number;
-  isDeposit: true;
+interface CashTarget {
+  holderId: string;
+  kind: "household" | "business";
+  tier: "full" | "counted" | "business";
+  cashMinor: number;
+  reserveMinor: number;
+  accounts: { id: string; cashMinor: number }[];
 }
 
-export interface SecuritiesRow {
-  id: string;
-  balanceMinor: number;
-}
-
-const SECURITIES = "securities:bank";
-
-function rates(api: CoreAPI): { policy: number; treasury: number } {
-  const c = api.state as CoreState,
-    hundred = api.parameter("macroHundred");
-  if (!c.modules.has("macro")) return { policy: 0, treasury: 0 };
-  const state = api.moduleState("macro").table("state").get("macro:state") as
-    { policyRatePct?: number; latestMonth?: string } | undefined;
-  const month = state?.latestMonth
-    ? (api
-        .moduleState("macro")
-        .table("months")
-        .get(`macro-month:${state.latestMonth}`) as
-        { treasury10Pct?: number } | undefined)
-    : undefined;
-  return {
-    policy: (state?.policyRatePct ?? 0) / hundred,
-    treasury: (month?.treasury10Pct ?? 0) / hundred,
-  };
-}
-
-/** What the bank's depositors hold, and its securities. */
-export function bankBalances(tables: {
-  deposits: ModuleTable;
-  securities: ModuleTable;
-}): { depositsMinor: number; securitiesMinor: number } {
-  let deposits = 0;
-  for (const row of tables.deposits.query("all", [
-    true,
-  ]) as unknown as DepositRow[])
-    deposits += row.balanceMinor;
-  const held = tables.securities.get(SECURITIES) as unknown as
-    SecuritiesRow | undefined;
-  return { depositsMinor: deposits, securitiesMinor: held?.balanceMinor ?? 0 };
-}
-
-/** A month at the bank: interest, the residents' deposits and withdrawals, then the bank's reserve against its securities. */
-export function reviewDeposits(
-  api: CoreAPI,
-  tables: { deposits: ModuleTable; securities: ModuleTable },
-  bank: { organizationId: string; openingEquityMinor: number },
-  source: Source,
-): void {
-  const c = api.state as CoreState,
-    p = (key: string) => api.parameter(key);
-  const rt = residentsRuntime(c);
-  if (!rt) return;
-  // Only counted groups hold deposits; full households keep their own cash.
-  stopgap("SG-WORLD-credit-full-household-deposits");
-  const months = p("macroMonthsPerYear");
-  const { policy, treasury } = rates(api);
-  const outside = (placeId: string) =>
-    [...c.organizations.values()].find(
-      (row) => row.placeId === placeId && row.outsideFlow !== undefined,
-    )?.id;
-  const bankPlace = c.organizations.get(bank.organizationId)?.placeId ?? "";
-  const market = outside(bankPlace);
-  const securities = () =>
-    (tables.securities.get(SECURITIES) as unknown as SecuritiesRow | undefined)
-      ?.balanceMinor ?? 0;
-  const setSecurities = (balanceMinor: number) =>
-    tables.securities.put({ id: SECURITIES, balanceMinor });
-  // Interest the securities earned last month, paid from outside the town.
-  if (market && securities() > 0)
-    transferCash(
-      api,
-      `securities-interest:${c.date}`,
-      market,
-      bank.organizationId,
-      Math.round((securities() * treasury) / months),
-      source,
-    );
-  const depositRate = Math.max(
-    p("creditDepositRateFloor"),
-    p("creditDepositRatePassThrough") * policy,
-  );
-  // Each counted group's money is its own (one model, two tiers): each group
-  // keeps about a month of its own income in its fund and holds the rest on
-  // deposit, drawing on it when its cash runs short.
-  const bankAccount = c.cashJournal.residualAccountByOwner.get(
-    bank.organizationId,
-  );
-  if (!bankAccount) return;
-  const move = (id: string, from: string, to: string, amountMinor: number) =>
-    amountMinor > 0
-      ? api.accounts().transfer({
-          id,
-          from,
-          to,
-          amountMinor: Math.round(amountMinor),
-          partial: true,
-          reasonKey: "credit.deposit",
-          source,
-        }).paidMinor
-      : 0;
-  for (const [group, fundAccount] of [...rt.funds].sort(
-    (x, y) => x[0] - y[0],
-  )) {
-    const groupId = rt.store.groups[group]?.id;
-    if (!groupId) continue;
-    const id = `deposit:${groupId}`;
-    const deposit = (tables.deposits.get(id) as unknown as
-      DepositRow | undefined) ?? {
-      id,
-      accountId: fundAccount,
-      balanceMinor: 0,
-      isDeposit: true as const,
-    };
-    let balance = deposit.balanceMinor;
-    // Interest on what the group held last month.
-    if (balance > 0)
-      balance += move(
-        `deposit-interest:${groupId}:${c.date}`,
-        bankAccount,
-        fundAccount,
-        (balance * depositRate) / months,
-      );
-    // Cash to spend: about a month of the group's recent income.
-    const history = rt.incomeHistory.get(`g:${group}`) ?? [];
-    const income = history.length
-      ? history.reduce((n, v) => n + v, 0) / history.length
-      : 0;
-    const keep = income * p("creditResidentsCashMonths");
-    const cash = fundBalance(api, rt, group);
-    if (income > 0 && cash > keep) {
-      balance += move(
-        `deposit:${groupId}:${c.date}`,
-        fundAccount,
-        bankAccount,
-        Math.floor(cash - keep),
-      );
-    } else if (cash < keep && balance > 0) {
-      // Drawing on deposits: the bank sells securities first if its cash won't cover it.
-      const want = Math.min(balance, Math.ceil(keep - cash));
-      const bankCash = c.organizations.get(bank.organizationId)!.liquidMinor;
-      if (bankCash < want && market && securities() > 0) {
-        const sold = transferCash(
-          api,
-          `securities-sale:${groupId}:${c.date}`,
-          market,
-          bank.organizationId,
-          Math.min(securities(), want - bankCash),
-          source,
-        );
-        setSecurities(securities() - sold);
-      }
-      balance -= move(
-        `withdrawal:${groupId}:${c.date}`,
-        bankAccount,
-        fundAccount,
-        want,
-      );
-    }
-    tables.deposits.put({ ...deposit, balanceMinor: balance });
-  }
-  if (!market) return;
-  // The bank's own cash: a reserve against deposits plus what it lends from; the rest in securities, or sold back.
-  const { depositsMinor } = bankBalances(tables);
-  const target =
-    depositsMinor * p("creditBankReserveShare") + bank.openingEquityMinor;
-  const cash = c.organizations.get(bank.organizationId)!.liquidMinor;
-  if (cash > target) {
-    const bought = transferCash(
-      api,
-      `securities-buy:${c.date}`,
-      bank.organizationId,
-      market,
-      cash - target,
-      source,
-    );
-    setSecurities(securities() + bought);
-  } else if (cash < target && securities() > 0) {
-    const sold = transferCash(
-      api,
-      `securities-sale:${c.date}`,
-      market,
-      bank.organizationId,
-      Math.min(securities(), target - cash),
-      source,
-    );
-    setSecurities(securities() - sold);
-  }
+/** The same cost buffer for a household in either population tier. */
+export function savingsTarget(
+  cashMinor: number,
+  monthlyCosts: number,
+  months: number,
+): number {
+  return Math.trunc(cashMinor - Math.ceil(Math.max(0, monthlyCosts) * months));
 }
 
 /**
- * A counted household that leaves town or is filled in takes its share of
- * its group's deposit: the bank pays it into the group's fund (selling
- * securities first if its cash won't cover it), where the household's share
- * of the fund goes with it.
+ * What a household pays each month for its home and its loans: its rent (a
+ * standing lease, or a counted household's rent flow), its mortgage and its
+ * loans at the bank. A household keeps these in hand too, not only its
+ * living costs, or a month's rent would find its cash gone to the bank.
  */
-export function releaseGroupSavings(
-  api: CoreAPI,
-  tables: { deposits: ModuleTable; securities: ModuleTable },
-  bank: { organizationId: string },
-  group: number,
-  people: number,
-  source: Source,
-): number {
-  const c = api.state as CoreState;
-  const rt = residentsRuntime(c);
-  const groupId = rt?.store.groups[group]?.id;
-  const fundAccount = rt?.funds.get(group);
-  const bankAccount = c.cashJournal.residualAccountByOwner.get(
-    bank.organizationId,
-  );
-  if (!rt || !groupId || !fundAccount || !bankAccount) return 0;
-  const deposit = tables.deposits.get(`deposit:${groupId}`) as unknown as
-    DepositRow | undefined;
-  const members = peopleInGroup(rt, group);
-  if (!deposit || deposit.balanceMinor <= 0 || members <= 0) return 0;
-  const want = Math.floor(
-    (deposit.balanceMinor * Math.min(people, members)) / members,
-  );
-  if (want <= 0) return 0;
-  const bankCash = c.organizations.get(bank.organizationId)!.liquidMinor;
-  const securities =
-    (tables.securities.get(SECURITIES) as unknown as SecuritiesRow | undefined)
-      ?.balanceMinor ?? 0;
-  const market = [...c.organizations.values()].find(
-    (row) =>
-      row.placeId === c.organizations.get(bank.organizationId)?.placeId &&
-      row.outsideFlow !== undefined,
-  )?.id;
-  if (bankCash < want && market && securities > 0) {
-    const sold = transferCash(
-      api,
-      `securities-sale:${groupId}:${c.date}:${rt.moneyCache.serial++}`,
-      market,
-      bank.organizationId,
-      Math.min(securities, want - bankCash),
-      source,
-    );
-    tables.securities.put({
-      id: SECURITIES,
-      balanceMinor: securities - sold,
+function monthlyBills(api: CoreAPI, householdId: string): number {
+  const core = api.state as CoreState;
+  let total = 0;
+  const lease = core.finance.contracts.get(`lease:${householdId}`);
+  if (lease && !lease.endedAt) total += lease.amountMinor;
+  const rent = residentsRuntime(core)?.flows.get(`rent:${householdId}`);
+  if (rent && !rent.endedAt) total += rent.amountMinor;
+  if (core.modules.has("housing")) {
+    const mortgage = api
+      .moduleState("housing")
+      .table("mortgages")
+      .get(`mortgage:${householdId}`) as
+      { paymentMinor?: number; monthsLeft?: number } | undefined;
+    if ((mortgage?.monthsLeft ?? 0) > 0) total += mortgage!.paymentMinor ?? 0;
+  }
+  for (const loan of api
+    .moduleState("credit")
+    .table("loans")
+    .query("byHousehold", [householdId]) as unknown as {
+    open: boolean;
+    paymentMinor: number;
+  }[])
+    if (loan.open) total += loan.paymentMinor;
+  return total;
+}
+
+export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
+  const core = api.state as CoreState;
+  const bank = core.organizations.get(bankId);
+  if (!bank) return;
+  // stopgapId: SG-WORLD-deposit-wallet-buffer
+  api.stopgap("SG-WORLD-deposit-wallet-buffer");
+  const months = api.parameter("creditDepositWalletMonths");
+  const daysPerMonth =
+    api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear");
+  const accounts = api.accounts();
+  const targets: CashTarget[] = [];
+  for (const house of core.households.values()) {
+    if (house.placeId !== bank.placeId) continue;
+    const members = house.memberIds.flatMap((id) => {
+      const person = core.people.get(id);
+      return person?.alive && person.placeId === bank.placeId ? [person] : [];
+    });
+    if (!members.length) continue;
+    const funds = members.map((person) => {
+      const id = accounts.main(person.id);
+      return { id, cashMinor: accounts.balance(id) };
+    });
+    targets.push({
+      holderId: house.id,
+      kind: "household",
+      tier: "full",
+      cashMinor: funds.reduce((sum, fund) => sum + fund.cashMinor, 0),
+      reserveMinor: Math.ceil(
+        (members.reduce((sum, person) => sum + person.livingCostDailyMinor, 0) *
+          daysPerMonth +
+          monthlyBills(api, house.id)) *
+          months,
+      ),
+      accounts: funds,
     });
   }
-  // A bank with nothing to pay out pays nothing (and records no transfer).
-  if (c.organizations.get(bank.organizationId)!.liquidMinor < 1) return 0;
-  const paid = api.accounts().transfer({
-    id: `deposit-release:${groupId}:${c.date}:${rt.moneyCache.serial++}`,
-    from: bankAccount,
-    to: fundAccount,
-    amountMinor: want,
-    partial: true,
-    reasonKey: "credit.deposit",
-    source,
-  }).paidMinor;
-  tables.deposits.put({
-    ...deposit,
-    balanceMinor: deposit.balanceMinor - paid,
-  });
-  return paid;
-}
-
-/**
- * A counted household that moves to another group takes its share of its
- * old group's deposit: the bank's books move it from one deposit to the
- * other, and no cash moves.
- */
-export function moveGroupSavings(
-  api: CoreAPI,
-  tables: { deposits: ModuleTable },
-  fromGroup: number,
-  toGroup: number,
-  people: number,
-  peopleBefore: number,
-): void {
-  const rt = residentsRuntime(api.state as CoreState);
-  const fromId = rt?.store.groups[fromGroup]?.id,
-    toId = rt?.store.groups[toGroup]?.id,
-    toFund = rt?.funds.get(toGroup);
-  if (!rt || !fromId || !toId || peopleBefore <= 0) return;
-  const from = tables.deposits.get(`deposit:${fromId}`) as unknown as
-    DepositRow | undefined;
-  if (!from || from.balanceMinor <= 0) return;
-  const share = Math.floor(
-    (from.balanceMinor * Math.min(people, peopleBefore)) / peopleBefore,
-  );
-  if (share <= 0) return;
-  const id = `deposit:${toId}`;
-  const to = (tables.deposits.get(id) as unknown as DepositRow | undefined) ?? {
-    id,
-    accountId: toFund ?? "",
-    balanceMinor: 0,
-    isDeposit: true as const,
+  const rt = residentsRuntime(core);
+  if (rt?.funded) {
+    // Snapshot the groups before any payment, so later households do not receive
+    // smaller shares merely because earlier households deposited first.
+    const groups = new Map<
+      number,
+      { people: number; cash: number; account: string }
+    >();
+    const homes = [...rt.store.liveHouseholds()].filter(
+      (h) => h.placeId === bank.placeId && !core.households.has(h.id),
+    );
+    for (const h of homes) {
+      const group = groups.get(h.group) ?? {
+        people: 0,
+        cash: fundBalance(api, rt, h.group),
+        account: fundOf(api, rt, h.group),
+      };
+      group.people += rt.store.countedCount(h);
+      groups.set(h.group, group);
+    }
+    for (const h of homes) {
+      const group = groups.get(h.group)!;
+      const members = rt.store.countedMembers(h);
+      if (!members.length || !group.people) continue;
+      const cashMinor = Math.floor(
+        (group.cash * members.length) / group.people,
+      );
+      const dailyCosts = members.reduce(
+        (sum, member) => sum + rt.store.living[member]!,
+        0,
+      );
+      targets.push({
+        holderId: h.id,
+        kind: "household",
+        tier: "counted",
+        cashMinor,
+        reserveMinor: Math.ceil(
+          (dailyCosts * daysPerMonth + monthlyBills(api, h.id)) * months,
+        ),
+        accounts: [{ id: group.account, cashMinor }],
+      });
+    }
+  }
+  for (const [id, book] of core.finance.businesses) {
+    if (
+      book.closedAt ||
+      id === bankId ||
+      core.organizations.get(id)?.placeId !== bank.placeId
+    )
+      continue;
+    const account = accounts.main(id);
+    const cashMinor = accounts.balance(account);
+    targets.push({
+      holderId: id,
+      kind: "business",
+      tier: "business",
+      cashMinor,
+      reserveMinor: Math.ceil(
+        ((book.annualPayrollMinor + book.annualOtherCostsMinor) /
+          api.parameter("macroMonthsPerYear")) *
+          months,
+      ),
+      accounts: [{ id: account, cashMinor }],
+    });
+  }
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: core.date,
+    citation:
+      "JPMorgan Chase Institute, Cash is King: Flows, Balances, and Buffer Days (2016); current household costs and business books.",
+    estimatedFrom:
+      "Savings above a cost buffer; withdrawals replenish that buffer. Deposits remain claims belonging to the recorded household or business.",
   };
-  tables.deposits.put({ ...from, balanceMinor: from.balanceMinor - share });
-  tables.deposits.put({ ...to, balanceMinor: to.balanceMinor + share });
+  // Inflows precede withdrawals; an unfunded withdrawal leaves the unpaid claim
+  // on the bank, never a fabricated cash payment or a forgiven liability.
+  for (const direction of ["deposit", "withdraw"] as const)
+    for (const target of targets) {
+      const gap = savingsTarget(target.cashMinor, target.reserveMinor, 1);
+      if (direction === "deposit" ? gap <= 0 : gap >= 0) continue;
+      const held =
+        bankDeposit(core, bankId, target.holderId)?.balanceMinor ?? 0;
+      let left = direction === "deposit" ? gap : Math.min(-gap, held);
+      if (!left) continue;
+      for (const [index, fund] of target.accounts.entries()) {
+        if (!left) break;
+        const requested =
+          direction === "deposit"
+            ? Math.min(left, Math.max(0, fund.cashMinor))
+            : left;
+        if (!requested) continue;
+        const before =
+          bankDeposit(core, bankId, target.holderId)?.balanceMinor ?? 0;
+        const receipt = moveBankDeposit(core, api, {
+          id: `bank-${direction}:${bankId}:${core.date}:${target.holderId}:${index}`,
+          bankId,
+          holderId: target.holderId,
+          customerAccountId: fund.id,
+          direction,
+          amountMinor: requested,
+          source,
+        });
+        api
+          .moduleState("credit")
+          .table("depositMoves")
+          .put({
+            id: receipt.id,
+            date: core.date,
+            bankId,
+            holderId: target.holderId,
+            kind: target.kind,
+            tier: target.tier,
+            direction,
+            cashBeforeMinor: target.cashMinor,
+            reserveMinor: target.reserveMinor,
+            depositBeforeMinor: before,
+            depositAfterMinor:
+              bankDeposit(core, bankId, target.holderId)?.balanceMinor ?? 0,
+            requestedMinor: requested,
+            paidMinor: receipt.paidMinor,
+            ...(receipt.journalSequence === undefined
+              ? {}
+              : { journalSequence: receipt.journalSequence }),
+          });
+        left -= receipt.paidMinor;
+      }
+    }
 }

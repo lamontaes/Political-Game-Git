@@ -1,4 +1,15 @@
 {
+  "jobsSalesForecastWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Staffing combines realized firm sales with the regional demand forecast; Hamermesh and Pfann (1996), Adjustment Costs in Factor Demand, Journal of Economic Literature. Calibration checked jointly against BLS JOLTS hires, quits, and layoffs, not used as actor rates.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "share of staffing forecast from smoothed realized sales",
+      "citation": "Sensitivity range for a forecast combining paid sales and macro/regional demand."
+    }
+  },
   "jobsStaffGapActedPerMonth": {
     "value": 0.15,
     "tag": "TUNABLE",

@@ -17,6 +17,7 @@ import {
 } from "./modules/world";
 import { generatedOpening } from "./tooling/generated-world";
 import { coreAPI } from "./state";
+import { collapseToTwoLevels } from "./residents";
 import { transferCash } from "./world-transfer";
 import type { CoreInput, Source } from "./types";
 

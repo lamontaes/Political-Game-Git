@@ -66,7 +66,8 @@ Session D has no assignment of its own. It starts on the pool at once and works 
 8. **Powers by level.** What a town, a county, a state and Congress may each legislate, tax and spend on, from data per place (home rule or Dillon's rule, each state's grant to its counties and towns, the federal enumerated powers), read by the authority check before a bill is introduced and by the executive before an order. One rule, all 56 places; no state named in logic.
 9. **Wiring gaps.** Any engine whose output nothing reads, found by `docs/reports/trace-audit-2026-10-14/` or by a one-year run: wire the read or delete the writer. One PR per engine, naming the record ids read.
 10. **Needs between sessions.** The open "Needs from other sessions" lists in `docs/coordination/OPUS-GOV.md`, `world.md`, `core.md`, `OFFICE-*.md`: each item is a wiring job for whoever claims it, now that the sessions that asked are gone. Claim one list at a time.
-11. Party loyalty in state chambers is parked on the owner's license question (non-commercial data); do not build it.
+11. **Sales tax collected but the treasury short.** `src/core2/budgets.test.ts` "the sales tax in force is collected on the town's purchases, each level's share to its treasury" fails on main (`GOLDEN_PATH_SEED=cto1`: the treasury's liquid balance is below what the tax collected, `budgets.test.ts:237`). Pre-existing, not from the overnight merges. Follow the dollar: where the collected tax goes that is not the treasury, and fix at the root. Run the file with `--dir src` so stale copies under `.claude/worktrees/` are not picked up.
+12. Party loyalty in state chambers is parked on the owner's license question (non-commercial data); do not build it.
 
 The pool is not closed: a session that finds wiring the golden path needs and nobody owns adds it to this list in its PR and takes it.
 

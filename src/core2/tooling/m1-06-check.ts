@@ -118,13 +118,12 @@ for (const row of core.finance.facilities.values()) {
       `${row.id}: drawn ${row.principalMinor} against a ${row.limitMinor} line`,
     );
 }
-// The bank's deposits: what the residents hold there never goes below zero.
-const deposits = [...credit.table("deposits").rows()] as unknown as {
+// The bank's deposits: what each household or business holds there never goes below zero.
+for (const row of credit.table("depositMoves").rows() as unknown as {
   id: string;
-  balanceMinor: number;
-}[];
-for (const row of deposits)
-  if (row.balanceMinor < 0) failures.push(`${row.id}: negative deposit`);
+  depositAfterMinor: number;
+}[])
+  if (row.depositAfterMinor < 0) failures.push(`${row.id}: negative deposit`);
 const book = [...credit.table("books").rows()].at(-1) as unknown as
   Record<string, number> | undefined;
 
@@ -140,8 +139,7 @@ console.log(
       businessLines: lines,
       bank: book && {
         cashDollars: Math.round(book.cash! / 100),
-        depositsDollars: Math.round((book.depositsMinor ?? 0) / 100),
-        securitiesDollars: Math.round((book.securitiesMinor ?? 0) / 100),
+        depositsDollars: Math.round((book.deposits ?? 0) / 100),
         equityDollars: Math.round(book.equity! / 100),
       },
       failures,

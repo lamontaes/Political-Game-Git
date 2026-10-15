@@ -5,6 +5,7 @@
  * chambers and the governor; what passes becomes law in force on the state's
  * own effective date.
  */
+import questionScopes from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import { wireItem } from "./press-topics";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -18,7 +19,7 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { campaignParameter } from "./campaign-views";
-import { openLegislature } from "./modules/legislature";
+import { openLegislature, type CommitteeRecord } from "./modules/legislature";
 import { budgetsOf, openBudgets } from "./modules/budgets";
 import { openLawReach, reachOn } from "./law-reach/host";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
@@ -128,6 +129,57 @@ describe("M3-10 other governments legislate", () => {
       const amendments = [...core.durableLog.values()].filter(
         (e) => e.kind === "bill-amendment",
       );
+      // Every stage's next amendment starts from the support left by the
+      // previous one, not the opening tally plus one vote per deal.
+      const support = new Map<string, number>();
+      for (const amendment of amendments) {
+        const facts = amendment.facts!;
+        const stage = `${facts.billId}:${facts.chamber}:${facts.stage}`;
+        const before = Number(facts.supportBefore);
+        const after = Number(facts.supportAfter);
+        expect(Number.isFinite(before), amendment.id).toBe(true);
+        expect(Number.isFinite(after), amendment.id).toBe(true);
+        if (support.has(stage))
+          expect(before, amendment.id).toBe(support.get(stage));
+        support.set(stage, after);
+        if (facts.kind === "trade-amendment") {
+          expect(Number(facts.memberBefore), amendment.id).toBeLessThanOrEqual(
+            0,
+          );
+          expect(Number(facts.memberAfter), amendment.id).toBeGreaterThan(0);
+        }
+      }
+      const committees = api
+        .moduleState("core2-legislature-v1")
+        .table("committees")
+        .rows() as unknown as CommitteeRecord[];
+      for (const committee of committees) {
+        expect(committee.votes.length, committee.id).toBe(
+          committee.heard ? committee.memberIds.length : 0,
+        );
+        expect(committee.yes, committee.id).toBe(
+          committee.votes.filter((v) => v.vote === "yes").length,
+        );
+        expect(committee.no, committee.id).toBe(
+          committee.votes.filter((v) => v.vote === "no").length,
+        );
+        for (const vote of committee.votes) {
+          expect(committee.memberIds, committee.id).toContain(vote.memberId);
+          expect(vote.position.memberId).toBe(vote.memberId);
+          const expected =
+            vote.position.total > 0
+              ? "yes"
+              : vote.position.total < 0
+                ? "no"
+                : "abstain";
+          expect(vote.vote, committee.id).toBe(expected);
+        }
+        const after = support.get(
+          `${committee.billId}:${committee.chamber}:committee`,
+        );
+        if (after !== undefined)
+          expect(committee.yes, committee.id).toBe(after);
+      }
       const votes = api.moduleState("core2-legislature-v1").table("votes");
       for (const bill of api
         .moduleState("core2-legislature-v1")
@@ -247,6 +299,14 @@ describe("M3-10 other governments legislate", () => {
     );
     expect(session, `${state} ${key}: no Congress session`).toBeDefined();
     expect(session!.conveneAt).toBe("2026-01-03");
+    expect(session!.filings.length).toBeGreaterThan(0);
+    for (const filing of session!.filings)
+      expect(
+        (questionScopes.questions as Record<string, { levels: string[] }>)[
+          filing.question
+        ]?.levels,
+        `${filing.question}: Congress filed another level's question`,
+      ).toContain("federal");
     const voted = session!.bills.filter((b) => b.fate === "voted");
     // No vote before committee has had the bill.
     for (const b of voted)

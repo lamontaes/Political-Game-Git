@@ -30,7 +30,11 @@ describe(`counted rents renew (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=$
       new Map(
         [...(residentsRuntime(core)?.flows.values() ?? [])]
           .filter((flow) => flow.id.startsWith("rent:") && !flow.endedAt)
-          .map((flow) => [flow.id, flow.amountMinor]),
+          // Keyed by the household's lease, as renewals are in both tiers.
+          .map((flow) => [
+            `lease:${flow.id.slice("rent:".length)}`,
+            flow.amountMinor,
+          ]),
       );
     const before = rents();
     // A place with no counted renters (an island area) has nothing to renew.
@@ -45,7 +49,7 @@ describe(`counted rents renew (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=$
       previousRentMinor?: number;
     }[];
     const counted = renewals.filter(
-      (row) => row.id.startsWith("rent:") && row.previousRentMinor,
+      (row) => before.has(row.id) && row.previousRentMinor,
     );
     // Over a year every counted lease still running has renewed once, in several different months (households that moved away, bought a home or were evicted no longer rent).
     const still = new Set([...rents().keys()].filter((id) => before.has(id)));

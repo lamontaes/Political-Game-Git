@@ -871,7 +871,7 @@ function imprison(
   };
   table(api, "custody").put(custody as unknown as ModuleRow);
   // The jobs end the next morning, before any shift: today's may be worked.
-  if (jobIds.length) keepFromWork(api);
+  if (jobIds.length) endCustodyJobs(api, custody, jobIds);
   emit(
     api,
     "justice.imprisoned",
@@ -893,57 +893,44 @@ function imprison(
   });
 }
 
-/**
- * A prisoner cannot work. The jobs engine still hires people it reads as
- * looking for work, so a job a prisoner is hired into ends here before its
- * first shift (it starts the next day), until the jobs engine reads custody.
- */
-function keepFromWork(api: CoreAPI): void {
-  if (!servingCount(api)) return;
+/** End jobs held when imprisonment begins, before their next shift. */
+function endCustodyJobs(
+  api: CoreAPI,
+  custody: CustodyRow,
+  jobIds: readonly string[],
+): void {
   const state = api.state as CoreState;
-  for (const custody of table(api, "custody").query("byStatus", [
-    "serving",
-  ]) as unknown as CustodyRow[])
-    for (const jobId of currentJobs(api, custody.personId)) {
-      const key = `keep-from-work:${jobId}`;
-      const calendar = api.moduleCalendar(JUSTICE_MODULE_ID);
-      const prior = calendar.get(key);
-      if (prior?.status === "pending") continue;
-      // The same position can hire the same person again later.
-      if (prior) calendar.forget(key);
-      // stopgapId: SG-GOV-justice-prison-hiring
-      api.stopgap("SG-GOV-justice-prison-hiring");
-      // Ended on its first day, before the day's work (calendar work runs first).
-      const starts = [
-        ...(state.work.commitmentsByPerson.get(custody.personId) ?? []),
-      ]
-        .map((id) => state.work.commitments.get(id))
-        .filter((c) => c?.jobId === jobId)
-        .map((c) => c!.startsAt)
-        .sort()[0];
-      api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
-        key,
-        date:
-          starts && starts > api.state.date
-            ? starts
-            : addDays(api.state.date, 1),
-        kind: "keep-from-work",
-        source: {
-          tag: "SOURCED",
-          citation: "A person serving a prison term cannot work a job outside.",
-          asOf: api.state.date,
-        },
-        sourceRecordIds: [custody.id, jobId],
-      });
-      // Until it ends, it is not the job they work: no shift is offered.
-      if (api.state.people.get(custody.personId)?.jobId === jobId)
-        api.updatePerson(custody.personId, { jobId: undefined });
-    }
-}
-
-function servingCount(api: CoreAPI): number {
-  return (table(api, "custody").query("byStatus", ["serving"]) as unknown[])
-    .length;
+  for (const jobId of jobIds) {
+    const key = `keep-from-work:${jobId}`;
+    const calendar = api.moduleCalendar(JUSTICE_MODULE_ID);
+    const prior = calendar.get(key);
+    if (prior?.status === "pending") continue;
+    // The same position can hire the same person again later.
+    if (prior) calendar.forget(key);
+    // Ended on its first day, before the day's work (calendar work runs first).
+    const starts = [
+      ...(state.work.commitmentsByPerson.get(custody.personId) ?? []),
+    ]
+      .map((id) => state.work.commitments.get(id))
+      .filter((c) => c?.jobId === jobId)
+      .map((c) => c!.startsAt)
+      .sort()[0];
+    api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
+      key,
+      date:
+        starts && starts > api.state.date ? starts : addDays(api.state.date, 1),
+      kind: "keep-from-work",
+      source: {
+        tag: "SOURCED",
+        citation: "A person serving a prison term cannot work a job outside.",
+        asOf: api.state.date,
+      },
+      sourceRecordIds: [custody.id, jobId],
+    });
+    // Until it ends, it is not the job they work: no shift is offered.
+    if (api.state.people.get(custody.personId)?.jobId === jobId)
+      api.updatePerson(custody.personId, { jobId: undefined });
+  }
 }
 
 function release(api: CoreAPI, custodyId: string): void {
@@ -1079,10 +1066,7 @@ export const JUSTICE_MODULE: CoreModule = {
   },
   eventKinds: ["crime.told"],
   onEvent: (api, event) => onTold(api, event),
-  onAfterDay: (api) => {
-    intake(api);
-    keepFromWork(api);
-  },
+  onAfterDay: (api) => intake(api),
   onCalendarWork: (api, work) => justiceWork(api, work),
   journalSourceProviders: {
     [FINE_KIND]: (api, reference) => fineSlot(api, reference.id),

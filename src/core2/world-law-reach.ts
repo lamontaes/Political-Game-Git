@@ -11,7 +11,6 @@
  * OPUS-GOV's law-reach parameters.
  */
 import { residentsRuntime } from "./modules/residents";
-import { setConsumerRateCap } from "./modules/credit";
 import { setCannabisLegal } from "./business-cannabis";
 import { setRightToWork } from "./jobs-unions";
 import reachA from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -27,7 +26,6 @@ import { baseLine, budgetToday } from "./law-reach/group-a-money";
 import {
   setHousingZoning,
   setRentHelp,
-  setRentIncreaseCap,
   setRightToCounsel,
   HOUSING_MODULE_ID,
 } from "./modules/housing";
@@ -46,7 +44,6 @@ import {
   setPlaceTax,
   setRoadCondition,
 } from "./modules/place-prices";
-import { setPropertyTaxCap } from "./housing-property-tax";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 const POLICY = "us-policy-positions:";
@@ -271,11 +268,6 @@ const HANDLERS: Readonly<Record<string, PolicyHandler>> = {
         gov("cannabisAge"),
       );
   },
-  // A consumer loan rate cap: the town bank writes household loans at no more (bank personal loans rarely reach it).
-  [`${POLICY}business-commerce.cap-consumer-loan-rates`]: (api, law) => {
-    if (has(api, "credit"))
-      setConsumerRateCap(api, law.inForce ? gov("consumerLoanRateCap") : null);
-  },
   // Right-to-work: represented workers needn't join or pay the union, so fewer do (jobs-unions.ts).
   [`${POLICY}labor-workforce.right-to-work`]: (api, law) => {
     if (has(api, "jobs"))
@@ -285,14 +277,6 @@ const HANDLERS: Readonly<Record<string, PolicyHandler>> = {
         law.inForce,
       );
   },
-  [`${POLICY}housing-land-use.rent-stabilization`]: (api, law) => {
-    if (has(api, HOUSING_MODULE_ID))
-      setRentIncreaseCap(
-        api,
-        law.placeId,
-        law.inForce ? gov("rentIncreaseCap") : null,
-      );
-  },
   [`${POLICY}housing-land-use.right-to-counsel-in-eviction`]: (api, law) => {
     if (has(api, HOUSING_MODULE_ID))
       setRightToCounsel(
@@ -300,13 +284,6 @@ const HANDLERS: Readonly<Record<string, PolicyHandler>> = {
         law.placeId,
         law.inForce,
         treasury(api, law.level),
-      );
-  },
-  [`${POLICY}fiscal.cap-property-tax-growth`]: (api, law) => {
-    if (has(api, HOUSING_MODULE_ID))
-      setPropertyTaxCap(
-        api,
-        law.inForce ? gov("propertyTaxGrowthCapShare") : null,
       );
   },
   [`${POLICY}transportation-infrastructure.fare-free-transit`]: prices(

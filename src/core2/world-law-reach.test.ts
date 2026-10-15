@@ -94,27 +94,14 @@ describe(`laws reach the economy (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEE
     });
   }, 600_000);
 
-  it("rent stabilization caps renewals, right to counsel is funded, and assessments are capped", () => {
-    enact(`${P}housing-land-use.rent-stabilization`);
+  it("right to counsel is funded", () => {
     enact(`${P}housing-land-use.right-to-counsel-in-eviction`);
-    enact(`${P}fiscal.cap-property-tax-growth`);
-    expect(
-      (housing("rentCaps").get(town) as unknown as { capShare: number })
-        .capShare,
-    ).toBe(0.07);
     const counsel = housing("counsel").get(town) as unknown as {
       inForce: boolean;
       fundedById?: string;
     };
     expect(counsel.inForce).toBe(true);
     if (governments(api).length) expect(counsel.fundedById).toBeTruthy();
-    expect(
-      (
-        housing("assessments").get("law:assessment-cap") as unknown as {
-          capShare: number;
-        }
-      ).capShare,
-    ).toBe(0.02);
   }, 600_000);
 
   it("transit, a mileage fee, broadband, energy laws and a bottle deposit change what households pay", () => {
@@ -215,18 +202,6 @@ describe(`laws reach the economy (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEE
       expect(row.helpMinor ?? 0, row.householdId).toBeLessThanOrEqual(owed);
       if (owed > 0) expect(row.helpMinor, row.householdId).toBeGreaterThan(0);
     }
-  }, 600_000);
-
-  it("a consumer loan rate cap holds new household loans to 36% a year", () => {
-    enact(`${P}business-commerce.cap-consumer-loan-rates`);
-    expect(
-      (
-        api
-          .moduleState("credit")
-          .table("banks")
-          .get("law:consumer-rate-cap") as { capShare: number } | undefined
-      )?.capShare,
-    ).toBe(0.36);
   }, 600_000);
 
   it("a repeal ends the rule", () => {
