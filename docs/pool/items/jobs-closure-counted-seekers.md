@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/jobs-closure-counted-seekers
 pr:
 blocked-on:
 source: found by a Claude session running jobs tests for gov-follow-up; fails identically on clean main
+claimed-at: 2026-10-15T20:32:14.549Z
 ---
 
 **What.** `jobs-closure.test.ts` failed on clean main: a closed employer's counted workers had no `countedSeekers` row. The test emitted an `organization.closed` event by hand, but the jobs handler now reads the finance engine's closure record (`finance.closures`, `endedCountedJobIds`), which the fixture never wrote. Close the plant through the finance engine instead.
