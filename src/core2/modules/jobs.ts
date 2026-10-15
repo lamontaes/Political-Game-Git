@@ -1982,7 +1982,9 @@ function runWeek(api: CoreAPI): void {
           elsewhereApplicants *
           // The region's openings per unemployed worker, over all its search
           // effort (the jobless share of this place's stands for the region's).
-          (regionalTightness(api, placeId) * joblessShare) ** vacancyShare,
+          // (With no one here out of work, the region's own count stands.)
+          (regionalTightness(api, placeId) * (joblessShare || 1)) **
+            vacancyShare,
       );
   }
   // Each seeker's fit for an occupation, worked out once a week.

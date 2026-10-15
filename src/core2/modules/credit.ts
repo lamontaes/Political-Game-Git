@@ -11,6 +11,7 @@ import countyRows from "../../../data/tables/local-business-counts.json" with { 
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import {
   bankBalances,
+  moveGroupSavings,
   releaseGroupSavings,
   reviewDeposits,
 } from "../credit-deposits";
@@ -373,14 +374,22 @@ export function settleDepartedHomeLoans(
         standing: "paid",
         payoff: true,
       });
+    // A sale that doesn't cover the balance leaves the rest unpaid: the bank charges it off.
+    const left = Math.max(0, loan.balanceMinor - paid);
     store(api)
       .table("loans")
       .put({
         ...loan,
-        balanceMinor: Math.max(0, loan.balanceMinor - paid),
-        pastDueMinor: 0,
-        standing: "paid",
+        balanceMinor: left,
+        pastDueMinor: left,
         open: false,
+        ...(left > 0
+          ? {
+              standing: "charged-off",
+              chargedOffAt: c.date,
+              chargeOffCause: "sale-short",
+            }
+          : { standing: "paid" }),
       } as unknown as { id: string });
     sold.push(loan.householdId);
   }
@@ -496,6 +505,8 @@ function holdSavings(api: CoreAPI): void {
   const rt = residentsRuntime(core(api)),
     bank = bankOf(api);
   if (!rt || !bank || rt.releaseSavings) return;
+  rt.moveSavings = (from, to, people, before) =>
+    moveGroupSavings(api, depositTables(api), from, to, people, before);
   rt.releaseSavings = (group, people) =>
     releaseGroupSavings(api, depositTables(api), bank, group, people, {
       tag: "ESTIMATED",

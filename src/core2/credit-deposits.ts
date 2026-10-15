@@ -224,7 +224,7 @@ export function releaseGroupSavings(
   group: number,
   people: number,
   source: Source,
-): void {
+): number {
   const c = api.state as CoreState;
   const rt = residentsRuntime(c);
   const groupId = rt?.store.groups[group]?.id;
@@ -232,15 +232,15 @@ export function releaseGroupSavings(
   const bankAccount = c.cashJournal.residualAccountByOwner.get(
     bank.organizationId,
   );
-  if (!rt || !groupId || !fundAccount || !bankAccount) return;
+  if (!rt || !groupId || !fundAccount || !bankAccount) return 0;
   const deposit = tables.deposits.get(`deposit:${groupId}`) as unknown as
     DepositRow | undefined;
   const members = peopleInGroup(rt, group);
-  if (!deposit || deposit.balanceMinor <= 0 || members <= 0) return;
+  if (!deposit || deposit.balanceMinor <= 0 || members <= 0) return 0;
   const want = Math.floor(
     (deposit.balanceMinor * Math.min(people, members)) / members,
   );
-  if (want <= 0) return;
+  if (want <= 0) return 0;
   const bankCash = c.organizations.get(bank.organizationId)!.liquidMinor;
   const securities =
     (tables.securities.get(SECURITIES) as unknown as SecuritiesRow | undefined)
@@ -253,7 +253,7 @@ export function releaseGroupSavings(
   if (bankCash < want && market && securities > 0) {
     const sold = transferCash(
       api,
-      `securities-sale:${groupId}:${c.date}:${deposit.balanceMinor}`,
+      `securities-sale:${groupId}:${c.date}:${rt.moneyCache.serial++}`,
       market,
       bank.organizationId,
       Math.min(securities, want - bankCash),
@@ -264,8 +264,10 @@ export function releaseGroupSavings(
       balanceMinor: securities - sold,
     });
   }
+  // A bank with nothing to pay out pays nothing (and records no transfer).
+  if (c.organizations.get(bank.organizationId)!.liquidMinor < 1) return 0;
   const paid = api.accounts().transfer({
-    id: `deposit-release:${groupId}:${c.date}:${deposit.balanceMinor}`,
+    id: `deposit-release:${groupId}:${c.date}:${rt.moneyCache.serial++}`,
     from: bankAccount,
     to: fundAccount,
     amountMinor: want,
@@ -277,4 +279,41 @@ export function releaseGroupSavings(
     ...deposit,
     balanceMinor: deposit.balanceMinor - paid,
   });
+  return paid;
+}
+
+/**
+ * A counted household that moves to another group takes its share of its
+ * old group's deposit: the bank's books move it from one deposit to the
+ * other, and no cash moves.
+ */
+export function moveGroupSavings(
+  api: CoreAPI,
+  tables: { deposits: ModuleTable },
+  fromGroup: number,
+  toGroup: number,
+  people: number,
+  peopleBefore: number,
+): void {
+  const rt = residentsRuntime(api.state as CoreState);
+  const fromId = rt?.store.groups[fromGroup]?.id,
+    toId = rt?.store.groups[toGroup]?.id,
+    toFund = rt?.funds.get(toGroup);
+  if (!rt || !fromId || !toId || peopleBefore <= 0) return;
+  const from = tables.deposits.get(`deposit:${fromId}`) as unknown as
+    DepositRow | undefined;
+  if (!from || from.balanceMinor <= 0) return;
+  const share = Math.floor(
+    (from.balanceMinor * Math.min(people, peopleBefore)) / peopleBefore,
+  );
+  if (share <= 0) return;
+  const id = `deposit:${toId}`;
+  const to = (tables.deposits.get(id) as unknown as DepositRow | undefined) ?? {
+    id,
+    accountId: toFund ?? "",
+    balanceMinor: 0,
+    isDeposit: true as const,
+  };
+  tables.deposits.put({ ...from, balanceMinor: from.balanceMinor - share });
+  tables.deposits.put({ ...to, balanceMinor: to.balanceMinor + share });
 }
