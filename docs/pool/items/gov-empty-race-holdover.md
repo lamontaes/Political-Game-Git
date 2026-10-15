@@ -4,8 +4,8 @@ title: "Empty races: state holdover rules, repeated empty specials, a failed pre
 area: gov
 kind: feature
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: pool/gov-empty-race-holdover
 pr:
 blocked-on:
 milestone:
