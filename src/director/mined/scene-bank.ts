@@ -20,12 +20,15 @@ interface Use {
   subject: string;
   role: string;
   choice: string;
+  stages?: string[];
 }
 interface MinedPart {
   key: string;
   text: string;
   uses: Use[];
   shippable: boolean;
+  /** The manner the wording carries, for the speaker's trait pulls. */
+  bearing?: string;
 }
 type Bank = { parts: MinedPart[] };
 export const SCENE_BANK = sceneJson as unknown as Bank;
@@ -55,7 +58,17 @@ function variants(bank: Bank, subject: string, role: string) {
         !heldByGrades(part.key) &&
         part.uses.some((use) => use.subject === subject && use.role === role),
     )
-    .map((part) => ({ key: part.key, text: directorText(part.text) }));
+    .map((part) => {
+      const stages = part.uses.find(
+        (use) => use.subject === subject && use.role === role,
+      )?.stages;
+      return {
+        key: part.key,
+        text: directorText(part.text),
+        ...(stages ? { stages } : {}),
+        ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
+      };
+    });
 }
 
 export function sceneWordsFromBank(
@@ -78,6 +91,12 @@ export function sceneWordsFromBank(
       labelPrefix,
       variants: variants(bank, "cause", labelPrefix),
     })),
+    openings: Object.fromEntries(
+      (rows.openings ?? []).map((move) => [
+        move,
+        variants(bank, "opening", move),
+      ]),
+    ),
   };
 }
 

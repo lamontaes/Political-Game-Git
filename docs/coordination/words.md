@@ -2,23 +2,34 @@
 
 Only OPUS-WORDS writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
+- **Session (Oct 15, evening):** the Words session on the owner's model exception (AGENTS.md), with one Sonnet sub-agent for the engineering. Orders: `docs/work-orders/words-and-director-2026-10-15.md`. Order 1 is PR #4398 (`words/catalog-coverage`); Order 2 is on `words/grading-bench`, stacked on it.
 - **Owns (owner, Oct 15, 1:05 a.m.: the English engine and the director stay with the Claude "Words" cloud session):** the English engine (`src/english/**`, formerly `src/presentation/english-*`), the story director (`src/director/**`) and the data they compose from: `data/english/**`, the corpus tooling in `scripts/english-corpus/**`, the grading tooling in `scripts/dialogue-batch/**` and the research notes in `docs/research/english-corpus/**`. Work order: `docs/work-orders/astra-2026-10-15.md`, Order 4.
-- **Branch:** `opus-words`, restarted from `main` after #4025 merged (Oct 12), with `pool/P15-people-5` merged in whenever it moves.
-- **Model:** Opus, high: choosing which real sentences carry each conversation move is judgment work.
+- **Branch:** one `words/*` branch per order, off `main` (Oct 15 orders); the older `opus-words` line is merged.
+- **Model:** the Words line's exception in AGENTS.md (Oct 15, evening), at medium, with one Sonnet sub-agent.
 - **Starts from:** The owner's approval, Oct 12 at 10:20 a.m.; PEOPLE's Words item (`docs/coordination/people.md`); the speech corpus research (`docs/research/speech-and-dialogue-corpus-2026-09-28.md`); the existing mined banks in `data/english/parts/`.
 
 ## What the owner can play now
 
-- **Talking to anyone:** every line and every reply on the bench's talk panel is a sentence real Americans said, filled from the world's records. Turn on lying and the replies become false versions of the same moves (#4156).
-- **The journal reads as a memoir:**
-  - A childhood loss is framed by age ("When I was 7, my father died."), and a race is told as itself.
-  - School and work are chapters, not entries.
-  - A quiet school comes back only when someone from it holds office later ("Except for Dawn Chang. I knew Dawn Chang from Chestnut Hill Elementary School. Dawn Chang became a council member."). (#4156, #4235)
-- **Grading batch 8 is ready:** `docs/grading/words-batch-8.md`, 100 lines from 5 places played for a year. It covers 20 journal entries, bill text, notices, minutes, hearings, meetings, campaign speeches, interviews, feelings and conversations with their lie versions.
+- **People sound like themselves (Oct 15):** a warm person and a cold one choose different words in the same moment ("Talk to you soon." against "I need to go."). The calibration table (`data/english/calibration.json`) weighs each wording by the speaker's traits and the owner's grades.
+- **Scenes open with a few sentences:** where you are, who is there, what led here and how it opens ("You're at home in Brookside. Your father is there. Your father has something to tell you.").
+- **Talk keeps going:** asked after a relative, people answer and carry on ("She's doing well. I'll tell her you asked."). A lie about where you live names another place. Nobody says a date out loud ("I saw Diana the other day.").
+- **The journal names a newborn:** "My daughter Jane was born."
+- **Talking to anyone:** every line and reply comes from the banks, filled from the world's records; lies are the same moves made false.
 
 ## Checklist
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
+
+### Orders of Oct 15 (`docs/work-orders/words-and-director-2026-10-15.md`)
+
+- [x] **Order 1, the catalog and the coverage table** (#4398): every situation type has a key, an endpoint and its registers; 15 civic types wait for their producer; every part has a shared move; `npm run words:coverage` writes `docs/grading/coverage.md` (49 types, 782 cells, 331 empty).
+- [ ] **Order 2, the grading bench** (`words/grading-bench`): the authored-pieces gate, the bench, the calibration table, the eight personality profiles, the voice in the renderer. Open: 150 items from one world (the first cache gives 25 scenes from 3 types), the news a scene is for being told, a line changed by a grade.
+- [ ] **Order 3, fill the empty cells** (from the coverage table, golden path first).
+- [ ] **Order 4, the director's reach.**
+
+### Sub-agents
+
+- Oct 15: one Sonnet helper (engineering): the gate, the bench script, the cache, the calibration table and fold, the profiles; round 2 is the director's scene fixes and a bigger cache.
 
 - [x] **Conversations for steps 1 and 2** (`conversation.json` stopgap `SG-P15-conversation-banks`): greetings, asking after family, work, school and news, answering, raising a real subject, leaving, and the lie.
   - First version Oct 12: `data/english/parts/conversation.json`, 226 sentences from 2,500 public-domain transcripts, each with its source, date, address and license. `scripts/english-corpus/conversation-bank.ts` turns it into the director's conversation data, and `conversation-bank.test.ts` runs the director's own `openConversation` and `say` with it in a generated place: every line and choice is a mined sentence filled from records, with its record ids. A conversation now reads: "What are you doing now?" / "I work at Petty Cleaning. What about you?" / "Do you know Kristen Sandoval?"
@@ -105,6 +116,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 15 (evening, Words session): Order 1 up as #4398; Order 2 under way on `words/grading-bench`.
+  - Authored to the batch-12 rulings: continuing family answers, place-naming lies, no spoken dates, scene settings, causes and openings, named births, rally core passages, a new job and family news told at home.
+  - The renderer now reads the speaker's traits: on the bench the five profiles went from 100 identical items to none.
+  - The first bench page was held at my reading: the news a scene is for was never said, a household asked "Where do you work?", and one year gave 25 scenes from 3 types. The helper is on those.
+  - Next: the bench's second run, then the PR.
 
 - Oct 15 (Words session): Order 4 done and up for the CTO.
   - #4279 is on `main`.

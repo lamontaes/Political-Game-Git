@@ -1,0 +1,102 @@
+{
+  "schema": "grading-profiles/1",
+  "note": "Trait vectors only, on the game's -2..2 levels (ids as stored on a person, data/content/trait-act-pulls.json). A profile names no scene and no line; the grading bench lays it over the speaking person and over the player.",
+  "profiles": [
+    {
+      "id": "warm",
+      "why": "Friendly, affectionate and comforting high; guarded low, so the speaker draws people in.",
+      "traits": {
+        "personality-v1:facet-friendly": 2,
+        "personality-v1:facet-affectionate": 2,
+        "personality-v1:facet-comforting": 2,
+        "personality-v1:facet-generous": 1,
+        "personality-v1:facet-guarded": -2
+      }
+    },
+    {
+      "id": "cold",
+      "why": "Friendly, affectionate and comforting low; guarded and hostile high, so the speaker keeps people off.",
+      "traits": {
+        "personality-v1:facet-friendly": -2,
+        "personality-v1:facet-affectionate": -2,
+        "personality-v1:facet-comforting": -2,
+        "personality-v1:facet-guarded": 2,
+        "personality-v1:facet-hostile": 1
+      }
+    },
+    {
+      "id": "stubborn",
+      "why": "Persistent and argumentative high, willingness to revise a method and forgiving low, so the speaker holds a position.",
+      "traits": {
+        "personality-v1:facet-persistent": 2,
+        "personality-v1:method-revision": -2,
+        "personality-v1:facet-argumentative": 2,
+        "personality-v1:facet-defensive": 1,
+        "personality-v1:facet-forgiving": -1
+      }
+    },
+    {
+      "id": "anxious",
+      "why": "Self-confidence, action despite fear and calm low; self-conscious and sensitive high, so the speaker hedges and backs off.",
+      "traits": {
+        "personality-v1:self-confidence": -2,
+        "personality-v1:action-despite-fear": -2,
+        "personality-v1:facet-self-conscious": 2,
+        "personality-v1:facet-sensitive": 2,
+        "personality-v1:facet-calm": -2
+      }
+    },
+    {
+      "id": "boastful",
+      "why": "Cocky, smug and proud high; humble low, so the speaker talks up their own standing.",
+      "traits": {
+        "personality-v1:facet-cocky": 2,
+        "personality-v1:facet-smug": 2,
+        "personality-v1:facet-proud": 2,
+        "personality-v1:facet-humble": -2,
+        "personality-v1:facet-approval-seeking": 1
+      }
+    },
+    {
+      "id": "liar",
+      "why": "Truthfulness, sincerity and fair-mindedness low; manipulative and guarded high, so lies come easily to the speaker.",
+      "traits": {
+        "personality-v1:truthfulness": -2,
+        "personality-v1:facet-sincere": -2,
+        "personality-v1:facet-manipulative": 2,
+        "personality-v1:facet-guarded": 1,
+        "personality-v1:facet-fair-minded": -1
+      }
+    },
+    {
+      "id": "warm-anxious",
+      "why": "Warm traits (friendly, affectionate, comforting, generous) with anxious ones (low self-confidence, calm and action despite fear; high self-conscious and sensitive).",
+      "traits": {
+        "personality-v1:facet-friendly": 2,
+        "personality-v1:facet-affectionate": 2,
+        "personality-v1:facet-comforting": 2,
+        "personality-v1:facet-generous": 1,
+        "personality-v1:self-confidence": -2,
+        "personality-v1:action-despite-fear": -2,
+        "personality-v1:facet-self-conscious": 2,
+        "personality-v1:facet-sensitive": 2,
+        "personality-v1:facet-calm": -2
+      }
+    },
+    {
+      "id": "cold-boastful",
+      "why": "Cold traits (friendly, affectionate, comforting low; guarded high) with boastful ones (cocky, smug, proud high; humble low).",
+      "traits": {
+        "personality-v1:facet-friendly": -2,
+        "personality-v1:facet-affectionate": -2,
+        "personality-v1:facet-comforting": -2,
+        "personality-v1:facet-guarded": 2,
+        "personality-v1:facet-cocky": 2,
+        "personality-v1:facet-smug": 2,
+        "personality-v1:facet-proud": 2,
+        "personality-v1:facet-humble": -2,
+        "personality-v1:facet-approval-seeking": 1
+      }
+    }
+  ]
+}

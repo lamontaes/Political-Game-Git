@@ -27,6 +27,8 @@ export interface SceneWords {
   settings: Readonly<Record<string, Variant[]>>;
   present: Variant[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
+  /** How the scene's first move opens it, by that move ("tell", "farewell"). */
+  openings?: Readonly<Record<string, Variant[]>>;
 }
 /** `data/scene-rows.json`: the scene's structure, holding no sentences. */
 export interface SceneRows {
@@ -34,6 +36,8 @@ export interface SceneRows {
   and: string;
   settings: readonly string[];
   causes: readonly string[];
+  /** The moves that open a scene, each narrated by the bank's opening sentences. */
+  openings?: readonly string[];
 }
 /** The default words are the mined bank's. */
 export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
@@ -240,11 +244,27 @@ export function composeScene(
     if (line) narration.push(line);
   }
 
-  // What led here, from the moment's cause.
+  // How the scene opens, from its first move: the one who opens it and
+  // what they came to do ("Your mother has something to tell you.").
+  const openerId = opener?.personIds.find((id) => id !== personId);
+  const openerFact = openerId ? who(openerId) : null;
+  const opening =
+    binding.opening && openerFact
+      ? render(
+          `scene-opening:${binding.opening}`,
+          words.openings?.[binding.opening],
+          { who: openerFact },
+          `${moment.id}:opening`,
+        )
+      : null;
+
+  // What led here, from the moment's cause, about someone else or the
+  // player. News the opener is about to tell is left to them to tell.
   const cause = words.causes.find((row) =>
     moment.label.startsWith(row.labelPrefix),
   );
-  if (cause) {
+  const toTell = opening !== null && binding.opening === "tell";
+  if (cause && !toTell) {
     const facts: Record<string, Fact> = {};
     const otherId = moment.counterpartIds[zero];
     const other = otherId ? who(otherId) : null;
@@ -267,9 +287,11 @@ export function composeScene(
       cause.variants,
       facts,
       `${moment.id}:cause`,
+      other && otherId !== personId ? "other" : "self",
     );
     if (line) narration.push(line);
   }
+  if (opening) narration.push(opening);
 
   const talkToId =
     opener?.personIds.find((id) => id !== personId) ??

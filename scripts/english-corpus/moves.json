@@ -375,6 +375,66 @@
         "key": "loss"
       },
       {
+        "move": "^job-new-told-raise",
+        "tag": "congratulate",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-told-reply-answer-thank$",
+        "tag": "thank",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-told-reply-answer-tell$",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-raise",
+        "tag": "deliver-news",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-congratulate$",
+        "tag": "congratulate",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-ask$",
+        "tag": "ask",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-brief$",
+        "tag": "react",
+        "key": "honor"
+      },
+      {
+        "move": "^(death|illness|prison)-news-raise",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": "^death-news-reply-answer-condole$",
+        "tag": "condole",
+        "key": "loss"
+      },
+      {
+        "move": "^(death|illness|prison)-news-reply-answer-(help|comfort|brief)$",
+        "tag": "comfort",
+        "key": "loss"
+      },
+      {
+        "move": "^prison-news-reply-answer-promise$",
+        "tag": "promise",
+        "key": "loss"
+      },
+      {
+        "move": "^(death|illness|prison)-news-reply-answer-ask$",
+        "tag": "ask",
+        "key": "loss"
+      },
+      {
         "move": "^family-answer-gone$",
         "tag": "deliver-news",
         "key": "loss"

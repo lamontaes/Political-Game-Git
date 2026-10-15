@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/grading-bench
+pr: "#4407"
 blocked-on: "words-authored-pieces-gate"
 milestone:
 source: "words-and-director order 2"

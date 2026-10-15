@@ -1,6 +1,6 @@
 {
   "version": "words-scene-v1",
-  "about": "The structure of scene narration: the setting kinds, the cause label prefixes and the word that joins several names. It holds no sentences; they come from the mined bank (data/english/parts/scene-words.json) through src/director/mined/scene-bank.ts. A setting or cause the bank has no sentence for is left out.",
+  "about": "The structure of scene narration: the setting kinds, the cause label prefixes and the word that joins several names. It holds no sentences; openings are the moves that open a scene (its first role's move), each narrated by the bank's opening sentences; they come from the mined bank (data/english/parts/scene-words.json) through src/director/mined/scene-bank.ts. A setting or cause the bank has no sentence for is left out.",
   "and": "and",
   "settings": [
     "home",
@@ -15,7 +15,25 @@
   "causes": [
     "tie:contact",
     "money:job-ended",
+    "money:job-left",
     "money:job-started",
-    "home:moved"
+    "home:moved",
+    "feeling:event:life.death",
+    "feeling:event:housing.eviction",
+    "feeling:event:health.serious-illness",
+    "feeling:event:justice.imprisoned",
+    "feeling:event:justice.charged",
+    "feeling:event:justice.convicted",
+    "feeling:event:justice.acquitted"
+  ],
+  "openings": [
+    "tell",
+    "farewell",
+    "comfort",
+    "thank",
+    "request",
+    "congratulate",
+    "announce-result",
+    "deliver-news"
   ]
 }

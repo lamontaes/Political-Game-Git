@@ -251,6 +251,19 @@
         },
         {
           "match": {
+            "label": "feeling:event:housing.eviction",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "subject",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
             "label": "feeling:event:life.death",
             "counterpart": "some"
           },
@@ -676,6 +689,19 @@
             "guests": "present"
           },
           "opener": "host"
+        },
+        {
+          "match": {
+            "label": "money:job-started",
+            "counterpart": "some"
+          },
+          "bind": {
+            "honoree": "counterpart",
+            "host": "subject",
+            "guests": "kin"
+          },
+          "opener": "honoree",
+          "opening": "tell"
         }
       ],
       "awaiting": ["record:birthday-gathering", "record:election-win"],
@@ -761,12 +787,7 @@
       "tag": {
         "key": "loss",
         "endpoint": "personal",
-        "registers": [
-          "conversation",
-          "scene-words",
-          "journal",
-          "address/house-floor"
-        ]
+        "registers": ["conversation", "scene-words", "journal"]
       }
     },
     {
@@ -1273,6 +1294,18 @@
             "cannot-come": "counterpart"
           },
           "opener": "visitor"
+        },
+        {
+          "match": {
+            "label": "feeling:event:health.serious-illness",
+            "counterpart": "none"
+          },
+          "bind": {
+            "visitor": "kin",
+            "cannot-come": "subject"
+          },
+          "opener": "visitor",
+          "opening": "comfort"
         }
       ],
       "awaiting": ["record:serious-illness", "record:nursing-home"],

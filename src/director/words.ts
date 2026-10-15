@@ -1,4 +1,5 @@
 /** Small word rules shared by the journal, conversations and scenes. */
+import spokenTimeJson from "../../data/english/spoken-time.json" with { type: "json" };
 import { P } from "../core2/parameters";
 
 /**
@@ -53,6 +54,10 @@ export function spokenDate(iso: string, today: string): string {
   });
 }
 
+const SPOKEN_TIME = spokenTimeJson as {
+  spans: readonly { maxDays?: number; text: string }[];
+};
+
 /** A month and year as people say it: "April 2016". */
 export function spokenMonth(iso: string): string {
   return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
@@ -63,8 +68,10 @@ export function spokenMonth(iso: string): string {
 }
 
 /**
- * When something happened, as people say it in passing: "today",
- * "yesterday", or "on March 3" (with the year only when it differs).
+ * How long ago something happened, as people say it in passing ("the other
+ * day", "a few months ago"), from the authored spans in
+ * `data/english/spoken-time.json`. Nobody says a date in speech (owner, Oct
+ * 15, evening).
  */
 export function spokenWhen(iso: string, today: string): string {
   const days = Math.round(
@@ -74,7 +81,9 @@ export function spokenWhen(iso: string, today: string): string {
         P.secondsPerMinute *
         P.millisecondsPerSecond),
   );
-  if (days === P.zero) return "today";
-  if (days === P.one) return "yesterday";
-  return `on ${spokenDate(iso, today)}`;
+  const spans = SPOKEN_TIME.spans;
+  return (
+    spans.find((span) => span.maxDays === undefined || days <= span.maxDays) ??
+    spans[spans.length - P.one]!
+  ).text;
 }

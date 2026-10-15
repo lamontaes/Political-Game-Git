@@ -4,9 +4,9 @@ title: "Lies about where you are from name another place"
 area: words
 kind: feature
 priority: 1
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/grading-bench
+pr: "#4407"
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
