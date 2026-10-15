@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-player-household-no-income
 pr:
 blocked-on:
 source: found by a Claude session verifying core-player-money-spending in a played year
-claimed-at:
+claimed-at: 2026-10-15T21:22:13.694Z
 ---
 
 **What.** In Colebrook, New Hampshire (place 3313700, seed cfa61ad11b9653ed75640a7ae2762a424b830ac48efd67c06f0e19580d907725, from January 20, 2025) the player's household (the player, 18, a 12-year-old, and the head, 41) has no earner. Its consequences do run: the head is registered as a job seeker from the opening (reason `opening-unemployed`), the $1,820 of cash is gone after the first month's bills, rent goes unpaid from March 1, 2025 (arrears of $564.49 a month on the lease), the lease ends on April 27, 2025 and the household moves away. What did not happen in a year: the seeker received no job offer (offers 0 at three, six and twelve months), no benefit paid them (no work history to claim on), and no entry in the journal records help of any kind. Check whether a year with no offer in a small town is the jobs match working (no open positions that fit, which should be a recorded reason) or a defect, and whether a player in such a household can see why.
