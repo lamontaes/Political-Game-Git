@@ -22,3 +22,6 @@
 
 - Item 9, counted notices: draft #4369, 8 targeted cases and changed-file gates pass; acceptance remains open because drawn Garden City had zero known counted deaths. Main 129.70 seconds, changed 137.53 (+6.03%); absolute speed fails on both. OPEN SG-CORE-counted-death-relations records missing opening closeness and full-family retention.
 - Next core-list claim: `pool/bench-opening-records`, reuse existing opening schools, tuition and sample; then return to full-to-counted family ties and the notice chain.
+
+- Item 10 opening: draft #4370 has four passing focused tests and a completed Garden City year, 137.53 vs 129.70 seconds. Teacher payroll reads the new job but pays zero from empty funds; tuition payment remains unproved.
+- Next claim: `pool/counted-family-ties`, retain opening family relationships to existing counted identities through the shared relationship writer and existing closeness rule; no custody API edits. Prerequisite for #4369, which remains unfinished.

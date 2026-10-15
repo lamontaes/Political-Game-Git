@@ -101,3 +101,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 10. Core handoff, played opening records — `pool/bench-opening-records` (first Session D; reuse core public schools, private tuition and representative sampling in the existing bench stages, retaining its 17-year-old player and all installed modules; second D retains shared settings work).
 
 - 10. OPUS-GOV Needs, custody core API — `pool/custody-person-update` (second Session D; allow discretionaryEligibleV1 through updatePerson and replace justice-custody's direct person writes; no custody/sentencing rules or director/English changes. Core review requested in the draft; no wait on review).
+
+- 10. Core handoff / counted death prerequisite — `pool/counted-family-ties` (first Session D; opening family initialization, relationship endpoints and existing closeness helper only. Second D retains updatePerson/custody. No new identity or mortality selector).
