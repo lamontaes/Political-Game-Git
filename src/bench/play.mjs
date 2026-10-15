@@ -1451,9 +1451,44 @@ const sheets = {
     ];
   },
   async money() {
-    const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
+    const [b, bank] = await Promise.all([
+      api(`/api/budget?id=${encodeURIComponent(me.id)}`),
+      api(`/api/bank?id=${encodeURIComponent(me.id)}`),
+    ]);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
+      ...(bank
+        ? [
+            row("Bank", bank.name),
+            row(
+              "Household savings",
+              `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
+            ),
+            ...(bank.books
+              ? [
+                  row("Bank books", bank.books.date),
+                  row("Bank cash", dollars(bank.books.cashMinor)),
+                  row("Business loans", dollars(bank.books.businessLoansMinor)),
+                  row(
+                    "Household loans",
+                    dollars(bank.books.householdLoansMinor),
+                  ),
+                  row("Mortgages", dollars(bank.books.mortgagesMinor)),
+                  row("Total assets", dollars(bank.books.assetsMinor)),
+                  row("Deposits owed", dollars(bank.books.depositsMinor)),
+                  row(
+                    "Mortgage funding",
+                    dollars(bank.books.mortgageFundingMinor),
+                  ),
+                  row("Bank equity", dollars(bank.books.equityMinor)),
+                  row(
+                    "Liabilities and equity",
+                    dollars(bank.books.liabilitiesAndEquityMinor),
+                  ),
+                ]
+              : []),
+          ]
+        : []),
       ...(me.card.dwelling
         ? [
             row(

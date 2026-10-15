@@ -25,6 +25,7 @@ import {
   officeStops,
   officeView,
 } from "./office";
+import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
 import { governmentMap } from "./map";
@@ -477,6 +478,10 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/family") {
         send(200, familyView(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/bank") {
+        send(200, bankView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/budget") {
