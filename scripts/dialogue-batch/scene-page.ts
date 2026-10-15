@@ -68,8 +68,6 @@ const core = world.core as CoreState;
 const api = coreAPI(core);
 const rows = (module: string, table: string): any[] =>
   api.moduleState(module).table(table).rows() as any[];
-const lowerFirst = (text: string) =>
-  text.charAt(0).toLowerCase() + text.slice(1);
 const quoted = (title: string) => `"${title}"`;
 
 /* ----------------------------------------------------------- the directory */
@@ -249,16 +247,26 @@ const contests = new Map<string, any>(
   rows("core2-elections-v1", "contests").map((row) => [row.id, row]),
 );
 const filingsById = new Map(filings.map((row) => [row.id, row]));
-for (const gift of order(
-  rows("core2-campaigns-v1", "gifts"),
-  "donor",
-  (row) => row.id,
-)) {
+// The contribution engine sets no size for a donor who asks a favor, so the
+// three largest gift records stand for the donors in this world.
+const giftsBySize = [...rows("core2-campaigns-v1", "gifts")].sort(
+  (a, b) => b.totalMinor - a.totalMinor || a.id.localeCompare(b.id),
+);
+const donorNote = `donors are the three largest gift records in this world (${giftsBySize
+  .slice(0, 3)
+  .map((gift) => `$${Math.round(gift.totalMinor / 100)}`)
+  .join(
+    ", ",
+  )}); the contribution engine sets no size at which a donor asks a favor, so these are small gifts`;
+let donors = 0;
+for (const gift of giftsBySize) {
+  if (donors >= 3) break;
   const filing = filingsById.get(gift.campaignId);
   const asked = realPerson(filing?.personId);
   const donor = realPerson(gift.donorId);
   const any = order(titled, "donor-bill", (row) => row.bill.id)[0];
   if (!filing || !asked || !donor || donor === asked || !any) continue;
+  donors += 1;
   specs.push({
     typeKey: "donor-ask",
     askerId: donor,
@@ -271,6 +279,7 @@ for (const gift of order(
     },
     records: [gift.id, filing.id, donor, asked],
     standIn: [
+      donorNote,
       "the gift record names no interest, so the bill the donor cares about is chosen from the bill table",
     ],
   });
@@ -787,7 +796,12 @@ for (const typeKey of purposeTypes) {
 
 /* ----------------------------------------------------------------- output */
 
-const stoodIn = [...new Set(scenes.flatMap((scene) => scene.standIn))].sort();
+const stoodIn = [
+  ...new Set([
+    ...scenes.flatMap((scene) => scene.standIn),
+    "bill names come from the government engine's records as they are",
+  ]),
+].sort();
 const json = {
   id,
   title: `Scenes with a purpose, ${id}`,

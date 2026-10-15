@@ -5363,10 +5363,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.yes-i-d-vote-the-same-way-tomorrow",
+      "key": "scene-talk.reply-answer.yes-some-things-matter-more-than-one-election",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Yes. I'd vote the same way tomorrow.",
+      "text": "Yes. Some things matter more than one election.",
       "uses": [
         {
           "subject": "scene",
@@ -5375,7 +5375,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.would-you-vote-the-same-way-again"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-votes"
         }
       ],
       "bearing": "proud",
@@ -5389,10 +5389,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-would-it-s-the-right-call",
+      "key": "scene-talk.reply-answer.even-then-it-s-the-right-call",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I would. It's the right call.",
+      "text": "Even then. It's the right call.",
       "uses": [
         {
           "subject": "scene",
@@ -5401,7 +5401,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.would-you-vote-the-same-way-again"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-votes"
         }
       ],
       "bearing": "calm",
@@ -7383,7 +7383,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "staff-news",
-          "key": "news-received"
+          "key": "news-received",
+          "requiresFacts": ["story"]
         }
       ],
       "bearing": "braced",
@@ -7412,6 +7413,32 @@
         }
       ],
       "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-changed-their-vote",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who changed their vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
       "shippable": true,
       "origin": "authored",
       "author": "Words session",
@@ -8878,6 +8905,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-threaten.don-t-count-on-my-help-next-time",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Don't count on my help next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-threaten.the-party-has-a-long-memory",
       "move": "follow-threaten",
       "kind": "spoken",
@@ -8893,6 +8945,31 @@
         }
       ],
       "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.don-t-expect-the-party-s-help-in-the-next-race",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Don't expect the party's help in the next race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "party-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
       "shippable": true,
       "origin": "authored",
       "author": "Words session",
@@ -9742,10 +9819,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.would-you-vote-the-same-way-again",
+      "key": "scene-talk.follow-ask.even-if-it-costs-you-votes",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Would you vote the same way again?",
+      "text": "Even if it costs you votes?",
       "uses": [
         {
           "subject": "scene",
@@ -10350,6 +10427,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-disagree.why-does-it-have-to-be-you",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Why does it have to be you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.no-we-talk-about-it-now",
       "move": "follow-press",
       "kind": "spoken",
@@ -10490,6 +10592,31 @@
         }
       ],
       "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-decline.i-don-t-know-if-i-can",
+      "move": "follow-decline",
+      "kind": "spoken",
+      "text": "I don't know if I can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "decline",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "nervous",
       "shippable": true,
       "origin": "authored",
       "author": "Words session",
@@ -10650,6 +10777,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-confront.okay-okay-you-won-come-inside",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Okay, okay. You won. Come inside.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "honor"
+      }
+    },
+    {
       "key": "scene-talk.follow-ask.so-what-happens-now",
       "move": "follow-ask",
       "kind": "spoken",
@@ -10675,10 +10827,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.go-get-some-sleep-you-earned-it",
+      "key": "scene-talk.follow-thank.go-get-some-sleep-big-day-tomorrow",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Go get some sleep. You earned it.",
+      "text": "Go get some sleep. Big day tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -10979,6 +11131,31 @@
       "move": "follow-disagree",
       "kind": "spoken",
       "text": "Don't put this on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-absence",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.that-s-not-fair-and-you-know-it",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "That's not fair, and you know it.",
       "uses": [
         {
           "subject": "scene",
@@ -11301,10 +11478,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-s-all-in-the-vote-record-i-ll-leave-it-with-you",
+      "key": "scene-talk.follow-answer.it-s-all-in-the-vote-record",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's all in the vote record. I'll leave it with you.",
+      "text": "It's all in the vote record.",
       "uses": [
         {
           "subject": "scene",
@@ -11416,6 +11593,58 @@
           "purpose": "staff-news",
           "key": "news-received",
           "after": "scene-talk.reply-ask.how-bad-is-it"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-still-finding-out-i-ll-have-names-tonight",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm still finding out. I'll have names tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "scene-talk.reply-ask.who-changed-their-vote"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.give-me-an-hour-i-ll-know-who-it-was",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Give me an hour. I'll know who it was.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "scene-talk.reply-ask.who-changed-their-vote"
         }
       ],
       "bearing": "solemn",
