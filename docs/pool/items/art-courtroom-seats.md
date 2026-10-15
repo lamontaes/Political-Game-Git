@@ -4,12 +4,13 @@ title: "ART-5 audience and jury seats in courtrooms (#3442)"
 area: art
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/session21-art5-courtrooms
 pr: #3442
 blocked-on:
 milestone:
 source: "open PR #3442"
+claimed-at: 2026-10-15T22:41:33.331Z
 ---
 
 **What.** PR #3442 (branch claude/session21-art5-courtrooms) adds spectator pews and twelve jury chair anchors to the courtroom backdrops so a trial scene can seat people where the room has seats. It is not a draft, and it was sent back on 2026-10-15 for a code conflict with main in `src/presentation/backdrop-anchors.test.ts`. Merge main into the branch with a plain merge, resolve the test file, re-run the anchor tests and leave the PR mergeable. The player would notice a trial or hearing scene where the jury, the lawyers and the audience sit in the room's real seats.
