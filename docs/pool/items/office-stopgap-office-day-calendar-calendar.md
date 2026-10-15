@@ -4,9 +4,9 @@ title: "Stopgaps in office-day-calendar (calendar): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/office-local-39
-pr:
+pr: #4519
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-calendar.ts, kind calendar"
