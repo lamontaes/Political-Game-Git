@@ -5,10 +5,10 @@ area: gov
 kind: stopgap
 priority: 1
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: gov-outside-plug-removed
 milestone:
 source: "split from core-outside-flow-provenance-gate; stopgap SG-GOV-outside-revenue-monthly"
 ---
