@@ -22,3 +22,6 @@ source: "split from gov-next-from-the-audit-this-lane (laws stress audit, defect
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts
 
 **Notes.** From `docs/reports/stress-audit-laws-2026-10-14/README.md`, defect 16. Verify against main before starting; the audit ran on the Oct 14 build.
+
+**Fixed in the same PR as the triage (claude/gov-audit-triage).** In the `income-tax-adopt` and `income-tax-graduated` cases of `law-reach/group-b.ts`, the act now counts as in force only when it wrote a tax row, so where the level already had a tax it records no one reached. The test `law-reach-group-b.test.ts` expects zero reached where the city already had an income tax: Columbus, Ohio (seed beefbeefbeefbeef) reached 191 people on the old code and 0 now.
+
