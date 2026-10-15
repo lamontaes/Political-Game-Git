@@ -4,8 +4,8 @@ title: 'A body is named by a member''s title ("County of Darlington commissioner
 area: gov
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: pool/gov-body-named-by-member-title
 pr:
 blocked-on:
 milestone:
