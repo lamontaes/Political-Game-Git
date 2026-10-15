@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/political-game-pool-g2977r
-pr:
+status: in-pr
+claimed-by:
+pr: #4410
 blocked-on:
 milestone:
 source: "split from core-outside-flow-provenance-gate; #4352 SESSION-B.md"

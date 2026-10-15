@@ -4,9 +4,9 @@ title: "release:check fails on main: docs/release/changes/agents-align.md carrie
 area: release
 kind: bug
 priority: 1
-status: claimed
-claimed-by: claude/political-game-pool-g2977r
-pr:
+status: in-pr
+claimed-by:
+pr: #4410
 blocked-on:
 milestone:
 source: "found while running release:check --mode pr on claude/laws-reach-group-b-failures"
