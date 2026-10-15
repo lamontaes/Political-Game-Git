@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/world-census-weight-economy
 pr:
-blocked-on: core-census-weight-model
+blocked-on: world-census-weight-macro-regional
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
 claimed-at: 2026-10-15T22:01:44.414Z
