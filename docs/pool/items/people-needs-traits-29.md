@@ -12,16 +12,12 @@ milestone:
 source: 'docs/coordination/traits.md "Needs from other sessions" (line 29)'
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** Two real requests remain from the traits work. `turnoutBase` moved from -1 to -0.6 and `recallOrganizerEffort` from 1.3 to 0.5 so turnout and recalls still happen with the smaller trait term, and both must be re-checked against real turnout and recall counts. And appointers are party-side numbers, not people, so the nomination cannot weigh their traits until an appointer is a person. Re-check the two parameters against the sources and update their tags, then make the appointer a person in `appointments.ts`. The player would notice turnout and recalls at real-world rates and appointments that reflect who the appointer is.
 
-- None blocking. Each pillar whose file I touched is listed in the PR body, commit by commit.
-- OPUS-GOV: `turnoutBase` moved from -1 to -0.6 and `recallOrganizerEffort` from 1.3 to 0.5, so turnout and recalls still happen with the smaller trait term. Please re-check both against real turnout and recall counts.
-- OPUS-GOV: appointers are party-side numbers, not people. Once an appointer is a person, the nomination can weigh their traits.
+**Rules.** Research before building: real turnout and recall counts check the totals and never decide one voter or organizer; Sliding scales and causes: turnout and recall effort slide with traits, never flip at a threshold; No dice: appointments follow the appointer's traits and the candidates' records, never a roll; Estimate, never UNKNOWN: each parameter is tagged SOURCED or ESTIMATED with source and spread in the parameter table; An effect is a read, not a record: the nomination reads the appointer's person record; One rule, all 56 places: no place named in code; One model, two tiers: counted voters use the same turnout rule as full people times their count.
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): national and local turnout and the recall count land within each parameter's stated spread (the measured numbers in the PR body), and a nomination in the year lists the appointer as a person with the traits weighed (nomination and person ids). Tests in `src/core2/appointments.test.ts` and a turnout calibration test. The owner plays it: sees an appointment explained by who the mayor is.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
-
-**Files.** varies
+**Files.** src/core2/data/parameters.json, src/core2/electorate.ts, src/core2/modules/recalls.ts, src/core2/appointments.ts
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.

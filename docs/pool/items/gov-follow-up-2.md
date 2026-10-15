@@ -4,7 +4,7 @@ title: "Follow-up:"
 area: gov
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -14,10 +14,10 @@ source: "docs/coordination/OPUS-GOV.md line 67 (unchecked checklist line)"
 
 **What.** Follow-up: interest groups lobby every seat covering the town on a state or federal bill, town board members included. Limit it to the bill's own chambers.
 
-**Rules.** AGENTS.md rules; an effect is a read; nothing waits on another session.
+**Rules.** Dropped as a duplicate; see Notes.
 
-**Done when.** Built and read by another engine in a one-year played-world run, by record id; or verified done on main and marked done.
+**Done when.** Not applicable; the work is tracked in laws-lobby-chamber-scope.
 
-**Files.** see the status file
+**Files.** see laws-lobby-chamber-scope
 
-**Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.
+**Notes.** Duplicate of laws-lobby-chamber-scope. Checklist line from OPUS-GOV.md; verify against main before starting.

@@ -1753,8 +1753,8 @@
     "why": "No EPA Green Book nonattainment list is loaded for counties.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "Load EPA Green Book nonattainment counties as data; the plan then binds emitters only in listed counties, and OPUS-WORLD business costs read the compliance record.",
-    "status": "open"
+    "replacement": "Load EPA Green Book nonattainment counties as data; the plan then binds emitters only in listed counties, and OPUS-WORLD business costs read the compliance record. Done Oct 15 (Claude, pool laws-family-clean-air): the EPA Green Book county list is loaded (data/business/nonattainment.json) and the business engine charges only emitters in listed counties, citing the clean air plan law row where one is in force (routeCompliance, business.ts); the generic employer rows are gone.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-business-cost",
@@ -4597,5 +4597,53 @@
     "addedAt": "2026-10-15",
     "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
     "line": 82
+  },
+  {
+    "id": "SG-POOL-party-officers-local",
+    "kind": "missing-data",
+    "file": "src/core2/candidate-pool.ts",
+    "line": 400,
+    "whatItFakes": "A state or national party's officers in the standing pool: only the town's local party chair is recorded, so the pool's party officers are the chairs of the state's parties as the town sees them.",
+    "why": "The parties engine records one local committee and its chair per party, not a state committee, its officers or a national committee.",
+    "addedBy": "GOV-CANDIDACY",
+    "addedAt": "2026-10-14",
+    "replacement": "The parties engine records state and national committees and their officers; the pool reads them in place of the local chair.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-empty-race-law",
+    "kind": "missing-record",
+    "file": "src/core2/modules/voting.ts",
+    "line": 2135,
+    "whatItFakes": "State/local empty regular races retain the holder pending a successor. Empty special races retain their existing vacancy without a researched repeat-election deadline. National presidential failure-to-elect is not implemented.",
+    "why": "Existing vacancy data governs filling a vacancy but does not establish when failure to elect creates one. Only congressional fixed term boundaries are sourced here.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Jurisdiction-specific failure-to-elect/holdover and repeat-election rules, plus the national presidential contingent-election path.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-wide-resident-pool",
+    "kind": "missing-record",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 683,
+    "whatItFakes": "Wider races reach named officials across their jurisdiction and the played town residents. Unnamed ordinary residents elsewhere have no candidate records. State legislative district residency is not individually known for officials stored at state scope.",
+    "why": "The wider electorate has counts but no resident household records from which candidacy can read personal resources and ambitions.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Jurisdiction-wide counted household records with district membership, using the same candidacy reasons before filling in a runner.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-press-office-owner-confirmation",
+    "kind": "owner-decision",
+    "file": "src/core2/press-conflict.ts",
+    "line": 66,
+    "whatItFakes": "Uses the CTO ruling that working press staff and outlet owners cannot run for office while retaining that role.",
+    "why": "OWNER-DECISIONS.md records the October 14, 2026 ruling as pending owner confirmation.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
+    "status": "open"
   }
 ]
