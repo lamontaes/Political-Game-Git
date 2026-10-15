@@ -4,9 +4,9 @@ title: "Follow-up:"
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-follow-up
-pr:
+pr: #4441
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 66 (unchecked checklist line)"
