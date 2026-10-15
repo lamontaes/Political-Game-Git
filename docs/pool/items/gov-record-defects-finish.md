@@ -4,12 +4,13 @@ title: "Finish #4343: three officeholder record fixes"
 area: gov
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-record-defects-finish
 pr: #4343
 blocked-on:
 milestone:
 source: "reissue item 11; PR #4343 branch gov/session-c-record-defects"
+claimed-at: 2026-10-15T22:10:19.690Z
 ---
 
 **What.** (a) A sitting member of Congress who wins a council seat loses the House seat because incompatibility.json marks every place multipleElectiveOffices false and enforceIncompatibility acts on it; the bar must come from each place's own law in data, and the filing side must read the officeholder's situation, not a flat penalty. (b) BillRow.title and the new incompatibilities table need a reader in play. (c) bodyOf picks the first office row starting with us-house, which in D.C. and the territories is the delegate row; read the body kind from the seat's own record.
