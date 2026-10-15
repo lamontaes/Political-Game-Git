@@ -29,6 +29,8 @@ export interface BillName {
   readonly title: string;
   /** What the long title says the bill is for, as a noun phrase. */
   readonly purpose: string;
+  /** Whether the bill undoes or lessens its policy (a repeal, a cut). */
+  readonly reverses: boolean;
 }
 
 /**
@@ -45,8 +47,54 @@ export function billNameFor(
   const form = book.forms[formKind];
   if (!row || !form) return null;
   return repeal
-    ? { title: `${row.repealName} ${form}`, purpose: row.repealPurpose }
-    : { title: `${row.name} ${form}`, purpose: row.purpose };
+    ? {
+        title: `${row.repealName} ${form}`,
+        purpose: row.repealPurpose,
+        reverses: true,
+      }
+    : { title: `${row.name} ${form}`, purpose: row.purpose, reverses: false };
+}
+
+/** What a bill's section carries that names it: the catalog policy or question it was drafted from, and what it does. */
+export interface NamedSection {
+  readonly kind: string;
+  readonly question?: string;
+  readonly policyId?: string;
+  readonly operation?: string;
+  readonly value: number;
+}
+
+/** The operations that undo or lessen what a policy does. */
+const REVERSING = new Set(["repeal", "lower", "restrict"]);
+
+/**
+ * The real name of a bill: that of its first section that has one. A section
+ * reverses its policy by its operation; a policy question with none reverses
+ * when its value is not on. A rate or a budget line with no operation has no
+ * known direction and no name.
+ */
+export function billNameOf(
+  bill: {
+    readonly form: { readonly kind: string };
+    readonly provisions: readonly NamedSection[];
+  },
+  book: BillNameBook = billNames as BillNameBook,
+): BillName | null {
+  for (const section of bill.provisions) {
+    const reverse = section.operation
+      ? REVERSING.has(section.operation)
+      : section.kind === "policy-question"
+        ? section.value <= 0
+        : null;
+    if (reverse === null) continue;
+    for (const key of [section.policyId, section.question]) {
+      const found = key
+        ? billNameFor(key, bill.form.kind, reverse, book)
+        : null;
+      if (found) return found;
+    }
+  }
+  return null;
 }
 
 /**

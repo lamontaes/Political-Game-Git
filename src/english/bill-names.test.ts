@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { checkAmericanEnglish } from "../../scripts/prose-eval/american-english";
-import { billNameFor, inBillForm } from "./bill-names";
+import { billNameFor, billNameOf, inBillForm } from "./bill-names";
 
 const questions: { question: string; name: string }[] = [];
 const walk = (value: unknown): void => {
@@ -41,6 +41,45 @@ describe("bill names", () => {
       / Ordinance$/,
     );
     expect(billNameFor("no-such-question", "act", false)).toBeNull();
+  });
+
+  it("names a bill by its first section that has a name, in the direction the section runs", () => {
+    const form = { kind: "ordinance" };
+    expect(
+      billNameOf({
+        form,
+        provisions: [
+          {
+            kind: "law-amount",
+            policyId: "law:minimum-wage",
+            operation: "raise",
+            value: 1500,
+          },
+        ],
+      })?.title,
+    ).toBe("Wage Floor Increase Ordinance");
+    expect(
+      billNameOf({
+        form,
+        provisions: [
+          {
+            kind: "budget-line",
+            policyId: "budget:parks",
+            operation: "restrict",
+            value: -1,
+          },
+        ],
+      })?.reverses,
+    ).toBe(true);
+    // A rate with no recorded direction has no name rather than a guessed one.
+    expect(
+      billNameOf({
+        form,
+        provisions: [
+          { kind: "law-amount", policyId: "law:minimum-wage", value: 1500 },
+        ],
+      }),
+    ).toBeNull();
   });
 
   it("says a mined Act sentence in the bill's own form", () => {

@@ -30,7 +30,7 @@ import { execSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
 import { policyNames, schoolsOf } from "../../src/bench/words";
-import { billNameFor, inBillForm } from "../../src/english/bill-names";
+import { billNameOf, inBillForm } from "../../src/english/bill-names";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -351,22 +351,16 @@ function readWorld(place: Place): {
   // A bill's real name (owner, Oct 15: "Allow multifamily in single family
   // zones" is a description, not a name); the catalog's description stays
   // beside it as the bill's text.
-  const questionOf = (bill: any) =>
-    bill.provisions.find((p: any) => p.kind === "policy-question");
-  const nameOf2 = (bill: any) => {
-    const question = questionOf(bill);
-    return question
-      ? billNameFor(
-          question.question as string,
-          bill.form.kind,
-          question.value <= 0,
-        )
-      : null;
-  };
+  const nameOf2 = (bill: any) => billNameOf(bill);
   const titleOf = (bill: any) => nameOf2(bill)?.title;
+  // The catalog's own words for the bill's first section: its text beside the title.
   const descriptionOf = (bill: any) => {
-    const question = questionOf(bill);
-    return question ? names[question.question as string] : undefined;
+    const section = bill.provisions[0];
+    return section
+      ? (names[section.question as string] ??
+          names[section.series as string] ??
+          String(section.line ?? section.kind))
+      : undefined;
   };
   const legBank = legislationJson as unknown as EnglishBank;
   const keyed = (
@@ -390,9 +384,7 @@ function readWorld(place: Place): {
     const name = nameOf2(bill);
     if (!name) continue;
     const title = name.title;
-    const support = bill.provisions.some(
-      (p: any) => p.kind === "policy-question" && p.value > 0,
-    );
+    const support = !name.reverses;
     const body = bodyName(bill.bodyOfficeId);
     // The text beside the title: what the bill does, in the catalog's own words.
     const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: the ${title}, which ${support ? "adopts" : "repeals"} "${descriptionOf(bill)}" on the bill's own provision record.`;

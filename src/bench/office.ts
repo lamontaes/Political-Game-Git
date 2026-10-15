@@ -4,6 +4,7 @@
  * bill reaches it, and what stops the player. Records and control names
  * only; the words of each act come from the engines that kept them.
  */
+import { billNameOf } from "../english/bill-names";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { billOf, votesOn, type BillRow } from "../core2/modules/legislature";
@@ -25,10 +26,13 @@ import {
 } from "../core2/modules/office-day";
 import { bodyScene, personName } from "./legislature";
 
-function item(core: CoreState, bill: BillRow) {
+/** A bill as the meeting and the desk show it: its real name, number, sponsor, sections, remarks and votes. */
+export function billItem(core: CoreState, bill: BillRow) {
   const api = coreAPI(core);
   return {
     billId: bill.id,
+    // The bill's real name from its title record, never its description.
+    title: billNameOf(bill)?.title ?? null,
     number: bill.number,
     status: bill.status,
     sponsor: personName(core, bill.sponsorId),
@@ -60,7 +64,7 @@ export function meetingSceneView(
     startMinute: meeting.startMinute,
     citation: meeting.citation,
     items: meeting.agenda.map((billId) => ({
-      ...item(core, billOf(api, billId)),
+      ...billItem(core, billOf(api, billId)),
       takenUp: meeting.takenUp.includes(billId),
     })),
     ...bodyScene(core, personId, meeting.officeId, minute),
@@ -100,7 +104,7 @@ export function meetingAdjourn(core: CoreState, meetingId: string) {
 export function deskView(core: CoreState) {
   const api = coreAPI(core);
   return deskWaiting(api).map((bill) => ({
-    ...item(core, bill),
+    ...billItem(core, bill),
     signBy: (bill as BillRow & { signBy?: string }).signBy ?? null,
   }));
 }
