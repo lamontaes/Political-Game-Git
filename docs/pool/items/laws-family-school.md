@@ -22,3 +22,5 @@ source: "split from laws-remaining-families, Oct 15"
 **Files.** src/core2/law-reach/*, src/core2/modules/ (the owning engine), src/core2/data/stopgaps.json
 
 **Notes.** SG-GOV-REACH-B-preschool-enrollment, SG-GOV-REACH-B-voucher-payment.
+
+**Progress (Oct 15).** Built: the voucher law pays families that pay private tuition (`group-b-school.ts`), and the played world now opens with private tuition (it was only in the core's tooling route). Not built, split out: universal pre-K and a voucher that moves a child between schools need enrollment and child-care records (`people-child-care-and-enrollment`). `SG-GOV-REACH-B-preschool-enrollment` stays open; `SG-GOV-REACH-B-voucher-payment` is narrowed and stays open.

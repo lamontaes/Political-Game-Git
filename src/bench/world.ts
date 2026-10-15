@@ -49,6 +49,7 @@ import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
+import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { addOutsideMarket } from "../core2/opening-outside-market";
 import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
 import { initialFocusPeople } from "../core2/focus";
@@ -256,10 +257,12 @@ function* benchWorldStages(
     let economy: CoreInput;
     try {
       economy = addOutsideMarket(
-        buildOpeningEconomy(withPlayer, {
-          finance: { countedHouseholdIds },
-          customers: { countedHouseholdIds },
-        }).input,
+        withPrivateTuition(
+          buildOpeningEconomy(withPlayer, {
+            finance: { countedHouseholdIds },
+            customers: { countedHouseholdIds },
+          }).input,
+        ),
       );
     } catch (error) {
       // Stopgap SG-PLAY-opening-economy-fallback: a kin move dated after the
