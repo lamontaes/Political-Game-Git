@@ -1151,11 +1151,15 @@ function playYear(
           occasionId: entry.momentId,
         });
         const turns = turnsOf(talk, day, true);
-        const narration = scene.narration.map((line) => ({
-          speaker: "Narrator",
-          text: line.text,
-          parts: [] as string[],
-        }));
+        const narration = scene.paragraph.text
+          ? [
+              {
+                speaker: "Narrator",
+                text: scene.paragraph.text,
+                parts: [] as string[],
+              },
+            ]
+          : [];
         turns.forEach((turn, at) => {
           if (turn.choices.length < 2) return;
           items.push({

@@ -130,7 +130,7 @@ describe("the office scene", () => {
         targetId: scene.targetId,
         side: scene.side,
         questions: scene.questions,
-        narration: scene.narration.map((l) => l.text),
+        narration: scene.paragraph.text,
         choices: scene.choices.map((c) => [c.key, c.label.text, c.line?.text]),
         eventIds: caseResult.eventIds,
         reply: caseResult.reply?.text,
@@ -163,6 +163,12 @@ describe("the office scene", () => {
     // Every line is said from records, and names the target from their term.
     for (const line of scene.narration)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
+    // The narrator sets the scene in a few sentences: where, the day, who is
+    // there and what is happening (owner, Oct 15, evening).
+    expect(scene.narration.length).toBeGreaterThanOrEqual(3);
+    expect(scene.paragraph.text).toBe(
+      scene.narration.map((line) => line.text).join(" "),
+    );
     expect(scene.choices.map((c) => c.key)).toContain("silent");
     expect(scene.choices.map((c) => c.key)).toContain("make-case");
   });

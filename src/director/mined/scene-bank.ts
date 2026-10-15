@@ -47,7 +47,7 @@ function directorText(text: string): string {
   );
 }
 
-function variants(bank: Bank, subject: string, role: string) {
+function variants(bank: Bank, subject: string, role: string, staged = false) {
   return bank.parts
     .filter(
       (part) =>
@@ -55,7 +55,19 @@ function variants(bank: Bank, subject: string, role: string) {
         !heldByGrades(part.key) &&
         part.uses.some((use) => use.subject === subject && use.role === role),
     )
-    .map((part) => ({ key: part.key, text: directorText(part.text) }));
+    .map((part) => ({
+      key: part.key,
+      text: directorText(part.text),
+      // A use's choice names the stage a part is said at ("any" says it at all).
+      ...(staged
+        ? stagesOf(part.uses.filter((use) => use.subject === subject))
+        : {}),
+    }));
+}
+
+function stagesOf(uses: readonly Use[]): { stages?: string[] } {
+  const stages = uses.map((use) => use.choice);
+  return stages.includes("any") || !stages.length ? {} : { stages };
 }
 
 export function sceneWordsFromBank(
@@ -65,6 +77,13 @@ export function sceneWordsFromBank(
   return {
     version: rows.version,
     and: rows.and,
+    weekdays: rows.weekdays,
+    months: rows.months,
+    when: variants(bank, "when", "day"),
+    leads: rows.leads.map((typeKey) => ({
+      typeKey,
+      variants: variants(bank, "lead", typeKey, true),
+    })),
     settings: Object.fromEntries(
       rows.settings.map((kind) => [kind, variants(bank, "setting", kind)]),
     ),

@@ -45,6 +45,8 @@ import { heldByGrades } from "../english/english-grades";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
 import { renderLine, type Fact, type RenderedLine } from "./render";
+import { SCENE_ROWS } from "./mined/scene-bank";
+import { dayFacts, paragraphOf } from "./scene";
 import { spoken } from "./words";
 
 type Side = "yes" | "no";
@@ -62,7 +64,12 @@ interface ChoiceRow {
 export interface OfficeSceneRows {
   version: string;
   goal: { kind: string };
-  narration: { setting: PartRef; present: PartRef };
+  narration: {
+    setting: PartRef;
+    when: PartRef;
+    present: PartRef;
+    lead: PartRef;
+  };
   choices: readonly ChoiceRow[];
   reply: {
     bank: string;
@@ -137,7 +144,9 @@ export interface OfficeScene {
   setting: { kind: "chamber"; recordId: string };
   /** The body's members who are people, the player and the target among them. */
   presentIds: PersonId[];
+  /** One sentence a line: where, the day, who is there, what is happening. */
   narration: RenderedLine[];
+  paragraph: RenderedLine;
   /** The bill's questions as the case is made on them: the change the player's side wants. */
   questions: { question: string; desiredChange: "enact" | "repeal" }[];
   /** The target's position on the bill when the scene opens, part by part. */
@@ -292,8 +301,8 @@ export function composeOfficeScene(
       fallbackSourceId: bill.id,
     });
 
-  // Where you are and who is there. The chamber itself has no mined
-  // sentence yet; the town's does.
+  // Where you are, the day, who is there and what is happening. The chamber
+  // itself has no sentence yet; the town's does.
   const narration: RenderedLine[] = [];
   const setting = say(
     "scene",
@@ -304,6 +313,18 @@ export function composeOfficeScene(
     "setting",
   );
   if (setting) narration.push(setting);
+  const day = dayFacts(core.date, SCENE_ROWS, bill.id);
+  const when = day
+    ? say(
+        "scene",
+        playerId,
+        "office-scene:when",
+        variantsFor(rows.narration.when, rows.narration.when.keys),
+        day,
+        "when",
+      )
+    : null;
+  if (when) narration.push(when);
   const present = say(
     "scene",
     playerId,
@@ -313,6 +334,17 @@ export function composeOfficeScene(
     "present",
   );
   if (present) narration.push(present);
+  const lead = say(
+    "scene",
+    playerId,
+    "office-scene:lead",
+    variantsFor(rows.narration.lead, rows.narration.lead.keys),
+    facts.issue
+      ? { name: facts.name!, issue: facts.issue }
+      : { name: facts.name! },
+    "lead",
+  );
+  if (lead) narration.push(lead);
 
   const tie = closenessBetween(core, playerId, targetId);
   const choices: OfficeSceneChoice[] = [];
@@ -360,6 +392,7 @@ export function composeOfficeScene(
       .map((term) => memberKey(term))
       .filter((id) => core.people.has(id)),
     narration,
+    paragraph: paragraphOf(narration),
     questions,
     targetPosition: pick.position,
     choices,

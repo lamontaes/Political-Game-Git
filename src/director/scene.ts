@@ -24,15 +24,25 @@ interface Variant {
 export interface SceneWords {
   version: string;
   and: string;
+  /** The day's names, as facts for the "when" line: no sentences. */
+  weekdays: readonly string[];
+  months: readonly string[];
   settings: Readonly<Record<string, Variant[]>>;
+  /** The day it is. */
+  when: Variant[];
   present: Variant[];
+  /** What is happening, by the staged situation's type. */
+  leads: readonly { typeKey: string; variants: Variant[] }[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
 }
 /** `data/scene-rows.json`: the scene's structure, holding no sentences. */
 export interface SceneRows {
   version: string;
   and: string;
+  weekdays: readonly string[];
+  months: readonly string[];
   settings: readonly string[];
+  leads: readonly string[];
   causes: readonly string[];
 }
 /** The default words are the mined bank's. */
@@ -53,7 +63,13 @@ export interface Scene {
   typeKey: string;
   setting: { kind: string; recordId: string };
   presentIds: PersonId[];
+  /**
+   * The narrator's opening, one sentence a line: where you are, what day it
+   * is, who is there and what is happening. `paragraph` is the same lines
+   * read as one.
+   */
   narration: SceneLine[];
+  paragraph: SceneLine;
   /** The person who opens the scene and whom the conversation is with. */
   talkToId?: PersonId;
 }
@@ -192,6 +208,16 @@ export function composeScene(
   );
   if (setting) narration.push(setting);
 
+  // The day it is, from the day the scene is scheduled. A moment no
+  // situation type binds is recorded past, not a day to narrate.
+  const day = entry.bindings.length
+    ? dayFacts(entry.date, words, moment.causeId)
+    : null;
+  if (day) {
+    const when = render("scene-when", words.when, day, `${moment.id}:when`);
+    if (when) narration.push(when);
+  }
+
   // Who is there. Two people with the same relation ("your son", "your
   // son") are said by their given names instead, so each is someone.
   // Only the people the scene is about are named: the one who opens it and
@@ -240,46 +266,89 @@ export function composeScene(
     if (line) narration.push(line);
   }
 
-  // What led here, from the moment's cause.
+  // What is happening and what led here, from the situation and the
+  // moment's cause. Both are said of the same people, places and employer.
+  const talkToId =
+    opener?.personIds.find((id) => id !== personId) ??
+    moment.counterpartIds.find((id) => binding.presentIds.includes(id));
+  // Only someone the scene places in the room is named: not the person a
+  // funeral is for.
+  const other = talkToId ? who(talkToId) : null;
+  const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+  const org = core.jobs.get(moment.causeId)
+    ? core.organizations.get(core.jobs.get(moment.causeId)!.organizationId)
+    : job
+      ? core.organizations.get(job.organizationId)
+      : undefined;
+  const story: Record<string, Fact> = {};
+  if (other) story.other = other;
+  if (org)
+    story.employer = {
+      text: properName(org.name),
+      sourceRecordIds: [org.id],
+    };
+  const town = place(person.placeId);
+  if (town) story.place = town;
+
+  const lead = words.leads.find((row) => row.typeKey === binding.typeKey);
+  if (lead) {
+    const line = render(
+      `scene-lead:${lead.typeKey}`,
+      lead.variants,
+      story,
+      `${moment.id}:lead`,
+      other ? "other" : "alone",
+    );
+    if (line) narration.push(line);
+  }
+
   const cause = words.causes.find((row) =>
     moment.label.startsWith(row.labelPrefix),
   );
   if (cause) {
-    const facts: Record<string, Fact> = {};
-    const otherId = moment.counterpartIds[zero];
-    const other = otherId ? who(otherId) : null;
-    if (other) facts.other = other;
-    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
-    const org = core.jobs.get(moment.causeId)
-      ? core.organizations.get(core.jobs.get(moment.causeId)!.organizationId)
-      : job
-        ? core.organizations.get(job.organizationId)
-        : undefined;
-    if (org)
-      facts.employer = {
-        text: properName(org.name),
-        sourceRecordIds: [org.id],
-      };
-    const town = place(person.placeId);
-    if (town) facts.place = town;
     const line = render(
       `scene-cause:${cause.labelPrefix}`,
       cause.variants,
-      facts,
+      story,
       `${moment.id}:cause`,
     );
     if (line) narration.push(line);
   }
 
-  const talkToId =
-    opener?.personIds.find((id) => id !== personId) ??
-    moment.counterpartIds.find((id) => binding.presentIds.includes(id));
   return {
     momentId: moment.id,
     typeKey: binding.typeKey,
     setting: binding.setting,
     presentIds: binding.presentIds,
     narration,
+    paragraph: paragraphOf(narration),
     ...(talkToId ? { talkToId } : {}),
+  };
+}
+
+/** The weekday and month of a date, as the "when" line's facts. */
+export function dayFacts(
+  date: string,
+  words: Pick<SceneWords, "weekdays" | "months">,
+  recordId: string,
+): Record<string, Fact> | null {
+  // An ISO date reads as midnight UTC.
+  const day = new Date(date);
+  const weekday = words.weekdays[day.getUTCDay()];
+  const month = words.months[day.getUTCMonth()];
+  if (!weekday || !month) return null;
+  return {
+    weekday: { text: weekday, sourceRecordIds: [recordId] },
+    month: { text: month, sourceRecordIds: [recordId] },
+  };
+}
+
+/** The narrator's lines as one paragraph, citing every record they cite. */
+export function paragraphOf(lines: readonly SceneLine[]): SceneLine {
+  return {
+    text: lines.map((line) => line.text).join(" "),
+    sourceRecordIds: [
+      ...new Set(lines.flatMap((line) => line.sourceRecordIds)),
+    ],
   };
 }

@@ -68,7 +68,7 @@ export function storyScene(
     place,
     backdrop: backdropFile(place, minuteOfDay),
     people: stagePeople(core, place, cast).people,
-    narration: scene.narration,
+    narration: scene.paragraph.text ? [scene.paragraph] : [],
     talkToId: scene.talkToId,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
   };
