@@ -70,3 +70,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 3. Campaign door fill-in — `pool/campaign-met-households` (second Session D; SG-PLAY-doors-fill-in; action backend only, no screens. Earlier housing/property-tax/moves overlap Session B, place-prices Session A, and outcome drift first Session D).
 
 - 3. Custom world settings duplication — `pool/shared-world-settings` (second Session D; SG-PLAY-world-settings-copy; share opening settings helpers, no screen design changes. Opening-economy fallback depends on the core opening repair and remains separate).
+
+- 3. Unobserved town-growth macro input — `pool/macro-observed-growth` (second Session D; SG-WORLD-macro-town-growth-neutral; remove invented first-year feedback and retain the missing income-history requirement. Earlier treasury law effects overlap Session A, jobs/prison hiring Session B, press acts Session C).
