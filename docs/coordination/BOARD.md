@@ -73,3 +73,6 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 
 - 3. Unobserved town-growth macro input — `pool/macro-observed-growth` (second Session D; SG-WORLD-macro-town-growth-neutral; remove invented first-year feedback and retain the missing income-history requirement. Earlier treasury law effects overlap Session A, jobs/prison hiring Session B, press acts Session C).
 - 3. Press revenue and staff turnover — `pool/press-records` (first Session D; SG-PEOPLE-press-outlet-revenue and SG-PEOPLE-press-staff-turnover; earlier opening/core and housing/jobs are Session B, settings second D, budget/tax reads Session A; changes to press engine only, no English or director changes).
+
+- 4. Officeholder journal — `pool/journal-record-dependency` (first Session D; blocked by Session C's unmerged office-day act records and Words' journal wording; return last).
+- 5. Unit suite cleanup — `pool/unit-suite` (first Session D; carry applicable #4309 fixes onto main, changed-file checks only; remaining law, housing and views engine failures retain their owning-session blockers).
