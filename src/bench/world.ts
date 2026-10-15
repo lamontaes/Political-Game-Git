@@ -5,6 +5,7 @@ import { buildPopulation } from "../core2/population";
 import { buildDeepPast } from "../core2/deep-past";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
+import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
 import { createDirector, type Director } from "../director/ledger";
@@ -255,11 +256,15 @@ function* benchWorldStages(
     );
     let economy: CoreInput;
     try {
+      // Private tuition goes in as on the core's generated route, so the
+      // laws that fund private schooling have tuition to read.
       economy = addOutsideMarket(
-        buildOpeningEconomy(withPlayer, {
-          finance: { countedHouseholdIds },
-          customers: { countedHouseholdIds },
-        }).input,
+        withPrivateTuition(
+          buildOpeningEconomy(withPlayer, {
+            finance: { countedHouseholdIds },
+            customers: { countedHouseholdIds },
+          }).input,
+        ),
       );
     } catch (error) {
       // Stopgap SG-PLAY-opening-economy-fallback: a kin move dated after the

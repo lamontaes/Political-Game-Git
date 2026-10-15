@@ -20,6 +20,7 @@
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
 import { registerPolicyHandler } from "./host";
+import { payVouchers } from "./group-b-vouchers";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -60,6 +61,7 @@ import {
 type Mechanic =
   | "records"
   | "assistance-time-limit"
+  | "school-voucher"
   | "farm-output"
   | "property-assessment"
   | "price-payment"
@@ -459,6 +461,15 @@ function runPolicy(
         if (row.id === "budget-line:welfareAndMedicaid")
           runBudgetLine(api, "welfareAndMedicaid", row.lawId);
       return;
+    case "school-voucher": {
+      // The treasury pays households a share of the tuition they owe; no
+      // eligibility row stands beside the payment.
+      const paid = payVouchers(api, { key, level, inForce });
+      terms.monthlyMinor = paid.monthlyMinor;
+      terms.recipients = paid.recipients;
+      finish(api, key, def, input, inForce, null);
+      return;
+    }
     case "farm-output":
       return; // The business engine reads the law when setting production limits.
     case "property-assessment":

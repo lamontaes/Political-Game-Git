@@ -1675,12 +1675,12 @@
     "id": "SG-GOV-REACH-B-voucher-payment",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 134,
-    "whatItFakes": "Public funds for private schooling are an eligibility record (amount) on named school-age children and a record on private schools; no voucher is paid.",
-    "why": "No child is enrolled at a school, so a payment can't follow a student.",
+    "line": 130,
+    "whatItFakes": "The voucher repays households a share of the private tuition they owe, but no child is enrolled at a school: the tuition is the town's private-school share spread over its families, so who receives a voucher follows that spread, not a choice of school.",
+    "why": "No child is enrolled at a school, so a payment cannot follow a student. The household tuition contracts (SG-CORE-private-tuition-average) are the only private-school spending in the game.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury to the private school through accounts.transfer each term.",
+    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury for each enrolled child, capped at that school's tuition.",
     "status": "open"
   },
   {
