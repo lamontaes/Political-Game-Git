@@ -12,6 +12,7 @@
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
+import { corePlaceByKey } from "./place-lookup";
 import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
@@ -100,6 +101,13 @@ export interface ResidentHouseholdRecord {
   jobs: readonly JobInput[];
   workCommitments: readonly WorkCommitmentInput[];
   contracts: readonly FinanceContractInput[];
+  /**
+   * How many real households this record stands for: a town above the
+   * generated sample opens at its Census count, each counted household
+   * standing for several (whole number, 1 when absent). Every reader of a
+   * household or member count multiplies by it.
+   */
+  weight?: number;
 }
 
 export interface ResidentsInput {
@@ -232,6 +240,36 @@ export function fullPeople(input: CoreInput): Set<PersonId> {
     if (home.memberIds.some((id) => keep.has(id)))
       for (const id of home.memberIds) keep.add(id);
   return keep;
+}
+
+/**
+ * Whole-number weights for the counted households of a town above the
+ * generated sample, so the full people plus the weighted counted members
+ * equal the place's Census count: every household gets the floor of the
+ * scale, and the households that fit take one more, in id order, until the
+ * count is met (within the smallest household's size). A town at or below the
+ * sample, or with no Census count, gets weight 1 throughout.
+ */
+export function householdWeights(
+  homes: readonly HouseholdInput[],
+  fullPeople: number,
+  censusPeople: number,
+): Map<string, number> {
+  const out = new Map<string, number>(homes.map((home) => [home.id, 1]));
+  const members = (home: HouseholdInput) => home.memberIds.length;
+  const counted = homes.reduce((n, home) => n + members(home), 0);
+  const need = censusPeople - fullPeople;
+  if (!(need > counted) || !counted) return out;
+  const base = Math.floor(need / counted);
+  for (const home of homes) out.set(home.id, base);
+  let left = need - base * counted;
+  for (const home of [...homes].sort((a, b) => a.id.localeCompare(b.id))) {
+    if (left <= 0) break;
+    if (members(home) > left) continue;
+    out.set(home.id, base + 1);
+    left -= members(home);
+  }
+  return out;
 }
 
 /**
@@ -802,8 +840,23 @@ export function collapseToTwoLevels(
   }
 
   const deepPastAt: Record<string, number> = {};
+  // The Census count is the town's own: the county shares around it keep
+  // their generated size.
+  const townPlace = input.placeMetadata?.placeKey
+    ? corePlaceByKey(input.placeMetadata.placeKey)?.context.jurisdiction.id
+    : undefined;
+  const weights = householdWeights(
+    collapsedHomes.filter((home) => home.placeId === townPlace),
+    input.people.filter(
+      (row) => !collapsed.has(row.id) && row.placeId === townPlace,
+    ).length,
+    Number(input.placeMetadata?.scaleToCensusPeople),
+  );
   const households: ResidentHouseholdRecord[] = collapsedHomes.map((home) => ({
     household: home,
+    ...((weights.get(home.id) ?? 1) > 1
+      ? { weight: weights.get(home.id)! }
+      : {}),
     // Nobody in the counts has a past until they're filled in.
     // Their upbringing is kept; deep past is rebuilt at fill-in, in place
     // (facts written after deep past, e.g. retirement history, follow it).
