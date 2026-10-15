@@ -4,9 +4,9 @@ title: "Credit and housing."
 area: world
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/world-credit-housing-check
-pr:
+pr: #4532
 blocked-on:
 milestone:
 source: "docs/coordination/world.md line 53 (unchecked checklist line)"
