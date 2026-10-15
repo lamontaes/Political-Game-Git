@@ -301,10 +301,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       "schoolAgeFrom",
       "schoolAgeBelow",
     ],
-    [
-      Q("transportation-infrastructure.mileage-fee-replaces-fuel-tax"),
-      "drivingAge",
-    ],
   ];
   for (const [key, from, below] of ageRecords)
     it(`${key}: every resident of the ages it covers is reached; a repeal ends it`, () => {
@@ -319,9 +315,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
         expect(openOrgs(key).length).toBe(employersOf(def.organizations));
       const one = openPeople(key)[0];
       if (one)
-        expect(api.knows(one.personId, `law-reach:${key}`)?.value).toBe(
-          def.effect,
-        );
+        expect(api.knows(one.personId, `law-reach:${key}`)).toBeUndefined();
       report[key] = { reached: reached(key), named: openPeople(key).length };
       enact(key, 0, "state");
       expectEnded(key);
@@ -329,9 +323,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   const householdRecords = [
     Q("transportation-infrastructure.public-broadband"),
+    Q("fiscal.cap-property-tax-growth"),
     Q("fiscal.exempt-groceries-from-sales-tax"),
-    Q("environment-energy.clean-electricity-standard"),
-    Q("environment-energy.price-carbon"),
   ];
   for (const key of householdRecords)
     it(`${key}: every household reached (its head carries the terms); employers bound; repeal ends it`, () => {
@@ -352,12 +345,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
     });
 
   const employerRecords = [
-    Q("environment-energy.ban-new-gas-hookups"),
     Q("environment-energy.clean-air-plan-for-polluted-counties"),
-    Q("environment-energy.bottle-deposit"),
     Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
-    Q("agriculture-natural-resources.protect-farmland-from-development"),
   ];
+  // Gas hookups and farmland protection are read by construction now.
+  // housing-laws.test.ts checks their actual zoning inputs in a played year;
+  // employer eligibility rows are no longer evidence for either law.
   for (const key of employerRecords)
     it(`${key}: binds every employer it covers in town; repeal ends it`, () => {
       enact(key, 1, "state");
@@ -733,7 +726,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
   });
 
   // ---- Acts that move budget money ----
-  it("fare-free transit funds the fares from the budget and reaches riders; repeal takes the money back", () => {
+  // Price-law settlement and repeal are checked in price-laws.test.ts.
+  // Eligibility notes do not prove that a household paid a changed price.
+  it("fare-free transit funds the fares from the budget; repeal takes the money back", () => {
     const key = Q("transportation-infrastructure.fare-free-transit");
     const state = governments(api).find((g) => g.level === "state")!;
     const level = residentsOf(api, state) > 0 ? "state" : LOCAL;
@@ -747,9 +742,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
           residentsOf(api, gov),
       ),
     );
-    expect(reached(key), where).toBe(
-      residentsAged(reachParameter("transitRiderAgeFrom")),
-    );
+    expect(reached(key), "funding alone does not notify every rider").toBe(0);
     enact(key, 0, level);
     expectEnded(key);
     expect(line(gov, "transit")).toBe(before);
