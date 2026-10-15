@@ -21,3 +21,5 @@ source: "words-and-director order 2"
 **Files.** scripts/dialogue-batch/, docs/grading/
 
 **Notes.** Superseded by the grading bench: see words-grading-bench and Order 2 of the work order.
+
+**Owner, Oct 15, evening:** batch 12 rejected; batch 13 replaces it (`words-batch-13`). See OWNER-DECISIONS.md, "Oct 15, evening: batch 12 rejected; what a scene is".
