@@ -6,7 +6,7 @@ kind: wiring
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/laws-family-clean-air
+claimed-by:
 pr: #4438
 blocked-on:
 milestone:
