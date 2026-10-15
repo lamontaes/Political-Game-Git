@@ -4,12 +4,13 @@ title: "Finish #4338: business owners' decisions with the core-to-module seam in
 area: world
 kind: wiring
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-business-owner-seam
 pr: #4338
 blocked-on:
 milestone:
 source: "reissue item 7; PR #4338 branch pool/business-owner-decisions"
+claimed-at: 2026-10-15T22:29:09.721Z
 ---
 
 **What.** The business owners' decisions pull request makes the core (src/core2/choice.ts) import a module (modules/residents), which inverts the layering. The residents module should register a callback, or the chooser should read api.accounts, so a counted owner's fund is reached without the core depending on a module. Main must be merged keeping the savings withdrawal in closeByChoice and then the counted-owner fund, in that order. A player sees a business owner's own money decide whether the shop closes.
