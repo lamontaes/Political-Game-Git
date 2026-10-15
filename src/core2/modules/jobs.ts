@@ -742,7 +742,6 @@ function reviewEmployers(api: CoreAPI): void {
     if (!book || book.closedAt) continue;
     const jobs = currentJobs(api, row.id),
       positions = [...openPositions(api, row.id)];
-    if (!jobs.length && !positions.length && !row.templateFromId) continue;
     const projected =
       (book.capacityMinor > 0
         ? // Real demand: the books' demand in the business's own opening prices.
@@ -809,7 +808,21 @@ function reviewEmployers(api: CoreAPI): void {
     // A new business's first roles come from its template business.
     const from =
       jobs.length || !row.templateFromId ? row.id : row.templateFromId;
-    const fromJobs = from === row.id ? jobs : currentJobs(api, from);
+    const activeTemplates = from === row.id ? jobs : currentJobs(api, from);
+    const templateEmployer =
+      from === row.id
+        ? row
+        : (store(api).table("employers").get(from) as EmployerRow | undefined);
+    // A live firm does not forget its roles when its last worker leaves.
+    // Retained jobs still supply the schedule and pay for a replacement.
+    const fromJobs = activeTemplates.length
+      ? activeTemplates
+      : Object.values(templateEmployer?.mix ?? row.mix ?? {}).flatMap(
+          (role) => {
+            const job = jobById(api, role.templateJobId);
+            return job ? [job] : [];
+          },
+        );
     // With no role to copy, a business can't open positions; its need waits, never past its gap.
     if (!fromJobs.length && need > 0) need = Math.min(need, Math.max(0, gap));
     // The roles the staff is made of (cooks and servers alike, counted workers included), and what the employer holds of each now.

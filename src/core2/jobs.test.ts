@@ -19,7 +19,13 @@ import { parameter } from "./parameters";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
 import { coreAPI } from "./state";
 import type { BusinessBooksState } from "./finance-types";
-import type { CoreInput, CoreState, PersonInput, Source } from "./types";
+import type {
+  CoreInput,
+  CoreModule,
+  CoreState,
+  PersonInput,
+  Source,
+} from "./types";
 
 // A random place from all 56 (the golden-path seed when the suite runs it).
 const seed =
@@ -689,5 +695,60 @@ describe("jobs: causes, not rates", () => {
     expect(counts[0]).toBeLessThan(before);
     for (let i = 1; i < counts.length; i++)
       expect(counts[i]).toBeLessThanOrEqual(counts[i - 1]!);
+  });
+});
+
+describe("staffing recovery", () => {
+  it("reopens recorded roles after a live employer loses its last worker", () => {
+    const departures: CoreModule = {
+      id: "test:last-workers",
+      onDay(api) {
+        if (api.state.date !== "2021-01-02") return;
+        api.moduleCalendar("test:last-workers").schedule({
+          key: "departures",
+          date: "2021-01-03",
+          kind: "departures",
+          source: src(),
+          sourceRecordIds: [...api.state.jobs.values()]
+            .filter((job) => job.organizationId === employer && !job.endsAt)
+            .map((job) => job.id),
+        });
+      },
+      onCalendarWork(api, work) {
+        for (const id of work.sourceRecordIds)
+          api.endJob(id, "fixture:all-workers-left");
+      },
+    };
+    const core = createLifeCore(input(), {
+      data,
+      modules: [JOBS_MODULE, departures],
+    });
+    withBooks(core, 1);
+    advanceCore(core, "2021-01-02");
+    const api = coreAPI(core);
+    const prior = [...core.jobs.values()].filter(
+      (job) => job.organizationId === employer && !job.endsAt,
+    );
+    expect(prior.length).toBeGreaterThan(0);
+    advanceCore(core, "2021-01-04");
+    expect(
+      [...core.jobs.values()].filter(
+        (job) => job.organizationId === employer && !job.endsAt,
+      ),
+    ).toHaveLength(0);
+    advanceCore(core, "2021-03-02");
+    const positions = api
+      .moduleState("jobs")
+      .table("positions")
+      .rows()
+      .filter((row) => row.organizationId === employer);
+    expect(positions.length).toBeGreaterThan(0);
+    expect(positions.some((row) => row.status === "filled")).toBe(true);
+    expect(
+      positions.every((row) =>
+        prior.some((job) => job.id === row.templateJobId),
+      ),
+    ).toBe(true);
+    expect(core.finance.businesses.get(employer)!.closedAt).toBeUndefined();
   });
 });

@@ -4,6 +4,10 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
+## 2026-10-15 — Session B, staffing recovery (draft #4329)
+
+A live firm can hire again after its last worker leaves, using its recorded roles and schedules. Previously its staffing review stopped. The calendar-driven test verifies a replacement is filled, and all 16 focused jobs tests pass. The same drawn year still has 13 hires, 10 quits and 12 layoffs or closure job losses; all three calibration bands remain below range. Build plus year took 28.034 seconds against a rounded 28-second base. No different place was selected for a better result. The recovery route is proved by the focused test, not claimed as observed in this first-year world. Next: continue the remaining economy gaps before pool work.
+
 ## 2026-10-15 — Session B employer losses (draft #4329)
 
 Firms now read actual monthly sales and losses when staffing, and the press can report their cuts. In drawn Anon Raices, Puerto Rico, a full worker's October layoff led to 336,000 minor units in unemployment payments; a counted worker's March layoff led to 344,960. The year ran in 24.632 seconds after a 4.113-second build. Focused checks pass, but hires, quits and layoffs remain below JOLTS bands, and detailed cost facts do not yet reach rendered news text. The order is not fully accepted. See `docs/coordination/SESSION-B.md` and draft #4329 for record IDs and next work.
