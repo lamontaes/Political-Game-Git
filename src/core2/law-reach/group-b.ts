@@ -58,6 +58,7 @@ import {
 type Mechanic =
   | "records"
   | "price-payment"
+  | "housing-construction"
   | "transit-fares"
   | "highway-shift"
   | "teacher-floor"
@@ -249,6 +250,9 @@ function runPolicy(
     // The price engine reads these laws at monthly settlement. A blanket
     // eligibility row is neither a payment nor a received notice.
     case "price-payment":
+    // The housing engine reads these laws at its existing construction
+    // decision. A generic reach row must not substitute for that decision.
+    case "housing-construction":
       return;
     case "transit-fares":
       moveBudget(api, {

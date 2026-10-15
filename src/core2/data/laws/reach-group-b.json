@@ -249,7 +249,7 @@
       "source": "GFOA, Fund Balance Guidelines for the General Fund (2015)"
     },
     "us-policy-positions:environment-energy.ban-new-gas-hookups": {
-      "mechanic": "records",
+      "mechanic": "housing-construction",
       "effect": "no-new-gas-hookups",
       "kind": "compliance",
       "organizations": ["enterprise:construction", "enterprise:utility"],
@@ -341,7 +341,7 @@
       "stopgapId": "SG-GOV-REACH-B-business-cost"
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
-      "mechanic": "records",
+      "mechanic": "housing-construction",
       "effect": "farmland-development-restricted",
       "kind": "rule",
       "organizations": [
