@@ -1544,12 +1544,6 @@
           "choice": "right"
         },
         {
-          "move": "job-hope-reply-answer-brief",
-          "subject": "job-hope-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
           "move": "eviction-where-reply-answer-ok",
           "subject": "eviction-where-reply",
           "role": "answer",
@@ -1685,24 +1679,6 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
-        },
-        {
-          "move": "job-lost-reply-answer-brief",
-          "subject": "job-lost-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
-          "move": "job-cause-reply-answer-brief",
-          "subject": "job-cause-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
-          "move": "job-hope-reply-answer-brief",
-          "subject": "job-hope-reply",
-          "role": "answer",
-          "choice": "brief"
         },
         {
           "move": "eviction-reply-answer-brief",
@@ -3732,12 +3708,6 @@
           "choice": "ok"
         },
         {
-          "move": "job-cause-reply-answer-brief",
-          "subject": "job-cause-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
           "move": "eviction-reply-answer-brief",
           "subject": "eviction-reply",
           "role": "answer",
@@ -4092,6 +4062,12 @@
           "subject": "heard-work",
           "role": "reply",
           "choice": "ok"
+        },
+        {
+          "move": "job-new-reply-answer-congratulate",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "congratulate"
         }
       ],
       "transcriptsUsing": 27,
@@ -4546,12 +4522,6 @@
           "subject": "tenure-reply",
           "role": "answer",
           "choice": "ack"
-        },
-        {
-          "move": "job-cause-reply-answer-brief",
-          "subject": "job-cause-reply",
-          "role": "answer",
-          "choice": "brief"
         },
         {
           "move": "eviction-reply-answer-brief",
@@ -5821,24 +5791,6 @@
           "subject": "ack",
           "role": "reply",
           "choice": "right"
-        },
-        {
-          "move": "job-lost-reply-answer-brief",
-          "subject": "job-lost-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
-          "move": "job-cause-reply-answer-brief",
-          "subject": "job-cause-reply",
-          "role": "answer",
-          "choice": "brief"
-        },
-        {
-          "move": "job-hope-reply-answer-brief",
-          "subject": "job-hope-reply",
-          "role": "answer",
-          "choice": "brief"
         },
         {
           "move": "eviction-reply-answer-brief",
@@ -14913,40 +14865,6 @@
       "bearing": "tender"
     },
     {
-      "key": "conversation.job-hope-reply-answer-brief.okay-good",
-      "move": "job-hope-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Okay, good.",
-      "uses": [
-        {
-          "move": "job-hope-reply-answer-brief",
-          "subject": "job-hope-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "transcriptsUsing": 61,
-      "bySource": {
-        "chrg": 49,
-        "house-oral": 2,
-        "nasa-oral": 7,
-        "senate-oral": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "OVERSIGHT OF THE UNITED STATES ARMY CORPS OF ENGINEERS",
-        "date": "2025-09-17",
-        "granule": "CHRG-119shrg63288",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg63288/html/CHRG-119shrg63288.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "loss"
-      },
-      "bearing": "glad"
-    },
-    {
       "key": "conversation.eviction-reply-answer-ask.how-come",
       "move": "eviction-reply-answer-ask",
       "kind": "spoken",
@@ -15925,6 +15843,388 @@
       "date": "2026-10-15",
       "tag": {
         "move": "lie"
+      }
+    },
+    {
+      "key": "conversation.job-lost-reply-answer-brief.oh-are-you-okay",
+      "move": "job-lost-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh. Are you okay?",
+      "uses": [
+        {
+          "move": "job-lost-reply-answer-brief",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.job-lost-reply-answer-brief.oh-no-are-you-all-right",
+      "move": "job-lost-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh, no. Are you all right?",
+      "uses": [
+        {
+          "move": "job-lost-reply-answer-brief",
+          "subject": "job-lost-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-brief.really-i-didn-t-know-that",
+      "move": "job-cause-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Really? I didn't know that.",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-brief",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.job-cause-reply-answer-brief.wow-i-had-no-idea",
+      "move": "job-cause-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Wow. I had no idea.",
+      "uses": [
+        {
+          "move": "job-cause-reply-answer-brief",
+          "subject": "job-cause-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "braced",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-brief.okay-keep-me-posted",
+      "move": "job-hope-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Okay. Keep me posted.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-brief",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "calm",
+      "tag": {
+        "move": "react",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.job-hope-reply-answer-brief.all-right-let-me-know-how-it-goes",
+      "move": "job-hope-reply-answer-brief",
+      "kind": "spoken",
+      "text": "All right. Let me know how it goes.",
+      "uses": [
+        {
+          "move": "job-hope-reply-answer-brief",
+          "subject": "job-hope-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "react",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.job-new-raise-raise.i-got-a-job-at-employer",
+      "move": "job-new-raise-raise",
+      "kind": "spoken",
+      "text": "I got a job at {employer}.",
+      "uses": [
+        {
+          "move": "job-new-raise-raise",
+          "subject": "job-new",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-raise-raise.i-start-at-employer",
+      "move": "job-new-raise-raise",
+      "kind": "spoken",
+      "text": "I start at {employer}.",
+      "uses": [
+        {
+          "move": "job-new-raise-raise",
+          "subject": "job-new",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-raise-raise.i-m-going-to-work-at-employer",
+      "move": "job-new-raise-raise",
+      "kind": "spoken",
+      "text": "I'm going to work at {employer}.",
+      "uses": [
+        {
+          "move": "job-new-raise-raise",
+          "subject": "job-new",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-raise-raise.i-got-the-job-at-employer",
+      "move": "job-new-raise-raise",
+      "kind": "spoken",
+      "text": "I got the job at {employer}.",
+      "uses": [
+        {
+          "move": "job-new-raise-raise",
+          "subject": "job-new",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-reply-answer-congratulate.congratulations",
+      "move": "job-new-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "Congratulations!",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-congratulate",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-reply-answer-congratulate.that-s-great-news",
+      "move": "job-new-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "That's great news.",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-congratulate",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-reply-answer-congratulate.congratulations-that-s-wonderful",
+      "move": "job-new-reply-answer-congratulate",
+      "kind": "spoken",
+      "text": "Congratulations. That's wonderful.",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-congratulate",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-reply-answer-ask.what-will-you-be-doing-there",
+      "move": "job-new-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What will you be doing there?",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-ask",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-reply-answer-ask.what-s-the-job",
+      "move": "job-new-reply-answer-ask",
+      "kind": "spoken",
+      "text": "What's the job?",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-ask",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-reply-answer-brief.oh-nice-tell-me-about-it",
+      "move": "job-new-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Oh, nice. Tell me about it.",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-brief",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "glad",
+      "tag": {
+        "move": "react",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "conversation.job-new-reply-answer-brief.wow-how-did-that-come-about",
+      "move": "job-new-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Wow. How did that come about?",
+      "uses": [
+        {
+          "move": "job-new-reply-answer-brief",
+          "subject": "job-new-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "curious",
+      "tag": {
+        "move": "react",
+        "key": "honor"
       }
     }
   ]

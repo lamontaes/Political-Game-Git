@@ -51,6 +51,10 @@
     "eviction-where": {
       "kind": "eviction-where-reply",
       "stage": "default"
+    },
+    "job-new": {
+      "kind": "job-new-reply",
+      "stage": "default"
     }
   },
   "follows": {
@@ -79,7 +83,7 @@
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
-    "money:job-started": "own-work",
+    "money:job-started": "job-new",
     "money:job-changed": "own-work",
     "home:moved": "home"
   },
