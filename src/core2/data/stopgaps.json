@@ -2438,7 +2438,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: removed the obsolete stand-in writer and changed macro-proof to buildBenchWorld; credit.ts supplies bank applications and prime-linked facilities from the bank and borrower books."
   },
   {
     "id": "SG-WORLD-regional-territory-estimate",
