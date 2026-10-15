@@ -1846,14 +1846,27 @@ const sheets = {
     return [
       ...economy,
       ...rows.slice(0, 30).map((r) =>
-        row(
-          `${r.date} · ${r.kind}`,
-          Object.entries(r.facts)
-            // Bare record ids are the bench's, not the reader's.
-            .filter(([k, v]) => !/Id$/.test(k) && !isRecordId(v))
-            .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
-            .join(" · "),
-        ),
+        r.staffing
+          ? row(
+              `${r.date} · ${r.staffing.employer}`,
+              [
+                `Jobs lost: ${r.staffing.jobsLost}`,
+                ...(r.staffing.salesMinor !== undefined
+                  ? [`Sales: ${dollars(r.staffing.salesMinor)}`]
+                  : []),
+                ...(r.staffing.costsMinor !== undefined
+                  ? [`Costs: ${dollars(r.staffing.costsMinor)}`]
+                  : []),
+              ].join(" · "),
+            )
+          : row(
+              `${r.date} · ${r.kind}`,
+              Object.entries(r.facts)
+                // Bare record ids are the bench's, not the reader's.
+                .filter(([k, v]) => !/Id$/.test(k) && !isRecordId(v))
+                .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
+                .join(" · "),
+            ),
       ),
     ];
   },
