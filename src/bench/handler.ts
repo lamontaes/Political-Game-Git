@@ -335,10 +335,13 @@ export async function benchRequest(
         const otherId = url.searchParams.get("otherId") ?? "";
         if (!personOrFillIn(requireCore(), otherId)?.alive)
           throw new Error("Talk to a living resident.");
+        // A talk a scene opens is about the scene's moment.
+        const occasionId = url.searchParams.get("momentId") ?? undefined;
         conversation = openConversation(
           requireCore(),
           player.personId,
           otherId,
+          director ? { director, ...(occasionId ? { occasionId } : {}) } : {},
         );
         // They mention the newest change they know of, and who they blame.
         broughtUp =
