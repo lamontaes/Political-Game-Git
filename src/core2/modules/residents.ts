@@ -84,6 +84,9 @@ const ORDER = {
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
   arrearsMinor: number;
+  /** Latest settled request and payment, read by lenders rather than opening cash or promised pay. */
+  lastRequestedMinor?: number;
+  lastPaidMinor?: number;
   /** outside-costs: the firm's receipts and local purchases already counted. */
   receivedMinor?: number;
   /** Local operating payments when the flow started (a baseline). */
@@ -365,7 +368,10 @@ function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
  * A counted household's share of its group's money: the group's account
  * times its people over the group's people.
  */
-function householdCash(rt: ResidentsRuntime, h: CountedHousehold): number {
+export function householdCash(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): number {
   if (!rt.api || !rt.funded || h.group < 0) return 0;
   const people = peopleInGroup(rt, h.group);
   return people > 0
@@ -964,6 +970,8 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         monthOf(rt, groupKey(group), date).incomeMinor += amount;
     } else if (paid > 0) post(api, flow, paid);
   }
+  flow.lastRequestedMinor = requested;
+  flow.lastPaidMinor = paid;
   if (flow.kind === "outside-costs")
     flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
   const month = date.slice(0, 7);

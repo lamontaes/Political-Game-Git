@@ -1448,11 +1448,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 231,
-    "whatItFakes": "The credit engine now reads the catalog cap when quoting new full-household personal loans. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted households still have no application path. Existing fixed-rate contracts are not retroactively repriced.",
-    "why": "Personal loans exist, but counted borrower decisions and repayments, lender exemptions, fee-inclusive APR and statutory product scope are missing. A binding native rate change, received explanation and director chain still need evidence.",
+    "whatItFakes": "The credit engine reads the catalog cap when quoting new personal loans for full and counted households. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted income uses contracted wages adjusted by the latest settled wage-flow fraction; individual counted attendance and historical earnings ledgers are absent. Existing fixed-rate contracts are not retroactively repriced.",
+    "why": "Personal loans share the borrowing comparison and use borrower-keyed payments in both tiers. Lender exemptions, fee-inclusive APR, statutory product scope and counted individual attendance history are missing. A binding native rate change, received explanation and director chain still need evidence.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "Shared full/count household borrowing and repayment, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
+    "replacement": "Counted earnings history matching full workers, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
     "status": "open"
   },
   {

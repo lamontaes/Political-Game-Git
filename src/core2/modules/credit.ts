@@ -23,9 +23,12 @@ import type {
   CoreModule,
   CoreState,
   Source,
+  PersonInput,
 } from "../types";
 import { linkCreditLineToPrime, quotedLineRate } from "./macro";
-import { chooseAct } from "../choice";
+import { countedPayment } from "../counted-money";
+import { residentsRuntime, householdCash, residentPerson } from "./residents";
+import { chooseAct, traitLean } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
@@ -798,6 +801,158 @@ function earnedDaily(
   return job.wageDailyMinor;
 }
 
+/**
+ * Both offers have the same money need, no goal/drive, zero effort and zero
+ * emotion coefficient. Those common terms cancel. Keep the core trait term
+ * and the existing financial terms for full and counted borrowers alike.
+ */
+export function personalBorrowingDecision(
+  api: CoreAPI,
+  actor: Pick<PersonInput, "traits">,
+  need: number,
+  burden: number,
+) {
+  const p = (key: string) => api.parameter(key);
+  const wait =
+    traitLean(api.state, actor, creditData.actions.wait.actKinds) *
+    p("traitWeight");
+  const reasons = {
+    trait:
+      traitLean(api.state, actor, creditData.actions.borrow.actKinds) *
+      p("traitWeight"),
+    baseline: p("creditBorrowBaseline"),
+    need: p("creditBorrowNeedWeight") * need,
+    cost: -p("creditBorrowCostWeight") * Math.min(burden, p("two")),
+  };
+  const borrow = Object.values(reasons).reduce((sum, value) => sum + value, 0);
+  // The core chooser breaks ties by action id (borrow sorts before do-without).
+  return {
+    borrow: borrow >= wait,
+    borrowScore: borrow,
+    waitScore: wait,
+    reasons,
+  };
+}
+
+interface BorrowingHousehold {
+  id: string;
+  placeId: string;
+  members: readonly Pick<
+    PersonInput,
+    | "id"
+    | "birthDate"
+    | "traits"
+    | "liquidMinor"
+    | "livingCostDailyMinor"
+    | "jobId"
+  >[];
+  cash: number;
+  income: number;
+}
+
+/** Current cash and wage receipts; never the counted person's opening liquidMinor. */
+function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
+  const c = core(api);
+  const rows: BorrowingHousehold[] = [];
+  for (const h of c.households.values()) {
+    const members = h.memberIds.flatMap((id) => {
+      const person = c.people.get(id);
+      return person?.alive ? [person] : [];
+    });
+    rows.push({
+      id: h.id,
+      placeId: h.placeId,
+      members,
+      cash: members.reduce((sum, person) => sum + person.liquidMinor, 0),
+      income: monthlyIncome(api, h.memberIds),
+    });
+  }
+  const rt = residentsRuntime(c);
+  if (rt)
+    for (const h of rt.store.liveHouseholds()) {
+      if (c.households.has(h.id)) continue;
+      const members = rt.store.peopleOf(h);
+      if (!members.length) continue;
+      let daily = 0;
+      for (const member of members) {
+        const job = member.jobId ? rt.jobs.get(member.jobId) : undefined;
+        const flow = job ? rt.wageFlowByJob.get(job.id) : undefined;
+        if (!job || job.endsAt !== undefined || !flow || flow.endedAt) continue;
+        // stopgapId: SG-GOV-REACH-A-consumer-credit — counted pay has no
+        // individual attendance ledger; use its actual settled wage-flow fraction.
+        api.stopgap("SG-GOV-REACH-A-consumer-credit");
+        const share =
+          flow.lastRequestedMinor && flow.lastRequestedMinor > 0
+            ? Math.min(1, (flow.lastPaidMinor ?? 0) / flow.lastRequestedMinor)
+            : 1;
+        daily += job.wageDailyMinor * share;
+      }
+      rows.push({
+        id: h.id,
+        placeId: h.placeId,
+        members,
+        cash: householdCash(rt, h),
+        income:
+          (daily * api.parameter("jobsDaysPerYear")) /
+          api.parameter("macroMonthsPerYear"),
+      });
+    }
+  return rows.sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/** The same current cash read used to cap a payment and explain a shortfall. */
+function borrowerCash(api: CoreAPI, borrowerId: string): number {
+  const c = core(api);
+  const full = c.people.get(borrowerId);
+  if (full) return full.liquidMinor;
+  const rt = residentsRuntime(c);
+  const member = rt?.store.countedMember(borrowerId);
+  if (!rt || member === undefined) return 0;
+  const household = rt.store.households[rt.store.household[member]!]!;
+  return Math.floor(
+    householdCash(rt, household) / rt.store.countedCount(household),
+  );
+}
+
+/** The borrower's existing account, or their own counted group, without filling them in. */
+function personalLoanTransfer(
+  api: CoreAPI,
+  id: string,
+  borrowerId: string,
+  bankId: string,
+  amountMinor: number,
+  lending: boolean,
+  source: Source,
+): number {
+  const c = core(api);
+  if (c.people.has(borrowerId))
+    return transferCash(
+      api,
+      id,
+      lending ? bankId : borrowerId,
+      lending ? borrowerId : bankId,
+      amountMinor,
+      source,
+    );
+  const rt = residentsRuntime(c);
+  const member = rt?.store.countedMember(borrowerId);
+  if (!rt || member === undefined) return 0;
+  const household = rt.store.households[rt.store.household[member]!]!;
+  // Only this borrower's share is available, never the entire group's cash.
+  const available = borrowerCash(api, borrowerId);
+  return countedPayment(api, {
+    id,
+    placeId: household.placeId,
+    personId: borrowerId,
+    otherOwnerId: bankId,
+    amountMinor: lending
+      ? -Math.floor(amountMinor)
+      : Math.min(Math.floor(amountMinor), Math.floor(available)),
+    reasonKey: lending ? "credit.personal-loan" : "credit.personal-repayment",
+    source,
+  });
+}
+
 /** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
 function serviceLoans(api: CoreAPI, bankId: string): void {
   const c = core(api),
@@ -813,12 +968,16 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         loan.balanceMinor + interest,
         loan.paymentMinor + loan.pastDueMinor,
       );
-    const paid = transferCash(
+    const person =
+      c.people.get(loan.borrowerId) ?? residentPerson(c, loan.borrowerId);
+    const cashBefore = borrowerCash(api, loan.borrowerId);
+    const paid = personalLoanTransfer(
       api,
       `loan-payment:${loan.id}:${c.date}`,
       loan.borrowerId,
       bankId,
       due,
+      false,
       {
         tag: "ESTIMATED",
         asOf: c.date,
@@ -832,7 +991,6 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
     const lateDays = loan.firstPastDueAt
       ? (Date.parse(c.date) - Date.parse(loan.firstPastDueAt)) / 86_400_000
       : 0;
-    const person = c.people.get(loan.borrowerId);
     let standing: LoanRow["standing"] = pastDue > 0 ? "late" : "current";
     if (balance <= 0) standing = "paid";
     else if (pastDue > 0 && lateDays >= p("creditChargeOffDays"))
@@ -846,7 +1004,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         dueMinor: Math.round(due),
         paidMinor: paid,
         interestMinor: Math.round(towardInterest),
-        cashBeforeMinor: (person?.liquidMinor ?? 0) + paid,
+        cashBeforeMinor: cashBefore,
         employed: Boolean(person?.jobId),
         standing,
       });
@@ -917,12 +1075,10 @@ function householdApplications(
       )
       .map((row) => row.householdId),
   );
-  for (const household of [...c.households.values()].sort((a, b) =>
-    a.id.localeCompare(b.id),
-  )) {
+  for (const household of borrowingHouseholds(api)) {
     if (owing.has(household.id) || room <= 0) continue;
     // stopgapId: SG-GOV-REACH-A-consumer-credit — product-specific caps,
-    // fees and counted borrowers still need records. This is the catalog ceiling.
+    // fees and counted attendance still need records. This is the catalog ceiling.
     const applicable =
       cap?.value === 1 && cap.governing && household.placeId === town;
     if (applicable) api.stopgap("SG-GOV-REACH-A-consumer-credit");
@@ -931,22 +1087,20 @@ function householdApplications(
       : null;
     const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
     const lawId = applicable ? cap.governing!.id : null;
-    const members = household.memberIds
-      .map((id) => c.people.get(id))
-      .filter((row) => row?.alive);
+    const members = household.members;
     const head = [...members].sort(
       (a, b) =>
         a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
     )[0];
     if (!head) continue;
-    const cash = members.reduce((s, row) => s + row!.liquidMinor, 0);
+    const cash = household.cash;
     const costs =
       members.reduce((s, row) => s + row!.livingCostDailyMinor, 0) *
       p("businessDaysPerMonth");
     if (costs <= 0) continue;
     // Only a real shortfall pulls toward borrowing: cash below a month of costs, by how far below.
     if (cash >= costs) continue;
-    const income = monthlyIncome(api, household.memberIds);
+    const income = household.income;
     const amount = costs * p("creditPersonalMonthsOfCosts");
     const payment = amortizedPayment(
       amount,
@@ -958,16 +1112,8 @@ function householdApplications(
     const need = Math.max(0, 1 - cash / costs);
     if (need <= 0) continue;
     const burden = income > 0 ? payment / income : Number.POSITIVE_INFINITY;
-    const choice = chooseAct(c, head.id, [
-      creditOffer("wait", household.id, {}),
-      creditOffer("borrow", household.id, {
-        baseline: p("creditBorrowBaseline"),
-        need: p("creditBorrowNeedWeight") * need,
-        cost: -p("creditBorrowCostWeight") * Math.min(burden, p("two")),
-      }),
-    ]);
-    if (choice.selected!.definition.id !== creditData.actions.borrow.id)
-      continue;
+    const choice = personalBorrowingDecision(api, head, need, burden);
+    if (!choice.borrow) continue;
     // The bank's yes falls smoothly as payments pass the federal 43 percent debt-to-income reference.
     const dti =
       income > 0
@@ -1007,18 +1153,24 @@ function householdApplications(
         limitMinor: principal,
         approved: principal > 0,
         kind: "personal",
+        ...(c.observer ||
+        c.focusPersonIds.has(head.id) ||
+        head.id === c.playerId
+          ? { choice }
+          : {}),
         marketAnnualRate: marketRate,
         annualRate: rate,
         ceilingAnnualRate: ceiling,
         lawId,
       });
     if (principal <= 0) continue;
-    const lent = transferCash(
+    const lent = personalLoanTransfer(
       api,
       `loan:${household.id}:${c.date}`,
-      bankId,
       head.id,
+      bankId,
       principal,
+      true,
       {
         tag: "ESTIMATED",
         asOf: c.date,

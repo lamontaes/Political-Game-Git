@@ -20,6 +20,18 @@ The common unchosen draw is Bolton, North Carolina, seed `ec34d7766cd3277bdbd151
 
 Each family starts from main `1977d40995`. None was merged or closed by this session. No helper ran.
 
+## Paid-leave contributions
+
+Draft #4372 (`law/session-a-paid-leave`) applies one live-law premium rule to full paychecks and counted wages. Victoria Graham pays 1,410 cents on September 25, then hears the enacted-law story on September 30 and changes her repeal stance. The director has no contribution line; source preservation depends on the knowledge draft. Leave benefits and statutory contribution details remain registered gaps.
+
+The native year records six full-worker premiums and 131,145 cents across 41 counted-group entries, with all 67 modules and balanced money. The 40 targeted tests pass. The final expanded proof takes 20.20 seconds versus 19.16 on matched main.
+
+## Counted consumer credit
+
+The consumer-credit draft now handles counted household applications and borrower-keyed payments without filling people in. Four credit tests pass, including equivalence to the full chooser and a counted loan retained through fill-in and repayment. The existing unchosen year still produces no personal applications or loans; that remains an acceptance gap.
+
+The native year takes 16.86 seconds versus 26.20 on matched main, with 67 modules and balanced journal totals. No binding native cap, received explanation or director line is claimed.
+
 ## Remaining work
 
 - Complete the remaining law reads, including bargaining, agency fees, cannabis, health and assistance, school eligibility, clean-air policy, and the remaining justice and government policies.
@@ -38,4 +50,4 @@ Consumer credit's matched speed check was 28.39 seconds versus 26.20 on main. Gr
 
 The director and English engine are outside tonight's scope. Use existing consumers where possible and identify the missing Words-session consumer for each remaining payment explanation. No journal or conversation line is claimed from bookkeeping alone.
 
-Counted credit applications and repayment still need the same rule as full households. Farm irrigation exposure, bottle returns, statutory tax replacement terms, and the remaining gaps are registered in each draft's stopgap data.
+Counted credit now uses the shared borrowing comparison and borrower-keyed lending and repayment, including fill-in. Counted individual attendance and earnings history remain absent; the lender reads its own wage-flow payment fraction. Farm irrigation exposure, bottle returns, statutory tax replacement terms, and the remaining gaps are registered in each draft's stopgap data.
