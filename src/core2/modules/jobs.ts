@@ -20,6 +20,7 @@ import { traitLean } from "../choice";
 import { traitLeanBetween } from "../trait-decisions";
 import { ownerOf } from "./business";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { residentPerson, residentsRuntime } from "./residents";
 import { MOVED_AWAY_EVENT } from "./moves";
@@ -406,6 +407,7 @@ function startSeeking(
   reasonKey: string,
   referenceHourlyMinor: number,
 ): void {
+  if (inCustody(api, personId)) return;
   const person = core(api).people.get(personId)!;
   store(api).table("seekers").put({
     id: personId,
@@ -502,7 +504,7 @@ function openCountedSeekers(api: CoreAPI, unemploymentPct: number): void {
     const share =
       adults.filter((person) => working.has(person.id)).length / adults.length;
     for (const person of adults)
-      if (!working.has(person.id))
+      if (!working.has(person.id) && !inCustody(api, person.id))
         candidates.push({
           personId: person.id,
           placeId: person.placeId,
@@ -955,6 +957,7 @@ function layOff(
     jobsData.reasons.layoff,
     weeksWorked,
   );
+  if (inCustody(api, job.personId)) return;
   if (counted)
     store(api)
       .table("countedSeekers")
@@ -996,6 +999,7 @@ function reviewWorkers(api: CoreAPI): void {
     if (
       !person ||
       !person.alive ||
+      inCustody(api, person.id) ||
       controlled(c, person.id) ||
       store(api).table("seekers").get(person.id)
     )
@@ -1157,6 +1161,7 @@ function reviewJobless(api: CoreAPI): void {
     if (
       !person.alive ||
       person.jobId ||
+      inCustody(api, person.id) ||
       controlled(c, person.id) ||
       store(api).table("seekers").get(person.id)
     )
@@ -1235,6 +1240,7 @@ function runWeek(api: CoreAPI): void {
     byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
   const applications = new Map<string, SeekerRow[]>();
   const apply = (positionId: string, seeker: SeekerRow) => {
+    if (inCustody(api, seeker.personId)) return;
     const list = applications.get(positionId);
     if (list) list.push(seeker);
     else applications.set(positionId, [seeker]);
@@ -1244,7 +1250,13 @@ function runWeek(api: CoreAPI): void {
     .query("all", [true]) as unknown as SeekerRow[]) {
     const nearby = byPlace.get(seeker.placeId);
     const person = c.people.get(seeker.personId);
-    if (!nearby || !person || !person.alive || controlled(c, person.id))
+    if (
+      !nearby ||
+      !person ||
+      !person.alive ||
+      inCustody(api, person.id) ||
+      controlled(c, person.id)
+    )
       continue;
     const reference = seeker.referenceHourlyMinor;
     const scored = scoreOffers(c, person.id, [
@@ -1283,6 +1295,7 @@ function runWeek(api: CoreAPI): void {
     .query("all", [true]) as unknown as SeekerRow[];
   if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
   for (const seeker of counted) {
+    if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
     if (!c.people.has(seeker.personId) && !residentPerson(c, seeker.personId)) {
       store(api).table("countedSeekers").remove(seeker.personId);
@@ -1477,6 +1490,7 @@ function hireCounted(
   seeker: SeekerRow,
   fit: number,
 ): boolean {
+  if (inCustody(api, seeker.personId)) return false;
   const c = core(api);
   const template =
     c.jobs.get(position.templateJobId) ??
@@ -1649,7 +1663,12 @@ function reviewCountedEntry(api: CoreAPI): void {
   const rows: { id: string; placeId: string; score: number }[] = [];
   for (const row of rt.households.values())
     for (const personId of row.household.memberIds) {
-      if (working.has(personId) || seekers.get(personId)) continue;
+      if (
+        working.has(personId) ||
+        seekers.get(personId) ||
+        inCustody(api, personId)
+      )
+        continue;
       const person = residentPerson(c, personId);
       if (!person) continue;
       const age =
@@ -1722,7 +1741,12 @@ function reviewCountedQuits(api: CoreAPI): void {
   for (const [organizationId, book] of c.finance.businesses) {
     if (book.closedAt) continue;
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      if (
+        pinned(c).has(job.id) ||
+        seekers.get(job.personId) ||
+        inCustody(api, job.personId)
+      )
+        continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
@@ -1795,7 +1819,12 @@ function reviewCountedLooking(api: CoreAPI): void {
     [];
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      if (
+        pinned(c).has(job.id) ||
+        seekers.get(job.personId) ||
+        inCustody(api, job.personId)
+      )
+        continue;
       // An owner runs their own business; they don't look for a job elsewhere.
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
@@ -1993,7 +2022,12 @@ function openToOffers(api: CoreAPI): SeekerRow | undefined {
   const c = core(api),
     person = c.playerId ? c.people.get(c.playerId) : undefined,
     [young, old] = jobsData.workingAge as [number, number];
-  if (!person?.alive || person.jobId || !c.households.has(person.householdId))
+  if (
+    !person?.alive ||
+    person.jobId ||
+    inCustody(api, person.id) ||
+    !c.households.has(person.householdId)
+  )
     return undefined;
   const age =
     daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
@@ -2145,7 +2179,11 @@ export function acceptJobOffer(api: CoreAPI, offerId: string): boolean {
   if (row?.status !== "pending") return false;
   const position = store(api).table("positions").get(row.positionId) as
     PositionRow | undefined;
-  if (position?.status !== "open" || position.offerId !== offerId) {
+  if (
+    inCustody(api, row.personId) ||
+    position?.status !== "open" ||
+    position.offerId !== offerId
+  ) {
     settleOffer(api, row, "withdrawn");
     return false;
   }
@@ -2185,6 +2223,7 @@ function hire(
   seeker: SeekerRow,
   fit: number,
 ): void {
+  if (inCustody(api, seeker.personId)) return;
   const c = core(api),
     person = c.people.get(seeker.personId)!;
   const role = roleTemplate(c, position);
@@ -2336,8 +2375,23 @@ export const JOBS_MODULE: CoreModule = {
       value: Number(binding.arguments!.value),
     }),
   },
-  eventKinds: ["organization.closed", "life.death", MOVED_AWAY_EVENT],
+  eventKinds: [
+    "organization.closed",
+    "life.death",
+    MOVED_AWAY_EVENT,
+    "justice.imprisoned",
+  ],
   onEvent(api, event) {
+    if (event.kind === "justice.imprisoned") {
+      for (const personId of event.personIds) {
+        if (!inCustody(api, personId)) continue;
+        store(api).table("seekers").remove(personId);
+        store(api).table("countedSeekers").remove(personId);
+        for (const row of jobOffersFor(api, personId))
+          settleOffer(api, row, "withdrawn");
+      }
+      return;
+    }
     if (!store(api).table("state").get("jobs:state")) return;
     if (event.kind === "life.death") {
       for (const personId of event.personIds)
@@ -2369,6 +2423,7 @@ export const JOBS_MODULE: CoreModule = {
         reasonKey: jobsData.reasons.closure,
         decidedBy: ownerOf(api, organizationId) ?? organizationId,
       });
+      if (inCustody(api, job.personId)) continue;
       store(api)
         .table("countedSeekers")
         .put({
