@@ -1,9 +1,9 @@
 {
   "id": "batch-11",
-  "title": "Scene batch batch-11 (30 scenes)",
-  "at": "2026-10-15T04:00:21.005Z",
-  "head": "c7f20abd36cb3fddad3c9a676ea9f7bf394d71af",
-  "shortHead": "c7f20abd36",
+  "title": "Scene batch batch-11 (29 scenes)",
+  "at": "2026-10-15T14:44:29.718Z",
+  "head": "dd915669c69379577611b7a497c9c9fd0c2caeb6",
+  "shortHead": "dd915669c6",
   "seed": "batch-11-oct15",
   "days": 365,
   "status": "open",
@@ -31,21 +31,20 @@
   },
   "kinds": {
     "family": 2,
-    "journal": 5,
+    "journal": 6,
     "conversation": 5,
     "meeting": 3,
     "minutes": 3,
     "legislation": 3,
     "notices": 2,
     "campaign": 2,
-    "emotion": 2,
     "interview": 3
   },
   "screened": {
     "rejected": 12,
     "byGrades": {
       "lines": 12,
-      "alternatives": 1,
+      "alternatives": 2,
       "ungrammatical": 0
     },
     "rejections": [
@@ -112,15 +111,18 @@
     ]
   },
   "stoodIn": [
-    "Pine Ridge: 1 decided races, office levels federal/state/county;  bills and roll calls are the legislature module's own rows (23 local bills, 11778 recorded votes); interviews are the press module's"
+    "Pine Ridge: 0 decided races, office levels federal/state/county;  bills and roll calls are the legislature module's own rows (23 local bills, 11778 recorded votes); interviews are the press module's"
   ],
   "gaps": [
     "no state or federal house (a chamber with a Speaker) with two members on record in this world, so no floor honor is said; a senate's and a town body's own way of honoring a member are not mined yet",
+    "defect for OPUS-GOV: 1 race result(s) record the winner as an official's term, not a person (official:term:seat:US-SC:attorney-general:2027-05-12), so no one could give the election-night speech; those races are left out",
+    "no race was decided by the end of the run, so victory and concession lines (which need a recorded winner and loser) cannot be produced",
     "defect for OPUS-GOV: 1 local bill(s) passed with no title on record (2027-2, no provisions); a bill needs a title the words can name",
     "A town body member's words to the chair: the meeting bank holds Congress's floor procedure, which a town council never hears, so no member speaks to the chair until a local body's own words are mined.",
     "Hearings: the hearing bank holds a witness's thanks, answers and agreement but no chair's or member's question, so no answer could follow a question it was asked; hearings return when a question move is mined.",
     "Scenes the world does not yet produce: a wedding, pork barreling (a member asking for a project in the district), a legislator arguing on the floor against another member by name.",
-    "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet."
+    "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet.",
+    "Only 29 different scenes passed: the world held no more scenes whose phrases were not already shown."
   ],
   "items": [
     {
@@ -140,7 +142,7 @@
       "lines": [
         {
           "speaker": "Narrator",
-          "text": "Timothy, your daughter, Ahmad, your father, your mother, Christian, Teresa, Gabriella, Connor, James and Cassandra are here.",
+          "text": "Your son is with you.",
           "parts": []
         },
         {
@@ -306,7 +308,7 @@
     {
       "i": 3,
       "kind": "meeting",
-      "scene": "The County of Darlington commissioner takes up 2026-1 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
+      "scene": "The County of Darlington Board of Commissioners takes up 2026-1 (\"Partner with federal immigration enforcement\"); the recorded result is enacted.",
       "trace": [
         "the chair's run-meeting sentences in data/english/parts/address.json, picked by the bill's recorded step"
       ],
@@ -352,19 +354,19 @@
     {
       "i": 4,
       "kind": "minutes",
-      "scene": "The roll call on 2026-1 (\"Partner with federal immigration enforcement\") before the County of Darlington commissioner: 6 for, 1 against; the bill enacted. Each name is read from a member's recorded vote.",
+      "scene": "The roll call on 2026-1 (\"Partner with federal immigration enforcement\") before the County of Darlington Board of Commissioners: 6 for, 1 against; the bill enacted. Each name is read from a member's recorded vote.",
       "trace": ["composeFromBank over data/english/parts/minutes.json"],
       "sourceRecordIds": [
         "bill:office:gus2025:134411:board:2026-10-27:person_b1e17fc19eea0192:16"
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (minutes)",
+          "speaker": "County of Darlington Board of Commissioners (minutes)",
           "text": "Voting for this action: Jasper Newton, Arthur Kent, Martin Nelson, John Rollins, Diana Newton and Amy Frazier.",
           "parts": ["minutes.vote.voting-for-this-action-members"]
         },
         {
-          "speaker": "County of Darlington commissioner (minutes)",
+          "speaker": "County of Darlington Board of Commissioners (minutes)",
           "text": "Voting against this action: Donna Newton.",
           "parts": ["minutes.vote.voting-against-this-action-members"]
         }
@@ -376,7 +378,7 @@
     {
       "i": 5,
       "kind": "legislation",
-      "scene": "Its short title. 2026-1 (enacted), introduced October 27, 2026 before the County of Darlington commissioner: it adopts \"Partner with federal immigration enforcement\" on the bill's own provision record.",
+      "scene": "Its short title. 2026-1 (enacted), introduced October 27, 2026 before the County of Darlington Board of Commissioners: it adopts \"Partner with federal immigration enforcement\" on the bill's own provision record.",
       "trace": [
         "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
       ],
@@ -385,7 +387,7 @@
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (bill text)",
+          "speaker": "County of Darlington Board of Commissioners (bill text)",
           "text": "This title may be cited as the \"Partner with federal immigration enforcement\".",
           "parts": ["legislation.short-title.this-title-may-be-cited-as-the"]
         }
@@ -397,14 +399,14 @@
     {
       "i": 6,
       "kind": "notices",
-      "scene": "A hearing notice for 2026-1, posted by the County of Darlington commissioner.",
+      "scene": "A hearing notice for 2026-1, posted by the County of Darlington Board of Commissioners.",
       "trace": ["composeFromBank over data/english/parts/notices.json"],
       "sourceRecordIds": [
         "bill:office:gus2025:134411:board:2026-10-27:person_b1e17fc19eea0192:16"
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner clerk",
+          "speaker": "County of Darlington Board of Commissioners clerk",
           "text": "NOTICE OF PUBLIC HEARING\nPROJECT NAME: \"Partner with federal immigration enforcement\"\nDATE OF MEETING: October 27, 2026",
           "parts": ["notice.hearing.public-hearing"]
         }
@@ -461,27 +463,6 @@
     },
     {
       "i": 8,
-      "kind": "emotion",
-      "scene": "official:term:seat:US-SC:attorney-general:2027-05-12 won the race for Attorney General against Adam Akhtar (the voting module's recorded result) and speaks on election night.",
-      "trace": [
-        "composeAddress (src/english/english-composition.ts), register victory, words from data/english/parts/address.json"
-      ],
-      "sourceRecordIds": [
-        "official:term:seat:US-SC:attorney-general:2027-05-12"
-      ],
-      "lines": [
-        {
-          "speaker": "official:term:seat:US-SC:attorney-general:2027-05-12",
-          "text": "I am humbled.",
-          "parts": ["address.victory-claim.i-am-humbled"]
-        }
-      ],
-      "test": "the scene as it stands",
-      "variants": [],
-      "parts": ["address.victory-claim.i-am-humbled"]
-    },
-    {
-      "i": 9,
       "kind": "interview",
       "scene": "A local reporter's interview of Rachel Evans (a candidate in Pine Ridge, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
       "trace": [
@@ -503,7 +484,7 @@
       "parts": ["interview.official-commit.thats-a-promise"]
     },
     {
-      "i": 10,
+      "i": 9,
       "kind": "family",
       "scene": "A family scene at home in Pine Ridge, September 6, 2027: Katherine Anderson, 41, with Maya Anderson; turn 1.",
       "trace": [
@@ -519,7 +500,7 @@
       "lines": [
         {
           "speaker": "Narrator",
-          "text": "Your brother, Maya, Allison, Paola, Lara, your father and your mother are here.",
+          "text": "Your daughter is here too.",
           "parts": []
         },
         {
@@ -592,25 +573,18 @@
       "parts": ["conversation.own-work-new-ask-where.where-are-you-working-now"]
     },
     {
-      "i": 11,
+      "i": 10,
       "kind": "journal",
       "scene": "The \"My life\" journal of Teresa Stark, chapter \"My daughter\".",
       "trace": [
         "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
-        "entry dated October 1, 1965",
-        "entry dated December 10, 1968"
+        "entry dated October 1, 1965"
       ],
       "sourceRecordIds": [
         "person_1872e208ed3c1751",
-        "person_1872e208ed3c1751:family:person_bfe7cafaaf0ff831",
-        "person_1872e208ed3c1751:family:person_bfe7c7faaf0ff318"
+        "person_1872e208ed3c1751:family:person_bfe7cafaaf0ff831"
       ],
       "lines": [
-        {
-          "speaker": "Teresa Stark",
-          "text": "My daughter was born.",
-          "parts": ["journal.family-line-born.relation-was-born"]
-        },
         {
           "speaker": "Teresa Stark",
           "text": "My daughter was born.",
@@ -622,7 +596,7 @@
       "parts": ["journal.family-line-born.relation-was-born"]
     },
     {
-      "i": 12,
+      "i": 11,
       "kind": "conversation",
       "scene": "Madeline Meyer talks with Donna Newton, November 6, 2026, turn 1; the talk's topic: family:person_90463868c1eef984.",
       "trace": [
@@ -678,7 +652,7 @@
       "parts": ["conversation.mutual-raise-seen.hows-name"]
     },
     {
-      "i": 13,
+      "i": 12,
       "kind": "meeting",
       "scene": "Teresa Stark speaks in the public comment period of a Pine Ridge council meeting.",
       "trace": [
@@ -721,7 +695,7 @@
       "parts": ["address.public-comment-greet.good-morning-commissioners"]
     },
     {
-      "i": 14,
+      "i": 13,
       "kind": "minutes",
       "scene": "The discussion of \"Partner with federal immigration enforcement\" at the October 27, 2026 meeting (2026-1).",
       "trace": ["composeFromBank over data/english/parts/minutes.json"],
@@ -730,7 +704,7 @@
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (minutes)",
+          "speaker": "County of Darlington Board of Commissioners (minutes)",
           "text": "Participants discussed \"Partner with federal immigration enforcement\".",
           "parts": ["minutes.discussion.participants-discussed-topic"]
         }
@@ -740,9 +714,9 @@
       "parts": ["minutes.discussion.participants-discussed-topic"]
     },
     {
-      "i": 15,
+      "i": 14,
       "kind": "legislation",
-      "scene": "Its short title. 2026-3 (enacted), introduced October 27, 2026 before the County of Darlington commissioner: it adopts \"Allow multifamily in single family zones\" on the bill's own provision record.",
+      "scene": "Its short title. 2026-3 (enacted), introduced October 27, 2026 before the County of Darlington Board of Commissioners: it adopts \"Allow multifamily in single family zones\" on the bill's own provision record.",
       "trace": [
         "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
       ],
@@ -751,7 +725,7 @@
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (bill text)",
+          "speaker": "County of Darlington Board of Commissioners (bill text)",
           "text": "This Act may be cited as the \"Allow multifamily in single family zones\".",
           "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
         }
@@ -761,7 +735,7 @@
       "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
     },
     {
-      "i": 16,
+      "i": 15,
       "kind": "notices",
       "scene": "The notice of the November 7, 2028 election in Pine Ridge, from the contests the elections module holds.",
       "trace": ["composeFromBank over data/english/parts/notices.json"],
@@ -796,7 +770,7 @@
       "parts": ["notice.election.notice-of-election"]
     },
     {
-      "i": 17,
+      "i": 16,
       "kind": "campaign",
       "scene": "Rachel Evans speaks at a rally in Pine Ridge as a candidate for Governor.",
       "trace": [
@@ -844,38 +818,7 @@
       "parts": ["address.campaign-close.god-bless-you-and-god-bless-america"]
     },
     {
-      "i": 18,
-      "kind": "emotion",
-      "scene": "Adam Akhtar lost the race for Attorney General to official:term:seat:US-SC:attorney-general:2027-05-12 (the voting module's recorded result) and concedes.",
-      "trace": [
-        "composeAddress (src/english/english-composition.ts), register concession, words from data/english/parts/address.json"
-      ],
-      "sourceRecordIds": ["official:term:seat:US-SC:upper:045:0:2026-10-12"],
-      "lines": [
-        {
-          "speaker": "Adam Akhtar",
-          "text": "This is not the end.",
-          "parts": ["address.concession-concede.this-is-not-the-end"]
-        }
-      ],
-      "test": "the wording of line 1 on one axis (formality)",
-      "tested": {
-        "line": 0,
-        "axis": "formality",
-        "parts": ["address.concession-concede.this-is-not-the-end"]
-      },
-      "variants": [
-        {
-          "n": 1,
-          "axis": "formality",
-          "parts": ["address.concession-concede.thank-you-for-everything"],
-          "text": "Thank you for everything."
-        }
-      ],
-      "parts": ["address.concession-concede.this-is-not-the-end"]
-    },
-    {
-      "i": 19,
+      "i": 17,
       "kind": "interview",
       "scene": "A local reporter's interview of Renee Guerrero (a candidate in Pine Ridge, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
       "trace": [
@@ -897,30 +840,31 @@
       "parts": ["interview.official-commit.you-have-my-word"]
     },
     {
-      "i": 20,
+      "i": 18,
       "kind": "journal",
-      "scene": "The \"My life\" journal of Teresa Stark, chapter \"My child\".",
+      "scene": "The \"My life\" journal of Teresa Stark, chapter \"Brenda\".",
       "trace": [
         "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
-        "entry dated June 28, 1974"
+        "entry dated December 10, 1968"
       ],
       "sourceRecordIds": [
         "person_1872e208ed3c1751",
-        "person_1872e208ed3c1751:family:person_90463968c1eefb37"
+        "person_1872e208ed3c1751:family:person_bfe7c7faaf0ff318",
+        "person_bfe7c7faaf0ff318"
       ],
       "lines": [
         {
           "speaker": "Teresa Stark",
-          "text": "My child was born. That was a turning point.",
-          "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+          "text": "Brenda was born.",
+          "parts": ["journal.family-line-born.other-was-born"]
         }
       ],
       "test": "the opening and closing pair: does the closing line follow from the opening, here?",
       "variants": [],
-      "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+      "parts": ["journal.family-line-born.other-was-born"]
     },
     {
-      "i": 21,
+      "i": 19,
       "kind": "conversation",
       "scene": "Madeline Meyer talks with Donna Newton, November 18, 2026, turn 1; the talk's topic: person_9c8a4644eb126b1d>mutual:person_ddec7a3b56294740.",
       "trace": [
@@ -979,7 +923,7 @@
       "parts": ["conversation.mutual-raise-seen.have-you-talked-to-name"]
     },
     {
-      "i": 22,
+      "i": 20,
       "kind": "meeting",
       "scene": "Keanu Meyer speaks in the public comment period of a Pine Ridge council meeting.",
       "trace": [
@@ -1030,7 +974,7 @@
       ]
     },
     {
-      "i": 23,
+      "i": 21,
       "kind": "minutes",
       "scene": "The discussion of \"Allow multifamily in single family zones\" at the October 27, 2026 meeting (2026-3).",
       "trace": ["composeFromBank over data/english/parts/minutes.json"],
@@ -1039,7 +983,7 @@
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (minutes)",
+          "speaker": "County of Darlington Board of Commissioners (minutes)",
           "text": "The staff provided an update on \"Allow multifamily in single family zones\".",
           "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
         }
@@ -1049,9 +993,9 @@
       "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
     },
     {
-      "i": 24,
+      "i": 22,
       "kind": "legislation",
-      "scene": "Its long title. 2026-4 (enacted), introduced October 27, 2026 before the County of Darlington commissioner: it adopts \"Universal preschool\" on the bill's own provision record.",
+      "scene": "Its long title. 2026-4 (enacted), introduced October 27, 2026 before the County of Darlington Board of Commissioners: it adopts \"Universal preschool\" on the bill's own provision record.",
       "trace": [
         "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
       ],
@@ -1060,7 +1004,7 @@
       ],
       "lines": [
         {
-          "speaker": "County of Darlington commissioner (bill text)",
+          "speaker": "County of Darlington Board of Commissioners (bill text)",
           "text": "To provide for universal preschool, and for other purposes.",
           "parts": [
             "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
@@ -1074,7 +1018,7 @@
       ]
     },
     {
-      "i": 25,
+      "i": 23,
       "kind": "interview",
       "scene": "A local reporter's interview of Rachel Evans (a candidate in Pine Ridge, 2026-10-19); asked about \"Restrict abortion\"; the candidate's recorded answer is support.",
       "trace": [
@@ -1108,42 +1052,30 @@
       "parts": ["interview.official-commit.i-will"]
     },
     {
-      "i": 26,
+      "i": 24,
       "kind": "journal",
-      "scene": "The \"My life\" journal of Keanu Meyer, chapter \"My daughter\".",
+      "scene": "The \"My life\" journal of Teresa Stark, chapter \"My child\".",
       "trace": [
         "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
-        "entry dated October 15, 2008"
+        "entry dated June 28, 1974"
       ],
       "sourceRecordIds": [
-        "person_90463868c1eef984",
-        "kinship_dfc4c002e367dc6c:past:person_90463868c1eef984"
+        "person_1872e208ed3c1751",
+        "person_1872e208ed3c1751:family:person_90463968c1eefb37"
       ],
       "lines": [
         {
-          "speaker": "Keanu Meyer",
-          "text": "My daughter was born. I'll never forget that.",
-          "parts": ["journal.memoir-hook.ill-never-forget-that"]
+          "speaker": "Teresa Stark",
+          "text": "My child was born. That was a turning point.",
+          "parts": ["journal.memoir-hook.that-was-a-turning-point"]
         }
       ],
       "test": "the opening and closing pair: does the closing line follow from the opening, here?",
-      "tested": {
-        "line": 0,
-        "axis": "formality",
-        "parts": ["journal.memoir-hook.ill-never-forget-that"]
-      },
-      "variants": [
-        {
-          "n": 1,
-          "axis": "formality",
-          "parts": ["journal.memoir-hook.i-never-knew"],
-          "text": "My daughter was born. I never knew."
-        }
-      ],
-      "parts": ["journal.memoir-hook.ill-never-forget-that"]
+      "variants": [],
+      "parts": ["journal.memoir-hook.that-was-a-turning-point"]
     },
     {
-      "i": 27,
+      "i": 25,
       "kind": "conversation",
       "scene": "Madeline Meyer talks with Aiden Schmidt, March 18, 2027, turn 1; the talk's topic: home:person_90463a68c1eefcea.",
       "trace": [
@@ -1218,42 +1150,42 @@
       "parts": ["conversation.home-new-ask-where.where-are-you-from"]
     },
     {
-      "i": 28,
+      "i": 26,
       "kind": "journal",
-      "scene": "The \"My life\" journal of Elise Vasquez, chapter \"Darlington County, South Carolina\".",
+      "scene": "The \"My life\" journal of Keanu Meyer, chapter \"My daughter\".",
       "trace": [
         "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
-        "entry dated November 3, 2026"
+        "entry dated October 15, 2008"
       ],
       "sourceRecordIds": [
-        "election-result:contest:seat:gus2025:134411:clerk:0:2026-11-03",
-        "kinship_a03bc7a714ce87e5:past:person_7d07a9aeb2721953"
+        "person_90463868c1eef984",
+        "kinship_dfc4c002e367dc6c:past:person_90463868c1eef984"
       ],
       "lines": [
         {
-          "speaker": "Elise Vasquez",
-          "text": "My father was elected.",
-          "parts": ["journal.election-other-result.other-was-elected"]
+          "speaker": "Keanu Meyer",
+          "text": "My daughter was born. I'll never forget that.",
+          "parts": ["journal.memoir-hook.ill-never-forget-that"]
         }
       ],
       "test": "the opening and closing pair: does the closing line follow from the opening, here?",
       "tested": {
         "line": 0,
-        "axis": "word choice",
-        "parts": ["journal.election-other-result.other-was-elected"]
+        "axis": "formality",
+        "parts": ["journal.memoir-hook.ill-never-forget-that"]
       },
       "variants": [
         {
           "n": 1,
-          "axis": "word choice",
-          "parts": ["journal.election-other-result.other-got-elected"],
-          "text": "My father got elected."
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "text": "My daughter was born. I never knew."
         }
       ],
-      "parts": ["journal.election-other-result.other-was-elected"]
+      "parts": ["journal.memoir-hook.ill-never-forget-that"]
     },
     {
-      "i": 29,
+      "i": 27,
       "kind": "conversation",
       "scene": "Madeline Meyer talks with Aiden Schmidt, March 18, 2027, turn 2; the talk's topic: home:person_90463a68c1eefcea.",
       "trace": [
@@ -1311,6 +1243,41 @@
         }
       ],
       "parts": ["conversation.home-reply-reply-still.i-live-in-place"]
+    },
+    {
+      "i": 28,
+      "kind": "journal",
+      "scene": "The \"My life\" journal of Elise Vasquez, chapter \"Darlington County, South Carolina\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated November 3, 2026"
+      ],
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:134411:clerk:0:2026-11-03",
+        "kinship_a03bc7a714ce87e5:past:person_7d07a9aeb2721953"
+      ],
+      "lines": [
+        {
+          "speaker": "Elise Vasquez",
+          "text": "My father was elected.",
+          "parts": ["journal.election-other-result.other-was-elected"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["journal.election-other-result.other-was-elected"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-got-elected"],
+          "text": "My father got elected."
+        }
+      ],
+      "parts": ["journal.election-other-result.other-was-elected"]
     }
   ]
 }
