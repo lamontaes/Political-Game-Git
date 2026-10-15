@@ -937,6 +937,7 @@ body.dev .dev-ring {
 /* With a menu open the card keeps to the menu's column. */
 #game.sheet-open .me {
   width: 284px;
+  max-width: 284px;
 }
 #game.sheet-open .me .time {
   display: none;

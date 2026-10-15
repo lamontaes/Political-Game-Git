@@ -1474,8 +1474,8 @@ async function seatRows() {
 
 /** A record kind as words: "filing-deadline" reads "Filing deadline". */
 const kindName = (kind) => {
- const name = kind.split(":").pop();
- return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g," ")}`;
+  const name = kind.split(":").pop();
+  return `${name.charAt(0).toUpperCase()}${name.slice(1).replace(/-/g, " ")}`;
 };
 
 /** The player's own picture: the look chosen in the creator, else their figure in the room. */
@@ -2989,13 +2989,6 @@ const sheets = {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     return [
       ...(await campaignRows()),
-      ...[...new Set(v.contests.map((c) => c.filingOffice.filedWith))].map(
-        (name) => {
-          const button = el("button", { type: "button", textContent: name });
-          button.onclick = () => openFiling(name);
-          return button;
-        },
-      ),
       ...v.filings.map((f) => row(words(f.status), f.filedWith)),
       ...(await sheets.results()),
     ];
@@ -3103,6 +3096,12 @@ const sheets = {
       });
       picker.append(b);
     }
+    const mapButton = el("button", {
+      type: "button",
+      textContent: labels.map ?? titles.map,
+    });
+    mapButton.onclick = () => openSheet("map");
+    picker.append(mapButton);
     draw();
     return [picker, content];
   },
@@ -3236,7 +3235,14 @@ const titles = {
 };
 // Screens shown as tabs across the top of one menu screen.
 const groups = {
-  politics: ["government", "office", "campaigns", "parties", "issues", "budgets"],
+  politics: [
+    "government",
+    "office",
+    "campaigns",
+    "parties",
+    "issues",
+    "budgets",
+  ],
   people: ["people", "family"],
 };
 const groupOf = (tab) =>
@@ -3248,14 +3254,22 @@ async function openSheet(tab) {
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
-  const holdsOffice = group === "politics" && (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(s => s.holder?.personId === me.id);
+  const holdsOffice =
+    group === "politics" &&
+    (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(
+      (s) => s.holder?.personId === me.id,
+    );
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
   // Election night only once there are results to show.
   $("sheet-tabs").replaceChildren(
     ...(groups[group] ?? [])
-      .filter((name) => (name !== "results" || seenResults > 0) && (name !== "office" || holdsOffice))
+      .filter(
+        (name) =>
+          (name !== "results" || seenResults > 0) &&
+          (name !== "office" || holdsOffice),
+      )
       .map((name) => {
         const b = el("button", {
           type: "button",

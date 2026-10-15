@@ -141,15 +141,7 @@
     "advance": "Live until this day",
     "back": "Back",
     "next": "Continue",
-    "weekdays": [
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat"
-    ]
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
   "people": {
     "all": "All",
@@ -181,7 +173,8 @@
     "balance": "Balance",
     "budget": "Budget",
     "increase": "Increase",
-    "decrease": "Decrease"
+    "decrease": "Decrease",
+    "map": "Map"
   },
   "money": {
     "cash": "Cash available",
