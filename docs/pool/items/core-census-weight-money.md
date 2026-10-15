@@ -5,13 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: pool/core-census-weight-money
+status: open
+claimed-by:
 pr:
 blocked-on: core-census-weight-model
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
-claimed-at: 2026-10-15T21:02:23.666Z
 ---
 
 **What.** Every dated flow a counted household makes (pay, benefits, rent, purchases, retirement income, taxes) moves through the one journal times its weight, so a town of millions has its real payroll, rent and tax receipts.
@@ -23,3 +22,5 @@ claimed-at: 2026-10-15T21:02:23.666Z
 **Files.** src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/residents.ts
 
 **Notes.** Found by the session that claimed core-town-size-census: the cap is `Math.min(target, real)` in `buildPopulation` (`src/core2/population.ts`, about line 507) with `targetPopulation` = 10,000 in `src/core2/data/parameters.json`. A town is generated one household and one person record at a time (about 12 s and 1.4 GB for 10,000), and counted groups keep one index per household (`src/core2/counted-groups.ts`), so a city of millions cannot open by raising the target. The design the ruling points at: each counted household record carries a weight (how many real households it stands for) and every reader multiplies by it.
+
+Session handed off Oct 15, 2026: branch pool/core-census-weight-money has one WIP commit (df32a77: counted-money.ts flows times the household weight, residents.ts, counted-weight-money.test.ts), no PR; remainder: finish the money readers (credit-deposits, housing-foreclosure arrears, housing-homeless rent list, departure and arrival cash shares), run the weight 1 versus 3 played-year proof, open the PR.
