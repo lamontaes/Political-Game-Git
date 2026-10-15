@@ -2981,7 +2981,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: both openings import core2/world-settings.ts; removed the bench arithmetic copy. Political settings are read by electorate.customPolitics."
   },
   {
     "id": "SG-GOV-appointee-pay",
