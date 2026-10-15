@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OFFICE-LOCAL.md (line 39): 2 lines"
 area: office
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/office-local-39
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/OFFICE-LOCAL.md "Needs from other sessions" (line 39)'
+claimed-at: 2026-10-15T23:24:41.985Z
 ---
 
 **What.** Two requests remain on the local office day. From GOV: local meetings on the office-day calendar, member filings held until the scene, the desk and votes reading the controlled person, and the executive's sign-or-veto choice, the office's case decision and the appointer's own choice exported. From CORE: a second, salaried pay basis for stipends, and the disasters engine for emergencies. Verify what is on main (`office-day-pay.ts`, `office-day-calendar.ts` exist), close built lines and split the rest. The player would notice his council stipend paid properly and meetings on the calendar.

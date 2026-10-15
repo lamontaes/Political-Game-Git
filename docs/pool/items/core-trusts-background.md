@@ -4,9 +4,9 @@ title: "Trusts simulated in the background for estate and inheritance taxes"
 area: core
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-trusts-background
-pr:
+pr: #4515
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
