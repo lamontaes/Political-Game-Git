@@ -77,8 +77,6 @@ export interface CountedHousehold {
   group: number;
   /** Member indices, counted or not (fill-in takes the whole household). */
   members: number[];
-  /** How many real households this record stands for (a town above the generated sample); 1 otherwise. */
-  weight: number;
   /** Pairs of member indices who are family to each other, flattened. */
   kin: number[];
   jobs: JobInput[];
@@ -487,7 +485,6 @@ export class CountedStore {
       placeId: record.household.placeId,
       group: -1,
       members,
-      weight: record.weight ?? 1,
       kin,
       jobs: [...record.jobs],
       workCommitments: [...record.workCommitments],

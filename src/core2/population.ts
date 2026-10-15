@@ -1295,14 +1295,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           ? (placeReferencePopulation(place.sourceGeoid)?.value ?? "not-held")
           : "not-held",
       ),
-      // A town above the generated sample opens at its Census count: the
-      // counted households carry a weight (`collapseToTwoLevels`). A size
-      // asked for by name is kept as asked.
-      ...(options.minimumPeople === undefined &&
-      real !== undefined &&
-      real > minimumPeople
-        ? { scaleToCensusPeople: String(real) }
-        : {}),
       referencePopulationSource: place.sourceGeoid
         ? (placeReferencePopulation(place.sourceGeoid)?.source ?? "not-held")
         : "not-held",

@@ -4,9 +4,7 @@
  * for every counted member of every counted group, summed. A counted member
  * working without a recorded job (the place's unplaced workers) counts as
  * working by their household's share of them, so a count can be fractional
- * until it is rounded for show. A counted household stands for `weight` real
- * households in a town above the generated sample, so its hits count that many
- * times. Law reach, budgets and news call `reachOf`.
+ * until it is rounded for show. Law reach, budgets and news call `reachOf`.
  */
 import { ageOn } from "./counted-groups";
 import { countedParameter, residentsRuntime } from "./modules/residents";
@@ -226,9 +224,8 @@ export function reachOf(
       const hit = applyRule(rule, household);
       if (!hit.people) continue;
       const row = byGroup.get(h.group) ?? { people: 0, dollars: 0 };
-      // A household record stands for `weight` real households.
-      row.people += hit.people * h.weight;
-      row.dollars += hit.dollars * h.weight;
+      row.people += hit.people;
+      row.dollars += hit.dollars;
       byGroup.set(h.group, row);
     }
   }
@@ -254,20 +251,4 @@ export function reachOf(
     counted: { people: countedPeople, dollars: countedDollars },
     byGroup: groups,
   };
-}
-
-/**
- * Everyone a place holds, both tiers: its full people alive there plus every
- * counted member times their household's weight. A town opens at its Census
- * count.
- */
-export function placePopulation(core: CoreState, placeId: PlaceId): number {
-  let n = 0;
-  for (const id of core.peopleByPlace.get(placeId) ?? [])
-    if (core.people.get(id)?.alive) n++;
-  const rt = residentsRuntime(core);
-  if (rt)
-    for (const h of rt.store.liveHouseholds())
-      if (h.placeId === placeId) n += rt.store.countedCount(h) * h.weight;
-  return n;
 }
