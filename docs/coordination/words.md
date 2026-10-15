@@ -117,6 +117,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 15 (late night): batch 14 bank landed (466 pieces): the owner's batch-13 rulings, lie replies caught only when the asker holds the contradicting record, five rounds, party and family auto-replies, the carry-bill continuation. The review page becomes one scene at a time with reply buttons and a done queue. Next: the helper's trees, then batch 14 on the page.
 - Oct 15 (night): the owner rejected batch 12 (OWNER-DECISIONS.md, "batch 12 rejected; what a scene is").
   - Built scenes with a purpose on `words/scene-talk` (#4459): 14 situation types with purposes and stakes, the arcs, a 397-piece scoped bank and the exchange engine (src/director/scene-talk.ts, built by the Sonnet helper).
   - Root fix: no school opener without a long-ago record; no goodbye after the other person's answered question.
