@@ -60,10 +60,16 @@ import {
   MINED_CONVERSATION,
 } from "./mined/conversation-bank";
 import { renderLine, type Fact } from "./render";
+import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { properName, spoken, spokenMonth, spokenWhen } from "./words";
 
 const zero = P.zero;
 const one = P.one;
+
+/** Years after which a shared school or workplace is a reason to talk (conversation-rules.json, TUNABLE). */
+const LONG_AGO_YEARS = (
+  rulesFile as unknown as { sharedPast: { longAgoYears: { value: number } } }
+).sharedPast.longAgoYears.value;
 
 export interface Move {
   /** The choice it makes (an answer), or the choice and its part (any other role). */
@@ -711,6 +717,12 @@ export function subjectsBetween(
             ),
             sourceRecordIds: [context.id],
           },
+          // A reason to raise it: the years since, past the rules' threshold.
+          ...(Number(core.date.slice(zero, core.date.indexOf("-"))) -
+            Number(context.date.slice(zero, context.date.indexOf("-"))) >=
+          LONG_AGO_YEARS
+            ? { "long-ago": { text: "yes", sourceRecordIds: [context.id] } }
+            : {}),
         },
       });
     if (fact.kind === "social:generated-coworker") {
@@ -730,6 +742,13 @@ export function subjectsBetween(
               text: properName(org.name),
               sourceRecordIds: [fact.id, org.id],
             },
+            // A past job that ended long ago is a reason to ask after it.
+            ...(past?.endsAt &&
+            Number(core.date.slice(zero, core.date.indexOf("-"))) -
+              Number(past.endsAt.slice(zero, past.endsAt.indexOf("-"))) >=
+              LONG_AGO_YEARS
+              ? { "long-ago": { text: "yes", sourceRecordIds: [org.id] } }
+              : {}),
           },
         });
     }
@@ -2078,6 +2097,18 @@ function endConversation(
   conversation.lies = [];
   const { playerId, otherId } = conversation;
   if (conversation.lines.at(-one)?.kind === "farewell") return;
+  // Nobody says goodbye right after their own question was answered
+  // ("Do you remember the school?" "Yes." "Okay, bye." is not a talk): the
+  // answer is where it stops, or the asker has gone on to something else.
+  const lastFromOther = [...conversation.lines]
+    .reverse()
+    .find((line) => line.speakerId === otherId && line.kind !== "ack");
+  if (
+    lastFromOther &&
+    /\?$/.test(lastFromOther.text.trim()) &&
+    conversation.lines.indexOf(lastFromOther) < conversation.lines.length - one
+  )
+    return;
   // People who live together close a talk as housemates do: never "Come
   // back soon." at home, and no hello passed on to their own family.
   const housemate =

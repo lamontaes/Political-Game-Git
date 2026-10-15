@@ -391,17 +391,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(kin.length).toBeGreaterThan(0);
   });
   it("remembers the last talk's topic and opens the next one with something else", () => {
-    // A shared school no longer opens a talk (owner, Oct 15, evening): the
-    // first talk opens on a recorded moment the two share, from the ledger.
-    const book = director.ledger.people.get(player.id)!;
+    // Any topic a talk keeps to is remembered by the listener: the next talk
+    // with the same person opens on another (a shared school is not an opener).
     let checked = 0;
-    for (const moment of book.moments) {
-      const otherId = moment.counterpartIds.find((id) => me.knownIds.has(id));
-      if (!otherId) continue;
-      const first = openConversation(core, player.id, otherId, {
-        director,
-        occasionId: moment.id,
-      });
+    for (const otherId of others.slice(0, 15)) {
+      const first = openConversation(core, player.id, otherId, { director });
       if (!first.choices.length || !first.topics[0]) continue;
       say(core, first, first.choices[0]!.key);
       const next = openConversation(core, player.id, otherId, { director });
@@ -410,6 +404,51 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       if (checked >= 5) break;
     }
     expect(checked).toBeGreaterThan(0);
+  });
+  it("never opens on a school or an old job without a reason, and a question answered is followed up, not answered with goodbye", () => {
+    // 15 talks in a drawn place. Owner, Oct 15, evening (batch 12 rejected).
+    const reason = /remember|go to school|work at|work for/i;
+    let talks = 0;
+    let checkedPairs = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const talk = openConversation(core, player.id, otherId, { director });
+      talks += 1;
+      // Rule 1: a shared school or workplace is raised only with a reason.
+      const subjects = subjectsBetween(core, player.id, otherId, director);
+      for (const row of subjects)
+        if (row.kind === "shared-school" || row.kind === "shared-work") {
+          const long = !!row.facts["long-ago"];
+          const said = talk.lines.some((line) =>
+            line.subjectId.includes(row.id),
+          );
+          if (said) expect(long).toBe(true);
+        }
+      for (let turn = 0; turn < 5 && talk.choices.length; turn += 1) {
+        // A yes or no (or any reply) to the other person's question.
+        const choice =
+          talk.choices.find((row) => /^(yes|no|yeah|nope)\b/i.test(row.text)) ??
+          talk.choices[0]!;
+        say(core, talk, choice.key);
+        void reason;
+      }
+      // Rule 2 and 3: a farewell is never the next thing said after the
+      // other person's own question was answered (an ack may sit between).
+      talk.lines.forEach((line, at) => {
+        if (line.kind !== "farewell") return;
+        let back = at - 1;
+        while (back >= 0 && talk.lines[back]!.kind === "ack") back -= 1;
+        const answer = talk.lines[back];
+        const asked = talk.lines[back - 1];
+        if (answer && answer.speakerId === player.id && asked) {
+          checkedPairs += 1;
+          expect(
+            asked.speakerId === talk.otherId && /\?$/.test(asked.text.trim()),
+          ).toBe(false);
+        }
+      });
+    }
+    expect(talks).toBe(Math.min(15, others.length));
+    expect(checkedPairs).toBeGreaterThan(0);
   });
   it("tells a job the worker chose to leave apart from a lost one, by the end's own record", () => {
     // Last: it ends the player's job. A quit (hired elsewhere) is a job left,

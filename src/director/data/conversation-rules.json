@@ -1,5 +1,14 @@
 {
   "about": "How conversations run on the new core: the events they record, how many choices the player gets, and which subject a reply or a raised subject is worded under. No sentence text: every line is a mined sentence from data/english/parts/conversation.json.",
+  "sharedPast": {
+    "about": "Owner, Oct 15, evening (batch 12 rejected): nobody opens a talk with 'Do you remember <school>?' or 'Did you work at <employer>?'. A shared school or workplace is raised only when something recorded happened to it (not built yet) or when this many years have passed since, so the question has a reason. The record supplies the fact long-ago; the parts need it.",
+    "longAgoYears": {
+      "value": 20,
+      "tag": "TUNABLE",
+      "spread": [10, 30],
+      "checkedAgainst": "Class reunions are held at 10, 20 and 25 years; below ten years people see the same classmates; checked against the spread of years in the generated past."
+    }
+  },
   "toldEvent": "conversation.told",
   "lieEvent": "conversation.lie",
   "minutesPerExchange": 2,

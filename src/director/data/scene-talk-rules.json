@@ -1,0 +1,33 @@
+{
+  "schema": "director-scene-talk-rules/1",
+  "note": "How a scene with a purpose picks the player's path. Moves only, no sentence. `moveActs` maps each reply move to the act kinds the trait engine scores (data/content/trait-act-pulls.json): a reply move is leaned toward when the player's traits pull toward its acts. Nothing here is a roll; a tie goes to the stable hash of the scene.",
+  "moveActs": {
+    "agree": ["cooperate", "commit"],
+    "accept": ["concede", "cooperate"],
+    "relent": ["concede"],
+    "refuse": ["refuse", "confront"],
+    "decline": ["refuse", "play-safe"],
+    "withdraw": ["withdraw", "play-safe"],
+    "bargain": ["engage", "self-interest"],
+    "stall": ["delay", "play-safe"],
+    "deflect": ["delay", "stay-quiet"],
+    "ask": ["engage"],
+    "request": ["engage", "self-interest"],
+    "answer": ["speak-out", "trust"],
+    "tell": ["speak-out", "trust"],
+    "thank": ["cooperate"],
+    "promise": ["commit", "cooperate"],
+    "offer": ["help-others", "engage"],
+    "comfort": ["help-others"],
+    "apologize": ["concede", "help-others"],
+    "blame": ["confront", "self-interest"],
+    "disagree": ["confront", "speak-out"],
+    "confront": ["confront", "take-risk"],
+    "boast": ["speak-out", "take-risk"],
+    "press": ["confront", "engage"],
+    "plea": ["engage", "help-others"],
+    "threaten": ["confront", "self-interest"],
+    "warn": ["confront", "speak-out"]
+  },
+  "terminalFollow": ["thank", "accept"]
+}
