@@ -1596,8 +1596,8 @@
     "why": "The core opening never imports the town's public schools as an employer (no service:school jobs in generated worlds), so a public-school pay law has no one to reach.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered.",
-    "status": "open"
+    "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered. Done Oct 15: the district import (opening-public-schools.ts) had already landed; the private-school stand-in in law-reach/group-b.ts and its data row are deleted, so the salary floor and the schools line reach only public school staff.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-transit-fare-price",

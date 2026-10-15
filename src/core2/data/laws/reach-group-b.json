@@ -409,7 +409,6 @@
       },
       "payroll": {
         "classifications": ["service:school"],
-        "standIn": ["service:private-school"],
         "compensationShare": "schoolCompensationShare"
       }
     },
