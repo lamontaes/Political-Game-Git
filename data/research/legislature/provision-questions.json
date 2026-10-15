@@ -17,6 +17,16 @@
       "question": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
       "raiseIs": -1,
       "why": "Raising a sales tax runs against lightening sales taxes on necessities, the side the grocery-exemption question measures; an estimate of how members read it."
+    },
+    "estate-tax": {
+      "question": "us-policy-positions:fiscal.graduated-income-tax",
+      "raiseIs": 1,
+      "why": "Raising the estate tax puts more of the burden on the wealthiest households, the side the graduated-income-tax question measures; an estimate of how members read it until the catalog has its own question."
+    },
+    "inheritance-tax": {
+      "question": "us-policy-positions:fiscal.graduated-income-tax",
+      "raiseIs": 1,
+      "why": "Raising the inheritance tax puts more of the burden on the wealthiest households, the side the graduated-income-tax question measures; an estimate of how members read it until the catalog has its own question."
     }
   },
   "budget": {
