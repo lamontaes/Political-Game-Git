@@ -35,6 +35,8 @@ import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
+import { boardGoverningBodyRules } from "../../src/core2/gov-rules/township-governing-body-rules";
+import { governmentUnit } from "../../src/core2/reference/government-units";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
 import type { EnglishBank } from "./bank-compose";
@@ -307,6 +309,14 @@ function readWorld(place: Place): {
       /\bOf\b/g,
       "of",
     );
+    // A county or township board is named by its own record (batch 11: the
+    // "County of Darlington commissioner" was a member's title, not the body).
+    const unit = governmentUnit(String(office.jurisdiction));
+    const board =
+      unit && /board$/.test(String(office.kind))
+        ? boardGoverningBodyRules(unit)
+        : null;
+    if (board?.bodyName) return `${gov} ${lowerFirst(board.bodyName)}`;
     const title = String(office.title).replace(/\s+members?$/i, "");
     const noun =
       /council|board|commission|committee|trustees|selectm|supervisors/i.test(
@@ -688,6 +698,7 @@ function readWorld(place: Place): {
     .table("filings")
     .rows() as any[];
   let decided = 0;
+  const unnamedWinners: string[] = [];
   for (const result of results) {
     const field = allFilings.filter((f) => f.contestId === result.contestId);
     const winner =
@@ -697,6 +708,13 @@ function readWorld(place: Place): {
     const loser = field.find((f) => f.personId !== winner)?.personId;
     const office = contestOf.get(result.contestId)?.title;
     if (!winner || !loser) continue;
+    // A result whose winner is recorded by an official's term id, not a
+    // person, has no one to speak (batch 11: "official:term:seat:...: I am
+    // humbled."); it is left out and filed.
+    if (!personOf(winner) || !personOf(loser)) {
+      unnamedWinners.push(String(result.winnerId));
+      continue;
+    }
     decided += 1;
     turns.push({
       register: "victory",
@@ -936,6 +954,10 @@ function readWorld(place: Place): {
         });
       });
   }
+  if (unnamedWinners.length)
+    gaps.push(
+      `defect for OPUS-GOV: ${unnamedWinners.length} race result(s) record the winner as an official's term, not a person (${unnamedWinners.slice(0, 3).join(", ")}), so no one could give the election-night speech; those races are left out`,
+    );
   if (!decided)
     gaps.push(
       "no race was decided by the end of the run, so victory and concession lines (which need a recorded winner and loser) cannot be produced",
