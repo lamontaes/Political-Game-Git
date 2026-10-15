@@ -4,9 +4,9 @@ title: "Powers by level: what each government may legislate, tax and spend on"
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-powers-verify
-pr:
+pr: #4528
 blocked-on:
 milestone:
 source: "overnight pool item 8"
