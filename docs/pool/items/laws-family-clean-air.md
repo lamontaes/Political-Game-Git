@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: pool/laws-family-clean-air
 pr:
 blocked-on:
 milestone:
