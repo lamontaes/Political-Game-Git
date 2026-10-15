@@ -2369,6 +2369,11 @@ export interface CommitteeRecord {
   readonly chairId: string;
   readonly memberIds: readonly string[];
   readonly heard: boolean;
+  readonly votes: readonly {
+    readonly memberId: string;
+    readonly vote: "yes" | "no" | "abstain";
+    readonly position: MemberPosition;
+  }[];
   readonly witnesses: readonly {
     readonly personId: string;
     readonly stake: string;
@@ -2515,14 +2520,27 @@ function committeeStage(
   // its most opposed member may move a pill, as on the floor.
   if (heard)
     floorAmendments(api, bill, chamber, "committee", roster.map(memberKey));
-  let yes = 0;
-  let no = 0;
+  const votes: CommitteeRecord["votes"][number][] = [];
   if (heard)
     for (const member of roster) {
-      const total = memberPosition(api, bill.id, memberKey(member)).total;
-      if (total > 0) yes += 1;
-      if (total < 0) no += 1;
+      const memberId = memberKey(member);
+      const position = memberPosition(api, bill.id, memberId);
+      const chosen = table(api, "choices").get(
+        `${bill.id}|${memberId}`,
+      ) as unknown as { vote: "yes" | "no" | "abstain" } | undefined;
+      const vote =
+        chosen?.vote ??
+        (memberId === (api.state as CoreState).playerId
+          ? "abstain"
+          : position.total > 0
+            ? "yes"
+            : position.total < 0
+              ? "no"
+              : "abstain");
+      votes.push({ memberId, vote, position });
     }
+  const yes = votes.filter((v) => v.vote === "yes").length;
+  const no = votes.filter((v) => v.vote === "no").length;
   const record: CommitteeRecord = {
     id: `committee:${bill.id}:${chamber}`,
     billId: bill.id,
@@ -2531,6 +2549,7 @@ function committeeStage(
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),
     heard,
+    votes,
     witnesses,
     yes,
     no,
@@ -2653,15 +2672,19 @@ function floorAmendments(
   if (roll.length < 3) return start;
   const need = Math.floor(roll.length / 2) + 1;
   let current = start;
-  const totals = new Map(
-    roll.map((k) => [k, positionOn(api, current, k).total] as const),
-  );
-  let yes = [...totals.values()].filter((t) => t > 0).length;
+  const totals = new Map<string, number>();
+  const recount = () => {
+    for (const k of roll) totals.set(k, positionOn(api, current, k).total);
+    return [...totals.values()].filter((t) => t > 0).length;
+  };
+  let yes = recount();
   const adopt = (
     section: Provision,
     memberId: string,
     kind: "trade-amendment" | "poison-pill",
   ) => {
+    const supportBefore = yes;
+    const memberBefore = totals.get(memberId)!;
     current = {
       ...current,
       provisions: [...current.provisions, section],
@@ -2676,6 +2699,7 @@ function floorAmendments(
         },
       ],
     };
+    yes = recount();
     api.emit({
       id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
       date: api.state.date,
@@ -2696,6 +2720,10 @@ function floorAmendments(
         number: current.number,
         chamber,
         stage,
+        supportBefore: String(supportBefore),
+        supportAfter: String(yes),
+        memberBefore: String(memberBefore),
+        memberAfter: String(totals.get(memberId)!),
         movedBy: memberId,
         kind,
         question: section.question!,
@@ -2711,6 +2739,8 @@ function floorAmendments(
       .sort((a, b) => totals.get(b)! - totals.get(a)! || a.localeCompare(b));
     for (const k of holdouts) {
       if (yes >= need) break;
+      // An earlier section may already have won this member over.
+      if (totals.get(k)! > 0) continue;
       const [section] = ownSections(api, current, k, 1);
       if (!section) continue;
       const amended: BillRow = {
@@ -2728,7 +2758,6 @@ function floorAmendments(
       if (bound.some((m) => positionOn(api, amended, m).total <= 0)) continue;
       if (positionOn(api, amended, k).total <= 0) continue;
       adopt(section, k, "trade-amendment");
-      yes += 1;
     }
   }
   // A poison pill, from the member most against a bill that would pass.
