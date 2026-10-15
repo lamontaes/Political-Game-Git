@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4456
 blocked-on: core-census-weight-model
 milestone:
 source: "split of core-town-size-census (L); left over from core-census-weight-model"
@@ -22,3 +22,5 @@ source: "split of core-town-size-census (L); left over from core-census-weight-m
 **Files.** src/core2/modules/counted-moves.ts, src/core2/housing-foreclosure.ts, src/core2/housing-homeless.ts, src/core2/credit-deposits.ts, src/core2/law-reach/group-b-people.ts, src/core2/modules/residents.ts, src/core2/modules/meetings.ts
 
 **Notes.** Found by the session that built core-census-weight-model (PR for that item). The electorate rows (`src/core2/electorate.ts`) belong to elections-census-weight-electorate.
+
+Session handed off Oct 15, 2026: PR #4456 (claude/core-census-weight-readers, stacked on #4436) holds the people-count readers; pool/core-census-weight-readers has an extra WIP commit (df8eb8f: credit-deposits, housing-homeless, law-reach group-b money/people, a new test, a new item core-census-weight-arrears-readers) not in the PR; remainder: reconcile that commit with the PR or drop it, the money readers go to core-census-weight-money.

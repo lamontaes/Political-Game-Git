@@ -4,9 +4,9 @@ title: "A town year is still over 120 seconds after the monthly price fix (about
 area: core
 kind: bug
 priority: 1
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4447
 blocked-on:
 milestone:
 source: "found by the session that took core-year-over-120s"
@@ -21,3 +21,5 @@ source: "found by the session that took core-year-over-120s"
 **Files.** src/core2/journal-state.ts, src/core2/journal.ts, src/core2/modules/ (campaigns, press, housing), src/core2/counted-money.ts
 
 **Notes.** Method: a scratch script around `buildBenchWorld` (two-level, `placeKey`), `advanceCore` per day, a CPU profile over 30 days in October. The hot path fixed first was `month` in `src/core2/modules/place-prices.ts`.
+
+Session handed off Oct 15, 2026: PR #4447 (cash journal checks only with bookkeeping on) gives Garden City 119.9 s, Exeter 133.2 s; PR #4410 adds a 64 MiB young-generation flag (Exeter 116.5 s) untested in the packaged app; remainder: land both, verify the flag in Electron, confirm both towns under 120 s.

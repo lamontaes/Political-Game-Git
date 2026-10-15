@@ -22,3 +22,5 @@ source: "split from core-outside-flow-provenance-gate; stopgap SG-GOV-outside-re
 **Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
 **Notes.** Blocks `core-outside-flow-provenance-gate`. See also the open item `gov-stopgap-budgets-faked-mechanic`.
+
+Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.
