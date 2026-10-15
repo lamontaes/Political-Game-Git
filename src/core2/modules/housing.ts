@@ -880,12 +880,20 @@ function moveInAndOut(api: CoreAPI): void {
  */
 function rehouse(api: CoreAPI): void {
   const c = core(api);
+  // The town's typical rent, worked out once a month for each place.
+  const typicalAt = new Map<string, number>();
+  const typicalRent = (placeId: string) => {
+    let value = typicalAt.get(placeId);
+    if (value === undefined)
+      typicalAt.set(placeId, (value = townFigures(api, placeId).rentMinor));
+    return value;
+  };
   reviewHomeless(
     api,
     (householdId) => {
       const placeId = c.households.get(householdId)?.placeId;
       // The town's typical rent; its own last rent where the town has no other renters.
-      const typical = placeId ? townFigures(api, placeId).rentMinor : 0;
+      const typical = placeId ? typicalRent(placeId) : 0;
       return typical > 0
         ? typical
         : (c.finance.contracts.get(`lease:${householdId}`)?.amountMinor ?? 0);
@@ -2604,13 +2612,15 @@ export function ownedHomes(
       store(api).table("state").get("housing:state") as
         { openedAt: string } | undefined
     )?.openedAt ?? c.date;
+  // The opening's values move with prices since the opening: worked out once, on first need.
+  let ratio: number | undefined;
   const prices = () =>
-    homePriceRatio(
+    (ratio ??= homePriceRatio(
       c.placeMetadata?.housingState ?? "",
       opened,
       c.date,
       macroPrices(api),
-    );
+    ));
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
   for (const row of store(api).table("dwellings").rows() as unknown as {
