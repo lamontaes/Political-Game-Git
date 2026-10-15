@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** Bribes are offered only when a bill has money at stake for someone. Bills proposed by the background bodies (other governments) carry no stakes the interest groups can read, so bribes there have no cause. Give each such bill the money it moves, from the bill's own provisions.
 
-**Rules.** TODO
+**Rules.** No dice; an effect is a read; one rule, all 56 places; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** In a one-year run of a drawn place, an offered bribe cites a background body's bill and the money it moves, by bill and offer record ids.
 
-**Files.** TODO
+**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/corruption.ts
 
-**Notes.** TODO
+**Notes.** Split out of gov-needs-opus-gov-209 (line 209 of OPUS-GOV.md), which built the voting and polling-place reads. Not checked against main beyond a search.
