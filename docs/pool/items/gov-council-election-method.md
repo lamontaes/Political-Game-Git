@@ -4,9 +4,9 @@ title: "Council election method from place data"
 area: gov
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-council-election-method
-pr:
+pr: #4473
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
