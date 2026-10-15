@@ -91,3 +91,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 10. Core Needs from other sessions list — first Session D, `pool/renewal-snapshot` first bounded engine: renewal initialization survives snapshot restore; active source owners retained for their existing repairs, remaining list items stay tracked.
 
 - 10. OPUS-GOV Needs from other sessions list — second Session D, `pool/department-budget-requests` first bounded wiring item: a budget with no executive proposal reads the existing department requests; other listed law, election, office and Words work retains its active owner.
+
+- 10. Core handoff, health runtime snapshot — `pool/health-snapshot` (first Session D, follows renewal #4364; health runtime only, no director/English changes).

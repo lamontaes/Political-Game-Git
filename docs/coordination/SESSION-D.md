@@ -11,6 +11,8 @@
 - Next unclaimed gap taken: [draft #4356](https://github.com/lamontaes/Political-Game-Git/pull/4356), cause-group founding. Verification is unfinished: the ordinary year had no groups (82.88 seconds), and a player-choice probe received no organizing/founding offers (83.34 seconds). No source change or stopgap closure. Next: trace event-to-drive and organizing prerequisites; do not replace this missing proof with paperwork or an invented group.
 - The pool is not complete. All drafts include release declarations and state their proof limits. No helpers, self-merges, full suites or branch deletion. Claims were merged with the second worker's changes using ordinary pushes.
 
-- Item 9 claimed: `pool/death-news-records`, audit defect 6, health death publication into existing news readers. No English or director changes.
+- Item 9: draft #4362 verifies the existing death/news chain in Exeter: four official deaths and 1210 person/story hearing records. No runtime change; main speed fails at 146.11 seconds. The initial capture filter was corrected on the same seed. No English or director changes.
 
 - Item 10 claimed: core Needs from other sessions list; first branch `pool/renewal-snapshot`, renewal initialization restore. Other list entries remain unfinished and active owners retain their repairs.
+
+- Item 10, renewal: draft #4364, 4/4 tests and changed-file gates pass; played Elko year 107.40 seconds versus 107.85. Birth person_012610f060a1f993 reaches household and health records. Renewal snapshot initialization is covered; whole-game snapshot coverage remains incomplete. Next claimed engine: `pool/health-snapshot`, health runtime persistence.
