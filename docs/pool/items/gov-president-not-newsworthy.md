@@ -4,8 +4,8 @@ title: "National outlets print none of a sitting president's acts"
 area: gov
 kind: bug
 priority: 2
-status: claimed
-claimed-by: claude/political-game-pool-g2977r
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:

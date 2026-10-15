@@ -4,9 +4,9 @@ title: "Day and Week buttons, and the calendar's skip-forward icon"
 area: play
 kind: feature
 priority: 1
-status: in-pr
+status: open
 claimed-by:
-pr: #4410
+pr:
 blocked-on:
 milestone: M6
 source: "owner, Oct 15"
@@ -21,5 +21,3 @@ source: "owner, Oct 15"
 **Files.** `src/bench/player.ts`, `src/bench/play.mjs`, `src/bench/controls.json`, the calendar sheet.
 
 **Notes.** Supersedes the Oct 14 "no skip-ahead" ruling; see OWNER-DECISIONS.md, Oct 15 afternoon.
-
-**Built (claude/political-game-pool-g2977r).** `BenchPlayer.advance` takes `day`, `week` or `to` (a later date); the old `skip` lookahead and `calendar` modes are gone, and their callers (tests, `m0-check.ts`, `path-check.ts`) pass a date. A Week button sits beside Day; the calendar's labeled "Live until this day" button is now an icon with no visible text (its name stays for screen readers). Checked in Tabernash, Colorado (browser script `src/bench/time-controls.browser.mjs`) and by skipping a year in Revere, Massachusetts (24 stops, each on its own day). Merges on the owner's yes.
