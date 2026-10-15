@@ -296,6 +296,19 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.8.1
+
+_Released October 15, 2026._
+
+### Improved
+
+- **An assistance work requirement now stops benefits after three months** When
+  a state requires work for assistance, adults who work fewer than 20 hours a
+  week stop receiving the welfare benefit a raised budget line pays after three
+  months, and the money goes to the households still drawing. Repealing the
+  requirement pays them again. Two benefit changes on the same day no longer
+  clash.
+
 ## PRE-ALPHA 0.8.0
 
 _Released October 15, 2026._

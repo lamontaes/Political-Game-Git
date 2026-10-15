@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 status: in-pr
-claimed-by: claude/world-sales-tax-shortfall
+claimed-by:
 pr: #4419
 blocked-on:
 milestone:
