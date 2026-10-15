@@ -18,7 +18,11 @@ import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLean } from "../choice";
 import { traitLeanBetween } from "../trait-decisions";
-import { ownerOf } from "./business";
+import {
+  businessTradingMonth,
+  ownerOf,
+  type BusinessTradingMonth,
+} from "./business";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { regionalMonth } from "./regional";
 import { residentPerson, residentsRuntime } from "./residents";
@@ -111,6 +115,8 @@ interface EmployerRow {
   openingStaff: number;
   /** Fractional staffing need carried between reviews: positive hires, negative lays off. */
   need: number;
+  /** Sales-supported staff, smoothed as receipts arrive across paydays. */
+  salesStaff?: number;
   /** A new business's template for its first roles. */
   templateFromId?: string;
   /** The staff mix at the opening: each role's head count and a job to copy for it. */
@@ -261,6 +267,7 @@ function record(
     reasonKey: string;
     decidedBy: string;
     values?: Readonly<Record<string, number>>;
+    tradingId?: string;
   },
 ): void {
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
@@ -706,6 +713,20 @@ export function seasonalStaffing(
   return factors[month(date)]! / factors[month(openedAt)]!;
 }
 
+/** Persistent losses reduce affordable staff; a profitable month restores it smoothly. */
+export function affordableStaff(
+  projected: number,
+  staff: number,
+  trading: BusinessTradingMonth | undefined,
+): number {
+  if (!trading || trading.payrollMinor <= 0) return projected;
+  const deficit = Math.max(0, trading.costsMinor - trading.salesMinor);
+  if (deficit === 0) return projected;
+  const unaffordable = staff * Math.min(1, deficit / trading.payrollMinor);
+  const persistence = trading.lossMonths / (1 + trading.lossMonths);
+  return Math.min(projected, Math.max(0, staff - unaffordable * persistence));
+}
+
 function reviewEmployers(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -722,7 +743,7 @@ function reviewEmployers(api: CoreAPI): void {
     const jobs = currentJobs(api, row.id),
       positions = [...openPositions(api, row.id)];
     if (!jobs.length && !positions.length && !row.templateFromId) continue;
-    const target =
+    const projected =
       (book.capacityMinor > 0
         ? // Real demand: the books' demand in the business's own opening prices.
           (row.openingStaff * book.annualDemandMinor) /
@@ -730,6 +751,27 @@ function reviewEmployers(api: CoreAPI): void {
         : row.openingStaff) *
       // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
       seasonalStaffing(book.kindId, c.date, opened);
+    const trading = businessTradingMonth(api, row.id);
+    const observedStaff =
+      trading && trading.days > 0 && book.capacityMinor > 0
+        ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
+          (trading.days *
+            (book.price / book.anchorPrice || 1) *
+            book.capacityMinor)
+        : projected;
+    const previousSalesStaff = row.salesStaff ?? projected;
+    const salesStaff =
+      previousSalesStaff +
+      p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff);
+    // The market forecast already reads regional and national conditions.
+    // Actual receipts let firms diverge when customers pay different sellers.
+    const demandTarget =
+      projected * (1 - p("jobsSalesForecastWeight")) +
+      salesStaff * p("jobsSalesForecastWeight");
+    const target =
+      trading && trading.lossMonths > 0
+        ? affordableStaff(demandTarget, jobs.length, trading)
+        : demandTarget;
     const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
     const cash = c.organizations.get(row.id)!.liquidMinor;
     // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
@@ -753,10 +795,17 @@ function reviewEmployers(api: CoreAPI): void {
     }
     if (!positions.length || excess === 0) carry = 0;
     const gap = target - jobs.length - positions.length;
+    // A firm losing money cannot defer the unaffordable payroll as long as
+    // an ordinary demand adjustment. The same loss memory that supports a
+    // closure moves its response smoothly toward the full staffing gap.
+    const lossPressure =
+      (trading?.lossMonths ?? 0) / (1 + (trading?.lossMonths ?? 0));
+    const adjustment = p("jobsStaffGapActedPerMonth");
+    const shrinkAdjustment = adjustment + (1 - adjustment) * lossPressure;
     // Replacements for leavers count only while staff is below target; above it, attrition does the shrinking.
     let need =
       (gap > 0 ? row.need : Math.min(row.need, 0)) +
-      p("jobsStaffGapActedPerMonth") * (gap > 0 ? gap * reach : gap);
+      (gap > 0 ? adjustment * gap * reach : shrinkAdjustment * gap);
     // A new business's first roles come from its template business.
     const from =
       jobs.length || !row.templateFromId ? row.id : row.templateFromId;
@@ -829,6 +878,7 @@ function reviewEmployers(api: CoreAPI): void {
         });
       need -= 1;
     }
+    const jobChangeIds: string[] = [];
     while (need <= -1) {
       if (positions.length) {
         const position = positions.pop()!;
@@ -838,13 +888,66 @@ function reviewEmployers(api: CoreAPI): void {
       } else {
         const staff = currentJobs(api, row.id);
         if (!staff.length) break;
-        layOff(api, row.id, staff, {
-          target,
-          demand: book.annualDemandMinor,
-          capacity: book.capacityMinor,
-        });
+        const changeId = layOff(
+          api,
+          row.id,
+          staff,
+          {
+            target,
+            projected,
+            observedStaff,
+            salesStaff,
+            shrinkAdjustment,
+            demand: book.annualDemandMinor,
+            capacity: book.capacityMinor,
+            ...(trading
+              ? {
+                  salesMinor: trading.salesMinor,
+                  payrollMinor: trading.payrollMinor,
+                  costsMinor: trading.costsMinor,
+                  complianceMinor: trading.complianceMinor,
+                  lossMonths: trading.lossMonths,
+                }
+              : {}),
+          },
+          trading?.id,
+        );
+        if (changeId) jobChangeIds.push(changeId);
       }
       need += 1;
+    }
+    if (jobChangeIds.length) {
+      // The employer's staffing announcement goes to the existing press wire;
+      // reporters decide whether to cover it. Private claims are not published.
+      const owner = ownerOf(api, row.id);
+      api.emit({
+        id: `event:business.staff-reduced:${row.id}:${c.date}`,
+        date: c.date,
+        kind: "business.staff-reduced",
+        personIds: owner && c.people.has(owner) ? [owner] : [],
+        placeId: c.organizations.get(row.id)!.placeId,
+        topic: row.id,
+        publicRecord: true,
+        facts: {
+          organizationId: row.id,
+          jobChangeIds: JSON.stringify(jobChangeIds),
+          jobsLost: String(jobChangeIds.length),
+          projectedStaff: String(projected),
+          targetStaff: String(target),
+          ...(trading
+            ? {
+                tradingId: trading.id,
+                salesMinor: String(trading.salesMinor),
+                costsMinor: String(trading.costsMinor),
+                lossMonths: String(trading.lossMonths),
+              }
+            : {}),
+        },
+        source: source(
+          api,
+          "The employer's staffing decision and completed trading month.",
+        ),
+      });
     }
     // Leavers not refilled this month wait while staff is below target; above it, attrition does the shrinking.
     store(api)
@@ -852,6 +955,7 @@ function reviewEmployers(api: CoreAPI): void {
       .put({
         ...row,
         need,
+        salesStaff,
         withdrawCarry: carry,
         leavers: gap > 0 ? leavers : [],
       });
@@ -906,7 +1010,8 @@ function layOff(
   organizationId: string,
   staff: readonly JobInput[],
   values: Readonly<Record<string, number>>,
-): void {
+  tradingId?: string,
+): string | undefined {
   const c = core(api),
     reliability = jobsData.traits.reliability;
   const keep = (job: JobInput) =>
@@ -934,6 +1039,7 @@ function layOff(
     reasonKey: jobsData.reasons.layoff,
     decidedBy: decidedBy ?? organizationId,
     values: { ...values, keepScore },
+    ...(tradingId ? { tradingId } : {}),
   });
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
@@ -976,6 +1082,7 @@ function layOff(
       jobsData.reasons.layoff,
       job.hourlyMinor ?? 0,
     );
+  return `job-change:${api.state.date}:${job.id}:layoff`;
 }
 
 /** Each worker: stay, look around, or leave work, from pay against the going rate, savings, needs and traits. */
