@@ -33,7 +33,7 @@ import { policyNames, schoolsOf } from "../../src/bench/words";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
-import type { CoreState } from "../../src/core2/types";
+import type { CoreState, PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
@@ -41,7 +41,7 @@ import type { EnglishBank } from "./bank-compose";
 import { composeAddress } from "../../src/english/english-composition";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
 import { REGISTER_CARDS } from "../../src/english/speech-registers";
-import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 import {
   addressMoves,
@@ -57,7 +57,16 @@ import {
   type IndexedPart,
   type Variant,
 } from "./mined-variants";
-import { headCommit, playLives } from "./play-lives";
+import { hashOf, headCommit, MAX_TURNS } from "./play-lives";
+import {
+  CONVERSATION_DATA,
+  openConversation,
+  say,
+  type Conversation,
+  type ConversationChoice,
+} from "../../src/director/conversation";
+import type { Director } from "../../src/director/ledger";
+import { composeScene } from "../../src/director/scene";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
@@ -206,6 +215,8 @@ interface Place {
 
 function readWorld(place: Place): {
   raws: Raw[];
+  /** The player's talks and the family scenes, each turn's whole choice set. */
+  talks: SceneItem[];
   gaps: string[];
   stood: string[];
   /** The local laws the year passed, by number and title. */
@@ -223,8 +234,8 @@ function readWorld(place: Place): {
     ...new Set([world.playerId!, ...me.familyIds, ...me.knownIds]),
   ].slice(0, 24);
   for (const person of circle) world.director.watch(core, person);
-  advanceCore(core, addDays(makeIsoDate(core.date), days));
   const town = place.name.split(",")[0]!;
+  const talks = playYear(core, world.director, world.playerId!, town);
   const raws: Raw[] = [];
   const gaps: string[] = [];
   const stood: string[] = [];
@@ -981,7 +992,205 @@ function readWorld(place: Place): {
   const passed = enacted
     .filter((bill) => titleOf(bill))
     .map((bill) => `${bill.number} ("${titleOf(bill)}")`);
-  return { raws, gaps, stood, passed };
+  return { raws, talks, gaps, stood, passed };
+}
+
+/* ------------------------------------------------- talks and family scenes */
+
+/** How many of the town's families with a young person are watched for family scenes. */
+const FAMILY_HOUSEHOLDS = 60;
+/** The player starts a talk with someone they know every this many days. */
+const TALK_EVERY = 12;
+
+/**
+ * Plays the year day by day as the director plays it (owner, Oct 14, 2026,
+ * night): every so often the player talks with someone they know, opened from
+ * the director's ledger, and the families of the town's young people are
+ * watched as the bench watches a player's household, so a family scene fires
+ * at home when a household's own records make one apply. Each family scene is
+ * composed on its own day and its talk played through, asking for more where a
+ * reply does. Which reply the player picks is a stable hash of the day and the
+ * turn: tooling standing in for a player, never an actor's decision.
+ */
+function playYear(
+  core: CoreState,
+  director: Director,
+  playerId: PersonId,
+  town: string,
+): SceneItem[] {
+  const nameOf = (id: PersonId) => {
+    const row = core.people.get(id);
+    return row ? `${row.givenName} ${row.familyName}` : id;
+  };
+  const ageOf = (id: PersonId) =>
+    ageOnDate(
+      makeIsoDate(core.people.get(id)!.birthDate),
+      makeIsoDate(core.date),
+    );
+  const families = [...core.households.values()]
+    .filter((household) => {
+      const members = household.memberIds.filter(
+        (id) => core.people.get(id)?.alive,
+      );
+      return (
+        members.some((id) => ageOf(id) < 18) &&
+        members.some((id) => ageOf(id) >= 18)
+      );
+    })
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .slice(0, FAMILY_HOUSEHOLDS);
+  const young = families.flatMap((household) =>
+    household.memberIds.filter(
+      (id) => core.people.get(id)?.alive && ageOf(id) < 18,
+    ),
+  );
+  for (const household of families)
+    for (const id of household.memberIds)
+      if (core.people.get(id)?.alive) director.watch(core, id);
+  const seen = new Map<PersonId, number>(
+    young.map((id) => [
+      id,
+      director.ledger.people.get(id)?.schedule.length ?? 0,
+    ]),
+  );
+  const items: SceneItem[] = [];
+  const turnsOf = (
+    talk: Conversation,
+    day: number,
+    pickAsking: boolean,
+  ): {
+    said: SceneLine[];
+    choices: ConversationChoice[];
+    lies: ConversationChoice[];
+  }[] => {
+    const turns = [];
+    let said = 0;
+    for (let turn = 0; turn < MAX_TURNS && talk.choices.length; turn += 1) {
+      turns.push({
+        said: talk.lines.slice(said).map((line) => ({
+          speaker: nameOf(line.speakerId),
+          text: line.text,
+          parts: line.wording?.parts ?? [],
+        })),
+        choices: [...talk.choices],
+        lies: [...talk.lies],
+      });
+      said = talk.lines.length;
+      const asks =
+        CONVERSATION_DATA.tells?.[talk.lines.at(-1)?.kind ?? ""] ?? {};
+      const pick =
+        (pickAsking && talk.choices.find((choice) => asks[choice.move])) ||
+        talk.choices[
+          hashOf(seed, day, turn, talk.otherId) % talk.choices.length
+        ]!;
+      say(core, talk, pick.key);
+    }
+    return turns;
+  };
+  const choiceRows = (turn: {
+    choices: ConversationChoice[];
+    lies: ConversationChoice[];
+  }) => [
+    ...turn.choices.map((choice, n) => ({
+      n: n + 1,
+      text: choice.text,
+      parts: choice.wording?.parts ?? [],
+      lie: false,
+    })),
+    ...turn.lies.map((choice, n) => ({
+      n: turn.choices.length + n + 1,
+      text: choice.text,
+      parts: choice.wording?.parts ?? [],
+      lie: true,
+    })),
+  ];
+  for (let day = 0; day < days; day += 1) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    // Family scenes, from each young person's schedule.
+    for (const id of young) {
+      const book = director.ledger.people.get(id);
+      if (!book || !core.people.get(id)?.alive) continue;
+      const fresh = book.schedule.slice(seen.get(id) ?? 0);
+      seen.set(id, book.schedule.length);
+      for (const entry of fresh) {
+        const binding = entry.bindings[0];
+        if (
+          entry.outcome === "journal-line" ||
+          binding?.setting.kind !== "home"
+        )
+          continue;
+        const moment = book.momentsById.get(entry.momentId)!;
+        const scene = composeScene(core, director, id, entry);
+        if (!scene?.talkToId) continue;
+        const talk = openConversation(core, id, scene.talkToId, {
+          presentIds: scene.presentIds,
+          director,
+          occasionId: entry.momentId,
+        });
+        const turns = turnsOf(talk, day, true);
+        const narration = scene.narration.map((line) => ({
+          speaker: "Narrator",
+          text: line.text,
+          parts: [] as string[],
+        }));
+        turns.forEach((turn, at) => {
+          if (turn.choices.length < 2) return;
+          items.push({
+            i: -1,
+            kind: "family",
+            scene: `A family scene at home in ${town}, ${longDate(core.date)}: ${nameOf(id)}, ${ageOf(id)}, with ${nameOf(scene.talkToId!)}; turn ${at + 1}.`,
+            trace: [
+              `Fired by the director from the record ${moment.causeId} (${moment.label}), staged at home because it is the household's own news (situation "${binding.typeKey}").`,
+              "The talk opens on that record (the occasion), and asking for more is answered from the records (the jobs engine's search, the housing engine's case).",
+              "The replies are the four the engine offers this turn; say nothing is the smaller control beside them.",
+            ],
+            sourceRecordIds: [moment.causeId, id, scene.talkToId!],
+            lines: [
+              ...(at === 0 ? narration : []),
+              ...turns.slice(0, at + 1).flatMap((row) => row.said),
+            ],
+            test: "the choice set: mark each reply good or bad here, in this scene",
+            variants: [],
+            choices: choiceRows(turn),
+          });
+        });
+      }
+    }
+    // The player's own talks, opened from the director's ledger.
+    if (day % TALK_EVERY !== 0) continue;
+    const me = core.people.get(playerId)!;
+    const known = [...new Set([...me.knownIds, ...me.familyIds])]
+      .filter((id) => id !== playerId && core.people.get(id)?.alive)
+      .sort();
+    if (!known.length) continue;
+    const otherId = known[hashOf(seed, day, "known") % known.length]!;
+    const talk = openConversation(core, playerId, otherId, { director });
+    const turns = turnsOf(talk, day, false);
+    let fromTalk = 0;
+    turns.forEach((turn, at) => {
+      // Two turns at most from one talk, so the sets come from different people.
+      if (turn.choices.length < 2 || fromTalk >= 2) return;
+      fromTalk += 1;
+      items.push({
+        i: -1,
+        kind: "conversation",
+        scene: `${nameOf(playerId)} talks with ${nameOf(otherId)}, ${longDate(core.date)}, turn ${at + 1}; the talk's topic: ${talk.topics[0] ?? "none"}.`,
+        trace: [
+          "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
+          turn.lies.length
+            ? "The lies are what the scales offer: the same moves made false about the player's own record."
+            : "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+          "Say nothing is the smaller control beside the replies.",
+        ],
+        sourceRecordIds: [playerId, otherId, ...talk.topics],
+        lines: turn.said,
+        test: "the choice set: mark each reply and each lie good or bad here",
+        variants: [],
+        choices: choiceRows(turn),
+      });
+    });
+  }
+  return items;
 }
 
 /* ------------------------------------------------------------- selection */
@@ -1039,6 +1248,7 @@ export const SCENES = 30;
 
 /** How many scenes of each kind a batch may hold, so thirty are thirty different scenes. */
 const SCENE_CAPS: Record<string, number> = {
+  family: 6,
   journal: 6,
   conversation: 8,
   meeting: 5,
@@ -1082,71 +1292,6 @@ interface SceneItem {
   choices?: { n: number; text: string; parts: string[]; lie: boolean }[];
 }
 
-/** The conversations of one played life, each turn's whole choice set. */
-function conversationScenes(placeLife: number): {
-  scenes: SceneItem[];
-  place: Place | null;
-} {
-  // Two weeks of days, so the talks are with different people.
-  const played = playLives({ seed, lives: placeLife + 1, days: 14 }).at(-1)!;
-  const scenes: SceneItem[] = [];
-  for (const talk of played.conversations) {
-    let fromTalk = 0;
-    talk.turns.forEach((turn, at) => {
-      // Two turns at most from one talk, so the sets come from different people.
-      if (turn.choices.length < 2 || fromTalk >= 2) return;
-      fromTalk += 1;
-      // What was said since the player last spoke: the turn the replies answer.
-      const said = turn.said.map((line) => ({
-        speaker: line.speaker,
-        text: line.text,
-        parts: line.wording?.parts ?? [],
-      }));
-      const reach = talk.reachesOut[talk.playerId];
-      scenes.push({
-        i: -1,
-        kind: "conversation",
-        scene: `${talk.player} talks with ${talk.other}${talk.filledIn ? ", a neighbor met for the first time" : ""}, day ${talk.day + 1}, turn ${at + 1}.`,
-        trace: [
-          `The replies are the four the engine offers this turn, ranked by ${talk.player}'s traits (conversation.reply-reach: ${reach === undefined ? "no lean on record" : reach >= 0 ? `leans toward carrying the talk on, ${reach.toFixed(2)}` : `leans toward keeping it short, ${reach.toFixed(2)}`}).`,
-          turn.lies.length
-            ? "The lies are what the scales offer: the same moves made false about the player's own record."
-            : "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
-          "Say nothing is the smaller control beside the replies.",
-        ],
-        sourceRecordIds: [talk.playerId, talk.otherId],
-        lines: said,
-        test: "the choice set: mark each reply and each lie good or bad here",
-        variants: [],
-        choices: [
-          ...turn.choices.map((choice, n) => ({
-            n: n + 1,
-            text: choice.text,
-            parts: choice.wording?.parts ?? [],
-            lie: false,
-          })),
-          ...turn.lies.map((choice, n) => ({
-            n: turn.choices.length + n + 1,
-            text: choice.text,
-            parts: choice.wording?.parts ?? [],
-            lie: true,
-          })),
-        ],
-      });
-    });
-  }
-  return {
-    scenes,
-    place: {
-      life: played.life,
-      key: played.placeKey,
-      name: played.placeName,
-      state: played.state,
-      seed: played.seed,
-    },
-  };
-}
-
 function main() {
   // One place, with real local laws passing: draws are read in turn until a
   // year passes a local law (owner, batch 9: three places with nothing
@@ -1154,6 +1299,7 @@ function main() {
   let cached:
     | {
         raws: Raw[];
+        talks: SceneItem[];
         gaps: string[];
         stood: string[];
         passed: string[];
@@ -1327,9 +1473,12 @@ function main() {
     ]);
   }
 
-  // Conversations from the same place and the same seed.
-  const talk = conversationScenes(place.life);
-  sceneItems.set("conversation", talk.scenes);
+  // The player's talks and the family scenes, from the same played year.
+  for (const kind of ["family", "conversation"])
+    sceneItems.set(
+      kind,
+      cached.talks.filter((item) => item.kind === kind),
+    );
 
   // Thirty different scenes: kinds in turn, each under its cap, and no phrase
   // shown twice in the batch.
@@ -1434,6 +1583,7 @@ function main() {
 }
 
 const KIND_TITLES: Record<string, string> = {
+  family: "A family scene at home",
   journal: 'A chapter of "My life"',
   conversation: "A conversation turn",
   meeting: "A meeting",
