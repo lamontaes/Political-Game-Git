@@ -472,6 +472,10 @@ None.
 | [gov-body-named-by-member-title](items/gov-body-named-by-member-title.md) | A body is named by a member's title ("County of Darlington commissioner") | gov | bug | 1 | M |  |  | gov-record-defects-finish |
 | [laws-remaining-families](items/laws-remaining-families.md) | Wire the remaining law families to the engines that pay or decide | laws | wiring | 1 | L | claude/laws-remaining-families | #4404 | laws-family-health-programs, laws-family-school-vouchers, laws-family-cannabis, laws-family-clean-air, laws-family-bargaining, laws-family-justice, laws-family-government-operations |
 
+## Gated (waiting on another item)
+
+None.
+
 ## done (21)
 
 - [laws-close-4116](items/laws-close-4116.md)
