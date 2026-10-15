@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-outside-revenue-taxes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T22:31:26.407Z
 ---
 
 **What.** Corporate income, excise, vehicle, customs and estate taxes that the town's own flows do not pay still reach the treasuries as the monthly plug from the outside account. Give each a real payer: corporate tax on the profit in the businesses' books, excise tax on the fuel, tobacco and alcohol purchases that `src/core2/modules/purchase-tax.ts` already prices, vehicle fees on the households that own vehicles, customs duty on goods bought from outside sellers, and the estate tax on estates that settle (see estates-proof). The player would notice that a tax law passed in council or Congress changes what named businesses and households pay, not just a budget number.

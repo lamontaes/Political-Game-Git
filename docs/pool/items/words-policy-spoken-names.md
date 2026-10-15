@@ -9,15 +9,15 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: "words-speech-built-in-stages, PR #4477"
 ---
 
-**What.** Each catalog policy needs one spoken name, so a stand reads as a sentence ('I'm for a higher minimum wage') and not as a question or a record key. Today stance questions and answers show keys or the question form, and `data/english/parts/choice-names.json` names only core actions. Author one spoken name per policy in `src/core2/data/legislature/bill-catalog.json` (or the words data that points to it) and have the stance renderer in the director and the bench use it. The player would notice what a candidate stands for read as a plain sentence in a speech, a conversation and the Politics screen.
+**What.** Give each policy question in the bill catalog one spoken name that reads as a noun phrase or a verb phrase in a fixed form, so a stand in a speech or a conversation can be said as a plain sentence. Today the catalog's names are a mix ("rent stabilization", "end cash bail", "raise minimum wage"), so the staged speech says a stand as a question and an answer ("Restrict abortion? I'm against it.") to stay grammatical for both kinds. Add a spoken-name field to the catalog rows, or a data file keyed by question id, written in the English engine's authoring process, and have the speech stages say the stand as a sentence.
 
-**Rules.** No hand-written player text: the words come from the English engine's banks in `data/english/parts/`, authored with `origin: authored`, author and date or mined from public-domain sources with the source recorded; nothing is typed into code or a screen; American English: spellings follow `tests/american-english-sweep.test.ts` (run `npm run spelling`); An effect is a read, not a record: the stance renderer reads the catalog policy's spoken name at the moment it words a position; One rule, all 56 places: names are per policy in data and no policy, place or party is named in code; Ask why: a stance sentence cites the policy and the stance record; Replace, never layer: the key-printing fallback in the bench and the director is deleted in the same change; No dice: which stance a speaker voices follows their views, not a roll; Look before you ask: owner rulings on how stances are spoken are in OWNER-DECISIONS.md; read them first.
+**Rules.** No hand-written player text: the names are authored data with author and date, not typed into code. One rule, all 56 places: the names are about policies, never a place. Estimate, never UNKNOWN: a question with no spoken name is not offered as a stand.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): every catalog policy has a spoken name (a test in `tests/english-parts-banks.test.ts` or a catalog test walks them all), and a stance in a conversation, a speech and the Politics screen reads as a sentence with the policy and stance record ids named; composed through the real engine in a drawn place (named, with seed) and graded by the owner in the next words batch page under `docs/grading/`. The owner plays it: asks a candidate where he stands and gets a sentence.
+**Done when.** In a drawn place and a random seed, the staged speech built by the test in src/director/speech-builder.test.ts shows each stand as a full sentence with a verb, for every question the catalog names, and the bank test for the new names passes. The owner plays it: a stand in a speech sounds like a person talking.
 
-**Files.** src/core2/data/legislature/bill-catalog.json, data/english/parts/choice-names.json, scripts/english-corpus/choice-names-bank.ts, src/director/conversation.ts, src/bench/words.ts
+**Files.** src/core2/data/legislature/bill-catalog.json (or a new data file beside it), src/director/question-names.ts, data/english/parts/speech-stages.json
 
-**Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).
+**Notes.** Found while building words-speech-built-in-stages (PR #4477).

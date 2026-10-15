@@ -4,13 +4,13 @@ title: "Merge #4354 (unit suite): resolve the finance-day-order conflict by taki
 area: release
 kind: cleanup
 priority: 1
-status: open
-claimed-by:
-pr: #4354
+status: in-pr
+claimed-by: claude/release-merge-ready-4354
+pr: #4483
 blocked-on:
 milestone:
 source: 'reissue "Ready to merge"; PR #4354 branch pool/unit-suite'
-claimed-at:
+claimed-at: 2026-10-15T22:27:14.242Z
 ---
 
 **What.** The unit-suite pull request conflicts with main because main deleted src/core2/finance-day-order.test.ts while the branch still edits it, and stopgaps.json also conflicts. Resolve by taking main's deletion of that test file and merging both sides of stopgaps.json, then the CTO merges. Nothing changes for the player. The suite exists so the owner's evening build is checked on changed files fast.

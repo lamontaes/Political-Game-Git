@@ -4,14 +4,14 @@ title: "A passed local bill with no title (Pine Ridge, South Carolina, 2027-2)"
 area: gov
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-bill-no-title
 pr:
 blocked-on: "gov-record-defects-finish"
 milestone:
 after: gov-record-defects-finish
 source: "batch 11 record defects"
-claimed-at:
+claimed-at: 2026-10-15T22:29:39.995Z
 ---
 
 **What.** A local bill passed with no title and no provisions on record: Pine Ridge, South Carolina, bill 2027-2 in batch 11 (seed in docs/grading/words-batch-11.md, which is on the batch-11 branch, not on main as of 2026-10-15), and Westerly, Rhode Island, bill 2027-3 in an earlier batch. `billTitle(bill)` in `legislature.ts` builds a title from the bill's `provisions`, so a bill with an empty list has nothing for the English engine to word, and the player sees a law that cannot be named in Law here, the news or the journal. Introduction must refuse a bill with no provision (recording the refusal and its reason) and every introduced bill must carry a designation and at least one subject. The player would notice that every law in the town has a name and says what it does.
