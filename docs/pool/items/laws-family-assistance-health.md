@@ -22,3 +22,5 @@ source: "split from laws-remaining-families, Oct 15"
 **Files.** src/core2/law-reach/*, src/core2/modules/ (the owning engine), src/core2/data/stopgaps.json
 
 **Notes.** SG-GOV-REACH-B-medicaid-coverage, SG-GOV-REACH-B-assistance-benefits. The group B failing tests (laws-reach-group-b-failures) are another session's.
+
+**Progress (Oct 15).** Built: the assistance work requirement ends the welfare line's benefit for a household every member it covers, after three months (`group-b-work-requirement.ts`). Not built, split out: `gov-snap-program` (no base SNAP payment exists) and `people-health-coverage` (no coverage record exists for Medicaid to change). Stopgaps `SG-GOV-REACH-B-assistance-benefits` and `SG-GOV-REACH-B-medicaid-coverage` stay open with those reasons.

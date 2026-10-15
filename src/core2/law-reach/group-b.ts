@@ -39,6 +39,7 @@ import {
   type ActiveRow,
   type Reach,
 } from "./group-b-store";
+import { afterWorkRequirement } from "./group-b-work-requirement";
 import {
   balancePlan,
   budgetGap,
@@ -208,6 +209,9 @@ function questionInForce(api: CoreAPI, key: string): boolean {
     return latest?.value === 1;
   });
 }
+
+const WORK_REQUIREMENT =
+  "us-policy-positions:health-human-services.work-requirement-for-assistance";
 
 /** Teachers the salary floor covers: public school teachers (see the stand-in). */
 function coveredTeachers(api: CoreAPI): JobInput[] {
@@ -531,6 +535,18 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
   }
   if (def.benefit && def.people) {
     selected = selectResidents(facts, def.people, chain.stateKey);
+    // The assistance work requirement, once law, ends the benefit of a
+    // household whose every member it covers, after its time limit.
+    selected = afterWorkRequirement(api, {
+      inForce: questionInForce(api, WORK_REQUIREMENT),
+      covered: selectResidents(
+        facts,
+        data.policies[WORK_REQUIREMENT]!.people!,
+        chain.stateKey,
+      ),
+      households: facts.households,
+      heads: selected,
+    });
     personTerms = payBenefits(api, {
       key,
       service,

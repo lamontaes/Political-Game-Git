@@ -82,6 +82,11 @@
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(3) as amended by Pub. L. 119-21 (2025), sec. 10102: ages 18 through 64."
     },
+    "snapWorkTimeLimitMonths": {
+      "value": 3,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2015(o)(2): a covered adult gets 3 months of benefits in a 36-month period without meeting the work requirement."
+    },
     "snapWorkExemptChildBelow": {
       "value": 14,
       "tag": "SOURCED",

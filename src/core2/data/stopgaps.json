@@ -1652,11 +1652,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 109,
-    "whatItFakes": "An assistance work requirement is a time-limit record on named adults and counted shares; no SNAP benefit is paid or cut.",
-    "why": "The core pays no SNAP or other means-tested benefits to households.",
+    "whatItFakes": "The assistance work requirement now ends the welfare line's benefit for a household every member of which it covers, after its three-month limit. But the benefit exists only when a government raises the welfare line; no base SNAP benefit is paid to eligible households, so the law has nothing to cut in a default year.",
+    "why": "The law is read where the welfare line pays its benefit (afterWorkRequirement in src/core2/law-reach/group-b-work-requirement.ts, called from runBudgetLine). The core pays no means-tested benefit by formula: SNAP's maximum allotments are in the starting law but nothing pays them.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE benefits API: addBenefit({ personId|householdId, program: \"snap\", monthlyMinor, from, payerAccountId }) and endBenefit(id), which this time limit ends after three months.",
+    "replacement": "WORLD or GOV: a SNAP program that pays each eligible household its allotment (maximum for the size less 30% of net income) from the federal fund each month; the work requirement then cuts that.",
     "status": "open"
   },
   {
