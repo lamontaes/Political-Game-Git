@@ -51,7 +51,10 @@ import { JOURNAL_DATA } from "./journal";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
-import { MINED_CONVERSATION } from "./mined/conversation-bank";
+import {
+  CONVERSATION_RULES,
+  MINED_CONVERSATION,
+} from "./mined/conversation-bank";
 import { renderLine, type Fact } from "./render";
 import { properName, spoken, spokenMonth, spokenWhen } from "./words";
 
@@ -101,6 +104,8 @@ export interface ConversationData {
    * the same topic, not a new one.
    */
   tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
+  /** The ledger labels, by prefix, that are something happening to a person. */
+  happenings?: { prefixes: readonly string[] };
   /** What the player answers when the other person raises one of their own subjects. */
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
@@ -305,10 +310,14 @@ function latestMoment(
   speakerId: PersonId,
   aboutId: PersonId,
 ) {
+  const happening = (moment: Moment) =>
+    (CONVERSATION_RULES.happenings?.prefixes ?? []).some((prefix) =>
+      moment.label.startsWith(prefix),
+    );
   return (
-    recentMoments(core, director, aboutId)[zero] ??
-    recentMoments(core, director, speakerId).find((moment) =>
-      moment.counterpartIds.includes(aboutId),
+    recentMoments(core, director, aboutId).find(happening) ??
+    recentMoments(core, director, speakerId).find(
+      (moment) => happening(moment) && moment.counterpartIds.includes(aboutId),
     )
   );
 }

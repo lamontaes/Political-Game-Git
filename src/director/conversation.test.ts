@@ -303,14 +303,23 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       for (const row of subjectsBetween(core, player.id, otherId, director))
         if (row.kind === "mutual" || row.kind === "family") {
           const about = row.aboutId!;
+          // Something that happened to them, never only news they read.
+          const happened = (label: string) =>
+            CONVERSATION_DATA.happenings!.prefixes.some((prefix) =>
+              label.startsWith(prefix),
+            );
           const theirs = director.ledger.people
             .get(about)
-            ?.moments.some((moment) => moment.date > since);
+            ?.moments.some(
+              (moment) => moment.date > since && happened(moment.label),
+            );
           const mine = director.ledger.people
             .get(player.id)
             ?.moments.some(
               (moment) =>
-                moment.date > since && moment.counterpartIds.includes(about),
+                moment.date > since &&
+                happened(moment.label) &&
+                moment.counterpartIds.includes(about),
             );
           expect(theirs || mine, row.id).toBe(true);
         }
