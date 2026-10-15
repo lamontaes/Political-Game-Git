@@ -2432,7 +2432,7 @@
     "id": "SG-WORLD-board-appointment-records",
     "kind": "missing-record",
     "file": "src/core2/central-bank-appointments.ts",
-    "line": 46,
+    "line": 67,
     "whatItFakes": "No automatic successor is appointed without the registered appointer. Living governors hold over under 12 USC 242; expired Reserve Bank presidencies leave the rate-voting roster under 12 USC 341.",
     "why": "The played world has no registered presidential nomination/Senate confirmation route for these seats and no Class B/C Reserve Bank director appointment records. The former invented appointment feature was removed, not relabeled as implemented.",
     "addedBy": "Session D",
