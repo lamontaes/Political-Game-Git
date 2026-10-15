@@ -2438,7 +2438,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: removed the obsolete stand-in writer and changed macro-proof to buildBenchWorld; credit.ts supplies bank applications and prime-linked facilities from the bank and borrower books."
   },
   {
     "id": "SG-WORLD-regional-territory-estimate",
@@ -2981,7 +2982,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: both openings import core2/world-settings.ts; removed the bench arithmetic copy. Political settings are read by electorate.customPolitics."
   },
   {
     "id": "SG-GOV-appointee-pay",
@@ -3851,7 +3853,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The town's income history before the start (from the opening's pre-start years), so growth is read from the first month.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the invented neutral growth input and its published observation. Until comparable paid-income records exist, the national model omits local feedback. Actual observed growth still enters the same model; missing pre-start income history remains explicitly registered as SG-WORLD-macro-income-history."
   },
   {
     "id": "SG-CORE-counted-person-views",
@@ -4415,6 +4418,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-income-history",
+    "kind": "missing-record",
+    "file": "src/core2/modules/macro.ts",
+    "line": 251,
+    "whatItFakes": "No town income-growth observation or local feedback is available before enough comparable paid-income months exist; the national economy continues from its national records.",
+    "why": "The played world records paid town income only from opening and does not have comparable pre-start income receipts.",
+    "addedBy": "Session D (second pool worker)",
+    "addedAt": "2026-10-15",
+    "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately.",
     "status": "open"
   }
 ]
