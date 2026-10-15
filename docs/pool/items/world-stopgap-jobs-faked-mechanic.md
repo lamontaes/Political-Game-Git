@@ -4,6 +4,7 @@ title: "Stopgaps in jobs (faked-mechanic): 6 open"
 area: world
 kind: stopgap
 priority: 2
+size: L
 status: open
 claimed-by:
 pr:

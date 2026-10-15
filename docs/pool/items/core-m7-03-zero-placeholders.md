@@ -4,6 +4,7 @@ title: "M7-03 Zero placeholders"
 area: core
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

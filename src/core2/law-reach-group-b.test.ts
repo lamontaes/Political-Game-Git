@@ -36,10 +36,15 @@ import type {
   PersonReach,
 } from "./law-reach/group-b-store";
 import { GROUP_B_KEYS, groupBPolicy } from "./law-reach/group-b";
-import { reachParameter, townFacts } from "./law-reach/group-b-people";
+import {
+  reachParameter,
+  selectResidents,
+  townFacts,
+} from "./law-reach/group-b-people";
 import {
   budgetNow,
   modeledShare,
+  source,
   residentsOf,
   townShare,
 } from "./law-reach/group-b-money";
@@ -266,6 +271,9 @@ const line = (gov: GovernmentRow, name: string) =>
   budgetNow(api, gov.id)?.spendingMinor[name] ?? 0;
 function amend(gov: GovernmentRow, name: string, delta: number) {
   measure += 1;
+  // An amendment re-reads the town as it stands now, not as an earlier
+  // enactment saw it that morning; count the town the same way.
+  startOfDay = null;
   amendBudget(api, {
     governmentId: gov.id,
     line: name,
@@ -321,11 +329,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expectEnded(key);
     });
 
-  const householdRecords = [
-    Q("transportation-infrastructure.public-broadband"),
-    Q("fiscal.cap-property-tax-growth"),
-    Q("fiscal.exempt-groceries-from-sales-tax"),
-  ];
+  // Public broadband and the property tax cap are read by the price engine
+  // and the housing assessment (see "laws their own engine reads" below).
+  const householdRecords = [Q("fiscal.exempt-groceries-from-sales-tax")];
   for (const key of householdRecords)
     it(`${key}: every household reached (its head carries the terms); employers bound; repeal ends it`, () => {
       enact(key, 1, LOCAL);
@@ -346,13 +352,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   const employerRecords = [
     Q("environment-energy.clean-air-plan-for-polluted-counties"),
-    Q("environment-energy.bottle-deposit"),
-    Q("agriculture-natural-resources.protect-farmland-from-development"),
-    Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
   ];
-  // Gas hookups and farmland protection are read by construction now.
-  // housing-laws.test.ts checks their actual zoning inputs in a played year;
-  // employer eligibility rows are no longer evidence for either law.
+  // Bottle deposits, farmland protection and groundwater limits are read by
+  // the price engine, construction and the business engine (see "laws their
+  // own engine reads" below); employer rows are no evidence for them.
   for (const key of employerRecords)
     it(`${key}: binds every employer it covers in town; repeal ends it`, () => {
       enact(key, 1, "state");
@@ -363,6 +366,31 @@ describe("law reach, group B: every policy reaches people through its engine", (
       report[key] = { employers: expected };
       enact(key, 0, "state");
       expectEnded(key);
+    });
+
+  // Each of these laws is read at the moment an engine decides or pays, so the
+  // generic reach handler writes no eligibility row for it (a row would be a
+  // second, unread record of the same law). The proof lives with the engine.
+  const readByOwnEngine: [string, string][] = [
+    [Q("transportation-infrastructure.public-broadband"), "price-laws.test.ts"],
+    [Q("environment-energy.bottle-deposit"), "price-laws.test.ts"],
+    [Q("fiscal.cap-property-tax-growth"), "property-tax-laws.test.ts"],
+    [
+      Q("agriculture-natural-resources.protect-farmland-from-development"),
+      "housing-laws.test.ts",
+    ],
+    [
+      Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
+      "groundwater-law.test.ts",
+    ],
+  ];
+  for (const [key, proof] of readByOwnEngine)
+    it(`${key}: read by its own engine (${proof}), so no generic reach row stands beside it`, () => {
+      enact(key, 1, "state");
+      expect(openPeople(key), `${where} ${key} people`).toEqual([]);
+      expect(openOrgs(key), `${where} ${key} employers`).toEqual([]);
+      expect(group(key), `${where} ${key} group`).toBeUndefined();
+      enact(key, 0, "state");
     });
 
   // ---- Eligibility from income, work hours and children ----
@@ -403,7 +431,31 @@ describe("law reach, group B: every policy reaches people through its engine", (
   it("an assistance work requirement time-limits low-income adults working under 20 hours", () => {
     const key = Q("health-human-services.work-requirement-for-assistance");
     enact(key, 1, "state");
-    expect(reached(key), where).toBeGreaterThan(0);
+    // Whether anyone qualifies depends on the town (a rich town may have no
+    // household under the income line): the law must reach exactly the
+    // residents its terms pick from today's records, and none if none do.
+    const facts = townFacts(api, town);
+    const picked = selectResidents(
+      facts,
+      groupBPolicy(key)!.people!,
+      lawChain(api).stateKey,
+    );
+    const named = picked.filter((r) => r.named).length;
+    const counted = Math.round(
+      picked.filter((r) => !r.named).reduce((n, r) => n + (r.weight ?? 1), 0),
+    );
+    expect(openPeople(key).length, `${where} named`).toBe(named);
+    expect(reached(key), where).toBe(named + counted);
+    // Each named person reached is under the weekly hours and in a household under the income line.
+    const hours =
+      reachParameter("snapWorkHoursPerWeek") * reachParameter("minutesPerHour");
+    for (const row of openPeople(key)) {
+      const r = facts.residents.find((x) => x.id === row.personId)!;
+      expect(r.weeklyMinutes, `${where} ${row.personId}`).toBeLessThan(hours);
+      expect(row.terms.hoursPerWeek).toBe(
+        reachParameter("snapWorkHoursPerWeek"),
+      );
+    }
     report.assistanceWork = { reached: reached(key) };
     enact(key, 0, "state");
     expectEnded(key);
@@ -674,6 +726,43 @@ describe("law reach, group B: every policy reaches people through its engine", (
     for (const j of staff()) expect(j.hourlyMinor).toBe(before.get(j.id));
   });
 
+  it("budget line schools: a raise another rule gave a school job survives a change and its reversal", () => {
+    const gov = govFor("schools");
+    const jobs = [
+      ...core.jobs.values(),
+      ...(residentsRuntime(core)?.jobs.values() ?? []),
+    ].filter(
+      (j) =>
+        j.endsAt === undefined &&
+        core.organizations.get(j.organizationId)?.placeId === town &&
+        ["service:school", "service:private-school"].includes(
+          core.organizations.get(j.organizationId)?.classification ?? "",
+        ),
+    );
+    const job = jobs.find((j) => (j.hourlyMinor ?? 0) > 0);
+    if (!job) {
+      report.schoolRaiseKept = "no school job in this place";
+      return;
+    }
+    const base = line(gov, "schools");
+    const step = stepFor(gov, "schools");
+    // The line has seen this job once; then another rule (not the line) raises it.
+    amend(gov, "schools", step);
+    amend(gov, "schools", -step);
+    const raisedTo = Math.round((job.hourlyMinor ?? 0) * 1.25);
+    api.rerateJob(job.id, raisedTo, source(api, "Test: another rule's raise"));
+    const live = () =>
+      (core.jobs.get(job.id) ?? residentsRuntime(core)?.jobs.get(job.id))
+        ?.hourlyMinor;
+    expect(live(), where).toBe(raisedTo);
+    amend(gov, "schools", step);
+    amend(gov, "schools", base - line(gov, "schools"));
+    expect(live(), `${where} the line returned the job below the raise`).toBe(
+      raisedTo,
+    );
+    report.schoolRaiseKept = { jobId: job.id, hourlyMinor: raisedTo };
+  });
+
   it("budget line welfare: an increase pays eligible households a monthly benefit from the treasury", () => {
     const key = "budget-line:welfareAndMedicaid";
     const gov = govFor("welfareAndMedicaid");
@@ -770,8 +859,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
     amend(state, "highways", -1);
     amend(state, "highways", 1);
     expect(line(state, "highways")).toBe(highways - moved);
-    // The reach was just re-read, so count the town as it stands now too.
-    startOfDay = null;
     const road = openPeople("budget-line:highways");
     for (const row of road) expect(row.terms.townDeltaMinor).toBeLessThan(0);
     expect(reached("budget-line:highways"), where).toBe(residentsAged(16));
