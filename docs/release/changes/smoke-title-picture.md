@@ -1,5 +1,5 @@
 ---
-id: smoke-title-wait
+id: smoke-title-picture
 section: Fixed
 title: The packaged-app check waits for the title's picture
 impact: patch
