@@ -3461,7 +3461,10 @@ function enact(
     ? `Public Law (bill ${bill.number})`
     : state
       ? `${bill.number}, enacted (effective by ${rule.cite})`
-      : `Ordinance ${bill.number}`;
+      : `Ordinance ${bill.number}, effective ${rule.days} days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)`;
+  // An ordinance's date rests on that delay, so its row is an estimate; a
+  // federal act and a state act take their dates from law.
+  const estimate = rule.kind === "days-after-adoption";
   const itemVeto = table(api, "itemVetoes").get(bill.id) as unknown as
     | {
         struck: number[];
@@ -3501,6 +3504,7 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
+        estimate,
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
         terms: {
@@ -3526,6 +3530,7 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
+        estimate,
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
         terms: { ...(terms ?? {}), enactedByBill: bill.id },
