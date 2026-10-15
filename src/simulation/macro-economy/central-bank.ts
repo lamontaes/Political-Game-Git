@@ -48,7 +48,7 @@
 import {
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "../invented-person-age";
+} from "../../core2/gov-rules/invented-person-age";
 import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
 import {
   characterHistoryContextPersonId,

@@ -9,6 +9,7 @@ Inputs (all under data/research):
   money/minimum-wage-dated-matrix-2026.json     federal and state minimum wages
   money/federal-income-tax-schedules.json       IRS 2026 schedules
   money/state-income-tax-2026.json              state single-filer schedules
+  money/death-taxes-2026.json                   estate and inheritance taxes
   laws/local-starting-law/*.json                local and benefit research
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
 
@@ -169,6 +170,34 @@ def business_taxes(rows):
         rows.append(row(state, "state", "state-unemployment-tax", suta["value"], suta["effectiveDate"],
                         FOREVER, suta["source"], suta["estimate"], unit="percent-of-wages",
                         terms={"wageBase": suta["wageBase"]}, retrieved=taxes["retrieved"]))
+
+
+STATE_DEATH_TAX_SLIDE = 10040000
+
+
+def death_taxes(rows):
+    """Estate and inheritance taxes (data/research/money/death-taxes-2026.json)."""
+    taxes = load(RESEARCH / "money/death-taxes-2026.json")
+    for phase in taxes["federal"]:
+        rows.append(row("US", "federal", "estate-tax", phase["maxRate"], phase["effectiveDate"], FOREVER,
+                        phase["source"], phase["estimate"], unit="percent-top-rate",
+                        terms={k: phase[k] for k in ("exemption", "minRate", "slideOver")},
+                        retrieved=taxes["retrieved"]))
+    for state, law in sorted(taxes["estate"].items()):
+        slide = STATE_DEATH_TAX_SLIDE if law["minRate"] < law["maxRate"] else 0
+        rows.append(row(state, "state", "estate-tax", law["maxRate"], taxes["estateFrom"], FOREVER,
+                        f"{taxes['source']}. {taxes['estateEstimateNote']}"
+                        + (f" {taxes['slideOverNote']}" if slide else ""),
+                        True, unit="percent-top-rate",
+                        terms={"exemption": law["exemption"], "minRate": law["minRate"], "slideOver": slide},
+                        retrieved=taxes["retrieved"]))
+    for state, law in sorted(taxes["inheritance"].items()):
+        top = max([c["maxRate"] for c in law["classes"].values()] + [law["others"]["maxRate"]])
+        rows.append(row(state, "state", "inheritance-tax", top, taxes["estateFrom"], FOREVER,
+                        f"{law['source']} Exemptions and rates: {taxes['source']}.",
+                        True, unit="percent-top-rate",
+                        terms={"classes": law["classes"], "others": law["others"]},
+                        retrieved=taxes["retrieved"]))
 
 
 def local_wage_authority(rows):
@@ -361,6 +390,7 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    death_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)
     benefits(rows)

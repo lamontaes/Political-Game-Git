@@ -4811,5 +4811,39 @@
       "unit": "hours",
       "citation": "Typical public school days across states and districts."
     }
+  },
+  "willAgeWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "How much each year past willAgeMidpointYears adds to a person's lean toward having made a will, in midpoint-lengths: older people far more often have one. Checked against Gallup (May 2016, 'Majority in U.S. Do Not Have a Will'): 44% of U.S. adults have a will, rising with age to about two in three past 65.",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "lean per midpoint-length of age",
+      "citation": "From a gentle rise with age to most older adults having one."
+    }
+  },
+  "willAgeMidpointYears": {
+    "value": 50,
+    "tag": "TUNABLE",
+    "citation": "The age at which a person with no lean either way is as likely to have made a will as not; with the trait lean averaging zero, about half of 50-year-olds have one, between Gallup's 44% of all adults and its two in three past 65 (Gallup, May 2016).",
+    "spread": {
+      "low": 40,
+      "high": 60,
+      "unit": "years",
+      "citation": "Ages where Gallup's share of will-holders crosses one half."
+    }
+  },
+  "probateDays": {
+    "value": 270,
+    "tag": "ESTIMATED",
+    "citation": "How long an estate waits in probate before the heirs take: most estates take six months to a year, longer when contested (American Bar Association, 'Guide to Wills and Estates', probate chapter).",
+    "estimatedFrom": "ABA guidance: six months to a year; nine months used",
+    "spread": {
+      "low": 180,
+      "high": 540,
+      "unit": "days",
+      "citation": "Six months to eighteen months."
+    }
   }
 }
