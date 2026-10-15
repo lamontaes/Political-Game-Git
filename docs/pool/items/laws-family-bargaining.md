@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/laws-family-bargaining-v2
+pr: "#0"
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
