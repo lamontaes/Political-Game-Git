@@ -60,3 +60,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 1. Committee markup trades — `pool/committee-markup` (Session D, draft #4328; 19 tests and played-year proof pass).
 - 2. Unwired record-only law families — `pool/law-read-dependency` (Session D; blocked by Session A #4331, return last).
 - 3. First faked-mechanic engine, central bank appointments — `pool/central-bank-appointments` (Session D, claimed October 15, 2026).
+
+- 3. Next faked-mechanic engine, credit-line stand-in — `pool/credit-line-retirement` (second Session D, claimed October 15, 2026; SG-WORLD-credit-line-stand-in only).
