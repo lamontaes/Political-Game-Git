@@ -1,3 +1,4 @@
+import type { OfficeInput } from "../offices-local";
 /**
  * Legislating (golden path steps 6 to 8, first slice): write an ordinance,
  * negotiate, the body votes, the executive acts, the law takes effect.
@@ -900,7 +901,7 @@ function numberAndForm(
       kind: numbering.kind,
       enactingClause: numbering.enactingClause.replace(
         "{body}",
-        body.governmentName,
+        body.bodyName ?? body.governmentName,
       ),
       enactingSource: numbering.enactingSource,
     },
@@ -1438,22 +1439,21 @@ export function bodyOf(
       readonly kind: string;
       readonly jurisdiction: string;
       readonly governmentName: string;
+      readonly bodyName?: string;
     }
   | undefined {
-  if (officeId === FEDERAL_HOUSE)
-    return {
-      id: officeId,
-      kind: "us-house",
-      jurisdiction: "US",
-      governmentName: "the Congress of the United States",
-    };
-  if (officeId === FEDERAL_SENATE)
-    return {
-      id: officeId,
-      kind: "us-senate",
-      jurisdiction: "US",
-      governmentName: "the Congress of the United States",
-    };
+  if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE) {
+    const kind = officeId === FEDERAL_HOUSE ? "us-house" : "us-senate";
+    const row = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .rows() as unknown as OfficeInput[]
+    ).find((office) =>
+      kind === "us-house" ? office.kind.startsWith(kind) : office.kind === kind,
+    );
+    return row ? { ...row, id: officeId, jurisdiction: "US" } : undefined;
+  }
   return api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")

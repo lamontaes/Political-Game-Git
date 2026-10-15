@@ -4416,5 +4416,17 @@
     "addedAt": "2026-10-14",
     "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-municipal-body-name",
+    "kind": "missing-record",
+    "file": "src/core2/offices-local.ts",
+    "line": 91,
+    "whatItFakes": "An unread municipal collective is named Council on its office record; charter-specific names are absent from the compiled municipal reader. County and township bodies use their recorded collective name.",
+    "why": "The compiled municipal records retained member classes and sizes but omitted collective names.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
+    "status": "open"
   }
 ]

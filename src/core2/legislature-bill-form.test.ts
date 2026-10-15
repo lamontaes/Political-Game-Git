@@ -18,6 +18,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import {
   billTitle,
+  bodyOf,
   reviseBill,
   draftBill,
   motionOn,
@@ -145,6 +146,11 @@ describe("a bill's form in its body", () => {
       expect(first.number, where).toBe(designation(numbering, n));
       expect(second.number, where).toBe(designation(numbering, n + 1));
       expect(first.form.enactingClause, where).not.toContain("{body}");
+      expect(bodyOf(api, body.id)?.bodyName).toBeTruthy();
+      if (body === council)
+        expect(first.form.enactingClause).toContain(
+          bodyOf(api, body.id)!.bodyName,
+        );
       expect(first.form.enactingClause, where).toMatch(/enact|ordain/i);
       expect(() =>
         draftBill(api, {

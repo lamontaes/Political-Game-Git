@@ -292,21 +292,11 @@ function readWorld(place: Place): {
   const bodyName = (officeId: string) => {
     const office = offices.get(officeId);
     if (!office) return officeId;
-    const gov = properName(office.governmentName as string).replace(
+    // The offices reader carries the collective name; never pluralize a member’s title.
+    return properName(String(office.bodyName ?? office.governmentName)).replace(
       /\bOf\b/g,
       "of",
     );
-    const title = String(office.title).replace(/\s+members?$/i, "");
-    const noun =
-      /council|board|commission|committee|trustees|selectm|supervisors/i.test(
-        title,
-      )
-        ? lowerFirst(title.replace(/s$/, "")).replace(
-            new RegExp(`^${gov.split(" ")[0]} `, "i"),
-            "",
-          )
-        : "governing body";
-    return `${gov} ${noun}`;
   };
   const terms = api
     .moduleState("core2-offices-v1")
