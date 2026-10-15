@@ -20,6 +20,7 @@
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
+import { policyAuthority } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
@@ -842,23 +843,9 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           source: rows[0]?.id ?? "",
         };
   }
-  if (provision.kind === "policy-question" && provision.question) {
-    const answer =
-      POLICY_QUESTIONS[provision.question]?.answers[chain.stateKey];
-    if (answer?.preempts)
-      return {
-        allowed: false,
-        warning: "preempted",
-        reason: "state-preempts-question",
-        source: provision.question,
-      };
-    return {
-      allowed: true,
-      warning: answer ? "disputed" : "none",
-      reason: answer ? "state-has-own-law" : "no-state-law",
-      source: provision.question,
-    };
-  }
+  if (provision.kind === "policy-question" && provision.question)
+    return policyAuthority(api, provision.question, "city");
+
   return {
     allowed: true,
     warning: "none",
@@ -1319,25 +1306,28 @@ function checkedText(
   bodyOfficeId: string,
   provisions: readonly Provision[],
 ): Pick<BillRow, "provisions" | "costEstimate" | "authority" | "status"> {
-  const stateBody = /:(legislature-|us-house|us-senate)/.test(bodyOfficeId);
-  const level = /:(us-house|us-senate)/.test(bodyOfficeId)
-    ? "federal"
-    : stateBody
-      ? "state"
-      : "local";
-  const authority = provisions.map(
-    (p) =>
-      // A level may only set the amounts the law gives it (no council sets
-      // SNAP or the Medicare tax; audit 3).
-      beyondPower(p, level) ??
-      (stateBody
-        ? ({
-            allowed: true,
-            warning: "none",
-            reason: "within-own-power",
-            source: "",
-          } as Authority)
-        : authorityFor(api, p)),
+  const body = bodyOf(api, bodyOfficeId);
+  const level =
+    body?.kind === "us-house" || body?.kind === "us-senate"
+      ? "federal"
+      : body?.kind.startsWith("legislature-")
+        ? "state"
+        : body?.kind === "county-board"
+          ? "county"
+          : "city";
+  const stateBody = level === "state" || level === "federal";
+  const authority = provisions.map((p) =>
+    p.kind === "policy-question" && p.question
+      ? policyAuthority(api, p.question, level)
+      : (beyondPower(p, stateBody ? level : "local") ??
+        (stateBody
+          ? ({
+              allowed: true,
+              warning: "none",
+              reason: "within-own-power",
+              source: "",
+            } as Authority)
+          : authorityFor(api, p))),
   );
   return {
     provisions,
