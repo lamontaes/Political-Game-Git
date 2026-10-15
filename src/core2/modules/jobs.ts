@@ -1461,67 +1461,70 @@ function runWeek(api: CoreAPI): void {
       }
       return top;
     };
-    // A counted applicant who can't be placed gives way to the next best.
+    // A declined offer leaves the opening available to the next applicant.
     let pool = [...applicants];
-    let best = pick(pool);
-    while (isCounted(api, best.personId)) {
-      // A counted seeker answers the offer by the same reasons a full person
-      // weighs, every trait included.
-      const person = { traits: traitsOf(api, best.personId) };
-      // An employed worker measures the offer against the job they hold now, and moving costs something.
-      const current = best.employed
-        ? countedJobOfPerson(c, best.personId)?.hourlyMinor
-        : undefined;
-      const reference = current ?? best.referenceHourlyMinor;
-      const accepts =
-        acceptScore(
-          p,
-          position.hourlyMinor,
-          reference,
-          best.employed,
-          p("traitWeight") *
-            (traitLean(c, person, jobsData.actions.accept.actKinds) -
-              traitLean(c, person, jobsData.actions.decline.actKinds)),
-        ) > 0;
-      if (accepts && hireCounted(api, position, best, fit(best))) {
-        for (const row of applications.values())
-          for (let i = row.length - 1; i >= 0; i--)
-            if (row[i]!.personId === best.personId) row.splice(i, 1);
-        break;
-      }
+    while (pool.length) {
+      const best = pick(pool);
       pool = pool.filter((row) => row !== best);
-      if (!pool.length) break;
-      best = pick(pool);
-    }
-    if (isCounted(api, best.personId) || !pool.length) continue;
-    if (controlled(c, best.personId)) {
-      offerToPlayer(api, position, best.personId, fit(best));
-      for (const row of applications.values()) {
-        const i = row.indexOf(best);
-        if (i >= 0) row.splice(i, 1);
+      let placed = false;
+      if (isCounted(api, best.personId)) {
+        // A counted seeker answers the offer by the same reasons a full person
+        // weighs, every trait included.
+        const person = { traits: traitsOf(api, best.personId) };
+        // An employed worker measures the offer against the job they hold now, and moving costs something.
+        const current = best.employed
+          ? countedJobOfPerson(c, best.personId)?.hourlyMinor
+          : undefined;
+        const reference = current ?? best.referenceHourlyMinor;
+        const accepts =
+          acceptScore(
+            p,
+            position.hourlyMinor,
+            reference,
+            best.employed,
+            p("traitWeight") *
+              (traitLean(c, person, jobsData.actions.accept.actKinds) -
+                traitLean(c, person, jobsData.actions.decline.actKinds)),
+          ) > 0;
+        placed = accepts && hireCounted(api, position, best, fit(best));
+      } else if (controlled(c, best.personId)) {
+        // A past decline or lapse is an answer, not a permanent hold.
+        if (
+          store(api)
+            .table("offers")
+            .get(`job-offer:${position.id}:${best.personId}`)
+        )
+          continue;
+        offerToPlayer(api, position, best.personId, fit(best));
+        placed = true;
+      } else {
+        const held = best.employed
+          ? c.jobs.get(c.people.get(best.personId)?.jobId ?? "")
+          : undefined;
+        const reference = held?.hourlyMinor ?? best.referenceHourlyMinor;
+        const answer = chooseAct(c, best.personId, [
+          offer("decline", position.id, {}),
+          offer("accept", position.id, {
+            baseline: p("jobsAcceptBaseline"),
+            switchCost: best.employed ? p("jobsSwitchCost") : 0,
+            pay:
+              p("jobsApplyPayWeight") *
+              (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
+            needWork: best.employed ? 0 : p("jobsUnemployedNeedWeight"),
+          }),
+        ]);
+        if (answer.selected!.definition.id !== jobsData.actions.accept.id)
+          continue;
+        hire(api, position, best, fit(best));
+        placed =
+          c.people.get(best.personId)?.jobId ===
+          `job:${position.id}:${best.personId}`;
       }
-      continue;
-    }
-    const held = best.employed
-      ? c.jobs.get(c.people.get(best.personId)?.jobId ?? "")
-      : undefined;
-    const reference = held?.hourlyMinor ?? best.referenceHourlyMinor;
-    const answer = chooseAct(c, best.personId, [
-      offer("decline", position.id, {}),
-      offer("accept", position.id, {
-        baseline: p("jobsAcceptBaseline"),
-        switchCost: best.employed ? p("jobsSwitchCost") : 0,
-        pay:
-          p("jobsApplyPayWeight") *
-          (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
-        needWork: best.employed ? 0 : p("jobsUnemployedNeedWeight"),
-      }),
-    ]);
-    if (answer.selected!.definition.id !== jobsData.actions.accept.id) continue;
-    hire(api, position, best, fit(best));
-    for (const row of applications.values()) {
-      const i = row.indexOf(best);
-      if (i >= 0) row.splice(i, 1);
+      if (!placed) continue;
+      for (const row of applications.values())
+        for (let i = row.length - 1; i >= 0; i--)
+          if (row[i]!.personId === best.personId) row.splice(i, 1);
+      break;
     }
   }
 }

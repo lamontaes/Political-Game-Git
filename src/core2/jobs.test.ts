@@ -8,6 +8,8 @@ import { advanceCore, createLifeCore } from "./life";
 import {
   JOBS_MODULE,
   acceptScore,
+  declineJobOffer,
+  jobOffersFor,
   moveLabel,
   quitScore,
   roleMix,
@@ -231,6 +233,24 @@ describe("jobs", () => {
     expect(core.people.get(hired)!.jobId).toMatch(/^job:position:/);
     expect(money(core)).toBe(total);
     expect(p("jobsStaffGapActedPerMonth")).toBeGreaterThan(0);
+  });
+  it("fills a declined player opening with the next willing applicant", () => {
+    const fixture = input();
+    fixture.playerId = "s2";
+    const core = createLifeCore(fixture, { data, modules: [JOBS_MODULE] });
+    const api = coreAPI(core);
+    withBooks(core, 2);
+    advanceCore(core, "2021-03-02");
+    const pending = jobOffersFor(api, "s2");
+    expect(pending).toHaveLength(1);
+    const offered = pending[0]!;
+    expect(declineJobOffer(api, offered.id)).toBe(true);
+    advanceCore(core, "2021-03-10");
+    expect(core.people.get("s2")!.jobId).toBeUndefined();
+    expect(core.people.get("s1")!.jobId).toBe(`job:${offered.positionId}:s1`);
+    expect(
+      api.moduleState("jobs").table("offers").get(offered.id),
+    ).toMatchObject({ status: "declined" });
   });
   it("lays off when demand falls below the staff, naming who decided and keeping the most tenured and reliable", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
