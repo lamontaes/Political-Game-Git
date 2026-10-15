@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-family-clean-air
-pr:
+pr: #4438
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
