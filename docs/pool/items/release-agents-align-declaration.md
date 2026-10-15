@@ -4,8 +4,8 @@ title: "release:check fails on main: docs/release/changes/agents-align.md carrie
 area: release
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-g2977r
 pr:
 blocked-on:
 milestone:
@@ -21,3 +21,5 @@ source: "found while running release:check --mode pr on claude/laws-reach-group-
 **Files.** docs/release/changes/agents-align.md
 
 **Notes.** One-line fix: drop `section` and `title` from the file.
+
+**Update.** Main also carries `grading-bench-order.md` with the same defect; both fixed in the core-outside-flow-catalog-rows PR.

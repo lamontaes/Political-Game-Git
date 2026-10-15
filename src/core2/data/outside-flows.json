@@ -98,10 +98,53 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "federal-borrowing",
+      "matchedBy": "loan-proceeds",
+      "what": "The U.S. Treasury borrows each month's gap between its payments and what it holds from the public (Monthly Treasury Statement, fiscal 2025: outlays beyond receipts are financed by borrowing from the public)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "counted-arrival",
+      "matchedBy": "own-money",
+      "what": "A counted household moving in brings its own savings into its group's fund."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "mover-departure",
+      "matchedBy": "own-money",
+      "what": "A full person moving away takes their cash out of town."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "entrant",
+      "matchedBy": "goods-and-services",
+      "what": "A new business's customers outside the town paying it, on the share of buyers it took from incumbents."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "price",
+      "matchedBy": "goods-and-services",
+      "what": "A household or business paying (or refunded) the change a price law makes to what it buys from outside sellers, such as energy (place-prices)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "counsel",
+      "matchedBy": "service",
+      "what": "A city paying a tenant's lawyer for a recorded eviction case where the law gives a right to counsel; the outside provider stands in for named legal services (SG-GOV-REACH-A-eviction-cases)."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "outside-revenue",
       "matchedBy": "plug",
       "stopgapId": "SG-GOV-outside-revenue-monthly",
       "what": "A twelfth of a government's yearly Census revenue paid in each month with no taxpayer, sale or grant behind it."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-outside-revenue-monthly",
+      "what": "A twelfth of each spending line the town's engines did not pay, sent to the outside account as spending elsewhere with no payee behind it (the same stopgap's spending half)."
     }
   ]
 }
