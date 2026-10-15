@@ -1,8 +1,8 @@
-# OPUS-WORDS: The English engine's phrase banks
+# WORDS: The English engine and the story director
 
 Only OPUS-WORDS writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
-- **Owns:** The data the English engine composes from: `data/english/parts/**`, `data/english/counts/**`, the corpus tooling in `scripts/english-corpus/**` and the research notes in `docs/research/english-corpus/**`. OPUS-PEOPLE owns the engine itself (`src/presentation/english-*.ts`, the `*-english.ts` writers, `src/director/**`).
+- **Owns (owner, Oct 15, 1:05 a.m.: the English engine and the director stay with the Claude "Words" cloud session):** the English engine (`src/english/**`, formerly `src/presentation/english-*`), the story director (`src/director/**`) and the data they compose from: `data/english/**`, the corpus tooling in `scripts/english-corpus/**`, the grading tooling in `scripts/dialogue-batch/**` and the research notes in `docs/research/english-corpus/**`. Work order: `docs/work-orders/astra-2026-10-15.md`, Order 4.
 - **Branch:** `opus-words`, restarted from `main` after #4025 merged (Oct 12), with `pool/P15-people-5` merged in whenever it moves.
 - **Model:** Opus, high: choosing which real sentences carry each conversation move is judgment work.
 - **Starts from:** The owner's approval, Oct 12 at 10:20 a.m.; PEOPLE's Words item (`docs/coordination/people.md`); the speech corpus research (`docs/research/speech-and-dialogue-corpus-2026-09-28.md`); the existing mined banks in `data/english/parts/`.
@@ -59,6 +59,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-WORLD or OPUS-PEOPLE (a 17-year-old left alone):** in Richland, Georgia (`scene-year.ts --seed w15-h`, place 1365016), the mother Crystal Schroeder (`person_3a757177f2398cbe`) and the brother Jose moved away on November 7, 2026 (`person.moved-away:person_3a757177f2398cbe:2026-11-07`) and left Alexander, 17, alone in household `household_a3ed9de88e5107c7`, which was then evicted on January 23, 2027 (`event:housing.eviction:eviction:lease:household_a3ed9de88e5107c7:2027-01-06`). A minor moves with the guardian; with no one home, no family scene could tell him (Oct 15).
+- **OPUS-PEOPLE (no divorce yet):** the owner's family-scene example "a divorce" needs a producer: the situation library's `separated` cause is `awaitingProducer`. When the people engines end a marriage from the two people's records, the family scene at home reads it like a lost job (Oct 15).
+- **OPUS-CORE (a played year stops on a finance contract):** a two-level bench world in Wakonda, South Dakota (`scene-year.ts --seed w15-c`, place 4668100) throws "Outside obligation refers to missing, inactive or unmatched recipient terms." (`src/core2/finance-cash.ts:1697`, from `runFinanceDay`) partway through its year (Oct 15).
+- **OPUS-CORE (a small place has no 17-year-old, again):** `buildPopulation` throws "No household of Utica, Montana holds a resident aged 17." (`scene-year.ts --seed w15-s`) (Oct 15).
+
 - **OPUS-CORE (a played year stops on public pay):** a two-level bench world for `scripts/dialogue-batch/scene-year.ts --seed scenes-c` throws "Public pay does not match its actual owned work obligation." (`src/core2/public-work-pay.ts:177`, from the work module's payroll day) partway through its year (Oct 14).
 - **OPUS-CORE (the address isn't a news story):** with the press module installed, the news module leaves stories to the press (`src/core2/modules/news.ts:434`), and the press never files the President's address. So `opening-story.test.ts` "is a public record the news carries" fails on `main` and on #4287. Either the press files the address as a national story, or the test reads where the press carries it (Oct 14).
 - **OPUS-CORE (a played year stops on an obligation):** a two-level bench world in Waterford, California (the first place drawn for `dialogue:coverage --seed batch-10-r2`) throws "Only a current standing obligation can end." partway through its year. The batch drew another place; the world itself still can't finish its year (Oct 14).
@@ -101,6 +106,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 14 (night): the director package from the owner's playthrough (CTO's order), on its own branch stacked on the opening's (#4287).
+  - **Talks:** a talk opens on the scene's moment when a scene opens it, else on the biggest recent recorded event of either person in the director's ledger, else on what they share. It keeps to that topic, may lead to one related topic, and the other person closes it. Someone absent is asked after only when something recorded happened to them, so the loop over every known person is gone. The President's address weighs by political engagement, the listener remembers the last talk's topic, and people who live together don't greet each other at home.
+  - **Family scenes:** a household member's lost job, death or serious illness stages its family scene at home whatever its size. In Brownville Junction, Maine (seed `scenes-d`), the father's job ended on May 1, 2027; the scene opened "Your father is there.", he said "I lost my job.", and the player could answer "What happened?", "Oh.", "Sorry to hear that." or "All right."
+  - **Office scene:** built by an Opus sub-agent. Before a town body votes, the scene picks the one colleague nearest the player's side who is still against it. Making the case is recorded as a case made to them, which the views engine reads and the vote reads in turn.
+  - Next: batch 11 the new way, and the cause a scene comes from as the talk's topic.
 - Oct 14 (evening): the opening, from the owner's playthrough (CTO's order; PEOPLE's press session is closed, so the English engine owner takes it), on its own branch stacked on this one (#4287). It now opens at home that evening: the household is pointed out by its relation to the player, and the anchor says "Good evening. We begin with the State of the Union." A person is lit only on the line that names them (the Speaker on the salutation, a governor on "Thank you, Governor ..."), introduced by office and state. The economy is told by figures only ("The unemployment rate is 4.3 percent."). A place is named only from a visit to the player's own state, and the President's card reads office and state. Measured in Vienna, West Virginia (seed `sotu-a`) and Lake Aluma, Oklahoma (seed `wv-1`). Next: the owner plays it.
 - Oct 14 (evening): batch 10 held by the CTO for eight defects, all fixed in the engine and the batch regenerated in a new random place, Westerly, Rhode Island (seed `batch-10-r2`; its year passed eight local laws). The first draw, Waterford, California, stopped on a core error (see Needs). Fixed:
   - a relative's race result is read from the record;
