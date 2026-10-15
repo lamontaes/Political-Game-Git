@@ -4,8 +4,8 @@ title: "A race's winner is a seat-term id, not a person"
 area: elections
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-winner-is-seat-term-id
 pr:
 blocked-on:
 milestone:
