@@ -173,6 +173,10 @@ export const BUDGETS_MODULE: CoreModule = {
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** Each tax paid by a named group of payers on its due date. */
+      taxPayments: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
       /** Each treasury's monthly close: every line's money, where it went. */
       treasuryMonths: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -1421,6 +1425,28 @@ export function outsideRevenueOf(api: CoreAPI, governmentId: string): number {
       governmentId,
     ]) as unknown as { amountMinor: number }[]
   ).reduce((sum, r) => sum + r.amountMinor, 0);
+}
+
+/** A tax installment a named group of payers paid a treasury. */
+export interface TaxPayment {
+  readonly id: string;
+  readonly governmentId: string;
+  readonly line: string;
+  readonly payerId: string;
+  readonly payerName: string;
+  readonly dueOn: string;
+  readonly date: string;
+  readonly amountMinor: number;
+}
+
+/** What a government's treasury has received from named payers of its taxes. */
+export function taxPaymentsOf(
+  api: CoreAPI,
+  governmentId: string,
+): readonly TaxPayment[] {
+  return table(api, "taxPayments").query("byGovernment", [
+    governmentId,
+  ]) as unknown as TaxPayment[];
 }
 
 export function governments(api: CoreAPI): readonly GovernmentRow[] {

@@ -20,6 +20,7 @@ import {
   governments,
   outsideRevenueOf,
   openBudgets,
+  taxPaymentsOf,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
 import { treasuryMonthsOf } from "./budgets-treasury";
@@ -130,11 +131,29 @@ describe(
           (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
             (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
             outsideRevenueOf(api, gov.id) +
+            taxPaymentsOf(api, gov.id).reduce((n, p) => n + p.amountMinor, 0) +
             closes,
         );
         // The treasury paid its lines: every month's close spent money.
         expect(treasuryMonthsOf(api, gov.id).length, gov.id).toBeGreaterThan(0);
       }
+      // The taxes with named payers arrive in installments on their due
+      // dates, each naming the group that paid it and what it was due on.
+      let installments = 0;
+      for (const gov of govs) {
+        const budget = budgetsOf(api, gov.id).at(-1)!;
+        for (const paid of taxPaymentsOf(api, gov.id)) {
+          installments += 1;
+          expect(paid.payerName, gov.id).not.toBe("");
+          expect(paid.dueOn, gov.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+          expect(paid.dueOn < paid.date, gov.id).toBe(true);
+          // An installment is a share of the line the budget carries.
+          expect(paid.amountMinor, gov.id).toBeLessThanOrEqual(
+            budget.revenueMinor[paid.line] ?? 0,
+          );
+        }
+      }
+      expect(installments, `tax installments in ${place}`).toBeGreaterThan(0);
       // Aid, fees and the rest arrive each month for the local governments;
       // one with no budget of its own passes what it collects on.
       for (const gov of govs.filter((g) => g.level !== "federal")) {
