@@ -4,9 +4,9 @@ title: "Order 2: the grading bench, every line a data point"
 area: words
 kind: feature
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: words/grading-bench
-pr:
+pr: "#4407"
 blocked-on: "words-authored-pieces-gate"
 milestone:
 source: "words-and-director order 2"
