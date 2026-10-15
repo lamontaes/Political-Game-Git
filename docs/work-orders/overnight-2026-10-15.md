@@ -50,7 +50,11 @@ In this order, one PR each:
 
 **Owner plays it:** he takes a seat on the council, sits through a meeting on its real night, votes, and the next morning a passed bill waits on the mayor's desk; a governor's day and a representative's week run from a dev script with the real calendar.
 
-## The pool, for whoever finishes first (claim before starting)
+## Session D: the pool worker (`pool/*`)
+
+Session D has no assignment of its own. It starts on the pool at once and works it to completion: top to bottom, claiming each item before starting it, one draft PR per item, and it does not stop while any item is unclaimed or unfinished. When an item is blocked by another session's unmerged work, it writes the blocker in one line in its PR body and takes the next item; it comes back to the blocked one last. When the pool is empty, it takes the next open `faked-mechanic`, `missing-record` and `missing-mechanic` stopgaps in `src/core2/data/stopgaps.json`, one engine per PR, until usage runs out. It never waits on anyone.
+
+## The pool, for Session D first and for whoever finishes an assignment (claim before starting)
 
 1. Committee markup trades: members trade votes for sections in committee, where most bills die (`legislature.ts`; follows #4281's floor trades).
 2. The eleven record-only laws' reads, if Session A did not reach them all (take the next unwired family).
@@ -64,4 +68,4 @@ Not tonight's: the screens (Astra's day order, `docs/work-orders/astra-2026-10-1
 
 ## Paste prompt for each session
 
-> Read `docs/work-orders/overnight-2026-10-15.md` in lamontaes/Political-Game-Git and take Session A (or B, or C). Follow `AGENTS.md`. One draft PR per order on your own branch off main, checks in your session on changed files only, a release declaration in `docs/release/changes/`, proof in a played world in a place you did not choose with record ids in the PR body, and the first lines of the PR body say what the owner can play now. When your assignment is done, claim the first open item in the pool and keep going until you are out of usage. Never merge your own PR.
+> Read `docs/work-orders/overnight-2026-10-15.md` in lamontaes/Political-Game-Git and take Session A (or B, or C, or D: the pool worker, who starts on the pool at once and works it to completion). Follow `AGENTS.md`. One draft PR per order on your own branch off main, checks in your session on changed files only, a release declaration in `docs/release/changes/`, proof in a played world in a place you did not choose with record ids in the PR body, and the first lines of the PR body say what the owner can play now. When your assignment is done, claim the first open item in the pool and keep going until you are out of usage. Never merge your own PR.
