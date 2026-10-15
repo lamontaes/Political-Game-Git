@@ -114,4 +114,43 @@ describe("recorded policy powers", () => {
       expect(granted.source).toContain("/dc");
     }
   });
+  it("refuses a town council's bill outside its powers for the recorded reason, and the state's chamber drafts the same bill", () => {
+    const offices = api
+      .moduleState("core2-offices-v1")
+      .table("offices")
+      .rows() as unknown as { id: string; kind: string }[];
+    const council = offices.find((o) =>
+      ["council", "township-board"].includes(o.kind),
+    );
+    const chamber = offices.find((o) => o.kind === "legislature-lower");
+    expect(council, `${place.name}: a town body`).toBeTruthy();
+    expect(chamber, `${place.name}: a state chamber`).toBeTruthy();
+    // A question the town lacks the power for and the state holds.
+    const question = Object.keys(POLICY_QUESTIONS).find((q) => {
+      const city = policyAuthority(api, q, "city");
+      return (
+        !city.allowed &&
+        city.reason === "level-lacks-power" &&
+        policyAuthority(api, q, "state").allowed
+      );
+    });
+    expect(question, "a power the town lacks and the state holds").toBeTruthy();
+    const draft = (bodyOfficeId: string) =>
+      draftBill(api, {
+        bodyOfficeId,
+        sponsorId: memberKey(members(api, bodyOfficeId)[0]!),
+        provisions: [
+          { kind: "policy-question", question: question!, value: 1 },
+        ],
+      });
+    const refused = draft(council!.id);
+    expect(refused.status, refused.id).toBe("blocked");
+    expect(refused.authority[0]).toMatchObject({
+      allowed: false,
+      reason: "level-lacks-power",
+    });
+    expect(refused.authority[0]!.source).toContain("question-powers.json");
+    const accepted = draft(chamber!.id);
+    expect(accepted.status, accepted.id).toBe("drafted");
+  });
 });
