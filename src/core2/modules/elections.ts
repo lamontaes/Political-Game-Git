@@ -593,7 +593,7 @@ export function checkEligibility(
     required: "no active press employment or ownership",
     actual: conflict ? `${conflict.role}:${conflict.outletId}` : "none",
     source:
-      "Owner decision, October 14, 2026: press staff and owners cannot run while working for or owning an outlet",
+      "CTO ruling pending owner confirmation, October 14, 2026: press staff and owners cannot run while working for or owning an outlet",
   });
   if (rules.registeredVoter) {
     // stopgapId: SG-GOV-voter-registration-assumed

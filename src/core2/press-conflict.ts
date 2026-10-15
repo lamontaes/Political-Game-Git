@@ -1,5 +1,5 @@
 /**
- * The press-employment conflict (owner ruling, Oct 14, 2026): a working
+ * The press-employment conflict (CTO ruling pending owner confirmation, Oct 14, 2026): a working
  * reporter, an outlet's head or an outlet's owner may not hold office,
  * appoint or run while working for or owning the outlet.
  *
@@ -62,5 +62,10 @@ export function pressConflict(
   api: CoreAPI,
   personId: PersonId,
 ): PressConflict | null {
-  return indexFor(api).get(personId) ?? null;
+  const conflict = indexFor(api).get(personId) ?? null;
+  if (conflict) {
+    // stopgapId: SG-GOV-press-office-owner-confirmation
+    api.stopgap("SG-GOV-press-office-owner-confirmation");
+  }
+  return conflict;
 }

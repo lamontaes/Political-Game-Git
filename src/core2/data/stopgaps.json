@@ -4452,5 +4452,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Jurisdiction-wide counted household records with district membership, using the same candidacy reasons before filling in a runner.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-press-office-owner-confirmation",
+    "kind": "owner-decision",
+    "file": "src/core2/press-conflict.ts",
+    "line": 66,
+    "whatItFakes": "Uses the CTO ruling that working press staff and outlet owners cannot run for office while retaining that role.",
+    "why": "OWNER-DECISIONS.md records the October 14, 2026 ruling as pending owner confirmation.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
+    "status": "open"
   }
 ]
