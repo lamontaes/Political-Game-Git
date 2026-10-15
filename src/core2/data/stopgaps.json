@@ -3617,7 +3617,7 @@
     "file": "src/core2/modules/justice.ts",
     "line": 904,
     "whatItFakes": "A job the jobs engine gives a person in prison is ended by the justice engine before its first shift, instead of the jobs engine never hiring them.",
-    "why": "Resolved: jobs reads indexed custody before full or counted job search, applications and hiring, withdraws pending offers on imprisonment and rechecks acceptance. Justice ends only jobs held when imprisonment begins; the daily repair is removed.",
+    "why": "Resolved: jobs reads indexed custody before full or counted job search, applications and hiring, withdraws pending offers on imprisonment and rechecks acceptance. Staff candidates and the shared public payroll writer also read custody. Justice ends only jobs held when imprisonment begins; the daily repair is removed.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "The jobs engine skips people in custody (justice's inCustody, or discretionaryEligibleV1 false) when deciding who looks for work and whom an employer hires.",
