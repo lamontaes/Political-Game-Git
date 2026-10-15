@@ -17,10 +17,8 @@ import {
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "world-snapshot",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "world-snapshot");
 
 function build(): CoreState {
   const input = withWorldEconomy(generatedOpening(drawn, { twoLevel: true }));
@@ -77,7 +75,7 @@ function fields(core: CoreState): Record<string, string> {
   return out;
 }
 
-describe(`a world snapshot with the economy (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`a world snapshot with the economy (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("covers every economy engine and runs on identically after a restore", () => {
     const original = build();
     expect(uncoveredModules(original)).toEqual([]);

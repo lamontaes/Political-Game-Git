@@ -23,10 +23,8 @@ import { generatedOpening } from "./tooling/generated-world";
 
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "macro-public",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "macro-public");
 
 describe("public purchases and output", () => {
   it("purchases of 1% of output raise output about 1.2% after a year and 1.5% after two", () => {
@@ -42,7 +40,7 @@ describe("public purchases and output", () => {
     expect(run(1, 24) - run(0, 24)).toBeLessThan(1.5);
   });
 
-  it(`a defense increase Congress enacts reaches the national month (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+  it(`a defense increase Congress enacts reaches the national month (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),
     );

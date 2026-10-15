@@ -14,13 +14,11 @@ import {
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "business-cannabis",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "business-cannabis");
 const LEGAL = "us-policy-positions:business-commerce.legalize-cannabis-sales";
 
-describe(`a legal cannabis market (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`a legal cannabis market (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("licenses retailers, moves spending from outside the town to them, and a repeal ends it", () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),

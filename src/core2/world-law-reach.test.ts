@@ -19,10 +19,8 @@ import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreAPI, CoreState } from "./types";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "world-law-reach",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "world-law-reach");
 const P = "us-policy-positions:";
 let core: CoreState,
   api: CoreAPI,
@@ -61,7 +59,7 @@ const rule = (good: string, kind: string) =>
     .get(`${town}:${good}:${kind}`) as unknown as
     { value: number; payeeId?: string; providerId?: string } | undefined;
 
-describe(`laws reach the economy (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`laws reach the economy (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   beforeAll(() => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),

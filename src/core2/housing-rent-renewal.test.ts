@@ -13,12 +13,10 @@ import {
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "housing-rent-renewal",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "housing-rent-renewal");
 
-describe(`counted rents renew (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`counted rents renew (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("renews each counted lease once a year, in months spread over the year", () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),

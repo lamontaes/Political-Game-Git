@@ -14,12 +14,10 @@ import { countedJobsOf } from "./residents-economy";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "M1-03-town",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "M1-03-town");
 
-describe(`a town follows its region (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`a town follows its region (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("its pay index is the nation's moved by its region's, and a worker's yearly raise follows it", () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),
