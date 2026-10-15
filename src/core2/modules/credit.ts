@@ -32,7 +32,7 @@ import { strongestPulls } from "./jobs";
 import { residentsRuntime } from "./residents";
 import { countedPayment, fundBalance, peopleInGroup } from "../counted-money";
 import type { ActOffer } from "../types";
-import { bankDeposit, bankDepositLiability } from "../accounts";
+import { bankDeposit, bankDepositLiability, depositsHeld } from "../accounts";
 import { reviewBankDeposits } from "../credit-deposits";
 
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
@@ -533,7 +533,8 @@ function review(api: CoreAPI): void {
     const cover =
       (books.annualPayrollMinor / p("macroMonthsPerYear")) *
       p("creditLineMonthsOfPayroll");
-    const cash = c.organizations.get(id)!.liquidMinor;
+    // Its cash and its savings at the bank.
+    const cash = c.organizations.get(id)!.liquidMinor + depositsHeld(c, id);
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
     const ownerId = (owners?.get(id) as { ownerId?: string } | undefined)
@@ -579,7 +580,7 @@ function review(api: CoreAPI): void {
     a.id.localeCompare(b.id),
   )) {
     const books = c.finance.businesses.get(id)!;
-    const cash = c.organizations.get(id)!.liquidMinor;
+    const cash = c.organizations.get(id)!.liquidMinor + depositsHeld(c, id);
     const { salesToWages, record, spreadPct } = lineTerms(api, books);
     const limitMinor = Math.floor(
       Math.min(requested * appetite * record, room),
@@ -676,7 +677,10 @@ function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
           id: `household-month:${householdId}:${c.date}`,
           householdId,
           date: c.date,
-          cashMinor: members.reduce((n, person) => n + person!.liquidMinor, 0),
+          // Cash in hand and savings at the bank.
+          cashMinor:
+            members.reduce((n, person) => n + person!.liquidMinor, 0) +
+            depositsHeld(c, householdId),
           housingMinor: 0,
           everydayMinor: 0,
           billsMinor: 0,
@@ -1062,7 +1066,9 @@ function householdApplications(
         a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
     )[0];
     if (!head) continue;
-    const cash = members.reduce((s, row) => s + row!.liquidMinor, 0);
+    const cash =
+      members.reduce((s, row) => s + row!.liquidMinor, 0) +
+      depositsHeld(c, household.id);
     const costs =
       members.reduce((s, row) => s + row!.livingCostDailyMinor, 0) *
       p("businessDaysPerMonth");

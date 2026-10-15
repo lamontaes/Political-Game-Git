@@ -9,6 +9,7 @@ import { JOBS_MODULE, tenureYears } from "./modules/jobs";
 import { macroCoreData } from "./modules/macro";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
+import { closeBusinessByChoice } from "./finance-state";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, PersonInput, Source } from "./types";
 
@@ -161,15 +162,11 @@ describe(`a closed employer's counted workers (GOLDEN_PATH_SEED=${seed})`, () =>
     } as unknown as BusinessBooksState;
     core.finance.businesses.set(employer, book);
     advanceCore(core, "2021-02-10");
-    // The plant closes today, between paydays.
-    book.closedAt = "2021-02-10";
-    api.emit({
-      id: `event:organization.closed:${employer}`,
-      date: core.date,
-      kind: "organization.closed",
-      placeId: place,
-      personIds: [],
-      publicRecord: true,
+    // The plant closes today, between paydays, through the core's closure (its record names the counted jobs that end).
+    closeBusinessByChoice(core, api, {
+      organizationId: employer,
+      ownerAccountId: api.accounts().main(residentsId),
+      reasonKey: "closure-fixture",
       source: src,
     });
     const seekers = api.moduleState("jobs").table("countedSeekers");

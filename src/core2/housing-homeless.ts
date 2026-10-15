@@ -20,6 +20,7 @@ import { stopgap } from "./stopgaps";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
 import { endResidentFlow } from "./residents-economy";
+import { depositsHeld } from "./accounts";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 
@@ -249,10 +250,10 @@ export function placeRemovedHousehold(
     const job = c.jobs.get(c.people.get(id)?.jobId ?? "");
     return job !== undefined && job.endsAt === undefined;
   });
-  const cash = memberIds.reduce(
-    (n, id) => n + (c.people.get(id)?.liquidMinor ?? 0),
-    0,
-  );
+  // Cash in hand and the household's savings at the bank.
+  const cash =
+    memberIds.reduce((n, id) => n + (c.people.get(id)?.liquidMinor ?? 0), 0) +
+    depositsHeld(c, household.id);
   const host = hostFor(api, memberIds, household.id, placeId, !holdsJob);
   const base = {
     id: household.id,
@@ -357,10 +358,9 @@ export function reviewHomeless(
       if (job && job.endsAt === undefined) daily += job.wageDailyMinor;
     }
     const income = daily * daysPerMonth;
-    const cash = living.reduce(
-      (n, id) => n + (c.people.get(id)?.liquidMinor ?? 0),
-      0,
-    );
+    const cash =
+      living.reduce((n, id) => n + (c.people.get(id)?.liquidMinor ?? 0), 0) +
+      depositsHeld(c, row.id);
     const rent = rentOf(row.id);
     if (rent <= 0 || income < rent * multiple || cash < rent) continue;
     lease(row.id, rent);

@@ -18,7 +18,13 @@ import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLeanBetween } from "../trait-decisions";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
-import type { ActOffer, CoreAPI, CoreState, PersonState } from "../types";
+import type {
+  ActOffer,
+  CoreAPI,
+  CoreState,
+  PersonState,
+  Source,
+} from "../types";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -297,6 +303,37 @@ function cushionOf(
       p("macroMonthsPerYear")) *
     p("businessCushionMonths")
   );
+}
+
+/** A business's cash in hand and its savings at the bank. */
+function cashAndSavings(c: CoreState, organizationId: string): number {
+  return (
+    (c.organizations.get(organizationId)?.liquidMinor ?? 0) +
+    depositsHeld(c, organizationId)
+  );
+}
+
+/** Brings enough of a business's savings at the bank into its account to pay `amountMinor`. */
+function drawSavingsFor(
+  api: CoreAPI,
+  organizationId: string,
+  amountMinor: number,
+  id: string,
+  source: Source,
+): void {
+  const c = api.state as CoreState;
+  const short =
+    Math.ceil(amountMinor) -
+    (c.organizations.get(organizationId)?.liquidMinor ?? 0);
+  const saved = depositsHeld(c, organizationId);
+  if (short <= 0 || saved <= 0) return;
+  withdrawSavings(c, api, {
+    id,
+    holderId: organizationId,
+    customerAccountId: api.accounts().main(organizationId),
+    amountMinor: Math.min(saved, short),
+    source,
+  });
 }
 
 /** A business's cash less what it owes on its credit lines and to its suppliers. */
@@ -904,8 +941,24 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
   if (!book || book.closedAt) return;
   const net = netCash(c, row.id);
   const retained = row.retainedMinor + (net - (row.netThrough ?? net));
-  const cash = c.organizations.get(row.id)!.liquidMinor;
+  const cash = cashAndSavings(c, row.id);
   const cushion = cushionOf(book, p);
+  const sweepSource: Source = {
+    tag: "ESTIMATED",
+    asOf: c.date,
+    citation: businessData.source.citation,
+    estimatedFrom:
+      "A branch of a firm based outside the town sends its parent the cash above its cushion, out of profit it has kept.",
+  };
+  const toSweep = Math.min(retained, Math.max(0, cash - cushion));
+  if (retained > 0 && toSweep > 0)
+    drawSavingsFor(
+      api,
+      row.id,
+      toSweep,
+      `parent-sweep-savings:${row.id}:${c.date}`,
+      sweepSource,
+    );
   const swept =
     retained > 0
       ? transferCash(
@@ -913,14 +966,8 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
           `parent-sweep:${row.id}:${c.date}`,
           row.id,
           row.ownerId,
-          Math.min(retained, Math.max(0, cash - cushion)),
-          {
-            tag: "ESTIMATED",
-            asOf: c.date,
-            citation: businessData.source.citation,
-            estimatedFrom:
-              "A branch of a firm based outside the town sends its parent the cash above its cushion, out of profit it has kept.",
-          },
+          toSweep,
+          sweepSource,
         )
       : 0;
   store(api)
@@ -1302,11 +1349,12 @@ function month(api: CoreAPI): void {
     const profit = net - (row.netThrough ?? net);
     // Losses carry: an owner draws only from profit the business has kept, net of losses since.
     const retained = row.retainedMinor + profit;
-    const cash = c.organizations.get(row.id)!.liquidMinor;
+    const cash = cashAndSavings(c, row.id);
     const cushion = cushionOf(book, p);
     const ownerDays =
       owner.livingCostDailyMinor > 0
-        ? owner.liquidMinor / owner.livingCostDailyMinor
+        ? (owner.liquidMinor + founderSavings(c, owner.id).minor) /
+          owner.livingCostDailyMinor
         : Number.POSITIVE_INFINITY;
     const short = cushion > 0 ? Math.max(0, 1 - cash / cushion) : 0;
     // Cash beyond the cushion is profit the business doesn't need: on a sliding scale toward 1.
@@ -1328,20 +1376,29 @@ function month(api: CoreAPI): void {
         ),
       );
       share = Number(selected.targetId.split(":").at(-1));
-      if (share > 0)
+      const drawSource: Source = {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: businessData.source.citation,
+        estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
+      };
+      if (share > 0) {
+        drawSavingsFor(
+          api,
+          row.id,
+          retained * share,
+          `owner-draw-savings:${row.id}:${c.date}`,
+          drawSource,
+        );
         drawn = transferCash(
           api,
           `owner-draw:${row.id}:${c.date}`,
           row.id,
           account,
           retained * share,
-          {
-            tag: "ESTIMATED",
-            asOf: c.date,
-            citation: businessData.source.citation,
-            estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
-          },
+          drawSource,
         );
+      }
     }
     store(api)
       .table("draws")

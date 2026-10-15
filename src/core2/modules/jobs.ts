@@ -27,6 +27,7 @@ import {
 import { REGIONAL_MODULE_ID, regionalMonth } from "./regional";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { inCustody } from "./justice";
+import { depositsHeld } from "../accounts";
 import {
   residentPerson,
   residentsRuntime,
@@ -261,6 +262,16 @@ function actorOf(
  */
 function controlled(c: CoreState, personId: string): boolean {
   return personId === c.playerId || isExplicitlyControlledPersonV1(c, personId);
+}
+
+/** A full person's share of their household's savings at the bank, by its living members. */
+function savingsShare(c: CoreState, person: PersonState): number {
+  const saved = depositsHeld(c, person.householdId);
+  if (saved <= 0) return 0;
+  const living = (c.households.get(person.householdId)?.memberIds ?? []).filter(
+    (id) => c.people.get(id)?.alive,
+  ).length;
+  return living > 0 ? saved / living : 0;
 }
 
 function isCounted(api: CoreAPI, personId: string): boolean {
@@ -564,10 +575,11 @@ function openSeekers(api: CoreAPI, unemploymentPct: number): void {
     if (list) list.push(person);
     else joblessAt.set(person.placeId, [person]);
   }
-  // Need to work: the fewest days the person's money covers.
+  // Need to work: the fewest days the person's money (their share of the household's savings at the bank included) covers.
   const days = (person: PersonState) =>
     person.livingCostDailyMinor > 0
-      ? person.liquidMinor / person.livingCostDailyMinor
+      ? (person.liquidMinor + savingsShare(c, person)) /
+        person.livingCostDailyMinor
       : Number.POSITIVE_INFINITY;
   for (const [placeId, jobless] of [...joblessAt].sort((a, b) =>
     a[0].localeCompare(b[0]),
@@ -1542,7 +1554,7 @@ function reviewWorkers(api: CoreAPI): void {
         : 0;
     const bufferMonths =
       person.livingCostDailyMinor > 0
-        ? person.liquidMinor /
+        ? (person.liquidMinor + savingsShare(c, person)) /
           ((person.livingCostDailyMinor * p("jobsDaysPerYear")) /
             p("macroMonthsPerYear"))
         : 0;
@@ -1726,6 +1738,8 @@ function reviewJobless(api: CoreAPI): void {
       liquid += member.liquidMinor;
       cost += member.livingCostDailyMinor;
     }
+    // The household's savings at the bank count too.
+    liquid += depositsHeld(c, person.householdId);
     const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
     const result = chooseAct(c, person.id, [
       offer("wait", person.id, {}),
@@ -1771,6 +1785,8 @@ function reviewJobless(api: CoreAPI): void {
       liquid += member.liquidMinor;
       cost += member.livingCostDailyMinor;
     }
+    // The household's savings at the bank count too.
+    liquid += depositsHeld(c, person.householdId);
     const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
     const result = chooseAct(c, person.id, [
       offer("wait", person.id, {}),
