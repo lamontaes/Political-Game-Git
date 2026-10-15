@@ -14,3 +14,6 @@ The owner can follow real bank-issued loans and their rate changes in the macro 
 No subagents ran. Usage is not exposed. Two new fixture assumptions needed correction: outside ownership and external cash flows; no production assertion was weakened.
 
 - Views #4351: root fixed, unchanged test passes; drawn year inversions 5/29 → 0/0; 21.24 seconds vs 21.44. All changed-file checks pass. First D owns other unit-suite contracts and the office journal dependency. Next: stale PR disposition, pool item 6.
+
+- Stale PR disposition #4355 is complete: 27 reviewed old threads closed with replacement/carry-forward comments, zero head mismatches, no branches deleted. Legal review retained with pinned historical evidence; five term-limit and 29 lobbying-period records verified in current split data. Drawn Hammett year: 14.59 seconds, 67 modules, actual credit record IDs in PR. Changed-document gate passes.
+- Published drafts: #4334, #4338, #4344, #4346, #4349, #4351, #4355. All claimed implementations above are committed and pushed. No self-merges. The pool is not fully resolved: earlier law/core/housing/press/office dependencies remain, party loyalty stays parked, and open stopgaps continue beyond these items. First D has moved to cause-group founding; the next drives acts overlap that file, while health and justice still have independent open mechanics.
