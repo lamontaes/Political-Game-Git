@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OPUS-GOV.md (line 124): 3 lines"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-124
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-GOV.md "Needs from other sessions" (line 124)'
+claimed-at: 2026-10-15T23:36:49.450Z
 ---
 
 **What.** Three requests remain from OPUS-GOV: core rows in `outside-flows.json` for the treasury and federal borrowing so the stricter M0-08 money check passes (with `setStandingContractAmount` for recipient-income contracts, SG-GOV-opening-award-level), a rerate for the residents' retirement flows, and a budget bill with no executive carrying `departmentRequests` lines (`legislature.ts` line 439). The money rows are being built by the gov-outside-revenue items; the rest need checking on main. Verify each line, close what is built, and split what is not into small items.
