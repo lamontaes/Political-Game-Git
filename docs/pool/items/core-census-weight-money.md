@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-census-weight-money
 pr:
 blocked-on: core-census-weight-model
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
+claimed-at: 2026-10-15T21:50:47.447Z
 ---
 
 **What.** Every dated flow a counted household makes (pay, benefits, rent, purchases, retirement income, taxes) moves through the one journal times its weight, so a town of millions has its real payroll, rent and tax receipts.
