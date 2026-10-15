@@ -99,3 +99,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 9. Counted deaths reaching known relatives — `pool/counted-death-notices` (first Session D; monthly renewal death rows already change population and income, but no life.death notification reaches the full people who know those residents; notification reader only, existing mortality and migration selection unchanged).
 
 - 10. Core handoff, played opening records — `pool/bench-opening-records` (first Session D; reuse core public schools, private tuition and representative sampling in the existing bench stages, retaining its 17-year-old player and all installed modules; second D retains shared settings work).
+
+- 10. OPUS-GOV Needs, custody core API — `pool/custody-person-update` (second Session D; allow discretionaryEligibleV1 through updatePerson and replace justice-custody's direct person writes; no custody/sentencing rules or director/English changes. Core review requested in the draft; no wait on review).
