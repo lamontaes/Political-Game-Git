@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-blocked-on: core-census-weight-money
+blocked-on: core-census-weight-readers
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
 ---
