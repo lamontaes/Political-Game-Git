@@ -1086,6 +1086,41 @@ body.dev .dev-ring {
   transform: translateX(-50%);
   width: min(900px, calc(100vw - 2 * var(--gutter)));
 }
+/* Options uses the approved compact panel instead of the full-height reader. */
+#game #sheet.options-sheet {
+  left: 50%;
+  right: auto;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(760px, calc(100vw - 2 * var(--gutter)));
+  max-height: calc(100vh - 2 * var(--gutter));
+  padding: 30px 40px;
+}
+.options-sheet #sheet-body {
+  flex: 0 1 auto;
+  max-width: none;
+}
+.option-setting {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 2fr;
+  gap: 16px;
+  align-items: center;
+  margin: 18px 0;
+}
+.option-setting > span:first-child {
+  color: var(--gold);
+}
+.option-setting input {
+  justify-self: start;
+}
+.option-status:empty {
+  display: none;
+}
+.options-actions {
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
 .sheet-head {
   display: flex;
   justify-content: space-between;
@@ -1512,20 +1547,6 @@ body.dev .dev-ring {
 #news-reader-more .prose {
   margin: 0;
   padding: 10px 0;
-}
-/* The scenes the player lets stop the day (Options). */
-.scene-filter {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 4px 16px;
-  margin: 6px 0 16px;
-}
-.scene-filter label {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font: 400 13.5px var(--ui);
-  color: var(--text-2);
 }
 .coach {
   box-shadow:

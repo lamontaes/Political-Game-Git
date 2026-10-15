@@ -298,5 +298,41 @@
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: either fewer choices are right, or OPUS-WORDS mines more answer moves per subject until three to five follow naturally.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-WORDS-param-directorTalkRecentDays",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How long ago a recorded event still makes something two people talk about, and lets someone not in the room be asked after.",
+    "why": "The owner ruled what a talk opens on (Oct 14, 2026, night), not how long news stays news; one season is a guess checked against played talks.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-14",
+    "replacement": "A tested calibration against played talks, or an owner answer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-param-directorTalkAddressImpact",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How much the President's address weighs as a talk's topic, times the speaker's political engagement.",
+    "why": "The owner ruled public news comes up only for people who follow politics closely (Oct 14, 2026, night); the size is a guess kept below a life event's.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-14",
+    "replacement": "A tested calibration against played talks, or an owner answer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-office-scene-town-members",
+    "kind": "works-in-one-place",
+    "file": "src/director/office-scene.ts",
+    "line": 162,
+    "whatItFakes": "The office scene picks its target only among members whose position reads the views engine (town bodies' full-person members); state and federal officials are skipped.",
+    "why": "An official's position (officialParts) reads their officials record, not the views engine's stances, so a case made to them moves nothing.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-14",
+    "replacement": "officialParts reads the views engine's stance on each question (OPUS-GOV), and the scene's target filter is removed.",
+    "status": "open"
   }
 ]

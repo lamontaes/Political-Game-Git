@@ -1058,6 +1058,33 @@
         "The choice is clear.",
         "Thank you, and God bless."
       ]
+    },
+    {
+      "move": "member-ask",
+      "subject": "member",
+      "role": "ask",
+      "choice": "ask",
+      "note": "One member asking another for their vote face to face, in the office scene (owner, Oct 14, 2026, night: convince one member to vote no on an amendment).",
+      "candidates": [
+        "Can I count on your vote?",
+        "Can I count on you?",
+        "I need your vote.",
+        "I need your vote on this.",
+        "I need you on this.",
+        "I'm asking for your vote.",
+        "Will you vote with me?",
+        "Will you vote no?",
+        "Will you vote yes?",
+        "Can you support this?",
+        "Can you vote no?",
+        "Can you vote yes?",
+        "I hope you'll vote no.",
+        "I hope you'll vote yes.",
+        "I hope I can count on your support.",
+        "I hope I can count on you.",
+        "I'd like your support.",
+        "I need your support."
+      ]
     }
   ]
 }

@@ -23,27 +23,27 @@ This section overrides anything heavier elsewhere in this file, in `docs/package
 
 ## The team (owner, Oct 11, 2026)
 
-Long-lived Opus cloud sessions ("pillars") each own one area. **The pillars run on the owner's current account only (owner, Oct 14, 2026):** the CTO opens each pillar as a cloud session on this account and assigns work to it there; the old account's sessions are cut off and get nothing. Each works down its checklist in `docs/coordination/` and then keeps going into its area's next roadmap items, stopping only when it's out of usage (see "No stopping" below). A checklist is an order of work, not a ceiling.
+Sonnet is the only Claude model that builds, reviews or merges; there are no Opus sessions or sub-agents (owner, Oct 15, 2026). Any agent with repository access may take pool items from `docs/pool/INDEX.md` (Claude, Codex, Cursor, Antigravity or any other); only the CTO merges. Areas still bound what a session may edit. Each session works its claimed item and then takes the next from the pool, stopping only when it's out of usage (see "No stopping" below).
 
-| Session     | Owns                                                                                                                       | Model        |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| OPUS-CORE   | The core, `src/core2`: state, clock, choices, ledger, population, speed, money; everything not listed below                | Opus, high   |
-| OPUS-GOV    | `src/rules` and the government engines: laws, budgets, programs, offices, elections and campaigns, legislatures, executive | Opus, medium |
-| OPUS-PEOPLE | The people engines (people, health, drives, views, renewal), the story director (`src/director`) and the English engine    | Opus, high   |
-| OPUS-PLAY   | The bench, `src/bench`; the game screens on the new core; the evening build; store screenshots                             | Opus, medium |
-| OPUS-WORLD  | The economy engines: macro, regional, jobs, housing, credit, business                                                      | Opus, medium |
-| FIXER       | Nothing of its own: bugs the CTO assigns, one per PR                                                                       | Sonnet, high |
+Areas:
 
-- An engine is `src/core2/modules/<name>.ts` with its helpers `src/core2/<name>-*.ts` and data `src/core2/data/<name>/`; it belongs to the pillar that owns that engine.
-- Each session writes only in its own area, on its own branch. Changes to the core go through OPUS-CORE: ask on its PR, and it answers within the day.
+- **Core:** `src/core2`: state, clock, choices, ledger, population, speed, money; everything not listed below.
+- **Government:** `src/rules` and the government engines: laws, budgets, programs, offices, elections and campaigns, legislatures, executive.
+- **People:** the people engines (people, health, drives, views, renewal), the story director (`src/director`) and the English engine.
+- **Play:** the bench, `src/bench`; the game screens on the new core; the evening build; store screenshots.
+- **World:** the economy engines: macro, regional, jobs, housing, credit, business.
+- **Fixes:** nothing of its own: bugs the CTO assigns, one per PR.
+
+- An engine is `src/core2/modules/<name>.ts` with its helpers `src/core2/<name>-*.ts` and data `src/core2/data/<name>/`; it belongs to the area that owns that engine.
+- Each session writes only in its own area, on its own branch. Changes to the core go through a core-area session: ask on its PR.
 - Each session keeps one status file, `docs/coordination/<session>.md`, and is its only writer: its checklist, what it needs from others, and what the owner can play now. Only the CTO writes `docs/coordination/BOARD.md`. Cloud sessions can't reliably message each other, so the CTO relays.
-- Codex and any other session build under the pillar that owns the area.
-- **No stopping (owner, Oct 12, 2026).** The pillars build the whole game, not just tonight's list. When your checklist is done, keep going through your area's specs in every later milestone (`docs/roadmap/later-specs-draft.md`, M2 to M7), then take open work from `docs/coordination/BOARD.md`. Nothing waits on another session: if you need something from one, build against the smallest stand-in on your own branch, register it as a stopgap (a marker in the code and a row in `src/core2/data/stopgaps.json` naming what it fakes and what replaces it; see "Placeholders"), note it under "Needs from other sessions", and keep going. Nothing waits on the owner: where a design is his call and he hasn't ruled, build the simplest version that follows this file, write the question in your status file, and keep going; he reviews by playing. The only stop is running out of usage.
+- Codex and any other session build inside the area that owns the files.
+- **No stopping (owner, Oct 12, 2026).** Sessions build the whole game, not just tonight's list. When your item is done, take the next from the pool (`docs/pool/INDEX.md`). Nothing waits on another session: if you need something from one, build against the smallest stand-in on your own branch, register it as a stopgap (a marker in the code and a row in `src/core2/data/stopgaps.json` naming what it fakes and what replaces it; see "Placeholders"), note it under "Needs from other sessions", and keep going. Nothing waits on the owner: where a design is his call and he hasn't ruled, build the simplest version that follows this file, write the question in your status file, and keep going; he reviews by playing. The only stop is running out of usage.
 
 ## Who does what
 
 - **Codex and the Claude engineering account build** (owner, Oct 11), on draft PRs, from a package spec in `docs/packages/`. Codex takes broad and data-heavy work (research, ports, data, tests). The Claude engineering account takes the critical path and work where mistakes cost most (core speed, money, people modeling, and work orders the CTO assigns to it).
-- **Checks stay light (owner, Oct 11).** Builders test their own work. Three checks are automatic and the only ones that block: the golden-path suite, the speed guard, and every dollar balancing. The owner plays the evening build, and that's the real check. Checker sessions play alongside and file bugs to the fixer; they never hold a builder up.
+- **Checks stay light (owner, Oct 11).** Builders test their own work. The checks that block are the release gate on the client (build, typecheck and the release declarations; owner, Oct 15) and each builder's in-session checks on changed files only, reported in one line at the top of the PR body. GitHub's runs are not waited on. The golden-path suite, the speed guard and every dollar balancing stay as the bench's own guards, not merge blockers. The owner plays the evening build, and that's the real check. Checker sessions play alongside and file bugs to the fixer; they never hold a builder up.
 - **The CTO merges.** Nobody merges their own PR. The owner approves designs and package text before anything is sent to a session; the pillars' work under "No stopping" is the exception, and he reviews it by playing.
 - **One writer per area.** Stack branches on the core; never push to another session's branch. Claim a task on the GitHub Project before starting it (pillars claim in their status file).
 - **Helpers.** A helper needs an independently useful bounded output and explicit path/tool ownership; no recursive delegation or duplicate full-repo review. Preserve configured concurrency limits. Model effort is proportional to the actual task (see `model-effort`).
@@ -53,10 +53,10 @@ Long-lived Opus cloud sessions ("pillars") each own one area. **The pillars run 
 Every package names its model and effort with a one-line reason. Balance usage against effectiveness: normally lean toward saving usage (about 60–65% thrift, 35–40% raw power); near or right after a usage reset, about even, or tilted toward effectiveness. Not the cheapest possible, and nothing runs at the top level just because it's available.
 
 - **Codex builds at medium** by default (OpenAI's recommended default for coding). **High** only when the package says why: core architecture, money conservation, or rules every port depends on. **Extra-high only after high has failed** at a named task.
-- **The Claude engineering account builds with Sonnet at high** by default, and **Opus at high** for judgment-heavy design.
-- **Checkers run on Sonnet at high** when needed: playing the evening build and investigating a disputed result. **Opus at high** only for a judgment-heavy dispute. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
-- **Helpers: the 3-2-1 rule (owner, Oct 14, 2026).** Every session may run sub-agents up to one of these: three Haiku, two Sonnet, or one Opus. Only for work that runs in parallel or for research and reading, never to pass the session's own job along. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise. Codex keeps its repository setting of two. **Audits are the exception (owner, Oct 14):** a trace audit runs as its own Opus session with up to ten Haiku agents, one bounded path each; one Sonnet agent verifies every Haiku claim against the code; Opus plans, assigns and writes the report.
-- **Pillars may build with sub-agents (owner, Oct 12, 2026, 10:30 a.m.).** Each pillar session may run its own Sonnet or Opus sub-agents that write code, choosing what fits: a Sonnet sub-agent fixing bugs while an Opus one builds the next roadmap step, two Opus sub-agents splitting a big build to finish it faster, or Sonnet only when the work doesn't need Opus. The rules:
+- **The Claude engineering account builds with Sonnet at high** by default, and medium for small, clear fixes; no Opus (owner, Oct 15). The Words line (English engine and director) is the one exception: an Opus session at medium with one Sonnet sub-agent (owner, Oct 15).
+- **Checkers run on Sonnet at high** when needed: playing the evening build and investigating a disputed result. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
+- **Helpers: the 3-2-1 rule (owner, Oct 14, 2026).** Every session may run sub-agents up to one of these: three Haiku or two Sonnet. Only for work that runs in parallel or for research and reading, never to pass the session's own job along. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise. Codex keeps its repository setting of two. **Audits are the exception (owner, Oct 14):** a trace audit runs as its own Sonnet session with up to ten Haiku readers, one bounded path each; one Sonnet agent verifies every Haiku claim against the code; the session plans, assigns and writes the report.
+- **Pillars may build with sub-agents (owner, Oct 12, 2026, 10:30 a.m.).** Each session may run its own Sonnet or Haiku sub-agents within the 3-2-1 limit, choosing what fits: one fixing bugs while another builds the next item, or two splitting a big build to finish it faster. The rules:
   - each sub-agent works on its own files or in its own worktree, inside the pillar's own area, so two never edit the same file;
   - the pillar gives each a clear task, its allowed paths and its check (a test in a random place), then reviews and merges the result into its branch;
   - sub-agents follow every rule here (no hand-written player text, registered stopgaps, the guards) and never edit another session's area;
@@ -67,6 +67,10 @@ Every package names its model and effort with a one-line reason. Balance usage a
 
 ## How every session works
 
+- **The pool is the only backlog** (owner, Oct 15, 2026): `docs/pool/` holds every piece of work; a session claims an item by editing its file, adds an item for anything it finds, and reads `docs/pool/INDEX.md` to pick the next one. See `docs/pool/README.md`. Any agent with repository access (Claude, Codex, Cursor, Antigravity or another) may take pool items the same way; only the CTO merges.
+
+- **Red main comes first** (owner, Oct 15, 2026): a session that finds the release run on main red claims `release-main-red` in the pool, fixes it at the root on its own PR, and then returns to its item; nobody builds on a red main for long.
+
 1. **Start:** read the package (or your status file), the roadmap's progress file and the git log; run the golden-path suite (`node --import tsx tests/golden-path/runner.mjs`) and, once the bench is on your branch, open it; confirm the game still works before changing anything.
 2. **Contract:** before building, write what you will build and how it will be checked (the golden-path test, in a random place) in the PR body, then **start right away**. Don't wait for approval unless you're changing the package's scope, its owned paths or a test; the CTO reviews contracts at check-ins and sends one back if needed.
 3. **One feature at a time.** Commit after each meaningful unit, with tests passing.
@@ -76,6 +80,7 @@ Every package names its model and effort with a one-line reason. Balance usage a
 ## Placeholders
 
 - Every shortcut (a number, text, behavior, a faked mechanic, assumed data, something that works in only one place) is a **registered stopgap**: an ID, a marker in the code, the reason, the author and date, and what replaces it. An unregistered placeholder is a defect.
+- **Look before you register** (owner, Oct 15, 2026): before registering any stopgap or `owner-decision`, read `docs/coordination/DECISION-REGISTER.md` and `docs/coordination/OWNER-DECISIONS.md` and search `docs/` for the subject; if it was decided, build the decision and cite it, and if it is built, use it. A stopgap or question that duplicates a ruling is a defect.
 - Builders may leave registered stopgaps; finishers clear each one or keep it with a reason the CTO accepts. The release build refuses to build while any stopgap is open, and the tripwire tests fail on an unregistered one.
 - Every number lives in the parameter table, tagged SOURCED (with citation), ESTIMATED (with source and spread) or TUNABLE (with the spread it's checked against).
 
@@ -95,7 +100,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **The chain is the acceptance (owner, Oct 14, 2026).** A bill, a budget line or an executive act is finished only when one dollar or one rule is followed to a named person and back out: the record, the law in force changing, the payment or price that changed, the person it reached, the choice or view that moved because of it, and the director's scene or journal line. Most people are untouched; the PR body names the ones who were, by record id.
 - **Look before you ask (owner, Oct 14, 2026).** Before any question goes to the owner, and before the CTO rules in his place, read `docs/coordination/DECISION-REGISTER.md` (the Drive register, copied here) and `docs/coordination/OWNER-DECISIONS.md`, and search `docs/` for the subject. Most of what looks open was decided; quote the decision instead of asking.
 - **Ask why (owner, Oct 14, 2026).** Every proof answers why, by record: why a vote was 5 to 0, why a person knew a law caused their smaller check. Nobody attributes a change to a law unless they learned of it (news received, a conversation, a notice, an ad), and the stance cites that source. A session that cannot answer why has found a defect and files it.
-- **Owner decisions are flagged, never waited on (owner, Oct 14, 2026).** When a design is the owner's call, build the simplest version that follows this file, register a stopgap of kind `owner-decision`, and write the question under the heading **OWNER DECISIONS NEEDED** at the top of the PR body and in `docs/coordination/OWNER-DECISIONS.md`. The release build refuses while any is open, so nothing ships on a guess. The CTO brings the open list to the owner in one sitting.
+- **Owner decisions are flagged, never waited on (owner, Oct 14, 2026).** When a design is the owner's call, build the simplest version that follows this file, register a stopgap of kind `owner-decision`, and write the question under the heading **OWNER DECISIONS NEEDED** at the top of the PR body and in `docs/coordination/OWNER-DECISIONS.md`. The release build refuses while any is open, so nothing ships on a guess. The CTO brings the open list to the owner in one sitting. First read the register; most such questions were already answered.
 - **No hand-written player text.** Words come from the English engine; screens show record data and control names.
 - **Research before building.** Real data checks the simulation and never decides an outcome by itself. See `research-habit`.
 - **Speed.** A town's game year must run in under two minutes. No change may make a year more than 20% slower than its base: measure before and after on the same base, on the same machine, one process at a time. Never scan the whole world or a whole history every day; use indexes or act on the day something changed.
@@ -120,6 +125,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 
 On 2026-09-19 more than 100 GB of project copies filled the owner's Mac. Never copy the repository.
 
+- **Cloud sessions set the override themselves** (owner, Oct 15, 2026): a session in a cloud environment runs every npm command with `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` and never asks the owner to confirm it; the storage rules below protect the owner's Mac, not cloud containers.
 - Reuse your registered workspace: `npm run storage -- workspace --owner <owner>`. A new chat, retry or branch is not a new directory.
 - Run heavy commands through `npm run storage -- run <operation> -- <command>`. Never use `npm ci`, `git clone`, `git worktree add` or `cp -R` to provision another copy of the project.
 - Never delete by name; check first with `npm run storage -- check --path <folder>`.

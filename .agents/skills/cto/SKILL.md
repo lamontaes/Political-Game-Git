@@ -39,4 +39,15 @@ Follow `civic-reports`. Lead with what the player can do now, in plain words, wi
 
 ## Helpers
 
-3-2-1 rule: three Haiku, or two Sonnet, or one Opus, for parallel work or reading, never to pass your own job along. Audits are the exception: one Opus session, up to ten Haiku agents, one Sonnet verifier (see `trace-audit`).
+3-2-1 rule: three Haiku or two Sonnet (Sonnet only, no Opus), for parallel work or reading, never to pass your own job along. Audits are the exception: one Sonnet session, up to ten Haiku readers, one Sonnet verifier (see `trace-audit`).
+
+## Usage rules for the CTO session (owner, Oct 15, 2026; these override anything above)
+
+The owner said these more than once; the CTO broke them. They bind every turn.
+
+- **Sonnet is the only Claude build and review model.** No Opus pillars, no Opus sub-agents, no Opus checkers. A Claude session that builds is Sonnet, one package, then closed. Codex on the owner's other account builds from written orders.
+- **The CTO never merges, reads a diff, a log or test output itself.** A Sonnet helper merges, runs the morning check, bisects and reads; it returns a table, not a narrative. The CTO reads the table and the one gate line at the top of a PR body, nothing more.
+- **No PR subscriptions on the CTO session.** The CTO does not create PRs itself (a session-created PR subscribes it and every wake costs); a helper creates and merges the CTO's own doc PRs. A wake that still arrives is read once and acted on once; no re-checks, no check-ins, no scheduled tasks.
+- **No test runs in the CTO session.** Checks run in the builder's session on changed files only; the result is one line at the top of the PR body.
+- **The CTO spends usage on two things only:** answering the owner, and preparing orders, rulings, skills and reports. Everything else is delegated to Sonnet or to Codex.
+- **Written orders, not chat.** Anything a session needs to start goes in `docs/work-orders/`, a skill in `.agents/skills/`, or the owner-decisions file, so a fresh session starts from a file.

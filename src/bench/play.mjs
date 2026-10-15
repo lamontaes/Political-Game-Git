@@ -187,6 +187,7 @@ function pointOut(figures) {
     if (!figure) return;
     $("opening-point-name").textContent = figure.name;
     $("opening-point-role").textContent = [
+      figure.relation,
       figure.post,
       figure.office,
       figure.state,
@@ -217,13 +218,18 @@ async function playOpening() {
   openingReady = undefined;
   if (!opening?.frames?.length) return opening;
   const { speaker } = opening;
-  $("opening-bust").style.backgroundImage = speaker.figureUrl
-    ? `url("${speaker.figureUrl}")`
-    : "";
-  $("opening-name").textContent = speaker.name;
-  $("opening-role").textContent = [speaker.title, ...speaker.detail]
-    .filter(Boolean)
-    .join(" · ");
+  // Who is speaking: the anchor's lead-in on the news, then the President.
+  const speakerCard = (anchor) => {
+    $("opening-bust").style.backgroundImage =
+      !anchor && speaker.figureUrl ? `url("${speaker.figureUrl}")` : "";
+    $("opening-name").textContent = anchor
+      ? (controls.opening?.news ?? "")
+      : speaker.name;
+    $("opening-role").textContent = anchor
+      ? ""
+      : [speaker.title, ...speaker.detail].filter(Boolean).join(" · ");
+  };
+  speakerCard(false);
   show("opening-box", true);
   $("game").classList.add("letterbox", "cinema");
   frames: for (const frame of opening.frames) {
@@ -232,14 +238,24 @@ async function playOpening() {
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    const camera = pointOut(frame.pointOut ?? []);
+    speakerCard(frame.speaker === "anchor");
+    // Who the camera points out: a household as the frame opens, anyone the
+    // address names on the line that names them.
+    const figures = frame.pointOut ?? [];
+    let camera = pointOut(figures.filter((row) => row.line === undefined));
     // A stage the President says nothing over shows without the speech box.
     show("opening-box", frame.lines.length > 0);
     // A click moves on to the next sentence; Skip ends the address. The
     // picture holds until the camera has passed everyone on it.
-    for (const line of frame.lines) {
+    for (const [at, line] of frame.lines.entries()) {
       $("opening-speech").textContent = line.text;
-      if (await holdOpening(lineMs(line.text))) {
+      const named = figures.filter((row) => row.line === at);
+      if (named.length) {
+        camera.stop();
+        camera = pointOut(named);
+      }
+      const hold = Math.max(lineMs(line.text), camera.left());
+      if (await holdOpening(hold)) {
         camera.stop();
         break frames;
       }
@@ -462,7 +478,7 @@ const amount = (value, unit) => {
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
-api("/api/controls").then((value) => (controls = value));
+const controlsReady = api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
   packet = value ?? packet;
@@ -902,13 +918,17 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId) {
+async function talkTo(otherId, momentId) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
   $("talk-name").textContent = "";
+  // From a scene, the talk is about the scene's moment.
+  const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
   renderTalk(
-    await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
+    await post(
+      `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
+    ),
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
@@ -1151,7 +1171,7 @@ async function showStory(momentId) {
   $("talk-choices").replaceChildren(
     ...(story.talkToId
       ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId),
+          talkTo(story.talkToId, momentId),
         )
       : []),
   );
@@ -1431,9 +1451,44 @@ const sheets = {
     ];
   },
   async money() {
-    const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
+    const [b, bank] = await Promise.all([
+      api(`/api/budget?id=${encodeURIComponent(me.id)}`),
+      api(`/api/bank?id=${encodeURIComponent(me.id)}`),
+    ]);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
+      ...(bank
+        ? [
+            row("Bank", bank.name),
+            row(
+              "Household savings",
+              `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
+            ),
+            ...(bank.books
+              ? [
+                  row("Bank books", bank.books.date),
+                  row("Bank cash", dollars(bank.books.cashMinor)),
+                  row("Business loans", dollars(bank.books.businessLoansMinor)),
+                  row(
+                    "Household loans",
+                    dollars(bank.books.householdLoansMinor),
+                  ),
+                  row("Mortgages", dollars(bank.books.mortgagesMinor)),
+                  row("Total assets", dollars(bank.books.assetsMinor)),
+                  row("Deposits owed", dollars(bank.books.depositsMinor)),
+                  row(
+                    "Mortgage funding",
+                    dollars(bank.books.mortgageFundingMinor),
+                  ),
+                  row("Bank equity", dollars(bank.books.equityMinor)),
+                  row(
+                    "Liabilities and equity",
+                    dollars(bank.books.liabilitiesAndEquityMinor),
+                  ),
+                ]
+              : []),
+          ]
+        : []),
       ...(me.card.dwelling
         ? [
             row(
@@ -1962,61 +2017,73 @@ const sheets = {
     return [search, list];
   },
   async options() {
-    const rows = [];
+    await controlsReady;
+    const labels = controls.options;
+    const rows = [
+      el(
+        "div",
+        { className: "option-setting" },
+        el("span", { textContent: labels.version }),
+        el("span", { textContent: await displayVersion() }),
+      ),
+    ];
+    if (document.fullscreenEnabled) {
+      const fullScreen = el("input", {
+        type: "checkbox",
+        checked: Boolean(document.fullscreenElement),
+      });
+      fullScreen.dataset.testid = "options-fullscreen";
+      const status = el("p", { role: "status", className: "option-status" });
+      fullScreen.addEventListener("change", async () => {
+        fullScreen.disabled = true;
+        status.textContent = "";
+        try {
+          if (fullScreen.checked)
+            await document.documentElement.requestFullscreen();
+          else await document.exitFullscreen();
+        } catch {
+          status.textContent = labels.fullScreenUnavailable;
+        } finally {
+          fullScreen.checked = Boolean(document.fullscreenElement);
+          fullScreen.disabled = false;
+        }
+      });
+      rows.push(
+        el(
+          "label",
+          { className: "option-setting" },
+          el("span", { textContent: labels.fullScreen }),
+          fullScreen,
+        ),
+        status,
+      );
+    }
+    const actions = el("div", { className: "acts options-actions" });
+    const resume = el("button", {
+      type: "button",
+      textContent: labels.continue,
+    });
+    resume.addEventListener("click", closeSheet);
+    actions.append(resume);
     if (skipOpening) {
       const skip = el("button", {
         type: "button",
-        textContent: "Skip opening",
+        textContent: labels.skipOpening,
       });
       skip.addEventListener("click", () => {
         closeSheet();
         skipOpening?.();
       });
-      rows.push(skip);
+      actions.append(skip);
     }
-    // Which kinds of scene may stop your day (a record the director reads).
-    const filter = await api("/api/scene-filter").catch(() => null);
-    if (filter) {
-      const allowed = new Set(filter.allowed ?? filter.kinds);
-      const save = () =>
-        post(
-          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
-        );
-      rows.push(
-        el("p", {
-          className: "label",
-          textContent: controls.sceneFilter ?? "",
-        }),
-        el(
-          "div",
-          { className: "scene-filter" },
-          ...filter.kinds.map((kind) => {
-            const box = el("input", {
-              type: "checkbox",
-              checked: allowed.has(kind),
-            });
-            box.addEventListener("change", () => {
-              if (box.checked) allowed.add(kind);
-              else allowed.delete(kind);
-              save();
-            });
-            return el(
-              "label",
-              {},
-              box,
-              ` ${controls.sceneKinds?.[kind] ?? kind}`,
-            );
-          }),
-        ),
-      );
-    }
-    rows.push(
-      el("p", { className: "version", textContent: await displayVersion() }),
-    );
-    const quit = el("button", { type: "button", textContent: "Quit to title" });
+    const quit = el("button", {
+      type: "button",
+      textContent: labels.quitToTitle,
+    });
     quit.dataset.testid = "quit-to-title";
     quit.addEventListener("click", () => window.location.reload());
-    rows.push(quit);
+    actions.append(quit);
+    rows.push(actions);
     return rows;
   },
   async travel() {
@@ -2143,6 +2210,7 @@ async function openSheet(tab) {
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
+  $("sheet").classList.toggle("options-sheet", tab === "options");
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.toggle(
     "cols",
@@ -2170,6 +2238,10 @@ function closeSheet() {
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);
+document.addEventListener("fullscreenchange", () => {
+  const checkbox = document.querySelector('[data-testid="options-fullscreen"]');
+  if (checkbox) checkbox.checked = Boolean(document.fullscreenElement);
+});
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
@@ -2199,6 +2271,7 @@ $("front-continue").addEventListener("click", async () => {
     id: life.personId,
     placeName: life.placeName,
     date: life.date,
+    minuteOfDay: life.minuteOfDay,
     names: {},
     portrait: life.portrait,
   };

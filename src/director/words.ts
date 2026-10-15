@@ -6,13 +6,22 @@ import { P } from "../core2/parameters";
  * capitals only ("CENTRAL HIGH"), which are written word by word.
  */
 export function properName(text: string): string {
-  if (text !== text.toUpperCase()) return text;
-  return text
-    .toLowerCase()
-    .replace(
-      /(^|[\s\-/(])([a-z])/g,
-      (_all, lead: string, letter: string) => `${lead}${letter.toUpperCase()}`,
-    );
+  const titled = (run: string) =>
+    run
+      .toLowerCase()
+      .replace(
+        /(^|[\s\-/(])([a-z])/g,
+        (_all, lead: string, letter: string) =>
+          `${lead}${letter.toUpperCase()}`,
+      );
+  if (text === text.toUpperCase()) return titled(text);
+  // A record name shouted inside a longer one ("COUNTY OF WASHINGTON
+  // treasury"): a run of two or more capitalized words reads as a name.
+  return text.replace(/\b[A-Z][A-Z'&.]*(?:\s+[A-Z][A-Z'&.]*)+\b/g, (run) =>
+    titled(run).replace(/(?<=\s)(Of|The|And|For|In|On)(?=\s)/g, (word) =>
+      word.toLowerCase(),
+    ),
+  );
 }
 
 /** How a resident says a town aloud: without the state it sits in. */

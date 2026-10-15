@@ -9,8 +9,7 @@
  * - the race's stakes for them: how much separates the candidates in their
  *   own eyes, on every race on the ballot that day;
  * - the campaign's reach: how many times a campaign reached them this cycle;
- * - habit: their own record of voting or staying home;
- * - the weather on election day.
+ * - habit: their own record of voting or staying home.
  *
  * The propensity is the logistic of their sum, so it slides: nothing flips a
  * voter from never to always. A counted resident stands for the town's people
@@ -33,8 +32,6 @@ export interface TurnoutParts {
   readonly habit: number;
   /** Work hours and the election laws in force, the cycle's salience. */
   readonly cost: number;
-  /** Election-day weather. */
-  readonly weather: number;
 }
 
 /** A voter's reason to vote apart from the race, on the turnout scale. */
@@ -44,8 +41,7 @@ export function readinessOf(parts: Omit<TurnoutParts, "stakes">): number {
     parts.duty +
     parts.reach +
     parts.habit -
-    parts.cost -
-    parts.weather
+    parts.cost
   );
 }
 
