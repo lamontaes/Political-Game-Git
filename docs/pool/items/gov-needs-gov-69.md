@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in gov.md (line 69): 30 lines"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-needs-gov-69
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/gov.md "Needs from other sessions" (line 69)'
+claimed-at: 2026-10-15T23:59:30.189Z
 ---
 
 **What.** This item holds 30 requests that earlier GOV work made of other sessions, from law-reach stopgaps (SG-GOV-REACH-A and -B rows by owner: CORE, WORLD, PEOPLE, GOV) to the pay-change path, officials' fill-in, money paths for taxes and budgets, filing-visit engine calls and the speed guard run. The sessions that asked are gone, and several lines may already be built. Walk the lines in order: for each, find the code on main, mark it done with the commit or record id, and for any unbuilt line create its own small pool item with a done-when. The player would notice nothing until those items land.
