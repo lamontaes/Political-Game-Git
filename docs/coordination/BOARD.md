@@ -77,3 +77,5 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 4. Officeholder journal — `pool/journal-record-dependency` (first Session D; blocked by Session C's unmerged office-day act records and Words' journal wording; return last).
 - 5. Unit suite record/retirement contracts — `pool/unit-suite` (first Session D; #4309 finance, news, outcome coverage and retired-test contracts only; second Session D owns views ordering, and law/housing defects stay with active owners).
 - 5. Green-suite independent views-ordering failure — `pool/green-suite-views` (second Session D; root cause from #4309, src/core2/views-lean.test.ts and its electorate reader. Earlier remaining stopgaps overlap active law/election, jobs/housing/core and press work; office journal depends on Session C office records and Words director work; return to those last).
+
+- 6. Oct 10–11 stale pool PR disposition — `pool/stale-pr-disposition` (second Session D; review pool/*, english/*, codex/session35-* and cto/title-people-national-scenes, record superseding or carried-forward locations, then close covered PRs without deleting branches).

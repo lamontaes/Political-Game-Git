@@ -12,3 +12,5 @@ The owner can follow real bank-issued loans and their rate changes in the macro 
 - Core review requested in #4338 for the shared initial-person factory and counted chooser reader. No new engine or writer.
 
 No subagents ran. Usage is not exposed. Two new fixture assumptions needed correction: outside ownership and external cash flows; no production assertion was weakened.
+
+- Views #4351: root fixed, unchanged test passes; drawn year inversions 5/29 → 0/0; 21.24 seconds vs 21.44. All changed-file checks pass. First D owns other unit-suite contracts and the office journal dependency. Next: stale PR disposition, pool item 6.
