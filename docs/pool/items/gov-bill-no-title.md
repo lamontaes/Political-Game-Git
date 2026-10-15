@@ -10,6 +10,7 @@ pr:
 blocked-on: "gov-record-defects-finish"
 milestone:
 source: "batch 11 record defects"
+claimed-at:
 ---
 
 **What.** A bill is not introduced without a title and at least one provision.
