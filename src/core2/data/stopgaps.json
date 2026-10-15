@@ -1930,11 +1930,11 @@
     "file": "src/core2/modules/succession.ts",
     "line": 122,
     "whatItFakes": "Everyone in the line of succession to the presidency is taken to be a natural-born citizen and 14 years a resident; only the age of 35 is checked.",
-    "why": "People's records hold no place of birth by citizenship or years of residence in the United States.",
+    "why": "People's records hold no place of birth by citizenship or years of residence in the United States. Resolved Oct 15 (core-stopgap-succession-missing-record): an official's birth is a past fact (identity:nativity), drawn from the world's seed against the state's native-born share of adults (ACS 2020-2024, table B05003); the president and vice president are native by the law; the line passes over anyone whose record is foreign-born or shows under 14 years of residence.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-PEOPLE: citizenship at birth and years of residence on a person's record; the line then passes over anyone who fails U.S. Const. art. II, sec. 1, cl. 5.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-tie-race-size",
