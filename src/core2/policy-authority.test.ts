@@ -5,6 +5,13 @@ import { buildBenchWorld } from "../bench/world";
 import { coreAPI } from "./state";
 import { gameStartDate } from "./game-start";
 import { enactLaw, lawChain } from "./modules/laws";
+import {
+  draftBill,
+  holdVote,
+  members,
+  memberKey,
+  FEDERAL_HOUSE,
+} from "./modules/legislature";
 import { policyAuthority } from "./policy-authority";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
@@ -33,6 +40,25 @@ describe("recorded policy powers", () => {
     expect(result.allowed).toBe(false);
     expect(result.reason).toBe("level-lacks-power");
     expect(result.source).toContain("question-powers.json");
+  });
+  it("keeps every adopted committee and floor section inside the body's powers", () => {
+    const sponsorId = memberKey(members(api, FEDERAL_HOUSE)[0]!);
+    const bill = draftBill(api, {
+      bodyOfficeId: FEDERAL_HOUSE,
+      sponsorId,
+      provisions: [
+        {
+          kind: "policy-question",
+          question:
+            "us-policy-positions:health-human-services.medicaid-work-requirement",
+          value: 1,
+        },
+      ],
+    });
+    expect(bill.status).toBe("drafted");
+    const voted = holdVote(api, bill.id);
+    expect(voted.authority).toHaveLength(voted.provisions.length);
+    expect(voted.authority.every((row) => row.allowed)).toBe(true);
   });
   it("does not turn a missing mapping into permission", () => {
     expect(

@@ -2598,10 +2598,10 @@ function ownSections(
       question: q,
       value: Math.sign(stance),
     }))
-    .filter(
-      (p) =>
-        beyondPower(p, level === "city" ? "local" : level) === null &&
-        (level !== "city" || authorityFor(api, p).allowed),
+    .filter((p) =>
+      checkedText(api, bill.bodyOfficeId, [p]).authority.every(
+        (a) => a.allowed,
+      ),
     )
     .slice(0, count);
 }
@@ -2643,7 +2643,10 @@ function floorAmendments(
   ) => {
     current = {
       ...current,
-      provisions: [...current.provisions, section],
+      ...checkedText(api, current.bodyOfficeId, [
+        ...current.provisions,
+        section,
+      ]),
       deals: [
         ...current.deals,
         {
@@ -2790,12 +2793,17 @@ function movesPill(api: CoreAPI, memberId: string, billId: string): boolean {
 }
 
 export function holdVote(api: CoreAPI, billId: string): BillRow {
-  if (
-    (table(api, "bills").get(billId) as unknown as BillRow).status === "drafted"
-  )
-    for (const hook of beforeVoteHooks) hook(api, billId);
   let bill = table(api, "bills").get(billId) as unknown as BillRow;
+  if (bill.status !== "drafted" && bill.status !== "blocked") return bill;
+  bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
+  table(api, "bills").put(bill as unknown as ModuleRow);
+  if (bill.status === "blocked") return bill;
+  for (const hook of beforeVoteHooks) hook(api, billId);
+  bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
+  bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
+  table(api, "bills").put(bill as unknown as ModuleRow);
+  if (bill.status === "blocked") return bill;
   const tallies: { yes: number; no: number; members: number }[] = [];
   for (const chamber of chambersOf(api, bill)) {
     const committee = committeeStage(api, bill, chamber);
