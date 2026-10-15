@@ -33,13 +33,6 @@ export function ensureLivingWorldDevelopments(world: World): World {
   return world;
 }
 
-/** Retired synthetic proposals accept no comments. Public meeting comments
- * use the ordinary-meeting writer and its recorded agenda and audience.
- */
-export function submitPublicComment(world: World): World {
-  return world;
-}
-
 /** An already scheduled synthetic continuation cannot manufacture another
  * event or successor. Kept until the campaign registry owner's PR merges.
  */

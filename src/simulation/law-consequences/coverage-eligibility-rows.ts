@@ -36,7 +36,7 @@ export const COVERAGE_ELIGIBILITY_ROWS: Readonly<
       evidence: {
         sourceIds: [
           "data/research/money/public-programs-2026.json#federal.medicaid",
-          `data/research/laws/starting-law-2026.json#questions.${questionKey}`,
+          `data/research/laws/starting-law-2026/index.ts#questions.${questionKey}`,
         ],
         population:
           "Recorded adult household members reviewed by the existing coverage writer.",

@@ -1,7 +1,7 @@
 export { assertSemanticTransitionKey } from "./semantic-transition-key";
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import {
   assertExactQuantity,
@@ -1200,13 +1200,6 @@ export function sameReferencePeriod(
     : right.kind === "interval" &&
         left.startsAt === right.startsAt &&
         left.endsAt === right.endsAt;
-}
-
-export function referencePeriodKey(period: MetricReferencePeriod): string {
-  validateReferencePeriod(period);
-  return period.kind === "point"
-    ? `point:${period.at}`
-    : `interval:${period.startsAt}:${period.endsAt}`;
 }
 
 function referencePeriodStart(period: MetricReferencePeriod): string {

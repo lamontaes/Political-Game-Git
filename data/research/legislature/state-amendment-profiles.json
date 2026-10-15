@@ -1,0 +1,1241 @@
+[
+  {
+    "jurisdictionKey": "US-AK",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 40
+      },
+      {
+        "bodyKey": "senate",
+        "members": 20
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-AL",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 105
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-AR",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-AS",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": [],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-AZ",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 60
+      },
+      {
+        "bodyKey": "senate",
+        "members": 30
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-CA",
+    "basis": "sourced",
+    "effectiveDaysAfterStatement": 5,
+    "bodies": [
+      {
+        "bodyKey": "assembly",
+        "members": 80
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each house's membership"
+    },
+    "sourceArtifactId": "ca-constitution-xviii",
+    "sourceCitation": "Cal. Const. art. XVIII \u00a7 1"
+  },
+  {
+    "jurisdictionKey": "US-CO",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 65
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-CT",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 151
+      },
+      {
+        "bodyKey": "senate",
+        "members": 36
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-DC",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": [],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-DE",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 41
+      },
+      {
+        "bodyKey": "senate",
+        "members": 21
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-FL",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 120
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-GA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 180
+      },
+      {
+        "bodyKey": "senate",
+        "members": 56
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-GU",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": [],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-HI",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 51
+      },
+      {
+        "bodyKey": "senate",
+        "members": 25
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-IA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-ID",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 70
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-IL",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 118
+      },
+      {
+        "bodyKey": "senate",
+        "members": 59
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-IN",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-KS",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 125
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-KY",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 38
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-LA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 105
+      },
+      {
+        "bodyKey": "senate",
+        "members": 39
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-MA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 160
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-MD",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 141
+      },
+      {
+        "bodyKey": "senate",
+        "members": 47
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-ME",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 151
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-MI",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 110
+      },
+      {
+        "bodyKey": "senate",
+        "members": 38
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-MN",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 134
+      },
+      {
+        "bodyKey": "senate",
+        "members": 67
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-MO",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 163
+      },
+      {
+        "bodyKey": "senate",
+        "members": 34
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-MP",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": [],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-MS",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 122
+      },
+      {
+        "bodyKey": "senate",
+        "members": 52
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-MT",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-NC",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 120
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-ND",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 94
+      },
+      {
+        "bodyKey": "senate",
+        "members": 47
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-NE",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "legislature",
+        "members": 49
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-NH",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 400
+      },
+      {
+        "bodyKey": "senate",
+        "members": 24
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-NJ",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 80
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-NM",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 70
+      },
+      {
+        "bodyKey": "senate",
+        "members": 42
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-NV",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "assembly",
+        "members": 42
+      },
+      {
+        "bodyKey": "senate",
+        "members": 21
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-NY",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 150
+      },
+      {
+        "bodyKey": "senate",
+        "members": 63
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-OH",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 99
+      },
+      {
+        "bodyKey": "senate",
+        "members": 33
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-OK",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 101
+      },
+      {
+        "bodyKey": "senate",
+        "members": 48
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-OR",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 60
+      },
+      {
+        "bodyKey": "senate",
+        "members": 30
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-PA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 203
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-PR",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 51
+      },
+      {
+        "bodyKey": "senate",
+        "members": 27
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-RI",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 75
+      },
+      {
+        "bodyKey": "senate",
+        "members": 38
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-SC",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 124
+      },
+      {
+        "bodyKey": "senate",
+        "members": 46
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-SD",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 70
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-TN",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 99
+      },
+      {
+        "bodyKey": "senate",
+        "members": 33
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-TX",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 150
+      },
+      {
+        "bodyKey": "senate",
+        "members": 31
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-UT",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 75
+      },
+      {
+        "bodyKey": "senate",
+        "members": 29
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-VA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-VI",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": [],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-VT",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 150
+      },
+      {
+        "bodyKey": "senate",
+        "members": 30
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-WA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 98
+      },
+      {
+        "bodyKey": "senate",
+        "members": 49
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-WI",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 99
+      },
+      {
+        "bodyKey": "senate",
+        "members": 33
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-WV",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 34
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  },
+  {
+    "jurisdictionKey": "US-WY",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 62
+      },
+      {
+        "bodyKey": "senate",
+        "members": 31
+      }
+    ],
+    "proposalThreshold": {
+      "numerator": 2,
+      "denominatorParts": 3,
+      "denominator": "members-elected",
+      "label": "Two-thirds of each chamber's membership (game default)"
+    },
+    "sourceArtifactId": null,
+    "sourceCitation": null
+  }
+]

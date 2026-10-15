@@ -191,7 +191,7 @@
   ],
   "coverageGaps": {
     "allStateSessionSeries": null,
-    "allStateSessionSeriesReason": "NCSL's broad Bill Information Service, including session statistics, requires member access. Public topic databases cannot be combined into an all-subject 50-state total without duplicate and scope controls. This packet contains official Kansas, New Mexico, Florida, and Kentucky all-bill snapshots plus the Texas off-year rule, not a 50-state series.",
+    "allStateSessionSeriesReason": "NCSL's broad Bill Information Service, including session statistics, requires member access. Public topic databases cannot be combined into an all-subject 50-state total without duplicate and scope controls. This packet contains official Kansas, New Mexico, Florida, and Kentucky all-bill snapshots plus the Texas off-year rule, a bounded multi-jurisdiction sample rather than a 50-state series.",
     "stateRepealProbabilityAndTime": null,
     "federalRepealProbabilityAndTime": null,
     "repealReason": "Amendment, explicit repeal, sunset, and supersession are distinct outcomes. The located academic repeal study follows landmark federal enactments, not the population of all federal and state laws; it cannot support a general rate or time-to-repeal constant.",

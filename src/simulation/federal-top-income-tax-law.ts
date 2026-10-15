@@ -4,7 +4,7 @@
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import {
-  FEDERAL_INCOME_TAX_2026,
+  federalIncomeTaxScheduleFor,
   type FilingStatus,
   type IncomeTaxSchedule,
 } from "./income-tax-withholding";
@@ -46,7 +46,7 @@ export function federalIncomeTaxUnderLaw(
   status: FilingStatus,
   paidAt: IsoDate,
 ): FederalIncomeTaxUnderLaw {
-  const begun = FEDERAL_INCOME_TAX_2026[status];
+  const begun = federalIncomeTaxScheduleFor(status, paidAt);
   const proposition = Object.values(
     world.policyCatalog?.propositions ?? {},
   ).find(

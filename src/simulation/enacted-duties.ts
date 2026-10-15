@@ -112,15 +112,6 @@ export function beneficiaryLabel(
     : provision.beneficiary.beneficiaryLabel;
 }
 
-/** Whether a section of this measure is a rule the duty writer turns into a record. */
-export function isDutyProvision(
-  world: World,
-  measureId: EntityId,
-  provisionKey: string,
-): boolean {
-  return clauseOrigins(world, measureId).get(provisionKey)?.lever === "rule";
-}
-
 const MONTHS = [
   "January",
   "February",

@@ -1,5 +1,5 @@
 import { applyLawConsequences } from "./enacted-law-effects";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import type { FutureDueItem, FutureTransitionHandlerResult } from "./types";
 import {
   PROPERTY_ASSESSMENT_TRANSITION_KEY,
@@ -7,7 +7,7 @@ import {
   schedulePropertyAssessmentDay,
 } from "./property-tax-schedule";
 import { effectiveTaxPolicy } from "./tax-policy";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { householdMembershipsAt } from "./life-queries";
 import {
   bedroomsForHousehold,
@@ -15,7 +15,10 @@ import {
   marketRentMinor,
 } from "./living-world/town-rent";
 import { homePurchaseTerms } from "./home-purchase";
-import { countyGeoidsForPlace, governmentUnit } from "./government-units";
+import {
+  countyGeoidsForPlace,
+  governmentUnit,
+} from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   activeHousingTenuresAt,

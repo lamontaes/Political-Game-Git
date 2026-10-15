@@ -1,10 +1,5 @@
-import {
-  growingIndex,
-  recordsByKey,
-  type GrowingIndexKind,
-} from "./history-index";
 import { settleAllOfficeSalaries } from "./office-salary";
-import type { EntityId, GoalStateRecord, IsoDate, World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
 /** The same clock runs every decision; only distant routine pay is summarized. */
 export interface HistoricalPastMode {
@@ -41,60 +36,4 @@ export function endHistoricalPastMode(world: World): World {
   const preserved = { ...settled };
   delete preserved.pastMode;
   return preserved;
-}
-
-const GOAL_PEOPLE: GrowingIndexKind<Set<EntityId>> = {
-  create: () => new Set(),
-  add: (people, row) => people.add((row as GoalStateRecord).personId),
-};
-const NEAR_PEOPLE = new WeakMap<object, Map<EntityId, Set<EntityId>>>();
-
-/** Residents with private goals, relatives and contacts retain ordinary payroll. */
-export function distantHistoricalRoutine(
-  world: World,
-  personId: EntityId,
-): boolean {
-  const mode = world.pastMode;
-  if (!mode || world.currentDate > mode.throughDate) return false;
-  if (
-    personId === mode.focusPersonId ||
-    growingIndex(GOAL_PEOPLE, world.history.goalStates).has(personId)
-  )
-    return false;
-  const focus = world.people[mode.focusPersonId];
-  if (!focus) throw new Error("The historical resident is missing.");
-  let byFocus = NEAR_PEOPLE.get(world.people);
-  if (!byFocus) {
-    byFocus = new Map();
-    NEAR_PEOPLE.set(world.people, byFocus);
-  }
-  let nearby = byFocus.get(mode.focusPersonId);
-  if (!nearby) {
-    nearby = new Set(
-      world.personOrder.filter(
-        (id) =>
-          world.people[id]?.homeJurisdictionId === focus.homeJurisdictionId,
-      ),
-    );
-    byFocus.set(mode.focusPersonId, nearby);
-  }
-  if (nearby.has(personId)) return false;
-  const families: readonly (readonly [
-    string,
-    readonly { readonly personIds: readonly EntityId[] }[],
-  ])[] = [
-    ["kinship", world.history.kinshipRelationships],
-    ["partnership", world.history.partnerships],
-    ["interaction", world.history.relationshipInteractions],
-  ];
-  for (const [family, rows] of families) {
-    const related = recordsByKey(
-      rows,
-      `historical-past:${family}`,
-      (row) => row.personIds,
-      mode.focusPersonId,
-    );
-    if (related.some((row) => row.personIds.includes(personId))) return false;
-  }
-  return true;
 }

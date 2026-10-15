@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../src/simulation/dates";
+import { makeIsoDate } from "../src/core2/kernel/dates";
 import {
   bandRatios,
   cohortPeople,

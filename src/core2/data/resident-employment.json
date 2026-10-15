@@ -1,0 +1,745 @@
+{
+  "version": "p8-resident-employment-v1",
+  "source": {
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force.",
+    "asOf": "2019-12-31",
+    "sha256": "1a36df4ffe5c5dda807cb49e885ef23b8189484ce0a77a7166ce77d543eb41f8"
+  },
+  "nationalAgeRows": [
+    {
+      "id": "age-16",
+      "label": "16 to 17 years",
+      "minimumAgeParameter": "employment-age-16-minimumAge",
+      "maximumAgeParameter": "employment-age-16-maximumAge",
+      "nationalPopulationParameter": "employment-age-16-population",
+      "nationalEmployedParameter": "employment-age-16-employed"
+    },
+    {
+      "id": "age-18",
+      "label": "18 to 19 years",
+      "minimumAgeParameter": "employment-age-18-minimumAge",
+      "maximumAgeParameter": "employment-age-18-maximumAge",
+      "nationalPopulationParameter": "employment-age-18-population",
+      "nationalEmployedParameter": "employment-age-18-employed"
+    },
+    {
+      "id": "age-20",
+      "label": "20 to 24 years",
+      "minimumAgeParameter": "employment-age-20-minimumAge",
+      "maximumAgeParameter": "employment-age-20-maximumAge",
+      "nationalPopulationParameter": "employment-age-20-population",
+      "nationalEmployedParameter": "employment-age-20-employed"
+    },
+    {
+      "id": "age-25",
+      "label": "25 to 29 years",
+      "minimumAgeParameter": "employment-age-25-minimumAge",
+      "maximumAgeParameter": "employment-age-25-maximumAge",
+      "nationalPopulationParameter": "employment-age-25-population",
+      "nationalEmployedParameter": "employment-age-25-employed"
+    },
+    {
+      "id": "age-30",
+      "label": "30 to 34 years",
+      "minimumAgeParameter": "employment-age-30-minimumAge",
+      "maximumAgeParameter": "employment-age-30-maximumAge",
+      "nationalPopulationParameter": "employment-age-30-population",
+      "nationalEmployedParameter": "employment-age-30-employed"
+    },
+    {
+      "id": "age-35",
+      "label": "35 to 44 years",
+      "minimumAgeParameter": "employment-age-35-minimumAge",
+      "maximumAgeParameter": "employment-age-35-maximumAge",
+      "nationalPopulationParameter": "employment-age-35-population",
+      "nationalEmployedParameter": "employment-age-35-employed"
+    },
+    {
+      "id": "age-45",
+      "label": "45 to 54 years",
+      "minimumAgeParameter": "employment-age-45-minimumAge",
+      "maximumAgeParameter": "employment-age-45-maximumAge",
+      "nationalPopulationParameter": "employment-age-45-population",
+      "nationalEmployedParameter": "employment-age-45-employed"
+    },
+    {
+      "id": "age-55",
+      "label": "55 to 59 years",
+      "minimumAgeParameter": "employment-age-55-minimumAge",
+      "maximumAgeParameter": "employment-age-55-maximumAge",
+      "nationalPopulationParameter": "employment-age-55-population",
+      "nationalEmployedParameter": "employment-age-55-employed"
+    },
+    {
+      "id": "age-60",
+      "label": "60 to 64 years",
+      "minimumAgeParameter": "employment-age-60-minimumAge",
+      "maximumAgeParameter": "employment-age-60-maximumAge",
+      "nationalPopulationParameter": "employment-age-60-population",
+      "nationalEmployedParameter": "employment-age-60-employed"
+    },
+    {
+      "id": "age-65",
+      "label": "65 to 69 years",
+      "minimumAgeParameter": "employment-age-65-minimumAge",
+      "maximumAgeParameter": "employment-age-65-maximumAge",
+      "nationalPopulationParameter": "employment-age-65-population",
+      "nationalEmployedParameter": "employment-age-65-employed"
+    },
+    {
+      "id": "age-70",
+      "label": "70 to 74 years",
+      "minimumAgeParameter": "employment-age-70-minimumAge",
+      "maximumAgeParameter": "employment-age-70-maximumAge",
+      "nationalPopulationParameter": "employment-age-70-population",
+      "nationalEmployedParameter": "employment-age-70-employed"
+    },
+    {
+      "id": "age-75",
+      "label": "75 years and over",
+      "minimumAgeParameter": "employment-age-75-minimumAge",
+      "nationalPopulationParameter": "employment-age-75-population",
+      "nationalEmployedParameter": "employment-age-75-employed"
+    }
+  ],
+  "countyAgeRows": [
+    {
+      "id": "acs-age-16",
+      "minimumAgeParameter": "employment-age-16-minimumAge",
+      "maximumAgeParameter": "employment-age-20-minimumAge"
+    },
+    {
+      "id": "acs-age-20",
+      "minimumAgeParameter": "employment-age-20-minimumAge",
+      "maximumAgeParameter": "employmentCountyAge22"
+    },
+    {
+      "id": "acs-age-22",
+      "minimumAgeParameter": "employmentCountyAge22",
+      "maximumAgeParameter": "employment-age-25-minimumAge"
+    },
+    {
+      "id": "acs-age-25",
+      "minimumAgeParameter": "employment-age-25-minimumAge",
+      "maximumAgeParameter": "employment-age-30-minimumAge"
+    },
+    {
+      "id": "acs-age-30",
+      "minimumAgeParameter": "employment-age-30-minimumAge",
+      "maximumAgeParameter": "employment-age-35-minimumAge"
+    },
+    {
+      "id": "acs-age-35",
+      "minimumAgeParameter": "employment-age-35-minimumAge",
+      "maximumAgeParameter": "employment-age-45-minimumAge"
+    },
+    {
+      "id": "acs-age-45",
+      "minimumAgeParameter": "employment-age-45-minimumAge",
+      "maximumAgeParameter": "employment-age-55-minimumAge"
+    },
+    {
+      "id": "acs-age-55",
+      "minimumAgeParameter": "employment-age-55-minimumAge",
+      "maximumAgeParameter": "employment-age-60-minimumAge"
+    },
+    {
+      "id": "acs-age-60",
+      "minimumAgeParameter": "employment-age-60-minimumAge",
+      "maximumAgeParameter": "employmentCountyAge62"
+    },
+    {
+      "id": "acs-age-62",
+      "minimumAgeParameter": "employmentCountyAge62",
+      "maximumAgeParameter": "employment-age-65-minimumAge"
+    },
+    {
+      "id": "acs-age-65",
+      "minimumAgeParameter": "employment-age-65-minimumAge",
+      "maximumAgeParameter": "employment-age-70-minimumAge"
+    },
+    {
+      "id": "acs-age-70",
+      "minimumAgeParameter": "employment-age-70-minimumAge",
+      "maximumAgeParameter": "employment-age-75-minimumAge"
+    },
+    {
+      "id": "acs-age-75",
+      "minimumAgeParameter": "employment-age-75-minimumAge"
+    }
+  ],
+  "countyCounts": {
+    "48215": {
+      "acs-age-16": {
+        "civilianPopulation": "62577",
+        "employed": "13185",
+        "ageTotal": "62633",
+        "armedForces": "56",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_003E",
+              "estimate": "31489",
+              "marginOfError": "683"
+            },
+            "employed": {
+              "variable": "B23001_007E",
+              "estimate": "7290",
+              "marginOfError": "664"
+            },
+            "armedForces": {
+              "variable": "B23001_005E",
+              "estimate": "56",
+              "marginOfError": "82"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_089E",
+              "estimate": "31144",
+              "marginOfError": "754"
+            },
+            "employed": {
+              "variable": "B23001_093E",
+              "estimate": "5895",
+              "marginOfError": "663"
+            },
+            "armedForces": {
+              "variable": "B23001_091E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-20": {
+        "civilianPopulation": "29794",
+        "employed": "16791",
+        "ageTotal": "29928",
+        "armedForces": "134",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_010E",
+              "estimate": "15229",
+              "marginOfError": "952"
+            },
+            "employed": {
+              "variable": "B23001_014E",
+              "estimate": "9274",
+              "marginOfError": "986"
+            },
+            "armedForces": {
+              "variable": "B23001_012E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_096E",
+              "estimate": "14699",
+              "marginOfError": "847"
+            },
+            "employed": {
+              "variable": "B23001_100E",
+              "estimate": "7517",
+              "marginOfError": "719"
+            },
+            "armedForces": {
+              "variable": "B23001_098E",
+              "estimate": "134",
+              "marginOfError": "167"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-22": {
+        "civilianPopulation": "39663",
+        "employed": "25901",
+        "ageTotal": "39872",
+        "armedForces": "209",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_017E",
+              "estimate": "19913",
+              "marginOfError": "915"
+            },
+            "employed": {
+              "variable": "B23001_021E",
+              "estimate": "13520",
+              "marginOfError": "880"
+            },
+            "armedForces": {
+              "variable": "B23001_019E",
+              "estimate": "83",
+              "marginOfError": "109"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_103E",
+              "estimate": "19959",
+              "marginOfError": "839"
+            },
+            "employed": {
+              "variable": "B23001_107E",
+              "estimate": "12381",
+              "marginOfError": "891"
+            },
+            "armedForces": {
+              "variable": "B23001_105E",
+              "estimate": "126",
+              "marginOfError": "147"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-25": {
+        "civilianPopulation": "63360",
+        "employed": "43840",
+        "ageTotal": "63561",
+        "armedForces": "201",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_024E",
+              "estimate": "32264",
+              "marginOfError": "219"
+            },
+            "employed": {
+              "variable": "B23001_028E",
+              "estimate": "24834",
+              "marginOfError": "713"
+            },
+            "armedForces": {
+              "variable": "B23001_026E",
+              "estimate": "120",
+              "marginOfError": "132"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_110E",
+              "estimate": "31297",
+              "marginOfError": "102"
+            },
+            "employed": {
+              "variable": "B23001_114E",
+              "estimate": "19006",
+              "marginOfError": "906"
+            },
+            "armedForces": {
+              "variable": "B23001_112E",
+              "estimate": "81",
+              "marginOfError": "104"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-30": {
+        "civilianPopulation": "58552",
+        "employed": "41747",
+        "ageTotal": "58723",
+        "armedForces": "171",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_031E",
+              "estimate": "29913",
+              "marginOfError": "88"
+            },
+            "employed": {
+              "variable": "B23001_035E",
+              "estimate": "23967",
+              "marginOfError": "769"
+            },
+            "armedForces": {
+              "variable": "B23001_033E",
+              "estimate": "115",
+              "marginOfError": "109"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_117E",
+              "estimate": "28810",
+              "marginOfError": "129"
+            },
+            "employed": {
+              "variable": "B23001_121E",
+              "estimate": "17780",
+              "marginOfError": "751"
+            },
+            "armedForces": {
+              "variable": "B23001_119E",
+              "estimate": "56",
+              "marginOfError": "86"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-35": {
+        "civilianPopulation": "108931",
+        "employed": "79726",
+        "ageTotal": "109072",
+        "armedForces": "141",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_038E",
+              "estimate": "54463",
+              "marginOfError": "225"
+            },
+            "employed": {
+              "variable": "B23001_042E",
+              "estimate": "44476",
+              "marginOfError": "898"
+            },
+            "armedForces": {
+              "variable": "B23001_040E",
+              "estimate": "141",
+              "marginOfError": "144"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_124E",
+              "estimate": "54609",
+              "marginOfError": "157"
+            },
+            "employed": {
+              "variable": "B23001_128E",
+              "estimate": "35250",
+              "marginOfError": "1297"
+            },
+            "armedForces": {
+              "variable": "B23001_126E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-45": {
+        "civilianPopulation": "102360",
+        "employed": "73666",
+        "ageTotal": "102439",
+        "armedForces": "79",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_045E",
+              "estimate": "49762",
+              "marginOfError": "217"
+            },
+            "employed": {
+              "variable": "B23001_049E",
+              "estimate": "41291",
+              "marginOfError": "695"
+            },
+            "armedForces": {
+              "variable": "B23001_047E",
+              "estimate": "79",
+              "marginOfError": "80"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_131E",
+              "estimate": "52677",
+              "marginOfError": "107"
+            },
+            "employed": {
+              "variable": "B23001_135E",
+              "estimate": "32375",
+              "marginOfError": "856"
+            },
+            "armedForces": {
+              "variable": "B23001_133E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-55": {
+        "civilianPopulation": "40274",
+        "employed": "25968",
+        "ageTotal": "40297",
+        "armedForces": "23",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_052E",
+              "estimate": "18329",
+              "marginOfError": "830"
+            },
+            "employed": {
+              "variable": "B23001_056E",
+              "estimate": "13573",
+              "marginOfError": "802"
+            },
+            "armedForces": {
+              "variable": "B23001_054E",
+              "estimate": "23",
+              "marginOfError": "36"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_138E",
+              "estimate": "21968",
+              "marginOfError": "855"
+            },
+            "employed": {
+              "variable": "B23001_142E",
+              "estimate": "12395",
+              "marginOfError": "708"
+            },
+            "armedForces": {
+              "variable": "B23001_140E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-60": {
+        "civilianPopulation": "15128",
+        "employed": "8934",
+        "ageTotal": "15128",
+        "armedForces": "0",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_059E",
+              "estimate": "7460",
+              "marginOfError": "708"
+            },
+            "employed": {
+              "variable": "B23001_063E",
+              "estimate": "5025",
+              "marginOfError": "669"
+            },
+            "armedForces": {
+              "variable": "B23001_061E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_145E",
+              "estimate": "7668",
+              "marginOfError": "654"
+            },
+            "employed": {
+              "variable": "B23001_149E",
+              "estimate": "3909",
+              "marginOfError": "577"
+            },
+            "armedForces": {
+              "variable": "B23001_147E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-62": {
+        "civilianPopulation": "22246",
+        "employed": "9651",
+        "ageTotal": "22246",
+        "armedForces": "0",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_066E",
+              "estimate": "10728",
+              "marginOfError": "771"
+            },
+            "employed": {
+              "variable": "B23001_070E",
+              "estimate": "5550",
+              "marginOfError": "606"
+            },
+            "armedForces": {
+              "variable": "B23001_068E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_152E",
+              "estimate": "11518",
+              "marginOfError": "818"
+            },
+            "employed": {
+              "variable": "B23001_156E",
+              "estimate": "4101",
+              "marginOfError": "451"
+            },
+            "armedForces": {
+              "variable": "B23001_154E",
+              "estimate": "0",
+              "marginOfError": "35"
+            }
+          }
+        },
+        "denominatorKind": "civilian-age-residents"
+      },
+      "acs-age-65": {
+        "employed": "8490",
+        "ageTotal": "32076",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_073E",
+              "estimate": "15087",
+              "marginOfError": "660"
+            },
+            "employed": {
+              "variable": "B23001_075E",
+              "estimate": "4527",
+              "marginOfError": "615"
+            },
+            "armedForces": {
+              "tableSemantics": "No armed-forces branch is defined for this age group; older in-labor-force cells refer to civilian employment."
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_159E",
+              "estimate": "16989",
+              "marginOfError": "751"
+            },
+            "employed": {
+              "variable": "B23001_161E",
+              "estimate": "3963",
+              "marginOfError": "442"
+            },
+            "armedForces": {
+              "tableSemantics": "No armed-forces branch is defined for this age group; older in-labor-force cells refer to civilian employment."
+            }
+          }
+        },
+        "denominatorKind": "age-residents-no-armed-subtotal",
+        "residentPopulation": "32076"
+      },
+      "acs-age-70": {
+        "employed": "3279",
+        "ageTotal": "26701",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_078E",
+              "estimate": "11851",
+              "marginOfError": "672"
+            },
+            "employed": {
+              "variable": "B23001_080E",
+              "estimate": "1661",
+              "marginOfError": "328"
+            },
+            "armedForces": {
+              "tableSemantics": "No armed-forces branch is defined for this age group; older in-labor-force cells refer to civilian employment."
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_164E",
+              "estimate": "14850",
+              "marginOfError": "745"
+            },
+            "employed": {
+              "variable": "B23001_166E",
+              "estimate": "1618",
+              "marginOfError": "313"
+            },
+            "armedForces": {
+              "tableSemantics": "No armed-forces branch is defined for this age group; older in-labor-force cells refer to civilian employment."
+            }
+          }
+        },
+        "denominatorKind": "age-residents-no-armed-subtotal",
+        "residentPopulation": "26701"
+      },
+      "acs-age-75": {
+        "employed": "2138",
+        "ageTotal": "45758",
+        "sourceCells": {
+          "Male": {
+            "population": {
+              "variable": "B23001_083E",
+              "estimate": "19607",
+              "marginOfError": "122"
+            },
+            "employed": {
+              "variable": "B23001_085E",
+              "estimate": "1534",
+              "marginOfError": "390"
+            },
+            "armedForces": {
+              "tableSemantics": "No armed-forces branch is defined for this age group; older in-labor-force cells refer to civilian employment."
+            }
+          },
+          "Female": {
+            "population": {
+              "variable": "B23001_169E",
+              "estimate": "26151",
+              "marginOfError": "85"
+            },
+            "employed": {
+              "variable": "B23001_171E",
+              "estimate": "604",
+              "marginOfError": "145"
+            },
+            "armedForces": {
+              "tableSemantics": "No armed-forces branch is defined for this age group; older in-labor-force cells refer to civilian employment."
+            }
+          }
+        },
+        "denominatorKind": "age-residents-no-armed-subtotal",
+        "residentPopulation": "45758"
+      }
+    }
+  },
+  "countySource": {
+    "tag": "SOURCED",
+    "citation": "Census ACS B23001 metadata: https://api.census.gov/data/2019/acs/acs5/groups/B23001.json. No county observation is supplied by metadata.",
+    "asOf": "2019-12-31"
+  },
+  "missingCountyScaleParameter": "openingMissingCountyEmploymentScale",
+  "stopgapId": "SG-P8-resident-employment-proxy",
+  "coverage": {
+    "acsEstimateStatus": "API estimate route requires a key. One official county row was obtained from the key-free static B23001 table by another source reader using bounded HTTP ranges. All other absent county observations still use the explicit tunable proxy.",
+    "nationalApplicability": "National civilian noninstitutional age-cohort proxy does not establish local or territorial employment. Population-to-workplace and source-vintage application remain estimates.",
+    "olderAgeDenominator": "B23001 age 65+ has no distinct Armed Forces subtotal. Those observed rates use total age residents, not a claimed civilian-only denominator. Younger civilian totals subtract the actually reported sex-specific Armed Forces estimates."
+  },
+  "countyInputContract": "countyCounts[GEOID][ageRow.id] must contain valid source estimate strings civilianPopulation and employed. civilianPopulation is the pooled-sex age total minus the table reported armed-forces subtotal. Missing/suppressed cells are not zero; omit them and expose fallback. Older bins have no armed-forces branch in B23001. Metadata alone supplies no population/employed counts.",
+  "countySources": {
+    "48215": {
+      "citation": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b23001.dat; U.S. Census 2020\u20132024 ACS five-year B23001; https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/documentation/ACS20245YR_Table_Shells.txt",
+      "asOf": "2024-12-31",
+      "rowSha256NoNewline": "5fe25a0584cdef3fd0f4cb8c6ed0dfaa014291f55f09ec4deec94034ae00a281",
+      "geography": "Hidalgo County, Texas",
+      "surveyPeriod": "2020\u20132024",
+      "applicationTag": "ESTIMATED",
+      "applicationGap": "Later survey vintage used only as fictional opening prior; no historical January 2021 county employment observation is claimed. No local workplace capacity or employed-person hours follows from this row.",
+      "uncertainty": "Sex-specific source MOEs retained per cell; no unsupported combined MOE or actor spread is calculated."
+    }
+  }
+}

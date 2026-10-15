@@ -14,8 +14,6 @@ export const facetAmbitiousEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:facet-ambitious",
         pole: "high",
-        explanation:
-          "They want more responsibility and a larger achievement to point to, so another term is the next step.",
       },
     ],
   },

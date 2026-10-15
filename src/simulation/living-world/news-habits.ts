@@ -1,4 +1,4 @@
-import { ageOnDate } from "../dates";
+import { ageOnDate } from "../../core2/kernel/dates";
 import type { EntityId, World } from "../types";
 import { stateJurisdictionForKey } from "../life-places";
 import { activeWorkRelationshipsAt } from "../life-queries";
@@ -96,11 +96,4 @@ export function newsHabitOf(world: World, personId: EntityId): NewsHabit {
     outletKeys,
     followsClosely: curiosity === "curious" || (age >= 65 && work.length === 0),
   };
-}
-
-export function followsNewsCloselyFromHabit(
-  world: World,
-  personId: EntityId,
-): boolean {
-  return newsHabitOf(world, personId).followsClosely;
 }

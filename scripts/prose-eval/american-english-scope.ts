@@ -58,6 +58,26 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "generated from sourced records; fix the generator's input instead",
   },
   {
+    pattern: /^src\/core2\/data\/opening-(schools|public-owners-2017)\.json$/,
+    reason: "real names from federal school and ownership records",
+  },
+  {
+    pattern:
+      /^src\/core2\/data\/(places\/(county-names|localities|place-lookup)|business\/nonattainment)\.json$/,
+    reason:
+      "real place and county names from Census and EPA records (Centre, Harbour, Storey)",
+  },
+  {
+    pattern: /^src\/bench\/[a-z-]+-receipt\.json$/,
+    reason:
+      "receipts the bench verifier wrote and reads back; regenerated rather than edited",
+  },
+  {
+    pattern: /^docs\/coordination\/DECISION-REGISTER\.md$/,
+    reason:
+      "a copy of the owner's Drive register, re-copied from Drive rather than edited here",
+  },
+  {
     pattern: /^fixtures\/source\//,
     reason: "fixtures mirroring sourced records byte for byte",
   },
@@ -72,6 +92,17 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "asset records bound to received files and their hashes",
   },
   {
+    pattern:
+      /^docs\/codex\/effect-batches\/team-6\/(?:a28-proof\/spelling-baseline\.json|a47-renewed-proof\/spelling\.txt|a80-fiscal-proof\/(?:combined-(?:final|first)-tests|spelling)\.txt|ranked-estimator-proof\/team6-ranked-estimator-spelling\.txt)$/i,
+    reason:
+      "historical spelling and test output records preserve the original captured findings",
+  },
+  {
+    pattern:
+      /^docs\/codex\/effect-batches\/team-9\/michigan-cpl-source\.json$/i,
+    reason: "transcription of statutory source language, preserved verbatim",
+  },
+  {
     pattern: /^docs\/writing\/[^/]*-original\.md$/,
     reason:
       "a report kept as it was sent, so the writing check is tested on it",
@@ -82,7 +113,7 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
   },
   {
     pattern:
-      /^(scripts\/prose-eval\/(american-spelling|american-english|american-english-scope|prose-ranges|spelling)(\.test)?\.ts|scripts\/report-check\/report-check(\.test)?\.(mjs|ts)|tests\/content-american-english\.test\.ts|tests\/american-english-sweep\.test\.ts|src\/presentation\/legislation-american-english\.test\.ts)$/,
+      /^(scripts\/prose-eval\/(american-spelling|american-english|american-english-scope|prose-ranges|spelling)(\.test)?\.ts|scripts\/report-check\/report-check(\.test)?\.(mjs|ts)|tests\/(content-)?american-english(\.test|-sweep\.test)\.ts|src\/presentation\/legislation-american-english\.test\.ts)$/,
     reason: "the word tables and their tests name the British forms on purpose",
   },
 ];

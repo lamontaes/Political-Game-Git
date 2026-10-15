@@ -28,9 +28,27 @@
     {
       "source": "Earlier answer to how-an-election-night-should-come-out",
       "whatItDidNotSettle": "Says to reuse a finite-audience model and states that no empirical persuasion or turnout coefficients were supplied."
+    },
+    {
+      "source": "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf",
+      "whatItDidNotSettle": "Contacts/week, decay parameters, first-time support distributions and contested-race ceilings remain open; no invented gain or hard ceiling adopted."
+    },
+    {
+      "source": "https://dataverse.yale.edu/dataset.xhtml?persistentId=doi%3A10.60600%2FYU%2FB9TZNZ",
+      "whatItDidNotSettle": "Contacts/week, decay parameters, first-time support distributions and contested-race ceilings remain open; no invented gain or hard ceiling adopted."
     }
   ],
   "title": "How fast a season of campaigning can move a candidate's support, by office and place size",
   "usableAnswer": "Rules with their inputs named: a realistic starting range for a first-time or unaffiliated candidate by office level; roughly how many people a candidate and volunteers can reach per week and what share of an electorate that is at each size; how persuasion falls off as a campaign goes on; and a realistic ceiling for support in a contested race. Bands are fine. This is the calibration the earlier election-night answer said it did not supply.",
-  "whyItMatters": "In the game today one person knocking on doors for sixteen weeks took a statewide governor's race from about 48% to 96% support. lamontae read the 93% point and called it super unrealistic. Each door shift adds the same amount whether the race is a town of 1,300 or all of Maine, and nothing slows it down near the top, so effort alone wins any race by a landslide."
+  "whyItMatters": "In the game today one person knocking on doors for sixteen weeks took a statewide governor's race from about 48% to 96% support. lamontae read the 93% point and called it super unrealistic. Each door shift adds the same amount whether the race is a town of 1,300 or all of Maine, and nothing slows it down near the top, so effort alone wins any race by a landslide.",
+  "answer": {
+    "summary": "Turnout evidence and observed vote-share dispersion do not identify a starting support range or universal weekly gain. Reach depends on actual staff time, geography, repeat contact and the audience; contacts cannot be treated as distinct persuadable voters. See roadmap-r16-effects-and-observed-margins.json for measured federal larger-major-party-share quantiles and denominator cautions. Observed margins are outcomes, not causal campaign effects.",
+    "sources": [
+      "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf",
+      "https://dataverse.yale.edu/dataset.xhtml?persistentId=doi%3A10.60600%2FYU%2FB9TZNZ"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:59:48.586807+00:00",
+    "stillOpen": "Contacts/week, decay parameters, first-time support distributions and contested-race ceilings remain open; no invented gain or hard ceiling adopted."
+  }
 }

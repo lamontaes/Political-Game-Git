@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -13,8 +13,9 @@ import {
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import { drawCanonicalNameForGender, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, World } from "../types";
+import { playSettingsOf } from "../play-settings";
 import {
   isPersonAliveAt,
   personActionAvailabilityAt,
@@ -719,6 +720,7 @@ function ensureOutlet(
     resourceTier: plan.resourceTier,
     cadence: plan.cadence,
     acceptsDeepBackground: plan.acceptsDeepBackground,
+    editorialStandard: playSettingsOf(world).pressPremise,
     establishedAt: world.currentDate,
     policyVersion: PRESS_POLICY_VERSION,
     provenanceNote: PROVENANCE_NOTE,

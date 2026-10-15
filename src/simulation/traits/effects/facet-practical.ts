@@ -13,8 +13,6 @@ export const facetPracticalEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-practical",
         pole: "high",
-        explanation:
-          "They take the plain, workable request at face value and agree to it.",
       },
     ],
   },

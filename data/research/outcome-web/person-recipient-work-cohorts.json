@@ -1,0 +1,11 @@
+{
+  "groupsByRule": {
+    "recorded-farm-operator-land-value-estimate": {
+      "organizationClassifications": ["enterprise:agriculture"],
+      "operatorAuthorities": ["directs-others"],
+      "businessOwnerKinds": ["independent:business-owner"],
+      "currentWorkStatuses": ["active", "temporarily-inactive"],
+      "estimatedFrom": "USDA ERS, Farmland Ownership and Tenure (https://www.ers.usda.gov/topics/farm-economy/land-use-land-value-tenure/farmland-ownership-and-tenure), and USDA NASS farm real estate values. A current recorded agricultural business owner or directing farm operator in the person's home state supplies an estimated land-value exposure. An operator can lease land; this does not establish a land title, acreage, equity, or a personal wealth change."
+    }
+  }
+}

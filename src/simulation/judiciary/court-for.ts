@@ -10,6 +10,11 @@ import type { JudicialCourt, JudicialCourtLevel } from "./types";
 
 export type CourtCaseKind = "law-review" | "criminal" | "civil";
 
+/** True when a judicial decision belongs to the controlled person. */
+export function isControlledPerson(world: World, personId: EntityId): boolean {
+  return world.control.kind === "person" && world.control.personId === personId;
+}
+
 let courtJurisdictions: ReadonlyMap<EntityId, EntityId> | null = null;
 function courtJurisdictionOf(state: EntityId): EntityId {
   courtJurisdictions ??= new Map(

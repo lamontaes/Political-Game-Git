@@ -18,7 +18,7 @@
         },
         {
           "code": "rights-status-unknown",
-          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a license.",
           "severity": "warning"
         }
       ],
@@ -53,7 +53,7 @@
         },
         {
           "code": "rights-status-unknown",
-          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a license.",
           "severity": "warning"
         }
       ],

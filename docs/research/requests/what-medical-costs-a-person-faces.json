@@ -15,9 +15,35 @@
     {
       "source": "src/simulation/cost-of-living.ts",
       "whatItDidNotSettle": "Monthly living costs list rent, food, utilities and other necessities; no medical line."
+    },
+    {
+      "source": "AHRQ MEPS-IC Research Findings54, 2024 private-sector employer health insurance",
+      "url": "https://meps.ahrq.gov/data_files/publications/rf54/rf54.shtml",
+      "whatItSettled": "Public aggregate benchmark; territory/place-specific gaps documented."
+    },
+    {
+      "source": "Federal Reserve Board SCF2022 bulletin, October2023; historical dollar vintage",
+      "url": "https://www.federalreserve.gov/publications/october-2023-changes-in-us-family-finances-from-2019-to-2022.htm",
+      "whatItSettled": "Public aggregate benchmark; territory/place-specific gaps documented."
+    },
+    {
+      "source": "Census/AmeriCorps CPS CEV2023 national findings",
+      "url": "https://www.census.gov/library/stories/2024/11/civic-engagement-and-volunteerism.html",
+      "whatItSettled": "Public aggregate benchmark; territory/place-specific gaps documented."
     }
   ],
   "title": "What medical costs and insurance an ordinary person faces",
   "usableAnswer": "A design decision (should medical costs exist in play) and, if yes, sourced national figures (KFF, CMS, MEPS) with how they vary by state and age.",
-  "whyItMatters": "Healthcare is a major political issue in the game, but a character never pays for or is insured against anything medical."
+  "whyItMatters": "Healthcare is a major political issue in the game, but a character never pays for or is insured against anything medical.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "data": "data/research/core-figures/P0-4/medical-insurance-firm-size-2024.json and P0-1 CE healthcare categories",
+      "estimate": "MEPS-IC2024 supplies total and employee premiums by firm size; CE2024 supplies household healthcare spending with SE. Use employee contribution for household payroll deductions and employer contribution in employer books; never charge total premium twice.",
+      "mechanism": "Insurance status, plan premium/deductible/copay/out-of-pocket maximum and actual medical episode determine cash cost. Premiums and care prices must not be a single random annual bill.",
+      "gaps": "No complete age/job/state/territory joint cost table or source-supported universal episode price extracted. ACS coverage and MEPS-HC age/condition expenditure tables are further needed; do not fabricate exact local medical rates."
+    }
+  }
 }

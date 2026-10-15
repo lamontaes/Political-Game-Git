@@ -29,7 +29,7 @@ export const MEMBER_AGENDA_LEVEL_SETTINGS = {
     titleTemplate: FEDERAL_MEASURE_TITLE,
     governmentLevel: "federal",
     intakeVersion: "congress-intake/v1",
-    filingThreshold: FILING_THRESHOLD,
+    filingThreshold: STATE_FILING_THRESHOLD,
     issuePrefix: "us-federal:",
     compileBeforeSelection: false,
     mappedCooldownOnly: true,

@@ -14,8 +14,6 @@ export const facetContentedEffects: readonly TraitEffectDeclaration[] = [
         option: "step-down",
         trait: "personality-v1:facet-contented",
         pole: "high",
-        explanation:
-          "They have what they set out to get, so more status from another term does not pull at them.",
       },
     ],
   },

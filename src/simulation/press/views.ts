@@ -2,19 +2,9 @@ import { eventById } from "../event-index";
 import type { ClaimStance } from "../claim-stances";
 import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
-import {
-  assignedReporter,
-  dispositionsForLead,
-  latestDisposition,
-  storyLeads,
-} from "./desk";
+import { assignedReporter, latestDisposition, storyLeads } from "./desk";
 import { campaignPersonalUseAvailability } from "./matters";
-import {
-  mediaOutlets,
-  reporterIsCurrent,
-  reporterRoles,
-  stateOfJurisdiction,
-} from "./outlets";
+import { mediaOutlets, reporterIsCurrent, reporterRoles } from "./outlets";
 import {
   outletOwner,
   outletPurchaseTerms,
@@ -465,54 +455,3 @@ export function pressAnswerStance(
  * inside a state that has no state newsroom yet.
  */
 export { ensurePressExposureCoverage } from "./outlets";
-
-/** Stories published by an outlet, newest first, for a reporter byline list. */
-export function storiesByReporter(
-  world: World,
-  reporterPersonId: EntityId,
-): readonly {
-  readonly publicationId: EntityId;
-  readonly headline: string;
-  readonly publishedAt: IsoDate;
-}[] {
-  return storyLeads(world)
-    .flatMap((lead) =>
-      dispositionsForLead(world, lead.id)
-        .filter(
-          (record) =>
-            record.decision === "published" &&
-            record.reporterPersonId === reporterPersonId &&
-            record.publicationId,
-        )
-        .map((record) => {
-          const publication = (world.history.publications ?? []).find(
-            (item) => item.id === record.publicationId,
-          )!;
-          return {
-            publicationId: publication.id,
-            headline: publication.headline,
-            publishedAt: publication.publishedAt,
-          };
-        }),
-    )
-    .reverse();
-}
-
-/** CAMPAIGN interface: current reporters whose geography covers a place. */
-export function reportersCoveringJurisdiction(
-  world: World,
-  jurisdictionId: EntityId,
-): readonly EntityId[] {
-  const state = stateOfJurisdiction(world, jurisdictionId);
-  return reporterRoles(world)
-    .filter((role) => {
-      if (!reporterIsCurrent(world, role)) return false;
-      const outlet = requirePressRecord(world, "media-outlet", role.outletId);
-      if (outlet.scope === "national") return false;
-      return (
-        role.geographyJurisdictionIds.includes(jurisdictionId) ||
-        (state !== null && role.geographyJurisdictionIds.includes(state))
-      );
-    })
-    .map((role) => role.personId);
-}

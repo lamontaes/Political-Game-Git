@@ -1,4 +1,9 @@
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   activeWorkRelationshipsAt,
@@ -25,7 +30,7 @@ import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { PROVISIONAL_SIMULATION_COURSES, beginHealthEpisode } from "./health";
 import { latestHealthState } from "./health-queries";
 import { crisisRecords } from "./records";
@@ -58,8 +63,8 @@ import type {
  *   (`epidemicCouncilMeetingDecision`, read by the council's own meeting).
  *
  * No condition pack is researched, so the illness has no name: it is "the
- * illness going around" a town. Every rate is in `UNRESEARCHED_EPIDEMIC` and
- * is a PLACEHOLDER with its research question written down.
+ * illness going around" a town. Every rate is in `EPIDEMIC_ESTIMATE` and
+ * is ESTIMATED FROM AVERAGE with its research question written down.
  */
 
 export const EPIDEMIC_VERSION = "epidemic/v1" as const;
@@ -80,11 +85,17 @@ export type ContactSetting =
   "household" | "family" | "work" | "school" | "acquaintance";
 
 /**
- * PLACEHOLDER. Every number here is set by hand, not measured. The research
- * questions are filed under the keys in `researchQuestions`.
+ * ESTIMATED FROM AVERAGE. Every rate here is a game estimate of ordinary
+ * respiratory illness: the season follows the winter peak the Centers for
+ * Disease Control and Prevention report for influenza-like illness, and the
+ * household, school and work exposures are ordered by how close the contact
+ * is. The research questions are filed under the keys in `researchQuestions`.
  */
-export const UNRESEARCHED_EPIDEMIC = {
-  provenance: "unresearched-blanket-rule",
+export const EPIDEMIC_ESTIMATE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "Centers for Disease Control and Prevention influenza-like illness season (winter peak); contact settings ordered by closeness",
   /** Days between passes; a case passes it on during the week after onset. */
   passDays: 7,
   /**
@@ -177,7 +188,7 @@ export const UNRESEARCHED_EPIDEMIC = {
   ],
 } as const;
 
-const U = UNRESEARCHED_EPIDEMIC;
+const U = EPIDEMIC_ESTIMATE;
 
 const EMPTY_CONTEXT = {
   location: null,
@@ -867,7 +878,7 @@ function recordCase(
     initialRecipientIds: household.filter((id) => id !== found.personId),
     hazard: {
       micros: hazardMicros,
-      basis: `${U.provenance} PLACEHOLDER (epidemic-severity-by-age): a case of the illness going around, ${Math.round(seriousness * 100)} percent of the way from ordinary to serious.`,
+      basis: `${U.provenance} (epidemic-severity-by-age): a case of the illness going around, ${Math.round(seriousness * 100)} percent of the way from ordinary to serious.`,
     },
   });
   const name = personName(person);

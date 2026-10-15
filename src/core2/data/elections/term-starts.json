@@ -1,0 +1,11 @@
+{
+  "about": "The month and day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). Read by src/core2/elections-calendar.ts termStartAfter. Rows are keyed by state and office family; the default stands in where a state's rule is not yet read (SG-GOV-term-end-estimate).",
+  "stopgap": "SG-GOV-term-end-estimate",
+  "default": {
+    "monthDay": "01-01",
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Most state and local terms begin in early January after the November election (state constitutions and charters); the exact day varies by state and is not yet read.",
+    "spread": ["01-01", "01-20"]
+  },
+  "states": {}
+}

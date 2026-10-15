@@ -430,15 +430,6 @@ export function publicBudgetFor(
   );
 }
 
-/** A month row's amount for one source or program. */
-export function sourceAmount(row: BudgetMonthRow, source: BudgetSource) {
-  return row.revenue[BUDGET_SOURCES.indexOf(source)] ?? 0;
-}
-
-export function programAmount(row: BudgetMonthRow, program: BudgetProgram) {
-  return row.spending[BUDGET_PROGRAMS.indexOf(program)] ?? 0;
-}
-
 /**
  * A state's yearly spending on aid to local governments at its current
  * adopted budget, less any mid-year cut.

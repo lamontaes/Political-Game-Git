@@ -17,6 +17,8 @@ import {
 } from "./legislative-politics";
 import { currentHistoricalCutoff, latestPrivateBelief } from "./queries";
 import { measureAnswersAt } from "./vote-bundle";
+import { civicMessagesForOfficial } from "./living-world/civic-actions";
+import { UNRESEARCHED_ISSUE_RECORD } from "./issue-record";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -417,7 +419,36 @@ function memberConsiderations(
   // argues for changing it, credit for keeping it.
   if (asked.purpose !== "amendment" && pending === null && !guessed) {
     const measure = requireMeasure(world, measureId);
+    const callsBySenderAndQuestion = new Map<
+      string,
+      {
+        readonly propositionId: EntityId;
+        readonly senderId: EntityId;
+        readonly eventId: EntityId;
+        readonly sequence: number;
+        readonly description: string;
+        readonly stance: "yes" | "no";
+        readonly salience: keyof typeof UNRESEARCHED_ISSUE_RECORD.salienceWeight;
+      }
+    >();
     for (const answer of answersOnTable) {
+      for (const message of civicMessagesForOfficial(world, input.personId, [
+        answer.propositionId,
+      ]).get(answer.propositionId) ?? []) {
+        const key = `${message.propositionId}:${message.senderId}`;
+        const prior = callsBySenderAndQuestion.get(key);
+        if (!prior || message.sequence > prior.sequence) {
+          callsBySenderAndQuestion.set(key, {
+            propositionId: message.propositionId,
+            senderId: message.senderId,
+            eventId: message.eventId,
+            sequence: message.sequence,
+            description: message.description,
+            stance: message.stance,
+            salience: message.salience,
+          });
+        }
+      }
       const law = lawInForce(
         world,
         measure.jurisdictionId,
@@ -463,6 +494,40 @@ function memberConsiderations(
         confidence: "medium",
         explanation: `People the current law on ${proposition?.question ?? "this question"} reached ${net < 0 ? "blame" : "credit"} the member for it, and this bill would ${changes ? "change" : "keep"} that law.`,
         sourceRefs: [],
+      });
+    }
+    let callsFor = 0;
+    let callsAgainst = 0;
+    const callRefs = [];
+    const callDescriptions = new Set<string>();
+    for (const call of callsBySenderAndQuestion.values()) {
+      const answer = answersOnTable.find(
+        (candidate) => candidate.propositionId === call.propositionId,
+      );
+      if (!answer) continue;
+      const weight = UNRESEARCHED_ISSUE_RECORD.salienceWeight[call.salience];
+      if (call.stance === answer.answer) callsFor += weight;
+      else callsAgainst += weight;
+      callRefs.push({
+        kind: "historical-event" as const,
+        eventId: call.eventId,
+      });
+      callDescriptions.add(call.description);
+    }
+    if (callsFor !== callsAgainst && callRefs.length > 0) {
+      const favorsBill = callsFor > callsAgainst;
+      const [more, less] = favorsBill
+        ? [callsFor, callsAgainst]
+        : [callsAgainst, callsFor];
+      considerations.push({
+        stableKey: `member:constituents-calling:${favorsBill ? "for" : "against"}`,
+        optionKey: favorsBill ? "vote-yea" : "vote-nay",
+        sourceType: "context:constituents",
+        direction: "supports",
+        importance: more >= 2 * less ? "moderate" : "slight",
+        confidence: "medium",
+        explanation: [...callDescriptions].join("\n"),
+        sourceRefs: callRefs,
       });
     }
   }

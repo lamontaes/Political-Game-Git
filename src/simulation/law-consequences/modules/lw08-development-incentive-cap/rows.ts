@@ -32,7 +32,7 @@ export const DEVELOPMENT_INCENTIVE_AWARD_ROW: LawConsequenceRow = {
   evidence: {
     sourceIds: [
       "data/research/laws/catalog-terms-batch-03.json",
-      "data/research/laws/starting-law-2026.json",
+      "data/research/laws/starting-law-2026/index.ts",
       "data/research/outcome-web/links.json",
     ],
     population:

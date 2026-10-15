@@ -1,5 +1,5 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createOrganization, recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
@@ -11,7 +11,7 @@ import {
 } from "../resource-queries";
 import { makeCurrencyCode } from "../resources";
 import { recordMediaPurchasePayment } from "./media-purchase-payment";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -81,10 +81,6 @@ let cached: OwnershipRegistry | null = null;
 export function loadedOwnershipRegistry(): OwnershipRegistry {
   cached ??= loadOwnershipPacks(MEDIA_OWNERSHIP_PACKS);
   return cached;
-}
-
-export function resetLoadedOwnershipRegistry(): void {
-  cached = null;
 }
 
 export const PRESS_OWNER_REVIEW_TRANSITION_KEY = "press:owner-review";
@@ -1047,6 +1043,8 @@ export type OutletPurchaseTerms =
       /** A sentence the player reads. */
       readonly reason: string;
       readonly priceMinorUnits: number | null;
+      /** The buyer's recorded cash, where the record holds it. */
+      readonly buyerMoneyMinorUnits?: number;
     };
 
 /**
@@ -1113,10 +1111,13 @@ export function outletPurchaseTerms(
     );
   }
   if (savings.liquidBalance.minorUnits < price) {
-    return refuse(
-      "cannot-afford",
-      `${owner.name} is asking more than you have.`,
-    );
+    return {
+      ...(refuse(
+        "cannot-afford",
+        `${owner.name} is asking more than you have.`,
+      ) as Extract<OutletPurchaseTerms, { readonly reason: string }>),
+      buyerMoneyMinorUnits: savings.liquidBalance.minorUnits,
+    };
   }
   return {
     status: "available",

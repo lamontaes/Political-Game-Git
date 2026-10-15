@@ -1,0 +1,147 @@
+{
+  "version": "core2-outside-market-v1",
+  "stopgapId": "SG-CORE-outside-market",
+  "weeksPerYear": 52,
+  "cadenceDays": 7,
+  "firstOffsetDays": 1,
+  "note": "Share of a small-town establishment's receipts paid by buyers outside the town (nonresident consumers, outside businesses, government programs, insurers, mortgage-funded buyers). Wholesale is omitted: its sales to local firms are already recorded routes. Research: OPUS-CORE helper, Oct 12, 2026. Each firm's outside sales are its industry's share of its receipts; nothing tops a firm up to its projection.",
+  "shares": {
+    "farm": {
+      "value": 0.99,
+      "low": 0.95,
+      "high": 1.0,
+      "tag": "SOURCED",
+      "citation": "USDA NASS 2017 Census of Agriculture: direct-to-consumer sales about $2.8B of $388.5B market value; https://www.nass.usda.gov/Publications/AgCensus/2017/"
+    },
+    "quarry": {
+      "value": 0.97,
+      "low": 0.9,
+      "high": 1.0,
+      "tag": "ESTIMATED",
+      "citation": "No class-of-customer table for mining (2017 Economic Census).",
+      "estimatedFrom": "Buyers are contractors, ready-mix plants and state transportation departments, none of them town households."
+    },
+    "construction": {
+      "value": 0.58,
+      "low": 0.45,
+      "high": 0.85,
+      "tag": "SOURCED",
+      "citation": "U.S. Census Bureau, Value of Construction Put in Place 2017: private nonresidential plus public 58% of $1,231B; https://www.census.gov/construction/c30/pdf/ototal.pdf"
+    },
+    "manufacturing": {
+      "value": 0.97,
+      "low": 0.9,
+      "high": 0.99,
+      "tag": "ESTIMATED",
+      "citation": "Manufacturing is outside the 2017 Economic Census class-of-customer table.",
+      "estimatedFrom": "Shipments go to other firms and distant markets; a small-town plant sells almost nothing to its own residents."
+    },
+    "trucking": {
+      "value": 0.97,
+      "low": 0.9,
+      "high": 0.99,
+      "tag": "ESTIMATED",
+      "citation": "Truck transportation is outside the 2017 Economic Census class-of-customer table.",
+      "estimatedFrom": "Freight is billed to shippers, which are businesses, mostly elsewhere."
+    },
+    "inn": {
+      "value": 0.97,
+      "low": 0.9,
+      "high": 0.99,
+      "tag": "SOURCED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, class of customer (EC1700CLCUST), NAICS 7211: businesses 29.9%, government 4.1%, households 66% (travelers, nonresident by definition); https://www2.census.gov/programs-surveys/economic-census/data/2017/sector00/EC1700CLCUST.zip"
+    },
+    "care-home": {
+      "value": 0.91,
+      "low": 0.6,
+      "high": 0.95,
+      "tag": "SOURCED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, type of payer (EC1762TYPEPAYER), NAICS 6231: Medicaid 46.6%, Medicare 28.1%, private insurance 9.4%, other government 1.6%, out-of-pocket 8.5%; https://www2.census.gov/programs-surveys/economic-census/data/2017/sector62/EC1762TYPEPAYER.zip"
+    },
+    "insurance": {
+      "value": 0.95,
+      "low": 0.3,
+      "high": 1.0,
+      "tag": "SOURCED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, product lines (EC1700NAPCSINDPRD), NAICS 524210: 95.9% brokerage and agency commissions paid by carriers; https://www2.census.gov/programs-surveys/economic-census/data/2017/sector00/EC1700NAPCSINDPRD.zip"
+    },
+    "realty": {
+      "value": 0.75,
+      "low": 0.25,
+      "high": 0.9,
+      "tag": "ESTIMATED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, product lines (EC1700NAPCSINDPRD), NAICS 531210: residential sales 66.2%, nonresidential 17.8%, residential rental 6.4%.",
+      "estimatedFrom": "Commissions come out of closing proceeds, mostly mortgage-financed and often from buyers moving in; counted as outside money."
+    },
+    "private-school": {
+      "value": 0.15,
+      "low": 0.05,
+      "high": 0.35,
+      "tag": "ESTIMATED",
+      "citation": "No revenue-mix table for K-12 private schools in the 2017 Economic Census.",
+      "estimatedFrom": "Tuition is mostly local families; outside money is vouchers, education savings accounts, federal Title services and outside donors."
+    },
+    "restaurant": {
+      "value": 0.3,
+      "low": 0.15,
+      "high": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, class of customer (EC1700CLCUST), NAICS 7225: business expense accounts 8.0% + government 1.6% (sourced floor 9.6%).",
+      "estimatedFrom": "The rest is travelers and commuters, which the Census table can't separate; to be checked against BEA's Travel and Tourism Satellite Account."
+    },
+    "building-services": {
+      "value": 0.85,
+      "low": 0.64,
+      "high": 0.9,
+      "tag": "SOURCED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, class of customer (EC1700CLCUST), NAICS 56172 janitorial: businesses 73%, government 7.3%, nonprofits 4.8%, households 14.9%."
+    },
+    "information": {
+      "value": 0.34,
+      "low": 0.31,
+      "high": 0.55,
+      "tag": "SOURCED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, class of customer (EC1700CLCUST), NAICS 517: residential 65.6%, all others 34.4%."
+    },
+    "personal-care": {
+      "value": 0.15,
+      "low": 0.05,
+      "high": 0.3,
+      "tag": "ESTIMATED",
+      "citation": "Personal care is outside the 2017 Economic Census class-of-customer table; NAICS 812111 is 95% hair-care services.",
+      "estimatedFrom": "Nearly all buyers are households; outside money is customers from the surrounding rural area."
+    },
+    "professional": {
+      "value": 0.5,
+      "low": 0.2,
+      "high": 0.85,
+      "tag": "ESTIMATED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, product lines (EC1700NAPCSINDPRD): tax preparation 541213 individuals 79%; accounting 541211 individuals 13.3%; legal 5411 business law 40.1%.",
+      "estimatedFrom": "Midpoint across tax, accounting and legal offices."
+    },
+    "retail": {
+      "value": 0.25,
+      "low": 0.11,
+      "high": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, class of customer (EC1700CLCUST), NAICS 44-45: households 89%, business and government 11% (sourced floor).",
+      "estimatedFrom": "The rest is shoppers from the surrounding trade area; building materials (444) is 46.6% outside, grocery (445) 1.4%."
+    },
+    "repair": {
+      "value": 0.3,
+      "low": 0.2,
+      "high": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "U.S. Census Bureau, 2017 Economic Census, product lines (EC1700NAPCSINDPRD), NAICS 811111: heavy-truck and bus repair 16.2% (fleets), body repair 7.9% (often insurers).",
+      "estimatedFrom": "Fleet and insurer payments plus customers passing through."
+    },
+    "recreation": {
+      "value": 0.15,
+      "low": 0.05,
+      "high": 0.3,
+      "tag": "ESTIMATED",
+      "citation": "Recreation is outside the 2017 Economic Census class-of-customer table; NAICS 713950 is bowling 56.7%, food and alcohol 32%.",
+      "estimatedFrom": "Customers are local households; outside money is visitors and corporate events."
+    }
+  }
+}

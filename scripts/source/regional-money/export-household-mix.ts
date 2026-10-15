@@ -4,7 +4,7 @@
  * Reads the two extracts in `data/source/acs-household-mix/raw/` (U.S. Census
  * Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and
  * B11003; the lock beside them names the full files they were cut from) and
- * writes `src/simulation/household-mix.generated.ts`: for the nation, each
+ * writes `src/core2/household-mix.generated.ts`: for the nation, each
  * state and each place, the number of households of the five shapes the town
  * generator draws. Run with `npm run export:household-mix`; `-- --check` fails
  * when the committed output is stale.
@@ -22,8 +22,7 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 
-export const HOUSEHOLD_MIX_OUTPUT_PATH =
-  "src/simulation/household-mix.generated.ts";
+export const HOUSEHOLD_MIX_OUTPUT_PATH = "src/core2/household-mix.generated.ts";
 
 const RAW = "data/source/acs-household-mix/raw";
 const LOCK = "data/source/acs-household-mix/regional-artifact-lock.json";

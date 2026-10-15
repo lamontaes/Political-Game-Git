@@ -1,0 +1,148 @@
+{
+  "about": "What the opening story reads that no record names yet. The address asks Congress for a President's own issue by the bill catalog's name for it, so only a name that reads as an action can follow \"I ask Congress to\": these are the first words that make one (OPUS-GOV's bill catalog, src/core2/data/legislature/bill-catalog.json). The town's lead story maps a public record's event kind to the newscast bank's kind of story.",
+  "stopgapId": "SG-PEOPLE-opening-goal-words",
+  "actionWords": [
+    "adopt",
+    "allow",
+    "ban",
+    "broaden",
+    "cap",
+    "end",
+    "exempt",
+    "expand",
+    "fund",
+    "legalize",
+    "limit",
+    "partner",
+    "price",
+    "protect",
+    "raise",
+    "require",
+    "restore",
+    "restrict",
+    "shift"
+  ],
+  "townStoryKinds": {
+    "organization.closed": "closing",
+    "life.death": "death"
+  },
+  "sequence": {
+    "about": "The opening's sequence (owner, Oct 14, 2026, late): the President giving the address with the Vice President and key people behind, pointed out by name and office as the camera passes; then Congress (its leaders, your state's members); then your governor with a few leaders of your state legislature; then your family, if you have one; then home. Each part of the address plays over its stage, in the address's own order. Who the key people are is the owner's call (he clarifies tomorrow); until then they are picked from the offices and leadership records by rank, in the order listed. A stage with no one to point out still shows; a stage marked 'else' that finds no one hands its sentences to that stage, so a player with no family goes from the state's stage straight home. 'office' is a seat covering the player's town, by office kind; 'chamber' and 'post' a leadership post (data/research/legislature/chamber-leadership.json); 'household' the player's own household; 'most' caps how many are pointed out.",
+    "stopgapId": "SG-PEOPLE-opening-key-people",
+    "stages": [
+      {
+        "stage": "president",
+        "levels": ["occasion", "country"],
+        "people": [
+          {
+            "office": "vice-president"
+          },
+          {
+            "chamber": "federal-house",
+            "post": "speaker"
+          },
+          {
+            "chamber": "federal-senate",
+            "post": "majority-leader"
+          }
+        ]
+      },
+      {
+        "stage": "congress",
+        "levels": ["congress"],
+        "people": [
+          {
+            "chamber": "federal-house",
+            "post": "majority-leader"
+          },
+          {
+            "chamber": "federal-house",
+            "post": "minority-leader"
+          },
+          {
+            "chamber": "federal-senate",
+            "post": "minority-leader"
+          },
+          {
+            "office": "us-senate"
+          },
+          {
+            "office": "us-house"
+          }
+        ]
+      },
+      {
+        "stage": "state",
+        "levels": ["governors", "towns"],
+        "most": 4,
+        "people": [
+          {
+            "office": "governor"
+          },
+          {
+            "chamber": "legislature-lower",
+            "post": "speaker"
+          },
+          {
+            "chamber": "legislature-unicameral",
+            "post": "speaker"
+          },
+          {
+            "chamber": "legislature-upper",
+            "post": "majority-leader"
+          },
+          {
+            "chamber": "legislature-upper",
+            "post": "president-pro-tempore"
+          },
+          {
+            "chamber": "legislature-lower",
+            "post": "minority-leader"
+          },
+          {
+            "chamber": "legislature-upper",
+            "post": "minority-leader"
+          }
+        ]
+      },
+      {
+        "stage": "family",
+        "levels": ["families", "close"],
+        "else": "state",
+        "people": [
+          {
+            "household": true
+          }
+        ]
+      }
+    ]
+  },
+  "numbers": {
+    "about": "How the opening says its numbers: a figure to one decimal place (\"4.2 percent\"), and jobs in the thousands the payroll series counts and in millions past a million (\"1.9 million\"). Writing conventions, not estimates (AP Stylebook, numerals).",
+    "decimals": 1,
+    "jobsPerSeriesUnit": 1000,
+    "jobsPerMillion": 1000000
+  },
+  "speechTitles": {
+    "about": "The address's own title, the topic the anchor's lead-in names (\"We begin with {topic}.\"): the names the U.S. Constitution (Art. II, sec. 3) and the inauguration record give these addresses. A title, like an office's, not composed prose.",
+    "state-of-the-union": "the State of the Union",
+    "inaugural": "the inaugural address"
+  },
+  "named": {
+    "about": "Who the address names, so the camera points them out on the sentence that does (owner, Oct 14, 2026: a person lit with no recorded reason is a defect). 'role' is the sequence rule that picked the figure; 'says' a word of the sentence's salutation; 'fact' a fact the sentence used, whose record is the figure's own. The player's household needs no sentence: the home is theirs.",
+    "rules": [
+      {
+        "role": "federal-house:speaker",
+        "says": "\\bSpeaker\\b"
+      },
+      {
+        "role": "office:vice-president",
+        "says": "\\bVice President\\b"
+      },
+      {
+        "role": "office:governor",
+        "fact": "name"
+      }
+    ]
+  }
+}

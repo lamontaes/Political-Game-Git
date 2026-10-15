@@ -9,10 +9,10 @@ import {
   legislativeProcedureForJurisdiction,
   regularSessionYearForWorld,
 } from "../legislative-procedure-world";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { stateKeyForJurisdiction } from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
-import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import stateSessionCalendar from "../../../data/research/laws/state-session-calendars.json" with { type: "json" };
 
 /**
  * The state governing due records the canonical clock keeps filled. Dates
@@ -21,40 +21,58 @@ import stateSessionCalendar from "../../../data/research/laws/state-session-cale
 
 const STATE_GOVERNING_VERSION = "state-governing/v1";
 
-type SessionWindow2026 = {
+type SessionWindow = {
   readonly conveneAt: string;
   readonly adjournAt: string | "full-year";
 };
-
-const REGULAR_SESSIONS_2026 = (
-  stateSessionCalendar as unknown as {
-    readonly regularSessions: Readonly<
-      Record<string, readonly SessionWindow2026[]>
-    >;
-  }
-).regularSessions;
 
 export const GOVERNING_SEASON = "governing:season" as const;
 
 export type SeasonKind = "budget" | "bill";
 
-/** The 2026 per-jurisdiction record is authoritative when it has a row. */
+/** The windows the session table records for the date's year; none where the body doesn't meet that year. */
+export function recordedStateSessionWindows(
+  jurisdictionKey: string,
+  onDate: IsoDate,
+): readonly SessionWindow[] | null {
+  const row = (
+    stateSessionCalendar as unknown as {
+      readonly places: Readonly<
+        Record<
+          string,
+          {
+            readonly years: Readonly<
+              Record<
+                string,
+                { readonly meets: boolean; readonly sessions: SessionWindow[] }
+              >
+            >;
+          }
+        >
+      >;
+    }
+  ).places[jurisdictionKey]?.years[onDate.slice(0, 4)];
+  return row ? (row.meets ? row.sessions : []) : null;
+}
+
+/** A per-jurisdiction session record applies to its recorded year. */
 function recordedStateBillDate(
   world: World,
   jurisdictionId: EntityId,
 ):
   | { readonly covered: false }
   | { readonly covered: true; readonly dueAt: IsoDate | null } {
-  if (Number(world.currentDate.slice(0, 4)) > 2026) return { covered: false };
   const jurisdiction = world.jurisdictions[jurisdictionId];
   const key = jurisdiction && stateKeyForJurisdiction(jurisdiction);
-  if (!key || !Object.hasOwn(REGULAR_SESSIONS_2026, key))
-    return { covered: false };
-  for (const session of REGULAR_SESSIONS_2026[key]!) {
+  const sessions = key
+    ? recordedStateSessionWindows(key, world.currentDate)
+    : null;
+  if (sessions === null) return { covered: false };
+  for (const session of sessions) {
     const opensAt = makeIsoDate(session.conveneAt);
     const closesAt =
       session.adjournAt === "full-year"
-        ? makeIsoDate("2026-12-31")
+        ? makeIsoDate(`${session.conveneAt.slice(0, 4)}-12-31`)
         : makeIsoDate(session.adjournAt);
     const nextAt =
       world.currentDate < opensAt
@@ -72,7 +90,9 @@ function recordedStateBillDate(
       world.currentDate,
       "bill",
       {
-        notBefore: makeIsoDate("2027-01-01"),
+        notBefore: makeIsoDate(
+          `${Number(world.currentDate.slice(0, 4)) + 1}-01-01`,
+        ),
         eligibleYear: (year) =>
           regularSessionYearForWorld(world, jurisdictionId, year),
       },

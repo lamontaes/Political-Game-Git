@@ -21,9 +21,42 @@
     {
       "source": "src/simulation/legislative-term-rules.ts",
       "whatItDidNotSettle": "Holds the Kentucky term length only; the first election's date was an authored 28-day schedule."
+    },
+    {
+      "source": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "whatItDidNotSettle": "Exact 50-state legislative cycles and senate class/stagger rules, state-office filing deadlines and candidates-per-seat distributions remain open."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Exact 50-state legislative cycles and senate class/stagger rules, state-office filing deadlines and candidates-per-seat distributions remain open."
+    },
+    {
+      "source": "https://www.azleg.gov/ars/16/00204.htm",
+      "whatItDidNotSettle": "Exact 50-state legislative cycles and senate class/stagger rules, state-office filing deadlines and candidates-per-seat distributions remain open."
+    },
+    {
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "whatItDidNotSettle": "Exact 50-state legislative cycles and senate class/stagger rules, state-office filing deadlines and candidates-per-seat distributions remain open."
+    },
+    {
+      "source": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html",
+      "whatItDidNotSettle": "Exact 50-state legislative cycles and senate class/stagger rules, state-office filing deadlines and candidates-per-seat distributions remain open."
     }
   ],
   "title": "When each state legislature is elected",
   "usableAnswer": "A table of the fifty states, with the chamber election years and, for staggered senates, the rule that decides which districts are up (by district number, or by a lot drawn after redistricting); the general election day; the filing deadline and primary date as days before the general election (a national default with the named exceptions); and a realistic range for the number of general-election candidates per legislative race, including the uncontested share. Approximate primary and filing figures are fine; the election years and the staggering rule must be exact.",
-  "whyItMatters": "A legislative race was decided about a month after filing, so a candidate filed in August and was elected in September. The calendar is now the right shape but is a profile, not each state's law, and every race has exactly one rival."
+  "whyItMatters": "A legislative race was decided about a month after filing, so a candidate filed in August and was elected in September. The calendar is now the right shape but is a profile, not each state's law, and every race has exactly one rival.",
+  "answer": {
+    "summary": "The attached 56-place table supplies sourced 2026 congressional primary and filing dates with district/office exceptions, not legislative deadlines. 2028 primaries are not extrapolated. The source identifies Alabama split district dates and distinct Louisiana House/Senate and Virginia filing dates; a single primary-lead default would lose these facts.",
+    "sources": [
+      "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://www.azleg.gov/ars/16/00204.htm",
+      "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:55:58.902164+00:00",
+    "stillOpen": "Exact 50-state legislative cycles and senate class/stagger rules, state-office filing deadlines and candidates-per-seat distributions remain open."
+  }
 }

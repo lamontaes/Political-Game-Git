@@ -1,0 +1,1478 @@
+{
+  "about": "Local governments' fiscal year ends (MMDD) from the Census 2024 individual unit files: a sample per state of the largest, a middle and a small city, the median county and a township (OPUS-GOV; built from data/research/budgets/local-fiscal-end-sample-2024.json, pool/research-roadmap). A town uses its state's same-type unit nearest in population; with none, the national most common end for its type.",
+  "source": "U.S. Census Bureau, 2024 Annual Survey of Local Government Finances, individual unit files (public domain)",
+  "states": {
+    "US-AL": {
+      "municipal": [
+        {
+          "population": 221933,
+          "end": "0930",
+          "name": "HUNTSVILLE CITY"
+        },
+        {
+          "population": 24755,
+          "end": "0930",
+          "name": "PELHAM CITY"
+        },
+        {
+          "population": 5044,
+          "end": "0930",
+          "name": "SPRINGVILLE CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 71998,
+          "end": "0930",
+          "name": "DE KALB COUNTY"
+        }
+      ]
+    },
+    "US-AK": {
+      "municipal": [
+        {
+          "population": 287145,
+          "end": "1231",
+          "name": "ANCHORAGE MUNICIPALITY"
+        },
+        {
+          "population": 31685,
+          "end": "0630",
+          "name": "JUNEAU CITY AND BOROUGH"
+        },
+        {
+          "population": 5422,
+          "end": "0630",
+          "name": "KODIAK CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 3398,
+          "end": "0630",
+          "name": "ALEUTIANS EAST BOROUGH"
+        }
+      ]
+    },
+    "US-AZ": {
+      "municipal": [
+        {
+          "population": 1644409,
+          "end": "0630",
+          "name": "PHOENIX CITY"
+        },
+        {
+          "population": 24795,
+          "end": "0630",
+          "name": "FLORENCE TOWN"
+        },
+        {
+          "population": 5135,
+          "end": "0630",
+          "name": "CAVE CREEK TOWN"
+        }
+      ],
+      "county": [
+        {
+          "population": 144060,
+          "end": "0630",
+          "name": "COCONINO COUNTY"
+        }
+      ]
+    },
+    "US-AR": {
+      "municipal": [
+        {
+          "population": 202864,
+          "end": "1231",
+          "name": "LITTLE ROCK CITY"
+        },
+        {
+          "population": 23795,
+          "end": "1231",
+          "name": "WEST MEMPHIS CITY"
+        },
+        {
+          "population": 5103,
+          "end": "1231",
+          "name": "SHERIDAN CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 37945,
+          "end": "1231",
+          "name": "INDEPENDENCE COUNTY"
+        }
+      ]
+    },
+    "US-CA": {
+      "municipal": [
+        {
+          "population": 3822238,
+          "end": "0630",
+          "name": "LOS ANGELES CITY"
+        },
+        {
+          "population": 25042,
+          "end": "0630",
+          "name": "NORCO CITY"
+        },
+        {
+          "population": 4860,
+          "end": "0630",
+          "name": "INDIAN WELLS CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 222115,
+          "end": "0630",
+          "name": "YOLO COUNTY"
+        }
+      ]
+    },
+    "US-CO": {
+      "municipal": [
+        {
+          "population": 713252,
+          "end": "1231",
+          "name": "DENVER CITY AND COUNTY"
+        },
+        {
+          "population": 22619,
+          "end": "1231",
+          "name": "EVANS CITY"
+        },
+        {
+          "population": 4917,
+          "end": "1231",
+          "name": "BRECKENRIDGE TOWN"
+        }
+      ],
+      "county": [
+        {
+          "population": 14327,
+          "end": "1231",
+          "name": "LAS ANIMAS COUNTY"
+        }
+      ]
+    },
+    "US-CT": {
+      "municipal": [
+        {
+          "population": 148377,
+          "end": "0630",
+          "name": "BRIDGEPORT CITY"
+        },
+        {
+          "population": 27980,
+          "end": "0630",
+          "name": "NEW LONDON CITY"
+        },
+        {
+          "population": 1000,
+          "end": "0630",
+          "name": "STONINGTON BOROUGH"
+        }
+      ],
+      "township": [
+        {
+          "population": 18871,
+          "end": "0630",
+          "name": "AVON TOWN"
+        }
+      ]
+    },
+    "US-DE": {
+      "municipal": [
+        {
+          "population": 71569,
+          "end": "0630",
+          "name": "WILMINGTON CITY"
+        },
+        {
+          "population": 24698,
+          "end": "0630",
+          "name": "MIDDLETOWN TOWN"
+        },
+        {
+          "population": 6160,
+          "end": "0630",
+          "name": "ELSMERE TOWN"
+        }
+      ],
+      "county": [
+        {
+          "population": 255956,
+          "end": "0630",
+          "name": "SUSSEX COUNTY"
+        }
+      ]
+    },
+    "US-DC": {
+      "municipal": [
+        {
+          "population": 671803,
+          "end": "0930",
+          "name": "WASHINGTON DC CITY"
+        },
+        {
+          "population": 671803,
+          "end": "0930",
+          "name": "WASHINGTON DC CITY"
+        },
+        {
+          "population": 671803,
+          "end": "0930",
+          "name": "WASHINGTON DC CITY"
+        }
+      ]
+    },
+    "US-FL": {
+      "municipal": [
+        {
+          "population": 971319,
+          "end": "0930",
+          "name": "JACKSONVILLE CITY"
+        },
+        {
+          "population": 25597,
+          "end": "0930",
+          "name": "KEY WEST CITY"
+        },
+        {
+          "population": 6112,
+          "end": "0930",
+          "name": "TEQUESTA VILLAGE"
+        }
+      ],
+      "county": [
+        {
+          "population": 162006,
+          "end": "0930",
+          "name": "MARTIN COUNTY"
+        }
+      ]
+    },
+    "US-GA": {
+      "municipal": [
+        {
+          "population": 499127,
+          "end": "0630",
+          "name": "ATLANTA CITY"
+        },
+        {
+          "population": 25407,
+          "end": "1231",
+          "name": "SUGAR HILL CITY"
+        },
+        {
+          "population": 5082,
+          "end": "0630",
+          "name": "PALMETTO CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 70191,
+          "end": "0630",
+          "name": "TROUP COUNTY"
+        }
+      ]
+    },
+    "US-HI": {
+      "municipal": [
+        {
+          "population": 995638,
+          "end": "0630",
+          "name": "HONOLULU CITY AND COUNTY"
+        },
+        {
+          "population": 995638,
+          "end": "0630",
+          "name": "HONOLULU CITY AND COUNTY"
+        },
+        {
+          "population": 995638,
+          "end": "0630",
+          "name": "HONOLULU CITY AND COUNTY"
+        }
+      ],
+      "county": [
+        {
+          "population": 164351,
+          "end": "0630",
+          "name": "MAUI COUNTY"
+        }
+      ]
+    },
+    "US-ID": {
+      "municipal": [
+        {
+          "population": 236634,
+          "end": "0930",
+          "name": "BOISE CITY"
+        },
+        {
+          "population": 26249,
+          "end": "0930",
+          "name": "MOSCOW CITY"
+        },
+        {
+          "population": 5072,
+          "end": "0930",
+          "name": "KIMBERLY CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 20418,
+          "end": "0930",
+          "name": "GEM COUNTY"
+        }
+      ]
+    },
+    "US-IL": {
+      "municipal": [
+        {
+          "population": 2665039,
+          "end": "1231",
+          "name": "CHICAGO CITY"
+        },
+        {
+          "population": 25217,
+          "end": "0331",
+          "name": "ALTON CITY"
+        },
+        {
+          "population": 4992,
+          "end": "0430",
+          "name": "SOUTH BARRINGTON VILLAGE"
+        }
+      ],
+      "county": [
+        {
+          "population": 100232,
+          "end": "1231",
+          "name": "DEKALB COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 4879,
+          "end": "0331",
+          "name": "AROMA TOWNSHIP"
+        }
+      ]
+    },
+    "US-IN": {
+      "municipal": [
+        {
+          "population": 880621,
+          "end": "1231",
+          "name": "INDIANAPOLIS CITY"
+        },
+        {
+          "population": 24785,
+          "end": "1231",
+          "name": "GREENFIELD CITY"
+        },
+        {
+          "population": 5162,
+          "end": "1231",
+          "name": "LINTON CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 43731,
+          "end": "1231",
+          "name": "DE KALB COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 5851,
+          "end": "1231",
+          "name": "WASHINGTON TOWNSHIP"
+        }
+      ]
+    },
+    "US-IA": {
+      "municipal": [
+        {
+          "population": 211034,
+          "end": "0630",
+          "name": "DES MOINES CITY"
+        },
+        {
+          "population": 25175,
+          "end": "0630",
+          "name": "OTTUMWA CITY"
+        },
+        {
+          "population": 4998,
+          "end": "0630",
+          "name": "IOWA FALLS CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 19324,
+          "end": "0630",
+          "name": "JACKSON COUNTY"
+        }
+      ]
+    },
+    "US-KS": {
+      "municipal": [
+        {
+          "population": 396192,
+          "end": "1231",
+          "name": "WICHITA CITY"
+        },
+        {
+          "population": 24206,
+          "end": "1231",
+          "name": "GARDNER CITY"
+        },
+        {
+          "population": 5054,
+          "end": "1231",
+          "name": "CONCORDIA CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 18344,
+          "end": "1231",
+          "name": "JEFFERSON COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 743,
+          "end": "1231",
+          "name": "DODGE TOWNSHIP"
+        }
+      ]
+    },
+    "US-KY": {
+      "municipal": [
+        {
+          "population": 773399,
+          "end": "0630",
+          "name": "LOUISVILLE-JEFFERSON COUNTY METRO GOVERNMENT"
+        },
+        {
+          "population": 26834,
+          "end": "0630",
+          "name": "PADUCAH CITY"
+        },
+        {
+          "population": 4999,
+          "end": "0630",
+          "name": "HAZARD CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 28367,
+          "end": "0630",
+          "name": "MONTGOMERY COUNTY"
+        }
+      ]
+    },
+    "US-LA": {
+      "municipal": [
+        {
+          "population": 369749,
+          "end": "1130",
+          "name": "NEW ORLEANS CITY"
+        },
+        {
+          "population": 27473,
+          "end": "1031",
+          "name": "NEW IBERIA CITY"
+        },
+        {
+          "population": 4883,
+          "end": "0630",
+          "name": "MARKSVILLE CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 36570,
+          "end": "1231",
+          "name": "BEAUREGARD PARISH"
+        }
+      ]
+    },
+    "US-ME": {
+      "municipal": [
+        {
+          "population": 68424,
+          "end": "0630",
+          "name": "PORTLAND CITY"
+        },
+        {
+          "population": 24193,
+          "end": "0630",
+          "name": "AUBURN CITY"
+        },
+        {
+          "population": 3116,
+          "end": "0630",
+          "name": "CALAIS CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 56701,
+          "end": "1231",
+          "name": "HANCOCK COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 3861,
+          "end": "0630",
+          "name": "MADAWASKA TOWN"
+        }
+      ]
+    },
+    "US-MD": {
+      "municipal": [
+        {
+          "population": 569931,
+          "end": "0630",
+          "name": "BALTIMORE CITY"
+        },
+        {
+          "population": 24360,
+          "end": "0630",
+          "name": "GREENBELT CITY"
+        },
+        {
+          "population": 5239,
+          "end": "0630",
+          "name": "MIDDLETOWN TOWN"
+        }
+      ],
+      "county": [
+        {
+          "population": 104942,
+          "end": "0630",
+          "name": "CECIL COUNTY"
+        }
+      ]
+    },
+    "US-MA": {
+      "municipal": [
+        {
+          "population": 650706,
+          "end": "0630",
+          "name": "BOSTON CITY"
+        },
+        {
+          "population": 28501,
+          "end": "0630",
+          "name": "WEST SPRINGFIELD TOWN CITY"
+        },
+        {
+          "population": 18510,
+          "end": "0630",
+          "name": "WINTHROP TOWN CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 533069,
+          "end": "0630",
+          "name": "PLYMOUTH COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 18297,
+          "end": "0630",
+          "name": "PEMBROKE TOWN"
+        }
+      ]
+    },
+    "US-MI": {
+      "municipal": [
+        {
+          "population": 620376,
+          "end": "0630",
+          "name": "DETROIT CITY"
+        },
+        {
+          "population": 25086,
+          "end": "0630",
+          "name": "WALKER CITY"
+        },
+        {
+          "population": 4998,
+          "end": "0630",
+          "name": "IRONWOOD CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 88780,
+          "end": "1231",
+          "name": "LAPEER COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 22796,
+          "end": "0331",
+          "name": "SUMMIT TOWNSHIP"
+        }
+      ]
+    },
+    "US-MN": {
+      "municipal": [
+        {
+          "population": 425096,
+          "end": "1231",
+          "name": "MINNEAPOLIS CITY"
+        },
+        {
+          "population": 24518,
+          "end": "1231",
+          "name": "FARIBAULT CITY"
+        },
+        {
+          "population": 4983,
+          "end": "1231",
+          "name": "LINDSTROM CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 40140,
+          "end": "1231",
+          "name": "MOWER COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 430,
+          "end": "1231",
+          "name": "SUMMIT TOWNSHIP"
+        }
+      ]
+    },
+    "US-MS": {
+      "municipal": [
+        {
+          "population": 145995,
+          "end": "0930",
+          "name": "JACKSON CITY"
+        },
+        {
+          "population": 25502,
+          "end": "0930",
+          "name": "BRANDON TOWN"
+        },
+        {
+          "population": 4848,
+          "end": "0930",
+          "name": "ABERDEEN CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 28408,
+          "end": "0930",
+          "name": "ADAMS COUNTY"
+        }
+      ]
+    },
+    "US-MO": {
+      "municipal": [
+        {
+          "population": 509297,
+          "end": "0430",
+          "name": "KANSAS CITY CITY"
+        },
+        {
+          "population": 25047,
+          "end": "0630",
+          "name": "HAZELWOOD CITY"
+        },
+        {
+          "population": 4821,
+          "end": "1231",
+          "name": "OSAGE BEACH CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 36313,
+          "end": "1231",
+          "name": "LACLEDE COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 632,
+          "end": "1231",
+          "name": "HOPKINS TOWNSHIP"
+        }
+      ]
+    },
+    "US-MT": {
+      "municipal": [
+        {
+          "population": 119960,
+          "end": "0630",
+          "name": "BILLINGS CITY"
+        },
+        {
+          "population": 28450,
+          "end": "0630",
+          "name": "KALISPELL CITY"
+        },
+        {
+          "population": 5165,
+          "end": "0630",
+          "name": "HAMILTON CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 10572,
+          "end": "0630",
+          "name": "ROOSEVELT COUNTY"
+        }
+      ]
+    },
+    "US-NE": {
+      "municipal": [
+        {
+          "population": 485153,
+          "end": "1231",
+          "name": "OMAHA CITY"
+        },
+        {
+          "population": 24927,
+          "end": "0930",
+          "name": "HASTINGS CITY"
+        },
+        {
+          "population": 4940,
+          "end": "0930",
+          "name": "WAHOO CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 8371,
+          "end": "0630",
+          "name": "CEDAR COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 409,
+          "end": "0630",
+          "name": "SUMMIT TOWNSHIP"
+        }
+      ]
+    },
+    "US-NV": {
+      "municipal": [
+        {
+          "population": 656274,
+          "end": "0630",
+          "name": "LAS VEGAS CITY"
+        },
+        {
+          "population": 24261,
+          "end": "0630",
+          "name": "FERNLEY CITY"
+        },
+        {
+          "population": 4499,
+          "end": "0630",
+          "name": "WEST WENDOVER CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 17272,
+          "end": "0630",
+          "name": "HUMBOLDT COUNTY"
+        }
+      ]
+    },
+    "US-NH": {
+      "municipal": [
+        {
+          "population": 115141,
+          "end": "0630",
+          "name": "MANCHESTER CITY"
+        },
+        {
+          "population": 22774,
+          "end": "0630",
+          "name": "KEENE CITY"
+        },
+        {
+          "population": 9518,
+          "end": "0630",
+          "name": "BERLIN CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 91126,
+          "end": "0630",
+          "name": "GRAFTON COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 4133,
+          "end": "1231",
+          "name": "PITTSFIELD TOWN"
+        }
+      ]
+    },
+    "US-NJ": {
+      "municipal": [
+        {
+          "population": 305344,
+          "end": "1231",
+          "name": "NEWARK CITY"
+        },
+        {
+          "population": 25176,
+          "end": "1231",
+          "name": "CARTERET BOROUGH"
+        },
+        {
+          "population": 4833,
+          "end": "1231",
+          "name": "SOUTH BOUND BROOK BOROUGH"
+        }
+      ],
+      "county": [
+        {
+          "population": 466103,
+          "end": "1231",
+          "name": "BURLINGTON COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 24496,
+          "end": "1231",
+          "name": "SCOTCH PLAINS TOWNSHIP"
+        }
+      ]
+    },
+    "US-NM": {
+      "municipal": [
+        {
+          "population": 561008,
+          "end": "0630",
+          "name": "ALBUQUERQUE CITY"
+        },
+        {
+          "population": 20932,
+          "end": "0630",
+          "name": "GALLUP CITY"
+        },
+        {
+          "population": 5149,
+          "end": "0630",
+          "name": "TUCUMCARI CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 40048,
+          "end": "0630",
+          "name": "RIO ARRIBA COUNTY"
+        }
+      ]
+    },
+    "US-NY": {
+      "municipal": [
+        {
+          "population": 8335897,
+          "end": "0630",
+          "name": "NEW YORK CITY"
+        },
+        {
+          "population": 24451,
+          "end": "0630",
+          "name": "WATERTOWN CITY"
+        },
+        {
+          "population": 5139,
+          "end": "1231",
+          "name": "MECHANICVILLE CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 116637,
+          "end": "1231",
+          "name": "JEFFERSON COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 28607,
+          "end": "1231",
+          "name": "EAST HAMPTON TOWN"
+        }
+      ]
+    },
+    "US-NC": {
+      "municipal": [
+        {
+          "population": 897720,
+          "end": "0630",
+          "name": "CHARLOTTE CITY"
+        },
+        {
+          "population": 27143,
+          "end": "0630",
+          "name": "MINT HILL TOWN"
+        },
+        {
+          "population": 4692,
+          "end": "0630",
+          "name": "ERWIN TOWN"
+        }
+      ],
+      "county": [
+        {
+          "population": 79864,
+          "end": "0630",
+          "name": "CHATHAM COUNTY"
+        }
+      ]
+    },
+    "US-ND": {
+      "municipal": [
+        {
+          "population": 131444,
+          "end": "1231",
+          "name": "FARGO CITY"
+        },
+        {
+          "population": 24979,
+          "end": "1231",
+          "name": "DICKINSON CITY"
+        },
+        {
+          "population": 4277,
+          "end": "1231",
+          "name": "HORACE CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 8333,
+          "end": "1231",
+          "name": "MERCER COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 57,
+          "end": "1231",
+          "name": "TYRONE TOWNSHIP"
+        }
+      ]
+    },
+    "US-OH": {
+      "municipal": [
+        {
+          "population": 907971,
+          "end": "1231",
+          "name": "COLUMBUS CITY"
+        },
+        {
+          "population": 25161,
+          "end": "1231",
+          "name": "PERRYSBURG CITY"
+        },
+        {
+          "population": 4841,
+          "end": "1231",
+          "name": "WELLINGTON VILLAGE"
+        }
+      ],
+      "county": [
+        {
+          "population": 95469,
+          "end": "1231",
+          "name": "GEAUGA COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 9634,
+          "end": "1231",
+          "name": "SAYBROOK TOWNSHIP"
+        }
+      ]
+    },
+    "US-OK": {
+      "municipal": [
+        {
+          "population": 694800,
+          "end": "0630",
+          "name": "OKLAHOMA CITY CITY"
+        },
+        {
+          "population": 24869,
+          "end": "0630",
+          "name": "ARDMORE CITY"
+        },
+        {
+          "population": 4998,
+          "end": "0630",
+          "name": "ALVA CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 39667,
+          "end": "0630",
+          "name": "SEQUOYAH COUNTY"
+        }
+      ]
+    },
+    "US-OR": {
+      "municipal": [
+        {
+          "population": 635067,
+          "end": "0630",
+          "name": "PORTLAND CITY"
+        },
+        {
+          "population": 23853,
+          "end": "0630",
+          "name": "ROSEBURG CITY"
+        },
+        {
+          "population": 5721,
+          "end": "0630",
+          "name": "PHILOMATH CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 87730,
+          "end": "0630",
+          "name": "JOSEPHINE COUNTY"
+        }
+      ]
+    },
+    "US-PA": {
+      "municipal": [
+        {
+          "population": 1567258,
+          "end": "0630",
+          "name": "PHILADELPHIA CITY"
+        },
+        {
+          "population": 26473,
+          "end": "1231",
+          "name": "LEBANON CITY"
+        },
+        {
+          "population": 4987,
+          "end": "1231",
+          "name": "TURTLE CREEK BOROUGH"
+        }
+      ],
+      "county": [
+        {
+          "population": 131441,
+          "end": "1231",
+          "name": "CAMBRIA COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 16600,
+          "end": "1231",
+          "name": "ASTON TOWNSHIP"
+        }
+      ]
+    },
+    "US-RI": {
+      "municipal": [
+        {
+          "population": 189563,
+          "end": "0630",
+          "name": "PROVIDENCE CITY"
+        },
+        {
+          "population": 24684,
+          "end": "0630",
+          "name": "NEWPORT CITY"
+        },
+        {
+          "population": 22490,
+          "end": "0630",
+          "name": "CENTRAL FALLS CITY"
+        }
+      ],
+      "township": [
+        {
+          "population": 16196,
+          "end": "0630",
+          "name": "TIVERTON TOWN"
+        }
+      ]
+    },
+    "US-SC": {
+      "municipal": [
+        {
+          "population": 153672,
+          "end": "1231",
+          "name": "CHARLESTON CITY"
+        },
+        {
+          "population": 25258,
+          "end": "1231",
+          "name": "NORTH AUGUSTA CITY"
+        },
+        {
+          "population": 4985,
+          "end": "0630",
+          "name": "CHERAW TOWN"
+        }
+      ],
+      "county": [
+        {
+          "population": 83094,
+          "end": "0630",
+          "name": "ORANGEBURG COUNTY"
+        }
+      ]
+    },
+    "US-SD": {
+      "municipal": [
+        {
+          "population": 202078,
+          "end": "1231",
+          "name": "SIOUX FALLS CITY"
+        },
+        {
+          "population": 23993,
+          "end": "1231",
+          "name": "BROOKINGS CITY"
+        },
+        {
+          "population": 5848,
+          "end": "1231",
+          "name": "BELLE FOURCHE CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 9006,
+          "end": "1231",
+          "name": "CUSTER COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 121,
+          "end": "0228",
+          "name": "LAKE BYRON TOWNSHIP"
+        }
+      ]
+    },
+    "US-TN": {
+      "municipal": [
+        {
+          "population": 683622,
+          "end": "0630",
+          "name": "NASHVILLE-DAVIDSON COUNTY METROPOLITAN GOVERNMENT"
+        },
+        {
+          "population": 24452,
+          "end": "0630",
+          "name": "SHELBYVILLE CITY"
+        },
+        {
+          "population": 4902,
+          "end": "0630",
+          "name": "SPARTA CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 47740,
+          "end": "0630",
+          "name": "MONROE COUNTY"
+        }
+      ]
+    },
+    "US-TX": {
+      "municipal": [
+        {
+          "population": 2302878,
+          "end": "0630",
+          "name": "HOUSTON CITY"
+        },
+        {
+          "population": 24752,
+          "end": "0930",
+          "name": "KERRVILLE CITY"
+        },
+        {
+          "population": 5005,
+          "end": "0930",
+          "name": "BRADY CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 106188,
+          "end": "0930",
+          "name": "BASTROP COUNTY"
+        }
+      ]
+    },
+    "US-UT": {
+      "municipal": [
+        {
+          "population": 204657,
+          "end": "0630",
+          "name": "SALT LAKE CITY CITY"
+        },
+        {
+          "population": 25660,
+          "end": "0630",
+          "name": "FARMINGTON CITY"
+        },
+        {
+          "population": 5372,
+          "end": "0630",
+          "name": "SUNSET CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 29724,
+          "end": "1231",
+          "name": "SANPETE COUNTY"
+        }
+      ]
+    },
+    "US-VT": {
+      "municipal": [
+        {
+          "population": 44595,
+          "end": "0630",
+          "name": "BURLINGTON CITY"
+        },
+        {
+          "population": 20624,
+          "end": "1231",
+          "name": "SOUTH BURLINGTON CITY"
+        },
+        {
+          "population": 6942,
+          "end": "0630",
+          "name": "ST ALBANS CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 37578,
+          "end": "0630",
+          "name": "ADDISON COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 3004,
+          "end": "0630",
+          "name": "WESTMINSTER TOWN"
+        }
+      ]
+    },
+    "US-VA": {
+      "municipal": [
+        {
+          "population": 455618,
+          "end": "0630",
+          "name": "VIRGINIA BEACH CITY"
+        },
+        {
+          "population": 24835,
+          "end": "0630",
+          "name": "FAIRFAX CITY"
+        },
+        {
+          "population": 5001,
+          "end": "0630",
+          "name": "BLUEFIELD TOWN"
+        }
+      ],
+      "county": [
+        {
+          "population": 55074,
+          "end": "0630",
+          "name": "FRANKLIN COUNTY"
+        }
+      ]
+    },
+    "US-WA": {
+      "municipal": [
+        {
+          "population": 749256,
+          "end": "1231",
+          "name": "SEATTLE CITY"
+        },
+        {
+          "population": 24494,
+          "end": "1231",
+          "name": "BAINBRIDGE ISLAND CITY"
+        },
+        {
+          "population": 6492,
+          "end": "1231",
+          "name": "UNION GAP CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 86625,
+          "end": "1231",
+          "name": "ISLAND COUNTY"
+        }
+      ]
+    },
+    "US-WV": {
+      "municipal": [
+        {
+          "population": 47129,
+          "end": "0630",
+          "name": "CHARLESTON CITY"
+        },
+        {
+          "population": 26391,
+          "end": "0630",
+          "name": "WHEELING CITY"
+        },
+        {
+          "population": 5106,
+          "end": "0630",
+          "name": "BUCKHANNON CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 24335,
+          "end": "0630",
+          "name": "NICHOLAS COUNTY"
+        }
+      ]
+    },
+    "US-WI": {
+      "municipal": [
+        {
+          "population": 563305,
+          "end": "1231",
+          "name": "MILWAUKEE CITY"
+        },
+        {
+          "population": 25150,
+          "end": "1231",
+          "name": "MUSKEGO CITY"
+        },
+        {
+          "population": 4958,
+          "end": "1231",
+          "name": "RICHLAND CENTER CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 73993,
+          "end": "1231",
+          "name": "WOOD COUNTY"
+        }
+      ],
+      "township": [
+        {
+          "population": 1577,
+          "end": "1231",
+          "name": "WALWORTH TOWN"
+        }
+      ]
+    },
+    "US-WY": {
+      "municipal": [
+        {
+          "population": 64610,
+          "end": "0630",
+          "name": "CHEYENNE CITY"
+        },
+        {
+          "population": 23021,
+          "end": "0630",
+          "name": "ROCK SPRINGS CITY"
+        },
+        {
+          "population": 4794,
+          "end": "0630",
+          "name": "WORLAND CITY"
+        }
+      ],
+      "county": [
+        {
+          "population": 20660,
+          "end": "0630",
+          "name": "LINCOLN COUNTY"
+        }
+      ]
+    }
+  },
+  "national": {
+    "county": "0630",
+    "municipal": "0630",
+    "township": "1231"
+  },
+  "nationalCounts": {
+    "county": {
+      "0930": 5,
+      "0630": 24,
+      "1231": 19
+    },
+    "municipal": {
+      "0930": 19,
+      "1231": 44,
+      "0630": 85,
+      "0331": 1,
+      "0430": 2,
+      "1130": 1,
+      "1031": 1
+    },
+    "township": {
+      "0630": 6,
+      "0331": 2,
+      "1231": 11,
+      "0228": 1
+    }
+  }
+}

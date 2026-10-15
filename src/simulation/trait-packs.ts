@@ -187,7 +187,12 @@ export interface TraitLeanRow {
    * both call something "reliability" and mean different things. */
   readonly trait: string;
   readonly pole: "low" | "high";
-  readonly explanation: string;
+  /**
+   * A reason a pack supplies in its own words (an installed or modded pack).
+   * Built-in readers leave this out, so the person's recorded pole label is
+   * shown until a reviewed English reason is available.
+   */
+  readonly explanation?: string;
   /**
    * Whose trait this is: the person deciding, or the person they are deciding
    * about. Defaults to the decider.
@@ -540,11 +545,12 @@ export function loadTraitPacks(
           });
           continue;
         }
-        if (!lean.explanation.trim()) {
+        if (lean.explanation !== undefined && !lean.explanation.trim()) {
           rejections.push({
             pack: pack.pack,
             where,
-            reason: "a lean must say why, because it is shown as a reason",
+            reason:
+              "a lean's own explanation may not be blank; leave it out to show the recorded pole label",
           });
           continue;
         }
@@ -665,10 +671,3 @@ const definitionsByTrait = new WeakMap<
   RegisteredTrait,
   PersonalityTendencyDefinition
 >();
-
-/** Every definition the loaded packs declare, in pack then declaration order. */
-export function traitDefinitions(
-  registry: TraitRegistry,
-): readonly PersonalityTendencyDefinition[] {
-  return [...registry.traits.values()].map(traitDefinitionFromPack);
-}

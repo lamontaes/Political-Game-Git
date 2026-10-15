@@ -1,11 +1,14 @@
 import { canonicalJson } from "./canonical-json";
+import { applyLawConsequences } from "./enacted-law-effects";
 import { recordsByStringField } from "./history-index";
 import { FEDERAL_INCOME_TAX_KEY } from "./statutory-tax";
 import { recordTaxBase, taxBaseOccurrenceSource } from "./tax-policy";
+import { withStatutoryTaxLawAttributionBatch } from "./statutory-tax-law-attribution";
 import type { EntityId, World } from "./types";
 import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
 
-/** Record actual gross wages after the sole statutory assessment writer.
+/** Record actual gross wages after the sole statutory assessment writer and
+ * dispatch their saved wage-law consequences through the shared registry.
  * A saved liability is the occurrence, including historical catch-up pay.
  * These bases never create another assessment or collection.
  */
@@ -66,6 +69,51 @@ export function recordPaycheckTaxBases(
         });
       }
     }
+  });
+  next = withStatutoryTaxLawAttributionBatch(next, (initial) => {
+    const paychecks = new Set(outcomeIds);
+    const liabilities = (initial.history.statutoryTaxLiabilities ?? []).filter(
+      (row) => paychecks.has(row.sourceOutcomeId),
+    );
+    let attributed = initial;
+    const paymentSources = new Set<EntityId>();
+    for (const liability of liabilities) {
+      const source = taxBaseOccurrenceSource(attributed, liability.id);
+      if (
+        !source ||
+        source.kind !== "statutory-liability" ||
+        source.payer.kind !== "person"
+      )
+        continue;
+      attributed = applyLawConsequences(attributed, {
+        onDate: source.occurredAt,
+        activity: "assessment",
+        activityId: liability.id,
+        subjectIds: [source.payer.personId],
+      });
+      for (const payment of recordsByStringField(
+        initial.history.statutoryTaxPayments ?? [],
+        "liabilityId",
+        liability.id,
+      ))
+        paymentSources.add(payment.resourceOutcomeId);
+    }
+    for (const activityId of paymentSources) {
+      const source = taxBaseOccurrenceSource(attributed, activityId);
+      if (
+        !source ||
+        source.kind !== "statutory-payment" ||
+        source.payer.kind !== "person"
+      )
+        continue;
+      attributed = applyLawConsequences(attributed, {
+        onDate: source.occurredAt,
+        activity: "payment",
+        activityId,
+        subjectIds: [source.payer.personId],
+      });
+    }
+    return attributed;
   });
   if (next !== world) assertWorldIntegrity(next);
   return next;

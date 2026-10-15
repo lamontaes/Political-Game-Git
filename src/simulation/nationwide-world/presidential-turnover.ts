@@ -1,11 +1,15 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import { decideAnotherTerm } from "../careers/another-term";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import { currentPresidentOf } from "../crisis/offices";
-import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
+import {
+  addDays,
+  compareSimulationMoments,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createOrganizationParticipation } from "../life";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -56,9 +60,9 @@ import type {
 import { nationalMoodDemocraticShift } from "../national-mood";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { politicalStartingConditions } from "../world-setup/conditions";
-import { roundTo } from "../world-setup/deterministic-math";
+import { roundTo } from "../../core2/kernel/deterministic-math";
 import { applySwing, calibrationRow } from "../world-setup/political-start";
 import { recordWorldEvent } from "../world";
 import {

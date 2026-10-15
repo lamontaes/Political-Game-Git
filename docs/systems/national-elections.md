@@ -52,17 +52,12 @@ public supplied-result records, not private campaign support or observations.
 1. Register the national election with existing Person IDs, distinct ticket
    roles, declared inhabitant-state facts and explicit provenance. The national
    jurisdiction has its own canonical identity; local residence is unchanged.
-2. Supply unit results directly through `appendNationalRecord`, or bind an
-   existing producer with `scheduleNationalUnitContest`. Unit scheduling uses
-   the existing direct-contest scheduler at the national baseline date and
-   verifies the selected canonical state/DC jurisdiction. District result keys
-   are electoral units, not evidence of candidate home-district membership.
+2. Supply unit results directly through `appendNationalRecord`. District result
+   keys are electoral units, not evidence of candidate home-district membership.
 3. `importNationalContestResult` imports exact canonical contest tallies with
-   their source ID and date/office/unit/jurisdiction checks. The current campaign
-   registry's linked-unit handler imports an existing supplied result on ordinary
-   time advance. Missing results **refuse**; the legacy seeded contest placeholder
-   is never called for linked national units. No campaign committee is created,
-   replaced, closed or funded by this adapter.
+   their source ID and date/office/unit/jurisdiction checks. It is an adapter
+   over a supplied result; it never certifies and creates no campaign
+   committee.
 4. Supply the actual certification disposition and lawfully resolved unit winner.
    Contested, missing or unresolved certification does not allocate electors.
 5. Record distinct explicit elector-slot ballots, including presidential and VP

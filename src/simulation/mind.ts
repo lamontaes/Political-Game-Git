@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   appendAppraisalRecord,
   appendGoalStateRecord,
@@ -16,7 +16,7 @@ import type {
   PerceptionRecordInput,
   TemporaryStateRecordInput,
 } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordById, recordsByStringField } from "./history-index";
 import { lifeEntityExists } from "./life-integrity";
 import { resourceHousingEntityExists } from "./resource-integrity";
@@ -25,6 +25,11 @@ import {
   lifeHistoryReferenceKey,
 } from "./life-sources";
 import { factsForPerson } from "./people";
+import {
+  placeOutcomeAt,
+  placeOutcomeRecordId,
+  placeOutcomeRecords,
+} from "./outcome-web/place-outcome-store";
 import {
   assertOpenTaxonomyKey,
   PERCEPTION_SUBJECT_NAMESPACES,
@@ -570,6 +575,33 @@ export function validateMindSourceReferences(
           reference.reference,
         );
         break;
+      case "place-outcome": {
+        const record = placeOutcomeRecords(world).find(
+          (candidate) =>
+            placeOutcomeRecordId(candidate) === reference.outcomeRecordId,
+        );
+        const person = world.people[personId];
+        const resolved =
+          record && person
+            ? placeOutcomeAt(
+                world,
+                record.measure,
+                person.homeJurisdictionId,
+                asOfDate,
+              )
+            : null;
+        if (
+          !record ||
+          !person ||
+          !resolved ||
+          record.month > asOfDate ||
+          placeOutcomeRecordId(resolved) !== reference.outcomeRecordId
+        )
+          throw new Error(
+            `Unavailable place-outcome source: ${reference.outcomeRecordId}`,
+          );
+        break;
+      }
       case "personality-tendency":
         assertOwnedHistoryRecord(
           recordById(

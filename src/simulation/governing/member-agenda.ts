@@ -17,7 +17,7 @@ export {
   COUNCIL_MEMBER_AGENDA_SETTINGS,
   LOCAL_MEMBER_AGENDA_VERSION,
 } from "./member-agenda-settings";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import { operativeDateForEnactment } from "../legislative-effective-date";
 import { outranks } from "../law-hierarchy";
@@ -1189,7 +1189,7 @@ export function localMemberAgendaIntakeHandler(
     world: next,
     status: "resolved",
     reasonKey: null,
-    context: "The local council reached its shared timetable agenda date.",
+    context: "The local council reached its shared agenda date.",
     outcomeEventId: null,
   };
 }

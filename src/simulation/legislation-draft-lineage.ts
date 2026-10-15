@@ -1,4 +1,4 @@
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { requireMeasure } from "./legislation";
 import type { ProgramParameterValue } from "./legislation-program-families";
 import type {
@@ -297,12 +297,6 @@ export function draftLineageHistoryRecords(
   world: World,
 ): readonly LegislativeDraftLineageRecord[] {
   return world.history.legislativeDraftLineages ?? [];
-}
-
-export function draftLineageEntityExists(world: World, id: EntityId): boolean {
-  return (world.history.legislativeDraftLineages ?? []).some(
-    (record) => record.id === id,
-  );
 }
 
 /**

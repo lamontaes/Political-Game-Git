@@ -17,7 +17,7 @@ import type {
 import type { ElectiveOfficeRef } from "./types";
 import type { MunicipalMinimumAgeEstimate } from "./municipal-qualification-estimate";
 import { candidateQualificationRuleSet } from "./candidate-qualification";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { stateExecutiveCandidacyPacks } from "./nationwide-world/state-executive-candidacy-packs";
 import {
   congressCandidacyPack,
@@ -601,17 +601,6 @@ export function requireCandidacyPack(packId: string): CandidacyPack {
     throw new Error(`No candidacy pack is registered as '${packId}'.`);
   }
   return pack;
-}
-
-export function electiveOfficeOption(
-  packId: string,
-  officeKey: string,
-): ElectiveOfficeOption | null {
-  return (
-    candidacyPackById(packId)?.offices.find(
-      (option) => option.officeKey === officeKey,
-    ) ?? null
-  );
 }
 
 export function candidacyCoverage(): CandidacyCoverage {

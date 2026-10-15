@@ -1,0 +1,8 @@
+{
+  "label": "Notes",
+  "options": [
+    { "value": "full", "label": "Full" },
+    { "value": "light", "label": "Light" },
+    { "value": "none", "label": "None" }
+  ]
+}

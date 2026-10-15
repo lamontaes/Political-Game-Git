@@ -6,7 +6,6 @@ import {
   ensureTaxPublicAccount,
   publicTaxAccountForIdentity,
 } from "../tax-policy";
-import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
 import { recordPaycheckTaxBases } from "../paycheck-tax-bases";
 import { recordLocalPayrollTaxBases } from "../payroll-tax-bases";
 import { lawEffectStamp } from "../law-effect-stamp";
@@ -16,7 +15,7 @@ import type {
   ResolvedHourlyLawPayConsequence,
   ResolvedSavedHourlyPayConsequence,
 } from "../law-consequence-types";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
  *
@@ -61,7 +60,7 @@ import {
   daysBetween,
   makeIsoDate,
   simulationMinutesBetween,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import {
   cancelFutureDueItem,
   scheduleFutureDueItem,
@@ -71,7 +70,7 @@ import {
   enactedRuleChangeAt,
   laborLawOfficeKey,
 } from "../enacted-rule-changes";
-import { countyGeoidsForPlace } from "../government-units";
+import { countyGeoidsForPlace } from "../../core2/reference/government-units";
 import {
   growingIndex,
   withHistoryAppendTransaction,
@@ -107,7 +106,7 @@ import {
 import { createDatedCashPaymentReader } from "../resource-payments";
 import { writeWithWorldIntegrityOnce } from "../world";
 import { hasLifePathCredential } from "../life-paths2";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import {
   createResourceFlows,
   money,
@@ -1714,7 +1713,7 @@ export function raiseTeacherPayToFloor(
       const stamp =
         governing?.measureId === floor.measureId && jurisdictionId
           ? lawEffectStamp(governing, {
-              effectKind: "teacher-pay",
+              effectKind: "pay",
               questionKey: TEACHER_SALARY_FLOOR_QUESTION,
               jurisdictionId,
               appliedAt: day,
@@ -2113,10 +2112,9 @@ export function settleTownCompensations(
     ["resourceFlows", "resourceFlowTerms", "resourceTransferOutcomes"],
     (initial) => assessPaychecksTaxes(initial, ids),
   );
-  next = recordPaycheckTaxBases(next, ids);
   next = recordLocalPayrollTaxBases(next, ids);
+  next = recordPaycheckTaxBases(next, ids);
 
-  next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the
   // state's account.
   return payPaidLeaveClaims(next, claims);

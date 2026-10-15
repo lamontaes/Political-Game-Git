@@ -1,12 +1,12 @@
 import { LOCAL_MEMBER_AGENDA_VERSION } from "../governing/member-agenda-settings";
 import hearingData from "../../../data/research/local-government/county-budget-hearings.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   countyGovernmentUnit,
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import { homePurchaseTerms } from "../home-purchase";
 import { introduceMeasure, measurePosition } from "../legislation";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
@@ -82,7 +82,7 @@ const OWNER_SHARE = hearingData.ownerOccupiedShare.value;
 const RATE_DENOMINATOR = hearingData.rateDenominator;
 
 const ESTIMATE_NOTES: readonly string[] = [
-  `${hearingData.hearingLeadDays.basis}: ${LEAD_DAYS} days before the fiscal year (${hearingData.hearingLeadDays.source})`,
+  `${hearingData.hearingLeadDays.basis}: ${LEAD_DAYS} days (${hearingData.hearingLeadDays.source})`,
   `${hearingData.personsPerHousehold.basis}: ${PERSONS_PER_HOUSEHOLD} people per household (${hearingData.personsPerHousehold.source})`,
   `${hearingData.ownerOccupiedShare.basis}: ${OWNER_SHARE} of homes owner-occupied (${hearingData.ownerOccupiedShare.source})`,
 ];
@@ -362,7 +362,7 @@ export function countyBudgetHearingHandler(
     government.fiscalYearStart,
   );
   if (opening.fiscalYear !== fiscalYear)
-    return done(following(world), "This hearing's fiscal year has moved.");
+    return done(following(world), "This hearing has moved.");
   const fiscalStart = opening.startsOn;
   const voteDay = nextSessionCalendarDate(
     boardCalendar(unit.id),
@@ -403,6 +403,7 @@ export function countyBudgetHearingHandler(
       jurisdictionId: granted.jurisdictionId,
     },
     power: localTaxPowerEvidenceFor({
+      asOf: next.currentDate,
       ...government_,
       governmentKey: unit.id,
       instrument: "property",

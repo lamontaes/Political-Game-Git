@@ -1,0 +1,191 @@
+{
+  "about": "Numbers law reach group A uses (src/core2/law-reach/group-a*.ts), each tagged SOURCED (with its citation), ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Turnout costs are in the voting engine's own units: a full work week of scheduled hours is a cost of one (campaign parameter turnoutWorkWeekMinutes).",
+  "parameters": {
+    "adultAge": {
+      "value": 18,
+      "tag": "SOURCED",
+      "source": "U.S. Constitution, 26th Amendment (voting age); age of majority in every state but Alabama, Mississippi and Nebraska."
+    },
+    "childAgeBelow": {
+      "value": 18,
+      "tag": "SOURCED",
+      "source": "Child access prevention laws cover minors under 18 in most states (Giffords Law Center, Child Access Prevention, 2024)."
+    },
+    "cannabisAge": {
+      "value": 21,
+      "tag": "SOURCED",
+      "source": "Every state adult-use cannabis law sets 21 as the purchase age (National Conference of State Legislatures, Cannabis Overview, 2024)."
+    },
+    "concealedCarryAge": {
+      "value": 21,
+      "tag": "SOURCED",
+      "source": "Most permit states issue concealed carry permits from age 21 (Giffords Law Center, Minimum Age to Purchase and Possess, 2024)."
+    },
+    "handgunPurchaseAge": {
+      "value": 21,
+      "tag": "SOURCED",
+      "source": "18 U.S.C. 922(b)(1): licensed dealers may not sell handguns to anyone under 21; state laws extend the age to private sales."
+    },
+    "juvenileCourtAgeBelow": {
+      "value": 19,
+      "tag": "ESTIMATED",
+      "source": "Vermont Act 201 of 2018 brought 18-year-olds into juvenile court in 2022; proposals elsewhere go to 20 or 21.",
+      "spread": [19, 21]
+    },
+    "reproductiveAgeFrom": {
+      "value": 15,
+      "tag": "SOURCED",
+      "source": "CDC National Center for Health Statistics: women of reproductive age, 15 to 44."
+    },
+    "reproductiveAgeBelow": {
+      "value": 45,
+      "tag": "SOURCED",
+      "source": "CDC National Center for Health Statistics: women of reproductive age, 15 to 44."
+    },
+    "socialMediaAgeFrom": {
+      "value": 13,
+      "tag": "SOURCED",
+      "source": "Children's Online Privacy Protection Act (15 U.S.C. 6501): platforms bar users under 13; state age verification laws cover 13 to 17 (Utah SB 152 of 2023)."
+    },
+    "federalMinimumWageTargetMinor": {
+      "value": 1700,
+      "tag": "SOURCED",
+      "source": "Raise the Wage Act of 2023 (S. 2488, 118th Congress): $17.00 an hour."
+    },
+    "stateMinimumWageTargetMinor": {
+      "value": 1500,
+      "tag": "ESTIMATED",
+      "source": "State and city increases to $15.00 an hour (California, New York, Illinois, New Jersey, Maryland, Massachusetts, Connecticut, Delaware; Economic Policy Institute Minimum Wage Tracker, 2024).",
+      "spread": [1200, 2000]
+    },
+    "paidLeavePremiumShare": {
+      "value": 0.006,
+      "tag": "ESTIMATED",
+      "source": "2025 paid family leave payroll premiums: California SDI 1.2% (with disability), Washington 0.92%, Massachusetts 0.88%, New York 0.388%, New Jersey family leave 0.09%; this is a middle value of the family-leave share.",
+      "spread": [0.0009, 0.012]
+    },
+    "consumerLoanRateCap": {
+      "value": 0.36,
+      "tag": "SOURCED",
+      "source": "Military Lending Act, 10 U.S.C. 987: 36% military annual percentage rate; the common state cap (National Consumer Law Center, State Rate Caps, 2024)."
+    },
+    "noncitizenShare": {
+      "value": 0.066,
+      "tag": "ESTIMATED",
+      "source": "U.S. Census Bureau, American Community Survey 2023 1-year, table B05001: about 22 million noncitizens of 335 million residents; states range from about 1% to 15%.",
+      "spread": [0.01, 0.15]
+    },
+    "pretrialJailShare": {
+      "value": 0.0014,
+      "tag": "ESTIMATED",
+      "source": "Bureau of Justice Statistics, Jail Inmates in 2022: 664,000 held in local jails, about 70% not convicted, of 333 million residents.",
+      "spread": [0.0008, 0.003]
+    },
+    "disenfranchisedShare": {
+      "value": 0.017,
+      "tag": "SOURCED",
+      "source": "The Sentencing Project, Locked Out 2024: 4.0 million people, 1.7% of the voting-age population, can't vote because of a felony conviction."
+    },
+    "restoredVoterShare": {
+      "value": 0.0085,
+      "tag": "ESTIMATED",
+      "source": "The Sentencing Project, Locked Out 2022 and 2024: about half of those disenfranchised have finished their sentences (0.5 of 1.7% of the voting-age population).",
+      "spread": [0.0068, 0.0102]
+    },
+    "photoIdBaseCost": {
+      "value": 0.03,
+      "tag": "TUNABLE",
+      "source": "GAO-15-19 (2014): strict photo ID lowered turnout 2 to 3 points in Kansas and Tennessee; Cantoni and Pons (Quarterly Journal of Economics, 2021) find a smaller effect. Checked against a 0 to 3 point turnout drop.",
+      "spread": [0, 0.06]
+    },
+    "photoIdNoWorkCost": {
+      "value": 0.04,
+      "tag": "TUNABLE",
+      "source": "GAO-15-19 (2014): the drop was largest among young, new and lower-income voters, who less often hold a current license; here it rises as scheduled work falls.",
+      "spread": [0, 0.08]
+    },
+    "automaticRegistrationRelief": {
+      "value": 0.03,
+      "tag": "TUNABLE",
+      "source": "Brennan Center for Justice (2019): automatic registration raised registration 9 to 94%; McGhee and Romero (Public Policy Institute of California, 2021) find a turnout gain of about 1 to 3 points among new registrants.",
+      "spread": [0, 0.06]
+    },
+    "sameDayRegistrationRelief": {
+      "value": 0.06,
+      "tag": "TUNABLE",
+      "source": "Grumbach and Hill (Journal of Politics, 2022): same-day registration raises turnout among 18 to 24 year olds by about 3 points, and less with age.",
+      "spread": [0.02, 0.1]
+    },
+    "sameDayRegistrationAgeSpanYears": {
+      "value": 40,
+      "tag": "TUNABLE",
+      "source": "Grumbach and Hill (2022): the gain shrinks with age and is near zero past middle age; the relief falls to zero over this many years past 18.",
+      "spread": [20, 50]
+    },
+    "mailVotingWorkRelief": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "Gerber, Huber and Hill (Political Science Research and Methods, 2013): all-mail elections in Washington raised turnout about 2 to 4 points; the share of the work-time cost of getting to the polls a mailed ballot removes.",
+      "spread": [0.1, 0.5]
+    },
+    "rentIncreaseCap": {
+      "value": 0.07,
+      "tag": "ESTIMATED",
+      "source": "California AB 1482 (5% plus inflation, at most 10%), Oregon SB 608 (7% plus inflation, at most 10% since 2023), St. Paul (3%).",
+      "spread": [0.03, 0.1]
+    },
+    "inclusionaryAffordableShare": {
+      "value": 0.15,
+      "tag": "ESTIMATED",
+      "source": "Grounded Solutions Network, Inclusionary Housing Database (2021): the typical set-aside is 10 to 20% of new homes.",
+      "spread": [0.1, 0.2]
+    },
+    "housingAssistanceAnnualMinor": {
+      "value": 1150000,
+      "tag": "ESTIMATED",
+      "source": "HUD, Picture of Subsidized Households 2023: the average housing choice voucher pays about $960 a month.",
+      "spread": [900000, 1500000]
+    },
+    "parksDedicatedShare": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "Trust for Public Land, LandVote: dedicated park levies typically add a fifth or more to a city's park spending.",
+      "spread": [0.1, 0.5]
+    },
+    "lobbyingCoolingOffYears": {
+      "value": 2,
+      "tag": "ESTIMATED",
+      "source": "National Conference of State Legislatures, Revolving Door Prohibitions (2024): most states bar former officials from lobbying for one or two years.",
+      "spread": [1, 2]
+    },
+    "termLimitYears": {
+      "value": 8,
+      "tag": "ESTIMATED",
+      "source": "National Conference of State Legislatures, The Term-Limited States (2024): most term-limited legislatures allow 8 years in a chamber; city charters commonly allow two four-year terms.",
+      "spread": [6, 12]
+    },
+    "publicPositionAnnualMinor": {
+      "value": 10000000,
+      "tag": "ESTIMATED",
+      "source": "BLS OEWS May 2023 mean annual wages (correctional officers $59,840, police officers $74,910, firefighters $63,890) plus benefits at 38% of state and local government compensation (BLS Employer Costs for Employee Compensation, 2024): about $100,000 a year per position.",
+      "spread": [8000000, 13000000]
+    },
+    "hireAgeBelow": {
+      "value": 65,
+      "tag": "TUNABLE",
+      "source": "Public employers hire working-age adults; the upper age past which a named adult isn't considered for a new public job.",
+      "spread": [60, 70]
+    },
+    "daysPerYear": {
+      "value": 365,
+      "tag": "SOURCED",
+      "source": "Civil calendar: a common year has 365 days."
+    },
+    "minimumWageNextStepShare": {
+      "value": 0.125,
+      "tag": "ESTIMATED",
+      "source": "Where a state's floor already meets the $15 standard, a raise follows the next proposals: California's Proposition 32 (2024) would have raised its $16.00 floor to $18.00, 12.5 percent; Washington and Seattle proposals of 2024 to 2025 ran 10 to 20 percent above their indexed floors. A raise sets the larger of the $15 standard and the floor in force raised by this share, to the nearest quarter.",
+      "spread": [0.08, 0.2]
+    }
+  }
+}

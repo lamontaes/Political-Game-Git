@@ -1,7 +1,7 @@
-import { addDays, daysBetween, makeIsoDate } from "../dates";
+import { addDays, daysBetween, makeIsoDate } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId, lifePlaceSearch } from "../life-places";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -12,7 +12,7 @@ import type {
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { declareHazardEpisode, hazardExposure } from "./disaster";
-import catalogJson from "./storm-catalog.generated.json" with { type: "json" };
+import { lazyValue, readJsonData } from "../../core2/reference/lazy-data";
 import type { HazardFamily, HazardMagnitude } from "./types";
 
 /**
@@ -95,7 +95,13 @@ interface StormCatalog {
   };
 }
 
-export const STORM_CATALOG = catalogJson as unknown as StormCatalog;
+/** The storm catalog, read the first time a hazard is sampled. */
+export const stormCatalog = lazyValue(
+  () =>
+    readJsonData(
+      new URL("./storm-catalog.generated.json", import.meta.url),
+    ) as StormCatalog,
+);
 
 /** Source families map onto the two families CRISIS represents. */
 const FAMILY_OF: Readonly<Record<string, HazardFamily>> = {
@@ -181,7 +187,7 @@ function stateMonthRate(
   family: string,
   month: number,
 ): number | null {
-  const rows = STORM_CATALOG.stateMonthlyCatalog;
+  const rows = stormCatalog().stateMonthlyCatalog;
   if (!rows) return null;
   const row = rows.find(
     (candidate) =>
@@ -206,7 +212,7 @@ function episodesFor(
 ): readonly StormEpisode[] {
   if (episodeIndex === null) {
     episodeIndex = new Map();
-    for (const episode of STORM_CATALOG.episodes) {
+    for (const episode of stormCatalog().episodes) {
       const states = new Set(
         episode.affectedAreas.map((area) => area.stateFips),
       );
@@ -245,7 +251,7 @@ export function representedRate(
 ): number | null {
   const rate = stateMonthRate(stateUsps, family, month);
   if (rate === null) return null;
-  const footprint = STORM_CATALOG.stateFootprintProfile?.find(
+  const footprint = stormCatalog().stateFootprintProfile?.find(
     (row) => row.stateUsps === stateUsps && row.family === family,
   );
   const counties = countyCount(stateUsps);

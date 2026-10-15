@@ -1,4 +1,4 @@
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 import type { LawEffectStamp } from "../law-effect-stamp";
 
 /** Recorded when a town business closes because its cash ran out. */

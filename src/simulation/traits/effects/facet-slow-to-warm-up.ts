@@ -13,4 +13,14 @@ export const facetSlowToWarmUpEffects: readonly TraitEffectDeclaration[] = [
       },
     ],
   },
+  {
+    decision: "campaign.door-answer",
+    leans: [
+      {
+        option: "decline",
+        trait: "personality-v1:facet-slow-to-warm-up",
+        pole: "high",
+      },
+    ],
+  },
 ];

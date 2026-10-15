@@ -2,6 +2,25 @@
 
 Newest release first.
 
+## UNRELEASED — A petition signature follows shared choices
+
+Signing a candidate's petition no longer adds a separate personality note to
+the choice. The shared trait system now handles that influence through the
+same option labels used by other decisions.
+
+## UNRELEASED — A speech reaction uses shared trait pulls
+
+People who hear a speech still react according to their recorded personality,
+but the reaction now comes from the shared option labels instead of a separate
+inline lean.
+
+## UNRELEASED — Starting law estimates use recorded state medians
+
+When a place has no recorded starting-law amount, the Observer view now uses the
+median of matching recorded state terms. D.C. and territories use that same
+median, labeled as an estimate from recorded states. Results no longer depend
+on the world seed.
+
 ## UNRELEASED — Tomorrow is actually a new day
 
 Getting on with the day used to move the date and leave the clock alone. If you
@@ -276,6 +295,2940 @@ Repaired after an independent audit, before review:
   your mind. Each is tested by its own vote.
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
+
+## PRE-ALPHA 0.8.1
+
+_Released October 15, 2026._
+
+### Improved
+
+- **An assistance work requirement now stops benefits after three months** When
+  a state requires work for assistance, adults who work fewer than 20 hours a
+  week stop receiving the welfare benefit a raised budget line pays after three
+  months, and the money goes to the households still drawing. Repealing the
+  requirement pays them again. Two benefit changes on the same day no longer
+  clash.
+
+## PRE-ALPHA 0.8.0
+
+_Released October 15, 2026._
+
+### Added
+
+- **Household and business savings fund the town bank.** Households and
+  businesses can hold savings at the town bank. Its books distinguish money owed
+  to depositors from its own capital. Money and property shows household savings
+  and the bank’s dated assets, deposit liabilities, mortgage funding and equity.
+
+- **State officeholders follow their session calendar** State legislators and
+  governors use the shared office day for session work, district hours, speeches
+  and decisions. Legislators receive per diem through their state's treasury,
+  and governors can nominate named appointees and act on budget items under
+  their state's veto rule. Governors can reduce appropriation increases where
+  the place’s rule allows it. Override votes use exact fractions, attendance and
+  joint totals from the legal data.
+
+- **First-party text for six states' local income and payroll tax authority**
+  Statute text for Ohio, Oregon, Maryland, Michigan, New York and Missouri is
+  saved with its source address and hash, and seven more payroll states are
+  listed with what blocked each. One matrix citation (Missouri 92.110, repealed)
+  is flagged.
+
+### Improved
+
+- **Diner seating** Diner booths and counter stools have additional seated
+  positions.
+
+- **The calendar is readable** The calendar is an opaque dark panel with gold
+  rules, every day in its own cell with real contrast, today marked in gold, and
+  the next ten things below the months, dated in words.
+
+- **Options no longer lists which scenes interrupt you** Options uses a compact
+  panel with the existing Kit 13 frame and controls. Continue returns to play,
+  Full screen changes the window, and Quit to title keeps the current life
+  available. The director decides which scenes interrupt; the scene-kind toggles
+  are removed.
+
+- **Consumer rate caps constrain personal loan offers** New personal-loan offers
+  read the consumer rate cap before the borrower and bank decide. Applications
+  and loans retain the market rate and governing law. Product-specific rules and
+  counted borrowers remain registered gaps.
+
+- **Groundwater limits reach agricultural sales** Farm businesses now read the
+  groundwater law when setting their monthly operating limits. Repealing the law
+  removes its restriction. Farm irrigation exposure remains estimated and
+  registered.
+
+### Fixed
+
+- **Door knocking fills in the people you actually meet** Campaign rounds use
+  the engine's on-meet household fill-in instead of creating residents before
+  any door opens.
+
+- **Candidate filings use the shared platform reader** Candidates file the
+  positions read from their own views and party through the same rule used by
+  campaigns.
+
+- **Custody changes personal choice eligibility through the core** Custody and
+  release use the supported person update, preserving the person's prior
+  eligibility to make choices.
+
+- **Budgets without an executive proposal carry department requests** A
+  legislature voting without an executive proposal receives the department's
+  existing spending lines instead of an empty bill.
+
+- **Campaign lean reads current personal views** Campaign calculations read a
+  person's current view against the opening electorate instead of retaining a
+  stale personal lean.
+
+- **Employers do not hire people serving prison terms** Job search and hiring
+  read the custody record before treating a person as available for work.
+
+- **School budget changes no longer undo a raise another law gave school staff**
+  When a school budget line is cut or raised and later put back, teachers and
+  other school staff keep any raise a salary floor or another rule gave them in
+  the meantime, instead of dropping back to their pay from before.
+
+- **Lobbyists meet members who can vote on their bill** Interest groups reach
+  the bill's own chambers instead of unrelated town or legislative seats.
+
+- **Macro records distinguish observed town income growth** The national economy
+  uses local income growth only when comparable paid-income records exist,
+  without publishing invented local growth in the meantime.
+
+- **Played worlds include the core opening records** Played towns use the
+  existing public-school, tuition and representative-population opening steps.
+
+- **Committee negotiations count support for the amended bill** Committee vote
+  trades reconsider members after each added section.
+
+- **Avoid repeated home price calculations in town measurements** Town housing
+  measurements calculate the common home-price change once per read and measure
+  requested places together.
+
+- **Recorded deaths in the wider population reach known relatives** Full
+  relatives and acquaintances learn when someone they know dies in the wider
+  population.
+
+- **Retain family ties to counted relatives** Opening family relationships
+  retain known relatives in the counted population.
+
+- **Health records survive snapshot restore** Restored worlds retain health
+  conditions, strain history and scheduled illness dates.
+
+- **Election reactions use the recorded change in unemployment** The town’s
+  voters react to its recorded unemployment change in state and federal races,
+  rather than treating that change as zero.
+
+- **Press staffing follows employer records** News outlets recognize the workers
+  their employer actually hires.
+
+- **Renewal retains initialization when restoring a world** Restored family
+  plans are retained instead of being initialized again.
+
+- **Bill authority reads the government's own powers** Policy bills consult the
+  recorded powers of their government level and the state's current grants
+  before introduction; executive orders consult the same policy authority.
+
+- **Background lawmakers propose questions for their own level** Background
+  lawmakers read the policy question's recorded government scope before choosing
+  a proposal.
+
+- **Income tax schedule changes remain stable** Flat taxes with deduction
+  schedules are now distinguished from graduated taxes. Repealing a starting
+  graduated schedule writes a stable flat replacement. Restoration runs once and
+  preserves later independent tax acts. Replacement rates remain registered
+  estimates.
+
+- **Legal reach records no longer invent knowledge** People no longer learn
+  about a law merely because its reach table lists them. News and conversations
+  still deliver information through their own records. A view changed by news
+  now cites the received story. A repeal or benefit record also needs a real
+  notice before it changes what someone knows.
+
+- **Housing decisions read the laws in force.** Rent limits apply when leases
+  renew, including homes in the wider population. Construction reads zoning,
+  affordable housing, gas hookup and farmland laws. Eviction repayment plans
+  require a paid lawyer where the law provides counsel.
+
+- **Apply paid-leave contributions to counted wages** Paid-leave contributions
+  read the governing law on payday for full and counted workers.
+
+- **Property-tax caps reach household assessments** The property-tax engine
+  reads the growth-cap law when it updates assessments. Counted owners pay
+  through their household group account and keep household arrears. Bills and
+  assessments name their governing laws. Exact statutory cap terms remain
+  estimated.
+
+- **The played-world closure check uses the current core.** The closure proof
+  loads the current core directly. A test of the retired daily household
+  purchase mechanic is removed; live monthly household spending keeps its
+  coverage.
+
+- **Employers weigh their recent losses when deciding how many jobs to keep.** A
+  business weighs its recent sales and costs before cutting staff. Job changes
+  retain the business records behind the decision.
+
+- **Filing no longer invents voter-registration status** Filing checks no longer
+  call every adult resident a registered voter without a registration record.
+  The existing age, residence, deadline, party, and term-limit checks still
+  apply.
+
+- **Voting reasons no longer invent election-day weather** Voting reasons no
+  longer report a weather cost without a weather record. The same turnout
+  calculation still reads the existing causes for named, counted, and wider
+  voters.
+
+### Changed
+
+- **A consumer data privacy law now costs the town's businesses** When a state's
+  consumer data privacy law is in force, every business in town that employs
+  people sets aside a share of its operating costs to comply, and pays it each
+  month. Repeal the law and the cost stops. A state's home-rule grant also
+  decides whether a town council may draft ordinances on matters the state has
+  not settled.
+
+- **Price laws change household payments** The price engine reads energy,
+  mileage, deposit, broadband and transit laws when it settles monthly costs.
+  Counted households use their own income and group account. Payment sources
+  name the law; a payment alone does not give a person knowledge of it.
+
+- **People you met drift back into the crowd after 180 to 240 days** Each world
+  now picks, once, how long a person you met can go without contact before they
+  return to the wider population, somewhere from 180 to 240 days.
+
+## PRE-ALPHA 0.7.0
+
+_Released October 15, 2026._
+
+### Changed
+
+- **Talks keep to what happened, and family news is a scene** A conversation now
+  opens on what happened lately to either person, keeps to that topic, and the
+  other person closes it when it's done; nobody asks after someone absent unless
+  something happened to them. When a parent loses their job, the family scene
+  plays at home: they ask you to talk, tell you, and if you ask what happened,
+  tell you why from the record (the place closed). A parent who quit for another
+  job is not a lost job. When your household is evicted, the parent at home
+  tells you. A member of a town body can try to win one colleague's vote before
+  it is cast, and the vote reads the case they made.
+
+- **The opening says what you are watching** The opening now starts at home on
+  the evening news, with your household named by relation, before the
+  President's address. People are pointed out only when the address names them,
+  the economy is told with its figures, and only a visit to your own state is
+  mentioned.
+
+## PRE-ALPHA 0.6.1
+
+_Released October 14, 2026._
+
+### Fixed
+
+- **Employer names read as names in conversation** A place of work named in
+  capitals inside a longer name now reads normally in conversation and the
+  journal.
+
+## PRE-ALPHA 0.6.0
+
+_Released October 14, 2026._
+
+### Added
+
+- **Towns now start with a public school district** Towns that have a private
+  school now also open with a public school district, with teachers who have
+  recorded jobs and pay, and purchases carry a recorded sales tax.
+
+- **Choose how much of a council meeting to play** Council office workflow
+  preferences now save a default to play only matters that matter to the member
+  or to play the whole meeting.
+
+- **Show action despite fear through two different people** An officeholder's
+  recorded readiness to act despite personal risk now has a two-person proof
+  showing how it can shape the choice to seek another term.
+
+- **Twenty-five new places to be in, from county clerk offices to convention
+  floors** The game gains 25 painted places, each staged for people: - rural and
+  urban county clerk offices, a registrar of voters and an election warehouse; -
+  five rally sites (a county fairground, an airport hangar, a courthouse square,
+  a downtown plaza and a union-hall parking lot); - the national convention
+  floor and stage; - five kinds of apartment and four regional houses; - school
+  and campus rooms. Light and weather versions fall back to midday for now.
+
+- **Precinct tallies use the same recorded ballots** Election contest counts now
+  group the ballots already selected by the recorded-voter decision path into
+  their saved voting precincts. The aggregate winner and candidate totals stay
+  unchanged. A result includes precinct totals only when every counted ballot
+  has saved precinct membership; incomplete membership is left unread rather
+  than represented as a partial count.
+
+- **Election night returns** Campaign results with saved precinct tallies now
+  appear as up to six ordered reporting beats. Each beat shows its saved batch
+  count and running totals; named witnesses react through deterministic
+  decisions based on their relationship records and the change in the
+  candidate's lead. The player can move through reports or skip to the final
+  result and speech choice. The election night venue is shown on result day
+  before a speech is given.
+
+- **Route constituent cases by office preference** Constituent cases now follow
+  the officeholder's recorded casework preference. Routine cases are routed to
+  an active office caseworker or, for council offices, the municipal clerk or
+  manager; record-backed exceptions are routed to the player.
+
+- **Public misconduct records are readable as filed** Contract awards, public
+  payroll postings, disclosure filings, public budget ledgers, and recorded
+  legislative votes are now marked public evidence when they are produced by a
+  recorded misconduct act. Private correspondence and other nonpublic artifacts
+  retain their supplied access level, so readers can use the existing evidence
+  and institutional support paths without treating a private event as a public
+  record.
+
+- **State enactments and highest court rulings carry news scale** State
+  enactments and state highest court rulings now carry recorded scale tags that
+  allow national outlets to cover them. Governor changes already carry the same
+  scale tag.
+
+- **Campaign funds remain with the committee after an election** After an
+  election, remaining campaign funds stay in the committee account. A candidate
+  may carry them into a later campaign only where the jurisdiction's recorded
+  options allow it and the candidate explicitly chooses to do so.
+
+- **Childhood records keep the caregiver's formative choices** When an adult
+  decides a recorded formative moment for a young child, the child's dated life
+  record now cites the event, the caregiver, the situation, and the choice.
+
+- **Every county now has an election calendar from its state's law** Before,
+  only two counties had an election date. Every other county showed no scheduled
+  election, so nobody could plan a run for a county seat. Now every county with
+  a governing body takes its election date, term length and term start from its
+  state's statute, with DeSoto Parish and Loudon County keeping their own
+  published dates. A state with no county government shows none.
+
+- **Conversation choices can be worded as things people really say** The English
+  engine can now word an everyday conversation choice as the sentence the player
+  would say, such as "Hi." for saying hello or "Why is that?" for asking why, in
+  place of a fixed label. Each sentence comes from a new talk-choice bank mined
+  from what people said to each other in public-domain federal oral histories
+  and testimony. A choice answers the other person's last line: after "How are
+  you?" the player answers, such as "Good, thanks.", an open invitation gets
+  only a yes or a no, and leaving gets no sentence because it is the screen's
+  own control. A greeting that names a time of day is used only at that hour, a
+  person is called by name only when the player knows them, and a sentence the
+  owner grades down is not chosen. The screen does not show these yet; they go
+  to the owner for grading first.
+
+- **Dev mode shows where a person's money went over the year** Dev mode now adds
+  up the player's money from the start of the game, and anyone else's from the
+  day they're watched: pay, taxes withheld, rent, purchases and benefits, each
+  in and out, with their cash then and now, their job and what they did. It
+  answers questions like why the player still has no money after a year.
+
+- **The town's homeless count is a public record** On the first of each month
+  the town's homeless count, sheltered and unsheltered, with those doubled up
+  with relatives counted apart, is recorded publicly when it changes, so the
+  local press can report it. A person losing their home is a moment the story
+  director keeps for them.
+
+- **The desktop app updates itself from Check for Updates** Every release is now
+  published with Mac and Windows installers. In the installed app, Check for
+  Updates finds a newer release, downloads it when you say so, and installs it
+  when you choose (on a Mac, when you quit, the new version replaces the old one
+  in the same folder and opens). The window title shows the version and the
+  commit it was built from.
+
+- **Dev mode changes laws, steers people and runs "what if" experiments** Dev
+  mode, opened from the play screen, can pass or repeal any law at any level,
+  make any person take a choice the game offers them, cast any vote or sign or
+  veto a bill, jump time, trace any record and watch the town month by month.
+  Its first saved experiment raises every public salary to a $70,000 base. It
+  replaces the old developer page.
+
+- **Election day stops at the polls, where you mark your ballot** On the eve of
+  an election you can vote in, your day now stops at the polling place, with the
+  members of your household who can vote. You mark each race on the ballot, or
+  leave it blank, and the count on election day records what you marked.
+  Election day is in Options among the scenes that stop your day; take it out
+  and your character votes on their own.
+
+- **Employer business kinds select shared room backdrops** Opening workplace
+  scenes use a shared backdrop selected from the employer's recorded kind.
+  Retail, restaurant, personal care, construction, and repair employers can
+  reuse the room art that fits their business.
+
+- **File for a local seat in person, at the clerk's counter** Filing for a town,
+  township or county seat used to be a button on the Campaigns screen. Places
+  now lists the office that takes those filings, named for its government with
+  its clerk's title, and a visit goes on the calendar during office hours. At
+  the counter the clerk answers three questions from the records: what each seat
+  asks, when its election and filing deadline are and what the fee is, and who
+  has already filed. The player files there, and the counter then shows the seat
+  with everyone who has filed for it; the answers stay in what they know. Dates
+  read as month, day and year, and estimated terms are marked as estimates.
+  Filings go to the government that runs the place's elections under its state's
+  rule, and a clerk is seated where none sits yet.
+
+- **Estates pay the estate and inheritance taxes in force, and heirs learn which
+  law took their share** When someone dies, their estate now pays the federal
+  estate tax and their state's estate tax above the exemption in force, then
+  each heir's share pays the state's inheritance tax by their relation, all to
+  the named treasuries. The twelve states and D.C. with an estate tax and the
+  five with an inheritance tax carry their real exemptions and rates. A
+  legislature with the power can change an estate tax's rate or exemption by
+  bill, and the next estate pays the new law. Heirs read the estate's accounting
+  and hold a view on the law that took from their share.
+
+- **Laws, budgets, campaigns and the press now run on the newest government
+  engines** The town's government now follows the newest law and budget rules
+  from the snapshot of the government work: the law in force reaches wages,
+  records, staffing and voting, campaigns use the newer calibration, and the
+  local press covers what the council does.
+
+- **Chamber leaders, the executive's desk, the press and public meetings join
+  government play** Chambers elect their leaders and fill committees by vote,
+  mayors and governors appoint department heads and issue orders where their law
+  allows, the local press interviews candidates, residents speak at public
+  meetings, officeholders arrive with past careers and elections, Social
+  Security ages and state sales tax run as law, and the outcome web reads
+  government measures.
+
+- **A law's effect on a named defendant stays in the court record** When a
+  recorded cash-bail rule changes a defendant's pretrial outcome, or a saved
+  minimum-custody term applies at sentencing, the person's law history records
+  which law reached them and which court record shows it. A refundable bail
+  deposit is not treated as a loss.
+
+- **Bribes can be reported, prosecuted and punished** An official who refuses a
+  bribe may report it, and the local prosecutor decides whether to investigate,
+  following the money to everyone who took a payment. A case ends in no charge,
+  a plea or a trial. A conviction brings a fine, probation or prison, and costs
+  an officeholder their seat. If your character is charged, the hearing and the
+  verdict play as scenes, and a prison term passes with the world carrying on
+  until you are released with the conviction on your record.
+
+- **Councils, county boards and state houses meet in rooms that fit them.** A
+  small town's council now meets in a small council room and a big city's in a
+  large chamber. A rural county's commission meets in a plain commission room. A
+  state's lower house meets in its own state house chamber, apart from the
+  senate. Committee hearings have a wood-paneled hearing room, and lobbying a
+  legislator happens in the capitol hallway.
+
+- **County government has its own buildings.** The county courthouse now looks
+  like its state's courthouses: Romanesque in the Midwest, a town-green
+  courthouse in New England, adobe in the Southwest, a plain one on the Plains
+  and in the Mountain West, a modern one on the Pacific, and a classical one
+  elsewhere. Sheriffs, prosecutors, treasurers, clerks and assessors work in
+  their own offices, and the jail, the health department and the county
+  administration building have their own rooms. Filing to run for office happens
+  at the elections office when elections take the filing, and at a clerk's
+  counter with no painted map otherwise.
+
+- **Homes look like the homes people live in.** Every household now has its own
+  home: houses, rowhouses, farmhouses, mobile homes and apartments each have
+  several living rooms, from a rundown walk-up to a nice apartment and from a
+  plain suburban living room to a large house, chosen by what the home is worth
+  or rents for in its town. People are in the room that fits the hour: the
+  kitchen at breakfast and supper, the living room in the day and evening, their
+  own bedroom at night, and a teenager's bedroom for a teenager.
+
+- **The president lives in the White House and governors in their residences.**
+  A sitting president now lives at the White House and works in the Oval Office,
+  at the Resolute desk, in four lights. A sitting governor lives at the
+  governor's residence and works in the governor's office. Other full-time
+  officeholders work where their office sits: members of Congress in a
+  congressional office, mayors in the mayor's office, sheriffs, prosecutors and
+  county clerks in their own offices as those are painted.
+
+- **Each business and public office in town has its own place.** Shops,
+  restaurants, clinics, nursing homes, utilities, banks, post offices, state
+  offices and farms now each get a fitting picture of their own, chosen per
+  business so two shops in one town look different: a general store, a hardware
+  store, a gas station or a grocery; a diner, a lunch counter, a coffee shop or
+  a tavern; a doctor's exam room or a clinic; a power plant, a water plant, a
+  solar or wind farm; the workforce center, the unemployment office or the
+  benefits office.
+
+- **Local corporate-income terms reach business owners** Completed local
+  business receipts and wage transfers now create an explicitly estimated
+  operating-income base for the recorded business owner. Adopted local
+  corporate-income terms apply through the shared law consequence and tax
+  assessment path.
+
+- **SNAP participation reaches the household members it affects** When a
+  recorded law changes a household's SNAP enrollment, the participation record
+  now reaches each recorded household member through the law exposure history.
+  The existing program estimate and enrollment rules are unchanged.
+
+- **A day in Congress and in the White House** A player seated in the U.S. House
+  or as president now spends each day in the office. A representative's week
+  follows the House's real calendar, in Washington when it sits and at home
+  otherwise, unless the player chooses. The player picks what stops them, and
+  what they let pass their character does by the same rules as any member. A
+  president nominates a cabinet the Senate votes on weeks later, sends Congress
+  a budget request on its legal day, reads the daily brief and flies to towns to
+  meet people.
+
+- **A council member's and a mayor's day in office** A town council or county
+  board now meets on its own calendar, on a weekday at its hour, as often as
+  bodies of its kind and size meet. When your own bill is on the agenda, the day
+  stops at the meeting: you hear public comment, vote each item yourself or
+  leave it to your character, and adjourn. A bill that passes waits on your desk
+  the next morning to sign, veto or leave to your character. You choose what
+  stops you; everything else still happens, and your character votes and decides
+  by its own views instead of abstaining. A local seat is a job with its pay and
+  hours: a part-time seat pays its stipend from the town's or county's treasury
+  on the 1st. Office hours, a town hall, an interview, a meeting with a
+  department head, a talk with a colleague about your bill and the state of the
+  city are now choices in your day. The seat screen's Chamber, Ask, Favor and
+  Schedule vote buttons are gone; drafting puts a bill on the next agenda.
+
+- **Congress, governors and legislators are people with their own minds** Every
+  member of Congress, every governor, your state's other statewide officials and
+  legislators, and the leaders of every other state's legislature are now people
+  when a new game starts. Each has a party, a career, colleagues, personality
+  traits and views of their own: some sit in their party's liberal or
+  conservative wing, some near the middle, and each cares about a few issues
+  more than most. When Congress or your legislature votes, each member weighs
+  their own views, their district, their party's leaders, their wing, their
+  ambitions and the next election, and how closely the press is watching, so
+  votes no longer split strictly along party lines. Independents who caucus with
+  a party usually vote with it; an independent who caucuses with no one decides
+  from the reasons they left the parties. State and federal races now have real
+  challengers. When no one in town files against your governor, senator,
+  representative or a statewide officer, the other party's candidate is someone
+  from the world: often a state legislator or statewide officer stepping up,
+  sometimes a newcomer, whoever has the most reason to run. They're full people
+  with their own traits and views, not just names on the ballot, and if they
+  win, they bring their views to the new office and leave their old seat open.
+  When a governor vetoes a bill, the legislature now holds a separate vote to
+  override it, and members of the governor's party weigh standing by their
+  governor. Legislative leaders now bring the bills they personally care about
+  most.
+
+- **The game opens with the President's address and the evening news** A new
+  life now opens with the President's inaugural address, full screen and
+  sentence by sentence. The camera moves from the President, with the Vice
+  President and congressional leaders behind them, to Congress and your state's
+  members, to your governor and your state legislature's leaders, and then to
+  your family, naming each person and their office as it passes. Between those
+  shots the picture cuts to whatever each sentence is about. Then you're home
+  that evening with the night's news to pick up. All of it is composed from the
+  world's records while the game loads.
+
+- **Kids go to school, the town is a representative sample, and the counted
+  population lives and dies** School-age people in town now decide each school
+  day whether to go to school (relatives who only appear in the family tree
+  elsewhere make no school choices), and every town with a police department has
+  a public school district that keeps the federal holidays. The town's full
+  residents are a representative sample of the place, not just the player's
+  circle. The counted population has births and deaths at the state's rates and
+  people moving in and out, and newcomers carry names of their birth year.
+  Counted voters start at their county's 2024 presidential lean and count only
+  eligible citizens. The game keeps less in memory as years pass, and saves load
+  from a world snapshot plus the moves made since.
+
+- **A living economy around the town** The nation's economy and central bank,
+  state and metro economies, jobs that open and close, a town bank that lends,
+  housing with rent, mortgages, home buying and evictions that follow each
+  place's law, and businesses that are founded, grow into chains and pass to
+  heirs now run in the new core.
+
+- **Borrowing costs reach residents as fiscal estimates** Four borrowing-cost
+  links now use the shared person outcome and official-view path. Residents
+  receive an estimate of their jurisdiction's debt-service context. The existing
+  government budget reader still uses the changed rate when a deficit requires
+  borrowing.
+
+- **Firearm safety estimates reach residents** Two firearm-homicide links now
+  use the shared resident and official-view path. They describe changes in a
+  resident's safety context. They do not create an injury, death, or personal
+  victimization record.
+
+- **Farmland changes reach residents and operators** Farmland preservation now
+  reaches resident estimates. Farm land-value changes reach estimates for
+  current recorded agricultural operators in their home state. The estimates
+  preserve uncertainty about individual land ownership.
+
+- **Finance outcomes reach recorded people** Three finance outcomes now use the
+  shared person outcome, lived outcome, and official-view path. The medical-debt
+  estimate reaches adults ages 19 to 64 with a current recorded Medicaid
+  expansion coverage entry. The state and federal high-cost-loan estimates reach
+  people with an outstanding payday-lender loan; other and unrecorded borrowing
+  is not inferred. These place-level estimates do not create personal medical
+  debt, coverage, or loan records. The shared rules cover all 56 places.
+
+- **Groundwater conservation reaches recorded farm operators** The
+  groundwater-limit link now reaches current recorded agricultural owners and
+  directing operators through the shared person and official-view path. It
+  carries an estimate of irrigation-resource context. Lower pumping means
+  estimated groundwater conservation. Personal benefits remain unmeasured.
+
+- **Labor outcomes reach recorded people** Six labor outcome estimates now use
+  the shared person outcome, lived outcome, and official-view path. The
+  married-women estimate requires an active recorded legal marriage and female
+  gender identity. Childcare and paid-leave estimates use active
+  parental-authority records and sourced child-age cohorts; they remain
+  estimates from maternal participation studies, not findings about an
+  individual care or leave enrollment. Retirement-age changes use a sourced
+  62-to-67 cohort. Public bargaining and defense-contract estimates reach
+  residents represented by the place-level earnings measure because individual
+  historical schooling and contract employment are not recorded. The common path
+  covers all 56 places.
+
+- **One part of the town moves another** Changes in the town now ripple through
+  116 researched links, so rising unemployment raises burglary, a new law moves
+  the outcomes it targets after its real delay, and each person the change
+  reaches has it on their record.
+
+- **Service opportunities reach residents and households** Six service links now
+  use the shared person and official-view path. Electricity and broadband use
+  recorded household membership. Traffic, roads, rail, and parks use resident
+  estimates. Individual use and payments remain unmeasured.
+
+- **Transit opportunities reach residents** Three transit links now use the
+  shared resident and official-view path. Their estimates describe service
+  opportunities. Personal trips, fare payments, and geographic access remain
+  unmeasured. Measured in the plan: three transit rows select the resident
+  estimate in `data/research/outcome-web/landing-plan.json:1072`. Measured in
+  the data: both transit measures cover all 56 places in
+  `data/research/outcome-web/place-outcome-bases-2024.json:1170`. The four
+  territory rates are inferred from the medians of 52 recorded places; the
+  method and FTA source are recorded in
+  `data/research/outcome-web/placeholder-ledger.json:3`. The draft checkpoint
+  needs a focused test rerun after the territory data fix. Ordinary
+  generated-world behavior has not been checked.
+
+- **Voting outcomes reach recorded people** Six voting outcome estimates now use
+  the shared person outcome, lived outcome, and official-view path. Graduation
+  effects use recorded adult school completion; all-mail voting, automatic
+  registration, right-to-work, and independent redistricting use a sourced
+  age-18+ resident estimate because individual citizenship and registration are
+  not universally recorded. Voting-rights restoration reaches people with a
+  recorded felony sentence whose post-sentence right is restored by policy,
+  excluding pardons and reversed convictions. The restoration turnout-rate
+  estimate notes that its percentage falls as the eligible-voter denominator
+  expands while ballots rise. The common path covers all 56 places.
+
+- **Education policy outcomes reach affected students** Education outcome
+  records now reach recorded students through the shared person landing path.
+  Where a person has no recorded enrollment, a sourced jurisdiction
+  attendance-age row supplies the estimated cohort. Each person record carries
+  the outcome source and can feed an official-view reflection.
+
+- **Environmental outcomes reach residents** Carbon pricing, bottle deposits,
+  power plant carbon limits, and clean electricity effects now produce estimated
+  person outcome records through the shared outcome path. The same matcher
+  covers all 56 modeled places and schedules the normal official view
+  reflection. DECISION: These outcomes are place averages, so they are reflected
+  to all modeled residents of the affected jurisdiction as estimates. The power
+  plant particulate estimate names people downwind of coal plants, but the
+  simulation has no individual plant proximity records; the jurisdiction average
+  is used as a proxy and is not a claim of personal exposure.
+
+- **Health outcome estimates reach affected residents** Health outcome estimates
+  now reach the residents represented by each measure's age cohort. Overdose
+  estimates reach adults with a recorded active substance-use condition. Each
+  personal landing retains its source and can feed an official-view reflection.
+
+- **Household outcome estimates reach named residents** Household outcome
+  estimates now reach residents represented by the recorded household, SNAP,
+  wage, and school-completion records, with retirement-age estimates routed to
+  older adults. Each personal landing retains the measure's source and can feed
+  an official-view reflection; place estimates remain estimates rather than
+  personal poverty or benefit findings.
+
+- **Housing outcome estimates reach named residents** Housing outcome estimates
+  now reach recorded renter households, households with an eviction record and
+  no active primary home, and residents represented by place-level measures.
+  Each landing retains its source and can feed an official-view reflection; the
+  estimates do not establish personal housing eligibility or status.
+
+- **States now track their source-backed electricity generation mix** Each state
+  and Washington, D.C. now starts with separate measures for the 2024 shares of
+  electricity generated from coal, natural gas, nuclear, wind, solar, and
+  conventional hydro, plus a distinct remainder for untracked categories and
+  source-total rounding. The measures retain the published shares without
+  normalizing or reallocating the remainder. Places without a source row remain
+  unknown. This records starting values; it does not change fuel shares in
+  response to clean-electricity laws.
+
+- **A contact can look back at favors and unresolved friction** The focused
+  contact screen can show dated favors and conflicts that still contribute to
+  the relationship's current tension. It uses the recorded history and adds no
+  inferred motives.
+
+- **Births and the economy make moments** Babies are now born during play, and a
+  birth in your circle becomes a moment and a journal line. Big events in the
+  economy now also produce moments and journal lines.
+
+- **Seats are ready for seated figures; people lean on walls** Every seat in the
+  game now knows what kind of chair it is, and a person's own look is drawn
+  sitting on it as soon as that seated art is approved: hips on the cushion, cut
+  off behind a desk or dais, shadow under the chair. Until then seats stay
+  empty. People can now also stand at the spots by walls and doorways.
+
+- **Whole-figure people** People drawn whole in one piece (no layered outfits),
+  in three body builds, cut out cleanly for scenes.
+
+- **More whole-figure people, with side and back views** Twenty-three more
+  people looks in three body builds, including the town's working roles and
+  formal clothes, plus the first side and back views.
+
+- **More whole-figure people** More whole-figure people in three body builds,
+  plus profile and back views of the first look.
+
+- **Fifteen new places and seventeen new times of day** New painted places (a
+  bank lobby, a cemetery graveside, a doorstep, a federal courtroom, the Federal
+  Reserve boardroom, a funeral home, a grocery store, a hardware store, a
+  hospital emergency waiting room and patient room, a jail visiting room, the
+  Supreme Court, a tavern, a township board room and the White House) and
+  morning and rain versions of nine existing places.
+
+- **The game screen is playable on the new core** The /play screen now runs on
+  the new core: you can pick a place, meet people, file for office, campaign and
+  see the results from one screen.
+
+- **More decisions respond to recorded traits** The simulation now uses recorded
+  traits when people vote, seek review, answer a clemency petition, or make
+  other listed decisions.
+
+- **The press has people, owners and a point of view** Each town outlet has a
+  named owner, editor and reporters. National channels, a magazine, an online
+  show and a national paper sit beside the town's outlets. Reporters choose each
+  week's stories from what their readers care about. A story's framing follows
+  the outlet's lean and its owner's regard for the people it names. Readers'
+  views move from what they read, and interviews read the outlet, the race and
+  the candidate's record.
+
+- **A public pay floor is a law any level can pass** A government can now set a
+  yearly pay floor for public jobs as a law. On the day it takes effect, every
+  public job under it is raised, and a monthly review holds later public hires
+  to it. A floor set by a state or the nation also binds the governments under
+  it. Dev mode's $70,000 experiment passes this law.
+
+- **Classify vote readings from recorded roll calls** Vote-reading
+  classifications now use the saved roll-call bundle and a member's recorded
+  disposition. They distinguish an accurate reading of the main question, a
+  misleading reading of another part on a multi-part bill, and claims
+  unsupported by the recorded vote.
+
+- **The presidency and party chairs are filled the day they fall vacant** When a
+  president dies or leaves office, the vice president succeeds that day; with no
+  vice president able, the Speaker of the House, then the president pro tempore
+  of the Senate, then the cabinet in the order the law sets, acts as president.
+  The president names a new vice president, whom both houses confirm, and names
+  a cabinet the Senate confirms. When a party's chair dies, moves away or leaves
+  the party, its members choose a new chair the same day. Each change is
+  reported as news.
+
+- **Save population-based voting precinct membership** The existing geographic
+  membership writer can save voting precinct assignments from Census population
+  shares. Arrivals keep prior residents' assignments, and census reviews use the
+  existing redistricting step. Missing source coverage keeps an explicit
+  estimate from compiled averages. Replaces: no saved voting precinct membership
+  producer. Opening and movement consumer registration, precinct counts and
+  election-night scenes remain separate.
+
+- **Government seats resolve through the ordinary place loader** Governments
+  resolve their seat through the ordinary place loader. Island territories use
+  local place identities with their existing placeholder provenance instead of
+  substituting a place outside the territory.
+
+- **Later campaign help asks read prior campaign records** Later campaign help
+  decisions include the last recorded campaign result, concession reaction, and
+  a recorded thank-you relationship interaction.
+
+- **The world now notices which moments of a life matter** Every change in a
+  person's life that the world records, from starting school to a death in the
+  family, is scored once by how much it matters to that person, using published
+  life-change weights. Most days score nothing. These scored moments are what
+  the story director will build threads, scenes and journal chapters from. An
+  introduction now also puts the person back in touch with whoever introduced
+  them.
+
+- **The people in a life now rise and fade** Each person now holds a thread to
+  everyone who matters to them: family, the people they live with, and anyone a
+  scored moment ties them to. A thread's importance grows with what happens
+  between them and fades when they fall out of touch at their own usual rhythm,
+  and a meeting after years apart renews it. Threads stay hidden in play; the
+  observer's person file shows them, with each person's recent moments. An
+  illness that keeps someone from getting about now explains time apart, and
+  losing a job counts for more when it was most of the household's pay.
+
+- **A new world opens with a year behind it** Laws in force carry when and by
+  whom they were passed, every officeholder won a prior election and has a
+  voting record that voters weigh, the news holds the year before day one,
+  everyone knows what the public knows about the president, vice president,
+  governor, members of Congress and mayor, and each household has its own
+  history: how the parents met, where the family came from and moments its
+  members remember.
+
+- **Twenty-one new places to stand in, and a new desk in the Oval Office**
+  Twenty-one new places now have pictures for morning, midday, night and rain:
+  the mayor's office, a teenager's bedroom, a dorm room, a home kitchen, a
+  church inside and out, a coffee shop, a gas station store, a farm yard, the
+  school outside, in the hallway and in the cafeteria, a hospital lobby, a
+  newspaper office, a lodge hall, the election office, the clerk's back office,
+  a committee hearing room, the governor's residence from the lawn, and the city
+  hall hallway and steps. Each has marked places where people can stand, sit or
+  speak, so the people actually there are drawn in the room. The Oval Office has
+  a new, wider desk in all four pictures. Its spots were re-measured: the
+  president's seat sits behind the desk's far edge so the lap is hidden, and
+  visitors stand on the rug or beside the desk, not inside it.
+
+- **Other governments pass their own laws, and much more of the world now runs**
+  Your town council, your county board, your state legislature and Congress now
+  pass their own laws while you play. The outcome web, interest groups, races in
+  other places, ballot measures, recalls, public meetings and debates, the press
+  and constituent cases now run in the game too.
+
+- **Renters and owners can lose their homes, and where they go next depends on
+  their family, their money and the town's shelter beds** Every renter now owes
+  rent, including households with no income, and can be evicted under the
+  state's law. An owner who stops paying the mortgage goes through the state's
+  foreclosure steps, and the bank carries any loss from the sale. A household
+  that loses its home moves in with a relative who has room. If no relative can
+  take it in, it gets a shelter bed while the town has one, and if not, it ends
+  up on the street. It rents again once its pay and savings allow. Every person
+  has a housing status (housed, doubled up, sheltered or unsheltered) that other
+  parts of the game can read.
+
+### Improved
+
+- **Auditorium staging includes visible audience seats** Convention hall and
+  debate stage staging now include audience seats visible in their backdrops.
+
+- **City hall plaza staging includes rear bench** City hall exterior staging now
+  includes the rear left plaza bench seat.
+
+- **City hall staging includes both rear plaza benches** City hall exterior
+  staging now anchors both rear plaza benches.
+
+- **Council chamber staging covers its visible audience chairs** Council chamber
+  staging now includes anchors for the visible dais, gallery, and side-table
+  seats, with a seated position for every visible audience and public-comment
+  table chair.
+
+- **County commission staging anchors spectator pews** County commission staging
+  now records a seated audience position for each visible pew.
+
+- **County party office seats all visible chairs** The county party office now
+  places people at all six meeting-table chairs and the desk chair.
+
+- **Legislative chamber seat anchors match more painted desks** The state
+  legislative chamber records now include dense, visually estimated seat anchors
+  across the painted floor desks.
+
+- **Election-night staging anchors visible banquet chairs** Election-night
+  staging now records seated positions for the visible banquet chairs.
+
+- **Governor office staging covers both sofa seats** The shared governor office
+  staging now includes a separate anchor for the second visible sofa seat.
+
+- **Hotel ballroom staging includes visible banquet chairs** Hotel ballroom
+  staging now anchors the chairs around its visible banquet tables.
+
+- **Meeting room staging anchors visible audience seats** Community room and
+  public meeting room staging now includes visible chair and pew seats for
+  placement.
+
+- **Newsroom staging anchors both glass office desk chairs** Newsroom staging
+  now records a seated position for each chair at the glass office desk.
+
+- **Park staging anchors visible picnic benches** Park staging now records
+  seated positions across its visible picnic-table benches.
+
+- **Pennsylvania capitol staging includes the right walkway bench** Pennsylvania
+  state capitol staging now includes the missing right walkway bench seat.
+
+- **Phone-bank tables include all visible seats** Phone-bank room staging now
+  includes a sit position for each visible chair at both tables.
+
+- **Add seats to the public library reading tables** Public library scenes can
+  now place people at 12 additional visible reading table chairs. Their
+  positions are visual estimates from the midday painting, with about two
+  percentage points of uncertainty.
+
+- **Rally stage audience seating follows each bleacher tier** Rally-stage
+  staging now includes one seated audience position on each of the six visible
+  bleacher tiers, using tier-local perspective measurements for rows above the
+  court horizon.
+
+- **Washington capitol plaza stages its visible benches** The Washington State
+  Capitol exterior now has a sit position for each of its six fountain-plaza
+  benches.
+
+- **Supper hall staging includes visible table chairs** Church supper hall
+  staging now anchors chairs around its visible tables.
+
+- **Town hall staging includes visible audience chairs** School gym town hall
+  staging now has an audience seat anchor for every visible chair across eight
+  rows.
+
+- **Union hall staging includes visible pew seats** Union hall staging now
+  includes an audience seat anchor for each visible pew row.
+
+- **House and Senate staging anchors chamber seats** U.S. House and Senate
+  staging now record member desk and balcony seats.
+
+- **Add outer benches at the Wyoming capitol** Wyoming state capitol scenes can
+  now seat people on both outer sidewalk benches. Their positions are visual
+  estimates from the midday painting, with about two percentage points of
+  uncertainty.
+
+- **Share constitutional proposal voting and council item vetoes**
+  Constitutional proposals now record chamber rollcalls through one shared path.
+  D.C. Council signatures can apply the sourced Mayor item veto to appropriation
+  acts, preserving the enacted sections and the recorded veto decisions.
+
+- **Place outcome changes shape what residents think** Recorded place outcome
+  changes now inform NPC policy reflections with a continuous weight and a trace
+  to the saved outcome.
+
+- **Starting-law effects can reach current officeholders** When an opening law
+  has no recorded sponsor or vote, affected residents can weigh its recorded
+  effects against the people currently holding offices that could repeal it.
+
+- **Ended-life records read from saved history** The continuation projection now
+  exposes saved strong and defining memories, dated office and election history,
+  sponsored measures that became law, family identities, and recorded cause of
+  death through the life-ending date.
+
+- **Relationship decisions follow the history people share** After a recorded
+  date, the player can ask to become a couple. The answer comes from the other
+  person's saved relationship, personal-value, and personality records instead
+  of a fixed number of dates.
+
+- **Life pacing can be set to quiet, standard, or relentless** The selected
+  pacing setting changes only how already-eligible life situations are ranked.
+  It does not create or remove events or change their outcomes.
+
+- **Change how often notes appear** Choose whether known reminders appear on
+  person cards always, only when expanded, or not at all. This changes
+  presentation only; it does not change what conversations can recall.
+
+- **Carry the starting press standard into new outlets** The selected new-game
+  press standard is recorded on outlets when they are founded, so editorial
+  decisions and reporter temperaments follow that outlet's setting.
+
+- **Record resignation pressure in officials’ decisions** Recorded calls for
+  resignation from party members and colleagues now inform officials’ later
+  decisions about whether to seek another term. The calls weigh as reasons and
+  do not force an official out of office.
+
+- **Family without contact history can reach out** Recorded family ties can
+  prompt a relative to make contact even when no prior interaction is recorded.
+
+- **Day advances time and never opens a choice list** Pressing Day now moves the
+  clock forward a day and your character lives it on their own. The list of
+  things to do (take it easy, take care of someone, call someone) no longer
+  interrupts; only a scene stops time.
+
+- **Local ordinance text uses filed provisions** Local ordinance bill text now
+  uses its recorded title and current filed provision wording.
+
+- **The play screens use the approved Kit 13 controls** Buttons, tabs, icons,
+  search, dropdowns, checkboxes, sliders, the progress bar and the close X now
+  follow the owner's approved Kit 13 set, with brass corner ornaments on every
+  panel. Nothing inside a menu scrolls any more: a long screen pages with Back
+  and Continue.
+
+- **Show a Kit 13 progress bar while saved lives open** The title's saved-life
+  loading state now has an accessible indeterminate progress bar in the approved
+  brass frame and gold fill. Reduced-motion settings keep it still.
+
+- **Four fixed explainer lines removed from the government screens** The map no
+  longer says that district outlines are drawn for 2026 on every day or that
+  Alaska and Hawaii are insets, the Represented by panel drops its note about
+  where your home is represented from, and the opening roster drops its pointer
+  to the Government tab.
+
+- **Trait reasons use recorded labels pending wording review** A trait's
+  built-in reason now shows the person's recorded trait label until its wording
+  is reviewed. Effect files keep the trait, decision, option, and pole without
+  carrying player-facing sentences.
+
+- **The game loads place data only for the state you play in** The game now
+  reads its big tables of schools, local institutions, voting precincts, turnout
+  and storms only for the state your town is in, so it starts with about half
+  the memory it used before.
+
+- **Campuses and capitols in every light.** Every college campus now has its
+  morning, night, rainy and winter pictures, and every state, D.C. and territory
+  capitol has every light it was missing, so a capitol at night or a campus in
+  the snow no longer shows a sunny noon.
+
+- **Days pass faster** Days pass faster: when two people meet, passing on the
+  news no longer looks back through every story they ever heard. People hear and
+  pass on the same news as before.
+
+- **The Oval Office has the real Resolute Desk** The Oval Office now shows the
+  carved Resolute Desk with the presidential seal panel and the U.S. and
+  presidential flags behind it, in morning, midday, night and rain light.
+
+- **The opening's chambers show their people far sooner** The people in a
+  picture are drawn sooner, and the people on the screen the player is looking
+  at are drawn first, before anyone from a screen already left. On the opening's
+  Congress screen, 51 of the 54 people placed in the House chamber now appear
+  within 20 seconds; before, at most 1 did, because the figures still waiting
+  from the screens before it went first. Each figure takes about 36% less time
+  to compose, with the same picture as before. The list of people a picture has
+  no room for is now labeled "Also here", like every other scene, instead of
+  "More illustrated people".
+
+- **People can face away from you, and the art for many more poses is in** When
+  a spot in a room faces away from you, the person standing there now shows
+  their back and the back of their hair instead of being turned to face you, as
+  an audience faces a podium. The people art also now holds many more poses:
+  hands clasped, a handshake, a wave, pointing, hands on hips, checking a phone,
+  holding a cup or a folder, a shrug, walking, and more, plus turns to three
+  quarters. Which pose a person gets comes from what they are doing and where
+  they are, and the same person in the same place always gets the same one. Each
+  new pose appears on clothed people as its outfits are painted; until then they
+  are drawn in the nearest pose that is painted in their clothes.
+
+- **Personality now shapes every labeled decision through one table** A person's
+  recorded traits now bear on every choice whose options are labeled with the
+  kind of act they are, through one shared table instead of a separate rule for
+  each decision. Someone hot-headed leans toward answering a reporter back,
+  someone self-conscious puts off the invitation, someone who values keeping
+  what they know stays put. A trait the game has no record of still adds
+  nothing, and nothing is rolled: the traits put reasons on the table and the
+  same scorer picks.
+
+- **Places shows recorded location and activity values** Places removes authored
+  helper text while retaining record-backed location, activity, and trip values.
+
+- **Towns gain births, deaths and moves every month** A town's counted residents
+  now change each month. Babies are born at the state's recorded birth rates,
+  people die by the national life tables, and households move away and arrive at
+  the state's recorded moving rates, so a town of ten thousand moves by tens or
+  hundreds of people in a year. Couples the player knows now decide about a
+  child from their own lives (age, how long they have been together, pay and
+  work, room at home, children, health), and a couple with no income is no
+  longer ruled out at once.
+
+- **Townspeople decide to run for office, and every resident's vote counts in
+  local races** A year or so before a local seat's filing deadline, every adult
+  in town weighs running, and the record keeps each person's reasons. Those who
+  decide to run file with the place's filing office once filing opens, on a
+  platform from their own views. On Election Day the town's counted residents
+  vote in local races from what they know (the incumbent's name, the party, how
+  well known each candidate is), and the result shows their votes by age group.
+  A named person's ballot now follows their own recorded views, with their party
+  tie as one influence.
+
+- **Screens read as words, not keys** Laws, budgets, the calendar and Travel
+  print measures, units and budget lines as words: percentages with a percent
+  sign, camelCase budget lines and slug titles as plain words, levels by name
+  instead of internal ids. A law taking effect shows a short notice on your card
+  instead of taking over the screen.
+
+- **Add a seeded watched-world year speed benchmark** Adds a reproducible
+  365-day watched-world timing command. It reports the highest sampled costs
+  from a 30-day profiled window and exits unsuccessfully when the full run
+  exceeds its time budget.
+
+- **Work screens remove helper copy around saved tasks** Work and Work / Pending
+  keep task, owner, blocker and timing records while removing static helper
+  lines and empty-state copy.
+
+### Fixed
+
+- **A session on the doors meets the neighbors who are home** A candidate's
+  session on the doors used to record that people were talked to without naming
+  anyone. It now walks the candidate's own neighborhood door to door, at the
+  pace the campaign research gives for a volunteer, and meets by name every
+  adult who is home at the minute of the knock; somebody at work or out is not
+  met. Each person met knows of the visit, the meeting stays in both people's
+  history, and the next session starts at the next door.
+
+- **An eighteen-year-old can stand for the town, township or county board** A
+  new adult could not file for the local board that governs them. A town board's
+  age was copied from the state house, usually 21, every county commission seat
+  was refused until its rules were read, and a village inside a town or township
+  was offered no local seat at all. A seat on a town, township or county board
+  now asks the qualified-elector age, eighteen, as a labeled estimate from state
+  codes, until the place's own rule is read. In 52 of the 56 places a resident
+  can file for it; Guam, the U.S. Virgin Islands, American Samoa and the
+  Northern Mariana Islands have no local board on record.
+
+- **Party headquarters stages its visible office chairs** Party headquarters
+  scenes now include a seated position for the fourth visible office chair.
+
+- **Arizona capitol plaza benches have seated positions** The Arizona capitol
+  plaza now stages seated people on both visible benches.
+
+- **Resolve campaign compliance packs by place** Campaign compliance now reads
+  the reviewed Kentucky pack from place keyed data and resolves every other
+  place through the federal baseline, labeling each fallback field as estimated.
+
+- **State keyed rules use shared reference data** Constitutional chamber sizes,
+  federal district identity, postal names, and legacy legislative work keys now
+  use shared records across all places.
+
+- **Open bargaining only for recorded bills** Removed the unsupported Kentucky
+  bargaining sitting and its fixed fiscal ceiling. Bargaining now opens only for
+  a bill on the member's recorded docket, and fiscal limits stay unset when no
+  record supplies one.
+
+- **Cannabis budget forecasts follow the enacted tax rate** State cannabis
+  budget forecasts now read the adopted law's tax rate through one shared path.
+  The retail base uses labeled population, use and spending estimates. Existing
+  opening budgets, the retail opening delay and immediate repeal remain the
+  comparison baseline.
+
+- **Residents form views of the members of Congress behind a federal law** A
+  resident reflecting on a federal law now weighs the sitting members of
+  Congress by their real person records, so the view they form names the member
+  who can repeal it.
+
+- **Check contact reasons across every jurisdiction** The civic-message test now
+  verifies that a recorded contact reason and its source record are preserved in
+  all 56 starting jurisdictions.
+
+- **Current officeholder contacts open linked constituent cases** Contacts to
+  current local officeholders or the current governor now create an
+  `office.case-opened` event linked to the originating contact and carrying its
+  recorded reason and source records.
+
+- **Civic messages reach the member who receives them** Recorded constituent
+  messages now give the named recipient a vote reason on the issue they address.
+
+- **Town banks and care facilities use official names.** Town bank, hospital,
+  and clinic employers use their official local or county directory name. Places
+  without a source row no longer receive an invented facility. Bank books retain
+  the matching FDIC certificate when a source-backed bank is present.
+
+- **Check recorded rent bills across all 56 places** Housing coverage now checks
+  that every playable jurisdiction can start a rent lease from its recorded rent
+  row and produce a positive housing bill. American Samoa and the Northern
+  Mariana Islands use their explicitly estimated HUD baselines.
+
+- **Room figures stay in frame** Head and hair now stay inside the top edge of
+  room scenes.
+
+- **People in one room no longer reuse non-uniform outfits** People in a room
+  now wear different non-uniform outfits when the wardrobe offers alternatives;
+  job uniforms remain shared.
+
+- **The conversation refusal display completion is recorded** This entry records
+  the completed conversation refusal display fix in the pool.
+
+- **Creator steps no longer include helper copy** The Creator goes through its
+  setup steps without instructions that repeat what its controls already show.
+
+- **Birthday choices show playable ages** The creator's birth-year choices show
+  the starting age each year allows and only offer years within the playable age
+  range.
+
+- **Opening cards show recorded mastheads and Kit 13 progress** The opening year
+  card now uses the recorded year and the approved Kit 13 progress control.
+  Headlines retain their publication's recorded outlet name. The existing Kit 13
+  glass surface is more opaque over bright scenes.
+
+- **Political maps use more of their available panel width** When a political
+  map panel is too narrow to show the inspector beside it, the map now uses the
+  full row and the inspector moves below it. This gives map labels and districts
+  more room at play size.
+
+- **State-house filing accepts a resident of the state** State-house eligibility
+  now checks that a candidate and the filing jurisdiction are in the same state,
+  including when the person's home is a locality jurisdiction. Local elections
+  still require the exact local jurisdiction.
+
+- **Campaigns use the chief executive election cycle** Campaign dates for
+  statewide executive offices now use the existing chief executive cycle rules
+  instead of the state legislative calendar. Nationwide governor qualification
+  rules remain unsupported: source-admitted qualification records currently
+  cover only Minnesota, Missouri, Nebraska, Nevada, and Ohio.
+
+- **Accepted campaign activities no longer claim a promise** Accepted campaign
+  activities no longer display a sentence claiming the player promised to
+  attend.
+
+- **Candidate guidance reads recorded office rules** Candidate guidance stores
+  and displays recorded office age, residency, and filing rules.
+
+- **Remove floating name cards from scenes** Official and family names no longer
+  appear as floating cards over scene figures.
+
+- **President's opening portrait matches the room outfit** The fixed President
+  figure in the opening scene now applies the same room outfit exclusions as the
+  staged officials, keeping its clothes consistent with the room rendering.
+
+- **A new life opens with people at home to talk to** A new life no longer opens
+  in an empty home with nobody to talk to. The people you live with who are home
+  right now are in the room. Anyone at work or out at a scheduled activity
+  isn't.
+
+- **Person records show age, household, work, and pay details** Person records
+  now include recorded age, home, household, current work, and pay information
+  according to the viewer's access. Career entries are limited to the person's
+  own public service and votes.
+
+- **Record completed filing coverage** The completed newspaper filing fix is now
+  recorded in the assignment pool.
+
+- **Public-meeting choices appear at the time stop** The time stop now offers
+  the recorded choices when a public-meeting departure is due.
+
+- **Local meeting return uses the recorded home** The local meeting return route
+  now uses the recorded primary home endpoint even without a separate earlier
+  home-scene event.
+
+- **Radial menu fits its available space** The radial navigation menu and its
+  narrow-window list fallback are recorded as complete in the pool.
+
+- **A new life's family leans toward the national two-parent share when the town
+  has recorded few families** A new life still copies one of the families its
+  own world recorded, but when the world has recorded only a handful, two-parent
+  and one-parent families are weighed so the share moves toward the national
+  figure (about 71 percent of children live with two parents) instead of
+  swinging from none to nearly all.
+
+- **The production build now ships the playable game** The production build now
+  packages the play page, with the game's version on the title screen and in
+  Options, instead of the deleted old app screens, so it can finish again.
+
+- **Every town keeps a public works department, and a county pays for services
+  only with cash in hand** Before, a small town could end up with no public
+  works department, so the county's voted roads line had nobody to pay. A county
+  whose account was short of cash still committed its money, and every payment
+  then failed. Now every seated town has a public works department, and a county
+  manager commits a service line only once the county's account holds the cash
+  for it; otherwise the money comes back to the office the next month.
+
+- **Deliver town messages to their named state representative** Members can use
+  messages addressed to them even when the message records the sender's town and
+  the bill belongs to the state. Vote reasons display the saved message
+  description and retain the original event references.
+
+- **Remove date and toy conversation intents** Removed date, game, and quiet
+  conversation intents that were not grounded in a recorded proposal.
+
+- **A death in town is a public record and news** When someone dies, the death
+  is now a public record and local news, not just something the people close to
+  them know. The town's count of deaths matches the people who died, the papers
+  and stations can report it, and the seat of an officeholder who died empties
+  with a record.
+
+- **Children no longer take up causes** A young child who hears hard news no
+  longer takes up a cause like an adult would; how much someone acts on an event
+  now grows with their age, and fewer workers who lose their job set out to
+  prove themselves.
+
+- **Everyone and everything new in the world has a record of arriving** A person
+  who comes into full view, an official who takes a seat, or a business, group
+  or office that opens after the first day now leaves a record of it: who or
+  what arrived, why, and where. In the town's own places it is a public record.
+  The town's counts and the news no longer find people and businesses appearing
+  from nowhere.
+
+- **An eviction ends when the household has already left** A household that
+  moved away, bought a home or otherwise ended its lease while an eviction was
+  underway used to stop the year with an error when the court reached removal.
+  The case now closes when the tenancy ends, and the rent still owed stays on
+  the household's record.
+
+- **Officials are paid, and money passes on at death** Every official, from the
+  town's state legislature to Congress, now holds their office as a paid job and
+  receives a monthly salary from the government they serve. When someone dies,
+  their cash passes to their nearest family, or to their state when they have
+  none, and benefits paid to them stop.
+
+- **Nobody appoints the player to a post they didn't choose** A mayor or manager
+  filling the town's department posts no longer picks the player. The player
+  could find themselves the public works director without ever deciding to take
+  the job; the player's decisions are their own.
+
+- **A hotel or public supplier keeps its contracts when a worker leaves** The
+  year no longer stops when a worker named on a hotel's visitor lodging
+  agreement or a public supplier's agreement leaves their job, moves away or
+  dies. The agreement now follows whoever still does that work at the business,
+  including people hired since, and it ends only when no one there does that
+  work anymore.
+
+- **Voter counts include only eligible citizens in town** The town's voter
+  groups now count only adult citizens who live in the town, so turnout and
+  election results start from the right number of possible voters.
+
+- **Town offices answer residents, and cause groups spend what they raise** A
+  resident who goes to the town office about a cause now hears back within a
+  week and can go back again. Relatives living out of town no longer act in
+  town. Cause groups spend their donations on ads that reach people. People met
+  later in the game have health records, and appointments no longer skip
+  everyone under 25.
+
+- **County races draw challengers again** Townspeople now run for county seats
+  such as commissioner, sheriff and clerk. A county's filing fee no longer keeps
+  everyone out: people weigh it against what they earn while filing is open, and
+  where the county takes petition signatures instead of the fee, against the
+  signatures their friends can give. About a third of county races now have more
+  than one candidate, close to how often real county races are contested (some
+  counties see none, others most).
+
+- **The installed app builds a town and reaches the play screen** The installed
+  desktop app now runs the play server inside itself, so New game builds a town
+  and reaches the play screen instead of failing with "Not found".
+
+- **Law-effect test checks the in-effect wording on the effective date** The
+  enacted-duties test checked the "none has come under it yet" wording while the
+  law was still scheduled, so it saw the scheduled wording instead. It now runs
+  the clock to the effective date before checking.
+
+- **Every place opens with a seventeen-year-old player who turns eighteen in
+  play** In about one place in fourteen, the census sample for the town showed
+  no family with children, so the town opened with nobody under eighteen and the
+  player started the game already eighteen. Every town now opens with at least
+  one seventeen-year-old: where none turns up, the town gets one more family,
+  its parents and children aged from the place's own records, and the player is
+  that family's seventeen-year-old, who turns eighteen during the first year of
+  play.
+
+- **Federal Direct undergraduate loans use the published award-year rate** New
+  recorded undergraduate loans use the Federal Direct rate for the award year of
+  disbursement. The saved loan keeps the source and estimate status, including
+  when only the nearest published award-year rate is available.
+
+- **A person you meet keeps the same school and work acquaintances** A person
+  you meet in town now has the same school and work acquaintances every time,
+  whether they were counted in the wider population or built with the town.
+
+- **The game builds again** The What changed page now handles a law record with
+  a missing field, so the verified build compiles again.
+
+- **A closed business's credit line closes with it** When a business closes, its
+  bank credit line is paid down from what cash the business has left and the
+  bank writes off the rest, so the line is never repriced or billed again. The
+  closure now also names the town workers whose jobs ended.
+
+- **Business closure news carries the real reason** When an owner closes a
+  business by choice, the closure news now carries the reason the owner actually
+  had, instead of saying the business could not pay what it owed.
+
+- **New games start again** Starting a new game no longer crashes. The births
+  engine was being installed twice.
+
+- **A town's population no longer creates the same person twice** A town's
+  people are no longer listed twice when a relative of someone you know also
+  lives in the wider population, so such towns open without an error.
+
+- **Homes have prices, new businesses start small, and owners get paid** Homes
+  in your town now have real values, and renters pay rent each month; homeowners
+  with a loan pay their mortgage. A new business starts the size its founder can
+  afford, with the founder's own savings and a bank loan sized to what the
+  business can repay, and its owner takes home part of the profit. When a family
+  runs short of money, the game records who paid the bills, what went unpaid and
+  which relatives helped. Workers whose employer closes now look for new jobs
+  instead of vanishing from the count.
+
+- **Named people now retire and leave work** People the game follows one by one
+  now stop working or retire when their age, health and savings push them to, as
+  the town's counted workers already did.
+
+- **People who move away leave town, and the journal says we moved** When
+  someone moves away, they now leave town for real: they live in the place they
+  moved to, their household goes with them (or they start a new one there if
+  family stays behind), and they are no longer counted as residents or voters in
+  your town. When a whole family moves together, each person's journal now says
+  "We moved to" the new place instead of saying their own children or partner
+  moved away. A journal no longer repeats "I started at" the same school for
+  each school stage spent there.
+
+- **A balanced-budget law no longer cuts Social Security checks, and Congress
+  closes the gap over five years** A federal balanced-budget law now cuts the
+  way federal across-the-board cuts are written in law: Social Security,
+  veterans' benefits, the low-income programs and interest are untouched, and
+  Medicare is cut by at most 4 percent. Congress closes the gap in equal steps
+  over five fiscal years, as Gramm-Rudman-Hollings set its deficit targets,
+  instead of all at once. A state still balances each year's budget, across
+  every line but its debt payments.
+
+- **Congress is one national body in every world** Federal bills now sit in the
+  national House or Senate, the same in every world, instead of in the player's
+  own state's House seat; that seat is no longer organized like a town council
+  with a "council president". The Speaker, the leaders and the whips run
+  Congress.
+
+- **Councils no longer pass a law and repeal it two weeks later** A member who
+  likes change now backs changing long-standing law and resists undoing a law
+  the body just passed, and members hold to their own recent votes, so a board
+  no longer passes and repeals the same law every meeting. A mayor, county
+  executive, governor or president who is the player gets each passed bill on
+  their desk to sign or veto, and a bill left there becomes law at the office's
+  real deadline. Each level of government can pass only what that level may: a
+  county can't impose a Medicaid work requirement and Congress can't change
+  state sales tax. Delegates from Washington, D.C. and the territories, and
+  Alabama's effective dates, now come from data. A mayor, county executive,
+  governor or president brings bills of their own through the member most
+  inclined to carry them, and anyone, including a candidate who lost, can ask a
+  member to carry a bill. A local seat left vacant, or one the town has too few
+  residents to fill at the start, is filled from the town's own residents or
+  else a named official, and whoever holds a seat on election day runs as its
+  incumbent, an appointee included. A bill stays editable on paper until its
+  vote: its sponsor can add a section, replace one or strike one, and each
+  change is checked again for the body's power and cost. Councils, legislatures
+  and Congress can draft a floor for public pay. People blame or credit a law, a
+  vote or a bill only once they have learned of it, from someone who told them
+  or a story they heard, and their view records how they learned.
+
+- **Raising the minimum wage always raises it** A law to raise the minimum wage
+  now raises it wherever it passes: to $15 an hour, or where the wage in force
+  is already that high, to the next step above it. Before, a state already at
+  $15 or more passed the raise and nothing changed.
+
+- **A recall names the bill that was actually voted, and a township has its own
+  budget** A recall petition over an ordinance now finds the very bill that
+  enacted it, so it can no longer name members of a different body whose bill
+  happened to share its number. A place governed by a township rather than a
+  city or village now has its own town budget, voted by the township board.
+
+- **A state's researched minimum wage stands at the opening** A state that had
+  already raised its minimum wage kept the wage it really has when a new game
+  opens. Before, its raised wage was read as a new law and jumped to $15 the day
+  after the opening, with no bill behind it. A raise passed in play still raises
+  the wage.
+
+- **The journal no longer calls a parent your child** The journal could say a
+  player's mother "is your child", and a journal chapter could introduce her as
+  a daughter. A family record keeps its two people in identifier order, and both
+  read the first one as the parent. They now read the older one as the parent,
+  as the family statistics already do.
+
+- **Record each court outcome once in a defendant's law history** The
+  law-consequence registry reuses the existing pretrial and sentencing exposure
+  writers. A court outcome no longer produces duplicate law-history records when
+  both prosecution and consequence dispatch handle it.
+
+- **Minimum sentence law records now flow through the shared consequence step**
+  Sentences that a mandatory minimum law binds now produce the named defendant's
+  legal outcome record through the shared case stage consequence step.
+
+- **Juvenile age laws are recorded with named adult charges.** The shared
+  case-stage consequence dispatcher now records the operative numeric juvenile
+  court age ceiling with a named defendant's adult charge and governing law
+  stamp. The record is append-only and replay-safe; it does not authorize adult
+  transfer.
+
+- **The opening's state and legislature cards fit the screen and read clearly**
+  On a small window the state card no longer runs past Back, Next and Skip; the
+  card scrolls inside itself. The state card's heading, governor line and
+  population now sit on light paper in dark ink, and the people tiles on the
+  state and legislature cards use dark text on their pale tiles.
+
+- **Legislatures take up every change their members want, as time allows** Your
+  state legislature, Congress, your town council, your county board and your
+  township board no longer stop at a fixed few bills. Each member files the
+  changes their own views and their voters favor wherever the law differs, and
+  the floor takes up as many as its session time allows. A state legislature now
+  passes about two dozen policy laws in a session instead of three. Councils and
+  boards meet twice a month and pass their own ordinances, and a town governed
+  by a township board now legislates too. The number of different laws a
+  government can pass is still limited by the policies the game models.
+
+- **A test file that failed to load now loads** The two legal-outcome law rows
+  moved to a data-only file so the policy packs no longer load the simulation
+  modules that import them back.
+
+- **Record a named defendant’s self-defense law exposure** A violent criminal
+  charge now records the defendant’s exposure to the place’s operative
+  stand-your-ground rule, without treating the rule as proof that self-defense
+  was used or successful.
+
+- **Housing-first assistance reaches residents after an eviction** Funded
+  housing-first programs now offer a recorded assistance appointment to
+  residents whose eviction ended their primary occupancy and who still have no
+  replacement home. Requests use the existing service decision, attendance, and
+  law-exposure path in all 56 places. Assistance has no treatment or sobriety
+  prerequisite. The completed appointment records service hours; it does not
+  claim a housing placement. Appointment timing is a labeled estimate with a
+  research-ledger entry.
+
+- **Record environmental law effects for residents** Flood protection, container
+  deposits and clean-air plans now create a named resident exposure when their
+  recorded place outcomes change. Missing territory particulate baselines use
+  the recorded 51-place median, with the estimate labeled at its source.
+
+- **Clear every type error on main** The project now type-checks cleanly. Along
+  the way: a study partner's answer no longer crashes, a finished life's family
+  list works again, judges' recorded rights outlook is read from the right
+  record, environmental laws no longer show a blank line in the paper and the
+  Journal, and a mandatory-minimum sentence is read from the sentence record
+  only.
+
+- **The game opens again in a browser** The civil-service personnel panel still
+  asked for two actions by their old one-state names after those actions were
+  renamed for every state, so the game stopped before its title screen. The
+  panel now calls the renamed actions, and the title screen opens.
+
+- **New games load again after the paid leave update** Maryland's paid leave law
+  listed its 2028 start twice, and the game refused to load any world with it.
+  The law now starts once, on January 1, 2028, with the same source and terms.
+
+- **A neighbor's counter-offer for a meeting no longer stops time** When someone
+  answers a meeting request with a different day, the new day now stays inside
+  the same notice window every request follows, so the clock keeps running
+  instead of stopping on a refused date.
+
+- **A bought home shows its mortgage left on the Money screen again** After
+  buying a home, the Money and property screen now shows how much of the
+  mortgage is left. The screen had been looking for the old housing label on the
+  debt, and a purchase records the mortgage as an ordinary household loan.
+
+- **Shared shell shows recorded values** Shared shell surfaces show recorded
+  values and control names without authored explanations.
+
+- **Remove shared shell sentences** Removes shared authored sentences from
+  common shell surfaces. Town-seat views retain the recorded role, government
+  name, and start date without helper copy.
+
+- **An office job starts and ends before the day's work, never after a shift was
+  worked** A person who takes a local seat, or whose term ends, now changes jobs
+  at the start of the next day instead of after that day's shift was already
+  worked. A full-time seat that replaces a holder's own job no longer ends a job
+  they worked that same day, and the one-day wait added for ending such a job is
+  gone.
+
+- **The legislature chamber fills the screen** The legislature chamber
+  illustration now extends across the full opening screen.
+
+- **Your state's legislative chamber in the opening is filled with its
+  lawmakers, seated at their desks** Before, the legislature card showed two
+  people at the front desks and an empty chamber, and the members' desks that
+  face away from you stayed empty. Now the chamber holds your state's lawmakers
+  from its roster, with your own members first. They take the members' desks,
+  seated and facing you until a back view is drawn, and the open floor beside
+  them.
+
+- **The Senate and House floors in the opening are filled with their members**
+  Before, the Congress card showed one standing figure on an empty House floor,
+  the year card showed an empty Senate floor, and members of Congress came
+  dressed in hoodies. Now each floor holds members from its seat roster, with
+  your own members and your state's delegation first, facing the room.
+  Officeholders dress for business. Your life's card shows whoever the household
+  record says lives with you.
+
+- **The town's business list reads employers from the place's records** Before,
+  the list only read businesses from the seated local-business catalog. Now it
+  also reads private employers whose own organization profiles place them in
+  that jurisdiction.
+
+- **Neighborhood journeys no longer use the main-street backdrop**
+  Provider-backed journeys whose recorded destination is a neighborhood no
+  longer reuse the main-street picture. Other journey keys keep their existing
+  backdrop.
+
+- **Choosing a town in setup shows its city hall, never the main street
+  picture** Before, choosing a town in setup brought back the main street
+  picture that had been taken out. Now the setup shows the town's city hall once
+  a town is chosen, and the state capitol before then.
+
+- **Rule dates follow their records and calendars** Governing sessions apply to
+  the year recorded in their source calendar. Constitutional observations use
+  their own source dates. State and local tax evidence keeps the date being
+  assessed, and all callers supply that date. Federal withholding reads the
+  paycheck year and marks uncompiled years as median estimates from the
+  available IRS schedules.
+
+- **News names who holds office again** The News screen's look around your town
+  names who holds office again: each office's title over the person who holds
+  it, their employer where it says more than the title, and the date their term
+  began where it is recorded. Your town's government and its council, and the
+  public institutions in your town, are listed by name. The menu reset had
+  removed this section together with its sentences; it now shows the records
+  alone.
+
+- **Congress shows once in the opening** The opening's year screen no longer
+  stands on the Senate floor with the senators, and no longer counts the Senate
+  and the House by party: it stands outside the Capitol. Congress is told once,
+  on its own stop on the House floor, where its chart counts every seat in both
+  chambers: each party's members, the vacant seats and any seat with no recorded
+  holder.
+
+- **People face who they're with and are sized for the room** People in a scene
+  now turn toward the person they are with, and everyone in a chamber or meeting
+  room turns toward its front. Companions stand near each other without hiding
+  one another, nearer people are drawn in front of farther ones, and people in
+  the council chamber and the U.S. House are drawn at full size. Four home stand
+  spots moved from the open floor to a counter, a doorway or a window.
+
+- **People's figures fit what they're doing, and nobody has a twin** A figure
+  carrying a skateboard or a basketball appears only outdoors, and one with a
+  laptop, clipboard or tablet only at work. No two people in a scene share a
+  look, and people are drawn nearer their real age. The player keeps one look
+  family as they grow up and is drawn as an adult from their 18th birthday.
+
+- **Four nightly failures in drawn places** Fixes four people-engine failures
+  that showed up only in some randomly drawn places.
+
+- **Shadows sit under people's feet** Each person's shadow is drawn on the floor
+  under their feet, as wide as their stance, instead of a fixed oval below the
+  picture that floated away from where they stood. Nobody behind a desk or
+  counter casts one.
+
+- **Remove missing-period placeholder from macro cards** Macro cards now omit a
+  period label when no period is recorded.
+
+- **New game works in the hub, and the title is a full-window convention hall**
+  New game starts again in the hub, and the title screen shows a national
+  convention hall at night behind the menu, with the place choice moved into New
+  game.
+
+- **The player is always someone who lives in town** In some towns the player
+  could be a relative who only had a placeholder record, so their days, school
+  and turning 18 never ran; the player is now always chosen from the town's own
+  residents.
+
+- **Restore press outlet opening** New-game press outlets no longer read a
+  removed setting, and recorded public appearances can again create the needed
+  state newsroom.
+
+- **A broken promise can cost an incumbent votes in every town** People's
+  politics no longer come almost entirely from their personality, so the people
+  who heard an incumbent's promise and wanted it kept are no longer the same
+  people least likely to vote, and a broken promise now changes some of their
+  ballots.
+
+- **Rent restrictions need their own numeric terms** A private lease keeps its
+  saved rent when a rent restriction has no supported numeric cap. The renewal
+  no longer substitutes a universal inflation cap. Supported numeric terms use
+  the existing registered price consumer.
+
+- **A reversed sentence no longer keeps a person in custody** A recorded
+  appellate reversal ends custody under the sentence it reverses. Affirmed
+  sentences and other active sentences continue to determine custody.
+
+- **Reading a selected press story records what your character learned** Opening
+  a supported press article records what the played character read from that
+  exact publication. Browsing stays informational, and reopening a story
+  preserves its existing knowledge record.
+
+- **Residents remember major events that involve them** People directly involved
+  in job loss, relationship changes, moves, and bereavement notices retain a
+  factual memory of the recorded event.
+
+- **Event memories remain stable when existing saves are loaded** The accepted
+  save bytes now include the two event memories written during the demo replay.
+  Existing saves with an empty memory history still load without adding memories
+  and serialize back byte-for-byte unchanged.
+
+- **Review changed household housing needs monthly** Residents' homes are
+  reconsidered when monthly household pay or membership changes, independently
+  of the quarterly town migration review.
+
+- **Load thrill-seeking trait effect** Register the existing thrill-seeking
+  effect through the generated effect manifest.
+
+- **Press screen copy cleanup** The Press screen no longer displays static
+  helper or explanation copy.
+
+- **Candidate petition signatures can be reviewed by record** The campaign
+  petition review now returns signature counts, shortfall, and stable invalidity
+  reason keys from the dated signing records.
+
+- **Remove faint white fringe from assembled figures** The appearance renderer
+  now removes pale pixels from every composited figure layer when they match the
+  white matte background.
+
+- **Monthly service receipts cover standing programs and enrolled children**
+  Monthly service receipts now include residents served by standing county
+  programs and children enrolled with the paid provider.
+
+- **Rent caps use the law's recorded terms** Rent renewals now use the shared
+  rent law consequence to apply a cap from the adopted law's recorded amount and
+  coverage. A yes answer without those terms does not invent a ceiling.
+
+- **SNAP opening reviews use recorded household income** The opening SNAP review
+  now runs after wages are recorded. A household with no recorded pay and no
+  active job is assessed at zero income, and monthly reviews recalculate income
+  eligibility.
+
+- **Adult family records no longer keep a parent in the childhood household**
+  Generated childhood-home records end the parent's resident status when the
+  player reaches adulthood, allowing the existing mortality model to determine
+  whether older relatives are alive at the game start.
+
+- **Transit screen shows record data without authored helper sentences** Transit
+  screen information now uses recorded dates, amounts, and service values
+  without explanatory sentences. Unavailable states no longer print authored
+  reasons.
+
+- **Council rules resolve consistently on a fresh start** Legislative work now
+  uses one ordered pack lookup. Town councils resolve without import-time
+  registration, and municipal callers share one reader. A small generated
+  projection preserves existing council names and sizes while keeping the full
+  municipal inventory out of cold lookup.
+
+- **The packaged-app check waits for the title's picture** The installed-app
+  check now waits for the title screen's national scene to arrive before judging
+  it, so a slow first moment no longer fails the Mac package build.
+
+- **Speeches, parties, the governor's desk, officials' staff and interest groups
+  now happen in the town around you** Five parts of the town's political life
+  were built but never happened unless you did them yourself. Now they go on
+  around you. Residents who speak up at a council or board meeting are heard by
+  the members and the rest of the room. Candidates' debates and speeches are
+  heard as speeches. People who hear them may change their minds and repeat what
+  they heard at home. Each party meets every month. The leader speaks to whoever
+  shows up, and people who come of age or move to town pick a side. The
+  governor, mayor or president records what they sign or veto. They replace a
+  department head who dies or moves away, and a new governor names a new
+  cabinet. Officials with a seat take on an aide from people they know or from
+  applicants, and the aide briefs them before each vote. Residents who feel
+  strongly about a bill form a group, recruit members and meet the lawmakers who
+  will vote on it.
+
+- **Transit and governing briefings speak their dates** The transit funding and
+  due dates, and the governing briefing's recent entries, now read as spoken
+  dates instead of 2026-08-22 style stored dates.
+
+- **Use recorded opening income-tax schedules** Opening personal income taxes
+  now use recorded 2026 single-filer schedules in Delaware, Missouri, North
+  Dakota, Oklahoma, Massachusetts, New Jersey, and West Virginia. Massachusetts
+  and New Jersey use their recorded base taxpayer exemptions to reduce taxable
+  income. West Virginia uses its lower 2026 rates, legally retroactive to
+  January 1, and one recorded $2,000 taxpayer exemption. Additional
+  eligibility-based deductions and credits remain outside these base schedules.
+
+- **Teacher salary floors read three more existing state laws** Teacher pay
+  reads the existing annual legal minimums in Missouri, Ohio, and New Jersey.
+  The dated amounts preserve earlier legal answers and follow the statutory base
+  salary rather than an average wage or a higher qualified tier.
+
+- **A guarded person's resting expression follows their latest recorded turn** A
+  guarded person's resting face no longer varies by seed. It follows the latest
+  recorded turn when the event has a clear tone; otherwise the face rests
+  neutral.
+
+- **Excitability informs a career choice** A two-person proof shows a recorded
+  excitable tendency can change a career decision while the comparison person's
+  shared context is unchanged. The trait reader is now listed in the personality
+  reader registry.
+
+- **Talk on the People menu opens the conversation** Pressing Talk next to
+  someone on the People menu now closes the menu and opens the conversation.
+  Before, the conversation opened behind the menu and nothing seemed to happen.
+
+- **Taxes keep being withheld, and passed budgets change spending** Paychecks
+  kept only Medicare tax after January 1, 2027, because that year's income tax
+  and Social Security rates were not published yet. Each tax rate, minimum wage
+  and benefit amount now stays in force until a law changes it, so federal
+  income tax, state income tax and Social Security keep coming out of every
+  paycheck. A budget that a council, county board, legislature or Congress
+  passes now changes what that government spends, line by line, and next year's
+  budget starts from those lines. A budget that fails keeps the lines already
+  passed.
+
+- **Terms end on schedule, seats open when an official moves away, and your
+  character votes while you skip** Local terms are now dated from the place's
+  own election calendar. A county or town that votes only in odd or even years
+  holds the election for each seat before its term runs out, the winner takes
+  office on the day the new term starts instead of on Election Day, and the seat
+  comes up again a full term later instead of at the next election on the
+  calendar. An official who moves out of the town or county they serve leaves
+  the seat, and it is filled the way the state's law says, by appointment or a
+  special election; someone who has moved away can't be appointed and doesn't
+  stand for re-election. When you skip past Election Day without marking a
+  ballot, your character goes to vote or stays home for their own reasons, the
+  same as everyone else, and a ballot you mark yourself still counts.
+
+- **The test import check has the same memory as the type check** The check that
+  test files import real modules ran out of memory at Node's default 4 GB and
+  stopped the build. It now asks for 8 GB, as the type check does.
+
+- **Your character turns 18 in play, and a young adult without work looks for
+  it** Your character used to start already 18 and turn 19 within days. You now
+  start as the 17-year-old in town whose 18th birthday comes soonest, so the
+  birthday happens while you play. A young adult who has never had a job now
+  looks for work when the household's money runs short, even when a parent pays
+  their living costs. They apply to every opening worth more to them than
+  waiting, and they can take a job that was last held by someone in the wider
+  town, on that job's usual hours. On the first shift a new hire meets the
+  coworkers already there.
+
+- **The title screen shows the version number again** The title screen shows the
+  game's version number again, in a small label under the menu.
+
+- **The first-choice glow and the evening paper clear** The glow that points out
+  your first choices clears however you use each one, and pressing Day puts the
+  evening paper away. Before, the paper stayed up and the People menu stayed
+  lit.
+
+- **Use shared trait pulls in migration decisions** Migration choices now use
+  the shared trait decision engine instead of inline risk leans.
+
+- **Load the simulation after retiring trait readers** The generated
+  trait-effect index no longer imports retired reader modules. Existing trait
+  decisions continue through the shared act table.
+
+- **Turning eighteen ends a parent's authority wherever the character lives** A
+  character who came of age kept both parents' authority over them forever,
+  because no place had an age of majority on record. All 56 places now carry one
+  from the Defense Department's age-of-majority table: nineteen in Alabama and
+  Nebraska, twenty-one in Mississippi and Puerto Rico, and eighteen elsewhere,
+  with American Samoa and the Northern Mariana Islands estimated at the common
+  age. The authority ends on that birthday, and a guardian is then "the guardian
+  who raised you".
+
+- **The type check no longer runs out of memory** The project type check now
+  asks for 8 GB of heap, as the other heavy scripts do, so it reports type
+  errors instead of crashing.
+
+- **The game builds again after the shared place list grew** The state voting
+  survey covers the fifty states and the District of Columbia. Its export now
+  skips the territories, as the game already does when it reads the survey, so
+  the build no longer stops on Puerto Rico.
+
+- **The President and Vice President on the opening White House screen wear the
+  clothes they have in the Oval Office** The two officials shown on the opening
+  White House picture are now drawn from the same saved look the Oval Office
+  uses, so the clothes match from one screen to the next. When their pose has no
+  drawn art yet, the screen still shows the saved person.
+
+- **Each child's birth has its own journal chapter** A daughter's birth is no
+  longer told under "My son", and the journal no longer ends two entries with
+  the same look-back.
+
+- **The journal no longer titles chapters by school** A school or a job is never
+  a journal chapter or entry; a schoolmate who later holds office is remembered
+  as their own story ("I knew Dawn Chang from Chestnut Hill Elementary School.
+  Dawn Chang became a council member.").
+
+- **The journal frames only childhood events by age** The journal no longer
+  begins an election with "When I was 17," and a name after that opening keeps
+  its capital letter.
+
+- **Businesses pay unemployment and profit taxes, and their books can be read as
+  a record** Employers now pay federal and state unemployment insurance tax on
+  each paycheck, each to its own government, and a business owned by another
+  firm pays tax on each quarter's profit at the federal corporate rate. Taxes an
+  employer can't cover are owed and paid first on later paydays. A business's
+  books (cash, sales, costs, wages, profit, taxes paid and owed, its credit
+  line) are kept as a record a screen can show once the owner decides who may
+  see them.
+
+- **New jobs pay at least the minimum wage, the federal budget moves the
+  economy, and unpaid bills are owed** A new job now pays its role's rate for
+  the region and never less than the minimum wage in force, instead of copying
+  whoever holds the role now. A change in the federal budget pushes the national
+  economy. A household's mortgage balance falls only by what it paid, a buyer's
+  loan is limited by the down payment actually made, and unpaid property tax or
+  sales tax a business couldn't pass on is owed and paid first from the next
+  bill.
+
+- **People move for their own reasons, aides come from nearby, and pay is taxed
+  where the worker lives** Who leaves town is no longer seeded by chance at the
+  start: each adult's pull to move comes from what their home costs against what
+  their household earns, a job in another town, how close they are to family
+  living elsewhere, a death at home, and whether the region's jobs are getting
+  worse than the nation's. Officials now hire aides who live within reach of the
+  office and are of working age, a relative living out of town is no longer
+  taken for someone out of work, and a family tie is kept as one of the hire's
+  reasons. Public pay to someone living outside the town has tax withheld by the
+  law where they live, a local income tax uses the base its law names, and a
+  closed school's voucher eligibility ends the day it closes.
+
+- **Your character is no longer hired without your say; employers offer you the
+  job and you decide** When an employer picks your character for an opening, the
+  game now stops and offers you the job, holding the position for a week while
+  you decide. You can accept or turn it down; an offer you leave unanswered
+  lapses. The game no longer decides for your character whether to look for
+  work, quit or retire. Everyone else takes, leaves and quits jobs as before.
+
+- **When a worker dies or moves away, their employer hires someone into the same
+  job** A worker who dies, moves away, quits or retires now leaves an opening
+  for the same role, and the employer fills it the way it fills any other job. A
+  worker who dies stops drawing pay the next day. An official whose aide dies or
+  leaves the post hires another, and the new aide's record names who they
+  replaced.
+
+### Changed
+
+- **Handoff and audit documents use American spelling** Six archived audit and
+  handoff documents were repaired to American English spelling.
+
+- **An afternoon on the doors meets neighbors as story people** A session on the
+  doors now takes two hours, the shortest real volunteer canvass shift; the game
+  also takes three or four, which the Campaigns screen will offer after its
+  redesign. The neighbors who come to the door are kept as story people: a name,
+  a look, where they were met and what they said, with no household or daily
+  life added to the world. Somebody met a second time is written out in full.
+  Each neighbor raises the problem where their state ranks worst among the
+  states for someone in their circumstances, and decides from it, their party
+  and their own traits whether they take to the candidate. Support moves by how
+  much a candidate's own visit moves a canvassed voter in field research, and
+  recognition is counted against the town's adults rather than only those
+  written out.
+
+- **The DMV office now stages people on the four foreground-right waiting
+  chairs** The DMV office now stages people on the four foreground-right waiting
+  chairs.
+
+- **Use the employer’s recorded kind for workplace rooms** When a work schedule
+  names a shared room with an available backdrop, workplace scenes now use that
+  room before the worker’s occupation mapping.
+
+- **Clean source matte edges in the people pack** The people-pack builder now
+  insets each source layer's alpha silhouette by one pixel and recolors retained
+  light-gray edge pixels from nearby paint on that layer.
+
+- **The barbershop has a sit position at each barber chair** The barbershop
+  scene now has a sit position at each of its three barber chairs.
+
+- **The convention hall audience faces the stage in seated positions** The
+  convention hall audience chairs now have staged sit positions facing the
+  stage.
+
+- **The farmhouse dining table has a sit position at each chair** The farmhouse
+  dining table now has a sit position at each of its six visible chairs.
+
+- **Hospital waiting room seating** The hospital hallway scene now has a sit
+  position for each of its four visible waiting chairs.
+
+- **The police station lobby has a sit position at each waiting bench** The
+  police station lobby now has a sit position at each of its three waiting
+  benches.
+
+- **The suburban house has a seated position at each dining chair** The suburban
+  house scene now has a seated position at each of its four dining chairs.
+
+- **Resolve back and side person views through available artwork** Person
+  recipes accept back and side views and fall back to a complete three-quarter
+  view, then front. A facing direction mirrors the resolved painting and its
+  anchors together. Existing pose, wardrobe availability, and recipe keys remain
+  compatible. Back and side paintings are still awaiting delivery; this change
+  adds view resolution and facing support without importing or approving
+  artwork.
+
+- **Start mortality and goal schedules through the shared clock** Direct
+  minute-clock advances now establish the dated mortality window and weekly goal
+  review for playable worlds, including older saves that did not pass through
+  the presentation opening path. The clock composes the matching handlers with
+  caller-provided transition registries.
+
+- **Ordinary life no longer invents a public meeting** Opening an ordinary life
+  no longer creates an unposted public meeting, travel activity, council agenda
+  item, or meeting-room ordinance. Existing saved meeting records remain
+  readable.
+
+- **Register source domains in the pipeline** The source pipeline now has an
+  auditable import for each retained source domain. The unused FEMA source
+  implementation and its orphaned oracle tests were removed; their committed
+  source records remain available. Domain-focused tests now live outside the
+  production source tree.
+
+- **Modeled law terms use the median of recorded state laws** When a place has
+  no recorded numeric law term, its modeled estimate now uses the median of
+  matching state terms and labels the result as an estimate.
+
+- **Move crisis funding and tax jurisdiction rows into sourced JSON tables**
+  Move crisis funding and tax jurisdiction rows into sourced JSON tables.
+
+- **Record scheduled career tasks** Career tasks scheduled during active work
+  now create a completed work record when the shared clock completes the shift.
+
+- **Petition routines now record asks after field shifts** Completed petition
+  field shifts now ask people in the campaign's recorded jurisdiction or
+  district. The asks use the existing door conversation estimate and skip anyone
+  already asked.
+
+- **Show recorded statements about the player in People** The People workspace
+  reads dated word-of-mouth statements about the player from their own knowledge
+  records. Each entry shows the recorded speaker, position, and date without
+  exposing private beliefs or an opinion total. An official who is among a
+  speaker's actual hearers can now hear that statement. The situation reader
+  supplies present people's saved views as private scene input. Scene dialogue
+  about those statements still needs English-engine wiring.
+
+- **News stories can shape views of officials** Readers now form views of
+  officials when published stories report a recorded vote or public position on
+  a question they already hold a view about. The reader's recorded knowledge
+  confidence and reaction lens determine how strongly the report enters the
+  existing belief formation path.
+
+- **Open bargaining from any measure on the body's agenda** Members can open the
+  bargaining room for a measure on their body's agenda, including a measure
+  filed by another member. The authored Kentucky sitting remains developer
+  fixture content; production bargaining facts come from the selected measure.
+
+- **Adopted riders preserve their sourced single subject rule trail** Adopted
+  floor amendments now retain the cited rule, bill policy domains, added
+  domains, and recorded propositions when the existing policy domain proxy
+  identifies a potential single subject issue. This records no legal finding.
+
+- **Player judges can hold cases for their decision** Cases assigned to the
+  controlled person as a judge remain pending until the player handles the
+  decision or delegates that case type in their saved judicial workflow
+  preference.
+
+- **Record subpoena authority by investigative body** Investigative subpoena
+  authority is now recorded by body kind. Congress has its cited federal
+  baseline, state legislatures and ethics bodies use explicitly labeled peer
+  estimates, and municipal bodies receive the capability only when their
+  compiled government record includes it.
+
+- **Generated schools and employers use the names a place's institutions really
+  carry** School histories and generated town employers take their names from
+  the place's recorded institution catalog instead of one shared naming pattern,
+  so a new life's school and workplaces read as belonging to its town.
+
+- **Staging slot contract** Staged rooms select a dedicated lean pose and slot
+  kind; until lean artwork is available the pack falls back to hand-on-hip
+  rather than treating lean spots as standing. Facing remains viewer/front,
+  left/right/mirrored three-quarter, and away/back. Every staged place has a
+  surface registry entry; unmeasured places carry explicit review requests
+  instead of invented geometry, and measured slots remain linked by ID and kind.
+  Legacy scene anchors remain available to production scene consumers. The
+  contract test reports retained production anchors and the development fixture
+  rooms that still need them, making that migration visible.
+
+- **Names on the ballot follow each place's ballot-order law** The order of
+  names on the ballot now follows the law of the place: alphabetical, a drawn
+  alphabet, a drawing for each race, rotation from precinct to precinct, by
+  party, or the incumbent first. Voters who know nothing else about the
+  candidates lean toward the name listed first on the ballot they hold, so where
+  the law rotates names, those votes split across precincts.
+
+- **Grading batches never repeat a line already asked** The dialogue batch tool
+  skips any line an earlier grading batch already put to the owner, so each new
+  batch asks only about wording that has not been graded.
+
+- **Filed bills on office sheet** The office's live bill list now sits directly
+  on its painted green sheet instead of covering that art with a white panel.
+
+- **Radial menu spacing** Radial menu rings now reserve the actual disc size
+  plus an 8 px gap and fit within the smallest viewport that enables the radial
+  layout.
+
+- **Painted surfaces use approved type roles** Live boards, posters, brochures,
+  plans, papers, room televisions, and newspaper mastheads now use the approved
+  title, control, and narrative type roles.
+
+- **Status notice behavior** Records the current status notice behavior as
+  complete: notices persist and receive separate vertical spacing instead of
+  fading or overlapping. No runtime behavior changes.
+
+- **Council seat labels follow recorded structure** Local government seats use
+  recorded ward, district, or at-large composition when available, with district
+  as the fallback.
+
+- **Starting health conditions follow recorded household income** Starting
+  chronic-condition counts still follow the 2026 health pack's age and sex
+  prevalence. Within each place's age and sex group, conditions are now spread
+  deterministically through people ranked by recorded household income, with
+  unknown incomes kept distinct from zero. Condition-specific income gradients
+  remain explicitly unsourced in the placeholder ledger; no gradient is
+  invented.
+
+- **People give to causes from what they can spare, and groups raise from the
+  whole town** What a person gives to a cause group now depends on how much cash
+  they have beyond what they keep on hand, and how strongly they hold the cause,
+  rather than a day's living costs every time. Givers average about what
+  American households give to causes like these each year. Groups also raise
+  money from the rest of the town, the people the game counts rather than
+  follows, in proportion to how many of the town's followed people belong. A
+  group whose month of spending falls short of the smallest ad an outlet sells
+  saves toward it instead.
+
+- **Estates pay their debts, wait in probate and follow a will** When someone
+  dies, what they owed on their standing payments is paid from their estate
+  first. The estate then waits in probate for about nine months before the heirs
+  take it. A person whose nature and age led them to make a will leaves their
+  money to their family in shares by how close each was; anyone else's passes by
+  the state's order of kin, or to the state. A pension or other income paid to
+  the person stops at their death, so nothing more reaches the estate after it.
+
+- **New games run the world's history from 2000** A new game now runs the
+  world's history from 2000 by default, so the generated world has a consistent
+  past before you start, and household purchases run faster in play.
+
+- **Losing a home costs health** A person in a shelter or sleeping outside now
+  falls seriously ill, and dies, years sooner than they would housed, and
+  staying with relatives costs a little. An eviction raises the risk for two
+  years after it. Each change starts the day the person's housing changes and
+  ends when they are housed again.
+
+- **Losing a home makes people want to work** A person who is evicted or loses
+  their home can now resolve to secure a home again, and that resolve makes them
+  more likely to look for work and apply for jobs. Most people form it; some, by
+  their nature, carry on as they were. The engine that ends an officeholder's
+  town job when their term ends now does it the next morning, so the town no
+  longer stops when a term ends on a day the officeholder worked.
+
+- **Later game years run faster and memory stays smaller** Each game year no
+  longer runs slower than the one before. In a small town the third year takes
+  under three minutes instead of nearly eight, and memory after three years is
+  under half what it was. People offer their cause to one acquaintance at a
+  time, forget the bookkeeping keys of old news and old events once nothing
+  reads them, and the world plays out exactly as before. A new run plays every
+  state and territory for a set number of years and reports each year's time,
+  any crash, and whether money balances, ended jobs stay ended, empty seats are
+  filled and every even year's contests reach the ballot.
+
+- **People move away on their own day, and officeholders stay for their seat**
+  People no longer all decide to move away on the first of the month. Each
+  person weighs leaving on the day their reasons add up to it, or the day after
+  something happens to them: a lost job, an eviction, a death at home or a
+  relative leaving. Holding office is the strongest tie to a town, and an
+  officeholder leaves only when something like that happens. A town in Delaware
+  no longer stops on its first visitor payment, and a paid-off mortgage no
+  longer stops a town whose owner had moved away.
+
+- **Residents weigh recorded sheriff and prosecutor work** Arrests, charges, and
+  jail bookings now schedule residents and their recorded household members to
+  reflect on the responsible county official. The shared belief trace cites the
+  saved act. County office dossiers include recorded work without adding
+  authored descriptions.
+
+- **The day screen says nothing when nothing is happening** The day screen no
+  longer fills a quiet moment with a sentence such as "It's a quiet day. Nothing
+  is happening right now." or "Next: ...". Its Now block appears only when a
+  scene, a meeting or a finished activity is there to describe, and its Next
+  block only when a commitment is on the calendar. The unused sentence that
+  opened the ordinary day, such as "Monday in Hiko, Nevada. Nothing is waiting
+  on you.", is deleted with the code that wrote it. This follows the owner's
+  rule from grading English batch 2: the day screen is a picture of the
+  calendar, and words appear only when something actually happened.
+
+- **Campaigns raise and spend money, and voters have reasons to choose** Every
+  candidate's campaign now raises money from people who would give and spends it
+  on ads, mail, events and polls that reach voters. Candidates answer from their
+  own views and their party's. Every voter decides on one set of reasons, how
+  likely each is to vote slides with what's at stake and their own habit, and
+  filing deadlines, election calendars and tie rules follow each state's law. In
+  a primary, voters who know nothing that separates two candidates of the same
+  party still choose one, so the primary counts the party's voters across the
+  whole race.
+
+- **Everyone the game doesn't name now votes the same way** Townspeople the game
+  doesn't name, and voters in the rest of the county, district, state and
+  country, now all vote from their own circumstances on one engine, and each
+  townsperson's ballot keeps its reasons.
+
+- **Enacted-rule tests follow the one effective-date rule and the full audit
+  check** The enacted rule-change tests now expect the act's own effective date
+  and check forged saves at the full audit boundary.
+
+- **The owner's batch 2 grades are saved for the English engine** Seven grades
+  from English batch 2 and five rules drawn from the owner's notes are saved
+  where the English engine reads grades. Conversation choices must name a
+  subject and answer the last line, leaving is a control rather than a line, the
+  day screen carries no opening sentence, and later batches cover the whole
+  game.
+
+- **The English engine reads the owner's grades** Grades the owner gives a
+  dialogue batch are folded into one part ledger, and the English engine reads
+  it: a part graded BAD or FIX, and never GOOD, is no longer chosen, so the next
+  line comes from another part of the same bank. The ledger starts empty, so no
+  line changes until grades land. The dialogue batch tool now spreads each kind
+  of text across its worlds and combines seeded runs into one numbered batch for
+  grading.
+
+- **Dialogue batch records English engine coverage** The English engine composes
+  recorded local meeting results and minutes for the grading batch.
+
+- **Public notices use recorded civic events** English batch notices now draw
+  their dates, titles, offices, and jurisdictions from recorded hearings,
+  measures, and election contests.
+
+- **Every conversation on the doors counts toward support** Every neighbor a
+  candidate talks with on the doors now moves support by the measured effect of
+  a candidate's own visit. What was said moves that a little: a neighbor who
+  took to the candidate carries a little more of it, one who took against them a
+  little less, and one who only heard the candidate out carries it as measured.
+  The two shares are the range the same field experiment found across its two
+  kinds of message. A cool neighbor no longer takes support away.
+
+- **Executive agenda priority now has a shared law-enforcement target ranking
+  path** Executive agenda priority now has a shared law-enforcement target
+  ranking path. Targets are ranked first, ordinary, then lowest, with their
+  existing order preserved inside each tier.
+
+- **People who seek closeness now weigh committed time together** People with a
+  recorded closeness-seeking tendency give a committed relationship proposal
+  extra weight.
+
+- **Filings go to the office each state names, with a dated deadline** A
+  candidate for a local seat now files with the office the state's election law
+  names: a county board of elections in New York, a town's board of canvassers
+  in Rhode Island, a city auditor in North Dakota, and the town or county clerk
+  elsewhere, read for 33 states. The counter's officer carries that title, and
+  where nobody holds the office yet a resident is seated in it. The filing
+  deadline now reads as a full date before the seat's own election, set by the
+  lead time the state gave candidates before its 2026 primary and marked as an
+  estimate. Rhode Island towns now seat a five-member town council elected in
+  November of even years, so a Hopkinton race no longer falls in April.
+
+- **Members sometimes miss a vote they care little about** A member of a
+  council, a legislature or Congress now decides whether to attend a vote the
+  way people decide whether to go to work: a vote they care about, they never
+  miss; on one they stand near even on, their own day and temperament decide,
+  and a town member whose day leaves no free evening misses the meeting. Roll
+  calls record who was absent.
+
+- **Bills take their body's real form, and a town's council takes up first what
+  its people live with** A bill now carries its own body's number and enacting
+  clause: "LB 12" in Nebraska's legislature, "H.R. 25" or "S. 3" in Congress, a
+  year-numbered ordinance at the town council, opening with the words the
+  state's constitution prescribes. The vote on it records the motion a body
+  really makes: a council adopts an ordinance, a chamber passes a bill. A
+  council's agenda no longer opens with the same question in every town. The
+  presiding member weighs each change by how many members back it and by how
+  many of the town's adults live with what it touches (work, children at home,
+  age), so a town's own people shape what comes up first.
+
+- **A bill's sections show the law they change and keep a tax's shape** A bill
+  now lays out each section as the law it changes: the current value and the
+  statute it comes from, the new value, and the date it takes effect, with the
+  value, date and shape (flat or graduated) as the fields a sponsor can edit. A
+  bill that sets a graduated income tax's new top rate now scales every bracket
+  by the same share, rather than replacing the schedule with one rate; a section
+  marked flat sets one rate for everyone.
+
+- **Members of Congress weigh what a budget line sends their state** When
+  Congress votes a budget, each member now weighs what each line sends their own
+  state per resident against the national average: a state that lives on farm
+  payments or veterans' care pulls its members toward more for that line, one
+  that barely sees a line toward less. Their vote records it as its own reason
+  beside their views, their district, their party and the press.
+
+- **Legislatures send bills to the committee for their subject** A state
+  legislature or Congress now sends each bill to the standing committee for what
+  it does: finance, judiciary, education, health, labor and commerce,
+  transportation, environment, housing or government. Leaders seat members on
+  the committees their own interests run to, so different members hear different
+  bills, under different chairs, instead of one "general" committee hearing
+  everything.
+
+- **A governor's or president's signature, veto and the override vote are on the
+  public record** When a governor, mayor or the President signs or vetoes a
+  bill, it is now a public record the press can report, like the floor's roll
+  call; a veto records how many members of each chamber voted to override it and
+  how many were needed.
+
+- **Members trade their votes for sections of their own, and opponents move
+  poison pills** Before a committee reports a bill and again before the chamber
+  votes, a sponsor short of a majority now works the members nearest even: each
+  asks for a section of their own cause in the bill, and the sponsor adds it
+  where they, and everyone they have already dealt with, still back the bill
+  with it. On a bill headed for passage, the member most against it may move a
+  poison pill, a section of their own cause the bill's backers dislike, if it
+  would pass and leave the bill short; whether they play it that way is their
+  own temperament. Each amendment is a public record the press can take up.
+
+- **A bribe can buy a vote, and a scandal reaches voters through the news** A
+  council member who takes a bribe on a bill now votes with that payment as one
+  of their reasons, on that bill only. If the bribe comes out and someone takes
+  it to the press, the local news carries it, and each voter holds it against
+  the official only once the story has reached them, weighed by how much they
+  trust the press. Officials and candidates hold town halls when a question
+  before them splits the town or their race is coming up, and each town hall
+  records why it was called. Employers organize against any bill that binds
+  their line of business, not only a minimum-wage raise. An official's open
+  constituent cases sit on their desk, soonest deadline first.
+
+- **A town or county measure reads as an ordinance, closing on when it takes
+  effect** A council's or county board's measure now carries the form of an
+  ordinance: numbered by the year, ordained by that body, its sections, and a
+  closing section on when it takes effect (a set number of days after adoption,
+  or the date it names). A state act still takes effect by its state's rule and
+  Congress's on enactment, now worked out in one place for the bill's text and
+  its enactment.
+
+- **Government uses researched figures and the new engine** Committee sizes,
+  veto overrides, turnout, local fiscal years, House terms and the price of a
+  poll now come from research instead of placeholder numbers. Government rules
+  now run on the new engine.
+
+- **Legislatures sit through their sessions instead of passing a year's bills in
+  a day** The state legislature and Congress now convene on their real dates,
+  take bills in through the session's opening weeks in both chambers, and vote
+  them week by week once committee has had them; bills the floor never reaches
+  die at adjournment. A bill you put on a body's calendar goes to its next real
+  sitting: the council's next meeting, or the legislature's next floor week,
+  instead of two weeks out. A recall needs a resident moved enough to organize
+  it, and one organizer brings one petition, against the member they hold most
+  to account, instead of petitions against every member the same day. Where a
+  state allows a recall only for cause, a vote on an ordinance is no ground for
+  one, and no petition starts early in a term or again after one failed.
+
+- **Speeches and lobbying change how council members vote** What a council
+  member hears now changes how they vote. Speeches at public comment, witnesses
+  at a hearing, a lobbyist's visit, a resident's problem brought to their office
+  and a candidate's stated positions each move the listener's view on that
+  question, more when the speaker is someone they trust, are close to, share a
+  party with, or who has voted that way before. Residents leave an interest
+  group when their view turns against it, and nobody belongs to both sides of a
+  question. Grudges and family worries no longer push anyone to run for office,
+  and unemployment benefits now follow each state's own law.
+
+- **A household's money is pay in, rent or mortgage out** A household's money is
+  now simple. Pay comes in, the rent or mortgage is set aside first, and one
+  monthly amount for everyday living goes to the town's stores. Sales tax is
+  still collected on that amount at the town's rates. A household that can't
+  make rent still falls behind and can be evicted under its state's law.
+
+- **The item-veto rule reads a sourced executive from its data row** The
+  District of Columbia mayor's sourced item-veto grant is now recorded on its
+  research row, so the rule names no place.
+
+- **Judges now receive an outlook record when seated, derived only from their
+  recorded...** Judges now receive an outlook record when seated, derived only
+  from their recorded principles and traits. Recorded rights, deference, and
+  precedent axes inform sentencing, pretrial detention, and judicial review;
+  unsupported axes remain unset.
+
+- **Charges retain their source record links** Keep each recorded charge linked
+  to the evidence artifact or published press story that led to it, with a
+  reverse reference from cited press stories. Supported findings now carry their
+  recorded source records into the prosecution referral.
+
+- **Family leave monetary terms retain their sourced calendar year** Existing
+  family-leave starting rows now carry supported employee contribution,
+  covered-wage cap and replacement fields from their official program pages.
+  Optional employee maxima, tiered replacement and unlimited wages are not
+  turned into universal scalar amounts. Earlier categorical answers stay intact;
+  monetary terms are not backdated. Research coverage metadata is separate from
+  legal effective dates and never ends the continuing program or its terms. No
+  leave-duration conversion, separate disability deduction, automatic bargaining
+  raise or new payment mechanism is introduced.
+
+- **Leaving-home decisions use the shared trait engine** Leaving-home decisions
+  now use the shared risk-trait pulls for moving out and staying home instead of
+  adding their own inline trait reasons.
+
+- **The county board member role now lives in a small shared module, so reading
+  council...** The county board member role now lives in a small shared module,
+  so reading council seats no longer loads the full local government seating
+  engine just to compare a role key. The simulation entry point can import
+  without that initialization cycle.
+
+- **Local seats are filed at the clerk's counter, not from the Campaigns list**
+  A seat that a clerk's counter in the world takes, a town or city council, a
+  mayor, a county executive or a county row office, is no longer offered on the
+  Campaigns screen's list of offices: the player books a visit through Places,
+  goes to the counter, and files there. A council filed by numbered seat, such
+  as the District of Columbia's, now names the seat at the counter. The
+  counter's buttons can be pressed again; the corner notes around them had been
+  swallowing every press. The Campaigns screen no longer opens on the "Role:"
+  sentence. State, statewide and federal seats keep their filing on the
+  Campaigns screen until their own counters exist.
+
+- **Travel lists only the places you have a reason to go.** Travel no longer
+  lists every business in town. It lists where you, your household and your
+  family work, your school while someone at home is of school age, places where
+  people you know work, places where you can do something right now, and your
+  town's and county's offices once you are 18. While you hold an office, the
+  state's offices join the list.
+
+- **Attribute saved state income-tax liabilities to their law** State income-tax
+  terms now connect to the existing saved wage-tax attribution path. The
+  consequence row supplies no tax rate, wage base or amount.
+
+- **An inclusionary housing law reaches the person paying its affordable rent**
+  When an inclusionary housing requirement sets a leaseholder's rent below the
+  recorded market rent, the saved law effect now reaches that named person with
+  the monthly difference. The leaseholder's partner can hear about the effect
+  through the existing family exposure path.
+
+- **Medicare drug negotiation reaches older people with estimated savings** When
+  Medicare drug-price negotiation is in force, the monthly health coverage pass
+  records estimated average drug-cost savings for named people age 65 and older.
+  Each exposure links to the law and pass that produced it, and records the CMS
+  and HHS basis used because individual plan enrollment and drug use are not
+  represented.
+
+- **A town uses less memory, and "Generate a town" no longer runs out**
+  "Generate a town" on the bench now builds the same two-level town as "New
+  life", so a month of play no longer runs the bench out of memory. Old news,
+  outcome effects that have stopped, and regional figures from past years are
+  let go as the game runs, so a long game grows more slowly.
+
+- **Candidates no longer gather petition signatures** Filing for office no
+  longer asks for petition signatures, for any seat at any level. A candidate
+  who files is on the ballot the same day, with no doors to walk for signatures
+  first and no filing left waiting when the petition falls short. Recall
+  petitions are unchanged: voters still sign to recall an official.
+
+- **Candidates no longer pay filing fees** Running for office no longer costs a
+  filing fee, for any seat at any level: town, county, state or federal. Whether
+  someone can afford the fee no longer weighs on whether they run, nothing is
+  charged when they file, and places that took petition signatures only in place
+  of the fee no longer ask for them. Places where a petition is the only way
+  onto the ballot still take one.
+
+- **The news screens show stories, not written sentences** The news desk, the
+  public record and the search count show headlines, dates and numbers. Empty
+  states and the report reading cost are left as plain data.
+
+- **The transit screen shows figures and dates, not written sentences** Transit
+  appropriations show their amount, end date, period states, delivered service
+  and public account cash as data. The explanatory paragraphs are gone.
+
+- **Office lines read as labels** Running for office now shows Eligible, Minimum
+  age, Next election, Takes office, Term, Residency and Role as labels with
+  values. A missing minimum age or election date is filled from the state's
+  other offices and marked estimated.
+
+- **Work tab lines read as labels** Job listings show "Applications close:" with
+  the date. An opening you can't apply for reads "Works here", "Already applied"
+  or "Closed". The explanation paragraph on public employment questions is
+  removed.
+
+- **The Guide reads its definitions from one data file** Guide definitions now
+  live in data/research/glossary/terms.json, one recorded source per term, and
+  the Guide reads that file. Underlined words, the term card and the entry view
+  are unchanged, and the entry now shows its source line.
+
+- **Menu reset - Recall shows the state and its rule as a value** Menu reset:
+  Recall shows "{state} · Not allowed" or "Court removal only"; a developer
+  refusal sentence becomes "Enacted text required"; the Guide search field is
+  labeled Search.
+
+- **The measure paper shows the bill and the record, not written sentences** On
+  the floor, the room note, vote lines and amendment results show recorded names
+  and words only. The bill's own text is unchanged.
+
+- **Menu reset - the Press screen shows record data only** Menu reset: the Press
+  screen drops its helper lines and empty-state sentences.
+
+- **Menu reset - Press shows asking price and your money as values, and beat
+  names** Menu reset: an outlet for sale shows Asking price and Your money;
+  reporter rows show beat names; the ground-rules and reporter-list sentences
+  are gone.
+
+- **Menu reset - People uses a record dossier beside the directory** Menu reset:
+  the People directory sits beside the selected person’s record.
+
+- **Menu reset: Money now shows record data only** Menu reset: Money now shows
+  record data only. Empty economic states carry data codes instead of
+  explanatory sentences, and account history rows show the attempted amount,
+  moved amount and recorded status as separate values.
+
+- **Money screen leftovers read as labels** The place's economic figures show
+  "Figures: none" or "Figures held until published:" with a count, in place of
+  sentences. Account history rows read "Attempted:" and "Moved:" with amounts
+  and status.
+
+- **The governing screens show records, not written sentences** The office
+  briefing, the office desk and the budget request now show dates, names and
+  dollar figures from the records. An empty section is left blank instead of
+  explained in a written sentence.
+
+- **Congress and the White House on the office-day engine** A U.S.
+  representative's and the president's day now run on the same office-day engine
+  as local office. The player takes the sitting member or president, and that
+  day's floor vote, a vacant cabinet post, the budget request and the joint
+  address hold them the morning they fall. What the player leaves, the character
+  does.
+
+- **The townspeople are counted by group, and move for reasons** The town's
+  wider population is now one record per group (place, district, household kind,
+  income band, housing, age band and work), read by the same tax, benefit, rent
+  and mortgage rules as the people the player knows, with each group's money on
+  its own account. A law's reach counts both tiers. People move between the town
+  and every other state from causes (after-tax income, prices, jobs, the law in
+  force), and a filled-in household returns to the counts after a long while out
+  of the player's life.
+
+- **Every trait shapes every choice people make** Every person now has a whole
+  personality, and every part of it, low as well as high, shapes their choices:
+  whether to go to work, look for a new job, take an offer, buy a home, borrow,
+  start a business, run for office, retell a speech, offer or take a bribe,
+  blame an official, believe what they're told, have a child, and when to claim
+  retirement.
+
+- **Personality shapes votes, petitions, campaigns and decisions in office**
+  Voters, petitioners, campaign contacts, legislators, executives, staffers and
+  party members now weigh their whole personality, at both ends of every trait,
+  when they decide: whether to vote and for whom, whether to sign or start a
+  recall, whether to open the door, give or volunteer, how a council member
+  votes, whether a mayor signs or vetoes, whether an official helps a
+  constituent, and whether someone accepts a press interview. Turnout and
+  door-knocking stay at real-world levels with personality counted: a person's
+  sense of duty and reliability still weighs beside it, so about two in three
+  named adults vote in a presidential November, a little under half in a midterm
+  and about a quarter in an off-cycle local election, and a canvasser reaches
+  about a quarter to a third of the doors knocked.
+
+- **State opening uses recorded information** The state opening uses larger
+  official figures and removes its authored summary while keeping the recorded
+  government, population, and voting information.
+
+- **Remove the fixed bills label from artwork** Bill artwork now shows only
+  recorded place and bill details.
+
+- **State government, population, and voting records are easier to read** State
+  government, population, and voting records now use higher-contrast text and
+  remain available in a scrollable panel.
+
+- **The campaign own-money line shows an estimate when no money is on record** A
+  candidate the game holds no money record for now sees about how much they
+  would have, an estimate from the typical balance for a family in the middle of
+  the income range, in place of "Own money: not on record". Putting some of it
+  into the campaign opens their account at that estimate and moves the money
+  like any other gift.
+
+- **Supported laws reach recorded payers and legal permissions** Consumer-loan
+  caps limit covered loan interest and record actual servicing savings. Road-use
+  levies use explicit whole-mile declarations through the existing tax
+  assessment and due collector. Corporate payers use company cash, with separate
+  exposure for recorded owners. Authorized local income terms use the same
+  taxable-base path. Leaving public office records the governing lobbying
+  permission, and household income reviews apply an enacted voucher entitlement
+  through existing permission records. Unread source rules and income limits
+  carry marked estimates. Voucher permissions create no enrollment or payment.
+
+- **Personnel work reads the place's rule instead of a state-name branch**
+  Personnel procedures use one jurisdiction table for all 56 places. Unread
+  terms retain a named reference estimate on saved records. Recorded authority,
+  class, tenure and agreement coverage still determine whether an action can
+  proceed. Reviewed economic crosswalks, authored geography identities and
+  amendment thresholds are data rows.
+
+- **Jurisdiction rules read shared JSON tables** The legislative, executive,
+  qualification, ethics, vacancy, court and opening-region readers now load
+  their jurisdiction rows through one browser-safe JSON seam. Existing
+  citations, dates, estimates, unsupported cases and rule values are retained.
+  The qualification exporter writes JSON so regeneration keeps the data outside
+  play code.
+
+- **Empty record views omit placeholder sentences** Observer record views omit
+  empty-state sentences while retaining populated records. New bookkeeping
+  phrases are removed from saved explanations, and crime choices read remembered
+  occurrences from their existing incident records. The wording ratchet locks in
+  lower counts without increasing any allowance.
+
+- **The contact rows and endorsement requests show record data only** A party
+  chapter's contact row and the endorsement requests a former official receives
+  now show what the records hold and control names, with no written sentences. A
+  contact row has the person's name, who they are to you, the day you were last
+  in touch, how you can reach them (a way that is closed now is drawn dashed),
+  and a request waiting on you as its name, day and purpose with Accept,
+  Decline, Another day and Offer. An endorsement request has the candidate's
+  name, the saved request, the people there by name and the recorded replies as
+  its buttons. Raw record numbers no longer appear on screen.
+
+- **The opening's screens show recorded values, not written sentences** The
+  opening's screens now show what the records hold, each value under its label,
+  instead of sentences the screens wrote. The year screen lists the President,
+  each chamber of Congress by party, unemployment and the change in prices over
+  a year. The White House lists each officeholder under their title. The state
+  legislature lists each chamber by party. Your family lists each parent's age
+  and work. The state screen gives the share of citizen adults who voted with
+  its margin, or the national share marked as an estimate. Helper lines, picture
+  captions, a roster note and a paragraph that repeated Congress's own chart are
+  gone.
+
+- **A person's feeling joins their pose choices instead of a roll deciding it**
+  A standing person whose face shows a feeling, such as anger, sadness or
+  surprise, no longer has a roll against a fixed share decide whether they stand
+  the way it reads. The poses a feeling reads in now join the activity's own
+  poses as weighted choices. An open person carries the feeling in their stance
+  more often and a guarded one less, read from their recorded traits.
+
+- **Minnesota and Missouri starting parks laws retain their revenue shares**
+  Minnesota's starting parks law records 14.25% of receipts from its added
+  Legacy sales and use tax. Missouri's records 50% of receipts from its
+  additional parks, soil and water sales and use taxes. Both terms use the
+  existing ratio reader and preserve their source revenue denominators and saved
+  dates.
+
+- **Deaths reach whole families and people move to real destinations** When
+  someone dies, the news now reaches their whole family, and the effects reach
+  the offices they held. People who move away now go to destinations drawn from
+  where real movers go, and the people you meet keep the same names and details
+  every time.
+
+- **Only approved whole figures are drawn** The old layered people models are
+  gone from every scene. Only approved whole figures are drawn; where none fits
+  a spot, such as a seat before the seated art arrives, the person stands on a
+  fitting spot or nobody is drawn there.
+
+- **People can face left or right in more views** People can use side and back
+  views when the pack has their art. Missing side or back art falls back to
+  three-quarter and then front; turned people can face either direction using
+  one painting.
+
+- **Show household cost categories in Personal** Personal now shows the
+  household's category estimates from its recorded household size and place,
+  using the existing Consumer Expenditure table and stable household spread.
+
+- **Epidemic and disaster-handling values are marked as estimates with a
+  source** Before, the rates behind an illness going around a town and how
+  voters react to a disaster response were labeled unresearched. Now they are
+  marked estimates, tied to the CDC flu season and published research on voters
+  and disaster relief.
+
+- **Job market provenance no longer says placeholder** The recorded job market
+  provenance now describes its sourced timing values as estimates.
+
+- **Story moments, schools, unions and election night show fitting pictures** On
+  the game screen, story moments, schools, unions and election night now pick
+  pictures that fit what is happening, and the art check walks every scene.
+
+- **The title menu and the character creator are back as they were** The title
+  has its menu from before: New game, Watch the world, Continue, Saved games,
+  Options, Patch notes and, on the desktop, Quit, with the build version in the
+  corner, over a national scene that changes each visit. New game offers Custom
+  world, Start a life or New world. Start a life asks your gender, name and
+  birthday (each with a Randomize button), then the state and the city or town
+  you are from, then your appearance with a portrait you shape arrow by arrow.
+  Begin builds the world for that person and place.
+
+- **Political attacks need a person's recorded intent** Political unrest can
+  produce a threat, but the threat alone does not cause an attempt. A named
+  person must first form and record their own intent from their strain, means,
+  and exposure to consequences; only that intent can lead to a recorded attempt
+  and outcome.
+
+- **People who know the player can ask them on a date** Recorded relationship
+  interactions can now give a person a reason to invite someone they know on a
+  date. The inviter's choice uses the shared romantic decision evaluator.
+  Requests to the controlled person go through Contacts and wait for that person
+  to answer; NPC requests continue through the same evaluator for both people.
+
+- **The press desk marks a reporter's unagreed terms with a label** When no
+  terms have been agreed with a reporter, the press desk shows a short label in
+  place of a written sentence.
+
+- **The formatting check passes again** Saved source web pages are excluded from
+  the formatting check, and three source files were formatted.
+
+- **Placeholder ledger, transfer seed and assumption map brought up to date**
+  The placeholder ledger, the desktop transfer proof seed and the assumption
+  disposition map now match the current source.
+
+- **The Journal shows your own court case and the laws the place began with**
+  Your Journal now carries your own charge, plea, verdict, sentence, pretrial
+  hold or release, and the suspension of your vote, in the court's recorded
+  words. It also names a law the place began with when that law reached you,
+  using the policy question's own name. Referrals, declined charges and the
+  prosecutor's review stay out, because the court does not tell the defendant
+  about them. A view a friend told you about an official no longer appears in
+  the Journal as a raw record string. A resident's environmental exposure no
+  longer breaks the Journal or the money page; it is left out until a wording
+  bank covers it.
+
+- **News posts a place's public notices and names who and what a public event
+  involves** Around you now posts the notices a place has recorded: a hearing, a
+  local measure or a scheduled election, in the wording of the notice bank. Each
+  public event under Lately also names the organizations it involves, and the
+  people who took part open their records.
+
+- **A person's record shows whom they credit or blame, and who credited or
+  blamed them** Opening somebody in People now lists the officials they told you
+  they credit or blame, and, for an official, the people who told you they
+  credit or blame them. Each row is a name, the position and the date it was
+  told, and a name opens that person's record. Only what you were told appears,
+  never what a person keeps to themselves.
+
+- **Money and property shows your rent, pay, debts and legal permissions** The
+  Money and property page now lists what you are paid and what you pay, each
+  with who it goes to or comes from, the amount, how often, and the last payment
+  with its status and date. Loans show their lender, balance, payment, rate and
+  standing. A permission or prohibition a law put on you shows under the law's
+  own name. A law your place began with now appears in the list of laws that
+  reached your money, and in the town's list, named but with no page to open.
+
+- **A business that closed stays on the town's list, struck through, with the
+  day it closed** The list of businesses in town no longer shows a closed
+  business as if it were still open with nobody working there. It stays on the
+  list with its name struck through and the day it closed.
+
+- **State bills move through sittings and hearings more often** State
+  legislatures now have daily simulated sittings and committee hearings on a
+  two-day interval. These are game scheduling profiles, not claims about actual
+  state chamber calendars.
+
+- **Remove helper copy from the measure paper** The measure paper now shows
+  record values and approved controls without authored helper wording.
+
+- **Show the controlled person in recorded scenes** The controlled person now
+  appears in a scene only when the scene's records identify them as present.
+
+- **Add recorded public replies to dialogue batches** The dialogue batch now
+  includes a repeat greeting from an actual saved conversation, alongside checks
+  for recorded official views and press answers.
+
+- **Record remaining slot contract gaps** Adds an audit that records remaining
+  slot contract gaps without changing runtime behavior or source art.
+
+- **People remember the life events they take part in** People now remember the
+  recorded job losses, partnership changes, and housing events that involve
+  them.
+
+- **Executive office work shares one inbox** The executive briefing now lists
+  governing matters and recorded office work together. Existing instructions,
+  staff reviews and follow-ups retain their canonical actions and saved grounds.
+  Bills already on the governing desk have one decision entry. The separate
+  office-work list has been removed.
+
+- **Record local press readers from outlet coverage and habits** When a local
+  outlet publishes, its represented residents who follow that outlet receive the
+  publication in their saved knowledge.
+
+- **Add a typed seam for recorded misconduct offers** Recorded misconduct can
+  now be handed to a future situation-row consumer with its family label,
+  actors, and people who know the act; this change does not create or display a
+  scene.
+
+- **Ten traits now use shared decision data** Ten per-decision trait readers
+  have been removed after their choices were represented by the shared option
+  and trait tables.
+
+- **Shared trait pulls guide occasion decisions** Invitations to a recorded
+  occasion now use the shared sociability pulls when choosing whether to invite
+  someone.
+
+- **Paid leave laws start with each place's real terms** Paid leave laws now
+  record sourced duration and weekly benefit details for the places whose
+  current statutory terms have been verified.
+
+- **Teacher salary floors start with each place's real minimum** Places that set
+  a statewide minimum salary for teachers now start with that minimum, taken
+  from the statute, so a teacher's pay in those places cannot start below the
+  legal floor.
+
+- **Every game starts on Inauguration Day, January 20, 2025** Every new game now
+  opens on January 20, 2025, in every place, with that day's laws in force, the
+  president and vice president taking office, and the November 2025 and November
+  2026 elections ahead.
+
+- **State legislature wakes are scheduled only where the clock can run them**
+  Advancing time reconciles the state legislature wake queue only when the
+  clock's handlers include the wake, so narrower test clocks no longer meet work
+  they cannot run. Ordinary play is unchanged.
+
+- **State bill intake follows the recorded 2026 session calendar** State
+  legislatures now receive a weekly bill intake while their recorded regular
+  session is open. Jurisdictions without a regular 2026 session do not receive a
+  regular-session intake that year.
+
+- **State legislatures now meet in 2025, 2026 and 2027** Every state
+  legislature, the D.C. Council and the five territories' legislatures follow
+  one calendar of regular sessions for 2025 through 2027. State legislatures now
+  meet in 2025, and Montana, Nevada, North Dakota and Texas, which meet in odd
+  years, hold their sessions in 2025 and 2027 and skip 2026.
+
+- **A friend's request to meet no longer claims you have been apart without a
+  record of it** When someone you know asks to meet, their first line says "It's
+  been a long time" only when the record shows the two of you have been apart.
+  Behind it, the story director's scenes can now run on the conversation engine:
+  the records cast every role, the other person answers through their own
+  decision, and what each says changes how the two stand. Those scenes appear
+  once the English engine has lines for them.
+
+- **Calendar date controls expose dates without sentences** Date controls expose
+  the date alone. The current-day marker stays in `aria-current`, and the
+  entry-count sentence is removed.
+
+- **People screens no longer print fixed help lines or hidden labels** Removed
+  fixed explanatory copy from public employment, the relationship web, the
+  empty-memory state, and room people labels.
+
+- **Fewer fixed explanation lines in the menus** The time buttons, the
+  return-to-title section and the places screen no longer carry fixed
+  explanation sentences, and the navigation button is named by who, when and
+  where only.
+
+- **The substance use share test reads the sliding age curve** The test for the
+  substance use disorder record now compares a 40-year-old cohort with the
+  smooth age curve the condition pack reads, not a flat older band.
+
+- **Argumentative temperament is proven to change what two people choose** Two
+  people in a generated game, alike in every other recorded temperament reason,
+  make the same choice about a date, a clemency petition and a press answer. The
+  one with a high argumentative temperament declines, denies or disputes, and
+  the other does not, with the reason traced to the trait.
+
+- **Calm: a two-person proof that it changes whether a worker quits** A calm
+  worker stays on the job where another person with the same strain and the same
+  other reasons quits. Proven across two people in a generated game.
+
+- **Fair-minded temperament is proven to change what two people choose** Two
+  people in a generated game, alike in every other recorded temperament reason,
+  make the same choice about a clemency petition, whether to quit a job and a
+  request for campaign support. The one with a high fair-minded temperament
+  denies clemency, keeps working or holds off, and the other does not, with the
+  reason traced to the trait.
+
+- **Fickle temperament is proven to change what two people choose** Two people
+  in a generated game, alike in every other recorded temperament reason, make
+  the same choice about quitting a job, a clemency petition and whether to serve
+  another term. The one with a high fickle temperament quits, grants clemency or
+  steps down, and the other does not, with the reason traced to the trait.
+
+- **Hostile temperament is proven to change what two people choose** Two people
+  in a generated game, alike in every other recorded temperament reason, make
+  the same choice about a date, a clemency petition and a press answer. The one
+  with a high hostile temperament declines, denies or disputes, and the other
+  does not, with the reason traced to the trait.
+
+- **Generosity is proven to change what two people choose** Two people in a
+  generated game, alike in every other recorded temperament reason, make the
+  same choice about a donation, a clemency petition and a request for campaign
+  support. The one with a high philanthropic temperament donates, grants
+  clemency and grants the request, and the other does not, with the reason
+  traced to the trait.
+
+- **Pride is proven to change what two people choose** Two people in a generated
+  game, alike in every other recorded temperament reason, make the same choice
+  about a date, a sentence and a press answer. The one with a high pride
+  temperament accepts, favors community supervision or disputes the account, and
+  the other does not, with the reason traced to the trait.
+
+- **Thrill seeking is proven to change what two people choose** Two people in a
+  generated game, alike in every other recorded temperament reason, make the
+  same choice about a date, quitting a job and seeking another term. The one
+  with a high thrill-seeking temperament accepts, quits and seeks the term, and
+  the other does not, with the reason traced to the trait.
+
+- **Self-confidence is proven to change what two people choose** Two people in a
+  generated game, alike in every other recorded temperament reason, make the
+  same choice about a date, seeking another term and a business approach. The
+  self-confident one accepts, seeks the term and makes the deal, and the other
+  does not, with the reason traced to the trait.
+
+- **The second-tax-version test fixture has the governor sign it** The shared
+  tax-policy test fixture now carries its second tax version through the
+  governor's decision, as it already did for the first.
+
+- **Prepare mileage budget attribution** Prepare attribution for the existing
+  modeled mileage-charge budget component. The shared law contract supersedes
+  the preserved monthly caller patch; no new production revenue, driver
+  assessment or ride is created by this checkpoint.
+
+- **Label live complaint, story and service decisions** Labels the options used
+  by live rival complaints, story assignments, and public-service requests in
+  the shared trait act table. Test-only fixture decisions remain outside the
+  table per the trait-system spec.
+
+- **Campaign helper requests use shared trait decisions** Campaign helper
+  requests now use the shared trait decision tables instead of per-decision
+  trait explanations.
+
+- **Use shared trait pulls when checking a contradiction** Reporter follow-up
+  choices now use the shared decision and trait tables instead of a separate
+  inline personality explanation. The available confirm and decline choices stay
+  the same.
+
+- **Local election decisions use shared trait data** Local election decisions
+  now use shared trait data instead of inline trait explanations.
+
+- **Use shared trait pulls for party meeting invitations** Party chapter
+  organizers still choose whether to invite someone to a meeting, with their
+  recorded sociability shaping the choice through the shared trait tables
+  instead of a separate inline explanation.
+
+- **Study plan choices use shared trait data** Peer study-plan decisions now use
+  the shared trait action tables. Compromise answers and other answers keep
+  their distinct deliberation and conflict pulls.
+
+- **Hot-headed trait proof follows the shared act table** The hot-headed trait's
+  seeded press-response proof now reads the shared act table instead of a
+  per-decision effect.
+
+- **Campaign, personnel, couple-stage, and rate decisions now use recorded act
+  labels, so...** Campaign, personnel, couple-stage, and rate decisions now use
+  recorded act labels, so the shared trait system can consider their listed
+  choices.
+
+- **Press reactions, public-service requests, and source decisions now use
+  recorded act...** Press reactions, public-service requests, and source
+  decisions now use recorded act labels through the shared trait system.
+
+- **Favor choices use the shared trait system** Favor requests and telling
+  others about a refusal now draw on the shared trait data when people decide
+  what to do.
+
+- **Goal decisions use shared trait reasons** Job-offer and weekly-goal
+  decisions now use the shared trait action table for their trait
+  considerations.
+
+- **Use shared trait pulls for self-starter nomination choices** Self-starter
+  nomination choices now use the shared trait act table instead of inline trait
+  explanations.
+
+- **Use shared trait pulls for study collaboration** Study collaboration choices
+  now rely on the shared trait act table instead of inline trait explanations.
+
+- **Every trait matters at both ends** All 98 traits now have a researched low
+  side, so a person very low in a trait acts differently from an average person,
+  and one trait lean per person feeds every decision.
+
+- **Personality now shapes more of what people decide** People's traits now pull
+  on their choices in more places, such as whether a job seeker accepts an
+  offer, so different personalities act differently in the same town.
+
+- **Personality now shapes what people do as much as needs and goals** People's
+  traits now weigh as much as their needs, goals and drives when they choose, so
+  neighbors with different personalities spend their days, run for office and
+  start businesses differently.
+
+- **Government treasuries pay out their adopted budgets** Each month every
+  federal, state, county and town treasury pays each line of its adopted budget:
+  its staff, benefits a law pays, aid to the governments below it and the town's
+  businesses that do its work first, the rest to the world outside the town. A
+  cut to the federal Social Security line lowers the next check of a retiree who
+  claimed during play. Counted workers now have taxes withheld, a staffer is
+  hired only when the budget line has room, and poll costs are filed as polls.
+
+- **Two dissenting party members can choose a split** When repeated recorded
+  body decisions go against a member's firm view and one other member shares it,
+  both can choose to leave together. The recorded initiative keeps the disputed
+  votes and lets other members refuse.
+
+- **The whole game screen wears the approved look** Every screen of the game now
+  uses the approved dark-glass and brass look: the title, the player card with
+  the date and time, the menus, the conversation box with the scales, the
+  dossier, the calendar, election night and the filing office. The old boxed
+  buttons and tab strips are gone, and developer controls sit behind one small
+  ring.
+
+- **People's temperaments now differ by how they were raised** People whose
+  earlier life is summarized had no recorded schooling or care, so everyone
+  started with the same sociability, conflict and risk and the same opening
+  goal. Their upbringing now reads the household records (siblings,
+  congregation, household pay, caregivers per child, school-year moves and a
+  parent's death), so a lonelier or more strained childhood leans differently
+  from a crowded, secure one. When childhood sibling counts or pay are not
+  recorded, labeled estimates use national Census distributions with stable
+  per-person variation.
+
+- **Voters everywhere are simulated, so campaigns, candidates and conditions win
+  and lose votes** Every race for Congress, the Senate, governor, the state
+  legislature and president is now counted county by county. Each county's
+  voters are split into strong partisans, weak partisans, leaners and
+  independents in the mix that matches how it really voted in 2024. Party still
+  counts most, but not for everyone: a scandal, an experienced or unknown
+  candidate, how much a campaign spends, the economy since you started, a
+  midterm year and changes to the voting laws now move votes, mostly among weak
+  partisans and independents. Races in other places run the same way. Each race
+  keeps its votes by county and group, along with each candidate's reasons.
+
+- **Conversations offer four replies and a way to say nothing** Every turn of a
+  conversation offers four replies, ordered by how outgoing your character is,
+  and a smaller "Say nothing" button lets the other person carry on.
+
+- **Conversations, the journal and scenes use real American speech**
+  Conversations, the journal, scenes, the filing clerk and people bringing up
+  news now speak in sentences real Americans said, and the lie scales turn every
+  answer into a believable false one.
+
+- **Businesses carry names Americans would recognize** A town's shops and firms
+  are named the way their real counterparts are: a local family's market, a
+  county machine works, the town's diner. No business is called a general store
+  anymore. A new business takes the first name of its kind that no other
+  business in town has, and a business that opens another location keeps its
+  name, so chains grow from local names.
+
+- **The town's household earnings, home prices, rent burden and evictions are
+  kept month by month** Each month the town's record now keeps what its typical
+  household earns, what its typical home is worth, how much of a year's earnings
+  the typical rent takes, and how many eviction orders were issued the month
+  before. The wider effects of a place's conditions read these figures as they
+  change.
 
 ## PRE-ALPHA 0.5.0
 
@@ -7644,7 +10597,7 @@ _Released October 7, 2026._
 
 - **Governing follow-ups report recorded actions and delivery** Governing work
   counts as completed only when its completion cites the matter's saved
-  decision. Cancelled or lapsed work does not qualify. Budget and agency
+  decision. Canceled or lapsed work does not qualify. Budget and agency
   follow-ups now require a linked enacted appropriation or saved delivery
   outturn; party, staff skill, a spending decision, and a payment alone do not
   create results.
@@ -10986,7 +13939,8 @@ _Released October 7, 2026._
   says where you are going, such as "Go to the public meeting", instead of "Make
   the journey", and other activities say "Start now". Trips on the calendar read
   "Trip to the public meeting". The game's wording check now catches British
-  spellings and words (favour, neighbour, whilst, fortnight, queue, programme
+  spellings and words (`favour`, `neighbour`, `whilst`, `fortnight`, `queue`,
+  `programme`
   and others) and stiff phrases (make the journey, proceed to, commence), so new
   ones can't come back.
 

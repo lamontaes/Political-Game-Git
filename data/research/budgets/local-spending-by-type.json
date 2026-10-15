@@ -1,0 +1,5054 @@
+{
+  "id": "local-spending-by-type",
+  "about": "Share of local government direct expenditure (current operations + construction/land/equipment + interest, 2022 fiscal year) by game spending function, split across the five types of local government. Computed from the Census Bureau 2022 Annual Survey of State and Local Government Finances state-by-type estimates file (22statetypepu.txt), cross-checked against the Individual Unit File (national totals match to within 0.1 percent). Census item codes were mapped to game functions: schools = E12/F12/E21/F21; higherEducation = E16/F16/E18/F18; welfareAndMedicaid = E77/F77/E79/F79/E85/F85; healthAndHospitals = E32/F32/E36/F36; highways = E44/F44/E45/F45; police = E62/F62; fire = E24/F24; corrections = E04/F04/E05/F05; parks = E61/F61; housing = E50/F50; naturalResources = E59/F59; administration = E23/F23 (financial), E25/F25 (judicial and legal), E29/F29 (central staff), E31/F31 (public buildings); interest = I89 (general debt); otherPrograms = everything else (airports, miscellaneous commercial, libraries, parking, protective inspection, sewerage, solid waste, ports, other general NEC, liquor stores, water/electric/gas/transit utilities including their interest, scholarships, employment security). Shares are of direct expenditure only, not intergovernmental transfers (M/Q codes). Census 'city' is the game's municipal; 'independent school district' covers school districts. No number came from memory. Limits: dependent school systems (common in New England, Virginia, Maryland and elsewhere) are reported under the parent county, municipality or township, so schoolDistrict understates schools there and the state rows show it. Special-district and school-district shares in states with no such units are 0. District of Columbia is a single consolidated government counted by Census as municipal. Territories (Puerto Rico, Guam, USVI, American Samoa, Northern Marianas) are not in the Census Annual Survey of State and Local Government Finances, so they have no state rows; use the national block as an estimate for them. A state omits a function when its local governments reported no spending on it (for example, higherEducation in states with no local colleges); use the national block as the fallback only if a game needs a value.",
+  "estimated": {
+    "territories": "Puerto Rico, Guam, USVI, American Samoa and Northern Marianas are absent from the Census file; use the national block as an estimate (source: derived from the 50-state-plus-DC totals, spread is the state-to-state variation in the states block)."
+  },
+  "sources": [
+    {
+      "id": "cog-2022-state-type",
+      "title": "2022 Annual Survey of State and Local Government Finances, state by level of estimate (22statetypepu.txt, in 2022_Individual_Unit_File.zip)",
+      "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/2022_Individual_Unit_File.zip",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "cog-2022-doc",
+      "title": "2022 S&L Public Use Files Technical Documentation (record layouts, item codes, level codes)",
+      "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/2022_Individual_Unit_File.zip",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "cog-classification",
+      "title": "Census Bureau Government Finance and Employment Classification Manual (2006)",
+      "url": "https://www2.census.gov/govs/pubs/classification/2006_classification_manual.pdf",
+      "retrieved": "2026-10-13"
+    }
+  ],
+  "national": {
+    "administration": {
+      "county": 0.4169,
+      "municipal": 0.54,
+      "township": 0.0431,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.0
+    },
+    "corrections": {
+      "county": 0.8595,
+      "municipal": 0.1249,
+      "township": 0.0,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.0156
+    },
+    "fire": {
+      "county": 0.1688,
+      "municipal": 0.614,
+      "township": 0.0541,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.1631
+    },
+    "healthAndHospitals": {
+      "county": 0.497,
+      "municipal": 0.1824,
+      "township": 0.0029,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.3177
+    },
+    "higherEducation": {
+      "county": 0.1432,
+      "municipal": 0.0358,
+      "township": 0.0,
+      "schoolDistrict": 0.821,
+      "specialDistrict": 0.0
+    },
+    "highways": {
+      "county": 0.3521,
+      "municipal": 0.4939,
+      "township": 0.0888,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.0652
+    },
+    "housing": {
+      "county": 0.1193,
+      "municipal": 0.4182,
+      "township": 0.0041,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.4584
+    },
+    "interest": {
+      "county": 0.1657,
+      "municipal": 0.3531,
+      "township": 0.0187,
+      "schoolDistrict": 0.2951,
+      "specialDistrict": 0.1674
+    },
+    "naturalResources": {
+      "county": 0.3648,
+      "municipal": 0.2092,
+      "township": 0.0101,
+      "schoolDistrict": 0.0001,
+      "specialDistrict": 0.4158
+    },
+    "otherPrograms": {
+      "county": 0.1599,
+      "municipal": 0.5172,
+      "township": 0.0377,
+      "schoolDistrict": 0.0103,
+      "specialDistrict": 0.2749
+    },
+    "parks": {
+      "county": 0.2092,
+      "municipal": 0.6264,
+      "township": 0.0392,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.1252
+    },
+    "police": {
+      "county": 0.3298,
+      "municipal": 0.6236,
+      "township": 0.0458,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.0008
+    },
+    "schools": {
+      "county": 0.0792,
+      "municipal": 0.0919,
+      "township": 0.0219,
+      "schoolDistrict": 0.7971,
+      "specialDistrict": 0.0099
+    },
+    "welfareAndMedicaid": {
+      "county": 0.689,
+      "municipal": 0.2847,
+      "township": 0.0044,
+      "schoolDistrict": 0.0,
+      "specialDistrict": 0.0219
+    }
+  },
+  "states": {
+    "US-AK": {
+      "administration": {
+        "county": 0.4744,
+        "municipal": 0.5256,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.1761,
+        "municipal": 0.8239,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.3735,
+        "municipal": 0.6265,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.522,
+        "municipal": 0.478,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "higherEducation": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.3287,
+        "municipal": 0.6713,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0682,
+        "municipal": 0.1779,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7539
+      },
+      "interest": {
+        "county": 0.3934,
+        "municipal": 0.5565,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0501
+      },
+      "naturalResources": {
+        "county": 0.8102,
+        "municipal": 0.1898,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "otherPrograms": {
+        "county": 0.3368,
+        "municipal": 0.6485,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0147
+      },
+      "parks": {
+        "county": 0.2447,
+        "municipal": 0.7553,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "police": {
+        "county": 0.0788,
+        "municipal": 0.9212,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.5039,
+        "municipal": 0.4961,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.5842,
+        "municipal": 0.4158,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-AL": {
+      "administration": {
+        "county": 0.4508,
+        "municipal": 0.5492,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.8471,
+        "municipal": 0.1529,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0453,
+        "municipal": 0.9475,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0072
+      },
+      "healthAndHospitals": {
+        "county": 0.0299,
+        "municipal": 0.0119,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.9582
+      },
+      "highways": {
+        "county": 0.5215,
+        "municipal": 0.4785,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.014,
+        "municipal": 0.0842,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.9018
+      },
+      "interest": {
+        "county": 0.228,
+        "municipal": 0.3765,
+        "township": 0.0,
+        "schoolDistrict": 0.291,
+        "specialDistrict": 0.1045
+      },
+      "naturalResources": {
+        "county": 0.0323,
+        "municipal": 0.3058,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6619
+      },
+      "otherPrograms": {
+        "county": 0.0899,
+        "municipal": 0.7368,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1733
+      },
+      "parks": {
+        "county": 0.107,
+        "municipal": 0.8787,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0143
+      },
+      "police": {
+        "county": 0.3137,
+        "municipal": 0.6863,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.6084,
+        "municipal": 0.0862,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3054
+      }
+    },
+    "US-AR": {
+      "administration": {
+        "county": 0.5046,
+        "municipal": 0.4954,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9732,
+        "municipal": 0.0268,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0435,
+        "municipal": 0.9188,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0377
+      },
+      "healthAndHospitals": {
+        "county": 0.5363,
+        "municipal": 0.4637,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.4599,
+        "municipal": 0.5392,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0009
+      },
+      "housing": {
+        "county": 0.1681,
+        "municipal": 0.0748,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7571
+      },
+      "interest": {
+        "county": 0.0382,
+        "municipal": 0.3234,
+        "township": 0.0,
+        "schoolDistrict": 0.5901,
+        "specialDistrict": 0.0483
+      },
+      "naturalResources": {
+        "county": 0.037,
+        "municipal": 0.1131,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8499
+      },
+      "otherPrograms": {
+        "county": 0.0889,
+        "municipal": 0.7719,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1392
+      },
+      "parks": {
+        "county": 0.0142,
+        "municipal": 0.9531,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0327
+      },
+      "police": {
+        "county": 0.2884,
+        "municipal": 0.7116,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9203,
+        "municipal": 0.0797,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-AZ": {
+      "administration": {
+        "county": 0.5279,
+        "municipal": 0.4721,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9583,
+        "municipal": 0.0417,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0064,
+        "municipal": 0.6644,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3292
+      },
+      "healthAndHospitals": {
+        "county": 0.288,
+        "municipal": 0.0141,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6979
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.4023,
+        "municipal": 0.5976,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "housing": {
+        "county": 0.1247,
+        "municipal": 0.8753,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.0913,
+        "municipal": 0.5553,
+        "township": 0.0,
+        "schoolDistrict": 0.3039,
+        "specialDistrict": 0.0495
+      },
+      "naturalResources": {
+        "county": 0.455,
+        "municipal": 0.0184,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5266
+      },
+      "otherPrograms": {
+        "county": 0.1039,
+        "municipal": 0.483,
+        "township": 0.0,
+        "schoolDistrict": 0.0167,
+        "specialDistrict": 0.3964
+      },
+      "parks": {
+        "county": 0.1106,
+        "municipal": 0.8894,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "police": {
+        "county": 0.1459,
+        "municipal": 0.8541,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0039,
+        "municipal": 0.003,
+        "township": 0.0,
+        "schoolDistrict": 0.9931,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.7427,
+        "municipal": 0.2573,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-CA": {
+      "administration": {
+        "county": 0.4487,
+        "municipal": 0.5513,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9589,
+        "municipal": 0.0411,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.252,
+        "municipal": 0.5518,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1962
+      },
+      "healthAndHospitals": {
+        "county": 0.6318,
+        "municipal": 0.1111,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2571
+      },
+      "higherEducation": {
+        "county": 0.0008,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9992,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.2291,
+        "municipal": 0.6353,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1356
+      },
+      "housing": {
+        "county": 0.0871,
+        "municipal": 0.4429,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.47
+      },
+      "interest": {
+        "county": 0.1309,
+        "municipal": 0.2621,
+        "township": 0.0,
+        "schoolDistrict": 0.3964,
+        "specialDistrict": 0.2106
+      },
+      "naturalResources": {
+        "county": 0.5604,
+        "municipal": 0.1366,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.303
+      },
+      "otherPrograms": {
+        "county": 0.1059,
+        "municipal": 0.4169,
+        "township": 0.0,
+        "schoolDistrict": 0.0184,
+        "specialDistrict": 0.4588
+      },
+      "parks": {
+        "county": 0.1609,
+        "municipal": 0.7317,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1074
+      },
+      "police": {
+        "county": 0.3408,
+        "municipal": 0.6577,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0015
+      },
+      "schools": {
+        "county": 0.045,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.8978,
+        "specialDistrict": 0.0572
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9262,
+        "municipal": 0.0692,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0046
+      }
+    },
+    "US-CO": {
+      "administration": {
+        "county": 0.3713,
+        "municipal": 0.6287,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.6846,
+        "municipal": 0.3154,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0013,
+        "municipal": 0.3926,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6061
+      },
+      "healthAndHospitals": {
+        "county": 0.1767,
+        "municipal": 0.055,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7683
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.313,
+        "municipal": 0.5722,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1148
+      },
+      "housing": {
+        "county": 0.048,
+        "municipal": 0.4193,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5327
+      },
+      "interest": {
+        "county": 0.0228,
+        "municipal": 0.2555,
+        "township": 0.0,
+        "schoolDistrict": 0.3399,
+        "specialDistrict": 0.3818
+      },
+      "naturalResources": {
+        "county": 0.1315,
+        "municipal": 0.157,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7115
+      },
+      "otherPrograms": {
+        "county": 0.0716,
+        "municipal": 0.5661,
+        "township": 0.0,
+        "schoolDistrict": 0.0015,
+        "specialDistrict": 0.3608
+      },
+      "parks": {
+        "county": 0.1184,
+        "municipal": 0.6607,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2209
+      },
+      "police": {
+        "county": 0.3419,
+        "municipal": 0.6558,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0023
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0001,
+        "township": 0.0,
+        "schoolDistrict": 0.9999,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.8183,
+        "municipal": 0.1776,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0041
+      }
+    },
+    "US-CT": {
+      "administration": {
+        "county": 0.0,
+        "municipal": 0.3827,
+        "township": 0.6173,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0,
+        "municipal": 0.5004,
+        "township": 0.3923,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1073
+      },
+      "healthAndHospitals": {
+        "county": 0.0,
+        "municipal": 0.4874,
+        "township": 0.512,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0006
+      },
+      "highways": {
+        "county": 0.0,
+        "municipal": 0.2908,
+        "township": 0.7015,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0077
+      },
+      "housing": {
+        "county": 0.0,
+        "municipal": 0.1494,
+        "township": 0.026,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8246
+      },
+      "interest": {
+        "county": 0.0,
+        "municipal": 0.508,
+        "township": 0.435,
+        "schoolDistrict": 0.0144,
+        "specialDistrict": 0.0426
+      },
+      "naturalResources": {
+        "county": 0.0,
+        "municipal": 0.1348,
+        "township": 0.8391,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0261
+      },
+      "otherPrograms": {
+        "county": 0.0,
+        "municipal": 0.357,
+        "township": 0.5197,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1233
+      },
+      "parks": {
+        "county": 0.0,
+        "municipal": 0.3327,
+        "township": 0.6506,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0167
+      },
+      "police": {
+        "county": 0.0,
+        "municipal": 0.4778,
+        "township": 0.5187,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0035
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.3427,
+        "township": 0.5713,
+        "schoolDistrict": 0.086,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.0,
+        "municipal": 0.1897,
+        "township": 0.8103,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-DC": {
+      "administration": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "naturalResources": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "otherPrograms": {
+        "county": 0.0,
+        "municipal": 0.517,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.483
+      },
+      "parks": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "police": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-DE": {
+      "administration": {
+        "county": 0.4666,
+        "municipal": 0.5334,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.2275,
+        "municipal": 0.7725,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.9928,
+        "municipal": 0.0072,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.0515,
+        "municipal": 0.2297,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7188
+      },
+      "housing": {
+        "county": 0.0515,
+        "municipal": 0.0334,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.9151
+      },
+      "interest": {
+        "county": 0.3974,
+        "municipal": 0.1395,
+        "township": 0.0,
+        "schoolDistrict": 0.2231,
+        "specialDistrict": 0.24
+      },
+      "naturalResources": {
+        "county": 0.549,
+        "municipal": 0.3566,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0944
+      },
+      "otherPrograms": {
+        "county": 0.3119,
+        "municipal": 0.4851,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.203
+      },
+      "parks": {
+        "county": 0.4641,
+        "municipal": 0.5327,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0032
+      },
+      "police": {
+        "county": 0.363,
+        "municipal": 0.637,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.7973,
+        "municipal": 0.2027,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-FL": {
+      "administration": {
+        "county": 0.4145,
+        "municipal": 0.5855,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9985,
+        "municipal": 0.0015,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.4344,
+        "municipal": 0.4585,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1071
+      },
+      "healthAndHospitals": {
+        "county": 0.2887,
+        "municipal": 0.0335,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6778
+      },
+      "higherEducation": {
+        "county": 0.0044,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9956,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.6676,
+        "municipal": 0.3207,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0117
+      },
+      "housing": {
+        "county": 0.3181,
+        "municipal": 0.1301,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5518
+      },
+      "interest": {
+        "county": 0.3335,
+        "municipal": 0.1781,
+        "township": 0.0,
+        "schoolDistrict": 0.1935,
+        "specialDistrict": 0.2949
+      },
+      "naturalResources": {
+        "county": 0.1501,
+        "municipal": 0.2938,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5561
+      },
+      "otherPrograms": {
+        "county": 0.4206,
+        "municipal": 0.394,
+        "township": 0.0,
+        "schoolDistrict": 0.0202,
+        "specialDistrict": 0.1652
+      },
+      "parks": {
+        "county": 0.3608,
+        "municipal": 0.5682,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.071
+      },
+      "police": {
+        "county": 0.5464,
+        "municipal": 0.4535,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0019,
+        "township": 0.0,
+        "schoolDistrict": 0.9979,
+        "specialDistrict": 0.0002
+      },
+      "welfareAndMedicaid": {
+        "county": 0.7119,
+        "municipal": 0.0245,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2636
+      }
+    },
+    "US-GA": {
+      "administration": {
+        "county": 0.6282,
+        "municipal": 0.3718,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.8823,
+        "municipal": 0.1177,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.5459,
+        "municipal": 0.4541,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.0836,
+        "municipal": 0.0079,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.9085
+      },
+      "highways": {
+        "county": 0.5056,
+        "municipal": 0.4934,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.001
+      },
+      "housing": {
+        "county": 0.0522,
+        "municipal": 0.0714,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8764
+      },
+      "interest": {
+        "county": 0.2503,
+        "municipal": 0.3766,
+        "township": 0.0,
+        "schoolDistrict": 0.2326,
+        "specialDistrict": 0.1405
+      },
+      "naturalResources": {
+        "county": 0.5507,
+        "municipal": 0.0878,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3615
+      },
+      "otherPrograms": {
+        "county": 0.2674,
+        "municipal": 0.4339,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2987
+      },
+      "parks": {
+        "county": 0.3981,
+        "municipal": 0.5914,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0105
+      },
+      "police": {
+        "county": 0.5154,
+        "municipal": 0.4845,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.4055,
+        "municipal": 0.3467,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2478
+      }
+    },
+    "US-HI": {
+      "administration": {
+        "county": 0.3855,
+        "municipal": 0.6145,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.5041,
+        "municipal": 0.4959,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.2116,
+        "municipal": 0.786,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0024
+      },
+      "highways": {
+        "county": 0.6009,
+        "municipal": 0.3991,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.5369,
+        "municipal": 0.4631,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.1171,
+        "municipal": 0.8776,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0053
+      },
+      "naturalResources": {
+        "county": 0.4085,
+        "municipal": 0.1962,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3953
+      },
+      "otherPrograms": {
+        "county": 0.2098,
+        "municipal": 0.7464,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0438
+      },
+      "parks": {
+        "county": 0.3595,
+        "municipal": 0.6405,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "police": {
+        "county": 0.3706,
+        "municipal": 0.6294,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.7801,
+        "municipal": 0.2199,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-IA": {
+      "administration": {
+        "county": 0.6816,
+        "municipal": 0.3184,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9962,
+        "municipal": 0.0038,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0038,
+        "municipal": 0.9829,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0133
+      },
+      "healthAndHospitals": {
+        "county": 0.7051,
+        "municipal": 0.2948,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.4958,
+        "municipal": 0.5042,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.3851,
+        "municipal": 0.4541,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1608
+      },
+      "interest": {
+        "county": 0.0971,
+        "municipal": 0.4682,
+        "township": 0.0,
+        "schoolDistrict": 0.3316,
+        "specialDistrict": 0.1031
+      },
+      "naturalResources": {
+        "county": 0.7961,
+        "municipal": 0.0545,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1494
+      },
+      "otherPrograms": {
+        "county": 0.0775,
+        "municipal": 0.8107,
+        "township": 0.0,
+        "schoolDistrict": 0.0253,
+        "specialDistrict": 0.0865
+      },
+      "parks": {
+        "county": 0.2463,
+        "municipal": 0.7536,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "police": {
+        "county": 0.3282,
+        "municipal": 0.6677,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0041
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.851,
+        "municipal": 0.149,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-ID": {
+      "administration": {
+        "county": 0.666,
+        "municipal": 0.334,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0039,
+        "municipal": 0.6276,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3685
+      },
+      "healthAndHospitals": {
+        "county": 0.2726,
+        "municipal": 0.0064,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.721
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.2286,
+        "municipal": 0.286,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4854
+      },
+      "housing": {
+        "county": 0.0209,
+        "municipal": 0.5739,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4052
+      },
+      "interest": {
+        "county": 0.0459,
+        "municipal": 0.24,
+        "township": 0.0,
+        "schoolDistrict": 0.5697,
+        "specialDistrict": 0.1444
+      },
+      "naturalResources": {
+        "county": 0.2551,
+        "municipal": 0.0504,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6945
+      },
+      "otherPrograms": {
+        "county": 0.1896,
+        "municipal": 0.688,
+        "township": 0.0,
+        "schoolDistrict": 0.0084,
+        "specialDistrict": 0.114
+      },
+      "parks": {
+        "county": 0.0728,
+        "municipal": 0.7241,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2031
+      },
+      "police": {
+        "county": 0.432,
+        "municipal": 0.568,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.988,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.012
+      }
+    },
+    "US-IL": {
+      "administration": {
+        "county": 0.2592,
+        "municipal": 0.703,
+        "township": 0.0378,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9908,
+        "municipal": 0.0011,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0081
+      },
+      "fire": {
+        "county": 0.0002,
+        "municipal": 0.7169,
+        "township": 0.0003,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2826
+      },
+      "healthAndHospitals": {
+        "county": 0.766,
+        "municipal": 0.1224,
+        "township": 0.003,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1086
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.2138,
+        "municipal": 0.6481,
+        "township": 0.1045,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0336
+      },
+      "housing": {
+        "county": 0.0156,
+        "municipal": 0.1929,
+        "township": 0.0006,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7909
+      },
+      "interest": {
+        "county": 0.0553,
+        "municipal": 0.3807,
+        "township": 0.0007,
+        "schoolDistrict": 0.259,
+        "specialDistrict": 0.3043
+      },
+      "naturalResources": {
+        "county": 0.6859,
+        "municipal": 0.0021,
+        "township": 0.0008,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3112
+      },
+      "otherPrograms": {
+        "county": 0.0959,
+        "municipal": 0.5355,
+        "township": 0.0056,
+        "schoolDistrict": 0.0199,
+        "specialDistrict": 0.3431
+      },
+      "parks": {
+        "county": 0.06,
+        "municipal": 0.1878,
+        "township": 0.0042,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.748
+      },
+      "police": {
+        "county": 0.1367,
+        "municipal": 0.8628,
+        "township": 0.0002,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0003
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.3451,
+        "municipal": 0.5754,
+        "township": 0.0795,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-IN": {
+      "administration": {
+        "county": 0.6113,
+        "municipal": 0.3737,
+        "township": 0.015,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.7045,
+        "municipal": 0.2955,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0689,
+        "municipal": 0.756,
+        "township": 0.1751,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.6688,
+        "municipal": 0.2899,
+        "township": 0.0005,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0408
+      },
+      "highways": {
+        "county": 0.4394,
+        "municipal": 0.5585,
+        "township": 0.0021,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0851,
+        "municipal": 0.4551,
+        "township": 0.0009,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4589
+      },
+      "interest": {
+        "county": 0.0712,
+        "municipal": 0.5327,
+        "township": 0.0043,
+        "schoolDistrict": 0.3537,
+        "specialDistrict": 0.0381
+      },
+      "naturalResources": {
+        "county": 0.5186,
+        "municipal": 0.1242,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3572
+      },
+      "otherPrograms": {
+        "county": 0.2022,
+        "municipal": 0.6478,
+        "township": 0.0113,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1387
+      },
+      "parks": {
+        "county": 0.1624,
+        "municipal": 0.7701,
+        "township": 0.0304,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0371
+      },
+      "police": {
+        "county": 0.2974,
+        "municipal": 0.7023,
+        "township": 0.0001,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0002
+      },
+      "schools": {
+        "county": 0.0002,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9998,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.5903,
+        "municipal": 0.0673,
+        "township": 0.3424,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-KS": {
+      "administration": {
+        "county": 0.5777,
+        "municipal": 0.4146,
+        "township": 0.0077,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.7878,
+        "municipal": 0.2122,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.179,
+        "municipal": 0.8028,
+        "township": 0.0164,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0018
+      },
+      "healthAndHospitals": {
+        "county": 0.551,
+        "municipal": 0.3008,
+        "township": 0.0003,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1479
+      },
+      "higherEducation": {
+        "county": 0.0001,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9999,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.3802,
+        "municipal": 0.5622,
+        "township": 0.0569,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0007
+      },
+      "housing": {
+        "county": 0.1152,
+        "municipal": 0.2649,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6199
+      },
+      "interest": {
+        "county": 0.1291,
+        "municipal": 0.3082,
+        "township": 0.0003,
+        "schoolDistrict": 0.5472,
+        "specialDistrict": 0.0152
+      },
+      "naturalResources": {
+        "county": 0.4525,
+        "municipal": 0.1156,
+        "township": 0.0025,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4294
+      },
+      "otherPrograms": {
+        "county": 0.2153,
+        "municipal": 0.5923,
+        "township": 0.005,
+        "schoolDistrict": 0.0286,
+        "specialDistrict": 0.1588
+      },
+      "parks": {
+        "county": 0.158,
+        "municipal": 0.84,
+        "township": 0.0001,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0019
+      },
+      "police": {
+        "county": 0.3511,
+        "municipal": 0.6487,
+        "township": 0.0002,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.6504,
+        "municipal": 0.2679,
+        "township": 0.0002,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0815
+      }
+    },
+    "US-KY": {
+      "administration": {
+        "county": 0.2965,
+        "municipal": 0.7035,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.7307,
+        "municipal": 0.2693,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0594,
+        "municipal": 0.6347,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3059
+      },
+      "healthAndHospitals": {
+        "county": 0.3324,
+        "municipal": 0.393,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2746
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.5364,
+        "municipal": 0.4625,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0011
+      },
+      "housing": {
+        "county": 0.0262,
+        "municipal": 0.8619,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1119
+      },
+      "interest": {
+        "county": 0.3842,
+        "municipal": 0.2459,
+        "township": 0.0,
+        "schoolDistrict": 0.2552,
+        "specialDistrict": 0.1147
+      },
+      "naturalResources": {
+        "county": 0.1961,
+        "municipal": 0.1937,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6102
+      },
+      "otherPrograms": {
+        "county": 0.2054,
+        "municipal": 0.5831,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2115
+      },
+      "parks": {
+        "county": 0.2278,
+        "municipal": 0.7722,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "police": {
+        "county": 0.1992,
+        "municipal": 0.8007,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "schools": {
+        "county": 0.0009,
+        "municipal": 0.0082,
+        "township": 0.0,
+        "schoolDistrict": 0.9909,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.4003,
+        "municipal": 0.5997,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-LA": {
+      "administration": {
+        "county": 0.4163,
+        "municipal": 0.5837,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.6598,
+        "municipal": 0.2416,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0986
+      },
+      "fire": {
+        "county": 0.3947,
+        "municipal": 0.6036,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0017
+      },
+      "healthAndHospitals": {
+        "county": 0.5446,
+        "municipal": 0.2491,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2063
+      },
+      "highways": {
+        "county": 0.5515,
+        "municipal": 0.4437,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0048
+      },
+      "housing": {
+        "county": 0.0716,
+        "municipal": 0.9284,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.1707,
+        "municipal": 0.538,
+        "township": 0.0,
+        "schoolDistrict": 0.2612,
+        "specialDistrict": 0.0301
+      },
+      "naturalResources": {
+        "county": 0.7033,
+        "municipal": 0.2616,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0351
+      },
+      "otherPrograms": {
+        "county": 0.2268,
+        "municipal": 0.6698,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1034
+      },
+      "parks": {
+        "county": 0.3053,
+        "municipal": 0.5189,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1758
+      },
+      "police": {
+        "county": 0.5225,
+        "municipal": 0.4774,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9995,
+        "specialDistrict": 0.0005
+      },
+      "welfareAndMedicaid": {
+        "county": 0.8307,
+        "municipal": 0.1693,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-MA": {
+      "administration": {
+        "county": 0.0171,
+        "municipal": 0.4216,
+        "township": 0.5613,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0,
+        "municipal": 0.5964,
+        "township": 0.39,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0136
+      },
+      "healthAndHospitals": {
+        "county": 0.0026,
+        "municipal": 0.9252,
+        "township": 0.0714,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0008
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.6405,
+        "township": 0.0,
+        "schoolDistrict": 0.3595,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.0,
+        "municipal": 0.4454,
+        "township": 0.554,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0006
+      },
+      "housing": {
+        "county": 0.0,
+        "municipal": 0.1259,
+        "township": 0.011,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8631
+      },
+      "interest": {
+        "county": 0.0014,
+        "municipal": 0.4666,
+        "township": 0.3924,
+        "schoolDistrict": 0.1008,
+        "specialDistrict": 0.0388
+      },
+      "naturalResources": {
+        "county": 0.062,
+        "municipal": 0.3288,
+        "township": 0.5729,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0363
+      },
+      "otherPrograms": {
+        "county": 0.0163,
+        "municipal": 0.4553,
+        "township": 0.4371,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0913
+      },
+      "parks": {
+        "county": 0.003,
+        "municipal": 0.6859,
+        "township": 0.3092,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0019
+      },
+      "police": {
+        "county": 0.0001,
+        "municipal": 0.6152,
+        "township": 0.3844,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0003
+      },
+      "schools": {
+        "county": 0.0013,
+        "municipal": 0.4937,
+        "township": 0.3711,
+        "schoolDistrict": 0.1339,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.061,
+        "municipal": 0.4793,
+        "township": 0.4597,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-MD": {
+      "administration": {
+        "county": 0.6661,
+        "municipal": 0.3339,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.7442,
+        "municipal": 0.2558,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.7939,
+        "municipal": 0.2061,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "higherEducation": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.7183,
+        "municipal": 0.2815,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0002
+      },
+      "housing": {
+        "county": 0.6043,
+        "municipal": 0.0641,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3316
+      },
+      "interest": {
+        "county": 0.9269,
+        "municipal": 0.069,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0041
+      },
+      "naturalResources": {
+        "county": 0.8964,
+        "municipal": 0.0006,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.103
+      },
+      "otherPrograms": {
+        "county": 0.7372,
+        "municipal": 0.2522,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0106
+      },
+      "parks": {
+        "county": 0.8114,
+        "municipal": 0.1882,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0004
+      },
+      "police": {
+        "county": 0.6736,
+        "municipal": 0.3264,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.8951,
+        "municipal": 0.1049,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9903,
+        "municipal": 0.0097,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-ME": {
+      "administration": {
+        "county": 0.152,
+        "municipal": 0.2576,
+        "township": 0.5904,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0004,
+        "municipal": 0.4513,
+        "township": 0.5483,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.0053,
+        "municipal": 0.7268,
+        "township": 0.2534,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0145
+      },
+      "highways": {
+        "county": 0.0044,
+        "municipal": 0.1972,
+        "township": 0.7512,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0472
+      },
+      "housing": {
+        "county": 0.0005,
+        "municipal": 0.0425,
+        "township": 0.0241,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.9329
+      },
+      "interest": {
+        "county": 0.0209,
+        "municipal": 0.4403,
+        "township": 0.2645,
+        "schoolDistrict": 0.2191,
+        "specialDistrict": 0.0552
+      },
+      "naturalResources": {
+        "county": 0.047,
+        "municipal": 0.2289,
+        "township": 0.2593,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4648
+      },
+      "otherPrograms": {
+        "county": 0.0392,
+        "municipal": 0.3313,
+        "township": 0.3543,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2752
+      },
+      "parks": {
+        "county": 0.0021,
+        "municipal": 0.3853,
+        "township": 0.6125,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "police": {
+        "county": 0.206,
+        "municipal": 0.3764,
+        "township": 0.4176,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.2338,
+        "township": 0.1932,
+        "schoolDistrict": 0.573,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.0092,
+        "municipal": 0.8825,
+        "township": 0.1083,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-MI": {
+      "administration": {
+        "county": 0.5053,
+        "municipal": 0.3696,
+        "township": 0.1251,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9957,
+        "municipal": 0.0036,
+        "township": 0.0007,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.001,
+        "municipal": 0.5983,
+        "township": 0.378,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0227
+      },
+      "healthAndHospitals": {
+        "county": 0.7898,
+        "municipal": 0.1541,
+        "township": 0.0088,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0473
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.5596,
+        "municipal": 0.3631,
+        "township": 0.0752,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0021
+      },
+      "housing": {
+        "county": 0.0743,
+        "municipal": 0.9178,
+        "township": 0.0079,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.0755,
+        "municipal": 0.179,
+        "township": 0.0327,
+        "schoolDistrict": 0.5205,
+        "specialDistrict": 0.1923
+      },
+      "naturalResources": {
+        "county": 0.46,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.54
+      },
+      "otherPrograms": {
+        "county": 0.1925,
+        "municipal": 0.4997,
+        "township": 0.1031,
+        "schoolDistrict": 0.0187,
+        "specialDistrict": 0.186
+      },
+      "parks": {
+        "county": 0.1864,
+        "municipal": 0.5581,
+        "township": 0.1502,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1053
+      },
+      "police": {
+        "county": 0.2374,
+        "municipal": 0.6048,
+        "township": 0.1578,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9982,
+        "municipal": 0.0009,
+        "township": 0.0009,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-MN": {
+      "administration": {
+        "county": 0.6377,
+        "municipal": 0.3419,
+        "township": 0.0204,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9097,
+        "municipal": 0.0007,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0896
+      },
+      "fire": {
+        "county": 0.001,
+        "municipal": 0.9126,
+        "township": 0.0703,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0161
+      },
+      "healthAndHospitals": {
+        "county": 0.7408,
+        "municipal": 0.1611,
+        "township": 0.0005,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0976
+      },
+      "highways": {
+        "county": 0.4612,
+        "municipal": 0.4774,
+        "township": 0.0613,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "housing": {
+        "county": 0.1242,
+        "municipal": 0.3909,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4849
+      },
+      "interest": {
+        "county": 0.1526,
+        "municipal": 0.2797,
+        "township": 0.0023,
+        "schoolDistrict": 0.4753,
+        "specialDistrict": 0.0901
+      },
+      "naturalResources": {
+        "county": 0.5178,
+        "municipal": 0.0627,
+        "township": 0.0003,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4192
+      },
+      "otherPrograms": {
+        "county": 0.2007,
+        "municipal": 0.6401,
+        "township": 0.0073,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1519
+      },
+      "parks": {
+        "county": 0.1048,
+        "municipal": 0.8291,
+        "township": 0.0057,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0604
+      },
+      "police": {
+        "county": 0.3858,
+        "municipal": 0.6128,
+        "township": 0.0014,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9962,
+        "municipal": 0.0038,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-MO": {
+      "administration": {
+        "county": 0.4513,
+        "municipal": 0.5476,
+        "township": 0.0011,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.781,
+        "municipal": 0.219,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0006,
+        "municipal": 0.5668,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4326
+      },
+      "healthAndHospitals": {
+        "county": 0.3189,
+        "municipal": 0.3347,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3464
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.301,
+        "municipal": 0.583,
+        "township": 0.0226,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0934
+      },
+      "housing": {
+        "county": 0.0427,
+        "municipal": 0.3582,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5991
+      },
+      "interest": {
+        "county": 0.0685,
+        "municipal": 0.4317,
+        "township": 0.0,
+        "schoolDistrict": 0.3551,
+        "specialDistrict": 0.1447
+      },
+      "naturalResources": {
+        "county": 0.2529,
+        "municipal": 0.1245,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6226
+      },
+      "otherPrograms": {
+        "county": 0.0458,
+        "municipal": 0.6432,
+        "township": 0.0003,
+        "schoolDistrict": 0.0191,
+        "specialDistrict": 0.2916
+      },
+      "parks": {
+        "county": 0.2375,
+        "municipal": 0.6948,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0677
+      },
+      "police": {
+        "county": 0.3035,
+        "municipal": 0.6965,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.2057,
+        "municipal": 0.0685,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7258
+      }
+    },
+    "US-MS": {
+      "administration": {
+        "county": 0.6674,
+        "municipal": 0.3326,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9917,
+        "municipal": 0.0083,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.1879,
+        "municipal": 0.7914,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0207
+      },
+      "healthAndHospitals": {
+        "county": 0.6107,
+        "municipal": 0.389,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0003
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.6604,
+        "municipal": 0.3392,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0004
+      },
+      "housing": {
+        "county": 0.0399,
+        "municipal": 0.0496,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.9105
+      },
+      "interest": {
+        "county": 0.2486,
+        "municipal": 0.2958,
+        "township": 0.0,
+        "schoolDistrict": 0.3036,
+        "specialDistrict": 0.152
+      },
+      "naturalResources": {
+        "county": 0.4585,
+        "municipal": 0.0922,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4493
+      },
+      "otherPrograms": {
+        "county": 0.1721,
+        "municipal": 0.6139,
+        "township": 0.0,
+        "schoolDistrict": 0.0597,
+        "specialDistrict": 0.1543
+      },
+      "parks": {
+        "county": 0.2247,
+        "municipal": 0.7715,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0038
+      },
+      "police": {
+        "county": 0.4238,
+        "municipal": 0.5762,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0014,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9986,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.8357,
+        "municipal": 0.1643,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-MT": {
+      "administration": {
+        "county": 0.6735,
+        "municipal": 0.3265,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9354,
+        "municipal": 0.0646,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0272,
+        "municipal": 0.5981,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3747
+      },
+      "healthAndHospitals": {
+        "county": 0.4697,
+        "municipal": 0.0387,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4916
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.632,
+        "municipal": 0.368,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0885,
+        "municipal": 0.3718,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5397
+      },
+      "interest": {
+        "county": 0.1001,
+        "municipal": 0.2817,
+        "township": 0.0,
+        "schoolDistrict": 0.535,
+        "specialDistrict": 0.0832
+      },
+      "naturalResources": {
+        "county": 0.3413,
+        "municipal": 0.0851,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5736
+      },
+      "otherPrograms": {
+        "county": 0.2594,
+        "municipal": 0.5079,
+        "township": 0.0,
+        "schoolDistrict": 0.0064,
+        "specialDistrict": 0.2263
+      },
+      "parks": {
+        "county": 0.1513,
+        "municipal": 0.7599,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0888
+      },
+      "police": {
+        "county": 0.534,
+        "municipal": 0.466,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0005,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9995,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.6525,
+        "municipal": 0.1355,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.212
+      }
+    },
+    "US-NC": {
+      "administration": {
+        "county": 0.6049,
+        "municipal": 0.3951,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.993,
+        "municipal": 0.007,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.2607,
+        "municipal": 0.7393,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.1988,
+        "municipal": 0.0023,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7989
+      },
+      "higherEducation": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.0043,
+        "municipal": 0.9957,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.2777,
+        "municipal": 0.3342,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3881
+      },
+      "interest": {
+        "county": 0.5882,
+        "municipal": 0.2991,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1127
+      },
+      "naturalResources": {
+        "county": 0.4438,
+        "municipal": 0.493,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0632
+      },
+      "otherPrograms": {
+        "county": 0.2732,
+        "municipal": 0.6131,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1137
+      },
+      "parks": {
+        "county": 0.2946,
+        "municipal": 0.6945,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0109
+      },
+      "police": {
+        "county": 0.4824,
+        "municipal": 0.5176,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9889,
+        "municipal": 0.0111,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-ND": {
+      "administration": {
+        "county": 0.5576,
+        "municipal": 0.4321,
+        "township": 0.0103,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9976,
+        "municipal": 0.0024,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0054,
+        "municipal": 0.5124,
+        "township": 0.0052,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.477
+      },
+      "healthAndHospitals": {
+        "county": 0.4368,
+        "municipal": 0.3605,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2027
+      },
+      "highways": {
+        "county": 0.519,
+        "municipal": 0.3888,
+        "township": 0.0922,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0128,
+        "municipal": 0.1157,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8715
+      },
+      "interest": {
+        "county": 0.0444,
+        "municipal": 0.5925,
+        "township": 0.0004,
+        "schoolDistrict": 0.2274,
+        "specialDistrict": 0.1353
+      },
+      "naturalResources": {
+        "county": 0.6911,
+        "municipal": 0.193,
+        "township": 0.0059,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.11
+      },
+      "otherPrograms": {
+        "county": 0.0987,
+        "municipal": 0.7287,
+        "township": 0.0046,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.168
+      },
+      "parks": {
+        "county": 0.0395,
+        "municipal": 0.1315,
+        "township": 0.0002,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8288
+      },
+      "police": {
+        "county": 0.4381,
+        "municipal": 0.5619,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.984,
+        "municipal": 0.016,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-NE": {
+      "administration": {
+        "county": 0.4352,
+        "municipal": 0.5648,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0009,
+        "municipal": 0.7141,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.285
+      },
+      "healthAndHospitals": {
+        "county": 0.6912,
+        "municipal": 0.026,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2828
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.3531,
+        "municipal": 0.5913,
+        "township": 0.051,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0046
+      },
+      "housing": {
+        "county": 0.0003,
+        "municipal": 0.4779,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5218
+      },
+      "interest": {
+        "county": 0.0368,
+        "municipal": 0.3,
+        "township": 0.0,
+        "schoolDistrict": 0.4219,
+        "specialDistrict": 0.2413
+      },
+      "naturalResources": {
+        "county": 0.1553,
+        "municipal": 0.0029,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8418
+      },
+      "otherPrograms": {
+        "county": 0.0552,
+        "municipal": 0.272,
+        "township": 0.0,
+        "schoolDistrict": 0.0073,
+        "specialDistrict": 0.6655
+      },
+      "parks": {
+        "county": 0.0259,
+        "municipal": 0.9333,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0408
+      },
+      "police": {
+        "county": 0.2593,
+        "municipal": 0.7407,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9957,
+        "specialDistrict": 0.0043
+      },
+      "welfareAndMedicaid": {
+        "county": 0.5148,
+        "municipal": 0.4563,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0289
+      }
+    },
+    "US-NH": {
+      "administration": {
+        "county": 0.173,
+        "municipal": 0.231,
+        "township": 0.596,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9999,
+        "municipal": 0.0,
+        "township": 0.0001,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0,
+        "municipal": 0.4305,
+        "township": 0.5278,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0417
+      },
+      "healthAndHospitals": {
+        "county": 0.0217,
+        "municipal": 0.3133,
+        "township": 0.665,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.0,
+        "municipal": 0.3099,
+        "township": 0.6878,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0023
+      },
+      "housing": {
+        "county": 0.0,
+        "municipal": 0.1679,
+        "township": 0.0157,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8164
+      },
+      "interest": {
+        "county": 0.0763,
+        "municipal": 0.4845,
+        "township": 0.1536,
+        "schoolDistrict": 0.2569,
+        "specialDistrict": 0.0287
+      },
+      "naturalResources": {
+        "county": 0.2417,
+        "municipal": 0.0809,
+        "township": 0.4061,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2713
+      },
+      "otherPrograms": {
+        "county": 0.0191,
+        "municipal": 0.5426,
+        "township": 0.3908,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0475
+      },
+      "parks": {
+        "county": 0.1763,
+        "municipal": 0.4283,
+        "township": 0.3744,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.021
+      },
+      "police": {
+        "county": 0.0742,
+        "municipal": 0.3342,
+        "township": 0.5916,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.2084,
+        "township": 0.0,
+        "schoolDistrict": 0.7916,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9159,
+        "municipal": 0.0589,
+        "township": 0.0252,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-NJ": {
+      "administration": {
+        "county": 0.4087,
+        "municipal": 0.3359,
+        "township": 0.2554,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0041,
+        "municipal": 0.5446,
+        "township": 0.2254,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2259
+      },
+      "healthAndHospitals": {
+        "county": 0.768,
+        "municipal": 0.1235,
+        "township": 0.1085,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "higherEducation": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.2584,
+        "municipal": 0.2522,
+        "township": 0.2811,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2083
+      },
+      "housing": {
+        "county": 0.1321,
+        "municipal": 0.7717,
+        "township": 0.0962,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.339,
+        "municipal": 0.202,
+        "township": 0.162,
+        "schoolDistrict": 0.1999,
+        "specialDistrict": 0.0971
+      },
+      "naturalResources": {
+        "county": 0.6384,
+        "municipal": 0.0671,
+        "township": 0.0453,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2492
+      },
+      "otherPrograms": {
+        "county": 0.2346,
+        "municipal": 0.3844,
+        "township": 0.2931,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0879
+      },
+      "parks": {
+        "county": 0.3829,
+        "municipal": 0.3277,
+        "township": 0.2894,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "police": {
+        "county": 0.137,
+        "municipal": 0.4869,
+        "township": 0.3761,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0406,
+        "municipal": 0.0599,
+        "township": 0.0254,
+        "schoolDistrict": 0.8741,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9716,
+        "municipal": 0.0173,
+        "township": 0.0111,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-NM": {
+      "administration": {
+        "county": 0.4913,
+        "municipal": 0.5087,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.989,
+        "municipal": 0.011,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.3346,
+        "municipal": 0.6649,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0005
+      },
+      "healthAndHospitals": {
+        "county": 0.4866,
+        "municipal": 0.2299,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2835
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.4737,
+        "municipal": 0.5263,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.3668,
+        "municipal": 0.6332,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.1798,
+        "municipal": 0.421,
+        "township": 0.0,
+        "schoolDistrict": 0.3671,
+        "specialDistrict": 0.0321
+      },
+      "naturalResources": {
+        "county": 0.0458,
+        "municipal": 0.0397,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.9145
+      },
+      "otherPrograms": {
+        "county": 0.1732,
+        "municipal": 0.6472,
+        "township": 0.0,
+        "schoolDistrict": 0.0284,
+        "specialDistrict": 0.1512
+      },
+      "parks": {
+        "county": 0.144,
+        "municipal": 0.8556,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0004
+      },
+      "police": {
+        "county": 0.3436,
+        "municipal": 0.6564,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.5015,
+        "municipal": 0.4985,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-NV": {
+      "administration": {
+        "county": 0.6938,
+        "municipal": 0.3062,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.8071,
+        "municipal": 0.1929,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.3578,
+        "municipal": 0.5587,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0835
+      },
+      "healthAndHospitals": {
+        "county": 0.9807,
+        "municipal": 0.0185,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0008
+      },
+      "highways": {
+        "county": 0.8051,
+        "municipal": 0.1933,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0016
+      },
+      "housing": {
+        "county": 0.0815,
+        "municipal": 0.3286,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5899
+      },
+      "interest": {
+        "county": 0.5853,
+        "municipal": 0.1144,
+        "township": 0.0,
+        "schoolDistrict": 0.2955,
+        "specialDistrict": 0.0048
+      },
+      "naturalResources": {
+        "county": 0.8455,
+        "municipal": 0.0748,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0797
+      },
+      "otherPrograms": {
+        "county": 0.5092,
+        "municipal": 0.2479,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2429
+      },
+      "parks": {
+        "county": 0.5788,
+        "municipal": 0.361,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0602
+      },
+      "police": {
+        "county": 0.7106,
+        "municipal": 0.2894,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9939,
+        "municipal": 0.0061,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-NY": {
+      "administration": {
+        "county": 0.1038,
+        "municipal": 0.8489,
+        "township": 0.0473,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.5127,
+        "municipal": 0.4871,
+        "township": 0.0002,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0156,
+        "municipal": 0.7343,
+        "township": 0.0506,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1995
+      },
+      "healthAndHospitals": {
+        "county": 0.2843,
+        "municipal": 0.7067,
+        "township": 0.0086,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0004
+      },
+      "higherEducation": {
+        "county": 0.5331,
+        "municipal": 0.4517,
+        "township": 0.0,
+        "schoolDistrict": 0.0152,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.248,
+        "municipal": 0.3191,
+        "township": 0.2729,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.16
+      },
+      "housing": {
+        "county": 0.0222,
+        "municipal": 0.9724,
+        "township": 0.0054,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.1261,
+        "municipal": 0.6451,
+        "township": 0.0346,
+        "schoolDistrict": 0.0841,
+        "specialDistrict": 0.1101
+      },
+      "naturalResources": {
+        "county": 0.4371,
+        "municipal": 0.1294,
+        "township": 0.4202,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0133
+      },
+      "otherPrograms": {
+        "county": 0.137,
+        "municipal": 0.6943,
+        "township": 0.0739,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0948
+      },
+      "parks": {
+        "county": 0.1393,
+        "municipal": 0.6491,
+        "township": 0.2107,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0009
+      },
+      "police": {
+        "county": 0.2254,
+        "municipal": 0.7137,
+        "township": 0.0595,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0014
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.4987,
+        "township": 0.0,
+        "schoolDistrict": 0.5013,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.276,
+        "municipal": 0.7171,
+        "township": 0.0068,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      }
+    },
+    "US-OH": {
+      "administration": {
+        "county": 0.5371,
+        "municipal": 0.4041,
+        "township": 0.0588,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9687,
+        "municipal": 0.0313,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0035,
+        "municipal": 0.672,
+        "township": 0.2712,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0533
+      },
+      "healthAndHospitals": {
+        "county": 0.8351,
+        "municipal": 0.0932,
+        "township": 0.0052,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0665
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.2801,
+        "municipal": 0.5429,
+        "township": 0.1552,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0218
+      },
+      "housing": {
+        "county": 0.0279,
+        "municipal": 0.1608,
+        "township": 0.0003,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.811
+      },
+      "interest": {
+        "county": 0.3838,
+        "municipal": 0.2122,
+        "township": 0.007,
+        "schoolDistrict": 0.3076,
+        "specialDistrict": 0.0894
+      },
+      "naturalResources": {
+        "county": 0.2549,
+        "municipal": 0.1612,
+        "township": 0.0074,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5765
+      },
+      "otherPrograms": {
+        "county": 0.1507,
+        "municipal": 0.6088,
+        "township": 0.0207,
+        "schoolDistrict": 0.0065,
+        "specialDistrict": 0.2133
+      },
+      "parks": {
+        "county": 0.1839,
+        "municipal": 0.5183,
+        "township": 0.0177,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2801
+      },
+      "police": {
+        "county": 0.3425,
+        "municipal": 0.5951,
+        "township": 0.0611,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0013
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0004,
+        "township": 0.0,
+        "schoolDistrict": 0.9446,
+        "specialDistrict": 0.055
+      },
+      "welfareAndMedicaid": {
+        "county": 0.995,
+        "municipal": 0.0043,
+        "township": 0.0007,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-OK": {
+      "administration": {
+        "county": 0.4142,
+        "municipal": 0.5858,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9996,
+        "municipal": 0.0004,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0298,
+        "municipal": 0.9349,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0353
+      },
+      "healthAndHospitals": {
+        "county": 0.387,
+        "municipal": 0.5797,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0333
+      },
+      "highways": {
+        "county": 0.3997,
+        "municipal": 0.5932,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0071
+      },
+      "housing": {
+        "county": 0.0013,
+        "municipal": 0.2435,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7552
+      },
+      "interest": {
+        "county": 0.0487,
+        "municipal": 0.7025,
+        "township": 0.0,
+        "schoolDistrict": 0.2278,
+        "specialDistrict": 0.021
+      },
+      "naturalResources": {
+        "county": 0.4563,
+        "municipal": 0.0125,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5312
+      },
+      "otherPrograms": {
+        "county": 0.1056,
+        "municipal": 0.8336,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0608
+      },
+      "parks": {
+        "county": 0.035,
+        "municipal": 0.965,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "police": {
+        "county": 0.1556,
+        "municipal": 0.8444,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.1179,
+        "municipal": 0.8821,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-OR": {
+      "administration": {
+        "county": 0.5573,
+        "municipal": 0.4427,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9995,
+        "municipal": 0.0001,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0004
+      },
+      "fire": {
+        "county": 0.0001,
+        "municipal": 0.4811,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5188
+      },
+      "healthAndHospitals": {
+        "county": 0.6349,
+        "municipal": 0.0123,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3528
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.4891,
+        "municipal": 0.5016,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0093
+      },
+      "housing": {
+        "county": 0.2457,
+        "municipal": 0.345,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4093
+      },
+      "interest": {
+        "county": 0.0851,
+        "municipal": 0.2189,
+        "township": 0.0,
+        "schoolDistrict": 0.5553,
+        "specialDistrict": 0.1407
+      },
+      "naturalResources": {
+        "county": 0.2914,
+        "municipal": 0.0251,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6835
+      },
+      "otherPrograms": {
+        "county": 0.1421,
+        "municipal": 0.4427,
+        "township": 0.0,
+        "schoolDistrict": 0.0196,
+        "specialDistrict": 0.3956
+      },
+      "parks": {
+        "county": 0.1377,
+        "municipal": 0.5409,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3214
+      },
+      "police": {
+        "county": 0.361,
+        "municipal": 0.639,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9762,
+        "municipal": 0.0035,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0203
+      }
+    },
+    "US-PA": {
+      "administration": {
+        "county": 0.3918,
+        "municipal": 0.4645,
+        "township": 0.1437,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.7993,
+        "municipal": 0.2007,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0028,
+        "municipal": 0.7232,
+        "township": 0.2738,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0002
+      },
+      "healthAndHospitals": {
+        "county": 0.4051,
+        "municipal": 0.5785,
+        "township": 0.0088,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0076
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.0698,
+        "municipal": 0.3658,
+        "township": 0.5079,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0565
+      },
+      "housing": {
+        "county": 0.1524,
+        "municipal": 0.2548,
+        "township": 0.0212,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5716
+      },
+      "interest": {
+        "county": 0.0791,
+        "municipal": 0.1525,
+        "township": 0.042,
+        "schoolDistrict": 0.4087,
+        "specialDistrict": 0.3177
+      },
+      "naturalResources": {
+        "county": 0.3613,
+        "municipal": 0.4291,
+        "township": 0.173,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0366
+      },
+      "otherPrograms": {
+        "county": 0.063,
+        "municipal": 0.3558,
+        "township": 0.0969,
+        "schoolDistrict": 0.012,
+        "specialDistrict": 0.4723
+      },
+      "parks": {
+        "county": 0.1616,
+        "municipal": 0.3508,
+        "township": 0.3985,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0891
+      },
+      "police": {
+        "county": 0.1154,
+        "municipal": 0.5521,
+        "township": 0.3324,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0001
+      },
+      "schools": {
+        "county": 0.0008,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9931,
+        "specialDistrict": 0.0061
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9496,
+        "municipal": 0.0504,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-RI": {
+      "administration": {
+        "county": 0.0,
+        "municipal": 0.5256,
+        "township": 0.4744,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0,
+        "municipal": 0.57,
+        "township": 0.2692,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1608
+      },
+      "healthAndHospitals": {
+        "county": 0.0,
+        "municipal": 0.6798,
+        "township": 0.3202,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.0,
+        "municipal": 0.3272,
+        "township": 0.6728,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0,
+        "municipal": 0.091,
+        "township": 0.0156,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.8934
+      },
+      "interest": {
+        "county": 0.0,
+        "municipal": 0.6865,
+        "township": 0.2739,
+        "schoolDistrict": 0.0183,
+        "specialDistrict": 0.0213
+      },
+      "naturalResources": {
+        "county": 0.0,
+        "municipal": 0.6083,
+        "township": 0.3042,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0875
+      },
+      "otherPrograms": {
+        "county": 0.0,
+        "municipal": 0.5683,
+        "township": 0.369,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0627
+      },
+      "parks": {
+        "county": 0.0,
+        "municipal": 0.4579,
+        "township": 0.5397,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0024
+      },
+      "police": {
+        "county": 0.0,
+        "municipal": 0.5333,
+        "township": 0.4667,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.4867,
+        "township": 0.4429,
+        "schoolDistrict": 0.0704,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.0,
+        "municipal": 0.3322,
+        "township": 0.6678,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-SC": {
+      "administration": {
+        "county": 0.6687,
+        "municipal": 0.3313,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.989,
+        "municipal": 0.011,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.3478,
+        "municipal": 0.4905,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1617
+      },
+      "healthAndHospitals": {
+        "county": 0.4316,
+        "municipal": 0.0015,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5669
+      },
+      "highways": {
+        "county": 0.7271,
+        "municipal": 0.2729,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.1851,
+        "municipal": 0.2586,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5563
+      },
+      "interest": {
+        "county": 0.2163,
+        "municipal": 0.1339,
+        "township": 0.0,
+        "schoolDistrict": 0.5372,
+        "specialDistrict": 0.1126
+      },
+      "naturalResources": {
+        "county": 0.2017,
+        "municipal": 0.716,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0823
+      },
+      "otherPrograms": {
+        "county": 0.2147,
+        "municipal": 0.5037,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2816
+      },
+      "parks": {
+        "county": 0.2915,
+        "municipal": 0.5054,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2031
+      },
+      "police": {
+        "county": 0.549,
+        "municipal": 0.451,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.9263,
+        "municipal": 0.0737,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-SD": {
+      "administration": {
+        "county": 0.634,
+        "municipal": 0.3577,
+        "township": 0.0083,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9583,
+        "municipal": 0.0417,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0716,
+        "municipal": 0.7251,
+        "township": 0.0179,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1854
+      },
+      "healthAndHospitals": {
+        "county": 0.1636,
+        "municipal": 0.7905,
+        "township": 0.0013,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0446
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.4911,
+        "municipal": 0.3908,
+        "township": 0.0711,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.047
+      },
+      "housing": {
+        "county": 0.3797,
+        "municipal": 0.6181,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0022
+      },
+      "interest": {
+        "county": 0.0881,
+        "municipal": 0.4016,
+        "township": 0.0006,
+        "schoolDistrict": 0.4937,
+        "specialDistrict": 0.016
+      },
+      "naturalResources": {
+        "county": 0.2259,
+        "municipal": 0.1166,
+        "township": 0.0007,
+        "schoolDistrict": 0.027,
+        "specialDistrict": 0.6298
+      },
+      "otherPrograms": {
+        "county": 0.0753,
+        "municipal": 0.7772,
+        "township": 0.0063,
+        "schoolDistrict": 0.015,
+        "specialDistrict": 0.1262
+      },
+      "parks": {
+        "county": 0.0413,
+        "municipal": 0.9586,
+        "township": 0.0001,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "police": {
+        "county": 0.3648,
+        "municipal": 0.6352,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.7153,
+        "municipal": 0.2847,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-TN": {
+      "administration": {
+        "county": 0.531,
+        "municipal": 0.469,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.8224,
+        "municipal": 0.1776,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0958,
+        "municipal": 0.9042,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.8715,
+        "municipal": 0.1285,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.4353,
+        "municipal": 0.5647,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0562,
+        "municipal": 0.309,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6348
+      },
+      "interest": {
+        "county": 0.3512,
+        "municipal": 0.447,
+        "township": 0.0,
+        "schoolDistrict": 0.0105,
+        "specialDistrict": 0.1913
+      },
+      "naturalResources": {
+        "county": 0.6121,
+        "municipal": 0.2755,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1124
+      },
+      "otherPrograms": {
+        "county": 0.0737,
+        "municipal": 0.7759,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1504
+      },
+      "parks": {
+        "county": 0.0978,
+        "municipal": 0.9016,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0006
+      },
+      "police": {
+        "county": 0.3874,
+        "municipal": 0.6126,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.75,
+        "municipal": 0.2249,
+        "township": 0.0,
+        "schoolDistrict": 0.0251,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.4978,
+        "municipal": 0.5022,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-TX": {
+      "administration": {
+        "county": 0.5496,
+        "municipal": 0.4504,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9464,
+        "municipal": 0.0536,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.019,
+        "municipal": 0.864,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.117
+      },
+      "healthAndHospitals": {
+        "county": 0.7197,
+        "municipal": 0.0595,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2208
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.3926,
+        "municipal": 0.5188,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0886
+      },
+      "housing": {
+        "county": 0.0826,
+        "municipal": 0.2643,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6531
+      },
+      "interest": {
+        "county": 0.0829,
+        "municipal": 0.2698,
+        "township": 0.0,
+        "schoolDistrict": 0.5218,
+        "specialDistrict": 0.1255
+      },
+      "naturalResources": {
+        "county": 0.3906,
+        "municipal": 0.1679,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4415
+      },
+      "otherPrograms": {
+        "county": 0.0713,
+        "municipal": 0.6327,
+        "township": 0.0,
+        "schoolDistrict": 0.0242,
+        "specialDistrict": 0.2718
+      },
+      "parks": {
+        "county": 0.0794,
+        "municipal": 0.8767,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0439
+      },
+      "police": {
+        "county": 0.254,
+        "municipal": 0.7444,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0016
+      },
+      "schools": {
+        "county": 0.0009,
+        "municipal": 0.0015,
+        "township": 0.0,
+        "schoolDistrict": 0.9976,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.5553,
+        "municipal": 0.4345,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0102
+      }
+    },
+    "US-UT": {
+      "administration": {
+        "county": 0.4332,
+        "municipal": 0.5668,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0505,
+        "municipal": 0.6285,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.321
+      },
+      "healthAndHospitals": {
+        "county": 0.637,
+        "municipal": 0.3499,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0131
+      },
+      "highways": {
+        "county": 0.6138,
+        "municipal": 0.3812,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.005
+      },
+      "housing": {
+        "county": 0.2327,
+        "municipal": 0.4704,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2969
+      },
+      "interest": {
+        "county": 0.0703,
+        "municipal": 0.4684,
+        "township": 0.0,
+        "schoolDistrict": 0.3437,
+        "specialDistrict": 0.1176
+      },
+      "naturalResources": {
+        "county": 0.1694,
+        "municipal": 0.5895,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2411
+      },
+      "otherPrograms": {
+        "county": 0.097,
+        "municipal": 0.5472,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3558
+      },
+      "parks": {
+        "county": 0.3045,
+        "municipal": 0.6635,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.032
+      },
+      "police": {
+        "county": 0.2845,
+        "municipal": 0.7121,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0034
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0001,
+        "township": 0.0,
+        "schoolDistrict": 0.9999,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.8275,
+        "municipal": 0.0657,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1068
+      }
+    },
+    "US-VA": {
+      "administration": {
+        "county": 0.6049,
+        "municipal": 0.3951,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.4542,
+        "municipal": 0.2658,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.28
+      },
+      "fire": {
+        "county": 0.6488,
+        "municipal": 0.3512,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.5946,
+        "municipal": 0.2209,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1845
+      },
+      "higherEducation": {
+        "county": 0.3288,
+        "municipal": 0.6712,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.2388,
+        "municipal": 0.4305,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3307
+      },
+      "housing": {
+        "county": 0.4245,
+        "municipal": 0.575,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0005
+      },
+      "interest": {
+        "county": 0.369,
+        "municipal": 0.2504,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3806
+      },
+      "naturalResources": {
+        "county": 0.338,
+        "municipal": 0.1858,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4762
+      },
+      "otherPrograms": {
+        "county": 0.4059,
+        "municipal": 0.4022,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1919
+      },
+      "parks": {
+        "county": 0.5227,
+        "municipal": 0.4391,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0382
+      },
+      "police": {
+        "county": 0.5718,
+        "municipal": 0.4282,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.7278,
+        "municipal": 0.2722,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.6614,
+        "municipal": 0.3204,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0182
+      }
+    },
+    "US-VT": {
+      "administration": {
+        "county": 0.0284,
+        "municipal": 0.2336,
+        "township": 0.738,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.0,
+        "municipal": 0.9852,
+        "township": 0.0148,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0,
+        "municipal": 0.4161,
+        "township": 0.5033,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0806
+      },
+      "healthAndHospitals": {
+        "county": 0.0,
+        "municipal": 0.0208,
+        "township": 0.9397,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0395
+      },
+      "highways": {
+        "county": 0.0,
+        "municipal": 0.1711,
+        "township": 0.8277,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0012
+      },
+      "housing": {
+        "county": 0.0,
+        "municipal": 0.221,
+        "township": 0.0586,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7204
+      },
+      "interest": {
+        "county": 0.002,
+        "municipal": 0.3282,
+        "township": 0.301,
+        "schoolDistrict": 0.2499,
+        "specialDistrict": 0.1189
+      },
+      "naturalResources": {
+        "county": 0.0,
+        "municipal": 0.0874,
+        "township": 0.1893,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7233
+      },
+      "otherPrograms": {
+        "county": 0.0014,
+        "municipal": 0.4385,
+        "township": 0.3207,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2394
+      },
+      "parks": {
+        "county": 0.0,
+        "municipal": 0.5096,
+        "township": 0.4789,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0115
+      },
+      "police": {
+        "county": 0.1741,
+        "municipal": 0.3601,
+        "township": 0.4658,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.0,
+        "municipal": 0.2698,
+        "township": 0.7302,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-WA": {
+      "administration": {
+        "county": 0.5733,
+        "municipal": 0.4267,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.87,
+        "municipal": 0.13,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0171,
+        "municipal": 0.407,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5759
+      },
+      "healthAndHospitals": {
+        "county": 0.246,
+        "municipal": 0.0263,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7277
+      },
+      "highways": {
+        "county": 0.3718,
+        "municipal": 0.628,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0002
+      },
+      "housing": {
+        "county": 0.2295,
+        "municipal": 0.1451,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6254
+      },
+      "interest": {
+        "county": 0.1447,
+        "municipal": 0.1684,
+        "township": 0.0,
+        "schoolDistrict": 0.4004,
+        "specialDistrict": 0.2865
+      },
+      "naturalResources": {
+        "county": 0.4202,
+        "municipal": 0.293,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.2868
+      },
+      "otherPrograms": {
+        "county": 0.1473,
+        "municipal": 0.3173,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.5354
+      },
+      "parks": {
+        "county": 0.1767,
+        "municipal": 0.6673,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.156
+      },
+      "police": {
+        "county": 0.3393,
+        "municipal": 0.6598,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0009
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.005,
+        "township": 0.0,
+        "schoolDistrict": 0.9877,
+        "specialDistrict": 0.0073
+      },
+      "welfareAndMedicaid": {
+        "county": 0.5964,
+        "municipal": 0.396,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0076
+      }
+    },
+    "US-WI": {
+      "administration": {
+        "county": 0.5284,
+        "municipal": 0.3986,
+        "township": 0.073,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9832,
+        "municipal": 0.0168,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.0006,
+        "municipal": 0.8559,
+        "township": 0.1221,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0214
+      },
+      "healthAndHospitals": {
+        "county": 0.805,
+        "municipal": 0.1749,
+        "township": 0.0201,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.1535,
+        "municipal": 0.6133,
+        "township": 0.2332,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0259,
+        "municipal": 0.4885,
+        "township": 0.0005,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4851
+      },
+      "interest": {
+        "county": 0.107,
+        "municipal": 0.4952,
+        "township": 0.0189,
+        "schoolDistrict": 0.3002,
+        "specialDistrict": 0.0787
+      },
+      "naturalResources": {
+        "county": 0.0426,
+        "municipal": 0.2541,
+        "township": 0.0508,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.6525
+      },
+      "otherPrograms": {
+        "county": 0.2265,
+        "municipal": 0.6116,
+        "township": 0.0256,
+        "schoolDistrict": 0.0132,
+        "specialDistrict": 0.1231
+      },
+      "parks": {
+        "county": 0.3794,
+        "municipal": 0.5007,
+        "township": 0.0289,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.091
+      },
+      "police": {
+        "county": 0.3331,
+        "municipal": 0.6497,
+        "township": 0.0172,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0014,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.9986,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.6732,
+        "municipal": 0.0151,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3117
+      }
+    },
+    "US-WV": {
+      "administration": {
+        "county": 0.6871,
+        "municipal": 0.3129,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 1.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "fire": {
+        "county": 0.2125,
+        "municipal": 0.7875,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "healthAndHospitals": {
+        "county": 0.4228,
+        "municipal": 0.5772,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.0,
+        "municipal": 1.0,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "housing": {
+        "county": 0.0058,
+        "municipal": 0.0698,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.9244
+      },
+      "interest": {
+        "county": 0.3557,
+        "municipal": 0.2162,
+        "township": 0.0,
+        "schoolDistrict": 0.1527,
+        "specialDistrict": 0.2754
+      },
+      "naturalResources": {
+        "county": 0.2575,
+        "municipal": 0.0393,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.7032
+      },
+      "otherPrograms": {
+        "county": 0.132,
+        "municipal": 0.5024,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3656
+      },
+      "parks": {
+        "county": 0.2356,
+        "municipal": 0.738,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0264
+      },
+      "police": {
+        "county": 0.5328,
+        "municipal": 0.4672,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.7034,
+        "municipal": 0.2966,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      }
+    },
+    "US-WY": {
+      "administration": {
+        "county": 0.626,
+        "municipal": 0.374,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "corrections": {
+        "county": 0.9794,
+        "municipal": 0.0131,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0075
+      },
+      "fire": {
+        "county": 0.1906,
+        "municipal": 0.4358,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.3736
+      },
+      "healthAndHospitals": {
+        "county": 0.5185,
+        "municipal": 0.0071,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4744
+      },
+      "higherEducation": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "highways": {
+        "county": 0.487,
+        "municipal": 0.5069,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0061
+      },
+      "housing": {
+        "county": 0.4953,
+        "municipal": 0.5047,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0
+      },
+      "interest": {
+        "county": 0.2522,
+        "municipal": 0.1583,
+        "township": 0.0,
+        "schoolDistrict": 0.1163,
+        "specialDistrict": 0.4732
+      },
+      "naturalResources": {
+        "county": 0.5368,
+        "municipal": 0.0006,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.4626
+      },
+      "otherPrograms": {
+        "county": 0.1291,
+        "municipal": 0.5161,
+        "township": 0.0,
+        "schoolDistrict": 0.0334,
+        "specialDistrict": 0.3214
+      },
+      "parks": {
+        "county": 0.18,
+        "municipal": 0.6787,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1413
+      },
+      "police": {
+        "county": 0.3782,
+        "municipal": 0.6216,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.0002
+      },
+      "schools": {
+        "county": 0.0,
+        "municipal": 0.0,
+        "township": 0.0,
+        "schoolDistrict": 1.0,
+        "specialDistrict": 0.0
+      },
+      "welfareAndMedicaid": {
+        "county": 0.5296,
+        "municipal": 0.3391,
+        "township": 0.0,
+        "schoolDistrict": 0.0,
+        "specialDistrict": 0.1313
+      }
+    }
+  }
+}

@@ -1,0 +1,287 @@
+{
+  "source": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022.",
+  "sourceUrl": "https://nces.ed.gov/programs/statereform/tab1_2-2023.asp",
+  "sourceYear": 2020,
+  "agesByJurisdictionKey": {
+    "US-AL": {
+      "minimumAge": 6,
+      "maximumAge": 17,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-AK": {
+      "minimumAge": 7,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-AZ": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-AR": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-CA": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-CO": {
+      "minimumAge": 6,
+      "maximumAge": 17,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-CT": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-DE": {
+      "minimumAge": 5,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-DC": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-FL": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-GA": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-HI": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-ID": {
+      "minimumAge": 7,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-IL": {
+      "minimumAge": 6,
+      "maximumAge": 17,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-IN": {
+      "minimumAge": 7,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-IA": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-KS": {
+      "minimumAge": 7,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-KY": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-LA": {
+      "minimumAge": 7,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-ME": {
+      "minimumAge": 6,
+      "maximumAge": 17,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-MD": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-MA": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-MI": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-MN": {
+      "minimumAge": 7,
+      "maximumAge": 17,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-MS": {
+      "minimumAge": 6,
+      "maximumAge": 17,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-MO": {
+      "minimumAge": 7,
+      "maximumAge": 17,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-MT": {
+      "minimumAge": 7,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-NE": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-NV": {
+      "minimumAge": 7,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-NH": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-NJ": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-NM": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-NY": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-NC": {
+      "minimumAge": 7,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-ND": {
+      "minimumAge": 7,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-OH": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-OK": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-OR": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-PA": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-RI": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-SC": {
+      "minimumAge": 5,
+      "maximumAge": 17,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-SD": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-TN": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-TX": {
+      "minimumAge": 6,
+      "maximumAge": 19,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-UT": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-VT": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-VA": {
+      "minimumAge": 5,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-WA": {
+      "minimumAge": 8,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-WV": {
+      "minimumAge": 6,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-WI": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-WY": {
+      "minimumAge": 7,
+      "maximumAge": 16,
+      "estimatedFrom": "National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-AS": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "ESTIMATED FROM MODE: NCES Table 1.2 does not list territories. Its tied most-common ranges occur 10 times each (5–18, 6–16, 6–18); use 6–18, whose lower and upper ages are the medians of the 51 state and D.C. entries. National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-GU": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "ESTIMATED FROM MODE: NCES Table 1.2 does not list territories. Its tied most-common ranges occur 10 times each (5–18, 6–16, 6–18); use 6–18, whose lower and upper ages are the medians of the 51 state and D.C. entries. National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-MP": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "ESTIMATED FROM MODE: NCES Table 1.2 does not list territories. Its tied most-common ranges occur 10 times each (5–18, 6–16, 6–18); use 6–18, whose lower and upper ages are the medians of the 51 state and D.C. entries. National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-PR": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "ESTIMATED FROM MODE: NCES Table 1.2 does not list territories. Its tied most-common ranges occur 10 times each (5–18, 6–16, 6–18); use 6–18, whose lower and upper ages are the medians of the 51 state and D.C. entries. National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    },
+    "US-VI": {
+      "minimumAge": 6,
+      "maximumAge": 18,
+      "estimatedFrom": "ESTIMATED FROM MODE: NCES Table 1.2 does not list territories. Its tied most-common ranges occur 10 times each (5–18, 6–16, 6–18); use 6–18, whose lower and upper ages are the medians of the 51 state and D.C. entries. National Center for Education Statistics (NCES), State Education Practices, Table 1.2, “Compulsory school attendance laws, minimum and maximum age limits for required free education, by state: 2020”; underlying source: Education Commission of the States, retrieved March 22, 2022. https://nces.ed.gov/programs/statereform/tab1_2-2023.asp"
+    }
+  }
+}

@@ -13,8 +13,6 @@ export const facetAnalyticalEffects: readonly TraitEffectDeclaration[] = [
         option: "counter",
         trait: "personality-v1:facet-analytical",
         pole: "high",
-        explanation:
-          "They weigh the terms and answer with a counteroffer rather than simply agreeing.",
       },
     ],
   },

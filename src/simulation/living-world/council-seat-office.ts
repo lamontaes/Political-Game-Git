@@ -1,6 +1,6 @@
 import { activeOrganizationParticipationsAt } from "../life-queries";
 import type { EntityId, World } from "../types";
-import { COUNTY_BOARD_MEMBER } from "./local-government-seats";
+import { COUNTY_BOARD_MEMBER } from "./local-government-roles";
 
 /**
  * A seat on a town council or county board, as an office the person holds.

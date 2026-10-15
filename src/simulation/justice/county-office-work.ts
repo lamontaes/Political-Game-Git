@@ -1,4 +1,4 @@
-import type { GovernmentUnitIdentity } from "../government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import {
   eventsOfType,
   heldBeforeTrialOn,
@@ -18,7 +18,7 @@ import {
 } from "./prosecution";
 import { sittingCountyRowOfficers } from "../living-world/local-government-seats";
 import { CRIME_EVENT_TYPES } from "../crime/producer";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 
 /**
@@ -163,4 +163,34 @@ export function countyOfficeWork(
       ),
     },
   };
+}
+
+/** The current officeholder's dated work, for the existing person record view. */
+export function countyOfficeHolderWorkEventIds(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  const unit = countyUnitForJurisdiction(
+    world.people[personId]?.homeJurisdictionId ?? null,
+  );
+  if (!unit) return [];
+  const holder = sittingCountyRowOfficers(world, unit).find(
+    (row) =>
+      row.personId === personId &&
+      (row.office === "sheriff" || row.office === "prosecutor"),
+  );
+  if (!holder) return [];
+  const tenure = world.history.organizationParticipations.find(
+    (row) => row.id === holder.participationId,
+  );
+  if (!tenure) return [];
+  const work = countyOfficeWork(
+    world,
+    unit,
+    tenure.startedAt,
+    world.currentDate,
+  );
+  return holder.office === "sheriff"
+    ? [...work.sheriff.arrestEventIds, ...work.sheriff.bookingEventIds]
+    : [...work.prosecutor.chargedEventIds, ...work.prosecutor.declinedEventIds];
 }
