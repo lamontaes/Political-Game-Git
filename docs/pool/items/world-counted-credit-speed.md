@@ -4,7 +4,7 @@ title: "Counted consumer credit: rebuild the slow part (#4379)"
 area: world
 kind: bug
 priority: 1
-status: open
+status: in-pr
 claimed-by:
 pr: #4379
 blocked-on:
@@ -21,3 +21,5 @@ source: "reissue item 2; PR #4379 branch law/session-a-counted-consumer-credit"
 **Files.** src/core2/modules/credit.ts
 
 **Notes.** REBUILD the slow part on the existing PR branch.
+
+Session handed off Oct 15, 2026: branch claude/world-counted-credit-speed was never pushed; the work is PR #4379 (law/session-a-counted-consumer-credit, 19:40Z, no push since); remainder: the 24.9% slowdown (counted-household scan) is not fixed; make the read act on change or by index, get under 20%, prove a native loan in a drawn year.

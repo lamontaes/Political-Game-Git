@@ -12,15 +12,12 @@ milestone:
 source: 'docs/coordination/OFFICE-LOCAL.md "Needs from other sessions" (line 39)'
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** Two requests remain on the local office day. From GOV: local meetings on the office-day calendar, member filings held until the scene, the desk and votes reading the controlled person, and the executive's sign-or-veto choice, the office's case decision and the appointer's own choice exported. From CORE: a second, salaried pay basis for stipends, and the disasters engine for emergencies. Verify what is on main (`office-day-pay.ts`, `office-day-calendar.ts` exist), close built lines and split the rest. The player would notice his council stipend paid properly and meetings on the calendar.
 
-- OPUS-GOV: local meetings on the office-day calendar; member filings held until the scene; the desk and votes read the controlled person; the executive's sign-or-veto choice, the office's case decision and the appointer's own choice exported. Details in the PR body.
-- OPUS-CORE: a second, salaried pay basis for stipends; the disasters engine for emergencies.
+**Rules.** Look before you ask: check docs/ and the register first; some lines are decided; Wire to the world: each line closes when another engine reads what it wrote, by record id; An effect is a read, not a record: the pay reads the seat's pay basis and the desk reads the controlled person when they decide; One rule, all 56 places: pay and meeting calendars come from place data, with no place named in code; Placeholders: open lines keep their stopgap rows; No dice: stipends follow the body's pay rule, not a roll.
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): each of the two lines in `docs/coordination/OFFICE-LOCAL.md` (line 39) is struck with an id or has a pool item; in the year the bench player's council seat pays its stipend on the 1st from the treasury (payment id) and a meeting appears on the calendar. Tests beside `src/core2/office-day-calendar.test.ts`. The owner plays it: sees the stipend arrive on the first of the month.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
-
-**Files.** varies
+**Files.** src/core2/office-day-pay.ts, src/core2/office-day-calendar.ts, src/core2/modules/office-day.ts, docs/coordination/OFFICE-LOCAL.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.

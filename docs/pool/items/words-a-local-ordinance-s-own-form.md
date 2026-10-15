@@ -4,7 +4,7 @@ title: "A local ordinance's own form:"
 area: words
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -14,10 +14,10 @@ source: "docs/coordination/words.md line 48 (unchecked checklist line)"
 
 **What.** A local ordinance's own form: number, the body's enacting words, sections, effective date, from public-domain municipal forms in data.
 
-**Rules.** AGENTS.md rules; an effect is a read; nothing waits on another session.
+**Rules.** Dropped as a duplicate; see Notes.
 
-**Done when.** Built and read by another engine in a one-year played-world run, by record id; or verified done on main and marked done.
+**Done when.** Not applicable; the work is tracked in words-local-ordinance-form.
 
-**Files.** see the status file
+**Files.** see words-local-ordinance-form
 
-**Notes.** Checklist line from words.md; verify against main before starting.
+**Notes.** Duplicate of words-local-ordinance-form. Checklist line from words.md; verify against main before starting.

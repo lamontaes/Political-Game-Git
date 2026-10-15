@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.8.1",
+      "releasedOn": "2026-10-15",
+      "revision": "7180e3a2c6162b9932a3efaaae8ccf6861231aed",
+      "changeIds": ["laws-assistance-time-limit"]
+    },
+    {
       "version": "0.8.0",
       "releasedOn": "2026-10-15",
       "revision": "054c429ecd190ec0e742b14b6bb087960aacb0e0",
