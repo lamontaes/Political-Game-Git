@@ -2754,8 +2754,8 @@
     "why": "The retirement claim became a decision within the law's bounds before GOV's laws module carries Social Security ages.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date.",
-    "status": "open"
+    "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date. Done Oct 15 (claude/ss-ages-law-in-force): retirementClaimAgeMonths takes the ages from the law (socialSecurityAges, the law in force at the claim date, or the day-one law for the opening's history); the core table src/core2/data/social-security-ages.json is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-retirement-claims-in-play",
