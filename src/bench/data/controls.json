@@ -189,5 +189,21 @@
     "budget": "Budget",
     "increase": "Increase",
     "decrease": "Decrease"
+  },
+  "money": {
+    "cash": "Cash available",
+    "history": "Balance history",
+    "spending": "Where the money went",
+    "home": "Home",
+    "householdHome": "Your household’s home",
+    "tenure": "Tenure",
+    "owned": "Owned",
+    "rented": "Rented",
+    "value": "Value",
+    "rent": "Rent",
+    "monthly": "per month",
+    "deductions": "Paycheck deductions",
+    "assets": "Assets",
+    "debts": "Debts"
   }
 }
