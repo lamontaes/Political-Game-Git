@@ -3596,11 +3596,11 @@
     "file": "src/core2/justice-custody.ts",
     "line": 15,
     "whatItFakes": "The justice engine writes a prisoner's discretionary-choice flag on the person directly, because the core's updatePerson does not take it.",
-    "why": "The core has no call for a module to take a person's own choices away for a time.",
+    "why": "The core has no call for a module to take a person's own choices away for a time. Resolved by second Session D, 2026-10-15: updatePerson accepts the optional eligibility flag and clears it when explicitly undefined; custody and release use that API instead of direct person writes.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "An OPUS-CORE call (updatePerson accepting discretionaryEligibleV1, or a custody hold) used by justice-custody.ts.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-justice-player-choices",
