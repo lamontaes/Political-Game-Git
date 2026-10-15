@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in core.md (line 172): 30 lines"
 area: core
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-needs-core-172
-pr:
+pr: #4496
 blocked-on:
 milestone:
 source: 'docs/coordination/core.md "Needs from other sessions" (line 172)'
