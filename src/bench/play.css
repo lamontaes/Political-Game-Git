@@ -2101,3 +2101,65 @@ body.dev .dev-ring {
     grid-column: 1 / -1;
   }
 }
+
+#sheet-body:has(.money-section) {
+  max-width: none;
+}
+.money-section {
+  margin: 20px 0 36px;
+  max-width: 960px;
+}
+.money-section h3 {
+  font: 600 22px var(--name);
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+.cash-total {
+  display: block;
+  font: 600 clamp(36px, 4vw, 64px) var(--name);
+  color: var(--text-strong);
+  margin-top: 12px;
+}
+.money-home p {
+  font: 20px var(--speech);
+}
+.property-image {
+  float: left;
+  width: 35%;
+  max-height: 220px;
+  object-fit: cover;
+  margin: 0 30px 20px 0;
+}
+.balance-bars {
+  display: flex;
+  align-items: end;
+  gap: 30px;
+  min-height: 180px;
+}
+.balance-column {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font: 12px var(--ui);
+}
+.balance-bar {
+  width: 70%;
+  background: linear-gradient(var(--gold), var(--brass));
+}
+.money-donut {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  float: left;
+  margin: 0 30px 20px 0;
+  mask: radial-gradient(transparent 45%, black 46%);
+}
+.money-spending {
+  display: flow-root;
+}
+#game.sheet-open #news-surface {
+  visibility: hidden;
+}
