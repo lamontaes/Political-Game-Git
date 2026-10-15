@@ -56,6 +56,41 @@
   "opening": {
     "news": "News"
   },
+  "sceneFilter": "Scenes that stop your day",
+  "sceneKinds": {
+    "departure": "Departure",
+    "return": "Return",
+    "news-arrives": "News arrives",
+    "letter": "Letter",
+    "argument": "Argument",
+    "apology": "Apology",
+    "confession": "Confession",
+    "favor-asked": "Favor asked",
+    "reach-out": "Reach out",
+    "becoming-friends": "Becoming friends",
+    "celebration": "Celebration",
+    "gathering-missing": "Gathering missing",
+    "funeral": "Funeral",
+    "first-meeting": "First meeting",
+    "first-day": "First day",
+    "last-day": "Last day",
+    "interview": "Interview",
+    "date": "Date",
+    "proposal": "Proposal",
+    "breakup": "Breakup",
+    "reunion": "Reunion",
+    "betrayal": "Betrayal",
+    "rescue": "Rescue",
+    "visit": "Visit",
+    "arrival": "Arrival",
+    "care": "Care",
+    "advice": "Advice",
+    "accusation": "Accusation",
+    "warning": "Warning",
+    "reconciliation": "Reconciliation",
+    "asking-permission": "Asking permission",
+    "polling-place": "Election day"
+  },
   "polling": {
     "leaveBlank": "Leave blank",
     "leave": "Leave"
@@ -89,21 +124,15 @@
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
   },
-  "who": {
-    "age": "Age",
-    "born": "Born",
-    "home": "Home",
-    "householdHome": "Your household's home",
-    "work": "Work",
-    "school": "School",
-    "money": "Money",
-    "family": "Family"
-  },
-  "search": "Search",
-  "talk": "Talk",
   "levels": {
     "local": "Local",
     "state": "State",
-    "federal": "Federal"
+    "federal": "Federal",
+    "county": "County",
+    "city": "City",
+    "township": "Township"
+  },
+  "travel": {
+    "staff": "staff"
   }
 }

@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { lifeWeighsAgainstOffice } from "./careers/another-term";
 import type { CharacterHistoryContextPersonInput } from "./character-history";
 import { makeIsoDate } from "../core2/kernel/dates";

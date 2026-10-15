@@ -1285,7 +1285,7 @@ body.dev .dev-ring {
 }
 .gov-map {
   width: 100%;
-  max-height: 38vh;
+  max-height: 56vh;
 }
 .gov-map .state {
   fill: rgba(242, 237, 228, 0.06);
@@ -1458,6 +1458,20 @@ body.dev .dev-ring {
   margin: 0;
   padding: 10px 0;
 }
+/* The scenes the player lets stop the day (Options). */
+.scene-filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 4px 16px;
+  margin: 6px 0 16px;
+}
+.scene-filter label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font: 400 13.5px var(--ui);
+  color: var(--text-2);
+}
 .coach {
   box-shadow:
     0 0 0 1px var(--iron),
@@ -1536,81 +1550,4 @@ body.dev .dev-ring {
 #desk .acts {
   display: grid;
   gap: 6px;
-}
-
-/* Who you are: the character screen's portrait and name. */
-.character {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 14px;
-  column-span: all;
-}
-.character .portrait {
-  width: 96px;
-  height: 96px;
-  object-fit: cover;
-  border: 1px solid var(--gold);
-}
-.character .name {
-  font: 600 22px var(--name);
-}
-
-/* People: the relationship web. */
-.web-wrap {
-  column-span: all;
-}
-.web {
-  width: 100%;
-  height: auto;
-  max-height: 70vh;
-}
-.web-edge {
-  stroke: var(--brass);
-  opacity: 0.55;
-}
-.web-node {
-  cursor: pointer;
-}
-.web-node circle {
-  fill: var(--iron);
-  stroke: var(--gold);
-  stroke-width: 2;
-}
-.web-node:hover circle,
-.web-node:focus circle {
-  fill: var(--brass-hi);
-}
-.web-node text {
-  fill: var(--text);
-  font: 500 12px var(--ui);
-}
-.web-node .web-relation {
-  fill: var(--text-3);
-  font-size: 11px;
-}
-.web-you {
-  fill: var(--gold);
-  stroke: var(--brass-hi);
-  stroke-width: 3;
-}
-.web-you-name {
-  fill: var(--text-strong);
-  font: 600 14px var(--name);
-}
-.people-search {
-  width: 100%;
-  margin-bottom: 10px;
-  column-span: all;
-}
-
-/* Government: the level picker above the seats. */
-.level-picker {
-  display: flex;
-  gap: 8px;
-  margin: 12px 0 8px;
-  column-span: all;
-}
-.level-picker .tab.on {
-  box-shadow: inset 0 -2px 0 var(--gold);
 }
