@@ -1846,11 +1846,11 @@
     "file": "src/core2/modules/voting.ts",
     "line": 733,
     "whatItFakes": "Election-day weather adds nothing to any voter's cost of voting: every election day is fair weather.",
-    "why": "The played world keeps no weather record; the storm catalog (data/source/storm-events-2000-2024) lists past episodes, but no engine writes a storm on a game day yet.",
+    "why": "The played world keeps no weather record; the storm catalog (data/source/storm-events-2000-2024) lists past episodes, but no engine writes a storm on a game day yet. Retired by Session C, October 15, 2026: the helper returned zero without reading any weather record. The weather reason and its numeric term were removed from all turnout tiers; the game no longer presents a weather reading.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "The cost of voting reads the day's storm or rain record in the voter's county once the world's hazard engine writes one (rain lowers turnout about 0.8 points an inch: Gomez, Hansford and Krause 2007, Journal of Politics 69(3)).",
-    "status": "open"
+    "replacement": "Retired the unsupported weather reason. A future weather effect requires an actual place-and-day weather record, with the same reader for named, counted, and wider voters.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-tie-by-lot",
