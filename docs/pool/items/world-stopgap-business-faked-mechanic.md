@@ -12,12 +12,12 @@ milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/business.ts, kind faked-mechanic"
 ---
 
-**What.** Replace or clear the 2 open faked-mechanic stopgap row(s) in src/core2/modules/business.ts: SG-WORLD-business-counted-owner-choice, SG-WORLD-business-no-successor. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** The stopgap row(s) SG-WORLD-business-counted-owner-choice, SG-WORLD-business-no-successor in src/core2/modules/business.ts mark a shortcut that is still live in play. Today an owner still in the wider population takes the option whose reasons sum highest instead of choosing through the shared chooser, with draws going to a pooled residents account, and a business whose owner dies has no successor. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Rules.** One model, two tiers: a counted owner decides through the shared chooser exactly as a full owner does, with their own account. No dice: succession comes from heirs and the will. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a counted owner's close, keep or sell decision goes through the chooser and a dead owner's heir takes the business, with decision and heir record ids, named by record id. The test in src/core2/business.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: see a shop owner's heir take over the shop after a death.
 
-**Files.** src/core2/modules/business.ts
+**Files.** src/core2/modules/business.ts, src/core2/data/stopgaps.json, src/core2/business.test.ts
 
 **Notes.** First row: An owner still in the wider population (not yet filled in) takes the option whose reasons sum highest instead of choosing through the shared chooser, and their draws go to their place's pooled residents account.
