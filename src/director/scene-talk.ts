@@ -426,6 +426,10 @@ function playScene(
           role: "asked",
           ...base,
           after: answeredMove,
+          // The reply may name the question it answers by the piece's own key.
+          ...(rounds.at(-one)?.answer?.parts[zero]
+            ? { afterPiece: rounds.at(-one)!.answer!.parts[zero]! }
+            : {}),
         },
         cast.askedId,
         askedTraits,
@@ -548,7 +552,9 @@ function playScene(
           "close",
         )
       : null;
-  if (close && !answeredClose) push(close, rounds.length);
+  // The close never says again what was just said.
+  const repeats = close?.text === lines.at(-one)?.text;
+  if (close && !answeredClose && !repeats) push(close, rounds.length);
 
   return {
     kind: "composed",
@@ -562,8 +568,8 @@ function playScene(
       state: statement,
       rounds,
       // With no close piece that fits, the asker's last answer is where it ends.
-      ...((answeredClose ?? close ?? finalAnswer)
-        ? { close: (answeredClose ?? close ?? finalAnswer)! }
+      ...((answeredClose ?? (repeats ? undefined : close))
+        ? { close: (answeredClose ?? close)! }
         : {}),
       outcome,
       lines,

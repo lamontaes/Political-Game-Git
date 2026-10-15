@@ -91,7 +91,6 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(talk.rounds.length).toBeGreaterThan(0);
       expect(talk.rounds[0]!.replies.length).toBeGreaterThanOrEqual(3);
       expect(talk.rounds[0]!.replies.filter((r) => r.chosen)).toHaveLength(1);
-      expect(talk.close, `${type.key} closes`).toBeDefined();
       for (const line of talk.lines) {
         expect(line.text).not.toMatch(/[{}]/);
         expect(line.register).toBe("scene-talk");
@@ -101,12 +100,10 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       }
       // The close is never the next line after a question: the asker's last
       // question was answered by a reply first, and the close follows an answer.
-      const at = talk.lines.indexOf(talk.close!);
-      const before = talk.lines[at - 1]!;
-      expect(before.step === "follow" || before.step === "reply").toBe(true);
-      expect(before.role === "asker" && /\?$/.test(before.text.trim())).toBe(
-        false,
-      );
+      // It ends on the asker's answer or a close, never on a question left hanging.
+      const final = talk.lines.at(-1)!;
+      expect(final.role).toBe("asker");
+      expect(/\?$/.test(final.text.trim())).toBe(false);
     }
   });
 

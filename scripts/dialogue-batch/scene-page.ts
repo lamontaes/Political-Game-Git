@@ -101,6 +101,15 @@ const officeText = (officeId: string) => {
     ? `county ${String(office.title).toLowerCase()}`
     : String(office.title);
 };
+/** An office as the record names it, with its casing ("U.S. Representative", "County Commissioner"). */
+const officeName = (contest: any) => {
+  const office = offices.get(contest.officeId);
+  const title = String(office?.title ?? contest.title);
+  return (office?.level === "county" || office?.level === "local") &&
+    !/county/i.test(title)
+    ? `County ${title}`
+    : title;
+};
 const serving = (officeId: string) =>
   terms
     .filter((row) => row.officeId === officeId && row.status === "serving")
@@ -292,7 +301,7 @@ for (const party of rows("core2-parties-v1", "parties")) {
         name: fact(nameOf(chair), [chair]),
         first: fact(core.people.get(asked)!.givenName, [asked]),
         party: fact(party.name, [party.id]),
-        office: fact(String(contest.title).toLowerCase(), [contest.id]),
+        office: fact(officeName(contest), [contest.id]),
         bill: fact(quoted(any.title), [any.bill.id]),
         recruit: flag([party.id, filing.id]),
       },
@@ -362,7 +371,7 @@ for (const filing of order(filings, "fam-filing", (row) => row.id)) {
     facts: {
       name: fact(nameOf(kin), [kin]),
       first: fact(core.people.get(asked)!.givenName, [asked]),
-      office: fact(String(contest.title).toLowerCase(), [contest.id]),
+      office: fact(officeName(contest), [contest.id]),
       ...(town ? { place: fact(town.text, [town.id]) } : {}),
     },
     records: [filing.id, contest.id, kin, asked],
@@ -384,7 +393,7 @@ for (const result of order(results, "fam-result", (row) => row.id)) {
       facts: {
         name: fact(nameOf(familyOf(winner)!), [familyOf(winner)!]),
         first: fact(core.people.get(winner)!.givenName, [winner]),
-        office: fact(String(contest.title).toLowerCase(), [contest.id]),
+        office: fact(officeName(contest), [contest.id]),
       },
       records: [result.id, contest.id, winner],
       standIn: [
@@ -403,7 +412,7 @@ for (const result of order(results, "fam-result", (row) => row.id)) {
       facts: {
         name: fact(nameOf(familyOf(loser)!), [familyOf(loser)!]),
         first: fact(core.people.get(loser)!.givenName, [loser]),
-        office: fact(String(contest.title).toLowerCase(), [contest.id]),
+        office: fact(officeName(contest), [contest.id]),
         opponent: fact(nameOf(winner), [result.id, winner]),
       },
       records: [result.id, contest.id, loser, winner],
@@ -536,10 +545,6 @@ for (const row of order(
       first: fact(core.people.get(sponsor)!.givenName, [sponsor]),
       bill: fact(quoted(row.title), [row.bill.id]),
       outlet: fact(properName(org.name), [org.id]),
-      story: fact(`the failed vote on ${quoted(row.title)}`, [
-        row.bill.id,
-        outlet!.id,
-      ]),
       "bill-lost": flag([row.bill.id]),
     },
     records: [row.bill.id, aide.id, sponsor, org.id],
@@ -573,7 +578,6 @@ for (const interview of order(
       name: fact(nameOf(reporter), [reporter]),
       first: fact(core.people.get(asked)!.givenName, [asked]),
       outlet: fact(properName(org.name), [org.id]),
-      story: fact(lowerFirst(title), [interview.id]),
       bill: fact(quoted(title), [interview.id]),
     },
     records: [interview.id, outlet.id, reporter, asked],
