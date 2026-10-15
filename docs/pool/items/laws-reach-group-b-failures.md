@@ -4,7 +4,7 @@ title: "law-reach-group-b.test.ts: assistance work requirement and highway shift
 area: laws
 kind: bug
 priority: 1
-status: in-pr
+status: done
 claimed-by: claude/laws-reach-group-b-failures
 pr: "#4402"
 blocked-on:
