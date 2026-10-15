@@ -426,6 +426,8 @@ function readPriceLaws(api: CoreAPI): void {
     "SG-GOV-REACH-B-energy-price",
     true,
   );
+  // stopgapId: SG-GOV-REACH-B-retail-price — container use and redemption
+  // still use household estimates rather than individual return decisions.
   sync(
     "us-policy-positions:environment-energy.bottle-deposit",
     {
@@ -434,7 +436,7 @@ function readPriceLaws(api: CoreAPI): void {
       value: p.bottleDepositCents.value,
       refundable: true,
     },
-    "SG-GOV-REACH-B-energy-price",
+    "SG-GOV-REACH-B-retail-price",
   );
   // stopgapId: SG-GOV-REACH-B-mileage-fee-price
   sync(

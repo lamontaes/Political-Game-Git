@@ -1,31 +1,41 @@
-# Session A
+# Session A: law-link
 
-Housing and price laws now reach the engines that charge rent, build homes and settle household costs. These are draft changes; the full law-to-person-to-story chain remains unfinished.
+On the draft branches, laws now reach housing construction and rent, household prices, property-tax assessments, farm sales, consumer loan offers, and income-tax schedules. The knowledge draft preserves how a person actually received news.
 
-## Assignment
+Session A is not finished. The full law-to-person-to-received-source-to-director acceptance remains open. No pool item is claimed, and the original law-link draft stays open until the replacements hold.
 
-Rebuild the 59-law work on fresh main branches, one draft per family. Never merge these drafts or close the old draft until the replacement holds. No pool item claimed.
+## Drafts and evidence
 
-## What the owner can play
+| Family             | Draft and branch                       | Played-world result                                                                                                                                               |
+| ------------------ | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Housing            | #4331, `law/session-a-law-link`        | A native zoning law changes construction capacity. Native rent-cap savings and eviction-counsel payment were absent.                                              |
+| Prices             | #4335, `law/session-a-prices`          | Nadia Dalton receives a 775-cent transit refund in `journal:2025-04-03:8842`. The bill was proposed through the legislature and passed an unforced vote.          |
+| Received knowledge | #4342, `law/session-a-law-knowledge`   | Rebecca Moseley receives a printed law story. Her stance retains the actual news source. This does not prove a paid effect on her.                                |
+| Property tax       | #4345, `law/session-a-property-tax`    | David McKnight pays 10,342 cents in `journal:2025-02-06:2224`. No native assessment-cap saving occurred.                                                          |
+| Groundwater        | #4359, `law/session-a-groundwater`     | A native county law limits farm sales. William Miles later receives 283,169 cents in `journal:2025-05-01:9077`. The full draw is not claimed as the law's effect. |
+| Consumer credit    | #4361, `law/session-a-consumer-credit` | Native applications, loans and payments were absent. Binding, repeal and jurisdiction cases are controlled tests only.                                            |
+| Income tax         | #4365, `law/session-a-income-tax`      | David's February 13 paycheck withholds 9,223 cents under the state law. The native year had no graduated-tax repeal; transition tests cover that case.            |
 
-The price draft lets a council's fare-free transit ordinance reduce monthly household costs. In the drawn Bolton world, Nadia Dalton received $7.75 in April after an ordinance passed 3 to 2. Her electricity cost rose $5.34 under the state's existing clean-electricity law.
+The common unchosen draw is Bolton, North Carolina, seed `ec34d7766cd3277bdbd1510ae1a9277680fb03f7dd96b0649f7df4c6290591c5`. Each proof runs a played year with all modules. PR bodies carry the complete IDs, exact checks and limitations. Controlled cases are separate from native evidence.
 
-The housing draft makes construction read zoning laws, rent renewal read stabilization, and eviction counsel require treasury payment.
+Each family starts from main `1977d40995`. None was merged or closed by this session. No helper ran.
 
-## Branches and checks
+## Remaining work
 
-Housing: `law/session-a-law-link`, draft #4331. Focused housing tests passed 11 of 11, reach tests 67 of 67. Changed-file types, lint, formatting, release and zero-dice passed.
+- Complete the remaining law reads, including bargaining, agency fees, cannabis, health and assistance, school eligibility, clean-air policy, and the remaining justice and government policies.
+- Audit all 59 catalog questions against their decision or payment consumers. Existing handlers are not accepted merely because they write a row.
+- Prove each wired family's named-person, received-source, view or choice, and director chain. Most people remain untouched.
+- Keep the eleven permitted record-only laws registered with concrete missing-record reasons. Keep every other shortcut registered too.
+- Reconcile family changes after CTO integration. Close #4116 only when the replacements hold, then claim the first open pool item.
 
-Prices: `law/session-a-prices`, draft #4335. Generated year and controlled repeal cases passed. Full and counted payment parity passed. Remaining local checks are recorded in the PR body.
+## Verification limits
 
-The same drawn world ran from January 20, 2025 through January 20, 2026. Price play took 20.76 seconds; the base took 22.46 seconds. All journal dollars balanced.
+The income-tax transition test passes. Two group-B failures reproduce on exact main in Ten Mile Run, New Jersey, seed `91e8ccda3aae3da76ef3d6f5136a55458beea638c1d565e8b1dbc37f85971b1e`: assistance eligibility and highway-service cleanup. An existing news test also fails on main. No tests were skipped.
 
-## Still open
+Consumer credit's matched speed check was 28.39 seconds versus 26.20 on main. Groundwater's personal-receipt run included owner fill-in and concurrent checking, so its 30.11 seconds is not a comparable speed result. The earlier groundwater year was 21.71 seconds. Income tax's final year was 20.62 seconds.
 
-No payment notice, informed stance or director line is proved for these price laws. Four laws have controlled-case coverage but no ordinary-year paid example here. Consumption estimates, broadband subscriptions and bottle redemption remain registered gaps. Do not treat journal source attribution as a notice received by the person.
+## Needs from other sessions
 
-The next work is the remaining law families and the eleven record-only laws. Keep each unresolved stopgap registered with its reason. Words owns the director and English engine tonight.
+The director and English engine are outside tonight's scope. Use existing consumers where possible and identify the missing Words-session consumer for each remaining payment explanation. No journal or conversation line is claimed from bookkeeping alone.
 
-## Execution
-
-No helpers ran. The two family drafts start from main `1977d40995`. They overlap in law-reach data and this status file; combine their entries when the CTO merges them.
+Counted credit applications and repayment still need the same rule as full households. Farm irrigation exposure, bottle returns, statutory tax replacement terms, and the remaining gaps are registered in each draft's stopgap data.
