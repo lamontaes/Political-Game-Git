@@ -12,12 +12,12 @@ milestone:
 source: "src/core2/data/stopgaps.json, src/core2/policy-authority.ts, kind missing-record"
 ---
 
-**What.** Replace or clear the 1 open missing-record stopgap row(s) in src/core2/policy-authority.ts: SG-GOV-policy-power-unresolved. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** The stopgap row(s) SG-GOV-policy-power-unresolved in src/core2/policy-authority.ts mark a shortcut that is still live in play. Today unmapped questions and unresolved cells of the powers catalog cannot be introduced, and the authority result records a disputed missing grant instead of resolving who may act. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Rules.** One rule, all 56 places: the grant for each office comes from the powers catalog in data for every place, never a named state. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), a bill or order from an office whose power was unresolved gets a resolved grant or a recorded dispute, with the authority record id and the office, named by record id. The test in src/core2/policy-authority.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: propose an ordinance and be told by the record which body holds the power.
 
-**Files.** src/core2/policy-authority.ts
+**Files.** src/core2/policy-authority.ts, src/core2/data/stopgaps.json, src/core2/policy-authority.test.ts
 
 **Notes.** First row: Unmapped questions and unresolved powers-catalog cells cannot be introduced; the authority result records a disputed missing grant rather than silently permitting the action.
