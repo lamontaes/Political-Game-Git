@@ -156,20 +156,20 @@ function meanVisitsPerYear(p: Lookup, row: readonly number[]): number {
  * plus the childhood they shared at home, faded since one of them left.
  */
 export function openingClosenessHours(
-  core: Pick<CoreState, "data" | "date" | "people">,
+  core: Pick<CoreState, "data" | "date" | "people" | "husks">,
   actorId: PersonId,
   otherId: PersonId,
 ): number {
   stopgap(data.stopgapId);
   const p = lookup(core);
   const actor = core.people.get(actorId)!;
-  const other = core.people.get(otherId)!;
+  const other = core.people.get(otherId) ?? core.husks.get(otherId)!;
   const family = actor.familyIds.has(otherId);
   const kind = family ? data.familyKind : data.householdKind;
   const householdRate =
     p(family ? "householdFamilyMinutesPerDay" : "householdOtherMinutesPerDay") /
     p("minutesPerHour");
-  if (actor.householdId === other.householdId)
+  if ("householdId" in other && actor.householdId === other.householdId)
     return steadyHours(p, householdRate, kind);
 
   const fact = actor.pastFacts?.find(
@@ -203,12 +203,16 @@ export function openingClosenessHours(
     apart = p("zero");
   if (tie.sharedChildhood === "parent" || tie.sharedChildhood === "child") {
     const child = tie.sharedChildhood === "parent" ? actor : other;
-    const childAge = age(child.birthDate);
-    if (childAge >= adultDays) {
+    const childAge =
+      child.birthDate === undefined ? undefined : age(child.birthDate);
+    if (childAge !== undefined && childAge >= adultDays) {
       together = adultDays;
       apart = childAge - adultDays;
     }
-  } else if (tie.sharedChildhood === "sibling") {
+  } else if (
+    tie.sharedChildhood === "sibling" &&
+    other.birthDate !== undefined
+  ) {
     const ages = [age(actor.birthDate), age(other.birthDate)].sort(
       (a, b) => b - a,
     );

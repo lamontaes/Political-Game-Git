@@ -1086,6 +1086,41 @@ body.dev .dev-ring {
   transform: translateX(-50%);
   width: min(900px, calc(100vw - 2 * var(--gutter)));
 }
+/* Options uses the approved compact panel instead of the full-height reader. */
+#game #sheet.options-sheet {
+  left: 50%;
+  right: auto;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(760px, calc(100vw - 2 * var(--gutter)));
+  max-height: calc(100vh - 2 * var(--gutter));
+  padding: 30px 40px;
+}
+.options-sheet #sheet-body {
+  flex: 0 1 auto;
+  max-width: none;
+}
+.option-setting {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 2fr;
+  gap: 16px;
+  align-items: center;
+  margin: 18px 0;
+}
+.option-setting > span:first-child {
+  color: var(--gold);
+}
+.option-setting input {
+  justify-self: start;
+}
+.option-status:empty {
+  display: none;
+}
+.options-actions {
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
 .sheet-head {
   display: flex;
   justify-content: space-between;
@@ -1180,59 +1215,114 @@ body.dev .dev-ring {
 }
 #game.sheet-open #talk,
 #game.sheet-open #person,
-#game.sheet-open #journal-note {
+#game.sheet-open #journal-note,
+#game.sheet-open #news-surface {
   visibility: hidden;
 }
 
-/* Calendar: two months on ruled lines, today underlined in gold. */
+/* Calendar uses the existing panel frame and Kit 13 controls. */
+#sheet:has(.calendar-layout) {
+  background: linear-gradient(#262628, #151517);
+  backdrop-filter: none;
+}
+#sheet-body:has(.calendar-layout) {
+  max-width: none;
+}
+.calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.7fr) minmax(170px, 1fr) minmax(
+      170px,
+      1fr
+    );
+  gap: 24px;
+}
+.calendar-layout h3 {
+  font: 600 17px var(--name);
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+.calendar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.calendar-heading h3 {
+  margin: 0;
+  text-align: center;
+}
+.calendar-heading button {
+  font-size: 11px;
+  padding: 6px;
+}
 #sheet-body .month {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  column-gap: 6px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
   margin-bottom: 18px;
 }
-.month h3 {
-  grid-column: 1 / -1;
-  font: 800 16px var(--name);
-  letter-spacing: 0.06em;
-  margin: 4px 0 6px;
-}
 .month .weekday {
-  font: 600 10.5px var(--ui);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  font: 500 11px var(--ui);
   color: var(--gold);
-  padding-bottom: 4px;
+  text-align: center;
+  padding-bottom: 8px;
 }
 .month .day {
-  min-height: 48px;
-  padding: 3px 2px;
-  font-size: 11px;
-  overflow: hidden;
+  min-height: 44px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
 }
-.month .day b {
-  font-weight: 500;
-  color: var(--text-2);
-}
-.month .day.today b {
+.month .day.today {
   color: var(--gold);
-  background: var(--raised);
-  padding: 1px 7px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  background: rgba(214, 189, 132, 0.16);
 }
-.month .day.jump {
-  cursor: pointer;
+.month .day.selected {
+  outline: 1px solid var(--gold);
+  outline-offset: -1px;
 }
-.month .day.jump:hover b {
-  color: #fff;
-  text-shadow: var(--glow);
+.month .day::after {
+  display: none;
 }
 .month .entry {
   display: block;
   color: var(--gold);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  line-height: 8px;
+}
+.calendar-event {
+  margin-bottom: 20px;
+}
+.calendar-event p {
+  font: 17px/1.4 var(--speech);
+  margin: 5px 0;
+}
+.calendar-paging {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.calendar-upcoming > div > button {
+  padding-left: 0;
+  color: var(--gold);
+}
+@media (max-width: 1100px) {
+  .calendar-layout {
+    grid-template-columns: minmax(300px, 1.6fr) 1fr;
+    gap: 18px;
+  }
+  .calendar-upcoming {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 20px;
+    align-items: start;
+  }
+  .calendar-upcoming > div {
+    flex: 1;
+  }
+  .calendar-event p {
+    font-size: 14px;
+  }
 }
 
 /* Family: each member where they are now. */
@@ -1457,20 +1547,6 @@ body.dev .dev-ring {
 #news-reader-more .prose {
   margin: 0;
   padding: 10px 0;
-}
-/* The scenes the player lets stop the day (Options). */
-.scene-filter {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 4px 16px;
-  margin: 6px 0 16px;
-}
-.scene-filter label {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font: 400 13.5px var(--ui);
-  color: var(--text-2);
 }
 .coach {
   box-shadow:

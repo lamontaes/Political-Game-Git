@@ -1063,11 +1063,11 @@
     "file": "src/core2/modules/elections.ts",
     "line": 565,
     "whatItFakes": "Every adult resident counts as a registered voter where filing or signing requires registration.",
-    "why": "core2 has no voter registration record yet.",
+    "why": "core2 has no voter registration record yet. Retired by Session C, October 15, 2026: the eligibility check inferred registration solely from age and residence. The owner's no-paperwork rule does not call for a registration mechanic. Filing no longer reports that invented status; sourced research metadata is retained.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "A registration record per person (registered, where, party where a state records it), written when people register; filing and signing read it.",
-    "status": "open"
+    "replacement": "Retired the unsupported registered-voter eligibility result. Age, residence, deadlines, party membership and term limits remain separate checks. Reintroduce a registration mechanic only if the owner or golden path calls for it, with actual records.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-views-stand-in",
@@ -1400,7 +1400,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 113,
-    "whatItFakes": "Paid family leave collects its payroll premium but pays no leave: nobody claims leave for a birth, adoption or a relative's illness.",
+    "whatItFakes": "Paid family leave collects the same estimated payroll premium from full workers and counted groups but pays no leave. The generic contribution omits jurisdiction-specific employee/employer splits, wage caps and covered-employment exclusions. Nobody claims leave for a birth, adoption or a relative's illness; no received contribution notice or director explanation is modeled.",
     "why": "There is no birth-leave or caregiving event a worker can claim leave from, and no benefit payment route from a treasury to a person.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
@@ -1448,11 +1448,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 231,
-    "whatItFakes": "The consumer loan rate cap records the right on adults, but no person holds a loan to reprice.",
-    "why": "Credit facilities exist only for organizations; people have no consumer loans.",
+    "whatItFakes": "The credit engine now reads the catalog cap when quoting new full-household personal loans. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted households still have no application path. Existing fixed-rate contracts are not retroactively repriced.",
+    "why": "Personal loans exist, but counted borrower decisions and repayments, lender exemptions, fee-inclusive APR and statutory product scope are missing. A binding native rate change, received explanation and director chain still need evidence.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "CORE: consumer credit for people (credit facilities with a person borrower); then GOV reprices loans above the cap with CORE's repriceCreditFacility(facilityId, cap, source).",
+    "replacement": "Shared full/count household borrowing and repayment, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
     "status": "open"
   },
   {
@@ -1460,8 +1460,8 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 249,
-    "whatItFakes": "Allowing multifamily homes records the right on builders and the counted residents, but no homes get built.",
-    "why": "There is no housing stock or construction engine.",
+    "whatItFakes": "The construction engine reads multifamily zoning at each monthly starts decision; a completed home reaching a named household and its informed reaction still need played-world proof.",
+    "why": "A changed starts calculation is not itself a household housed; the full law-to-person chain remains unproven.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: a housing engine with lots, units and construction decisions (e.g. addHousingCapacity(placeId, units) driven by builders' returns).",
@@ -1484,8 +1484,8 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 293,
-    "whatItFakes": "The inclusionary requirement records the duty on builders, but no affordable units are set aside.",
-    "why": "There is no housing construction to apply a set-aside to.",
+    "whatItFakes": "The inclusionary law now sets construction shares and returns, but the completed-unit allocation handles full leases only.",
+    "why": "Counted households must use the same affordable-unit allocation, and a paid rent change needs a received notice and director line.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: the housing engine's new units, with the set-aside share priced below market for eligible households.",
@@ -1496,11 +1496,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 311,
-    "whatItFakes": "Rent stabilization records the cap on adults and landlords, but no rent is capped because tenure and rents aren't recorded.",
-    "why": "Households have no tenure (renter or owner) or rent contract; living costs carry a HUD shelter budget only.",
+    "whatItFakes": "Rent renewal now reads stabilization for full leases and counted rent flows, but applies the catalog's estimated cap to every rented building and has no delivered renewal notice linking a tenant's stance to the saving.",
+    "why": "Building exemptions and enacted cap terms are not yet resolved; the director needs a received notice of an actual rent change, not eligibility assigned to every adult.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD: household tenure and rent contracts; then GOV caps increases with CORE's setStandingContractAmount(contractId, amountMinor).",
+    "replacement": "Resolve the statute's cap and building exemptions from records, then deliver the renewal notice with law, old rent, market rent and charged rent; prove the paid bill, tenant's informed stance and director line.",
     "status": "open"
   },
   {
@@ -1508,11 +1508,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 340,
-    "whatItFakes": "The right to counsel records the right on residents and the duty on the city, but no eviction case is ever heard.",
-    "why": "There are no eviction filings or courts.",
+    "whatItFakes": "Eviction hearings now read the counsel law and pay the funding treasury's outside provider before offering full or counted households a repayment plan; the provider is not a named legal-services organization.",
+    "why": "Counsel payment and settlement records exist, but a delivered notice, informed tenant reaction and director line are not yet connected.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD and GOV: eviction filings from unpaid rent contracts and a housing court; the city's legal services pay for counsel through the journal.",
+    "replacement": "Use a legal-services provider record and deliver the settlement notice, then prove the paid case, informed tenant stance and director line in a played world.",
     "status": "open"
   },
   {
@@ -1604,11 +1604,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 17,
-    "whatItFakes": "Fare-free transit and the transit budget line are records on riders (fare 0, service level) and a transit budget line; no rider pays or saves a fare.",
-    "why": "No transit trips or fares exist in the core: households have no commute purchases.",
+    "whatItFakes": "The price engine now reads fare-free transit and refunds each full and counted household's estimated fare expenditure.",
+    "why": "Trips remain consumption estimates, and a received notice must connect the saving to an informed view and director line.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD prices API: setPlacePrice({ placeId, good: \"transit-fare\", priceMinor, source }) read by household commuting costs, so riders' costs fall to zero and the line pays the transit operator.",
+    "replacement": "Replace remaining estimated-use or provider assumptions with their records and prove the journal payment, received notice, informed stance and director line in a played world.",
     "status": "open"
   },
   {
@@ -1616,11 +1616,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 31,
-    "whatItFakes": "A mileage fee replacing the fuel tax is a price record (cents a mile) on drivers; no driver pays it.",
-    "why": "No vehicle miles, fuel purchases or fuel tax exist in the core.",
+    "whatItFakes": "The price engine now reads the mileage law at payment and offsets estimated fuel tax for each household; miles and fuel use are consumption estimates.",
+    "why": "Vehicle use is not yet metered on household records, and the paid adjustment lacks a received explanation and director line.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD prices API: setPlaceTax({ placeId, good: \"vehicle-miles\", centsPerUnit, payeeAccountId }) on household fuel and travel spending, with the fuel tax removed.",
+    "replacement": "Replace remaining estimated-use or provider assumptions with their records and prove the journal payment, received notice, informed stance and director line in a played world.",
     "status": "open"
   },
   {
@@ -1628,11 +1628,11 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 47,
-    "whatItFakes": "Public broadband is an offer record (monthly price) on household heads and a competitor record on telecom firms; no household switches or pays.",
-    "why": "Household utility bills are not modeled as contracts a law can change.",
+    "whatItFakes": "The price engine now pays the law's treasury for cheaper broadband and offsets the estimated old bill for full and counted households.",
+    "why": "A public provider, individual subscription choice and actual old service contract still need records; a subscription share remains registered in SG-WORLD-prices-household-shares.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD household bills API: offerHouseholdService({ placeId, service: \"broadband\", providerId, monthlyMinor }) so households can take the public offer and telecom revenue moves.",
+    "replacement": "Replace remaining estimated-use or provider assumptions with their records and prove the journal payment, received notice, informed stance and director line in a played world.",
     "status": "open"
   },
   {
@@ -1651,19 +1651,19 @@
     "id": "SG-GOV-REACH-B-assistance-benefits",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 109,
-    "whatItFakes": "An assistance work requirement is a time-limit record on named adults and counted shares; no SNAP benefit is paid or cut.",
-    "why": "The core pays no SNAP or other means-tested benefits to households.",
+    "line": 106,
+    "whatItFakes": "No baseline SNAP benefit is paid. The assistance work requirement time-limits (three months in 36) only the benefit a raised welfare line pays; the rest of the law's real reach, including work-program participation, is not modeled.",
+    "why": "The core pays no SNAP or other means-tested benefits to households; the only assistance payment is the welfare line's raise, so that is what the requirement reads. All who are reached share one clock that starts the day the benefit first pays under the requirement.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE benefits API: addBenefit({ personId|householdId, program: \"snap\", monthlyMinor, from, payerAccountId }) and endBenefit(id), which this time limit ends after three months.",
+    "replacement": "OPUS-CORE benefits API: addBenefit({ personId|householdId, program: \"snap\", monthlyMinor, from, payerAccountId }) and endBenefit(id); then each person's own months of benefit count against their own 36-month window.",
     "status": "open"
   },
   {
     "id": "SG-GOV-REACH-B-preschool-enrollment",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 121,
+    "line": 118,
     "whatItFakes": "Universal preschool is an eligibility record on named 3- and 4-year-olds and a counted share; no child enrolls and no family's child-care cost changes.",
     "why": "There is no school enrollment or child-care spending in the core.",
     "addedBy": "OPUS-GOV (sub-agent B)",
@@ -1675,7 +1675,7 @@
     "id": "SG-GOV-REACH-B-voucher-payment",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 137,
+    "line": 134,
     "whatItFakes": "Public funds for private schooling are an eligibility record (amount) on named school-age children and a record on private schools; no voucher is paid.",
     "why": "No child is enrolled at a school, so a payment can't follow a student.",
     "addedBy": "OPUS-GOV (sub-agent B)",
@@ -1685,14 +1685,14 @@
   },
   {
     "id": "SG-GOV-REACH-B-property-tax-bills",
-    "kind": "missing-engine",
+    "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 184,
-    "whatItFakes": "A property-tax growth cap is a right record (cap share) on household heads; no property tax bill exists to cap.",
-    "why": "Households pay no property tax in the core; the budgets module records property tax only as a revenue line.",
+    "whatItFakes": "The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law still uses a generic estimated assessment cap rather than statutory levy-versus-assessment scope, exemptions or ownership-reset terms.",
+    "why": "Session A wires the existing property-tax engine. The catalog has no numeric statutory cap or exemption terms, and the world has no delivered tax notice linking the assessment to an informed stance and director line.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing engine: property tax bills on owners (assessed value times the rate in force) with an assessment-growth cap read from the law in force.",
+    "replacement": "Record each cap statute's size, scope, exemptions and ownership-reset terms; apply them at assessment and prove the bill, received notice, informed stance and director line for a named owner.",
     "status": "open"
   },
   {
@@ -1725,23 +1725,23 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 248,
-    "whatItFakes": "A clean electricity standard and a carbon price are price records (share or dollars a ton) on household heads and compliance records on utilities and emitters; no price or bill changes.",
-    "why": "Household energy bills and business energy costs aren't modeled as prices a law can move.",
+    "whatItFakes": "The price engine now charges clean-electricity and carbon costs to full and counted households under the law in force; metered use remains estimated.",
+    "why": "The payment reaches the journal, but no delivered bill yet connects the recipient's informed stance and director line.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD prices API: adjustPrice({ placeId, good: \"electricity\"|\"fuel\", share, cause }) read by household and business costs.",
+    "replacement": "Replace remaining estimated-use or provider assumptions with their records and prove the journal payment, received notice, informed stance and director line in a played world.",
     "status": "open"
   },
   {
     "id": "SG-GOV-REACH-B-retail-price",
-    "kind": "missing-engine",
-    "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 277,
-    "whatItFakes": "A bottle deposit is a compliance record on sellers (deposit per container); no deposit is charged or refunded.",
-    "why": "Retail purchases carry no per-container charge.",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/place-prices.ts",
+    "line": 429,
+    "whatItFakes": "The price engine charges container deposits to full and counted households under the live law. Container use and redemption still use household estimates rather than each person's purchases and return decision.",
+    "why": "Per-container charges now settle on the journal, but return transactions and a received bill-to-view/director chain are missing.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD prices API: addPerUnitCharge({ placeId, good: \"beverage-container\", centsPerUnit, refundable: true }).",
+    "replacement": "Recorded container purchases and return transactions, plus a delivered explanation that an affected person can cite.",
     "status": "open"
   },
   {
@@ -1753,19 +1753,19 @@
     "why": "No EPA Green Book nonattainment list is loaded for counties.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "Load EPA Green Book nonattainment counties as data; the plan then binds emitters only in listed counties, and OPUS-WORLD business costs read the compliance record.",
-    "status": "open"
+    "replacement": "Load EPA Green Book nonattainment counties as data; the plan then binds emitters only in listed counties, and OPUS-WORLD business costs read the compliance record. Done Oct 15 (Claude, pool laws-family-clean-air): the EPA Green Book county list is loaded (data/business/nonattainment.json) and the business engine charges only emitters in listed counties, citing the clean air plan law row where one is in force (routeCompliance, business.ts); the generic employer rows are gone.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-business-cost",
-    "kind": "missing-engine",
+    "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 315,
-    "whatItFakes": "Groundwater limits and the natural resources line are compliance and service records on farms, mines and utilities; no output or cost changes.",
-    "why": "Business production costs don't read regulations or resource limits.",
+    "whatItFakes": "Groundwater law now reaches the existing agricultural output limit and outside-sales flows. The generic withdrawal share and irrigation elasticity stand in for actual farm pumping, irrigated acreage and crop response. Natural-resource budget services and non-farm water exposure remain unwired.",
+    "why": "No farm irrigation exposure or pumping record exists. No mine or utility water-use record justifies extending the agricultural elasticity to them. The one-input operating-rule slot cannot combine independent restrictions; an existing unrelated restriction is preserved. A received explanation and complete owner/director chain remain unproved.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD business engine: setOperatingLimit({ organizationId, input: \"groundwater\", share }) and regulatory cost read by business books.",
+    "replacement": "Read farm water use and crop exposure, statutory allocations and independent restrictions at production; wire non-farm use and resource services only from their own records, then prove sales, owner choice, received knowledge and director line.",
     "status": "open"
   },
   {
@@ -1846,11 +1846,11 @@
     "file": "src/core2/modules/voting.ts",
     "line": 733,
     "whatItFakes": "Election-day weather adds nothing to any voter's cost of voting: every election day is fair weather.",
-    "why": "The played world keeps no weather record; the storm catalog (data/source/storm-events-2000-2024) lists past episodes, but no engine writes a storm on a game day yet.",
+    "why": "The played world keeps no weather record; the storm catalog (data/source/storm-events-2000-2024) lists past episodes, but no engine writes a storm on a game day yet. Retired by Session C, October 15, 2026: the helper returned zero without reading any weather record. The weather reason and its numeric term were removed from all turnout tiers; the game no longer presents a weather reading.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "The cost of voting reads the day's storm or rain record in the voter's county once the world's hazard engine writes one (rain lowers turnout about 0.8 points an inch: Gomez, Hansford and Krause 2007, Journal of Politics 69(3)).",
-    "status": "open"
+    "replacement": "Retired the unsupported weather reason. A future weather effect requires an actual place-and-day weather record, with the same reader for named, counted, and wider voters.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-tie-by-lot",
@@ -2438,7 +2438,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: removed the obsolete stand-in writer and changed macro-proof to buildBenchWorld; credit.ts supplies bank applications and prime-linked facilities from the bank and borrower books."
   },
   {
     "id": "SG-WORLD-regional-territory-estimate",
@@ -2509,8 +2510,8 @@
     "why": "Deposits need the core's named accounts (OPUS-CORE's accounts item) so cash can sit in bank accounts without a second book.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Opening deposits moved into bank accounts through postJournal, the bank lending against them, with household loans (M1-06).",
-    "status": "open"
+    "replacement": "Session B: real household and business savings move to the bank through accounts/postJournal; lending reads cash and liabilities. Limited payment-path withdrawal coverage is tracked separately as SG-WORLD-deposit-wallet-buffer.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-housing-landlord",
@@ -2922,7 +2923,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV’s knockDoors (with OPUS-CORE’s fillInPerson) filling in each household it actually reaches.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: removed bench fillDoors; campaigns.walkDoors already visits both population tiers and knockDoors fills only the household whose adult actually opens."
   },
   {
     "id": "SG-PLAY-challenger-name",
@@ -2981,7 +2983,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: both openings import core2/world-settings.ts; removed the bench arithmetic copy. Political settings are read by electorate.customPolitics."
   },
   {
     "id": "SG-GOV-appointee-pay",
@@ -3257,7 +3260,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: either the player is never appointed, or an appointer's choice of the player becomes an offer the player accepts or declines in the conversation, and only an accepted offer fills the post.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'The player's choices are the player's' (Oct 14, night): 'No engine accepts a job, a home, a filing or any choice for the controlled person; the engine offers, the player decides.' Appointers never fill a post with the player on their own; an offer is the player's to accept."
   },
   {
     "id": "SG-CORE-estate-tax-awaits-gov",
@@ -3593,11 +3597,11 @@
     "file": "src/core2/justice-custody.ts",
     "line": 15,
     "whatItFakes": "The justice engine writes a prisoner's discretionary-choice flag on the person directly, because the core's updatePerson does not take it.",
-    "why": "The core has no call for a module to take a person's own choices away for a time.",
+    "why": "The core has no call for a module to take a person's own choices away for a time. Resolved by second Session D, 2026-10-15: updatePerson accepts the optional eligibility flag and clears it when explicitly undefined; custody and release use that API instead of direct person writes.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "An OPUS-CORE call (updatePerson accepting discretionaryEligibleV1, or a custody hold) used by justice-custody.ts.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-justice-player-choices",
@@ -3617,11 +3621,11 @@
     "file": "src/core2/modules/justice.ts",
     "line": 904,
     "whatItFakes": "A job the jobs engine gives a person in prison is ended by the justice engine before its first shift, instead of the jobs engine never hiring them.",
-    "why": "The jobs engine (OPUS-WORLD) decides job search and hiring for everyone alive and does not read custody.",
+    "why": "Resolved: jobs reads indexed custody before full or counted job search, applications and hiring, withdraws pending offers on imprisonment and rechecks acceptance. Staff candidates and the shared public payroll writer also read custody. Justice ends only jobs held when imprisonment begins; the daily repair is removed.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "The jobs engine skips people in custody (justice's inCustody, or discretionaryEligibleV1 false) when deciding who looks for work and whom an employer hires.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-justice-no-forfeiture",
@@ -3640,7 +3644,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/press.ts",
     "line": 539,
-    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks.",
+    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks. The estimate also anchors employer demand; nonpayroll supplier contracts are not modeled.",
     "why": "Local advertising needs businesses that choose to advertise, which the business engine (OPUS-WORLD) does not model; the outlet's people must be paid from its own cash now.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
@@ -3724,8 +3728,8 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/press.ts",
     "line": 2147,
-    "whatItFakes": "When one of a town outlet's people leaves its payroll (laid off, quit, moved, died), the press generates and hires a replacement itself each week, beside the jobs engine's own staffing, which reopens a quit worker's position but fills it from its seekers and also lays off to its demand book.",
-    "why": "The jobs engine fills positions with workers who are not the outlet's named people, and an outlet's demand book is the press's own revenue stand-in (SG-PEOPLE-press-outlet-revenue), so the two engines' staffing are not yet one.",
+    "whatItFakes": "Independent replacement hiring is removed. The masthead reads real full/counted employment and business ownership; enrollment still uses the registered SG-PEOPLE-press-employer-enrollment adapter and an endogenous replacement hire has not yet occurred in the played-year proof.",
+    "why": "The invalid zero-income/reporter-owner enrollment trial was replaced by real town income anchors and the already recorded publisher. Keep this acceptance open until a jobs hire is followed to the desk in a played year; no duplicate replacement hiring remains.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "The outlet's people read from its jobs: whoever the jobs engine hires into a reporter or editor position at the outlet is filled in as a named person and joins its desk; no second hiring path.",
@@ -3839,7 +3843,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling on who sees a business's books (its owner, the player as owner, public filings only, or anyone), after which OPUS-PLAY shows this record on the screen that ruling names.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md: 'Starting or buying a business: 1.0, not early access. An owner sees the books.' and 'a business closing shows its books' as a dev-mode item. The view (business-books-view.ts) is the owner's and the developer's."
   },
   {
     "id": "SG-WORLD-macro-town-growth-neutral",
@@ -3851,7 +3856,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The town's income history before the start (from the opening's pre-start years), so growth is read from the first month.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the invented neutral growth input and its published observation. Until comparable paid-income records exist, the national model omits local feedback. Actual observed growth still enters the same model; missing pre-start income history remains explicitly registered as SG-WORLD-macro-income-history."
   },
   {
     "id": "SG-CORE-counted-person-views",
@@ -3887,7 +3893,8 @@
     "replacement": "The owner's ruling; if wanted, the opening's relative generator run for one filled-in household, seeded by the world.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Built: fillInPerson (src/core2/state.ts) rebuilds the filled-in household's past with buildDeepPast (family histories, src/core2/past-family.ts) and ties to relatives living elsewhere become husks (core.husks), met and filled in later; the opening keeps outside relatives as light husk-tier records (src/core2/data/opening-kin.json). The world-has-a-past work merged Oct 11 to 14."
   },
   {
     "id": "SG-CORE-owner-decision-demotion-days",
@@ -3899,7 +3906,8 @@
     "replacement": "The owner's number of days.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruling, Oct 15, 2026: 'The days without contact before a met person drifts back into the counted population is a per-world range of 180 to 240 days, drawn once per world at generation (seeded generation is allowed), never a single fixed number.' Built in counted-demotion.ts (demotionDays) from the countedDemotionDays spread."
   },
   {
     "id": "SG-CORE-counted-unkeyed-money",
@@ -3947,7 +3955,8 @@
     "replacement": "The owner's ruling: either keep the cap, or let each counted group of a bigger town carry its Census count with the money and reach scaled to it.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'Town size (day-one audit)': 'a town opens at its real Census size; nothing pads it to 10,000. Follows one model, two tiers (counts must match the place).' Open for the engineers: population.ts still caps a town above the target; it follows the ruling next."
   },
   {
     "id": "SG-GOV-local-bill-numbering",
@@ -4031,7 +4040,8 @@
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: either the character may cast the player's ballot from its own views when election day is not a stop, or election day stays a stop that cannot be turned off.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md (Oct 13): 'The player casts their own ballot ... the engine never votes for the player'; 'Election day is a scene. The player goes to their polling place and marks a ballot there; the vote is cast in the scene, never in a menu.' Election day stays a stop."
   },
   {
     "id": "SG-OFFICE-FED-engine-stand-in",
@@ -4159,7 +4169,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 513,
     "whatItFakes": "A civilian board is recorded on the police and the town, but no complaint against an officer is brought or reviewed.",
-    "why": "The justice engine has no complaint against an officer. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: justice complaints and investigations concern recorded crimes such as bribery; there is no police-stop misconduct complaint, civilian-board finding or discipline record to consume this law.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine files a resident's complaint against an officer from a police stop and the board reviews it, its finding read by the department's discipline.",
@@ -4171,7 +4181,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 613,
     "whatItFakes": "Young adults are recorded as heard in juvenile court, but their cases still go to adult court.",
-    "why": "The justice engine routes every case to one court. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: justice sentencing has no adult-versus-juvenile court-routing record. An age-labelled reach row cannot change a hearing or sentence.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine reads the juvenile age in force when it routes a defendant's case, and the sentence follows that court's range.",
@@ -4183,7 +4193,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 662,
     "whatItFakes": "A permit requirement is recorded on adults and the sheriff, but no one applies for, holds or is refused a permit.",
-    "why": "No engine models handgun ownership or carrying. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: there is no carried-weapon or permit application record. Legal reach on an adult does not establish possession, an application or a permit decision.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV with OPUS-PEOPLE: the justice engine reads the permit law when a carried weapon is part of a case, and the sheriff's office issues permits.",
@@ -4195,7 +4205,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 692,
     "whatItFakes": "A purchase age is recorded on dealers and young adults, but no handgun sale is made or refused.",
-    "why": "No engine models gun sales. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: purchases are aggregate money flows with no handgun sale or buyer-age check. Applying an age to every young adult would invent an attempted purchase.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-WORLD: the business engine's sales read the purchase age when a store sells to a person.",
@@ -4207,7 +4217,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 710,
     "whatItFakes": "The rule is recorded on adults, but no self-defense case is charged or decided under it.",
-    "why": "The justice engine has no self-defense case. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: justice has no self-defense incident or charging claim with retreat facts. A law row cannot establish those facts for an arbitrary defendant.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the prosecutor's charging decision and the court read the law in force when a case turns on self-defense.",
@@ -4219,7 +4229,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 740,
     "whatItFakes": "The ban is recorded on employers, landlords and residents, but no hiring or rental decision reads it and no complaint is brought.",
-    "why": "Hiring and renting pick from their own reasons with no protected-trait term. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: hiring and rental decisions have no protected-trait discrimination term or complaint record. Merely marking applicants protected would not change the decision.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-WORLD: hiring and renting read the ban when they weigh an applicant, and a refused applicant can bring a complaint the justice engine hears.",
@@ -4231,7 +4241,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 797,
     "whatItFakes": "The restriction is recorded on women of reproductive age and on providers, but no pregnancy is ever ended or carried because of it.",
-    "why": "Pregnancies come only from couples' agreed family plans; there is no unplanned pregnancy to decide about. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: renewal pregnancies come from agreed family plans; there is no unplanned pregnancy, termination request or provider decision to read the restriction.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-PEOPLE: the renewal engine models unplanned pregnancies and the woman's decision, reading the law in force where she lives, the distance to a provider and her own reasons.",
@@ -4243,7 +4253,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 827,
     "whatItFakes": "Parental consent is recorded on minors and on online businesses, but no account is opened, refused or verified.",
-    "why": "No engine models minors' online accounts. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: no minor account-opening, parental consent or verification service record exists. Applying an average compliance bill would not prove a minor was admitted or barred.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-PEOPLE: a teenager's media use and the parent's consent read the law; the online businesses' costs read the verification duty.",
@@ -4255,7 +4265,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 856,
     "whatItFakes": "The warrant rule is recorded on the police, but no investigation uses or is barred from facial recognition.",
-    "why": "The justice engine's investigations have no identification step. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: justice investigations have witness, hearsay and payment evidence, but no facial-identification request or warrant record.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine's identification of a suspect reads the rule and needs a warrant where it applies.",
@@ -4266,11 +4276,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 886,
-    "whatItFakes": "Rights are recorded on residents and duties on businesses, but no request to see or delete data is made and no business pays to comply.",
-    "why": "No engine models customer data. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "whatItFakes": "Rights are recorded on residents, but no request to see or delete data is made. The compliance cost is now read by the business engine (every employing business in town pays a share of its operating costs while the law is in force), but the law's coverage thresholds (revenue, number of consumers) are not modeled, so it falls on every employing business alike.",
+    "why": "Session A checked main: no customer-data holdings or access/deletion request exists. The business engine's monthly cost review now reads the law (readDataPrivacyLaw in src/core2/modules/business.ts); what a request is, and which businesses hold enough data to be covered, have no records.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-WORLD: the business engine's costs read the compliance duty by business size, the way the bound-employer cost does.",
+    "replacement": "PEOPLE with WORLD: a resident's request to see or delete data, answered by a business that holds customer data; coverage thresholds from the statute's terms read per business.",
     "status": "open"
   },
   {
@@ -4279,11 +4289,12 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 1060,
     "whatItFakes": "Broader local power is recorded on the town and its council, but the authority check still reads only the specific grants.",
-    "why": "authorityFor reads the state's specific grants and preemptions only. Registered from the CTO's 56-place audit (Oct 14), which found record-only laws.",
+    "why": "Session A checked main: legislature.authorityFor returns specific wage/tax grants and policy preemptions; otherwise it already permits local policy questions. There is no undecided authority category whose permission a broader grant would change. A read returning the same result would not prove an effect.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: authorityFor reads home rule in force as a grant for any question the state hasn't decided.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Claude (laws-record-only-reads), Oct 15: policyAuthority (src/core2/policy-authority.ts) already reads the state's home-rule law for every question the powers catalog leaves open for a city; it was proven only by a hand-inserted fixture. src/core2/home-rule-played.test.ts now shows, in a generated town, a council's draft of such an ordinance blocked with the grant repealed, drafted once the state's grant takes effect (the bill's authority row cites the grant's law id), and blocked again on repeal."
   },
   {
     "id": "SG-WORLD-owner-decision-player-eviction",
@@ -4295,7 +4306,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling: keep it as is, or give the player's household another path.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md, 'Homelessness is a factor' (Oct 14): 'A person who does not work and does not pay loses their home like anyone else; the player's household too.' Same notice, filing, hearing and judgment as anyone (docs/packages/homelessness.md)."
   },
   {
     "id": "SG-WORLD-housing-shelter-beds-state-rate",
@@ -4355,7 +4367,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
     "replacement": "Early-access preparation: the Windows job made green and required again, and every release carrying latest.yml.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "docs/coordination/OWNER-DECISIONS.md: 'The Mac package is the one that must pass; the Windows row stays allowed-to-fail until early access.' docs/coordination/BOARD.md: 'Windows may stay red until early access.' The workflow keeps continue-on-error on the Windows row on that ruling."
   },
   {
     "id": "SG-PLAY-creator-direct-person-write",
@@ -4416,5 +4429,173 @@
     "addedAt": "2026-10-14",
     "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-employer-enrollment",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 567,
+    "whatItFakes": "Press enrolls its already recorded owner directly in the business owner table because the shared business module has no public enrollment function for an existing owner.",
+    "why": "The overnight order requires the smallest registered stand-in while the business interface is under active work; using the normal opening heuristic would incorrectly make a reporter the owner.",
+    "addedBy": "Session D",
+    "addedAt": "2026-10-15",
+    "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-policy-power-unresolved",
+    "kind": "missing-record",
+    "file": "src/core2/policy-authority.ts",
+    "line": 40,
+    "whatItFakes": "Unmapped questions and unresolved powers-catalog cells cannot be introduced; the authority result records a disputed missing grant rather than silently permitting the action.",
+    "why": "The existing powers catalog leaves some per-place enabling powers and conditions unresolved. The engine cannot infer a grant from absent research.",
+    "replacement": "Sourced question mappings and specific per-place grants or restrictions in the powers catalog, read before introduction and executive orders.",
+    "addedBy": "Session D (second pool worker)",
+    "addedAt": "2026-10-15",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-policy-power-conditions",
+    "kind": "missing-mechanic",
+    "file": "src/core2/policy-authority.ts",
+    "line": 150,
+    "whatItFakes": "Inherited game-profile powers cells are provisional estimates; a cell explicitly marked limited retains a disputed grant while its qualitative conditions are not yet all executable predicates.",
+    "why": "The shared research catalog includes unsourced game-profile cells and records some conditional powers in prose rather than structured constraints.",
+    "replacement": "Sourced per-place cells and structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive order.",
+    "addedBy": "Session D (second pool worker)",
+    "addedAt": "2026-10-15",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-federal-proposal-coverage",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 834,
+    "whatItFakes": "Background Congress uses the shared platform question pool, which lacks most federal-only questions in the powers catalog. Only supported questions with federal scope can be proposed; state-specific questions no longer stand in for federal policy.",
+    "why": "Federal-only policy questions need recorded starting answers, official stances and downstream effect readers before adding them to the shared proposal pool.",
+    "addedBy": "SESSION-D-SECOND",
+    "addedAt": "2026-10-15",
+    "replacement": "Wire the federal-only questions through the existing stance, law and effect engines, with named-person played-world evidence, then include them in the proposal pool.",
+    "status": "open"
+  },
+  {
+    "id": "SG-STATE-office-day-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-state.ts",
+    "line": 26,
+    "whatItFakes": "The state officeholder's day runs on this file's own small module: tomorrow's entries are scheduled the evening before, and any the player has not done by the morning, a stop included, the character does on its own (a stop that lapses is marked so).",
+    "why": "OFFICE-LOCAL's office-day engine (src/core2/modules/office-day.ts), which pauses the clock on a stop, is not on main yet; the package says build against the smallest stand-in meanwhile. Replaced by the shared office-day engine and its desk in Session C.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "The office-day engine's calendar, stop and simulate-or-do loop, with the state's entries and acts from this file as its rows.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-STATE-district-casework-routing",
+    "kind": "missing-mechanic",
+    "file": "src/core2/office-day-state.ts",
+    "line": 616,
+    "whatItFakes": "District office hours decide only the cases already open for the state legislator, and the constituent-cases engine routes residents' problems to council members and the mayor only, so a state legislator's office receives none.",
+    "why": "Routing is the constituent-cases engine's (OPUS-GOV); forking it here would make a second engine. Session C routes cases through the sitting local and state district terms covering the town.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "The constituent-cases engine routes a resident's problem to the state legislator whose district covers them as well as to local officials, by the same choice of whom they know best.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-STATE-line-item-veto-engine",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 686,
+    "whatItFakes": "Item vetoes now strike or reduce appropriation increases and use exact override fractions and joint totals. Special deadlines, external assent, and some protected or mixed appropriation categories remain incomplete.",
+    "why": "Session C wires surviving amounts into budget enactment. Imported legal details remain estimated; unsupported territorial reductions are unavailable, and mixed administration appropriations are blocked where protected branch spending cannot be separated. The played year now proves struck and reduced increases reaching the adopted budget, treasury providers and named owners. The owners’ learned attribution and director scene remain unproved.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "An item veto in the legislature engine: the executive strikes (or reduces, where the data allows) budget lines, each item goes back for its override vote at the data's share, and the budgets engine adopts what stands.",
+    "status": "open"
+  },
+  {
+    "id": "SG-STATE-desk-own-choice",
+    "kind": "estimated-behavior",
+    "file": "src/core2/office-day-state.ts",
+    "line": 866,
+    "whatItFakes": "A bill on the player's desk that the character decides on its own is signed when the character's position plus their traits' lean toward signing is not negative; the legislature engine's own rule for any other executive also weighs how settled the law is.",
+    "why": "That rule is internal to the legislature engine (OPUS-GOV); this file reads only what it exports. Replaced by the shared office-day engine and its desk in Session C.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "The legislature engine exports the executive's own choice on a bill, used for the player's character as for any executive.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-STATE-dev-seat-player",
+    "kind": "missing-core-api",
+    "file": "src/core2/office-day-state.ts",
+    "line": 1167,
+    "whatItFakes": "Dev mode's custom start as a sitting state officeholder ends the seat's serving term and writes the player's term into the offices engine's table directly, keeping the previous holder's party; it is not reached in ordinary play.",
+    "why": "The offices engine has no exported way to seat a chosen person (its own seatResident is internal); the package's proof and the owner's play need a custom start today.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "An offices-engine function to seat a chosen person for the rest of a term (OPUS-GOV), with the player's own party from the parties engine, called by dev mode.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-deposit-wallet-buffer",
+    "kind": "faked-mechanic",
+    "file": "src/core2/credit-deposits.ts",
+    "line": 24,
+    "whatItFakes": "Savings and withdrawals are reviewed monthly with a three-month wallet reserve; extraordinary payments and estate settlement do not yet request bank withdrawals directly. Dormant claims remain owed, not deleted.",
+    "why": "The existing payment paths consume cash directly. A bounded monthly policy allows deposits to fund lending without duplicating cash or claiming all payments are deposit-aware.",
+    "addedBy": "SESSION-B",
+    "addedAt": "2026-10-15",
+    "replacement": "Have payment and estate writers withdraw from the same named deposit claim before declaring a cash shortfall; preserve household claims across family changes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-opening-mortgage-funding",
+    "kind": "missing-record",
+    "file": "src/core2/modules/credit.ts",
+    "line": 214,
+    "whatItFakes": "The bank holds opening mortgages whose original funding is an unmatched opening liability, not named customer deposits. New savings deposits are actual journal transfers and are accounted for separately.",
+    "why": "The pre-existing mortgage opening subtracts its initial principal from capital without recording who funded it. Retaining that offset avoids creating capital or cash while adding new deposits.",
+    "addedBy": "SESSION-B",
+    "addedAt": "2026-10-15",
+    "replacement": "Generate the mortgage opening with named depositor or warehouse-funding liabilities and retain those funding records in the bank books.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-flat-tax-replacement",
+    "kind": "missing-data",
+    "file": "src/core2/law-reach/group-b-money.ts",
+    "line": 649,
+    "whatItFakes": "Repealing a starting graduated income-tax schedule uses the existing estimated state or local flat rate. The binary catalog provision carries no replacement rate, deduction or filing-status rules.",
+    "why": "Tax Foundation's 2025 state survey and actual conversion laws have distinct enacted rates and deductions. The catalog's Boolean question cannot supply those terms. Received explanation and director acceptance remain unproven.",
+    "addedBy": "Session A",
+    "addedAt": "2026-10-15",
+    "replacement": "Explicit replacement tax terms in the provision, read by the existing withholding engine for full and counted workers, with a received explanation and director line for an affected worker.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-income-history",
+    "kind": "missing-record",
+    "file": "src/core2/modules/macro.ts",
+    "line": 251,
+    "whatItFakes": "No town income-growth observation or local feedback is available before enough comparable paid-income months exist; the national economy continues from its national records.",
+    "why": "The played world records paid town income only from opening and does not have comparable pre-start income receipts.",
+    "addedBy": "Session D (second pool worker)",
+    "addedAt": "2026-10-15",
+    "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-death-relations",
+    "kind": "missing-record",
+    "file": "src/core2/births-counted.ts",
+    "status": "open",
+    "whatItFakes": "A known counted relative can receive a death notice, but opening full-to-counted family ties lack recorded closeness; grief is supported only where a relationship record already exists. No closeness is invented by the notifier.",
+    "why": "The core opening skips relationship initialization when the other person is a husk. The bench also retains the full family closure; the drawn Garden City year had zero known counted deaths, so the notification path has no played-year acceptance yet.",
+    "addedBy": "Session D / pool-counted-death-notices",
+    "addedAt": "2026-10-15",
+    "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
+    "line": 82
   }
 ]

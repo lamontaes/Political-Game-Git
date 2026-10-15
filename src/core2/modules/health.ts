@@ -24,6 +24,7 @@ import { SSA_2023_MAX_AGE } from "../health-mortality-table";
 import { survivalThresholdFromDraws } from "../kernel/fixed-point";
 import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
+import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
 import type {
   CoreAPI,
@@ -119,6 +120,7 @@ interface HealthPlan {
 }
 
 const runtimes = new WeakMap<object, HealthRuntime>();
+registerWorldMapPart("health-runtime", runtimes);
 
 function runtime(state: Readonly<CoreState>): HealthRuntime {
   let row = runtimes.get(state);
@@ -464,7 +466,7 @@ function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {
   return [...out].sort();
 }
 
-function severityImpulse(api: CoreAPI, severity: Severity) {
+export function severityImpulse(api: CoreAPI, severity: Severity) {
   api.stopgap(severity.stopgapId);
   const share =
     api.parameter(severity.lifeChangeUnitsParameter) /
@@ -569,6 +571,7 @@ export function createHealthModule(
 }
 
 export const HEALTH_MODULE = createHealthModule();
+declareSnapshotCovered(HEALTH_MODULE.id);
 
 /** Read-only report; inspection writes nothing. */
 export function healthReport(core: Readonly<CoreState>) {
