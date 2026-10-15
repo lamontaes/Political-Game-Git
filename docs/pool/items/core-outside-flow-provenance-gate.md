@@ -4,9 +4,9 @@ title: "Outside-flow provenance gate fails on main"
 area: core
 kind: bug
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: pool/core-outside-flow-provenance-gate
-pr:
+pr: "#4421"
 blocked-on: gov-stopgap-budgets-faked-mechanic
 milestone:
 source: "known bugs; noted in #4352"
