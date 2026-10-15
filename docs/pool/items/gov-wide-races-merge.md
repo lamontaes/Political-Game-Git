@@ -4,12 +4,13 @@ title: "Finish #4350: wide races merge with main"
 area: elections
 kind: wiring
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-wide-races-merge
 pr: #4350
 blocked-on:
 milestone:
 source: "reissue item 10; PR #4350 branch gov/session-c-wide-races"
+claimed-at: 2026-10-15T22:08:25.863Z
 ---
 
 **What.** Only the merge with main is left: candidacy.ts (candidacyReasons, both sides' sourceIds) and elections.ts (drop registered-voter from the eligibility union per #4357, keep press-employment). The owner-decision stopgap on press employment stays registered.
