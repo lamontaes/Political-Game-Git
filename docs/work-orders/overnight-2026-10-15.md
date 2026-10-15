@@ -62,9 +62,19 @@ Session D has no assignment of its own. It starts on the pool at once and works 
 4. The journal of an officeholder: taking office, a vote cast, an interview and a town hall each become a "My life" entry from the record (`src/director/journal.ts`, the office-day engine's act records).
 5. The unit suite follows what the game does now (#4309, `release/green-suite`): a test of the retired old core is deleted with a line; a test of the new core, the bench, the director or the release machinery that broke is fixed at the root, never skipped.
 6. Stale pool PRs from Oct 10 and 11 (`pool/*`, `english/*`, `codex/session35-*`, `cto/title-people-national-scenes`): for each, one line in a single closing PR saying superseded by what, or carried forward where; then close them. Nothing is deleted from history.
-7. Party loyalty in state chambers is parked on the owner's license question (non-commercial data); do not build it.
+7. **The outcome map.** Every law's effect on the town as a read by the engines that pay or decide, not a table: for each law family in `src/core2/law-reach/`, the chain to a named person in a played world; a handler whose mechanic is "none" or "records" is replaced or registered with its reason. Picks up where Session A stops.
+8. **Powers by level.** What a town, a county, a state and Congress may each legislate, tax and spend on, from data per place (home rule or Dillon's rule, each state's grant to its counties and towns, the federal enumerated powers), read by the authority check before a bill is introduced and by the executive before an order. One rule, all 56 places; no state named in logic.
+9. **Wiring gaps.** Any engine whose output nothing reads, found by `docs/reports/trace-audit-2026-10-14/` or by a one-year run: wire the read or delete the writer. One PR per engine, naming the record ids read.
+10. **Needs between sessions.** The open "Needs from other sessions" lists in `docs/coordination/OPUS-GOV.md`, `world.md`, `core.md`, `OFFICE-*.md`: each item is a wiring job for whoever claims it, now that the sessions that asked are gone. Claim one list at a time.
+11. Party loyalty in state chambers is parked on the owner's license question (non-commercial data); do not build it.
 
-Not tonight's: the screens (Astra's day order, `docs/work-orders/astra-2026-10-15.md`, Order 1), the English engine and the director (the Claude Words session), the figure set (Order 5).
+The pool is not closed: a session that finds wiring the golden path needs and nobody owns adds it to this list in its PR and takes it.
+
+## The CTO's morning check (owner, Oct 15, night)
+
+"Never wait on anyone" means build against the smallest registered stand-in, never skip the gap. In the morning the CTO (or one read-only sub-agent) reads every overnight PR's diff for: a stand-in without a row in `src/core2/data/stopgaps.json` and a marker in the code; a stopgap closed by deleting its row; a test skipped or loosened; a feature that writes a record nothing reads; a state, city or GEOID named in logic. Any of these sends the PR back before it merges.
+
+Not tonight's: the English engine and the director (`src/director/`, `src/presentation/english-*`, `data/english/`), which stay with the Claude Words session (owner, Oct 15, night; the CTO may move the director later). Everything else in the game is open to these sessions, the screens included once the overnight orders are done (`docs/work-orders/astra-2026-10-15.md`, Order 1).
 
 ## Paste prompt for each session
 
