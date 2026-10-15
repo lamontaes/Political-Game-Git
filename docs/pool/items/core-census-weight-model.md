@@ -5,8 +5,8 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-census-weight-model
 pr:
 blocked-on:
 milestone:
