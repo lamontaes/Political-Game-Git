@@ -861,7 +861,7 @@
         },
         {
           "key": "authority",
-          "fill": "authority",
+          "fill": "coworkers",
           "count": "one",
           "moves": ["tell", "offer", "comfort"],
           "wants": ["follow-rules", "help-others"],
@@ -883,7 +883,7 @@
           "awaitingProducer": "school-started",
           "bind": {
             "newcomer": "subject",
-            "authority": "authority",
+            "authority": "coworkers",
             "peers": "classmates"
           }
         },
@@ -894,7 +894,7 @@
           },
           "bind": {
             "newcomer": "subject",
-            "authority": "authority",
+            "authority": "coworkers",
             "peers": "coworkers"
           }
         }

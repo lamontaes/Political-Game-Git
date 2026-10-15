@@ -1866,8 +1866,10 @@ function offerChoices(
   const acks = new Map<string, Move[]>();
   for (const move of data.subjects.ack?.reply ?? [])
     acks.set(move.key, [...(acks.get(move.key) ?? []), move]);
-  for (const [key, group] of acks)
-    add(`ack:${key}`, group, undefined, "conversation:ack:reply");
+  // A bare "Okay." never answers bad news: it does not continue the talk.
+  if (!NEWS_SUBJECTS.has(last.subject.kind))
+    for (const [key, group] of acks)
+      add(`ack:${key}`, group, undefined, "conversation:ack:reply");
   conversation.choices = rankChoices(core, playerId, conversation.choices);
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);

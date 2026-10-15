@@ -435,6 +435,16 @@
         "key": "loss"
       },
       {
+        "move": "^eviction-reply-answer-help$",
+        "tag": "offer",
+        "key": "loss"
+      },
+      {
+        "move": "^eviction-reply-answer-reassure$",
+        "tag": "comfort",
+        "key": "loss"
+      },
+      {
         "move": "^family-answer-gone$",
         "tag": "deliver-news",
         "key": "loss"

@@ -14583,6 +14583,12 @@
           "subject": "eviction-where-reply",
           "role": "answer",
           "choice": "help"
+        },
+        {
+          "move": "eviction-reply-answer-help",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "help"
         }
       ],
       "transcriptsUsing": 2,
@@ -14624,6 +14630,12 @@
         {
           "move": "death-news-reply-answer-help",
           "subject": "death-news-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "eviction-reply-answer-help",
+          "subject": "eviction-reply",
           "role": "answer",
           "choice": "help"
         }
@@ -15352,6 +15364,12 @@
           "subject": "eviction-where-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "eviction-reply-answer-reassure",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "reassure"
         }
       ],
       "transcriptsUsing": 3,
@@ -16562,6 +16580,12 @@
           "subject": "prison-news-reply",
           "role": "answer",
           "choice": "promise"
+        },
+        {
+          "move": "eviction-reply-answer-reassure",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "reassure"
         }
       ],
       "shippable": true,
@@ -16825,182 +16849,6 @@
       "tag": {
         "move": "tell",
         "key": "honor"
-      }
-    },
-    {
-      "key": "conversation.ack-reply-right.good-to-know",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "Good to know.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "agree"
-      }
-    },
-    {
-      "key": "conversation.ack-reply-right.that-makes-sense",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "That makes sense.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "agree"
-      }
-    },
-    {
-      "key": "conversation.ack-reply-right.fair-enough",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "Fair enough.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "guarded",
-      "tag": {
-        "move": "agree"
-      }
-    },
-    {
-      "key": "conversation.ack-reply-right.huh-i-didn-t-know-that",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "Huh. I didn't know that.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "agree"
-      }
-    },
-    {
-      "key": "conversation.ack-reply-right.well-good-for-you",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "Well, good for you.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "agree"
-      }
-    },
-    {
-      "key": "conversation.ack-reply-right.i-ll-remember-that",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "I'll remember that.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "agree"
-      }
-    },
-    {
-      "key": "conversation.ack-reply-right.interesting",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "Interesting.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "agree"
-      }
-    },
-    {
-      "key": "conversation.ack-reply-right.can-t-argue-with-that",
-      "move": "ack-reply-right",
-      "kind": "spoken",
-      "text": "Can't argue with that.",
-      "uses": [
-        {
-          "move": "ack-reply-right",
-          "subject": "ack",
-          "role": "reply",
-          "choice": "right"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "agree"
       }
     },
     {
@@ -18247,6 +18095,52 @@
       "bearing": "calm",
       "tag": {
         "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-help.tell-me-what-i-can-do",
+      "move": "eviction-reply-answer-help",
+      "kind": "spoken",
+      "text": "Tell me what I can do.",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-help",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.eviction-reply-answer-reassure.we-ll-find-a-place",
+      "move": "eviction-reply-answer-reassure",
+      "kind": "spoken",
+      "text": "We'll find a place.",
+      "uses": [
+        {
+          "move": "eviction-reply-answer-reassure",
+          "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "reassure"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
       }
     }
   ]
