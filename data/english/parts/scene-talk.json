@@ -5363,6 +5363,214 @@
       }
     },
     {
+      "key": "scene-talk.reply-answer.yes-i-d-vote-the-same-way-tomorrow",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Yes. I'd vote the same way tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.would-you-vote-the-same-way-again"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-would-it-s-the-right-call",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I would. It's the right call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.would-you-vote-the-same-way-again"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.read-the-bill-before-you-judge-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Read the bill before you judge it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.what-do-you-say-to-people-who-disagree"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-d-tell-them-i-listened-and-i-still-disagree",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'd tell them I listened, and I still disagree.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.what-do-you-say-to-people-who-disagree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.you-can-quote-me",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "You can quote me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.can-i-quote-you-on-that"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.go-ahead-i-meant-every-word",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Go ahead. I meant every word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.can-i-quote-you-on-that"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.then-let-me-answer-it-on-the-record",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Then let me answer it on the record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.then-put-this-in-the-story-i-m-proud-of-my-vote",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Then put this in the story: I'm proud of my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.reply-promise.i-ll-make-some-calls-today",
       "move": "reply-promise",
       "kind": "spoken",
@@ -6689,10 +6897,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thank-you-all-of-you",
+      "key": "scene-talk.reply-thank.just-keep-showing-up-thank-you-all-of-you",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thank you. All of you.",
+      "text": "Just keep showing up. Thank you, all of you.",
       "uses": [
         {
           "subject": "scene",
@@ -6714,10 +6922,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.i-couldn-t-do-this-without-you",
+      "key": "scene-talk.reply-thank.honestly-more-of-what-you-re-already-doing",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "I couldn't do this without you.",
+      "text": "Honestly? More of what you're already doing.",
       "uses": [
         {
           "subject": "scene",
@@ -10342,10 +10550,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-m-proud-of-you",
+      "key": "scene-talk.follow-promise.you-earned-this",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'm proud of you.",
+      "text": "You earned this.",
       "uses": [
         {
           "subject": "scene",
@@ -10942,10 +11150,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.we-ll-see-on-election-day",
+      "key": "scene-talk.follow-confront.you-d-better-hope-they-don-t-look-too-closely",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "We'll see on election day.",
+      "text": "You'd better hope they don't look too closely.",
       "uses": [
         {
           "subject": "scene",
@@ -10967,10 +11175,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.you-d-better-hope-they-don-t-look-too-closely",
+      "key": "scene-talk.follow-confront.keep-telling-yourself-that",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "You'd better hope they don't look too closely.",
+      "text": "Keep telling yourself that.",
       "uses": [
         {
           "subject": "scene",
@@ -10981,7 +11189,7 @@
           "key": "threat"
         }
       ],
-      "bearing": "braced",
+      "bearing": "guarded",
       "shippable": true,
       "origin": "authored",
       "author": "Words session",

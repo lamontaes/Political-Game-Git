@@ -561,7 +561,10 @@ function playScene(
       ...(open ? { open } : {}),
       state: statement,
       rounds,
-      ...(answeredClose ? { close: answeredClose } : close ? { close } : {}),
+      // With no close piece that fits, the asker's last answer is where it ends.
+      ...((answeredClose ?? close ?? finalAnswer)
+        ? { close: (answeredClose ?? close ?? finalAnswer)! }
+        : {}),
       outcome,
       lines,
     },
